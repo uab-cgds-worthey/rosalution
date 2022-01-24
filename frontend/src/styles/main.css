@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "proxima-nova", sans-serif;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 10rem  auto  auto;
+  grid-template-areas:
+              "sidebar content  content"
+              "sidebar content content";
+  background-color: #fff;
+  color: #444;
+}
+
+.sidebar {
+  grid-area: sidebar;
+}
+
+.content {
+  grid-area: content;
+}
