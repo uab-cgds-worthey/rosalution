@@ -1,0 +1,33 @@
+.nyc_output
+coverage
+
+.DS_Store
+node_modules
+data
+**/dist
+**/.cache
+*.npmrc
+**/tmp/**
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local data files
+*.vcf
+*.graphql
+
+# e2e run captures
+/system-tests/screenshots
+/system-tests/videos
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.history
