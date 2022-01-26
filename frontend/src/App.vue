@@ -5,7 +5,6 @@ import Navigation from "@/components/Navigation.vue";
 </script>
 
 <template>
-<div>
   <!-- sidebar -->
   <Navigation class="sidebar"/>
 
@@ -13,7 +12,6 @@ import Navigation from "@/components/Navigation.vue";
   <div class="content">
     <router-view></router-view>
   </div>
-</div>
 </template>
 
 <style>

@@ -15,7 +15,7 @@ body {
   display: grid;
   grid-template-columns: 10rem  auto  auto;
   grid-template-areas:
-              "sidebar content  content"
+              "sidebar content content"
               "sidebar content content";
   background-color: #fff;
   color: #444;
