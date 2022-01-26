@@ -13,17 +13,15 @@ body {
   text-align: center;
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 10rem  auto  auto;
   grid-template-areas:
-              "sidebar content content"
-              "sidebar content content";
+              "sidebar content";
+  grid-template-columns: 10rem 1fr;
   background-color: #fff;
   color: #444;
 }
 
 .sidebar {
   grid-area: sidebar;
-
 }
 
 .content {
