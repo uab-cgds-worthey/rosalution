@@ -1,5 +1,7 @@
 <template>
-  <div class="header">Header Box</div>
+  <!-- <div class="header">Header Box</div> -->
+
+  <header>Header Box - Analysis Listing</header>
 </template>
 
 <script>

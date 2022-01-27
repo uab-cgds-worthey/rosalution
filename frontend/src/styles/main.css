@@ -6,88 +6,41 @@ body {
   font-family: "proxima-nova", sans-serif;
 }
 
-/** #app{} */
-
-/* #page {
+#app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   min-height: 100vh;
   display: grid;
-  grid-template:
-    "sidebar header" 6rem
-    "sidebar content" 1fr
-    "sidebar footer" 30px;
-  grid-template-columns: 10rem 1fr;
-  
-  grid-auto-flow: column;
+  grid-template-rows: auto 1fr auto;
+  grid-auto-columns: 10rem 1fr;
   background-color: #fff;
   color: #444;
-} */
-
-#app {
-  text-align: center;
-  min-height: 100vh;
-  display: grid;
-  grid-template-rows: auto 1fr min-content;
-  grid-auto-columns: 10rem 1fr; 
 }
 
-.no-header {
-  grid-column: 2;
-  height: 0rem;
-}
-
-.header {
+header {
   border: 1px solid black; 
   grid-column: 2;
   height: 5rem;
 }
 
-.no-header {
-  display: none;
-  border: 1px solid black; 
-  grid-column: 2;
-  height: 5rem;
-}
-
-.sidebar {
+sidebar {
   border: 1px solid black;
   grid-column: 1;
   grid-row: 1/-1;
   height: 100vh;
 }
 
-.content {
+content {
   border: 1px solid black;
   grid-column: 2;
   grid-row: 2;
 }
 
-.footer {
+footer {
   border: 1px solid black;
   grid-column: 2;
   grid-row: 3;
   height: 3rem;
 }
-
-/* header {
-  background-color: red;
-  grid-area: header;
-}
-
-sidebar {
-  background-color: rgb(5 150 105);
-  grid-area: sidebar;
-}
-
-content {
-  background-color: violet;
-  grid-area: content;
-}
-
-footer {
-  background-color: yellow;
-  grid-area: footer; 
-} */
