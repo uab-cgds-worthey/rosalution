@@ -6,25 +6,40 @@ body {
   font-family: "proxima-nova", sans-serif;
 }
 
-#app {
+/** #app{} */
+
+#page {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   min-height: 100vh;
   display: grid;
-  grid-template-areas:
-              "sidebar content";
+  grid-template:
+    "sidebar header" 6rem
+    "sidebar content" 1fr
+    "sidebar footer" 30px;
   grid-template-columns: 10rem 1fr;
   background-color: #fff;
   color: #444;
 }
 
-.sidebar {
+header {
+  background-color: red;
+  grid-area: header;
+}
+
+sidebar {
+  background-color: rgb(5 150 105);
   grid-area: sidebar;
 }
 
-.content {
+content {
+  background-color: violet;
   grid-area: content;
 }
 
+footer {
+  background-color: yellow;
+  grid-area: footer; 
+}

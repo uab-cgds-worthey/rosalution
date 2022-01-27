@@ -1,9 +1,8 @@
 <template>
-  <div>
-    <div class="">
-      Listing of Analyses
-    </div>
-  </div>
+  
+  <content>
+  Listing of Analyses
+  </content>
 </template>
 
 <script>
