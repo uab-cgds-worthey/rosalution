@@ -1,8 +1,5 @@
 <template>
-  
-  <content>
-  Listing of Analyses
-  </content>
+  <div class="header">Header Box</div>
 </template>
 
 <script>

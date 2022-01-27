@@ -5,19 +5,18 @@ import Navigation from "@/components/Navigation.vue";
 </script>
 
 <template>
-  <section id="page">
-    <!-- sidebar -->
-    <sidebar>
-      <Navigation/>
-    </sidebar>
 
-    <!--content-->
-      <router-view></router-view>
 
-    <footer>
-      Footer
-    </footer>
-  </section>
+
+  <!-- sidebar -->
+  <Navigation class="sidebar"/>
+
+  <!--content-->
+  <router-view></router-view>
+
+  <div class="content">Content Box</div>
+  <div class="footer">Footer Box</div>
+
 </template>
 
 <style>

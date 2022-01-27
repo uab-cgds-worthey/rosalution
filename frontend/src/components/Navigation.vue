@@ -15,7 +15,7 @@
 <style>
   .navbar {
     color: rgb(55 65 81);
-    background-color: black;
+    background-color: rgb(5 150 105);
     height: 100%;
   }
 

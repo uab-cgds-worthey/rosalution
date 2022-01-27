@@ -8,7 +8,7 @@ body {
 
 /** #app{} */
 
-#page {
+/* #page {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -20,11 +20,59 @@ body {
     "sidebar content" 1fr
     "sidebar footer" 30px;
   grid-template-columns: 10rem 1fr;
+  
+  grid-auto-flow: column;
   background-color: #fff;
   color: #444;
+} */
+
+#app {
+  text-align: center;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr min-content;
+  grid-auto-columns: 10rem 1fr; 
 }
 
-header {
+.no-header {
+  grid-column: 2;
+  height: 0rem;
+}
+
+.header {
+  border: 1px solid black; 
+  grid-column: 2;
+  height: 5rem;
+}
+
+.no-header {
+  display: none;
+  border: 1px solid black; 
+  grid-column: 2;
+  height: 5rem;
+}
+
+.sidebar {
+  border: 1px solid black;
+  grid-column: 1;
+  grid-row: 1/-1;
+  height: 100vh;
+}
+
+.content {
+  border: 1px solid black;
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.footer {
+  border: 1px solid black;
+  grid-column: 2;
+  grid-row: 3;
+  height: 3rem;
+}
+
+/* header {
   background-color: red;
   grid-area: header;
 }
@@ -42,4 +90,4 @@ content {
 footer {
   background-color: yellow;
   grid-area: footer; 
-}
+} */

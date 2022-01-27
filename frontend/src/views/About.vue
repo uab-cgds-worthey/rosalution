@@ -1,6 +1,9 @@
 <template>
-  <div class="about">
+
+  <!-- <div class="no-header"></div> -->
+
+  <!-- <div class="about">
     <h1>About</h1>
     <p>is here please</p>
-  </div>
+  </div> -->
 </template>
