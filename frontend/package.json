@@ -1,9 +1,12 @@
 {
   "name": "divergen-frontend",
+  "license": "MIT",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
     "build": "vite build",
+    "dev": "vite",
+    "lint": "eslint --ext .js,.vue ./",
+    "lint:auto": "eslint --ext .js,.vue ./ --fix",
     "serve": "vite preview",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
