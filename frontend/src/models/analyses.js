@@ -117,4 +117,39 @@ export default {
     const analysisList = await this.all();
     return analysisList.find(({analysis_id: id}) => id === analysisId);
   },
+
+  async saveAnalysis(formData) {
+    // Linting - Assigned but never used
+    // const url = '/sample/analysis';
+
+    const formInput = {
+      analysisJson: {
+        name: formData.name,
+        description: formData.description,
+        samples: [],
+        annotations: {
+          case_type: 'proband',
+          granting_source: 'UW Madison',
+          comments: 'IT will be what it must be',
+        },
+      },
+    };
+
+    formData.samples.forEach((sample, index) => {
+      formInput.analysisJson.samples.push(sample.name);
+
+      const sampleFormFieldName = `sample${index + 1}Json`;
+      formInput[sampleFormFieldName] = JSON.stringify({
+        name: sample.name,
+        sources: sample.sources,
+      });
+
+      formInput.analysisJson = JSON.stringify(formInput.analysisJson);
+
+      formData.vcfFiles.forEach((file, index) => {
+        const vcfFormFieldName = `sample${index + 1}vcf`;
+        formInput[vcfFormFieldName] = file;
+      });
+    });
+  },
 };
