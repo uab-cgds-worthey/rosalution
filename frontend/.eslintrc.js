@@ -12,6 +12,7 @@ module.exports = {
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'max-len': [2, 120, 4],
         'no-invalid-this': 0,
+        'vue/multi-word-component-names': 'off'
     },
     ignorePatterns: [
         'node_modules/*',
