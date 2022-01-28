@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "proxima-nova", sans-serif;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-auto-columns: 10rem 1fr;
+  background-color: #fff;
+  color: #444;
+}
+
+header {
+  border: 1px solid black; 
+  grid-column: 2;
+  height: 5rem;
+}
+
+sidebar {
+  border: 1px solid black;
+  grid-column: 1;
+  grid-row: 1/-1;
+  height: 100vh;
+}
+
+content {
+  border: 1px solid black;
+  grid-column: 2;
+  grid-row: 2;
+}
+
+footer {
+  border: 1px solid black;
+  grid-column: 2;
+  grid-row: 3;
+  height: 3rem;
+}
