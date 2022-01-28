@@ -1,5 +1,8 @@
 <template>
+  <!--Header-->
   <header>Header Box - Analysis Listing</header>
+  <!--Content-->
+  <content>Content Box - Analysis Listing</content>
 </template>
 
 <script>

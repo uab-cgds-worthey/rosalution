@@ -10,9 +10,6 @@ import Navigation from "@/components/Navigation.vue";
     <Navigation/>
   </sidebar>
   
-  <!--content-->
-  <content>Content Box - App</content>
-
   <!-- Putting inside content tag breaks the app -->
   <router-view></router-view>
 </template>
