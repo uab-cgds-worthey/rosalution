@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'icon',
+  name: 'app-icons',
   props: {
     type: {
       type: String,

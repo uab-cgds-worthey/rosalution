@@ -14,7 +14,7 @@ import SupplementalFormList from '@/components/FormComponents/SupplementalFormLi
 import analyses from '@/models/analyses.js';
 
 export default {
-  name: 'analysis-create',
+  name: 'analysis-create-view',
   components: {
     RequiredInputForm,
     SecondaryInputForm,

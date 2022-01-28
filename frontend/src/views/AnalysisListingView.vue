@@ -9,7 +9,7 @@
 import Analyses from '@/models/analyses.js';
 
 export default {
-  name: 'analysis-listing',
+  name: 'analysis-listing-view',
   components: {
   },
   data: function() {

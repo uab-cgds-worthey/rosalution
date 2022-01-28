@@ -9,8 +9,8 @@ export default defineConfig({
     global: true,
     environment: 'happy-dom',
     coverage: {
-      reporter: ['text', 'json', 'html']
-    }
+      reporter: ['text', 'json', 'html'],
+    },
   },
   resolve: {
     alias: {

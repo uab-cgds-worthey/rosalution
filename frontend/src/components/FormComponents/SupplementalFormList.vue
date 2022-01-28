@@ -4,7 +4,7 @@
         <h2>Supplemental</h2>
         <div>
             <button class="addAttachmentButton" @click="showAttachDocumentModal()" data-test="add-button">
-                <img style="height: 25px; width: 25px;" src="../../assets/plus-button.png"/>
+                <img style="height: 25px; width: 25px;" src="../../assets/plus-logo.svg"/>
             </button>
         </div>
         <ModalDialog v-if="showModal"

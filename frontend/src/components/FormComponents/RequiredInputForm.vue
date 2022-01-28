@@ -14,7 +14,7 @@
               style="float: left;"
               v-on:click="addGeneticCoords"
               data-test="button-add-coord">
-        <img src="../../assets/plus-button.png"/>
+        <img src="../../assets/plus-logo.svg"/>
       </button>
     </div>
     <div style="display: grid; width: 50%; margin-top: 15px;">

@@ -5,7 +5,7 @@ import App from '../src/App.vue';
 // import AnalysisListing from '../src/views/AnalysisListing.vue';
 
 test('Vue instance exists and it is an object', () => {
-  const wrapper = mount(App, { shallow: true });
+  const wrapper = mount(App, {shallow: true});
   expect(typeof wrapper).toBe('object');
 });
 

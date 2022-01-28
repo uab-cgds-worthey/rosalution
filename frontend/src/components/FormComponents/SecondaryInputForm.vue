@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect';
+import Multiselect from '@vueform/multiselect';
 
 export default {
   name: 'input-form',
@@ -151,7 +151,7 @@ export default {
 };
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style src="@vueform/multiselect/themes/default.css"></style>
 
 <style>
 
