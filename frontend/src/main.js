@@ -2,9 +2,9 @@ import {createApp} from 'vue';
 import {createRouter, createWebHashHistory} from 'vue-router';
 
 import App from './App.vue';
-import AnalysisListing from './views/AnalysisListing.vue';
+import AnalysisListing from './views/AnalysisListingView.vue';
 import AnalysisCreate from './views/AnalysisCreate.vue';
-import About from './views/About.vue';
+import About from './views/AboutView.vue';
 
 import './styles/main.css';
 // import './styles/proxima-nova-font.css'
