@@ -1,5 +1,5 @@
 // / <reference types="vitest" />
-import {defineConfig} from 'vite';
+import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 const path = require('path');
 
@@ -9,7 +9,6 @@ export default defineConfig({
     global: true,
     environment: 'happy-dom',
     coverage: {
-      reporter: ['text', 'json', 'html'],
     },
   },
   resolve: {
@@ -18,6 +17,14 @@ export default defineConfig({
     },
   },
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: tag => {
+            return tag.startsWith('app-');
+          },
+        }
+      }
+    }),
   ],
 });

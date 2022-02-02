@@ -1,9 +1,9 @@
 <template>
-  <content>
+  <app-content>
     <RequiredInputForm @create_analysis="createUpdateAnalysis" data-test="required-input-form"/>
     <SecondaryInputForm data-test="secondary-input-form"/>
     <SupplementalFormList data-test="supplemental-form-list"/>
-  </content>
+  </app-content>
 </template>
 
 <script>

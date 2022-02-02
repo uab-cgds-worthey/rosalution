@@ -18,13 +18,13 @@ body {
   color: #444;
 }
 
-header {
+app-header {
   border: 1px solid black; 
   grid-column: 2;
   height: 5rem;
 }
 
-sidebar {
+app-sidebar {
   text-align: center;
   border: 1px solid black;
   grid-column: 1;
@@ -32,13 +32,13 @@ sidebar {
   height: 100vh;
 }
 
-content {
+app-content {
   border: 1px solid black;
   grid-column: 2;
   grid-row: 2;
 }
 
-footer {
+app-footer {
   border: 1px solid black;
   grid-column: 2;
   grid-row: 3;

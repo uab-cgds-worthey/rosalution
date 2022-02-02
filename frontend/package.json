@@ -10,6 +10,7 @@
     "serve": "vite preview",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
+    "test:unit:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
@@ -28,6 +29,7 @@
     "eslint-plugin-vue": "^8.4.0",
     "happy-dom": "^2.25.1",
     "postcss": "8.3.11",
+    "sinon": "^13.0.1",
     "tailwindcss": "2.2.19",
     "vite": "2.7.10",
     "vitest": "0.1.12"

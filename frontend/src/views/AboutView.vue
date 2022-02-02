@@ -1,9 +1,9 @@
 <template>
   <!--Header-->
-  <header>Header Box - About</header>
+  <app-header>Header Box - About</app-header>
   <!--Content-->
-  <content>Content Box - About</content>
+  <app-content>Content Box - About</app-content>
   <!--Footer-->
-  <footer>Footer Box - About</footer>
+  <app-footer>Footer Box - About</app-footer>
 
 </template>

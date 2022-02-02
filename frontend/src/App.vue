@@ -1,17 +1,18 @@
 <script setup>
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import Navigation from '@/components/NavigationComponent.vue';
+import NavigationComponent from '@/components/NavigationComponent.vue';
 </script>
 
 <template>
+  <router-view></router-view>
   <!-- sidebar -->
-  <sidebar>
-    <Navigation/>
-  </sidebar>
+  <app-sidebar>
+    <NavigationComponent/>
+  </app-sidebar>
 
   <!-- Putting inside content tag breaks the app -->
-  <router-view></router-view>
+
 </template>
 
 <style>

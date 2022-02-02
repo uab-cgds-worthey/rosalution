@@ -1,8 +1,8 @@
 <template>
   <!--Header-->
-  <header>Header Box - Analysis Listing</header>
+  <app-header>Header Box - Analysis Listing</app-header>
   <!--Content-->
-  <content>Content Box - Analysis Listing</content>
+  <app-content>Content Box - Analysis Listing</app-content>
 </template>
 
 <script>
