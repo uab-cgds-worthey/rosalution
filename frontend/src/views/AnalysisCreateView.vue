@@ -6,7 +6,6 @@
 </template>
 
 <script>
-
 import RequiredInputForm from '@/components/FormComponents/RequiredInputForm.vue';
 import SupplementalFormList from '@/components/FormComponents/SupplementalFormList.vue';
 import analyses from '@/models/analyses.js';
@@ -33,7 +32,7 @@ export default {
               secondaryAnalysis: [
                 {
                   annotations: {
-                    vcfFileName: `${formData.name}_fakeVCF.vcf`,
+                    coordinateList: formData.coordinates,
                     secondaryPipeline: 'sv',
                   },
                 },
@@ -41,9 +40,6 @@ export default {
             },
           ],
         }],
-        vcfFiles: [
-          formData.vcfFile,
-        ],
       };
       analyses.saveAnalysis(analysis);
     },

@@ -145,11 +145,9 @@ export default {
       });
 
       formInput.analysisJson = JSON.stringify(formInput.analysisJson);
-
-      formData.vcfFiles.forEach((file, index) => {
-        const vcfFormFieldName = `sample${index + 1}vcf`;
-        formInput[vcfFormFieldName] = file;
-      });
     });
+
+    // Here is where we posting a request with our formatted formInput and URL
+    // await Requests.postForm(url, formInput);
   },
 };
