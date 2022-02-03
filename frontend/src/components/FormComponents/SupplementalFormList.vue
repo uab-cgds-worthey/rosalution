@@ -83,9 +83,9 @@ export default {
     },
     listIcon(type) {
       if (type === 'file') {
-        return 'file.png';
+        return 'plus-logo.svg';
       } else if (type === 'link') {
-        return 'link.png';
+        return 'plus-logo.svg';
       }
     },
   },

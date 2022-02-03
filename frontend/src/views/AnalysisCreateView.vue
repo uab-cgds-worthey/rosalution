@@ -15,7 +15,6 @@ export default {
   name: 'analysis-create-view',
   components: {
     RequiredInputForm,
-    SecondaryInputForm,
     SupplementalFormList,
   },
   data: function() {
