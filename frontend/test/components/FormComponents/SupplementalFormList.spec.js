@@ -41,20 +41,35 @@ describe('SupplementalFormList.vue', () => {
         });
 
         modalWrapper.vm.$emit('closemodal');
+
+        expect(wrapper.findAll('tr').length).toBe(0);
         
         await wrapper.vm.$nextTick()
 
         expect(onModalDialogSpy.called).toBe(true);
         expect(onAttachmentSpy.called).toBe(true);
-
+        expect(wrapper.findAll('tr').length).toBe(1);
         expect(wrapper.vm.$data.attachments.length).toBe(1);
     });
 
-    it('clicking minus-logo removes the file row', () => {
-        
+    it('Clicking minus-logo button removes the attachment', async () => {
+        const fakeAttachments = [{
+                data: 'fakeFiledData',
+                name: '/path/to/fakeFile.ext',
+                type: 'file'
+            }];
+
+        await wrapper.setData({ attachments: fakeAttachments })
+
+        expect(wrapper.findAll('tr').length).toBe(1);
+
+        await wrapper.find('#removeAttachmentButton').trigger('click');
+
+        expect(wrapper.findAll('tr').length).toBe(0);
+        expect(wrapper.vm.$data.attachments.length).toBe(0);
     });
 
-    // This has not been implemented yet with the new design.
+    // These have not been implemented yet with the new design.
     it.skip('clicking comment-logo pops up the comment modal', () => {});
     it.skip('clicking edit-logo pops up the edit modal', () => {});
 });
