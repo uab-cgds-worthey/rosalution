@@ -26,7 +26,10 @@ describe('SupplementalFormList.vue', () => {
         expect(modal.exists()).to.equal(true);
     });
 
-    it.only('new file populates in a row', async () => {
+    it('new file populates in a row', async () => {
+        const onModalDialogSpy = sinon.spy(wrapper.vm, 'showAttachDocumentModal');
+        const onAttachmentSpy = sinon.spy(wrapper.vm, 'onAttachmentChange');
+
         await wrapper.setData({ showModal: true })
 
         const modalWrapper = wrapper.findComponent(ModalDialog);
@@ -37,23 +40,18 @@ describe('SupplementalFormList.vue', () => {
             type: 'file'
         });
 
-        await wrapper.setData({ showModal: false })
-        // const onAttachmentSpy = sinon.spy(wrapper.vm, 'onAttachmentChange');
-
+        modalWrapper.vm.$emit('closemodal');
+        
         await wrapper.vm.$nextTick()
 
-        // const tempEmitted = wrapper.emitted('addattachment');
-        
-        // console.log(tempEmitted);
+        expect(onModalDialogSpy.called).toBe(true);
+        expect(onAttachmentSpy.called).toBe(true);
 
-        // console.log(onAttachmentSpy.calledOnce);
-
-        // console.log(wrapper.vm.$data)
-
+        expect(wrapper.vm.$data.attachments.length).toBe(1);
     });
 
     it('clicking minus-logo removes the file row', () => {
-
+        
     });
 
     // This has not been implemented yet with the new design.

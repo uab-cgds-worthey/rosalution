@@ -16,8 +16,8 @@
             <tbody v-for="attachment in attachments" v-bind:key="attachment.id">
                 <tr id="attachmentRow">
                     <td class="attachmentLogo">
-                        <img style="height: 40px; width: 32px; vertical-align: middle;"
-                             :src="require(`../../assets/${listIcon(attachment.type)}`)" />
+                        <!-- This is broken at the moment and we're missing the icons for link and file -->
+                        <!-- <img :src="'/src/assets/' + listIcon(attachment.type)" style="height: 40px; width: 32px; vertical-align: middle;"/> -->
                     </td>
                     <td id="attachmentName">
                         <span style="vertical-align: middle;"> {{ attachment.name }}</span>
@@ -83,9 +83,9 @@ export default {
     },
     listIcon(type) {
       if (type === 'file') {
-        return 'plus-logo.svg';
+        return 'file.svg';
       } else if (type === 'link') {
-        return 'plus-logo.svg';
+        return 'link.svg';
       }
     },
   },
