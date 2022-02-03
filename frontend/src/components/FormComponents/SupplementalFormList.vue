@@ -17,7 +17,8 @@
                 <tr id="attachmentRow">
                     <td class="attachmentLogo">
                         <!-- This is broken at the moment and we're missing the icons for link and file -->
-                        <!-- <img :src="'/src/assets/' + listIcon(attachment.type)" style="height: 40px; width: 32px; vertical-align: middle;"/> -->
+                        <!-- <img style="height: 40px; width: 32px; vertical-align: middle;"
+                                  :src="'/src/assets/' + listIcon(attachment.type)"/> -->
                     </td>
                     <td id="attachmentName">
                         <span style="vertical-align: middle;"> {{ attachment.name }}</span>

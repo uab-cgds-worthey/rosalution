@@ -3,7 +3,7 @@ import {mount} from '@vue/test-utils';
 
 import NavigationComponent from '../../src/components/NavigationComponent.vue';
 
-// Skipping these tests due to the use of Vue Router. 
+// Skipping these tests due to the use of Vue Router.
 // Running test without mocking result in following warnings:
 // [Vue warn]: Failed to resolve component: router-view
 // [Vue warn]: Failed to resolve component: router-link

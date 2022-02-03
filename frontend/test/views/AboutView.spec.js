@@ -10,7 +10,7 @@ test('Vue instance exists and it is an object', () => {
 
 test('Analysis Listing contains a header, content, and footer', () => {
   const wrapper = mount(AboutView, {shallow: true});
-  
+
   const appHeader = wrapper.find('app-header');
   expect(appHeader.exists()).toBe(true);
 

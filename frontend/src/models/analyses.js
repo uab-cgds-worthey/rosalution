@@ -115,7 +115,7 @@ export default {
 
   async getAnalysis(analysisId) {
     const analysisList = await this.all();
-    return analysisList.find(({analysis_id: id}) => id === analysisId);
+    return analysisList.find(({ id }) => id === analysisId);
   },
 
   async saveAnalysis(formData) {
@@ -149,5 +149,8 @@ export default {
 
     // Here is where we posting a request with our formatted formInput and URL
     // await Requests.postForm(url, formInput);
+
+    // Returning for now to ensure data is correct
+    return formInput;
   },
 };

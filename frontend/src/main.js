@@ -26,6 +26,6 @@ const router = createRouter({
 
 const app = createApp(App);
 
-app.config.compilerOptions.isCustomElement = tag => tag.startsWith('sidebar');
-app.use(router)
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('sidebar');
+app.use(router);
 app.mount('#app');

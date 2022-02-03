@@ -1,4 +1,4 @@
-import {expect, beforeEach} from 'vitest';
+import {describe, it, beforeEach, expect} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 import sinon from 'sinon';
 
@@ -6,70 +6,70 @@ import SupplementalFormList from '../../../src/components/FormComponents/Supplem
 import ModalDialog from '../../../src/components/FormComponents/ModalDialog.vue';
 
 describe('SupplementalFormList.vue', () => {
-    let wrapper;
+  let wrapper;
 
-    beforeEach(() => {
-        wrapper = shallowMount(SupplementalFormList);
+  beforeEach(() => {
+    wrapper = shallowMount(SupplementalFormList);
+  });
+
+  it('Vue instance exists and it is an object', () => {
+    expect(typeof wrapper).toBe('object');
+  });
+
+  it('plus-logo pops up the add attachment modal', async () => {
+    const button = wrapper.find('[data-test=add-button]');
+
+    await button.trigger('click');
+
+    const modal = wrapper.find('[data-test=modal-dialog]');
+
+    expect(modal.exists()).to.equal(true);
+  });
+
+  it('new file populates in a row', async () => {
+    const onModalDialogSpy = sinon.spy(wrapper.vm, 'showAttachDocumentModal');
+    const onAttachmentSpy = sinon.spy(wrapper.vm, 'onAttachmentChange');
+
+    await wrapper.setData({showModal: true});
+
+    const modalWrapper = wrapper.findComponent(ModalDialog);
+
+    modalWrapper.vm.$emit('addattachment', {
+      data: 'fakeFiledData',
+      name: '/path/to/fakeFile.ext',
+      type: 'file',
     });
 
-    it('Vue instance exists and it is an object', () => {
-        expect(typeof wrapper).toBe('object');
-    });
+    modalWrapper.vm.$emit('closemodal');
 
-    it('plus-logo pops up the add attachment modal', async () => {
-        const button = wrapper.find('[data-test=add-button]');
-        
-        await button.trigger('click');
-        
-        const modal = wrapper.find('[data-test=modal-dialog]');
-        
-        expect(modal.exists()).to.equal(true);
-    });
+    expect(wrapper.findAll('tr').length).toBe(0);
 
-    it('new file populates in a row', async () => {
-        const onModalDialogSpy = sinon.spy(wrapper.vm, 'showAttachDocumentModal');
-        const onAttachmentSpy = sinon.spy(wrapper.vm, 'onAttachmentChange');
+    await wrapper.vm.$nextTick();
 
-        await wrapper.setData({ showModal: true })
+    expect(onModalDialogSpy.called).toBe(true);
+    expect(onAttachmentSpy.called).toBe(true);
+    expect(wrapper.findAll('tr').length).toBe(1);
+    expect(wrapper.vm.$data.attachments.length).toBe(1);
+  });
 
-        const modalWrapper = wrapper.findComponent(ModalDialog);
+  it('Clicking minus-logo button removes the attachment', async () => {
+    const fakeAttachments = [{
+      data: 'fakeFiledData',
+      name: '/path/to/fakeFile.ext',
+      type: 'file',
+    }];
 
-        modalWrapper.vm.$emit('addattachment', {
-            data: 'fakeFiledData',
-            name: '/path/to/fakeFile.ext',
-            type: 'file'
-        });
+    await wrapper.setData({attachments: fakeAttachments});
 
-        modalWrapper.vm.$emit('closemodal');
+    expect(wrapper.findAll('tr').length).toBe(1);
 
-        expect(wrapper.findAll('tr').length).toBe(0);
-        
-        await wrapper.vm.$nextTick()
+    await wrapper.find('#removeAttachmentButton').trigger('click');
 
-        expect(onModalDialogSpy.called).toBe(true);
-        expect(onAttachmentSpy.called).toBe(true);
-        expect(wrapper.findAll('tr').length).toBe(1);
-        expect(wrapper.vm.$data.attachments.length).toBe(1);
-    });
+    expect(wrapper.findAll('tr').length).toBe(0);
+    expect(wrapper.vm.$data.attachments.length).toBe(0);
+  });
 
-    it('Clicking minus-logo button removes the attachment', async () => {
-        const fakeAttachments = [{
-                data: 'fakeFiledData',
-                name: '/path/to/fakeFile.ext',
-                type: 'file'
-            }];
-
-        await wrapper.setData({ attachments: fakeAttachments })
-
-        expect(wrapper.findAll('tr').length).toBe(1);
-
-        await wrapper.find('#removeAttachmentButton').trigger('click');
-
-        expect(wrapper.findAll('tr').length).toBe(0);
-        expect(wrapper.vm.$data.attachments.length).toBe(0);
-    });
-
-    // These have not been implemented yet with the new design.
-    it.skip('clicking comment-logo pops up the comment modal', () => {});
-    it.skip('clicking edit-logo pops up the edit modal', () => {});
+  // These have not been implemented yet with the new design.
+  it.skip('clicking comment-logo pops up the comment modal', () => {});
+  it.skip('clicking edit-logo pops up the edit modal', () => {});
 });
