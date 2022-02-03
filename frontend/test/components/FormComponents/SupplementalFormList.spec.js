@@ -1,5 +1,5 @@
 import {expect, beforeEach} from 'vitest';
-import {mount, shallowMount} from '@vue/test-utils';
+import {shallowMount} from '@vue/test-utils';
 import sinon from 'sinon';
 
 import SupplementalFormList from '../../../src/components/FormComponents/SupplementalFormList.vue';
