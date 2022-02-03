@@ -115,7 +115,7 @@ export default {
 
   async getAnalysis(analysisId) {
     const analysisList = await this.all();
-    return analysisList.find(({ id }) => id === analysisId);
+    return analysisList.find(({id}) => id === analysisId);
   },
 
   async saveAnalysis(formData) {
