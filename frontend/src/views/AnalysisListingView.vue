@@ -1,15 +1,15 @@
 <template>
   <!--Header-->
-  <header>Header Box - Analysis Listing</header>
+  <app-header>Header Box - Analysis Listing</app-header>
   <!--Content-->
-  <content>Content Box - Analysis Listing</content>
+  <app-content>Content Box - Analysis Listing</app-content>
 </template>
 
 <script>
 import Analyses from '@/models/analyses.js';
 
 export default {
-  name: 'analysis-listing',
+  name: 'analysis-listing-view',
   components: {
   },
   data: function() {

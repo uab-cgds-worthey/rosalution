@@ -4,7 +4,7 @@
         <h2>Supplemental</h2>
         <div>
             <button class="addAttachmentButton" @click="showAttachDocumentModal()" data-test="add-button">
-                <img style="height: 25px; width: 25px;" src="../../assets/plus-button.png"/>
+                <img style="height: 25px; width: 25px;" src="../../assets/plus-logo.svg"/>
             </button>
         </div>
         <ModalDialog v-if="showModal"
@@ -16,8 +16,9 @@
             <tbody v-for="attachment in attachments" v-bind:key="attachment.id">
                 <tr id="attachmentRow">
                     <td class="attachmentLogo">
-                        <img style="height: 40px; width: 32px; vertical-align: middle;"
-                             :src="require(`../../assets/${listIcon(attachment.type)}`)" />
+                        <!-- This is broken at the moment and we're missing the icons for link and file -->
+                        <!-- <img style="height: 40px; width: 32px; vertical-align: middle;"
+                                  :src="'/src/assets/' + listIcon(attachment.type)"/> -->
                     </td>
                     <td id="attachmentName">
                         <span style="vertical-align: middle;"> {{ attachment.name }}</span>
@@ -83,9 +84,9 @@ export default {
     },
     listIcon(type) {
       if (type === 'file') {
-        return 'file.png';
+        return 'file.svg';
       } else if (type === 'link') {
-        return 'link.png';
+        return 'link.svg';
       }
     },
   },

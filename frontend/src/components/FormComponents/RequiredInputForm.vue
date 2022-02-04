@@ -14,7 +14,7 @@
               style="float: left;"
               v-on:click="addGeneticCoords"
               data-test="button-add-coord">
-        <img src="../../assets/plus-button.png"/>
+        <img src="../../assets/plus-logo.svg"/>
       </button>
     </div>
     <div style="display: grid; width: 50%; margin-top: 15px;">
@@ -124,49 +124,14 @@ export default {
     createAnalysis: function(event) {
       const formData = {
         name: this.name,
-        vcfFilename: `${this.name}_fakeVCF.vcf`,
         description: this.description,
         coordinates: this.coordinates,
       };
-      // Button now downloads VCF file, but this is temporary.
-      // Console log shows what create analysis returns.
-      // Leaving until emit replace this.
-      console.log(formData);
 
-      const vcf = this.createVCF(formData);
-      formData.vcfFile = this.createVcfFileBlob(vcf, formData.vcfFilename );
       this.$emit('create_analysis', formData);
     },
     deleteRow(elem) {
       this.coordinates.splice(elem, 1);
-    },
-    createVcfFileBlob(fileContent, filename) {
-      return new File([fileContent], filename, {type: 'text/plain'});
-    },
-    createVCF(formData) {
-      // This resides here for now as a helper function.
-      // Eventually should reside in a utility.js export with other helpers
-      const variantArray = [];
-
-      for (let i = 0; i < formData.coordinates.length; i++) {
-        const tempCoordinate = formData.coordinates[i];
-        const tempArray = [];
-
-        Object.keys(tempCoordinate).forEach((value) => {
-          tempArray.push(tempCoordinate[value]);
-        });
-
-        variantArray.push(tempArray);
-      }
-
-      let vcfString = '##fileformat=VCFv4.2\n#CHROM\tPOS\tREF\tALT\n';
-
-      variantArray.forEach((row) => {
-        vcfString += row.join('\t');
-        vcfString += '\n';
-      });
-
-      return vcfString;
     },
   },
 };
