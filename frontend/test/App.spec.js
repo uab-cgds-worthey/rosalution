@@ -16,36 +16,22 @@ import AboutView from '../src/views/AboutView.vue';
 // [Vue warn]: Failed to resolve component: router-link
 // https://www.wrike.com/open.htm?id=837264942
 test.skip('Vue instance exists and it is an object', () => {
-  /**
-   * Nothing
-   * @return {Object} True
-   */
-  function push() {
-    return true;
-  }
-
-  const mockRoute = {
-    params: {
-      id: 1,
-    },
-  };
-
   const mockRouter = {
-    // push: fakeRouterFunction(),
-    push: sinon.mock(push),
+    push: sinon.stub(),
   };
 
   const wrapper = mount(App, {
     shallow: false,
     global: {
       mocks: {
-        $route: mockRoute,
         $router: mockRouter,
       },
     },
   });
 
-  expect(typeof wrapper).toBe('object');
+  console.log(wrapper);
+
+  expect(1).toBe(1);
 });
 
 test.only('Using a real router!', () => {
@@ -66,6 +52,8 @@ test.only('Using a real router!', () => {
       },
     ],
   });
+
+  console.log(router);
 
   const wrapper = mount(App, {
     global: {
