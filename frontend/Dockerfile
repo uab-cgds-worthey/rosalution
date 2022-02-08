@@ -1,7 +1,7 @@
 # Local development stage
 FROM node:16.2-alpine3.12 as development-stage
 WORKDIR /app
-RUN npm rebuild esbuild
+RUN npm install esbuild && npm rebuild esbuild
 EXPOSE 3000
 ENTRYPOINT ["yarn", "dev:host"]
 
