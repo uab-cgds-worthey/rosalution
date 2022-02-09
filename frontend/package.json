@@ -5,6 +5,7 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite",
+    "dev:host": "vite --host 0.0.0.0",
     "lint": "eslint --ext .js,.vue ./",
     "lint:auto": "eslint --ext .js,.vue ./ --fix",
     "serve": "vite preview",
@@ -31,7 +32,7 @@
     "postcss": "8.3.11",
     "sinon": "^13.0.1",
     "tailwindcss": "2.2.19",
-    "vite": "2.7.10",
+    "vite": "2.7.13",
     "vitest": "0.1.12"
   }
 }
