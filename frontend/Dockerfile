@@ -1,7 +1,11 @@
 # Local development stage
 FROM node:16.2-alpine3.12 as development-stage
 WORKDIR /app
-RUN npm install esbuild && npm rebuild esbuild
+COPY package.json /app/
+COPY yarn.lock /app/
+COPY index.html /app/
+COPY vite.config.js /app/
+RUN yarn install
 EXPOSE 3000
 ENTRYPOINT ["yarn", "dev:host"]
 
