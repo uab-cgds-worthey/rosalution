@@ -6,9 +6,6 @@
     <nav class="navitem">
       <router-link class="" to="/about">About</router-link>
     </nav>
-    <nav class="navitem">
-      <router-link to="/contact">Contact Us</router-link>
-    </nav>
   </div>
 </template>
 
