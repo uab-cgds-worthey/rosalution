@@ -10,7 +10,7 @@ pipeline {
   stages {
     stage('Static Analysis') {
       agent {
-        docker { image 'gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/utility-images/static-analysis:v1.2'}
+        docker { image 'gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/utility-images/static-analysis:v1.3'}
       }
       steps {
         sh '/bin/linting.sh'
