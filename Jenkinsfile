@@ -26,7 +26,7 @@ pipeline {
     }
     stage('Unit Test') {
       agent {
-        docker { image 'gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/utility-images/unit-test:v0.3'}
+        docker { image 'gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/utility-images/unit-test:v0.4'}
       }
       steps {
         sh 'cd frontend && yarn install'
