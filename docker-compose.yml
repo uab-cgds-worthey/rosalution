@@ -3,12 +3,12 @@ version: '3.5'
 services:
   reverse-proxy:
     image: traefik
+    command: --log.level=DEBUG --api.insecure=true --providers.docker
     ports: 
       - 80:80
       - 8080:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: --log.level=DEBUG --api.insecure=true --entrypoints.web.address=:80
     networks:
       - divergen-network
   
@@ -22,11 +22,13 @@ services:
     networks:
       - divergen-network
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=divergen-network"
       - "traefik.http.routers.divergen-router.service=frontend"
-      - "traefik.http.routers.divergen-router=Host(`localhost`)"
-      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
+      - "traefik.http.services.frontend.loadbalancer.server.port=80"
+      - "traefik.http.routers.divergen-router.entrypoints.frontend.address=:3000"
+      # - "traefik.port=3000"
+      # - "traefik.http.routers.frontend.rule=Host(`localhost`)"
+      # - "traefik.http.routers.divergen-router.rule=Host(`local.divergen.cgds`)"
+      
 
 networks:
   divergen-network:
