@@ -21,14 +21,11 @@ services:
       - ./frontend/src:/app/src
     networks:
       - divergen-network
+    ports:
+      - 3000:80
     labels:
       - "traefik.http.routers.divergen-router.service=frontend"
-      - "traefik.http.services.frontend.loadbalancer.server.port=80"
-      - "traefik.http.routers.divergen-router.entrypoints.frontend.address=:3000"
-      # - "traefik.port=3000"
-      # - "traefik.http.routers.frontend.rule=Host(`localhost`)"
-      # - "traefik.http.routers.divergen-router.rule=Host(`local.divergen.cgds`)"
-      
+      - "traefik.http.routers.divergen-router.rule=Host(`localhost`)"
 
 networks:
   divergen-network:
