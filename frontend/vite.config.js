@@ -7,7 +7,7 @@ const path = require('path');
 export default defineConfig({
   server: {
     hmr: {
-      clientPort: 3001,
+      port: 3001,
     },
     proxy: {
       // proxying websockets or socket.io
