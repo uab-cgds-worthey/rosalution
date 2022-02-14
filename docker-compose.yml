@@ -7,10 +7,14 @@ services:
     ports: 
       - 80:80
       - 8080:8080
+      - 3000:3000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - divergen-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=divergen-network"
   
   frontend:
     build:
@@ -21,11 +25,15 @@ services:
       - ./frontend/src:/app/src
     networks:
       - divergen-network
-    ports:
-      - 3000:80
     labels:
+      - "traefik.enable=true"
+      - "traefik.port=3000"
+      - "traefik.docker.network=divergen-network"
+      - "traefik.http.routers.divergen-router.entrypoints=http"
+      - "traefik.http.routers.divergen-router.rule=HOST(`local.divergen.cgds`)"
       - "traefik.http.routers.divergen-router.service=frontend"
-      - "traefik.http.routers.divergen-router.rule=Host(`localhost`)"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
+      
 
 networks:
   divergen-network:
