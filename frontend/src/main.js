@@ -10,10 +10,15 @@ import './styles/main.css';
 // import './styles/proxima-nova-font.css'
 
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {faPhone} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import {
+  faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList, faLayerGroup,
+  faBoxArchive, faQuestion, faClock, faClipboardCheck}
+  from '@fortawesome/free-solid-svg-icons';
 
-library.add(faPhone);
+library.add(
+    faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList,
+    faLayerGroup, faBoxArchive, faQuestion, faClock, faClipboardCheck);
 
 const routes = [
   {path: '/', component: AnalysisListingView},
