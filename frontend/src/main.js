@@ -9,6 +9,12 @@ import AboutView from './views/AboutView.vue';
 import './styles/main.css';
 // import './styles/proxima-nova-font.css'
 
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {faPhone} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+
+library.add(faPhone);
+
 const routes = [
   {path: '/', component: AnalysisListingView},
   {path: '/analysis/create', component: AnalysisCreateView},
@@ -28,4 +34,5 @@ const app = createApp(App);
 
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('sidebar');
 app.use(router);
+app.component('font-awesome-icon', FontAwesomeIcon);
 app.mount('#app');

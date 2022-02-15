@@ -2,7 +2,15 @@
   <!--Header-->
   <app-header>Header Box - Analysis Listing</app-header>
   <!--Content-->
-  <app-content>Content Box - Analysis Listing</app-content>
+  <app-content>
+    
+    <!-- <font-awesome-icon icon="fa-solid fa-user-secret" /> -->
+
+    <!-- <font-awesome-icon icon="fa-solid fa-user" /> -->
+    <!-- <font-awesome-icon :icon="['fas', 'userSecret']" /> -->
+    <font-awesome-icon icon="phone" />
+
+  </app-content>
 </template>
 
 <script>
