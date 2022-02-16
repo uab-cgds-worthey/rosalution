@@ -67,18 +67,20 @@ describe('RequiredInputForm.vue', () => {
     // Note: Rows are added at the front of the array and existing items get pushed back
     // this is why we're looking at index 0 even after adding a new row
 
-    const tableColumn = coordinateTableRows.at(0).findAll('td');
+    const tableColumn = coordinateTableRows[0].findAll('td');
 
-    expect(tableColumn.at(0).text()).to.equal('9');
-    expect(tableColumn.at(1).text()).to.equal('19325');
-    expect(tableColumn.at(2).text()).to.equal('ATGTCATGCC');
-    expect(tableColumn.at(3).text()).to.equal('T');
+    expect(tableColumn[0].text()).to.equal('9');
+    expect(tableColumn[1].text()).to.equal('19325');
+    expect(tableColumn[2].text()).to.equal('ATGTCATGCC');
+    expect(tableColumn[3].text()).to.equal('T');
   });
 
   it('Remove a table row when deleted and renders the proper amount of rows', async () => {
     let coordinateTableRows = wrapper.findAll('tr');
 
-    const tableRowButton = coordinateTableRows.at(0).find('button');
+    const tableRowButton = coordinateTableRows[0].find('button');
+
+    console.log(coordinateTableRows);
 
     expect(coordinateTableRows.length).to.equal(4);
 
