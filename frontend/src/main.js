@@ -31,13 +31,8 @@ const router = createRouter({
   routes,
 });
 
-// createApp(App)
-//     .use(router)
-//     .mount('#app');
-
 const app = createApp(App);
 
-app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('sidebar');
 app.use(router);
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.mount('#app');

@@ -35,12 +35,10 @@
 
 <script>
 import Analyses from '@/models/analyses.js';
-import AppIconsVue from '../components/icons/AppIcons.vue';
 
 export default {
   name: 'analysis-listing-view',
   components: {
-    AppIconsVue
   },
   data: function() {
     return {
