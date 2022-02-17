@@ -1,10 +1,9 @@
 import {test, expect} from 'vitest';
-import {mount} from '@vue/test-utils';
+import {shallowMount} from '@vue/test-utils';
 
 import {createRouter, createWebHistory} from 'vue-router';
 
 import App from '../src/App.vue';
-import Navigation from '../src/components/NavigationComponent.vue';
 import AnalysisListingView from '../src/views/AnalysisListingView.vue';
 import AnalysisCreateView from '../src/views/AnalysisCreateView.vue';
 import AboutView from '../src/views/AboutView.vue';
@@ -28,15 +27,15 @@ test('Contains a <sidebar> tag with a <navigation> component', () => {
     ],
   });
 
-  const wrapper = mount(App, {
+  const wrapper = shallowMount(App, {
     global: {
       plugins: [router],
+      stubs: {
+        NavigationComponent: true,
+      },
     },
   });
 
   expect(wrapper.find('app-sidebar').exists()).toBe(true);
-
-  const sidebarNavComponent = wrapper.findComponent(Navigation);
-
-  expect(sidebarNavComponent).toBeTruthy;
+  expect(wrapper.find('navigation-component-stub').exists()).toBe(true);
 });

@@ -1,19 +1,31 @@
-import {test, expect} from 'vitest';
-import {mount} from '@vue/test-utils';
+import {describe, it, expect, beforeAll} from 'vitest';
+import {shallowMount} from '@vue/test-utils';
 
 import AnalysisListingView from '../../src/views/AnalysisListingView.vue';
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
-test('Vue instance exists and it is an object', () => {
-  const wrapper = mount(AnalysisListingView, {shallow: true});
-  expect(typeof wrapper).toBe('object');
-});
+describe('AnalysisListingView', () => {
+  let wrapper;
 
-test('Analysis Listing contains a header and content', () => {
-  const wrapper = mount(AnalysisListingView, {shallow: true});
+  beforeAll(() => {
+    wrapper = shallowMount(AnalysisListingView, {
+      global: {
+        components: {
+          'font-awesome-icon': FontAwesomeIcon,
+        },
+      },
+    });
+  });
 
-  const appHeader = wrapper.find('app-header');
-  expect(appHeader.exists()).toBe(true);
+  it('Vue instance exists and it is an object', () => {
+    expect(typeof wrapper).toBe('object');
+  });
 
-  const appContent = wrapper.find('app-content');
-  expect(appContent.exists()).toBe(true);
+  it('Analysis Listing contains a header and content', () => {
+    const appHeader = wrapper.find('app-header');
+    expect(appHeader.exists()).toBe(true);
+
+    const appContent = wrapper.find('app-content');
+    expect(appContent.exists()).toBe(true);
+  });
 });

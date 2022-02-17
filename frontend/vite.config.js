@@ -21,7 +21,7 @@ export default defineConfig({
       template: {
         compilerOptions: {
           isCustomElement: (tag) => {
-            return tag.startsWith('app-') || tag.startsWith('font-awesome-icon');
+            return tag.startsWith('app-');
           },
         },
       },
