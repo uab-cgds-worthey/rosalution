@@ -13,8 +13,7 @@ import {library} from '@fortawesome/fontawesome-svg-core';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {
   faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList, faLayerGroup,
-  faBoxArchive, faQuestion, faClock, faClipboardCheck}
-  from '@fortawesome/free-solid-svg-icons';
+  faBoxArchive, faQuestion, faClock, faClipboardCheck} from '@fortawesome/free-solid-svg-icons';
 
 library.add(
     faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList,
