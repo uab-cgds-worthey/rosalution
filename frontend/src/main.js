@@ -9,6 +9,17 @@ import AboutView from './views/AboutView.vue';
 import './styles/main.css';
 // import './styles/proxima-nova-font.css'
 
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import {
+  faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList, faLayerGroup,
+  faBoxArchive, faQuestion, faClock, faClipboardCheck}
+  from '@fortawesome/free-solid-svg-icons';
+
+library.add(
+    faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList,
+    faLayerGroup, faBoxArchive, faQuestion, faClock, faClipboardCheck);
+
 const routes = [
   {path: '/', component: AnalysisListingView},
   {path: '/analysis/create', component: AnalysisCreateView},
@@ -20,12 +31,8 @@ const router = createRouter({
   routes,
 });
 
-// createApp(App)
-//     .use(router)
-//     .mount('#app');
-
 const app = createApp(App);
 
-app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('sidebar');
 app.use(router);
+app.component('font-awesome-icon', FontAwesomeIcon);
 app.mount('#app');
