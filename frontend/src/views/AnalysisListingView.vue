@@ -31,14 +31,17 @@
     <font-awesome-icon :icon="['fas', 'clock']" />
     <font-awesome-icon :icon="['fas', 'clipboard-check']" />
   </app-content>
+  <AnalysisCard></AnalysisCard>
 </template>
 
 <script>
 import Analyses from '@/models/analyses.js';
+import AnalysisCard from '../components/AnalysisListing/AnalysisCard.vue';
 
 export default {
   name: 'analysis-listing-view',
   components: {
+    AnalysisCard,
   },
   data: function() {
     return {
