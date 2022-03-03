@@ -31,3 +31,8 @@ yarn-error.log*
 *.sln
 *.sw?
 .history
+
+# Python specific directories and files
+__pycache__/
+*.py[cod]
+*$py.class
