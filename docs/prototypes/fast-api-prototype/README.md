@@ -30,7 +30,7 @@ Now go to `localhost:port` in a web browser. It should show an output of { "Hell
 
 `/cat`
 
-> http://127.0.0.1:8000/
+> [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 >
 >{
 > Hello: "World"
@@ -38,7 +38,7 @@ Now go to `localhost:port` in a web browser. It should show an output of { "Hell
 
 `/fruit/{fruit_id}`
 
-> http://127.0.0.1:8000/fruit/2
+> [http://127.0.0.1:8000/fruit/2](http://127.0.0.1:8000/fruit/2)
 >
 >{
 > fruit: "banana"
@@ -47,7 +47,7 @@ Now go to `localhost:port` in a web browser. It should show an output of { "Hell
 
 `/items/{item_id}?q`
 >
-> http://127.0.0.1:8000/items/5?q=somequery
+> [http://127.0.0.1:8000/items/5?q=somequery](http://127.0.0.1:8000/items/5?q=somequery)
 >
 >{
 > item_id: 5,
