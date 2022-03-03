@@ -1,12 +1,55 @@
 <template>
 <div>
     <div class="analysis-base">
-        <span class="case-name">
-            C-PAM0001
+      <div class="case-status-info">
+        <div class="status-icon"><font-awesome-icon icon="clipboard-check" /></div>
+        <span class="case-info">
+          <div class="case-name">
+              C-PAM0001
+          </div>
+          <div class="investigator">
+              Investigator Name
+          </div>
         </span>
-        <div class="investigator">
-            Investigator Name
+      </div>
+      <div class="dates-section">
+        <div class="top-border"></div>
+        <div class="date-info">
+          <span class="case-added-info">
+            <div class="case-added-label">
+            Case Added:
+            </div>
+            <div class="case-added-date">
+              2020-07-15
+            </div>
+          </span>
+          <span class="middle-separator"></span>
+          <span class="last-modified-info">
+            <div class="last-modified-label">
+              Last Modified:
+            </div>
+            <div class="last-modified-date">
+              2020-11-02
+            </div>
+          </span>
         </div>
+        <div class="bottom-border"></div>
+      </div>
+      <div class="gene-label">
+        Gene:
+      </div>
+      <div class="gene-name">
+        SBF1
+      </div>
+      <div class="transcript-label">
+        Transcript:
+      </div>
+      <div class="transcript-name">
+        NM_002972.2
+      </div>
+      <div class="coordinates">
+        &lt;Chr,Pos,Ref,Alt&gt;
+      </div>
     </div>
 </div>
 </template>
@@ -26,16 +69,42 @@ div {
   width: 13rem;
   height: 18rem;
   flex-grow: 0;
-  padding: 0.5rem 1.375rem 0.875rem 1.188rem;
+  padding: .5rem .625rem .875rem .625rem;
   border-radius: 1.25rem;
-  border: solid 0.625rem #6496fe;
+  border: solid .625rem #6496fe;
   background-color: #fff;
 }
 
+.case-status-info {
+  display: flex;
+}
+
+.status-icon {
+  width: 1.4688rem;
+  height: 1.4688rem;
+  flex-grow: 0;
+  margin: .3937rem .5313rem 1.075rem .1875rem;
+  padding: .1125rem .2562rem .275rem .2562rem;
+  background-color: #6496fe;
+}
+
+.case-info{
+  align-content: center;
+  align-self: stretch;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  margin: .3937rem .5313rem 1.075rem .1875rem;
+  padding: .1125rem .2562rem .275rem .2562rem;
+}
+
+
 .case-name {
   width: 3.75rem;
-  height: 0.813rem;
-  font-size: 0.688rem;
+  height: .813rem;
+  font-size: .688rem;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
@@ -48,7 +117,6 @@ div {
 .investigator {
   width: 4.875rem;
   height: .625rem;
-  /* margin: 1.375rem 3.5625rem .9375rem 0; */
   font-size: .5625rem;
   font-weight: normal;
   font-stretch: normal;
@@ -56,6 +124,188 @@ div {
   line-height: normal;
   letter-spacing: normal;
   text-align: left;
+  color: #000;
+}
+
+.top-border {
+  width: 10.625rem;
+  height: .0625rem;
+  flex-grow: 0;
+  background-color: #979797;
+}
+
+.date-info{
+  display: flex;
+}
+
+.case-added-info {
+  align-content: center;
+  align-self: stretch;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.case-added-label {
+  width: 5rem;
+  height: .625rem;
+  flex-grow: 0;
+  font-family: Helvetica;
+  font-size: .5625rem;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #6f6b6b;
+}
+
+.case-added-date {
+  width: 4.2687rem;
+  height: .75rem;
+  flex-grow: 0;
+  font-family: Helvetica;
+  font-size: .6375rem;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+}
+
+.middle-separator {
+  width: 1.7px;
+  height: 35.2px;
+  flex-grow: 0;
+  border: solid 0.75px #979797;
+  background-color: #979797;
+}
+
+.last-modified-info{
+  align-content: center;
+  align-self: stretch;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.last-modified-label {
+  width: 4.9375rem;
+  height: .625rem;
+  flex-grow: 0;
+  font-family: Helvetica;
+  font-size: .5625rem;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #6f6b6b;
+}
+
+.last-modified-date {
+  width: 4.2687rem;
+  height: .75rem;
+  flex-grow: 0;
+  font-family: Helvetica;
+  font-size: .6375rem;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+}
+
+.bottom-border {
+  width: 170px;
+  height: .0625rem;
+  flex-grow: 0;
+  background-color: #979797;
+  border: none;
+}
+
+.gene-label {
+  width: 2.0625rem;
+  height: .875rem;
+  margin: .7063rem 1.1875rem .4375rem .25rem;
+  font-family: Helvetica;
+  font-size: .75rem;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #6f6b6b;
+}
+
+.gene-name {
+  width: 1.9375rem;
+  height: .875rem;
+  margin: .4375rem 0 .4375rem .25rem;
+  font-family: Helvetica;
+  font-size: .75rem;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+}
+
+.transcript-label {
+  width: 3.5625rem;
+  height: .875rem;
+  margin: .4375rem 1.6438rem .4375rem .1875rem;
+  font-family: Helvetica;
+  font-size: .75rem;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #6f6b6b;
+}
+
+.transcript-name {
+  width: 4.75rem;
+  height: .875rem;
+  margin: .4375rem .3937rem .4375rem .25rem;
+  font-family: Helvetica;
+  font-size: .75rem;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+}
+
+.coordinates {
+  width: 6.0625rem;
+  height: .875rem;
+  margin: .4375rem 4.3125rem .4375rem .25rem;
+  font-family: Helvetica;
+  font-size: .75rem;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
   color: #000;
 }
 
