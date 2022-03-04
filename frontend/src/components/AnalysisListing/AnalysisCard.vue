@@ -5,10 +5,10 @@
         <div class="status-icon"><font-awesome-icon icon="clipboard-check" /></div>
         <span class="case-info">
           <div class="case-name">
-              C-PAM0001
+              {{ name }}
           </div>
           <div class="investigator">
-              Investigator Name
+              {{ nominated_by }}
           </div>
         </span>
       </div>
@@ -20,7 +20,7 @@
             Case Added:
             </div>
             <div class="case-added-date">
-              2020-07-15
+              {{ created_date }}
             </div>
           </span>
           <span class="middle-separator"></span>
@@ -29,7 +29,7 @@
               Last Modified:
             </div>
             <div class="last-modified-date">
-              2020-11-02
+              {{ last_modified_date }}
             </div>
           </span>
         </div>
@@ -39,23 +39,55 @@
         Gene:
       </div>
       <div class="gene-name">
-        SBF1
+        {{ genomic_units.gene }}
       </div>
       <div class="transcript-label">
         Transcript:
       </div>
       <div class="transcript-name">
-        NM_002972.2
+        {{ genomic_units.transcript }}
       </div>
-      <div class="coordinates">
+      <ul class="coordinates">
         &lt;Chr,Pos,Ref,Alt&gt;
-      </div>
+        <li>{{ genomic_units.chromosome }} , {{ genomic_units.pos }} , {{ genomic_units.ref }} , {{ genomic_units.alt }}
+        </li>
+      </ul>
     </div>
 </div>
 </template>
 
 <script>
 // import analysisList from '@/views/AnalysisListingView.vue';
+
+export default {
+  name: 'analysis-card',
+  components: {
+  },
+  props: {
+    status_icon: {
+      type: String,
+    },
+    latest_status: {
+      type: String,
+    },
+    name: {
+      type: String,
+    },
+    nominated_by: {
+      type: String,
+      required: true,
+    },
+    created_date: {
+      type: String,
+    },
+    last_modified_date: {
+      type: String,
+    },
+    genomic_units: {
+      type: Array,
+    },
+  },
+};
 
 </script>
 
