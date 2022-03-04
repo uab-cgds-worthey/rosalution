@@ -9,13 +9,13 @@ def test_read_main():
     """Ensures Hello World is returned"""
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == { "Hello": "World" }
+    assert response.json() == {"Hello": "World"}
 
 def test_get_fruit_apple():
     """Ensures apple is returned in a json object"""
     response = client.get("/fruit/1")
     assert response.status_code == 200
-    assert response.json() == { "fruit": "apple" }
+    assert response.json() == {"fruit": "apple"}
 
 def test_get_fruit_fail():
     """Tests a failure with the fruit endpoint"""

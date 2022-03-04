@@ -24,7 +24,7 @@ async def get_fruit(fruit_id: int):
     raise HTTPException(status_code=404, detail="Fruit ID not found")
 
 @app.get("/items/{item_id}")
-async def read_item(item_id: int, query: str=None):
+async def read_item(item_id: int, query: str = None):
     """
     Accepts an item int and/or a query
     Returns a json object with item id and/or query
