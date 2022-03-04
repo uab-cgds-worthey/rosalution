@@ -88,3 +88,15 @@ System Tests:
 ```bash
 pytest -s tests/system
 ```
+
+## Linting
+
+This project uses `pylint` as a linting tool.
+
+Running the linter:
+
+```bash
+# From project root: ./
+
+pylint src tests
+```
