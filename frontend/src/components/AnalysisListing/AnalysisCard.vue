@@ -38,15 +38,15 @@
       <div class="gene-label">
         Gene:
       </div>
-      <div class="gene-name">
-        {{ genomic_units.gene }}
-      </div>
+      <ul class="gene-name">
+        <li>{{ genomic_units.gene }}</li>
+      </ul>
       <div class="transcript-label">
         Transcript:
       </div>
-      <div class="transcript-name">
-        {{ genomic_units.transcript }}
-      </div>
+      <ul class="transcript-name">
+        <li>{{ genomic_units.transcript }}</li>
+      </ul>
       <ul class="coordinates">
         &lt;Chr,Pos,Ref,Alt&gt;
         <li>{{ genomic_units.chromosome }} , {{ genomic_units.pos }} , {{ genomic_units.ref }} , {{ genomic_units.alt }}
