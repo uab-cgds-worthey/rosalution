@@ -5,18 +5,6 @@ const path = require('path');
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  server: {
-    hmr: {
-      port: 3001,
-    },
-    proxy: {
-      // proxying websockets or socket.io
-      '/socket.io': {
-        target: 'ws://localhost:3001',
-        ws: true,
-      },
-    },
-  },
   test: {
     global: true,
     environment: 'happy-dom',
