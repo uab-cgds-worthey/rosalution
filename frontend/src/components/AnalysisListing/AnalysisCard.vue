@@ -96,7 +96,7 @@ export default {
         return 'transcript';
       },
       get_computed_value_coordinates() {
-        return 'transcript';
+        return 'transcrip';
       },
     },
   },
