@@ -87,6 +87,19 @@ export default {
       type: Array,
     },
   },
+  computed: {
+    genomic_units_values: {
+      get_computed_value_gene() {
+        return 'gene';
+      },
+      get_computed_value_transcript() {
+        return 'transcript';
+      },
+      get_computed_value_coordinates() {
+        return 'transcript';
+      },
+    },
+  },
 };
 
 </script>
