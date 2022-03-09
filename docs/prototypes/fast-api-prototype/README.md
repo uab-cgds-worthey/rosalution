@@ -7,7 +7,7 @@
 Project requirements are listed in the `requirement.txt` file at the project's root structure.
 
 ```sh
-# From project root: ./
+# From docs/prototypes/fast-api-prototypes
 
 pip install -r requirements.txt
 ```
