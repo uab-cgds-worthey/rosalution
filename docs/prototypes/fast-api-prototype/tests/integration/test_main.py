@@ -25,10 +25,10 @@ def test_get_fruit_fail():
 
 def test_items_query():
     """Tests that an item id and query are accepted and returned"""
-    response = client.get("/items/5?q=somequery")
+    response = client.get("/items/5?query=somequery")
     json_response = response.json()
     assert response.status_code == 200
-    assert json_response["q"] == "somequery"
+    assert json_response["query"] == "somequery"
     assert json_response["item_id"] == 5
 
 def test_pet_cat():
