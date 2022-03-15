@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="analysis-card">
     <div class="analysis-base">
       <div class="case-status-info">
         <div class="status-icon"><font-awesome-icon icon="clipboard-check" /></div>
@@ -39,17 +39,19 @@
         Gene:
       </div>
       <ul class="gene-name">
-        <li>{{ genomic_units.gene }}</li>
+        <li v-for="genomic_unit in genomic_units" :key="genomic_unit">{{ genomic_unit.gene }}</li>
       </ul>
       <div class="transcript-label">
         Transcript:
       </div>
       <ul class="transcript-name">
-        <li>{{ genomic_units.transcript }}</li>
+        <li v-for="genomic_unit in genomic_units" :key="genomic_unit">{{ genomic_unit.transcript }}</li>
       </ul>
       <ul class="coordinates">
-        &lt;Chr,Pos,Ref,Alt&gt;
-        <li>{{ genomic_units.chromosome }} , {{ genomic_units.pos }} , {{ genomic_units.ref }} , {{ genomic_units.alt }}
+        <!-- &lt;Chr,Pos,Ref,Alt&gt; -->
+        <li v-bind:key="genomic_units" v-if="genomic_units">
+           Chr{{ genomic_units[2].chromosome }}:{{ genomic_units[2].position }}
+           {{ genomic_units[2].reference }}&gt;{{ genomic_units[2].alternate }}
         </li>
       </ul>
     </div>
@@ -73,6 +75,9 @@ export default {
     name: {
       type: String,
     },
+    description: {
+      type: String,
+    },
     nominated_by: {
       type: String,
       required: true,
@@ -88,16 +93,10 @@ export default {
     },
   },
   computed: {
-    genomic_units_values: {
-      get_computed_value_gene() {
-        return 'gene';
-      },
-      get_computed_value_transcript() {
-        return 'transcript';
-      },
-      get_computed_value_coordinates() {
-        return 'transcrip';
-      },
+    get_computed_value_coordinates() {
+      // const coordinates = '';
+      // return this.genomic_units.find(unit=>unit.chromosome===1);
+      return 'test';
     },
   },
 };
@@ -110,14 +109,32 @@ div {
   font-family: "Proxima Nova", sans-serif;
 }
 
+.analysis-card {
+  min-width: 14rem;
+  margin: .5rem .625rem .875rem .625rem;
+  padding: .5rem .625rem .875rem .625rem;
+  margin-right: auto;
+  display: block;
+  position: relative;
+  /* float: right; */
+  top: 10px;
+  left: 10px;
+  right: 10px;
+}
+
 .analysis-base {
-  width: 13rem;
+  min-width: 13rem;
   height: 18rem;
   flex-grow: 0;
   padding: .5rem .625rem .875rem .625rem;
   border-radius: 1.25rem;
   border: solid .625rem #6496fe;
   background-color: #fff;
+  margin: 1rem;
+  margin-right: 1rem;
+  position: relative;
+  justify-content: center;
+  display: block;
 }
 
 .case-status-info {
@@ -272,7 +289,7 @@ div {
 }
 
 .bottom-border {
-  width: 170px;
+  width: 10.625rem;
   height: .0625rem;
   flex-grow: 0;
   background-color: #979797;
@@ -340,9 +357,9 @@ div {
 }
 
 .coordinates {
-  width: 6.0625rem;
+  width: 7.5rem;
   height: .875rem;
-  margin: .4375rem 4.3125rem .4375rem .25rem;
+  margin: .4375rem 0.25rem .4375rem .25rem;
   font-family: Helvetica;
   font-size: .75rem;
   font-weight: normal;
@@ -350,7 +367,7 @@ div {
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  text-align: center;
+  text-align: left;
   color: #000;
 }
 

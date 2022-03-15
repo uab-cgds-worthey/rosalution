@@ -31,7 +31,17 @@
     <font-awesome-icon :icon="['fas', 'clock']" />
     <font-awesome-icon :icon="['fas', 'clipboard-check']" />
   </app-content>
-  <AnalysisCard></AnalysisCard>
+  <AnalysisCard
+  v-for="analysis in this.analysisList"
+  :key="analysis.id"
+  :name="analysis.name"
+  :description="analysis.description"
+  :genomic_units="analysis.genomic_units"
+  :nominated_by="analysis.nominated_by"
+  :latest_status="analysis.latest_status"
+  :created_date="analysis.created_date"
+  :last_modified_date="analysis.last_modified_date"
+  />
 </template>
 
 <script>
