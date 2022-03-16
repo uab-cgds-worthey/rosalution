@@ -2,7 +2,7 @@
 <div class="analysis-card">
     <div class="analysis-base">
       <div class="case-status-info">
-        <div class="status-icon"><font-awesome-icon icon="clipboard-check" /></div>
+        <div class="status-icon"><font-awesome-icon icon="clipboard-check" size="xl"/></div>
         <span class="case-info">
           <div class="case-name">
               {{ name }}
@@ -48,7 +48,7 @@
         <li v-for="genomic_unit in genomic_units" :key="genomic_unit">{{ genomic_unit.transcript }}</li>
       </ul>
       <ul class="coordinates">
-        <!-- &lt;Chr,Pos,Ref,Alt&gt; -->
+        <!-- This will be revised when we update the incoming model from analyses.js -->
         <li v-bind:key="genomic_units" v-if="genomic_units">
            Chr{{ genomic_units[2].chromosome }}:{{ genomic_units[2].position }}
            {{ genomic_units[2].reference }}&gt;{{ genomic_units[2].alternate }}
@@ -59,7 +59,6 @@
 </template>
 
 <script>
-// import analysisList from '@/views/AnalysisListingView.vue';
 
 export default {
   name: 'analysis-card',
@@ -92,13 +91,6 @@ export default {
       type: Array,
     },
   },
-  computed: {
-    get_computed_value_coordinates() {
-      // const coordinates = '';
-      // return this.genomic_units.find(unit=>unit.chromosome===1);
-      return 'test';
-    },
-  },
 };
 
 </script>
@@ -110,25 +102,16 @@ div {
 }
 
 .analysis-card {
-  min-width: 14rem;
-  margin: .5rem .625rem .875rem .625rem;
-  padding: .5rem .625rem .875rem .625rem;
-  margin-right: auto;
-  display: block;
   position: relative;
-  /* float: right; */
-  top: 10px;
-  left: 10px;
-  right: 10px;
 }
 
 .analysis-base {
-  min-width: 13rem;
-  height: 18rem;
+  max-width: 11.25rem;
+  height: 18.125rem;
   flex-grow: 0;
-  padding: .5rem .625rem .875rem .625rem;
+  padding: .5rem .3125rem .875rem .3125rem;
   border-radius: 1.25rem;
-  border: solid .625rem #6496fe;
+  border: solid .625rem #0066FF;
   background-color: #fff;
   margin: 1rem;
   margin-right: 1rem;
@@ -147,7 +130,8 @@ div {
   flex-grow: 0;
   margin: .3937rem .5313rem 1.075rem .1875rem;
   padding: .1125rem .2562rem .275rem .2562rem;
-  background-color: #6496fe;
+  color: #0066FF;
+  justify-content: center;
 }
 
 .case-info{
@@ -156,10 +140,10 @@ div {
   flex-grow: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: left;
   align-items: left;
-  margin: .3937rem .5313rem 1.075rem .1875rem;
-  padding: .1125rem .2562rem .275rem .2562rem;
+  margin: .3937rem .5313rem 1.075rem 0rem;
+  padding: .1125rem .2562rem .275rem 0rem;
 }
 
 
@@ -190,14 +174,27 @@ div {
 }
 
 .top-border {
-  width: 10.625rem;
+  width: 9.375rem;
   height: .0625rem;
   flex-grow: 0;
   background-color: #979797;
+  justify-content: center;
+}
+
+.bottom-border {
+  width: 9.375rem;
+  height: .0625rem;
+  flex-grow: 0;
+  background-color: #979797;
+  border: none;
+  justify-content: center;
 }
 
 .date-info{
   display: flex;
+  width: 9.375rem;
+  height: 2.1981rem;
+  justify-content: center;
 }
 
 .case-added-info {
@@ -241,11 +238,12 @@ div {
 }
 
 .middle-separator {
-  width: 1.7px;
-  height: 35.2px;
+  width: .1062rem;
+  height: 2.2rem;
   flex-grow: 0;
   border: solid 0.75px #979797;
   background-color: #979797;
+  justify-content: center;
 }
 
 .last-modified-info{
@@ -286,14 +284,6 @@ div {
   letter-spacing: normal;
   text-align: center;
   color: #000;
-}
-
-.bottom-border {
-  width: 10.625rem;
-  height: .0625rem;
-  flex-grow: 0;
-  background-color: #979797;
-  border: none;
 }
 
 .gene-label {
