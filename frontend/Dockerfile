@@ -22,4 +22,5 @@ RUN yarn install --frozen-lockfile && yarn build
 
 FROM nginx:1.17.6-alpine as production-stage
 
+COPY etc/default.conf /etc/nginx/conf.d/
 COPY --from=production-build /app/dist/ /usr/share/nginx/html/

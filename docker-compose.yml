@@ -25,7 +25,7 @@ services:
   frontend:
     build:
       context: ./frontend/
-      target: development-stage
+      target: production-stage
       dockerfile: Dockerfile
     volumes:
       - ./frontend/src:/app/src
