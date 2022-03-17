@@ -23,5 +23,6 @@ then
     clean frontend
 fi
 
-
 install frontend
+
+./etc/etc-hosts.sh local.divergen.cgds

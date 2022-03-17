@@ -18,6 +18,8 @@ yarn-error.log*
 *.vcf
 *.graphql
 
+**/node_modules/**
+
 # e2e run captures
 /system-tests/screenshots
 /system-tests/videos
