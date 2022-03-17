@@ -1,44 +1,30 @@
 <template>
   <!--Header-->
-  <app-header>Header Box - Analysis Listing</app-header>
+  <app-header>diverGen</app-header>
   <!--Content-->
   <app-content>
-    <!-- Implicit -->
-    <font-awesome-icon icon="user" />
-    <font-awesome-icon icon="users" />
-    <font-awesome-icon icon="user-group" />
-    <font-awesome-icon icon="calendar" />
-    <font-awesome-icon icon="book-open" />
-    <font-awesome-icon icon="list" />
-    <font-awesome-icon icon="layer-group" />
-    <font-awesome-icon icon="box-archive" />
-    <font-awesome-icon icon="question" />
-    <font-awesome-icon icon="clock" />
-    <font-awesome-icon icon="clipboard-check" />
-
-    <br>
-
-    <!-- Explicit -->
-    <font-awesome-icon :icon="['fas', 'user']" />
-    <font-awesome-icon :icon="['fas', 'users']" />
-    <font-awesome-icon :icon="['fas', 'user-group']" />
-    <font-awesome-icon :icon="['fas', 'calendar']" />
-    <font-awesome-icon :icon="['fas', 'book-open']" />
-    <font-awesome-icon :icon="['fas', 'list']" />
-    <font-awesome-icon :icon="['fas', 'layer-group']" />
-    <font-awesome-icon :icon="['fas', 'box-archive']" />
-    <font-awesome-icon :icon="['fas', 'question']" />
-    <font-awesome-icon :icon="['fas', 'clock']" />
-    <font-awesome-icon :icon="['fas', 'clipboard-check']" />
+    <AnalysisCard
+    v-for="analysis in this.analysisList"
+    :key="analysis.id"
+    :name="analysis.name"
+    :description="analysis.description"
+    :genomic_units="analysis.genomic_units"
+    :nominated_by="analysis.nominated_by"
+    :latest_status="analysis.latest_status"
+    :created_date="analysis.created_date"
+    :last_modified_date="analysis.last_modified_date"
+    />
   </app-content>
 </template>
 
 <script>
 import Analyses from '@/models/analyses.js';
+import AnalysisCard from '../components/AnalysisListing/AnalysisCard.vue';
 
 export default {
   name: 'analysis-listing-view',
   components: {
+    AnalysisCard,
   },
   data: function() {
     return {
@@ -56,3 +42,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+app-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+</style>

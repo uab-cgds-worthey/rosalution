@@ -2,13 +2,13 @@ export default {
   async all() {
     return [
       {
-        analysis_id: '10f7aa04-6adf-4538-a700-ebe2f519473f',
+        id: '10f7aa04-6adf-4538-a700-ebe2f519473f',
         name: 'CPAM0046',
         description: ': LMNA-related congenital muscular dystropy',
         genomic_units: [
           {gene: 'LMNA'},
           {transcript: 'NM_170707.3'},
-          {chromosome: '1', position: 156134885, reference: 'C', alternate: 'T'},
+          {chromosome: '1', position: '156134885', reference: 'C', alternate: 'T'},
         ],
         nominated_by: 'Dr. Person Two',
         latest_status: 'Approved',
@@ -22,7 +22,7 @@ export default {
         genomic_units: [
           {gene: 'SBF1'},
           {transcript: 'NM_002972.2'},
-          {chromosome: '1', pos: '5474', ref: 'T', alt: 'G'},
+          {chromosome: '1', position: '5474', reference: 'T', alternate: 'G'},
         ],
         nominated_by: 'CMT4B3 Foundation',
         latest_status: 'Declined',
@@ -37,7 +37,7 @@ export default {
         genomic_units: [
           {gene: 'PEX10'},
           {transcript: 'NM_153818.2'},
-          {chromosome: '1', position: 2406528, reference: 'C', alternate: 'G'},
+          {chromosome: '1', position: '2406528', reference: 'C', alternate: 'G'},
         ],
         nominated_by: 'N/A',
         latest_status: 'Ready',
@@ -51,7 +51,7 @@ export default {
         genomic_units: [
           {gene: 'FOXG1'},
           {transcript: 'NM_005249.5'},
-          {chromosome: '1', pos: '924', ref: 'G', alt: 'A'},
+          {chromosome: '1', position: '924', reference: 'G', alternate: 'A'},
         ],
         nominated_by: 'Believe in a Cure Foundation',
         latest_status: 'Declined',
