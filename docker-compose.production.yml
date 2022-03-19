@@ -9,23 +9,21 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.stream.address=:3000"
     ports: 
       - 80:80
       - 8080:8080
-      - 3000:3000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - divergen-network
     labels:
-      - "traefik.enable=true"
+      - "traefik.enable=truec"
       - "traefik.docker.network=divergen-network"
   
   frontend:
     build:
       context: ./frontend/
-      target: development-stage
+      target: production-stage
       dockerfile: Dockerfile
     volumes:
       - ./frontend/src:/app/src
@@ -38,8 +36,6 @@ services:
       - "traefik.http.routers.frontend-router.rule=Host(`local.divergen.cgds`)"
       - "traefik.http.routers.frontend-router.service=frontend-web-service"
       - "traefik.http.services.frontend-web-service.loadbalancer.server.port=80"
-      - "traefik.http.routers.frontend-router.service=frontend-stream-service"
-      - "traefik.http.services.frontend-stream-service.loadbalancer.server.port=3000"
 
 networks:
   divergen-network:
