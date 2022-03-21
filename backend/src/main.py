@@ -6,7 +6,7 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get("/")
-def read_frothers():
+@app.get("/default")
+def read_root():
     """Returns Hello World"""
     return {"Hello": "World"}

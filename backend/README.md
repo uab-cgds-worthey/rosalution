@@ -23,3 +23,27 @@ Running the linter:
 
 pylint src tests
 ```
+
+## Running
+
+### Local Deployment
+
+From the `src` folder:
+
+```bash
+# From project source folder: ./src
+
+uvicorn main:app --reload
+```
+
+Now go to `localhost:port` in a web browser. It should show an output of { "Hello": "World" }.
+
+### Endpoints
+
+`/default`
+
+> [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+>
+>{
+> Hello: "World"
+>}
