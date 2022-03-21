@@ -56,6 +56,7 @@ pipeline {
         failure {
           sh 'curl --request POST --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "https://gitlab.rc.uab.edu/api/v4/projects/2491/statuses/${GIT_COMMIT}?state=failed&name=jenkins_unit_tests"'
         }
+      }
     }
   }
   post {
