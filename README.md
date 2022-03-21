@@ -20,11 +20,20 @@ using docker-compose.  Be sure that `./setup.sh` has been recently for any
 recent depdency updates to be installed in all of the subfolders.
 
 ```bash
-docker-compose up --build
+docker-compose up
 ```
 
-Run `docker-compose up --build -d` to start the application services in the
-background.
+To to deploy services in the background use the `-d` option
+
+```bash
+docker-compose up --build -d
+```
+
+To force images to re-build, use the `--build` option
+
+```bash
+docker-compose up --build
+```
 
 ## Production Build and Deployment
 
