@@ -41,6 +41,25 @@ pipeline {
         }
       }
     }
+    stage('Integration Test') {
+      agent {
+        docker { image 'gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/utility-images/unit-test-python:v0.4'}
+      }
+      steps {
+        withEnv(["HOME=${env.WORKSPACE}"]) {
+          sh 'cd backend && pip3 install -r Requirements.txt --user'
+          sh 'cd backend && pytest -s tests/integration'
+        }
+      }
+      post {
+        success {
+          sh 'curl --request POST --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "https://gitlab.rc.uab.edu/api/v4/projects/2491/statuses/${GIT_COMMIT}?state=success&name=jenkins_unit_tests"'
+        }
+        failure {
+          sh 'curl --request POST --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "https://gitlab.rc.uab.edu/api/v4/projects/2491/statuses/${GIT_COMMIT}?state=failed&name=jenkins_unit_tests"'
+        }
+      }
+    }
   }
   post {
 	success {
