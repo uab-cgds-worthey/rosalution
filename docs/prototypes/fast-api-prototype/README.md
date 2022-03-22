@@ -28,7 +28,7 @@ Now go to `localhost:port` in a web browser. It should show an output of { "Hell
 
 ## Docker
 
-One can run the FastAPI prototype in a docker container. 
+One can run the FastAPI prototype in a docker container.
 
 **Local Development Build:**
 
@@ -42,7 +42,7 @@ docker images
 # Grab the id from the container that was built for FastAPI prototype
 # Also, the docker run command seems to want the full path to the prototype folder in diverGen
 
-docker run -v <absolute_path_to_prototype>/fast-api-prototype/:/app/ -p 127.0.0.1:8000:8000 <image_id> 
+docker run -v <absolute_path_to_prototype>/fast-api-prototype/:/app/ -p 127.0.0.1:8000:8000 <image_id>
 ```
 
 **Local Production Build:**
@@ -57,7 +57,7 @@ docker images
 # Grab the id from the container that was built for FastAPI prototype
 # Also, the docker run command seems to want the full path to the prototype folder in diverGen
 
-docker run -v <absolute_path_to_prototype>/fast-api-prototype/:/app/ -p 127.0.0.1:8000:8000 <image_id> 
+docker run -v <absolute_path_to_prototype>/fast-api-prototype/:/app/ -p 127.0.0.1:8000:8000 <image_id>
 ```
 
 ### Endpoints
