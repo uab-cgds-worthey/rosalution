@@ -3,6 +3,7 @@ End points provided by Fast-API
 """
 import os
 import json
+import uvicorn
 
 from fastapi import FastAPI, HTTPException
 
@@ -55,3 +56,6 @@ async def read_item(item_id: int, query: str = None):
 async def pet_cat():
     """ Meow """
     return "=^.^= Meow"
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, log_level="info")

@@ -9,7 +9,7 @@ Project requirements are listed in the `requirement.txt` file at the project's r
 ```sh
 # From docs/prototypes/fast-api-prototypes
 
-pip install -r requirements.txt
+pip install -r requirements.txt --user
 ```
 
 ## Running
@@ -19,14 +19,59 @@ pip install -r requirements.txt
 From the `src` folder:
 
 ```bash
-# From project source folder: ./src
+# From the base project folder: docs/prototypes/fast-api-prototype
 
-uvicorn main:app --reload
+python3 src/main.py
 ```
 
 Now go to `localhost:port` in a web browser. It should show an output of { "Hello": "World" }.
 
+## Docker
+
+One can run the FastAPI prototype in a docker container. 
+
+**Local Development Build:**
+
+```bash
+# From the base project folder: docs/prototypes/fast-api-prototype
+
+docker build --target="development-stage" --tag="fast-api-prototype" -f "./Dockerfile" ./
+
+docker images
+
+# Grab the id from the container that was built for FastAPI prototype
+# Also, the docker run command seems to want the full path to the prototype folder in diverGen
+
+docker run -v <absolute_path_to_prototype>/fast-api-prototype/:/app/ -p 127.0.0.1:8000:8000 <image_id> 
+```
+
+**Local Production Build:**
+
+```bash
+# From the base project folder: docs/prototypes/fast-api-prototype
+
+docker build --target="production-stage" --tag="fast-api-prototype" -f "./Dockerfile" ./
+
+docker images
+
+# Grab the id from the container that was built for FastAPI prototype
+# Also, the docker run command seems to want the full path to the prototype folder in diverGen
+
+docker run -v <absolute_path_to_prototype>/fast-api-prototype/:/app/ -p 127.0.0.1:8000:8000 <image_id> 
+```
+
 ### Endpoints
+
+#### **diverGen Endpoints**
+
+`/analysis`
+>
+> [http://127.0.0.1:8000/analysis](http://127.0.0.1:8000/analysis)
+>
+>
+>Shows a list of analysis available for diverGen
+
+#### **Example FastAPI Endpoints**
 
 `/cat`
 
@@ -96,7 +141,7 @@ This project uses `pylint` as a linting tool.
 Running the linter:
 
 ```bash
-# From project root: ./
+# From prototype project root: docs/prototypes/fast-api-prototypes/
 
 pylint src tests
 ```
