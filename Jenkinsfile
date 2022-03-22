@@ -46,7 +46,7 @@ pipeline {
         docker { image 'gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/utility-images/unit-test-python:v0.4'}
       }
       steps {
-        sh 'cd backend && pip install --upgrade pip'
+        sh 'pip install --upgrade pip'
         sh 'cd backend && pip install --user -r Requirements.txt'
         sh 'cd backend && pytest -s tests/integration'
       }
