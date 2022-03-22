@@ -18,8 +18,7 @@ async def get_analysis_listing():
     path_to_current_file = os.path.realpath(__file__)
     current_directory = os.path.split(path_to_current_file)[0]
     path_to_file = os.path.join(current_directory, "../models/analyses.json")
-    # file_to_open = open(path_to_file, mode = 'r', encoding = 'utf-8')
-    with open(path_to_file, mode = 'r', encoding = 'utf-8') as file_to_open:
+    with open(path_to_file, mode='r', encoding='utf-8') as file_to_open:
         data = json.load(file_to_open)
         file_to_open.close()
 
