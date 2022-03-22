@@ -1,6 +1,7 @@
 """
 End points provided by Fast-API
 """
+import json
 
 import os
 import json
@@ -58,3 +59,12 @@ async def read_item(item_id: int, query: str = None):
 async def pet_cat():
     """ Meow """
     return "=^.^= Meow"
+
+@app.get('/analysis/')
+async def get_analysis_listing():
+    """ Returns every analysis available"""
+    f = open('../models/analyses.json')
+    data = json.load(f)
+    f.close()
+
+    return data
