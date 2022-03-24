@@ -40,9 +40,20 @@ Now go to `localhost:port` in a web browser. It should show an output of { "Hell
 
 ### Endpoints
 
+#### **diverGen Endpoints**
+
+`/analysis`
+>
+> [http://127.0.0.1:8000/analysis](http://127.0.0.1:8000/analysis)
+>
+>
+>Shows a list of analysis available for diverGen
+
+#### **Test Endpoints**
+
 `/default`
 
-> [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+> [http://127.0.0.1:8000/default](http://127.0.0.1:8000/default)
 >
 >{
 > Hello: "World"
