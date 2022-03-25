@@ -1,5 +1,14 @@
+import Requests from '@/requests.js';
 export default {
   async all() {
+    const baseUrl = '/models/';
+    const urlQuery = 'analysis?query={ analyses { _id, name, annotations, created_date, last_modified_date,' +
+      'latest_status, samples { _id, name }} }';
+    const body = await Requests.get(baseUrl + urlQuery);
+    if ('errors' in body.data) {
+      const errorString = body.data.errors.map((error) => error.message).join('; ');
+      throw new Error('Failed to fetch analyses: ' + errorString);
+    }
     return [
       {
         id: '10f7aa04-6adf-4538-a700-ebe2f519473f',
