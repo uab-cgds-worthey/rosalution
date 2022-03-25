@@ -3,9 +3,8 @@ End points for backend
 """
 import os
 import json
-import uvicorn
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 
 app = FastAPI()
 
