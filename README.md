@@ -13,6 +13,12 @@ localhost.
 ./setup.sh
 ```
 
+Note for Windows Subsystem Linux users, to update the `/etc/hosts` in WSL2,
+you must manually update the file on the Windows side located in
+`C:\Windows\System32\drivers\etc` as an administrator and restart the Linux
+Subsystem by running the following in Powershell as an administrator 
+`Restart-Service LxssManager*`.
+
 ## Local Development
 
 For local development, deploy the application from the project root directory
