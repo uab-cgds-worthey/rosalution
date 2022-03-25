@@ -38,6 +38,40 @@ uvicorn main:app --reload
 
 Now go to `localhost:port` in a web browser. It should show an output of { "Hello": "World" }.
 
+## Docker
+
+To run the backend service in a docker container.
+
+**Local Development Build:**
+
+```bash
+# From the base project folder: /backend
+
+docker build --target="development-stage" --tag="backend" -f "./Dockerfile" ./
+
+docker images
+
+# Grab the id from the container that was built for backend
+# Also, the docker run command seems to want the full path to the diverGen folder
+
+docker run -v <absolute_path_to_divergen>/backend/:/app/ -p 127.0.0.1:8000:8000 <image_id>
+```
+
+**Local Production Build:**
+
+```bash
+# From the base project folder: /backend
+
+docker build --target="production-stage" --tag="backend" -f "./Dockerfile" ./
+
+docker images
+
+# Grab the id from the container that was built for backend
+# Also, the docker run command seems to want the full path to the diverGen folder
+
+docker run -v <absolute_path_to_divergen>/fast-api-prototype/:/app/ -p 127.0.0.1:8000:8000 <image_id>
+```
+
 ### Endpoints
 
 #### **diverGen Endpoints**
