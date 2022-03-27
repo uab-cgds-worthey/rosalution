@@ -17,7 +17,7 @@ import {
   faBoxArchive, faQuestion, faClock, faClipboardCheck, faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 
 library.add(
-  faAsterisk, faPause, faCheck, faX, faMagnifyingGlass, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList,
+    faAsterisk, faPause, faCheck, faX, faMagnifyingGlass, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList,
     faLayerGroup, faBoxArchive, faQuestion, faClock, faClipboardCheck);
 
 const routes = [

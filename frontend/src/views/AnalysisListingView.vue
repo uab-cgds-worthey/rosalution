@@ -33,7 +33,7 @@ export default {
   components: {
     AnalysisCard,
     AnalysisListingHeader,
-    AnalysisListingLegend
+    AnalysisListingLegend,
   },
   data: function() {
     return {
@@ -44,20 +44,20 @@ export default {
   computed: {
     searchedAnalysisListing() {
       return this.searchQuery === '' ? this.analysisList : this.analysisList.filter( (analysis) => {
-          return analysis.name.includes(this.searchQuery) || 
+        return analysis.name.includes(this.searchQuery) ||
           analysis.genomic_units.some((unit) => {
             console.log(unit.gene);
-            if(unit.gene !== undefined) {
-              console.log("returning true for gene")
+            if (unit.gene !== undefined) {
+              console.log('returning true for gene');
               return unit.gene.includes(this.searchQuery);
-            } else if( unit.transcript !== undefined ) {
+            } else if ( unit.transcript !== undefined ) {
               return unit.transcript.includes(this.searchQuery);
             }
-            
+
             return false;
-          })
-      })
-    }
+          });
+      });
+    },
   },
   created() {
     this.getListing();
@@ -68,9 +68,9 @@ export default {
       this.analysisList.push(...await Analyses.all());
     },
     onSearch(query) {
-      this.searchQuery = query
-      console.log(`from listing view: ${this.searchQuery}`)
-    }
+      this.searchQuery = query;
+      console.log(`from listing view: ${this.searchQuery}`);
+    },
   },
 };
 </script>

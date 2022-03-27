@@ -1,6 +1,6 @@
 <template>
   <header>
-    <img src="@/assets/diverGen-logo.svg" class="diverGen-logo">      
+    <img src="@/assets/diverGen-logo.svg" class="diverGen-logo">
     <div data-test="primary-content" class="content">
       <span class="title">diverGen</span>
       <div class="search">
@@ -69,7 +69,7 @@ header .content {
   background-color: #f3f5f9;
   border:none;
   outline:none;
-  font-size: 1.125rem; 
+  font-size: 1.125rem;
   line-height: 1.75rem;
   flex: 1;
 }
@@ -80,7 +80,7 @@ header .content {
 }
 
 .login {
-  font-size: 1.125rem; 
+  font-size: 1.125rem;
   line-height: 2rem;
 }
 </style>
@@ -91,8 +91,8 @@ export default {
   name: 'header-component',
   methods: {
     onSearch(event) {
-     this.$emit('search', event.target.value)
-    }
-  }
+      this.$emit('search', event.target.value);
+    },
+  },
 };
 </script>
