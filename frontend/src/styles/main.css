@@ -4,6 +4,13 @@
 
 body {
   font-family: "proxima-nova", sans-serif;
+  background-color: #F3F5F9;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 #app {
@@ -13,8 +20,8 @@ body {
   display: grid;
   grid-template-rows: auto 1fr auto;
   grid-auto-columns: 1fr;
-  background-color: #fff;
   color: #444;
+  padding: 0.625rem;
 }
 
 app-header {

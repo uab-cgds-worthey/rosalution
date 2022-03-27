@@ -13,11 +13,11 @@ import './styles/main.css';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {
-  faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList, faLayerGroup,
-  faBoxArchive, faQuestion, faClock, faClipboardCheck} from '@fortawesome/free-solid-svg-icons';
+  faAsterisk, faPause, faCheck, faX, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList, faLayerGroup,
+  faBoxArchive, faQuestion, faClock, faClipboardCheck, faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 
 library.add(
-    faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList,
+  faAsterisk, faPause, faCheck, faX, faMagnifyingGlass, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList,
     faLayerGroup, faBoxArchive, faQuestion, faClock, faClipboardCheck);
 
 const routes = [
