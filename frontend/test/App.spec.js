@@ -36,6 +36,5 @@ test('Contains a the <router-view> to display the application with routes', () =
     },
   });
 
-  console.log(wrapper.html());
   expect(wrapper.find('router-view-stub').exists()).toBe(true);
 });
