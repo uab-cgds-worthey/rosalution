@@ -5,7 +5,7 @@
       <span class="title left-content">diverGen</span>
       <div class="search">
         <font-awesome-icon icon="magnifying-glass" size="l" class="search-icon"></font-awesome-icon>
-        <input type="search" @input="onSearch" placeholder="Search">
+        <input data-test="analysis-search" type="search" @input="onSearch" placeholder="Search">
       </div>
       <span class="login">LOGIN</span>
     </div>

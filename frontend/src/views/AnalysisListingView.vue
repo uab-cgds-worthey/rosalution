@@ -46,9 +46,7 @@ export default {
       return this.searchQuery === '' ? this.analysisList : this.analysisList.filter( (analysis) => {
         return analysis.name.includes(this.searchQuery) ||
           analysis.genomic_units.some((unit) => {
-            console.log(unit.gene);
             if (unit.gene !== undefined) {
-              console.log('returning true for gene');
               return unit.gene.includes(this.searchQuery);
             } else if ( unit.transcript !== undefined ) {
               return unit.transcript.includes(this.searchQuery);
@@ -69,7 +67,6 @@ export default {
     },
     onSearch(query) {
       this.searchQuery = query;
-      console.log(`from listing view: ${this.searchQuery}`);
     },
   },
 };
