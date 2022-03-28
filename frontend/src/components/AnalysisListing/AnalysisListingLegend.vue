@@ -1,16 +1,16 @@
 <template>
   <div class="legend">
-  <font-awesome-icon icon="asterisk" size="xl" style="color: #feca0f;"/>
+  <font-awesome-icon icon="asterisk" size="xl" style="color: var(--divergen-yellow-200);"/>
   <p>Annotating</p>
-  <font-awesome-icon icon="clipboard-check" size="xl" style="color: #0066FF;"/>
+  <font-awesome-icon icon="clipboard-check" size="xl" style="color: var(--divergen-blue-200);"/>
   <p>Ready</p>
-  <font-awesome-icon icon="book-open" size="xl" style="color: #00c036"/>
+  <font-awesome-icon icon="book-open" size="xl" style="color: var(--divergen-green-200)"/>
   <p>Active</p>
-  <font-awesome-icon icon="pause" size="xl" style="color: ced2fe"/>
+  <font-awesome-icon icon="pause" size="xl" style="color: var(--cgds-blue-100)"/>
   <p>On Hold</p>
-  <font-awesome-icon icon="check" size="xl" style="color: 13cec3"/>
+  <font-awesome-icon icon="check" size="xl" style="color: var(--divergen-teal-200)"/>
   <p>Approved</p>
-  <font-awesome-icon icon="x" size="xl" style="color: c4c4c4"/>
+  <font-awesome-icon icon="x" size="xl" style="color: var(--divergen-grey-200)"/>
   <p>Declined</p>
   </div>
 </template>
@@ -24,9 +24,9 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  border-radius: 10px;
-  padding: 10px;
-  background-color: white;
+  border-radius: var(--content-border-radius);
+  padding: var(--p-8);
+  background-color: var(--secondary-background-color);
 }
 
 .legend p {

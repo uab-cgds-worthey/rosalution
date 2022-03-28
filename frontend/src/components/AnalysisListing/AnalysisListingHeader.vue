@@ -2,7 +2,7 @@
   <header>
     <img src="@/assets/diverGen-logo.svg" class="diverGen-logo">
     <div data-test="primary-content" class="content">
-      <span class="title">diverGen</span>
+      <span class="title left-content">diverGen</span>
       <div class="search">
         <font-awesome-icon icon="magnifying-glass" size="l" class="search-icon"></font-awesome-icon>
         <input type="search" @input="onSearch" placeholder="Search">
@@ -18,7 +18,7 @@ header {
   display: flex;
   flex-direction: row;
   gap: 15px;
-  background-color: #F3F5F9;
+  background-color: var(--primary-background-color);
 }
 
 img.diverGen-logo {
@@ -32,57 +32,53 @@ header .content {
   flex: 1 1 auto;
   align-items: center;
   gap: 12px;
-  padding: .5rem;
-  border-radius: 10px;
-  background-color: white;
+  padding: var(--p-8);
+  border-radius: var(--content-border-radius);
+  background-color: var(--secondary-background-color);
 }
 
-.title {
+header .left-content {
   flex: 0;
-  font-size: 1.5rem;
-  line-height: 2rem;
-  font-weight: 700;
 }
 
 .search {
   flex: 1 1 auto;
   display: inline-flex;
   align-items: center;
-  padding: 0.313rem;
+  padding: var(--p-5);
   border: 1px solid transparent;
-  border-radius: 10px;
-  background-color: #f3f5f9;
+  border-radius: var(--content-border-radius);
+  background-color: var(--primary-background-color);
 }
 
 .search:hover, .search:focus, .search:focus-within{
-  border: 1px solid rgb(69 28 137);
+  border: 1px solid var(--divergen-purple-300);
   box-shadow:  0px 0 0 4px rgba(69, 28, 137, 0.10);
-  background-color: white;
+  background-color: var(--secondary-background-color);
 }
 
 .search svg{
-  padding:0.25rem;
+  padding:var(--p-5);
 }
 
-
 .search input {
-  background-color: #f3f5f9;
+  background-color: var(--primary-background-color);
   border:none;
   outline:none;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
   flex: 1;
 }
 
 .search input:hover,
 .search input:focus {
-  background-color:white;
+  background-color:var(--secondary-background-color);
 }
 
+/** todo: need to figure out what this style ought to be */
 .login {
   font-size: 1.125rem;
   line-height: 2rem;
 }
+
 </style>
 
 
