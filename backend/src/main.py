@@ -3,6 +3,7 @@ End points for backend
 """
 import os
 import json
+import uvicorn
 
 from fastapi import FastAPI
 
@@ -30,3 +31,6 @@ async def get_analysis_listing():
 def read_root():
     """Returns Hello World"""
     return {"Hello": "World"}
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, log_level="info")

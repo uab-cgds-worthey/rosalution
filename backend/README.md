@@ -54,7 +54,7 @@ docker images
 # Grab the id from the container that was built for backend
 # Also, the docker run command seems to want the full path to the diverGen folder
 
-docker run -v <absolute_path_to_divergen>/backend/:/app/ -p 127.0.0.1:8000:8000 <image_id>
+docker run -v <absolute_path_to_backend>:/app/ -p 127.0.0.1:8000:8000 <image_id>
 ```
 
 **Local Production Build:**
@@ -69,7 +69,7 @@ docker images
 # Grab the id from the container that was built for backend
 # Also, the docker run command seems to want the full path to the diverGen folder
 
-docker run -v <absolute_path_to_divergen>/fast-api-prototype/:/app/ -p 127.0.0.1:8000:8000 <image_id>
+docker run -v <absolute_path_to_backend>/:/app/ -p 127.0.0.1:8000:8000 <image_id>
 ```
 
 ### Endpoints
