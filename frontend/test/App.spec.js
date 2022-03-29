@@ -8,7 +8,7 @@ import AnalysisListingView from '../src/views/AnalysisListingView.vue';
 import AnalysisCreateView from '../src/views/AnalysisCreateView.vue';
 import AboutView from '../src/views/AboutView.vue';
 
-test('Contains a <sidebar> tag with a <navigation> component', () => {
+test('Contains a the <router-view> to display the application with routes', () => {
   const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -36,6 +36,5 @@ test('Contains a <sidebar> tag with a <navigation> component', () => {
     },
   });
 
-  expect(wrapper.find('app-sidebar').exists()).toBe(true);
-  expect(wrapper.find('navigation-component-stub').exists()).toBe(true);
+  expect(wrapper.find('router-view-stub').exists()).toBe(true);
 });

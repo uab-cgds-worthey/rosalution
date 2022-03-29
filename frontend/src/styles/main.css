@@ -1,46 +1,103 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/** || Variables **/
+
+html {
+  --cgds-blue-100: #CED2FE; /** delphi-blue-100 within figma documentation **/
+  
+  --divergen-blue-200: #0066FF;
+  --divergen-green-200: #00C036;
+  --divergen-purple-100: #D9C2FF;
+  --divergen-purple-200: #7E64A9;
+  --divergen-purple-300:#451C89;
+  --divergen-teal-200: #13CEC3;
+  --divergen-yellow-200: #FECA0F;
+  --divergen-grey-200: #C4C4C4;
+  --divergen-black: black;
+  --divergen-white: white;
+  
+  --primary-background-color: #F3F5F9;
+  --secondary-background-color: var(--divergen-white);
+  
+  --content-border-radius: 10px;
+  
+  --p-5: 0.313rem;
+  --p-8: 0.5rem;
+  --p-10: 0.625rem;
+}
+
+/** || General Styles **/
 
 body {
   font-family: "proxima-nova", sans-serif;
+  font-size: 1.125rem; /* 18px */
+  background-color: var(--primary-background-color);
 }
 
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+h2 {
+  font-size: 1.5rem; /* 24px */
+  font-weight: 700;
+}
+
+a {
+  color: var(--divergen-purple-300);
+}
+
+a:hover {
+  color: var(--divergen-purple-200);
+}
+
+a:active {
+  color: var(--divergen-purple-100);
+}
+
+input {
+  font-size: 1.125rem; /* 18px */
+}
+
+/** || Primary Grid Site Layout **/
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  grid-auto-columns: 10rem 1fr;
-  background-color: #fff;
+  grid-auto-columns: 1fr;
   color: #444;
+  padding: 0.625rem;
 }
 
 app-header {
-  border: 1px solid black; 
-  grid-column: 2;
-  height: 5rem;
-}
-
-app-sidebar {
-  text-align: center;
-  border: 1px solid black;
   grid-column: 1;
-  grid-row: 1/-1;
-  height: 100vh;
 }
 
 app-content {
-  border: 1px solid black;
-  grid-column: 2;
+  grid-column: 1;
   grid-row: 2;
 }
 
 app-footer {
-  border: 1px solid black;
-  grid-column: 2;
+  grid-column: 1;
   grid-row: 3;
   height: 3rem;
 }
+
+/** || Typography **/
+
+.title {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+}
+
+.header-text {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+}
+

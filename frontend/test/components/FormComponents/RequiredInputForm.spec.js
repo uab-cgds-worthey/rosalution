@@ -80,8 +80,6 @@ describe('RequiredInputForm.vue', () => {
 
     const tableRowButton = coordinateTableRows[0].find('button');
 
-    console.log(coordinateTableRows);
-
     expect(coordinateTableRows.length).to.equal(4);
 
     await tableRowButton.trigger('click');

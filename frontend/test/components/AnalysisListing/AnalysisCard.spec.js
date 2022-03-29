@@ -1,16 +1,17 @@
 import {expect, describe, it} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
-// import {expect} from 'chai';
 
 import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
 
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+
 /**
- * helper function that mounts and returns the rendered component
- * @param {propsData} propsData render the analysis card component with
- * @return {Wrapper} returns a shallow mounted analysis card component with props data
+ * helper function that shadllow mounts and returns the rendered component
+ * @param {props} props props for testing to overwrite default props
+ * @return {VueWrapper} returns a shallow mounted using props
  */
-function getMountedComponent(propsData) {
-  const defaultPropsData = {
+function getMountedComponent(props) {
+  const defaultProps = {
     id: '10f7aa04-6adf-4538-a700-ebe2f519473f',
     name: 'CPAM0046',
     description: ': LMNA-related congenital muscular dystropy',
@@ -26,7 +27,12 @@ function getMountedComponent(propsData) {
   };
 
   return shallowMount(AnalysisCard, {
-    propsData: {...defaultPropsData, ...propsData},
+    props: {...defaultProps, ...props},
+    global: {
+      components: {
+        'font-awesome-icon': FontAwesomeIcon,
+      },
+    },
   });
 }
 
