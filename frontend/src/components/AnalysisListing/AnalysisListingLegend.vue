@@ -1,16 +1,16 @@
 <template>
   <div class="legend">
-    <font-awesome-icon icon="asterisk" size="xl" style="color: var(--divergen-yellow-200);"/>
+    <font-awesome-icon icon="asterisk" size="lg" style="color: var(--divergen-yellow-200);"/>
     <p>Annotating</p>
-    <font-awesome-icon icon="clipboard-check" size="xl" style="color: var(--divergen-blue-200);"/>
+    <font-awesome-icon icon="clipboard-check" size="lg" style="color: var(--divergen-blue-200);"/>
     <p>Ready</p>
-    <font-awesome-icon icon="book-open" size="xl" style="color: var(--divergen-green-200)"/>
+    <font-awesome-icon icon="book-open" size="lg" style="color: var(--divergen-green-200)"/>
     <p>Active</p>
-    <font-awesome-icon icon="pause" size="xl" style="color: var(--cgds-blue-100)"/>
+    <font-awesome-icon icon="pause" size="lg" style="color: var(--cgds-blue-100)"/>
     <p>On Hold</p>
-    <font-awesome-icon icon="check" size="xl" style="color: var(--divergen-teal-200)"/>
+    <font-awesome-icon icon="check" size="lg" style="color: var(--divergen-teal-200)"/>
     <p>Approved</p>
-    <font-awesome-icon icon="x" size="xl" style="color: var(--divergen-grey-200)"/>
+    <font-awesome-icon icon="x" size="lg" style="color: var(--divergen-grey-200)"/>
     <p>Declined</p>
   </div>
 </template>

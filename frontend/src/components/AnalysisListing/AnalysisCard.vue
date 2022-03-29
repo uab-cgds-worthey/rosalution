@@ -2,7 +2,7 @@
 <div class="analysis-card">
     <div class="analysis-base">
       <div class="case-status-info">
-        <div class="status-icon"><font-awesome-icon icon="clipboard-check" size="xl"/></div>
+        <div class="status-icon"><font-awesome-icon icon="clipboard-check" size="lg"/></div>
         <span class="case-info">
           <div class="case-name">
               {{ name }}
