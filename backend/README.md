@@ -36,7 +36,7 @@ From the `src` folder:
 uvicorn main:app --reload
 ```
 
-Now go to `localhost:port` in a web browser. It should show an output of { "Hello": "World" }.
+Now go to `localhost:port` in a web browser.
 
 ## Docker
 
