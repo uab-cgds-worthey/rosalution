@@ -47,6 +47,8 @@ To run the backend service in a docker container.
 ```bash
 # From the base project folder: /backend
 
+docker system prune -a --volumes
+
 docker build --target="development-stage" --tag="backend" -f "./Dockerfile" ./
 
 docker images
@@ -54,13 +56,15 @@ docker images
 # Grab the id from the container that was built for backend
 # Also, the docker run command seems to want the full path to the diverGen folder
 
-docker run -v <absolute_path_to_backend>:/app/ -p 127.0.0.1:8000:8000 <image_id>
+docker run -v <absolute_path_to_backend>/:/app/ -p 127.0.0.1:8000:8000 <image_id>
 ```
 
 **Local Production Build:**
 
 ```bash
 # From the base project folder: /backend
+
+docker system prune -a --volumes
 
 docker build --target="production-stage" --tag="backend" -f "./Dockerfile" ./
 

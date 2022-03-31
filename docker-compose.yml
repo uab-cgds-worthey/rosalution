@@ -40,6 +40,25 @@ services:
       - "traefik.http.services.frontend-web-service.loadbalancer.server.port=80"
       - "traefik.http.routers.frontend-router.service=frontend-stream-service"
       - "traefik.http.services.frontend-stream-service.loadbalancer.server.port=3000"
+  
+  backend:
+    build:
+      context: ./backend/
+      target: development-stage
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend/:/app
+    networks:
+      - divergen-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=divergen-network"
+      - "traefik.http.routers.backend-router.entrypoints=web"
+      - "traefik.http.routers.backend-router.rule=Host(`local.divergen.cgds`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.backend-router.service=backend-api-service"
+      - "traefik.http.routers.backend-router.middlewares=backend-strip-prefix"
+      - "traefik.http.middlewares.backend-strip-prefix.stripprefix.prefixes=/api"
+      - "traefik.http.services.backend-api-service.loadbalancer.server.port=8000"
 
 networks:
   divergen-network:
