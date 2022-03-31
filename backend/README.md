@@ -102,7 +102,7 @@ docker run -v <absolute_path_to_backend>/:/app/ -p 127.0.0.1:8000:8000 <image_id
 The backend service uses `pytest` as a testing framework for the Python code. The tests are broken out into unit,
 integration, and system tests.
 
-Note: The `-s` flag for the pytest routes the standard out to the console. It allows the `print()` statement to log 
+Note: The `-s` flag for the pytest routes the standard out to the console. It allows the `print()` statement to log
 output of variables for development purposes.
 
 From the root `./` directory of the project:
