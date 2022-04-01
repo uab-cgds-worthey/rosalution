@@ -23,7 +23,7 @@ Subsystem by running the following in Powershell as an administrator
 
 For local development, deploy the application from the project root directory
 using docker-compose.  Be sure that `./setup.sh` has been recently for any
-recent depdency updates to be installed in all of the subfolders.
+recent dependency updates to be installed in all of the subfolders.
 
 ```bash
 docker-compose up
