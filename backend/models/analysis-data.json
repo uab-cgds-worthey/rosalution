@@ -3,31 +3,32 @@
         "id": "160d1134-784d-42f0-a839-7a88ea26f530",
         "name": "CPAM0002",
         "description": "Vacuolar myopathy with autophagy, X-linked vacuolar myopathy with autophagy",
-        "gene/variant": {
-            "genomic_units": [
-                {
-                    "gene": "VMA21"
-                },
-                {
-                    "transcript": "NPM_001017980.3"
-                },
-                {
-                    "chromosome": "1",
-                    "position": "Cannot calculate Position",
-                    "reference": "C",
-                    "alternate": "T"
+        "genomic_units": [
+            {
+                "id": "76767676767",
+                "gene": "VMA21",
+                "transcripts": [
+                    {
+                        "id": "7623683272",
+                        "transcript": "NPM_001017980.3"
+                    }
+                ],
+                "variants": [
+                    {
+                        "id": "23456798765",
+                        "hgvs_variant": "NPM_001017980.3:c.164G>T",
+                        "c_dot": "c.164G>T",
+                        "p_dot": "p.Gly55Val",
+                        "build": "grch38",
+                        "case": [
+                            {"Evidence": ["PVS1", "PM2"]},
+                            {"Other Datasource": ["PVS1","PM2"]},
+                            {"Interpretation": "Likely Pathogenic"}
+                    ]
                 }
-            ],
-            "Phenotips Evidence": [
-                "PVS1",
-                "PM2"
-            ],
-            "Other Datasource": [
-                "PVS1",
-                "PM2"
-            ],
-            "Interpretation": "Likely Pathogenic"
-        },
+                ]
+            }
+        ],
         "DMD": {
             "Interpretation": "Variant of Uncertain Significance"
         },
@@ -77,27 +78,30 @@
         "gene/variant": {
             "genomic_units": [
                 {
-                    "gene": "LMNA"
-                  },
-                  {
-                    "transcript": "NM_170707.3"
-                  },
-                  {
-                    "chromosome": "1",
-                    "position": 156134885,
-                    "reference": "C",
-                    "alternate": "T"
-                  }
-            ],
-            "Evidence": [
-                "PS2",
-                "PS3",
-                "PM2",
-                "PP3",
-                "PP5"
-            ],
-            "Interpretation": "Pathogenic",
-            "Inheritance": "De Novo"
+                    "id": "986058373",
+                    "gene": "LMNA",
+                    "transcripts": [
+                        {
+                            "id": "623847q829",
+                            "transcript": "NM_170707.3"
+                        }
+                    ],
+                    "variants": [
+                        {
+                            "id": "98765456789",
+                            "hgvs_variant": "NM_170707.3:c.745C>T",
+                            "c_dot": "c.745C>T",
+                            "p_dot": "p.R249W",
+                            "build": "grch38",
+                            "case": [
+                                {"Evidence": ["PS2","PS3","PM2","PP3","PP5"]},
+                                {"Interpretation": "Pathogenic"},
+                                {"Inheritance": "De Novo"}
+                            ]
+                        }
+                    ]
+                }
+            ]
         },
         "Brief": {
             "Nominated": "Dr. Person Two (Local) - working with Dr. Person Three in Person Four Lab",
@@ -136,54 +140,43 @@
         "id": "10342gs4-6adf-4538-a700-ebef319473f",
         "name": "CPAM0053",
         "description": "Mild Zellweger Spectrum Disorder, a Peroxisome Biogenesis Disorder",
-        "gene": "PEX10",
-        "gene/variant": [
+        "genomic_units": [
             {
-                "genomic_units": [
+                "id": "432432432432",
+                "gene": "PEX10", 
+                "transcripts": [
                     {
-                        "gene": "PEX10"
-                    },
-                    {
+                        "id": "343243242432432",
                         "transcript": "NM_153818.2"
-                    },
-                    {
-                        "chromosome": "1",
-                        "position": "Unsure of position here",
-                        "reference": "C",
-                        "alternate": "Unsure of alternate here"
                     }
                 ],
-                "Evidence": [
-                    "PVS1",
-                    "PM2",
-                    "PP5"
-                ],
-                "Interpretation": "Pathogenic",
-                "Zygosity": "Compound Hetrozygous",
-                "Inheritance": "Autosomal Recesive"
-            },
-            {
-                "genomic_units": [
+                "variants": [ 
                     {
-                        "gene": "PEX10"
-                    },
+                        "id": "5678125678",
+                        "hgvs_variant": "NM_153818.2:c.28dup",
+                        "c_dot": "c.28dup",
+                        "p_dot": "p.Glu10fs", 
+                        "build": "grch19",
+                        "case": [
+                            {"Evidence": ["PVS1", "PM2","PP5"]},
+                            {"Interpretation": "Pathogenic"},
+                            {"Zygosity": "Compound Hetrozygous"},
+                            {"Inheritance": "Autosomal Recesive"}
+                        ]
+                    }, 
                     {
-                        "transcript": "NM_153818.2"
-                    },
-                    {
-                        "chromosome": "1",
-                        "position": "2406528",
-                        "reference": "C",
-                        "alternate": "G"
+                        "id": "12345678",
+                        "hgvs_variant": "NM_153818.2:c.928G>G",
+                        "c_dot": "c.928G>G",
+                        "p_dot": "p.His310Asp", 
+                        "build": "grch19",
+                        "case": [
+                            {"Evidence": ["PM2", "PM5", "PP3"]},
+                            {"Interpretation": "Variant of Unknown Signifigance"},
+                            {"Zygosity": "Compound Hetrozygous"}
+                        ]
                     }
-                ],
-                "Evidence": [
-                    "PM2",
-                    "PM5",
-                    "PP3"
-                ],
-                "Interpretation": "Variant of Unknown Significance",
-                "Zygosity": "Compound Hetrozygous"
+                ]
             }
         ],
         "Brief": {
