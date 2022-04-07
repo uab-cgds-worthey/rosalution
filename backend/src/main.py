@@ -37,16 +37,14 @@ async def get_analysis_by_id():
     with open(path_to_file, mode='r', encoding='utf-8') as file_to_open:
         analyses = json.load(file_to_open)
         file_to_open.close()
-    
     for analysis in analyses:
         analysis_id = analysis.get('id')
-        if(analysis_id == "160d1134-784d-42f0-a839-7a88ea26f530"):
-            # Finding Case CPAM0053
+        if analysis_id == "160d1134-784d-42f0-a839-7a88ea26f530":
+            # Finding Case CPAM0002
             result = analysis
             break
 
     return result
-
 
 @app.get('/analysis/CPAM0046')
 async def get_analysis_by_id():
@@ -59,16 +57,14 @@ async def get_analysis_by_id():
     with open(path_to_file, mode='r', encoding='utf-8') as file_to_open:
         analyses = json.load(file_to_open)
         file_to_open.close()
-    
     for analysis in analyses:
         analysis_id = analysis.get('id')
-        if(analysis_id == "10f7aa04-6adf-4538-a700-ebe2f519473f"):
-            # Finding Case CPAM0053
+        if analysis_id == "10f7aa04-6adf-4538-a700-ebe2f519473f":
+            # Finding Case CPAM0046
             result = analysis
             break
 
     return result
-
 
 @app.get('/analysis/CPAM0053')
 async def get_analysis_by_id():
@@ -81,10 +77,9 @@ async def get_analysis_by_id():
     with open(path_to_file, mode='r', encoding='utf-8') as file_to_open:
         analyses = json.load(file_to_open)
         file_to_open.close()
-    
     for analysis in analyses:
         analysis_id = analysis.get('id')
-        if(analysis_id == "10342gs4-6adf-4538-a700-ebef319473f"):
+        if analysis_id == "10342gs4-6adf-4538-a700-ebef319473f":
             # Finding Case CPAM0053
             result = analysis
             break
