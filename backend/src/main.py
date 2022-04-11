@@ -5,7 +5,7 @@ import os
 import json
 import uvicorn
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
 
@@ -18,12 +18,39 @@ async def get_analysis_listing():
     # Better variable names need to be devised.
     path_to_current_file = os.path.realpath(__file__)
     current_directory = os.path.split(path_to_current_file)[0]
-    path_to_file = os.path.join(current_directory, "../models/analyses.json")
+    path_to_file = os.path.join(current_directory, "../fixtures/analyses.json")
     with open(path_to_file, mode='r', encoding='utf-8') as file_to_open:
         data = json.load(file_to_open)
         file_to_open.close()
 
     return data
+
+
+def find_analysis_by_name(name: str):
+    """ Returns analysis by searching for id"""
+    path_to_current_file = os.path.realpath(__file__)
+    current_directory = os.path.split(path_to_current_file)[0]
+    path_to_file = os.path.join(current_directory, "../fixtures/analysis-data.json")
+    with open(path_to_file, mode='r', encoding='utf-8') as file_to_open:
+        analyses = json.load(file_to_open)
+        file_to_open.close()
+    for analysis in analyses:
+        analysis_name = analysis.get('name')
+        if analysis_name == name:
+            return analysis
+
+    return None
+
+@app.get('/analysis/{name}')
+async def get_analysis_by_name(name: str):
+    """ Returns analysis case data by calling method to find case by it's name"""
+    if name == 'CPAM0002':
+        return find_analysis_by_name("CPAM0002")
+    if name == 'CPAM0046':
+        return find_analysis_by_name("CPAM0046")
+    if name == 'CPAM0053':
+        return find_analysis_by_name("CPAM0053")
+    raise HTTPException(status_code=404, detail="Item not found")
 
 ## Test endpoints
 
