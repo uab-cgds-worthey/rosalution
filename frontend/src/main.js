@@ -6,6 +6,7 @@ import AnalysisListingView from './views/AnalysisListingView.vue';
 import AnalysisCreateView from './views/AnalysisCreateView.vue';
 import AboutView from './views/AboutView.vue';
 import NotFoundView from './views/NotFound.vue';
+import AnalysisView from './views/AnalysisView.vue';
 
 import './styles/main.css';
 // import './styles/proxima-nova-font.css'
@@ -25,6 +26,7 @@ const routes = [
   {path: '/analysis/create', component: AnalysisCreateView},
   {path: '/about', component: AboutView},
   {path: '/:pathMatch(.*)', component: NotFoundView},
+  {path: '/analysis/:analysis_name', component: AnalysisView},
 ];
 
 const router = createRouter({
