@@ -1,6 +1,11 @@
 <template>
   <div>
-      This page opens the analysis view for each cpam case
+    <app-header>
+      This page opens the analysis view for each cpam case: Data for {{ analysis_name }}
+      </app-header>
+      <app-content>
+        <p>{{ analysis }}</p>
+      </app-content>
   </div>
 </template>
 
@@ -11,10 +16,10 @@ export default {
   name: 'analysis-view',
   components: {
   },
+  props: ['analysis_name'],
   data: function() {
     return {
-      analysisName: '',
-      analysisData: [],
+      analysis: {},
     };
   },
   computed: {
@@ -27,11 +32,7 @@ export default {
   },
   methods: {
     async getAnalysis() {
-      this.analysisData.length = 0;
-      this.analysisData.push(...await Analyses.getAnalysis());
-    },
-    setAnalysisName(name) {
-      this.analysisName = name;
+      this.analysis = {...await Analyses.getAnalysis(this.analysis_name)};
     },
   },
 };

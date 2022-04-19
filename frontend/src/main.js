@@ -26,7 +26,7 @@ const routes = [
   {path: '/analysis/create', component: AnalysisCreateView},
   {path: '/about', component: AboutView},
   {path: '/:pathMatch(.*)', component: NotFoundView},
-  {path: '/analysis/:analysis_name', component: AnalysisView},
+  {path: '/analysis/:analysis_name', name: 'analysis', component: AnalysisView, props: true},
 ];
 
 const router = createRouter({

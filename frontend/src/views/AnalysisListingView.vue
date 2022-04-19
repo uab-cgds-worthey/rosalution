@@ -1,4 +1,5 @@
 <template>
+<div>
   <!--Header-->
   <app-header>
     <AnalysisListingHeader v-on:search="onSearch"/>
@@ -20,6 +21,7 @@
   <app-footer>
     <AnalysisListingLegend/>
   </app-footer>
+</div>
 </template>
 
 <script>

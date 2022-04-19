@@ -1,4 +1,5 @@
 <template>
+<router-link :to="{ name: 'analysis', params: { analysis_name: this.name }}">
 <div class="analysis-card">
     <div class="analysis-base">
       <div class="case-status-info">
@@ -56,6 +57,7 @@
       </ul>
     </div>
 </div>
+</router-link>
 </template>
 
 <script>
@@ -90,6 +92,8 @@ export default {
     genomic_units: {
       type: Array,
     },
+  },
+  methods: {
   },
 };
 
