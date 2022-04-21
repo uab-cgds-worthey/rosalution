@@ -62,19 +62,19 @@ pipeline {
         }
       }
     }
-    stage('Compile & Publish'){
-      steps {
-        sh 'bash build.sh --tag ${BUILD_TAG} --push'
-      }
-      post {
-        success {
-          sh 'curl --request POST --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "https://gitlab.rc.uab.edu/api/v4/projects/1289/statuses/${GIT_COMMIT}?state=success&name=jenkins_compile"'
-        }
-        failure {
-          sh 'curl --request POST --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "https://gitlab.rc.uab.edu/api/v4/projects/1289/statuses/${GIT_COMMIT}?state=failed&name=jenkins_compile"'
-        }
-      }
-    }
+    // stage('Compile & Publish'){
+    //   steps {
+    //     sh 'bash build.sh --tag ${BUILD_TAG} --push'
+    //   }
+    //   post {
+    //     success {
+    //       sh 'curl --request POST --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "https://gitlab.rc.uab.edu/api/v4/projects/1289/statuses/${GIT_COMMIT}?state=success&name=jenkins_compile"'
+    //     }
+    //     failure {
+    //       sh 'curl --request POST --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "https://gitlab.rc.uab.edu/api/v4/projects/1289/statuses/${GIT_COMMIT}?state=failed&name=jenkins_compile"'
+    //     }
+    //   }
+    // }
     stage('swarm deploy') {
       // when { 
       //   branch 'master'
