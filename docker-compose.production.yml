@@ -8,9 +8,10 @@ services:
     deploy:
       labels:
         - "traefik.enable=true"
-        - "traefik.docker.network=divergen-network-prod"
-        - "traefik.http.routers.divergen-frontend-prod-router.rule=Host(`prod`) && PathPrefix(`/divergen`)"
-        - "traefik.http.routers.divergen-frontend-prod-router.service=divergen-prod-frontend"
+        - "traefik.docker.network=traefik-public"
+        - "traefik.http.routers.divergen-frontend-prod-router.rule=Host(`dev.cgds.uab.edu`)  && PathPrefix(`/divergen`)"
+        - "traefik.http.divergen-frontend-prod-router.service=frontend-strip-prefix"
+        - "traefik.http.middlewares.frontend-strip-prefix.stripprefix.prefix=/divergen/"
         - "traefik.http.services.divergen-frontend-prod.loadbalancer.server.port=80"
 
   backend:
@@ -20,15 +21,15 @@ services:
     deploy:
       labels:
         - "traefik.enable=true"
-        - "traefik.docker.network=divergen-network-prod"
-        - "traefik.http.routers.divergen-backend-prod-router.rule=Host(`prod`) && (`/api`)"
+        - "traefik.docker.network=traefik-public"
+        - "traefik.http.routers.divergen-backend-prod-router.rule=Host(`dev.cgds.uab.edu`) && PathPrefix(`/divergen/api`)"
         - "traefik.http.divergen-backend-prod-router.service=backend-strip-prefix"
-        - "traefik.http.middlewares.backend-strip-prefix.stripprefix.prefix=/api"
+        - "traefik.http.middlewares.backend-strip-prefix.stripprefix.prefix=/divergen/api"
         - "traefik.services.divergen-backend-prod.loadbalancer.server.port=8000"
 
 networks:
   divergen-network:
     name: divergen-network-prod
   traefik:
-    name: traefik-public 
+    name: traefik-public
     external: true
