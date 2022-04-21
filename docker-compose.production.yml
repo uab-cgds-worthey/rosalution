@@ -5,6 +5,7 @@ services:
     image: gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/divergen/frontend:vprod
     networks:
       divergen-network:
+      traefik-public:
     deploy:
       labels:
         - "traefik.enable=true"
@@ -18,6 +19,7 @@ services:
     image: gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/divergen/backend:vprod
     networks:
       divergen-network:
+      traefik-public:
     deploy:
       labels:
         - "traefik.enable=true"
