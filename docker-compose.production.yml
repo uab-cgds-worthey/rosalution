@@ -29,4 +29,6 @@ services:
 networks:
   divergen-network:
     name: divergen-network-prod
+  traefik:
+    name: traefik-public 
     external: true
