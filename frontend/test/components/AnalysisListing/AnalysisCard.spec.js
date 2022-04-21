@@ -32,7 +32,6 @@ function getMountedComponent(props) {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
       },
-      // stubs: ['router-link'],
     },
   });
 }

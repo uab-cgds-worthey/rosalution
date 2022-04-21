@@ -22,11 +22,6 @@ export default {
       analysis: {},
     };
   },
-  computed: {
-    searchedAnalysisData() {
-      return false;
-    },
-  },
   created() {
     this.getAnalysis();
   },
