@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
   frontend:
-    image:
+    image: gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/divergen/frontend:vprod
     networks:
       divergen-network:
     deploy:
@@ -14,7 +14,7 @@ services:
         - "traefik.http.services.divergen-frontend-prod.loadbalancer.server.port=80"
 
   backend:
-    image:
+    image: gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/divergen/backend:vprod
     networks:
       divergen-network:
     deploy:
