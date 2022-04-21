@@ -6,7 +6,7 @@ import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 /**
- * helper function that shadllow mounts and returns the rendered component
+ * helper function that shallow mounts and returns the rendered component
  * @param {props} props props for testing to overwrite default props
  * @return {VueWrapper} returns a shallow mounted using props
  */
@@ -32,6 +32,7 @@ function getMountedComponent(props) {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
       },
+      // stubs: ['router-link'],
     },
   });
 }

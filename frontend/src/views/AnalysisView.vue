@@ -1,7 +1,7 @@
 <template>
   <div>
     <app-header>
-      This page opens the analysis view for each cpam case: Data for {{ analysis_name }}
+      This page opens the analysis view for each cpam case: Data for <p data-test="analysis-name">{{analysis_name}}</p>
       </app-header>
       <app-content>
         <p>{{ analysis }}</p>
