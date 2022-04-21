@@ -75,18 +75,20 @@ pipeline {
         }
       }
     }
-    stage('Deploy') {
+    stage('swarm deploy') {
+      // when { 
+      //   branch 'master'
+      //   equals expected: false, actual: 'swarm deploy' 
+      // }
       steps {
-        sh 'docker network create -d overlay --attachable divergen-network-${BUILD_TAG}'
-        sh 'docker service update --quiet --network-add name=divergen-network-${BUILD_TAG},alias=${BUILD_TAG} cgds-cluster_reverse-proxy'
-        sh 'docker stack deploy --prune --with-registry-auth --compose-file docker-compose.production.yml divergen-${BUILD_TAG}'
+        sh 'docker stack deploy --prune --with-registry-auth --compose-file docker-compose.production.yml divergen-prod'
       }
       post {
         success {
-          sh 'curl --request POST --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "https://gitlab.rc.uab.edu/api/v4/projects/1289/statuses/${GIT_COMMIT}?state=success&name=jenkins_compile"'
+          sh 'curl --request POST --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "https://gitlab.rc.uab.edu/api/v4/projects/1289/statuses/${GIT_COMMIT}?state=success&name=jenkins_CD_DEV"'
         }
         failure {
-          sh 'curl --request POST --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "https://gitlab.rc.uab.edu/api/v4/projects/1289/statuses/${GIT_COMMIT}?state=failed&name=jenkins_compile"'
+          sh 'curl --request POST --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "https://gitlab.rc.uab.edu/api/v4/projects/1289/statuses/${GIT_COMMIT}?state=failed&name=jenkins_CD_DEV"'
         }
       }
     }
