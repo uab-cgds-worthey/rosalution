@@ -25,7 +25,6 @@ async def get_analysis_listing():
 
     return data
 
-
 def find_analysis_by_name(name: str):
     """ Returns analysis by searching for id"""
     path_to_current_file = os.path.realpath(__file__)
@@ -51,13 +50,6 @@ async def get_analysis_by_name(name: str):
     if name == 'CPAM0053':
         return find_analysis_by_name("CPAM0053")
     raise HTTPException(status_code=404, detail="Item not found")
-
-## Test endpoints
-
-@app.get("/default")
-def read_root():
-    """Returns Hello World"""
-    return {"Hello": "World"}
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, log_level="info")
