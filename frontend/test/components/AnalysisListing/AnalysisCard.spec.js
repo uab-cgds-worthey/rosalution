@@ -12,13 +12,14 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
  */
 function getMountedComponent(props) {
   const defaultProps = {
-    id: '10f7aa04-6adf-4538-a700-ebe2f519473f',
     name: 'CPAM0046',
     description: ': LMNA-related congenital muscular dystropy',
     genomic_units: [
-      {gene: 'LMNA'},
-      {transcript: 'NM_170707.3'},
-      {chromosome: '1', position: '156134885', reference: 'C', alternate: 'T'},
+      {
+        gene: 'LMNA',
+        transcripts: ['NM_001017980.3'],
+        variants: ['c.745C>T'],
+      },
     ],
     nominated_by: 'Dr. Person Two',
     latest_status: 'Approved',
@@ -66,11 +67,11 @@ describe('AnalysisCard.vue', () => {
     it('should show the transcript information for a case', () => {
       const wrapper = getMountedComponent();
       expect(wrapper.html()).to.contains('Transcript');
-      expect(wrapper.html()).to.contains('NM_170707.3');
+      expect(wrapper.html()).to.contains('NM_001017980.3');
     });
     it('should show the coordinates information for a case', () => {
       const wrapper = getMountedComponent();
-      expect(wrapper.html()).to.contains('Chr1:156134885 C>T');
+      expect(wrapper.html()).to.contains('c.745C>T');
     });
   });
 });

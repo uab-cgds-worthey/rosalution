@@ -532,6 +532,9 @@ valid-metaclass-classmethod-first-arg=cls
 
 [DESIGN]
 
+# List of regex to catch types of classes that can have too few public methods
+exclude-too-few-public-methods=json.*,^.*BaseModel$
+
 # Maximum number of arguments for function / method.
 max-args=6
 

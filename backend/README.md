@@ -4,7 +4,8 @@
 
 ### Requirements
 
-Project requirements are listed in the `requirement.txt` file at the project's root structure.
+Project depdencies are listed in the `requirements.txt` file at the project's
+root structure.
 
 ```sh
 # From ./backend/
@@ -117,10 +118,4 @@ Integration Tests:
 
 ```bash
 pytest -s tests/integration
-```
-
-System Tests:
-
-```bash
-pytest -s tests/system
 ```
