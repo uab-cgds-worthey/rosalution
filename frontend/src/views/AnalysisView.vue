@@ -5,16 +5,19 @@
       </app-header>
       <app-content>
         <p>{{ analysis }}</p>
+        <ContentBox/>
       </app-content>
   </div>
 </template>
 
 <script>
 import Analyses from '@/models/analyses.js';
+import ContentBox from '../components/AnalysisView/ContentBox.vue';
 
 export default {
   name: 'analysis-view',
   components: {
+    ContentBox,
   },
   props: ['analysis_name'],
   data: function() {
