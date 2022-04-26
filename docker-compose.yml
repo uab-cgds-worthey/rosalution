@@ -54,10 +54,10 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=divergen-network"
       - "traefik.http.routers.backend-router.entrypoints=web"
-      - "traefik.http.routers.backend-router.rule=Host(`local.divergen.cgds`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.backend-router.rule=Host(`local.divergen.cgds`) && PathPrefix(`/divergen/api`)"
       - "traefik.http.routers.backend-router.service=backend-api-service"
       - "traefik.http.routers.backend-router.middlewares=backend-strip-prefix"
-      - "traefik.http.middlewares.backend-strip-prefix.stripprefix.prefixes=/api"
+      - "traefik.http.middlewares.backend-strip-prefix.stripprefix.prefixes=/divergen/api"
       - "traefik.http.services.backend-api-service.loadbalancer.server.port=8000"
 
 networks:

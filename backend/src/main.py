@@ -28,7 +28,7 @@ app = FastAPI(
     title="diverGen API",
     description=DESCRIPTION,
     openapi_tags=tags_metadata,
-    root_path="/api/"
+    root_path="/divergen/api/"
 )
 
 ## diverGen endpoints
