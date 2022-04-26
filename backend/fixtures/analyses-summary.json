@@ -1,11 +1,11 @@
 [
   {
-    "name": "CPAM0046",
+    "name": "CPAM0002",
     "description": ": LMNA-related congenital muscular dystropy",
     "genomic_units": [
       {
         "gene": "VMA21, DMD",
-        "transcripts": ["NPM_001017980.3"],
+        "transcripts": ["NM_001017980.3"],
         "variants": ["c.164G>T"]
       }
     ],
@@ -20,7 +20,7 @@
       "genomic_units": [
         {
           "gene": "LMNA",
-          "transcripts": ["NPM_001017980.3"],
+          "transcripts": ["NM_001017980.3"],
           "variants": ["c.745C>T"]
         }
       ],

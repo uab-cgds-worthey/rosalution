@@ -43,6 +43,18 @@ h2 {
   font-weight: 700;
 }
 
+a:link { 
+  text-decoration: none; }
+
+
+a:visited { text-decoration: none; }
+
+
+a:hover { text-decoration: none; }
+
+
+a:active { text-decoration: none; }
+/* 
 a {
   color: var(--divergen-purple-300);
 }
@@ -53,7 +65,7 @@ a:hover {
 
 a:active {
   color: var(--divergen-purple-100);
-}
+} */
 
 input {
   font-size: 1.125rem; /* 18px */

@@ -9,6 +9,7 @@ import NotFoundView from './views/NotFound.vue';
 import AnalysisView from './views/AnalysisView.vue';
 
 import './styles/main.css';
+import './styles/divergen.css';
 // import './styles/proxima-nova-font.css'
 
 import {library} from '@fortawesome/fontawesome-svg-core';
