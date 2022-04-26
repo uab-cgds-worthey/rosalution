@@ -9,11 +9,9 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.stream.address=:3000"
     ports: 
       - 80:80
       - 8080:8080
-      - 3000:3000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
@@ -25,36 +23,33 @@ services:
   frontend:
     build:
       context: ./frontend/
-      target: development-stage
+      target: production-stage
       dockerfile: Dockerfile
-    volumes:
-      - ./frontend/src:/app/src
     networks:
       - divergen-network
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=divergen-network"
-      - "traefik.http.routers.frontend-router.entrypoints=web,stream"
-      - "traefik.http.routers.frontend-router.rule=Host(`local.divergen.cgds`)"
+      - "traefik.http.routers.frontend-router.entrypoints=web"
+      - "traefik.http.routers.frontend-router.rule=Host(`localhost`)"
+      - "traefik.http.routers.frontend-router.rule=PathPrefix(`/divergen`)"
+      - "traefik.http.routers.frontend-router.middlewares=frontend-strip-prefix"
+      - "traefik.http.middlewares.frontend-strip-prefix.stripprefix.prefixes=/divergen"
       - "traefik.http.routers.frontend-router.service=frontend-web-service"
       - "traefik.http.services.frontend-web-service.loadbalancer.server.port=80"
-      - "traefik.http.routers.frontend-router.service=frontend-stream-service"
-      - "traefik.http.services.frontend-stream-service.loadbalancer.server.port=3000"
   
   backend:
     build:
       context: ./backend/
-      target: development-stage
+      target: production-stage
       dockerfile: Dockerfile
-    volumes:
-      - ./backend:/app
     networks:
       - divergen-network
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=divergen-network"
       - "traefik.http.routers.backend-router.entrypoints=web"
-      - "traefik.http.routers.backend-router.rule=Host(`local.divergen.cgds`) && PathPrefix(`/divergen/api`)"
+      - "traefik.http.routers.backend-router.rule=PathPrefix(`/divergen/api`)"
       - "traefik.http.routers.backend-router.service=backend-api-service"
       - "traefik.http.routers.backend-router.middlewares=backend-strip-prefix"
       - "traefik.http.middlewares.backend-strip-prefix.stripprefix.prefixes=/divergen/api"

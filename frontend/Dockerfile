@@ -18,9 +18,10 @@ COPY yarn.lock /app/
 COPY index.html /app/
 COPY vite.config.js /app/
 
-RUN yarn install --frozen-lockfile && yarn build
+RUN yarn install --frozen-lockfile && yarn build --base=/divergen/
 
 FROM nginx:1.17.6-alpine as production-stage
 
 COPY etc/default.conf /etc/nginx/conf.d/
 COPY --from=production-build /app/dist/ /usr/share/nginx/html/
+EXPOSE 80

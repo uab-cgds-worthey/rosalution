@@ -21,12 +21,13 @@ library.add(
     faAsterisk, faPause, faCheck, faX, faMagnifyingGlass, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList,
     faLayerGroup, faBoxArchive, faQuestion, faClock, faClipboardCheck);
 
+// The NotFoundView should always be last because it's an ordered array.
 const routes = [
-  {path: '/', component: AnalysisListingView},
-  {path: '/analysis/create', component: AnalysisCreateView},
-  {path: '/about', component: AboutView},
+  {path: '/divergen', component: AnalysisListingView},
+  {path: '/divergen/analysis/create', component: AnalysisCreateView},
+  {path: '/divergen/about', component: AboutView},
+  {path: '/divergen/analysis/:analysis_name', name: 'analysis', component: AnalysisView, props: true},
   {path: '/:pathMatch(.*)', component: NotFoundView},
-  {path: '/analysis/:analysis_name', name: 'analysis', component: AnalysisView, props: true},
 ];
 
 const router = createRouter({

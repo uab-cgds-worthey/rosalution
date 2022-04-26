@@ -6,6 +6,8 @@ pipeline {
   }
   environment {
     GITLAB_API_TOKEN = credentials('GitLabToken')
+    // BUILD_TAG = "a${GIT_COMMIT.substring(0, 6)}"
+    BUILD_TAG = "prod"
   }
   stages {
     stage('Static Analysis') {
@@ -60,6 +62,36 @@ pipeline {
         }
       }
     }
+    stage('Compile & Publish'){
+      steps {
+        sh 'bash build.sh --tag ${BUILD_TAG} --push'
+      }
+      post {
+        success {
+          sh 'curl --request POST --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "https://gitlab.rc.uab.edu/api/v4/projects/2491/statuses/${GIT_COMMIT}?state=success&name=jenkins_unit_tests"'
+        }
+        failure {
+          sh 'curl --request POST --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "https://gitlab.rc.uab.edu/api/v4/projects/2491/statuses/${GIT_COMMIT}?state=failed&name=jenkins_unit_tests"'
+        }
+      }
+    }
+    stage('swarm deploy') {
+      // when { 
+      //   branch 'master'
+      //   equals expected: false, actual: 'swarm deploy' 
+      // }
+      steps {
+        sh 'docker stack deploy --prune --with-registry-auth --compose-file docker-compose.production.yml divergen-prod'
+      }
+      post {
+        success {
+          sh 'curl --request POST --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "https://gitlab.rc.uab.edu/api/v4/projects/2491/statuses/${GIT_COMMIT}?state=success&name=jenkins_unit_tests"'
+        }
+        failure {
+          sh 'curl --request POST --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "https://gitlab.rc.uab.edu/api/v4/projects/2491/statuses/${GIT_COMMIT}?state=failed&name=jenkins_unit_tests"'
+        }
+      }
+    }
   }
   post {
 	success {
@@ -70,4 +102,3 @@ pipeline {
   	}
   }
 }
-
