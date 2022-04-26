@@ -1,7 +1,7 @@
 import Requests from '@/requests.js';
 export default {
   async all() {
-    const baseUrl = '/api/';
+    const baseUrl = '/divergen/api/';
     const urlQuery = 'analysis/summary';
     const body = await Requests.get(baseUrl + urlQuery);
     if ('errors' in body) {
