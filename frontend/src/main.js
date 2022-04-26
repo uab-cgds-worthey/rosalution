@@ -27,7 +27,7 @@ const routes = [
   {path: '/divergen/analysis/create', component: AnalysisCreateView},
   {path: '/divergen/about', component: AboutView},
   {path: '/divergen/analysis/:analysis_name', name: 'analysis', component: AnalysisView, props: true},
-  {path: '/divergen/:pathMatch(.*)', component: NotFoundView},
+  {path: '/:pathMatch(.*)', component: NotFoundView},
 ];
 
 const router = createRouter({
