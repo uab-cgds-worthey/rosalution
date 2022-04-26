@@ -10,7 +10,7 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=traefik-public"
-        - "traefik.http.routers.divergen-frontend-prod-router.rule=Host(`dev.cgds.uab.edu`)  && PathPrefix(`/divergen`)"
+        - "traefik.http.routers.divergen-frontend-prod-router.rule=Host(`dev.cgds.uab.edu`)"
         - "traefik.http.routers.divergen-frontend-prod-router.service=divergen-frontend-prod"
         - "traefik.http.routers.divergen-frontend-prod-router.middlewares=frontend-strip-prefix"
         - "traefik.http.middlewares.frontend-strip-prefix.stripprefix.prefixes=/divergen/"
