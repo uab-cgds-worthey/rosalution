@@ -1,0 +1,60 @@
+version: '3.5'
+
+services:
+  reverse-proxy:
+    image: traefik
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports: 
+      - 80:80
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - divergen-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=divergen-network"
+  
+  frontend:
+    build:
+      context: ./frontend/
+      target: production-stage
+      dockerfile: Dockerfile
+    networks:
+      - divergen-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=divergen-network"
+      - "traefik.http.routers.frontend-router.entrypoints=web"
+      - "traefik.http.routers.frontend-router.rule=Host(`localhost`)"
+      - "traefik.http.routers.frontend-router.rule=PathPrefix(`/divergen`)"
+      - "traefik.http.routers.frontend-router.middlewares=frontend-strip-prefix"
+      - "traefik.http.middlewares.frontend-strip-prefix.stripprefix.prefixes=/divergen"
+      - "traefik.http.routers.frontend-router.service=frontend-web-service"
+      - "traefik.http.services.frontend-web-service.loadbalancer.server.port=80"
+  
+  backend:
+    build:
+      context: ./backend/
+      target: production-stage
+      dockerfile: Dockerfile
+    networks:
+      - divergen-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=divergen-network"
+      - "traefik.http.routers.backend-router.entrypoints=web"
+      - "traefik.http.routers.backend-router.rule=PathPrefix(`/divergen/api`)"
+      - "traefik.http.routers.backend-router.service=backend-api-service"
+      - "traefik.http.routers.backend-router.middlewares=backend-strip-prefix"
+      - "traefik.http.middlewares.backend-strip-prefix.stripprefix.prefixes=/divergen/api"
+      - "traefik.http.services.backend-api-service.loadbalancer.server.port=8000"
+
+networks:
+  divergen-network:
+    name: divergen-network
