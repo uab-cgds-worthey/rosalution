@@ -1,0 +1,121 @@
+[
+  {
+   "data_set": "Gene Summary",
+   "data_source": "RefSeq",
+   "type": "gene"
+  },
+  {
+    "data_set": "OMIM",
+    "data_source": "OMIM",
+    "type": "gene"
+  },{
+    "data_set": "HPO",
+    "data_source": "",
+    "type": "gene"
+  },
+  {
+    "data_set": "Protein Expression Overview",
+    "data_source": "Aliance Genome",
+    "type": "gene"
+  },
+  {
+    "data_set": "Model Systems - Rat",
+    "data_source": "Aliance Genome",
+    "type": "gene"
+  },
+  {
+    "data_set": "Model Systems - Mouse",
+    "data_source": "Aliance Genome",
+    "type": "gene"
+  }, {
+    "data_set": "Modelability",
+    "data_source": "Aliance Genome",
+    "type": "gene"
+  }, {
+    "data_set": "Human Gene Expression Profile",
+    "data_source": "gTex",
+    "type": "gene"
+  }, {
+    "data_set": "Druggability",
+    "data_source": "Pharos",
+    "type": "gene"
+  },
+  {
+    "data_set": "transcript_id",
+    "data_source": "Ensembl",
+    "type": "transcript"
+   },
+   {
+     "data_set": "Polyphen Prediction",
+     "data_source": "Ensembl",
+     "type": "transcript"
+   },
+   {
+     "data_set": "Polyphen Score",
+     "data_source": "Ensembl",
+     "type": "transcript"
+   },
+   {
+     "data_set": "SIFT Prediction",
+     "data_source": "Ensembl",
+     "type": "transcript"
+   },
+   {
+     "data_set": "SIFT Score",
+     "data_source": "Ensembl",
+     "type": "transcript"
+   },
+   {
+     "data_set": "cDNA Change",
+     "data_source": "Ensembl",
+     "type": "transcript"
+   },
+   {
+     "data_set": "AA Change",
+     "data_source": "Ensembl",
+     "type": "transcript"
+   },
+   {
+     "data_set": "Consequence",
+     "data_source": "Ensembl",
+     "type": "transcript"
+   }, {
+     "data_set": "Effects",
+     "data_source": "",
+     "type": "transcript"
+   }, {
+     "data_set": "Affected Regions",
+     "data_source": "",
+     "type": "transcript"
+   },
+   {
+    "data_set": "ClinVar",
+    "data_source": "ClinVar",
+    "type": "variant"
+  },
+  {
+    "data_set": "CADD",
+    "data_source": "",
+    "type": "variant"
+  },
+  {
+    "data_set": "GERP",
+    "data_source": "GERP",
+    "type": "variant"
+  },
+  {
+    "data_set": "Phylop100",
+    "data_source": "Phylop100",
+    "type": "variant"
+  },
+  {
+    "data_set": "Mappability",
+    "data_source": "",
+    "type": "variant"
+  },
+  {
+    "data_set": "RS ID",
+    "data_source": "Aliance Genome",
+    "type": "variant"
+  }
+]

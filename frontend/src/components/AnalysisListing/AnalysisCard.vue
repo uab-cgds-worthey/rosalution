@@ -46,14 +46,11 @@
         Transcript:
       </div>
       <ul class="transcript-name">
-        <li v-for="genomic_unit in genomic_units" :key="genomic_unit">{{ genomic_unit.transcript }}</li>
+        <li v-for="genomic_unit in genomic_units" :key="genomic_unit">{{ genomic_unit.transcripts.join(', ') }}</li>
       </ul>
       <ul class="coordinates">
         <!-- This will be revised when we update the incoming model from analyses.js -->
-        <li v-bind:key="genomic_units" v-if="genomic_units">
-           Chr{{ genomic_units[2].chromosome }}:{{ genomic_units[2].position }}
-           {{ genomic_units[2].reference }}&gt;{{ genomic_units[2].alternate }}
-        </li>
+        <li v-for="genomic_unit in genomic_units" :key="genomic_unit">{{ genomic_unit.variants.join(', ') }}</li>
       </ul>
     </div>
 </div>
@@ -93,6 +90,7 @@ export default {
       type: Array,
     },
   },
+
 };
 
 </script>
@@ -120,6 +118,7 @@ div {
   position: relative;
   justify-content: center;
   display: block;
+  box-sizing: border-box;
 }
 
 .case-status-info {

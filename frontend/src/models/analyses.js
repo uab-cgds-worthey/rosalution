@@ -2,7 +2,7 @@ import Requests from '@/requests.js';
 export default {
   async all() {
     const baseUrl = '/api/';
-    const urlQuery = 'analysis';
+    const urlQuery = 'analysis/summary';
     const body = await Requests.get(baseUrl + urlQuery);
     if ('errors' in body) {
       const errorString = body.data.errors.map((error) => error.message).join('; ');

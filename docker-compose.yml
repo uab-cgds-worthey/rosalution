@@ -47,7 +47,7 @@ services:
       target: development-stage
       dockerfile: Dockerfile
     volumes:
-      - ./backend/:/app
+      - ./backend:/app
     networks:
       - divergen-network
     labels:

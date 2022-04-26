@@ -47,7 +47,7 @@ pipeline {
       }
       steps {
         withEnv(["HOME=${env.WORKSPACE}"]) {
-          sh 'cd backend && pip3 install -r Requirements.txt --user'
+          sh 'cd backend && pip3 install -r requirements.txt --user'
           sh 'cd backend && pytest -s tests/integration'
         }
       }
