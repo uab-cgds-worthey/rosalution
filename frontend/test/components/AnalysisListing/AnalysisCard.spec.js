@@ -1,9 +1,10 @@
-import {expect, describe, it} from 'vitest';
-import {shallowMount} from '@vue/test-utils';
+import {expect, describe, it, beforeAll, afterAll} from 'vitest';
+import {config, shallowMount} from '@vue/test-utils';
 
 import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import {RouterLink} from 'vue-router';
 
 /**
  * helper function that shallow mounts and returns the rendered component
@@ -32,10 +33,19 @@ function getMountedComponent(props) {
     global: {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
+        'router-link': RouterLink,
       },
     },
   });
 }
+
+beforeAll(() => {
+  config.renderStubDefaultSlot = true;
+});
+
+afterAll(() => {
+  config.renderStubDefaultSlot = false;
+});
 
 describe('AnalysisCard.vue', () => {
   it('should show the analysis name', () => {
