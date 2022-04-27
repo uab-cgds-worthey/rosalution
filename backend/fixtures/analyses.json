@@ -16,7 +16,7 @@
                 ],
                 "variants": [
                     {
-                        "hgvs_variant": "NPM_001017980.3:c.164G>T",
+                        "hgvs_variant": "NM_001017980.3:c.164G>T",
                         "c_dot": "c.164G>T",
                         "p_dot": "p.Gly55Val",
                         "build": "grch38",

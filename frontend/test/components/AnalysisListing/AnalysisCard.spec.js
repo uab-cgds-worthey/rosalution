@@ -1,9 +1,10 @@
-import {expect, describe, it} from 'vitest';
-import {shallowMount} from '@vue/test-utils';
+import {expect, describe, it, beforeAll, afterAll} from 'vitest';
+import {config, shallowMount} from '@vue/test-utils';
 
 import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import {RouterLink} from 'vue-router';
 
 /**
  * helper function that shallow mounts and returns the rendered component
@@ -32,10 +33,19 @@ function getMountedComponent(props) {
     global: {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
+        'router-link': RouterLink,
       },
     },
   });
 }
+
+beforeAll(() => {
+  config.renderStubDefaultSlot = true;
+});
+
+afterAll(() => {
+  config.renderStubDefaultSlot = false;
+});
 
 describe('AnalysisCard.vue', () => {
   it('should show the analysis name', () => {
@@ -72,6 +82,29 @@ describe('AnalysisCard.vue', () => {
     it('should show the coordinates information for a case', () => {
       const wrapper = getMountedComponent();
       expect(wrapper.html()).to.contains('c.745C>T');
+    });
+  });
+
+  it('uses an icon to display the current workflow status of an analysis', () => {
+    [
+      {
+        latest_status: 'Approved',
+        expected: 'check',
+      },
+      {
+        latest_status: 'Declined',
+        expected: 'x',
+      },
+      {
+        latest_status: 'Ready',
+        expected: 'clipboard-check',
+      },
+    ].forEach((test) => {
+      const wrapper = getMountedComponent({
+        latest_status: test.latest_status,
+      });
+      const icon = wrapper.get('font-awesome-icon-stub');
+      expect(icon.attributes().icon).to.equal(test.expected);
     });
   });
 });
