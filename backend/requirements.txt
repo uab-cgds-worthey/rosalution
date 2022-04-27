@@ -1,5 +1,6 @@
 fastapi==0.74.1
 uvicorn==0.17.5
+python-cas==1.6.0
 
 # dev
 pytest==7.0.1

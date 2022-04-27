@@ -3,9 +3,15 @@ End points for backend
 """
 import os
 import json
-from typing import List
+
+from cas import CASClient
+from typing import List, Optional
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse, RedirectResponse
+from starlette.middleware.sessions import SessionMiddleware
+from starlette.requests import Request
+from starlette.responses import Response
 
 from .core.analysis import Analysis, AnalysisSummary
 
@@ -15,6 +21,12 @@ by helping select candidate animal models 🐀🐁🐠🪱 to replicate the vari
 to further research to dervice a diagnose and provide therapies for
 ultra-rare diseases.
 """
+
+cas_client = CASClient(
+    version=3,
+    service_url='http://dev.cgds.uab.edu/divergen/login?next=%2Fdivergen',
+    server_url='http://padlockdev.idm.uab.edu/cas/login'
+)
 
 tags_metadata = [{
     "name": "analysis",
@@ -61,7 +73,6 @@ async def get_all_analyses_summaries():
 
     return data
 
-
 def find_analysis_by_name(name: str):
     """ Returns analysis by searching for id"""
     path_to_current_file = os.path.realpath(__file__)
@@ -93,3 +104,37 @@ async def get_analysis_by_name(name: str):
 async def heartbeat():
     """ Returns a heart-beat that orchestration services can use to determine if the application is running"""
     return "thump-thump"
+
+@app.get('/login', tags=["authentication"])
+async def login(request: Request, next: Optional[str] = None, ticket: Optional[str] = None):
+    if request.session.get("user", None):
+        # Already logged in
+        return RedirectResponse(request.url_for('profile'))
+    
+    if not ticket:
+        cas_login_url = cas_client.get_login_url()
+        print('CAS login URL: %s', cas_login_url)
+        return RedirectResponse(cas_login_url)
+    
+    # There is a ticket, the request come from CAS as callback.
+    # need call `verify_ticket()` to validate ticket and get user profile.
+    print('ticket: %s', ticket)
+    print('next: %s', next)
+
+    user, attributes, pgtiou = cas_client.verify_ticket(ticket)
+
+    print('CAS verify ticket response: user: %s, attributes: %s, pgtiou: %s', user, attributes, pgtiou)
+
+    if not user:
+        return HTMLResponse('Failed to verify ticket. <a href="/login">Login</a>')
+    else: # Login successfully, redirect according `next` query parameter.
+        response = RedirectResponse(next)
+        request.session['user'] = dict(user=user)
+        return response
+
+@app.get('/logout')
+def logout(request: Request):
+    redirect_url = request.url_for('logout_callback')
+    cas_logout_url = cas_client.get_login_url(redirect_url)
+    print('CAS logout URL: %s', cas_logout_url)
+    return RedirectResponse(cas_logout_url)
