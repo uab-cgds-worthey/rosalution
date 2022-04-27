@@ -2,7 +2,7 @@ import {createApp} from 'vue';
 import {createRouter, createWebHistory} from 'vue-router';
 
 import App from './App.vue';
-import LoginView from './views/LoginView.vue'
+import LoginView from './views/LoginView.vue';
 import AnalysisListingView from './views/AnalysisListingView.vue';
 import AnalysisCreateView from './views/AnalysisCreateView.vue';
 import AboutView from './views/AboutView.vue';

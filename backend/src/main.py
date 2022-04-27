@@ -4,14 +4,13 @@ End points for backend
 import os
 import json
 
-from cas import CASClient
 from typing import List, Optional
+from cas import CASClient
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
-from starlette.middleware.sessions import SessionMiddleware
 from starlette.requests import Request
-from starlette.responses import Response
+
 
 from .core.analysis import Analysis, AnalysisSummary
 
@@ -105,21 +104,23 @@ async def heartbeat():
     """ Returns a heart-beat that orchestration services can use to determine if the application is running"""
     return "thump-thump"
 
+# pylint: disable=no-member
 @app.get('/login', tags=["authentication"])
-async def login(request: Request, next: Optional[str] = None, ticket: Optional[str] = None):
+async def login(request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None):
+    """ Test Login Method """
     if request.session.get("user", None):
         # Already logged in
         return RedirectResponse(request.url_for('profile'))
-    
+
     if not ticket:
         cas_login_url = cas_client.get_login_url()
         print('CAS login URL: %s', cas_login_url)
         return RedirectResponse(cas_login_url)
-    
+
     # There is a ticket, the request come from CAS as callback.
     # need call `verify_ticket()` to validate ticket and get user profile.
     print('ticket: %s', ticket)
-    print('next: %s', next)
+    print('nextURL: %s', nexturl)
 
     user, attributes, pgtiou = cas_client.verify_ticket(ticket)
 
@@ -127,13 +128,15 @@ async def login(request: Request, next: Optional[str] = None, ticket: Optional[s
 
     if not user:
         return HTMLResponse('Failed to verify ticket. <a href="/login">Login</a>')
-    else: # Login successfully, redirect according `next` query parameter.
-        response = RedirectResponse(next)
-        request.session['user'] = dict(user=user)
-        return response
+
+    # Login successfully, redirect according `nexturl` query parameter.
+    response = RedirectResponse(nexturl)
+    request.session['user'] = dict(user=user)
+    return response
 
 @app.get('/logout')
 def logout(request: Request):
+    """ Test Logout Method """
     redirect_url = request.url_for('logout_callback')
     cas_logout_url = cas_client.get_login_url(redirect_url)
     print('CAS logout URL: %s', cas_logout_url)
