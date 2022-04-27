@@ -74,4 +74,27 @@ describe('AnalysisCard.vue', () => {
       expect(wrapper.html()).to.contains('c.745C>T');
     });
   });
+
+  it('uses an icon to display the current workflow status of an analysis', () => {
+    [
+      {
+        latest_status: 'Approved',
+        expected: 'check',
+      },
+      {
+        latest_status: 'Declined',
+        expected: 'x',
+      },
+      {
+        latest_status: 'Ready',
+        expected: 'clipboard-check',
+      },
+    ].forEach((test) => {
+      const wrapper = getMountedComponent({
+        latest_status: test.latest_status,
+      });
+      const icon = wrapper.get('font-awesome-icon-stub');
+      expect(icon.attributes().icon).to.equal(test.expected);
+    });
+  });
 });

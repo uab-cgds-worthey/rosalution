@@ -4,19 +4,7 @@
       <div class="analysis-base" :style="`border-color: var(${workflowColor})`">
         <div class="case-status-info">
           <div class="status-icon">
-            <font-awesome-icon v-if="latest_status === 'Annotation'"
-              :icon="workflowIcon" style="color: var(--divergen-yellow-200)" size="lg" />
-            <font-awesome-icon v-else-if="latest_status === 'Ready'"
-              :icon="workflowIcon" style="color: var(--divergen-blue-200)" size="lg" />
-            <font-awesome-icon v-else-if="latest_status === 'Active'"
-              :icon="workflowIcon" style="color: var(--divergen-green-200)" size="lg" />
-            <font-awesome-icon v-else-if="latest_status === 'Approved'"
-              :icon="workflowIcon" style="color: var(--divergen-teal-200)" size="lg" />
-            <font-awesome-icon v-else-if="latest_status === 'On-Hold'"
-              :icon="workflowIcon" style="color: var(--cgds-blue-100)" size="lg" />
-            <font-awesome-icon v-else-if="latest_status === 'Declined'"
-              :icon="workflowIcon" style="color: var(--divergen-grey-200)" size="lg" />
-            <font-awesome-icon v-else :icon="workflowIcon" style="color: var(--divergen-white)" size="lg" />
+            <font-awesome-icon :icon="workflowIcon" :style="workflowColorStyle" size="lg"/>
           </div>
           <span class="case-info">
             <div class="case-name">
@@ -59,7 +47,6 @@
           </li>
         </ul>
         <ul class="coordinates">
-          <!-- This will be revised when we update the incoming model from analyses.js -->
           <li v-for="genomic_unit in genomic_units" :key="genomic_unit">
             {{ genomic_unit.variants.join(", ") }}
           </li>
@@ -120,20 +107,25 @@ export default {
     },
     workflowColor: function() {
       if (this.latest_status == 'Annotation') {
-        return '--divergen-yellow-200';
+        return '--divergen-status-annotation';
       } else if (this.latest_status == 'Ready') {
-        return '--divergen-blue-200';
+        return '--divergen-status-ready';
       } else if (this.latest_status == 'Active') {
-        return '--divergen-green-200';
+        return '--divergen-status-active';
       } else if (this.latest_status == 'Approved') {
-        return '--divergen-teal-200';
+        return '--divergen-status-approved';
       } else if (this.latest_status == 'On-Hold') {
-        return '--cgds-blue-100';
+        return '--divergen-status-on-hold';
       } else if (this.latest_status == 'Declined') {
-        return '--divergen-grey-200';
+        return '--divergen-status-declined';
       }
 
       return '--divergen-white';
+    },
+    workflowColorStyle: function() {
+      return {
+        color: `var(${this.workflowColor})`,
+      };
     },
   },
 };
