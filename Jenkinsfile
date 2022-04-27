@@ -76,10 +76,9 @@ pipeline {
       }
     }
     stage('swarm deploy') {
-      // when { 
-      //   branch 'master'
-      //   equals expected: false, actual: 'swarm deploy' 
-      // }
+      when { 
+        branch 'main'
+      }
       steps {
         sh 'docker stack deploy --prune --with-registry-auth --compose-file docker-compose.production.yml divergen-prod'
       }
