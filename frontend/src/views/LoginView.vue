@@ -18,6 +18,7 @@ export default {
     async login() {
       const loginUrl = '/divergen/api/logintest';
       const newURL = await fetch(loginUrl);
+      console.log(newURL);
       window.location = newURL;
     },
     async logout() {
