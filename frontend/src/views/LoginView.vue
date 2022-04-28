@@ -1,14 +1,12 @@
 <template>
     <div class="center">
-        <h1>Login</h1>
+        <h1>Authentication</h1>
         <form @submit.prevent="login">
-            <input v-model="username" placeholder="username" />
-            <br />
-            <br />
-            <input v-model="password" placeholder="password" type="password" />
-            <br />
-            <br />
             <button type="submit">Login</button>
+            <br />
+            <br />
+            <br />
+            <button type="submit">Logout</button>
         </form>
     </div>
 </template>
@@ -16,14 +14,13 @@
 <script>
 
 export default {
-  data: () => {
-    return {
-      username: '',
-      password: '',
-    };
-  },
   methods: {
     async login() {
+      const loginUrl = '/divergen/api/login'
+      console.log(loginUrl)
+      await fetch(loginUrl);
+    },
+    async logout() {
 
     },
   },
