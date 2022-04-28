@@ -12,7 +12,6 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from starlette.requests import Request
 from starlette.middleware.sessions import SessionMiddleware
 
-
 from .core.analysis import Analysis, AnalysisSummary
 
 DESCRIPTION = """
@@ -24,7 +23,7 @@ ultra-rare diseases.
 
 cas_client = CASClient(
     version=3,
-    service_url='http://dev.cgds.uab.edu/divergen/login?next=%2Fdivergen',
+    service_url='http://dev.cgds.uab.edu/divergen/login?nexturl=%2Fdivergen',
     server_url='http://padlockdev.idm.uab.edu/cas/login'
 )
 
@@ -63,7 +62,7 @@ async def get_all_analyses():
 
 @app.get('/analysis/summary', response_model=List[AnalysisSummary], tags=["analysis"])
 async def get_all_analyses_summaries():
-    """ Returns a summary of every analysis within the application"""
+    """ Returns a summary of every analysis within the application """
     # This is necessary for pytest to get relative pathing.
     # Better variable names need to be devised.
     path_to_current_file = os.path.realpath(__file__)
@@ -76,7 +75,7 @@ async def get_all_analyses_summaries():
     return data
 
 def find_analysis_by_name(name: str):
-    """ Returns analysis by searching for id"""
+    """ Returns analysis by searching for id """
     path_to_current_file = os.path.realpath(__file__)
     current_directory = os.path.split(path_to_current_file)[0]
     path_to_file = os.path.join(current_directory, "../fixtures/analyses.json")
@@ -92,7 +91,7 @@ def find_analysis_by_name(name: str):
 
 @app.get('/analysis/{name}', response_model=Analysis, tags=["analysis"])
 async def get_analysis_by_name(name: str):
-    """ Returns analysis case data by calling method to find case by it's name"""
+    """ Returns analysis case data by calling method to find case by it's name """
     if name == 'CPAM0002':
         return find_analysis_by_name("CPAM0002")
     if name == 'CPAM0046':
@@ -104,7 +103,7 @@ async def get_analysis_by_name(name: str):
 
 @app.get('/heart-beat', tags=["lifecycle"])
 async def heartbeat():
-    """ Returns a heart-beat that orchestration services can use to determine if the application is running"""
+    """ Returns a heart-beat that orchestration services can use to determine if the application is running """
     return "thump-thump"
 
 # pylint: disable=no-member
@@ -144,3 +143,11 @@ def logout(request: Request):
     cas_logout_url = cas_client.get_login_url(redirect_url)
     print('CAS logout URL: %s', cas_logout_url)
     return RedirectResponse(cas_logout_url)
+
+@app.get('/logout_callback')
+def logout_callback(request: Request):
+    """ Test Logout Callback Method """
+    # redirect from CAS logout request after CAS logout successfully
+    # response.delete_cookie('username')
+    request.session.pop("user", None)
+    return HTMLResponse('Logged out from CAS. <a href="/login">Login</a>')

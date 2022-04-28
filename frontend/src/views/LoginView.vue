@@ -16,8 +16,8 @@
 export default {
   methods: {
     async login() {
-      const loginUrl = '/divergen/api/login'
-      console.log(loginUrl)
+      const loginUrl = '/divergen/api/login';
+      console.log(loginUrl);
       await fetch(loginUrl);
     },
     async logout() {
