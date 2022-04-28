@@ -20,6 +20,7 @@ export default {
       console.log(loginUrl);
       await fetch(loginUrl, {
         method: 'GET',
+        headers: {'Access-Control-Allow-Origin': 'http://padlockdev.idm.uab.edu'},
         mode: 'cors',
         cache: 'no-cache',
       });
