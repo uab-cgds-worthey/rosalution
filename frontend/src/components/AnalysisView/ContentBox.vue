@@ -1,18 +1,18 @@
 <template>
-  <div>
+  <div class="content-box">
     <div class="content-box-border">
       <div class="section-header">
         <span class="section-name">
-          Header name
+          Header
         </span>
         <span class="logo-dropdown-edit">
-          Logo
+          <font-awesome-icon icon="chevron-down" size="lg"/>
         </span>
         <div class="seperator"></div>
       </div>
       <div class="fields">
         <ul class="field-list">
-          <li>
+          <li class="field-value-row">
             <label class="field-label">
               Field
             </label>
@@ -43,25 +43,37 @@ div {
 }
 
 .content-box-border {
-  width: 1180px;
-  height: 284px;
+  width: 73.75rem;
+  height: 17.75rem;
   flex-grow: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 11px;
-  padding: 10px;
-  border-radius: 20px;
+  gap: .6875rem;
+  padding: .625rem;
+  border-radius: 1.25rem;
   background-color: #fff;
 }
 
+.section-header {
+  height: 1.75rem;;
+  gap: 66.5rem;
+  align-self: stretch;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0;
+}
+
 .section-name {
-  width: 55px;
-  height: 28px;
-  margin: 2px 2px 0 0;
+  width: 3.4375rem;
+  height: 1.75rem;
+  margin: .125rem .125rem 0 0;
   font-family: Arial;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
@@ -71,40 +83,45 @@ div {
   color: #000;
 }
 
-.Vector {
-  width: 24px;
-  height: 24px;
-  margin: 0 0 6px;
-  background-color: #d9c2ff;
+.logo-dropdown-edit {
+  width: 1.875rem;
+  height: 1.875rem;
+  flex-grow: 0;
+  object-fit: contain;
+  color: #c4c4c4;
+  float: right;
 }
 
-.logo-dropdown-edit {
-  width: 1160px;
-  height: 2px;
+.field-value-row {
+  height: 3.375rem;
+  align-self: stretch;
   flex-grow: 0;
-  background-color: #e7e6e6;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: .625rem;
+  padding: 0;
 }
 
 .field-label {
-  width: 180px;
-  height: 22px;
-  margin: 0 19px 0.1px 0;
-  font-family: ProximaNova;
-  font-size: 18px;
+  width: 11.25rem;
+  height: 1.375rem;
+  margin: 0 1.1875rem .0063rem 0;
+  font-size: 1.125rem;
   font-weight: 600;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
-  letter-spacing: 0.18px;
+  letter-spacing: .0112rem;
   text-align: left;
   color: #000;
 }
 
 .value {
-  height: 54px;
+  height: 3.375rem;
   flex-grow: 1;
-  font-family: ProximaNova;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
