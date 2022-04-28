@@ -21,7 +21,7 @@ export default {
       await fetch(loginUrl, {
         method: 'GET',
         mode: 'no-cors',
-        cache: 'no-cache'
+        cache: 'no-cache',
       });
     },
     async logout() {
