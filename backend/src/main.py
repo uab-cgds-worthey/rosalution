@@ -10,6 +10,7 @@ from cas import CASClient
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 from starlette.requests import Request
+from starlette.middleware.sessions import SessionMiddleware
 
 
 from .core.analysis import Analysis, AnalysisSummary
@@ -41,6 +42,8 @@ app = FastAPI(
     openapi_tags=tags_metadata,
     root_path="/divergen/api/"
 )
+
+app.add_middleware(SessionMiddleware, secret_key="!secret")
 
 ## diverGen endpoints
 
