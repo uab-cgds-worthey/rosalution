@@ -17,13 +17,8 @@ export default {
   methods: {
     async login() {
       const loginUrl = '/divergen/api/logintest';
-      console.log(loginUrl);
-      await fetch(loginUrl, {
-        method: 'GET',
-        headers: {'Access-Control-Allow-Origin': '*'},
-        mode: 'cors',
-        cache: 'no-cache',
-      });
+      const newURL = await fetch(loginUrl);
+      window.location = newURL
     },
     async logout() {
 
