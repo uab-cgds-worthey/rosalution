@@ -20,7 +20,7 @@ export default {
       console.log(loginUrl);
       await fetch(loginUrl, {
         method: 'GET',
-        mode: 'no-cors',
+        mode: 'cors',
         cache: 'no-cache',
       });
     },
