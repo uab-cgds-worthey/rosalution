@@ -9,6 +9,7 @@ from cas import CASClient
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.middleware.cors import CORSMiddleware
 from starlette.requests import Request
 from starlette.middleware.sessions import SessionMiddleware
 
@@ -35,6 +36,13 @@ tags_metadata = [{
     "description": "Heart-beat that external services use to verify if the application is running."
 }]
 
+## CORS Policy ##
+
+origins = [
+    "http://dev.cgds.uab.edu",
+    "http://padlockdev.idm.uab.edu"
+]
+
 app = FastAPI(
     title="diverGen API",
     description=DESCRIPTION,
@@ -43,6 +51,14 @@ app = FastAPI(
 )
 
 app.add_middleware(SessionMiddleware, secret_key="!secret")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 ## diverGen endpoints
 
