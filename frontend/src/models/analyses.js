@@ -12,7 +12,6 @@ export default {
   },
 
   async getAnalysis(analysisName) {
-    // const analysisList = await this.all();
     const baseUrl = '/divergen/api/';
     const urlQuery = 'analysis/' + analysisName;
     const body = await Requests.get(baseUrl + urlQuery);

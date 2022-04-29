@@ -80,6 +80,8 @@ app-content {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
   height: 100%;
 }
 

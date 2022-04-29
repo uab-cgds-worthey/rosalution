@@ -9,6 +9,10 @@ export default defineConfig({
     global: true,
     environment: 'happy-dom',
     coverage: {
+      exclude: ['test', 'src/requests.js'],
+      lines: 80,
+      functions: 80,
+      branches: 80,
     },
   },
   resolve: {

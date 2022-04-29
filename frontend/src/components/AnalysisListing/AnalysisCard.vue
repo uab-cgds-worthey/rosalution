@@ -1,56 +1,44 @@
 <template>
   <router-link :to="{ name: 'analysis', params: { analysis_name: this.name } }">
     <div class="analysis-card">
-      <div class="analysis-base" :style="`border-color: var(${workflowColor})`">
-        <div class="case-status-info">
+      <div class="analysis-base" :style="cardBorderColorStyle">
+        <div class="case-status-section">
           <div class="status-icon">
-            <font-awesome-icon :icon="workflowIcon" :style="workflowColorStyle" size="lg"/>
+            <font-awesome-icon :icon="workflowIcon" :style="workflowColorStyle" size="2x"/>
           </div>
-          <span class="case-info">
-            <div class="case-name">
-              {{ name }}
-            </div>
-            <div class="investigator">
-              {{ nominated_by }}
-            </div>
+          <span>
+            <div class="case-name">{{ name }}</div>
+            <div class="subection-text">{{ nominated_by }}</div>
           </span>
         </div>
         <div class="dates-section">
-          <div class="top-border"></div>
-          <div class="date-info">
-            <span class="case-added-info">
-              <div class="case-added-label">Case Added:</div>
-              <div class="case-added-date">
-                {{ created_date }}
-              </div>
+            <span class="dates-subsection">
+              <div class="subection-text dates-subsection-label">Case Added:</div>
+              <div>{{ created_date }}</div>
             </span>
             <span class="middle-separator"></span>
-            <span class="last-modified-info">
-              <div class="last-modified-label">Last Modified:</div>
-              <div class="last-modified-date">
-                {{ last_modified_date }}
-              </div>
+            <span class="dates-subsection">
+              <div class="subection-text dates-subsection-label">Last Modified:</div>
+              <div>{{ last_modified_date }}</div>
             </span>
-          </div>
-          <div class="bottom-border"></div>
         </div>
-        <div class="gene-label">Gene:</div>
-        <ul class="gene-name">
+        <div class="genomic-units-section">
+        <ul aria-label="Gene:">
           <li v-for="genomic_unit in genomic_units" :key="genomic_unit">
             {{ genomic_unit.gene }}
           </li>
         </ul>
-        <div class="transcript-label">Transcript:</div>
-        <ul class="transcript-name">
+        <ul aria-label="Transcript:">
           <li v-for="genomic_unit in genomic_units" :key="genomic_unit">
             {{ genomic_unit.transcripts.join(", ") }}
           </li>
         </ul>
-        <ul class="coordinates">
+        <ul aria-label="Variant:">
           <li v-for="genomic_unit in genomic_units" :key="genomic_unit">
             {{ genomic_unit.variants.join(", ") }}
           </li>
         </ul>
+        </div>
       </div>
     </div>
   </router-link>
@@ -127,19 +115,22 @@ export default {
         color: `var(${this.workflowColor})`,
       };
     },
+    cardBorderColorStyle: function() {
+      return {
+        'border-color': `var(${this.workflowColor}`,
+        'color': `var(${this.workflowColor})`,
+      };
+    },
   },
 };
 </script>
 
 <style scoped>
 
-.analysis-card:link{color:inherit}
-.analysis-card:active{color:inherit}
-.analysis-card:visited{color:inherit}
-.analysis-card:hover{color:inherit}
-
 div {
   font-family: "Proxima Nova", sans-serif;
+  font-size: 0.75rem; /* 12 px */
+  color: var(--divergen-black)
 }
 
 .analysis-card {
@@ -147,259 +138,75 @@ div {
   text-decoration: none;
 }
 
+.analysis-base:hover {
+  box-shadow: 0 0.5em 0.5em -0.4em;
+  transform: translateY(-0.4em);
+}
+
 .analysis-base {
   max-width: 11.25rem;
   height: 18.125rem;
-  flex-grow: 0;
-  padding: 0.5rem 0.3125rem 0.875rem 0.3125rem;
+  padding: var(--p-8) var(--p-5) var(--p-8) var(--p-5);
   border-radius: 1.25rem;
   border: solid 0.625rem;
-  background-color: #fff;
-  margin: 1rem;
-  margin-right: 1rem;
-  position: relative;
-  justify-content: center;
+  background-color: var(--divergen-white);
   display: block;
   box-sizing: border-box;
   color: inherit;
+  transition: all .2s ease-in-out;
 }
 
-.case-status-info {
+.subection-text {
+  font-size: 0.563rem; /* 9px */
+}
+
+.case-status-section {
   display: flex;
+  padding: var(--p-1) 0;
 }
 
 .status-icon {
-  width: 1.4688rem;
-  height: 1.4688rem;
-  flex-grow: 0;
-  margin: 0.3937rem 0.5313rem 1.075rem 0.1875rem;
-  padding: 0.1125rem 0.2562rem 0.275rem 0.2562rem;
-  justify-content: center;
-}
-
-.case-info {
-  align-content: center;
-  align-self: stretch;
-  flex-grow: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-  align-items: left;
-  margin: 0.3937rem 0.5313rem 1.075rem 0rem;
-  padding: 0.1125rem 0.2562rem 0.275rem 0rem;
+  padding: var(--p-5);
 }
 
 .case-name {
-  width: 3.75rem;
-  height: 0.813rem;
-  font-size: 0.688rem;
   font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: left;
-  color: #000;
 }
 
-.investigator {
-  width: 4.875rem;
-  height: 0.625rem;
-  font-size: 0.5625rem;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: left;
-  color: #000;
-}
-
-.top-border {
-  width: 9.375rem;
-  height: 0.0625rem;
-  flex-grow: 0;
-  background-color: #979797;
+.dates-section {
+  display:flex;
+  flex-direction: row;
   justify-content: center;
+  text-align: center;
+  padding: var(--p-1);
+  border-top: 1px solid var(--divergen-grey-300);
+  border-bottom: 1px solid var(--divergen-grey-300);
 }
 
-.bottom-border {
-  width: 9.375rem;
-  height: 0.0625rem;
-  flex-grow: 0;
-  background-color: #979797;
-  border: none;
-  justify-content: center;
-}
-
-.date-info {
-  display: flex;
-  width: 9.375rem;
-  height: 2.1981rem;
-  justify-content: center;
-}
-
-.case-added-info {
-  align-content: center;
-  align-self: stretch;
-  flex-grow: 0;
-  display: flex;
+.dates-subsection {
+  display:flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  padding: var(--p-1)
 }
 
-.case-added-label {
-  width: 5rem;
-  height: 0.625rem;
-  flex-grow: 0;
-  font-family: Helvetica;
-  font-size: 0.5625rem;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #6f6b6b;
-}
-
-.case-added-date {
-  width: 4.2687rem;
-  height: 0.75rem;
-  flex-grow: 0;
-  font-family: Helvetica;
-  font-size: 0.6375rem;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #000;
+.dates-subsection-label {
+  color: var(--divergen-grey-300)
 }
 
 .middle-separator {
-  width: 0.1062rem;
-  height: 2.2rem;
-  flex-grow: 0;
-  border: solid 0.75px #979797;
-  background-color: #979797;
-  justify-content: center;
+  min-width: 1px;
+  max-width: 1px;
+  margin: var(--p-1);
+  background-color: var(--divergen-grey-300);
 }
 
-.last-modified-info {
-  align-content: center;
-  align-self: stretch;
-  flex-grow: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.genomic-units-section {
+  padding: var(--p-1) 0;
 }
 
-.last-modified-label {
-  width: 4.9375rem;
-  height: 0.625rem;
-  flex-grow: 0;
-  font-family: Helvetica;
-  font-size: 0.5625rem;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #6f6b6b;
+ul:before{
+  content:attr(aria-label);
+  color: var(--divergen-grey-300);
 }
 
-.last-modified-date {
-  width: 4.2687rem;
-  height: 0.75rem;
-  flex-grow: 0;
-  font-family: Helvetica;
-  font-size: 0.6375rem;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #000;
-}
-
-.gene-label {
-  width: 2.0625rem;
-  height: 0.875rem;
-  margin: 0.7063rem 1.1875rem 0.4375rem 0.25rem;
-  font-family: Helvetica;
-  font-size: 0.75rem;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #6f6b6b;
-}
-
-.gene-name {
-  width: 1.9375rem;
-  height: 0.875rem;
-  margin: 0.4375rem 0 0.4375rem 0.25rem;
-  font-family: Helvetica;
-  font-size: 0.75rem;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #000;
-}
-
-.transcript-label {
-  width: 3.5625rem;
-  height: 0.875rem;
-  margin: 0.4375rem 1.6438rem 0.4375rem 0.1875rem;
-  font-family: Helvetica;
-  font-size: 0.75rem;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #6f6b6b;
-}
-
-.transcript-name {
-  width: 4.75rem;
-  height: 0.875rem;
-  margin: 0.4375rem 0.3937rem 0.4375rem 0.25rem;
-  font-family: Helvetica;
-  font-size: 0.75rem;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #000;
-}
-
-.coordinates {
-  width: 7.5rem;
-  height: 0.875rem;
-  margin: 0.4375rem 0.25rem 0.4375rem 0.25rem;
-  font-family: Helvetica;
-  font-size: 0.75rem;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: left;
-  color: #000;
-}
 </style>

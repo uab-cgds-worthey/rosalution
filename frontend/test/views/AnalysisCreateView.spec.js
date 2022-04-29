@@ -46,6 +46,8 @@ describe('AnalysisCreate.vue', () => {
       await wrapper.vm.createUpdateAnalysis(inputFixture);
 
       expect(saveAnalysisSpy.called).toBe(true);
+
+      saveAnalysisSpy.restore();
     });
   });
 });
