@@ -1,11 +1,11 @@
 <template>
-  <div class="content-box">
+  <div class="content-box" @wheel.prevent @touchmove.prevent @scroll.prevent>
     <div class="content-box-border">
       <div class="section-header">
         <span class="section-name">
-          Header
+          Header {{section_name}}
         </span>
-        <span class="logo-dropdown-edit">
+        <span class="logo-dropdown-edit" >
           <font-awesome-icon icon="chevron-down" size="lg"/>
         </span>
         <div class="seperator"></div>
@@ -31,7 +31,16 @@ export default {
   name: 'content-box',
   components: {
   },
-  props: {
+  props: ['section_name'],
+  data: function() {
+    return {
+      fieldsList: [],
+    };
+  },
+  methods: {
+    dropDown() {
+      return 0;
+    },
   },
 };
 </script>
@@ -40,11 +49,23 @@ export default {
 
 div {
   font-family: "Proxima Nova", sans-serif;
+  padding: 0%;
+  display: inline-block;
+}
+
+.content-box {
+  text-decoration: none;
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  flex-grow: 0;
+  width: 100%;
 }
 
 .content-box-border {
-  width: 73.75rem;
-  height: 17.75rem;
+  width: 71.5rem;
+  min-height: 10rem;
+  height: auto;
   flex-grow: 0;
   display: flex;
   flex-direction: column;

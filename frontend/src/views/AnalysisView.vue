@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="analysis-view">
     <app-header>
-      This page opens the analysis view for each cpam case: Data for <p data-test="analysis-name">{{analysis_name}}</p>
+      This page opens the analysis view for each cpam case: Data for {{analysis_name}}
       </app-header>
       <app-content>
         <p>{{ analysis }}</p>
@@ -23,6 +23,7 @@ export default {
   data: function() {
     return {
       analysis: {},
+      sectionsList: [],
     };
   },
   created() {
@@ -40,6 +41,19 @@ export default {
 
 div {
   font-family: "Proxima Nova", sans-serif;
+}
+
+app-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  height: 100%;
+}
+
+app-header {
+  position: sticky;
+  top:0px;
+  z-index: 10;
 }
 
 </style>
