@@ -1,6 +1,67 @@
-import {describe, it, expect} from 'vitest';
+import {describe, it, expect, beforeEach, afterEach} from 'vitest';
 
 import Analyses from '@/models/analyses.js';
+import Requests from '@/requests.js';
+import sinon from 'sinon';
+
+describe('analyses.js', () => {
+  const sandbox = sinon.createSandbox();
+  let mockGetRequest;
+
+  beforeEach(() => {
+    mockGetRequest = sandbox.stub(Requests, 'get');
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  it('Queries all the analyses', async () => {
+    mockGetRequest.returns(allSummaries);
+    const allAnalyses = await Analyses.all();
+    expect(allAnalyses.length).to.equal(4);
+  });
+
+  it('Queries a specific analysis', async () => {
+    mockGetRequest.returns(byName);
+    const analysisName = 'CPAM0002';
+    const specificAnalysis = await Analyses.getAnalysis(analysisName);
+
+    expect(specificAnalysis.name).to.equal('CPAM0002');
+    expect(specificAnalysis.nominated_by).to.equal('Dr. Person One');
+  });
+
+  it('Formats the formData to be sent off and saved', async () => {
+    const fakeFormInput = await Analyses.saveAnalysis(incomingCreateAnalysisFormFixture);
+
+    expect(fakeFormInput).to.not.be.undefined;
+  });
+});
+
+const allSummaries = [
+  {
+    'name': 'CPAM0002',
+    'description': ': LMNA-related congenital muscular dystropy',
+  },
+  {
+    'name': 'CPAM0046',
+    'description': ': LMNA-related congenital muscular dystropy',
+  },
+  {
+    'name': 'CPAM0047',
+    'description': 'Congenital variant of Rett syndrome',
+  },
+  {
+    'name': 'CPAM0053',
+    'description': 'Mild Zellweger Spectrum Disorder, a Peroxisome Biogenesis Disorder',
+  },
+];
+
+const byName = {
+  'name': 'CPAM0002',
+  'description': ': LMNA-related congenital muscular dystropy',
+  'nominated_by': 'Dr. Person One',
+};
 
 const incomingCreateAnalysisFormFixture = {
   name: 'Fake Analysis',
@@ -48,23 +109,3 @@ const incomingCreateAnalysisFormFixture = {
     },
   ],
 };
-
-describe('analyses.js', () => {
-  it('Queries all the analyses', async () => {
-    const allAnalyses = await Analyses.all();
-    expect(allAnalyses.length).toBe(8);
-  });
-
-  it('Queries a specific analysis', async () => {
-    const analysisId = 'e99def4b-cdb3-4a6b-82f1-e3ab4df37f9f';
-    const specificAnalysis = await Analyses.getAnalysis(analysisId);
-
-    expect(specificAnalysis.name).toBe('CF_TLOAF2');
-  });
-
-  it.only('Formats the formData to be sent off and saved', async () => {
-    const fakeFormInput = await Analyses.saveAnalysis(incomingCreateAnalysisFormFixture);
-
-    expect(fakeFormInput).to.not.be.undefined;
-  });
-});

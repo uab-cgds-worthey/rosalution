@@ -11,6 +11,7 @@ html {
   --divergen-teal-200: #13CEC3;
   --divergen-yellow-200: #FECA0F;
   --divergen-grey-200: #C4C4C4;
+  --divergen-grey-300: #A1A1A1;
   --divergen-black: black;
   --divergen-white: white;
   
@@ -19,6 +20,7 @@ html {
   
   --content-border-radius: 10px;
   
+  --p-1: 0.25rem;
   --p-5: 0.313rem;
   --p-8: 0.5rem;
   --p-10: 0.625rem;
