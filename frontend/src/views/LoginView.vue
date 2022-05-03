@@ -28,16 +28,16 @@ export default {
       window.location = response['url'];
     },
     async logout() {
-      const logoutUrl = '/divergen/api/logout'
+      const logoutUrl = '/divergen/api/logout';
       const newURL = await fetch(logoutUrl, {
         method: 'GET',
         mode: 'cors',
       });
 
       const response = await newURL.json();
-      console.log(response['url'])
+      console.log(response['url']);
 
-      window.location = response['url']
+      window.location = response['url'];
     },
   },
 };
