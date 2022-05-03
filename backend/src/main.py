@@ -164,7 +164,7 @@ async def logintest():
 def logout(request: Request):
     """ Test Logout Method """
     redirect_url = request.url_for('logout_callback')
-    cas_logout_url = cas_client.get_login_url(redirect_url)
+    cas_logout_url = cas_client.get_logout_url(redirect_url)
     print('CAS logout URL: %s', cas_logout_url)
     # return RedirectResponse(cas_logout_url)
     return {'url': cas_logout_url}

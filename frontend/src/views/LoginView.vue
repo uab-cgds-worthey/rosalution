@@ -1,13 +1,8 @@
 <template>
     <div class="center">
         <h1>Authentication</h1>
-        <form @submit.prevent="login">
-            <button type="submit">Login</button>
-            <br />
-            <br />
-            <br />
-            <button type="submit">Logout</button>
-        </form>
+          <button @click="login" type="submit">Login</button>
+          <button @click="logout" type="submit">Logout</button>
     </div>
 </template>
 
@@ -24,8 +19,8 @@ export default {
 
       const response = await newURL.json();
       console.log(response['url']);
-      console.log();
-      window.location = response['url'];
+
+      // window.location = response['url'];
     },
     async logout() {
       const logoutUrl = '/divergen/api/logout';
@@ -37,7 +32,7 @@ export default {
       const response = await newURL.json();
       console.log(response['url']);
 
-      window.location = response['url'];
+      // window.location = response['url'];
     },
   },
 };
