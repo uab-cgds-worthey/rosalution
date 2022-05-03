@@ -20,7 +20,7 @@ export default {
       const response = await newURL.json();
       console.log(response['url']);
 
-      // window.location = response['url'];
+      window.location = response['url'];
     },
     async logout() {
       const logoutUrl = '/divergen/api/logout';
@@ -32,7 +32,7 @@ export default {
       const response = await newURL.json();
       console.log(response['url']);
 
-      // window.location = response['url'];
+      window.location = response['url'];
     },
   },
 };
