@@ -156,6 +156,7 @@ async def logintest(request: Request, nexturl: Optional[str] = None, ticket: Opt
     """ Test Login Test Method """
     if request.session.get("user", None):
         # We're already logged in, don't need to do the login process
+        print("We are already logged in as: %s", request.session.get("user", None))
         return {'url': nexturl}
 
     if not ticket:
@@ -170,9 +171,10 @@ async def logintest(request: Request, nexturl: Optional[str] = None, ticket: Opt
         return {'url': 'http://dev.cgds.uab.edu/divergen/login'}
 
     # Login was successful, redirect to the 'nexturl' query parameter
-    request.session['user'] = dict(user=user)
-    redirect_url = "http://dev.cgds.uab.edu" + nexturl
-    return {'url': redirect_url}
+    # request.session['user'] = dict(user=user)
+    # redirect_url = "http://dev.cgds.uab.edu" + nexturl
+    # return {'url': redirect_url}
+    return {'username': request.session.get("user", None)}
 
 
 # @app.get('/validate')

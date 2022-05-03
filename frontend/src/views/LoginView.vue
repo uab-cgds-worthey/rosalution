@@ -1,6 +1,7 @@
 <template>
     <div class="center">
-        <h1>Authentication</h1>
+        <h1 v-if="username != ''">Welcome, {{ this.username }}</h1>
+        <h1 v-else>Authentication</h1>
           <button @click="login" type="submit">Login</button>
           <br />
           <br />
@@ -14,6 +15,11 @@
 <script>
 
 export default {
+  data() {
+    return {
+      username: '',
+    };
+  },
   methods: {
     async login() {
       const loginUrl = '/divergen/api/login';
@@ -23,12 +29,20 @@ export default {
       });
 
       const response = await newURL.json();
-      console.log(response['url']);
 
-      window.location = response['url'];
+      if ('url' in response) {
+        console.log(response['url']);
+        window.location = response['url'];
+      } else if ('username' in response) {
+        console.log(response['username']);
+        this.username = response['username'];
+      }
     },
     async validate() {
       console.log('Validating the login');
+      console.log(this.username);
+      this.username = 'username';
+      console.log(this.username);
     },
     async logout() {
       const logoutUrl = '/divergen/api/logout';
