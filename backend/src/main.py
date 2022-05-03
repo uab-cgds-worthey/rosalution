@@ -24,7 +24,7 @@ ultra-rare diseases.
 
 cas_client = CASClient(
     version=3,
-    service_url='http://dev.cgds.uab.edu/divergen/login?nexturl=%2Fdivergen',
+    service_url='http://dev.cgds.uab.edu/divergen/login?nexturl=/divergen',
     server_url='http://padlockdev.idm.uab.edu/cas/login'
 )
 
@@ -156,7 +156,9 @@ async def login(request: Request, nexturl: Optional[str] = None, ticket: Optiona
 async def logintest():
     """ Test Login Test Method """
     cas_login_url = cas_client.get_login_url()
-    return 'https://pydantic-docs.helpmanual.io/'
+    # return {'url': 'https://pydantic-docs.helpmanual.io/'}
+    # return 'https://pydantic-docs.helpmanual.io/'
+    return {'url': cas_login_url}
 
 @app.get('/logout')
 def logout(request: Request):

@@ -21,8 +21,11 @@ export default {
       method: 'GET',
       mode: 'cors',
     });
-      console.log(newURL);
-      // window.location = newURL;
+
+      const response = await newURL.json()
+      console.log(response['url']);
+      console.log()
+      window.location = response['url'];
     },
     async logout() {
 
