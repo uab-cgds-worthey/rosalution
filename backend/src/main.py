@@ -1,11 +1,15 @@
 """
 End points for backend
 """
+<<<<<<< HEAD
 import os
 import json
 
 from typing import List, Optional
 from cas import CASClient
+=======
+from typing import List
+>>>>>>> Work in progress for annotation code base
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
@@ -14,6 +18,7 @@ from starlette.requests import Request
 from starlette.middleware.sessions import SessionMiddleware
 
 from .core.analysis import Analysis, AnalysisSummary
+from .repository.analysis_collection import AnalysisCollection
 
 DESCRIPTION = """
 diverGen REST API assists researchers study 🧬 variation in patients 🧑🏾‍🤝‍🧑🏼 
@@ -43,6 +48,8 @@ origins = [
     "https://padlockdev.idm.uab.edu"
 ]
 
+analysis_collection = AnalysisCollection()
+
 app = FastAPI(
     title="diverGen API",
     description=DESCRIPTION,
@@ -65,19 +72,11 @@ app.add_middleware(
 @app.get('/analysis', response_model=List[Analysis], tags=["analysis"])
 async def get_all_analyses():
     """ Returns every analysis available"""
-    # This is necessary for pytest to get relative pathing.
-    # Better variable names need to be devised.
-    path_to_current_file = os.path.realpath(__file__)
-    current_directory = os.path.split(path_to_current_file)[0]
-    path_to_file = os.path.join(current_directory, "../fixtures/analyses.json")
-    with open(path_to_file, mode='r', encoding='utf-8') as file_to_open:
-        data = json.load(file_to_open)
-        file_to_open.close()
-
-    return data
+    return analysis_collection.all()
 
 @app.get('/analysis/summary', response_model=List[AnalysisSummary], tags=["analysis"])
 async def get_all_analyses_summaries():
+<<<<<<< HEAD
     """ Returns a summary of every analysis within the application """
     # This is necessary for pytest to get relative pathing.
     # Better variable names need to be devised.
@@ -104,18 +103,26 @@ def find_analysis_by_name(name: str):
             return analysis
 
     return None
+=======
+    """ Returns a summary of every analysis within the application"""
+    return analysis_collection.all_summaries()
+>>>>>>> Work in progress for annotation code base
 
 @app.get('/analysis/{name}', response_model=Analysis, tags=["analysis"])
 async def get_analysis_by_name(name: str):
     """ Returns analysis case data by calling method to find case by it's name """
     if name == 'CPAM0002':
-        return find_analysis_by_name("CPAM0002")
+        return analysis_collection.find_by_name('CPAM0002')
     if name == 'CPAM0046':
-        return find_analysis_by_name("CPAM0046")
+        return analysis_collection.find_by_name('CPAM0046')
     if name == 'CPAM0053':
-        return find_analysis_by_name("CPAM0053")
+        return analysis_collection.find_by_name('CPAM0053')
+
+<<<<<<< HEAD
+=======
     raise HTTPException(status_code=404, detail="Item not found")
 
+>>>>>>> Work in progress for annotation code base
 @app.get('/heart-beat', tags=["lifecycle"])
 async def heartbeat():
     """ Returns a heart-beat that orchestration services can use to determine if the application is running """
