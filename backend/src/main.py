@@ -166,7 +166,8 @@ def logout(request: Request):
     redirect_url = request.url_for('logout_callback')
     cas_logout_url = cas_client.get_login_url(redirect_url)
     print('CAS logout URL: %s', cas_logout_url)
-    return RedirectResponse(cas_logout_url)
+    # return RedirectResponse(cas_logout_url)
+    return {'url': cas_logout_url}
 
 @app.get('/logout_callback')
 def logout_callback(request: Request):
