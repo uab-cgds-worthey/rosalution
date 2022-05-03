@@ -152,11 +152,11 @@ async def login(request: Request, nexturl: Optional[str] = None, ticket: Optiona
     request.session['user'] = dict(user=user)
     return response
 
-@app.get('/logintest', response_class=RedirectResponse, status_code=200)
+@app.get('/logintest')
 async def logintest():
     """ Test Login Test Method """
     cas_login_url = cas_client.get_login_url()
-    return cas_login_url
+    return 'https://pydantic-docs.helpmanual.io/'
 
 @app.get('/logout')
 def logout(request: Request):
