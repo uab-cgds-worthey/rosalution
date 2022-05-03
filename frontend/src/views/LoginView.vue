@@ -2,6 +2,11 @@
     <div class="center">
         <h1>Authentication</h1>
           <button @click="login" type="submit">Login</button>
+          <br />
+          <br />
+          <button @click="validate" type="submit">Validate</button>
+          <br />
+          <br />
           <button @click="logout" type="submit">Logout</button>
     </div>
 </template>
@@ -11,7 +16,7 @@
 export default {
   methods: {
     async login() {
-      const loginUrl = '/divergen/api/logintest';
+      const loginUrl = '/divergen/api/login';
       const newURL = await fetch(loginUrl, {
         method: 'GET',
         mode: 'cors',
@@ -21,6 +26,9 @@ export default {
       console.log(response['url']);
 
       window.location = response['url'];
+    },
+    async validate() {
+      console.log('Validating the login');
     },
     async logout() {
       const logoutUrl = '/divergen/api/logout';

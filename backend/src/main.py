@@ -116,14 +116,13 @@ async def get_analysis_by_name(name: str):
         return find_analysis_by_name("CPAM0053")
     raise HTTPException(status_code=404, detail="Item not found")
 
-
 @app.get('/heart-beat', tags=["lifecycle"])
 async def heartbeat():
     """ Returns a heart-beat that orchestration services can use to determine if the application is running """
     return "thump-thump"
 
 # pylint: disable=no-member
-@app.get('/login', tags=["authentication"])
+@app.get('/loginold', tags=["authentication"])
 async def login(request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None):
     """ Test Login Method """
     if request.session.get("user", None):
@@ -152,13 +151,35 @@ async def login(request: Request, nexturl: Optional[str] = None, ticket: Optiona
     request.session['user'] = dict(user=user)
     return response
 
-@app.get('/logintest')
-async def logintest():
+@app.get('/login')
+async def logintest(request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None):
     """ Test Login Test Method """
-    cas_login_url = cas_client.get_login_url()
-    # return {'url': 'https://pydantic-docs.helpmanual.io/'}
-    # return 'https://pydantic-docs.helpmanual.io/'
-    return {'url': cas_login_url}
+    if request.session.get("user", None):
+        # We're already logged in, don't need to do the login process
+        return {'url': nexturl}
+
+    if not ticket:
+        cas_login_url = cas_client.get_login_url()
+        return {'url': cas_login_url}
+
+    user, attributes, pgtiou = cas_client.verify_ticket(ticket)
+
+    print('CAS verify ticket response: user: %s, attributes: %s, pgtiou: %s', user, attributes, pgtiou)
+
+    if not user:
+        return {'url': 'http://dev.cgds.uab.edu/divergen/login'}
+
+    # Login was successful, redirect to the 'nexturl' query parameter
+    request.session['user'] = dict(user=user)
+    redirect_url = "http://dev.cgds.uab.edu" + nexturl
+    return {'url': redirect_url}
+
+
+# @app.get('/validate')
+# async def logintest():
+#     """ Test Validate Test Method """
+#     user, attributes, pgtiou = cas_client.verify_ticket(ticket)
+#     return {'url': cas_login_url}
 
 @app.get('/logout')
 def logout(request: Request):
@@ -166,7 +187,6 @@ def logout(request: Request):
     redirect_url = request.url_for('logout_callback')
     cas_logout_url = cas_client.get_logout_url(redirect_url)
     print('CAS logout URL: %s', cas_logout_url)
-    # return RedirectResponse(cas_logout_url)
     return {'url': cas_logout_url}
 
 @app.get('/logout_callback')
@@ -175,4 +195,4 @@ def logout_callback(request: Request):
     # redirect from CAS logout request after CAS logout successfully
     # response.delete_cookie('username')
     request.session.pop("user", None)
-    return HTMLResponse('Logged out from CAS. <a href="/login">Login</a>')
+    return RedirectResponse("http://dev.cgds.uab.edu/divergen/login")
