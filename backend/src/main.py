@@ -24,8 +24,8 @@ ultra-rare diseases.
 
 cas_client = CASClient(
     version=3,
-    service_url='http://dev.cgds.uab.edu/divergen/api/login?nexturl=/divergen',
-    server_url='http://padlockdev.idm.uab.edu/cas/login'
+    service_url='http://dev.cgds.uab.edu/divergen/api/login?nexturl=%2Fdivergen',
+    server_url='http://padlockdev.idm.uab.edu/cas/'
 )
 
 tags_metadata = [{
