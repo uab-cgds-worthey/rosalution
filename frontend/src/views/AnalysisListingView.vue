@@ -2,7 +2,7 @@
 <div>
   <!--Header-->
   <app-header>
-    <AnalysisListingHeader v-on:search="onSearch"/>
+    <AnalysisListingHeader v-bind:username="username" v-on:search="onSearch"/>
   </app-header>
   <!--Content-->
   <app-content>
@@ -41,6 +41,7 @@ export default {
     return {
       searchQuery: '',
       analysisList: [],
+      username: '',
     };
   },
   computed: {
@@ -60,9 +61,21 @@ export default {
     },
   },
   created() {
+    this.getUsername();
     this.getListing();
   },
   methods: {
+    async getUsername() {
+      const validateUrl = '/divergen/api/validate';
+      const newURL = await fetch(validateUrl, {
+        method: 'GET',
+        mode: 'cors',
+      });
+
+      const response = await newURL.json();
+
+      this.username = response['username'];
+    },
     async getListing() {
       this.analysisList.length = 0;
       this.analysisList.push(...await Analyses.all());

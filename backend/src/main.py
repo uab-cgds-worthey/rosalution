@@ -182,30 +182,29 @@ async def logintest(request: Request, nexturl: Optional[str] = None, ticket: Opt
 
     # Login was successful, redirect to the 'nexturl' query parameter
     request.session['username'] = user
+    request.session['ticket'] = ticket
     print("This is happening: #5")
     url_full = 'http://dev.cgds.uab.edu/divergen/'
     # return {'username': request.session.get("user", None)}
     return RedirectResponse(url_full)
 
 @app.get('/validate')
-async def validatetest(request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None):
+async def validatetest(request: Request):
     """ Test Validate Test Method """
-    # request.session['username'] = 'FastAPI'
-    print(request.session)
-    print(request.session.get("username", None))
-    print(ticket)
-    print(nexturl)
+    ticket = request.session['ticket']
+    user, attributes, pgtiou = cas_client.verify_ticket(ticket)
 
-    # user, attributes, pgtiou = cas_client.verify_ticket(ticket)
+    print('CAS verify ticket response: user: %s, attributes: %s, pgtiou: %s', user, attributes, pgtiou)
 
-    # user = request.session.get('username', None)
-    return {'username': ticket}
+    # return {'username': 'FastAPI'}
+    return {'username': user}
 
 @app.get('/test')
 async def testtest(request: Request):
     """ Test Test Test Method """
-    request.session.pop('username', None)
     print(request.session)
+    print(request.session.get("username", None))
+
     return {}
 
 @app.get('/logout')
