@@ -43,7 +43,8 @@ class Analysis(BaseAnalysis):
     genomic_units: List[GenomicUnit] = []
     sections: List[Section] = []
 
-    def unitsToAnnotate(self):
+    def units_to_annotate(self):
+        """Returns the types of genomic units within the analysis"""
         units = []
         for unit in self.genomic_units:
             if hasattr(unit, 'gene'):

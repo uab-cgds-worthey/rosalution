@@ -43,50 +43,50 @@
   {
     "data_set": "transcript_id",
     "data_source": "Ensembl",
-    "type": "transcript"
+    "type": "hgvs_variant"
    },
    {
      "data_set": "Polyphen Prediction",
      "data_source": "Ensembl",
-     "type": "transcript"
+     "type": "hgvs_variant"
    },
    {
      "data_set": "Polyphen Score",
      "data_source": "Ensembl",
-     "type": "transcript"
+     "type": "hgvs_variant"
    },
    {
      "data_set": "SIFT Prediction",
      "data_source": "Ensembl",
-     "type": "transcript"
+     "type": "hgvs_variant"
    },
    {
      "data_set": "SIFT Score",
      "data_source": "Ensembl",
-     "type": "transcript"
+     "type": "hgvs_variant"
    },
    {
      "data_set": "cDNA Change",
      "data_source": "Ensembl",
-     "type": "transcript"
+     "type": "hgvs_variant"
    },
    {
      "data_set": "AA Change",
      "data_source": "Ensembl",
-     "type": "transcript"
+     "type": "hgvs_variant"
    },
    {
      "data_set": "Consequence",
      "data_source": "Ensembl",
-     "type": "transcript"
+     "type": "hgvs_variant"
    }, {
      "data_set": "Effects",
      "data_source": "",
-     "type": "transcript"
+     "type": "hgvs_variant"
    }, {
      "data_set": "Affected Regions",
      "data_source": "",
-     "type": "transcript"
+     "type": "hgvs_variant"
    },
    {
     "data_set": "ClinVar",

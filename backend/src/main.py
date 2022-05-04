@@ -21,7 +21,7 @@ from .core.analysis import Analysis, AnalysisSummary
 from .repository.analysis_collection import AnalysisCollection
 
 DESCRIPTION = """
-diverGen REST API assists researchers study 🧬 variation in patients 🧑🏾‍🤝‍🧑🏼 
+diverGen REST API assists researchers study 🧬 variation in patients 🧑🏾‍🤝‍🧑🏼
 by helping select candidate animal models 🐀🐁🐠🪱 to replicate the variation
 to further research to dervice a diagnose and provide therapies for
 ultra-rare diseases.
@@ -74,39 +74,13 @@ async def get_all_analyses():
     """ Returns every analysis available"""
     return analysis_collection.all()
 
-@app.get('/analysis/summary', response_model=List[AnalysisSummary], tags=["analysis"])
+
+@app.get('/analysis/summary',
+         response_model=List[AnalysisSummary], tags=["analysis"])
 async def get_all_analyses_summaries():
-<<<<<<< HEAD
-    """ Returns a summary of every analysis within the application """
-    # This is necessary for pytest to get relative pathing.
-    # Better variable names need to be devised.
-    path_to_current_file = os.path.realpath(__file__)
-    current_directory = os.path.split(path_to_current_file)[0]
-    path_to_file = os.path.join(current_directory, "../fixtures/analyses-summary.json")
-    with open(path_to_file, mode='r', encoding='utf-8') as file_to_open:
-        data = json.load(file_to_open)
-        file_to_open.close()
-
-    return data
-
-def find_analysis_by_name(name: str):
-    """ Returns analysis by searching for id """
-    path_to_current_file = os.path.realpath(__file__)
-    current_directory = os.path.split(path_to_current_file)[0]
-    path_to_file = os.path.join(current_directory, "../fixtures/analyses.json")
-    with open(path_to_file, mode='r', encoding='utf-8') as file_to_open:
-        analyses = json.load(file_to_open)
-        file_to_open.close()
-    for analysis in analyses:
-        analysis_name = analysis.get('name')
-        if analysis_name == name:
-            return analysis
-
-    return None
-=======
     """ Returns a summary of every analysis within the application"""
     return analysis_collection.all_summaries()
->>>>>>> Work in progress for annotation code base
+
 
 @app.get('/analysis/{name}', response_model=Analysis, tags=["analysis"])
 async def get_analysis_by_name(name: str):
@@ -122,7 +96,11 @@ async def get_analysis_by_name(name: str):
 =======
     raise HTTPException(status_code=404, detail="Item not found")
 
+<<<<<<< HEAD
 >>>>>>> Work in progress for annotation code base
+=======
+
+>>>>>>> Work in progress to queue annotation tasks according to the dataset configuration
 @app.get('/heart-beat', tags=["lifecycle"])
 async def heartbeat():
     """ Returns a heart-beat that orchestration services can use to determine if the application is running """
