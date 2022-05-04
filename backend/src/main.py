@@ -183,10 +183,9 @@ async def logintest(request: Request, nexturl: Optional[str] = None, ticket: Opt
     # Login was successful, redirect to the 'nexturl' query parameter
     request.session['username'] = user
     print("This is happening: #5")
-    url_prefix = 'http://dev.cgds.uab.edu/divergen/api/login'
-    url_full = url_prefix + nexturl
+    url_full = 'http://dev.cgds.uab.edu/divergen/'
     # return {'username': request.session.get("user", None)}
-    return {'url': url_full}
+    return RedirectResponse(url_full)
 
 @app.get('/validate')
 async def validatetest(request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None):
