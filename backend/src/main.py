@@ -154,14 +154,19 @@ async def login(request: Request, nexturl: Optional[str] = None, ticket: Optiona
 @app.get('/login')
 async def logintest(request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None):
     """ Test Login Test Method """
+    print("This is happening: #1")
     if request.session.get("user", None):
         # We're already logged in, don't need to do the login process
         print("We are already logged in as: %s", request.session.get("user", None))
         return {'url': nexturl}
 
+    print("This is happening: #2")
+
     if not ticket:
         cas_login_url = cas_client.get_login_url()
         return {'url': cas_login_url}
+
+    print("This is happening: #3")
 
     user, attributes, pgtiou = cas_client.verify_ticket(ticket)
 
@@ -170,18 +175,28 @@ async def logintest(request: Request, nexturl: Optional[str] = None, ticket: Opt
     if not user:
         return {'url': 'http://dev.cgds.uab.edu/divergen/login'}
 
+    print("This is happening: #4")
+
     # Login was successful, redirect to the 'nexturl' query parameter
-    # request.session['user'] = dict(user=user)
-    # redirect_url = "http://dev.cgds.uab.edu" + nexturl
-    # return {'url': redirect_url}
+    request.session['username'] = user
+    print("This is happening: #5")
     return {'username': request.session.get("user", None)}
 
+@app.get('/validate')
+async def validatetest(request: Request):
+    """ Test Validate Test Method """
+    request.session['username'] = 'FastAPI'
+    print(request.session)
+    print(request.session.get("username", None))
+    user = request.session.get('username', None)
+    return {'username': user}
 
-# @app.get('/validate')
-# async def logintest():
-#     """ Test Validate Test Method """
-#     user, attributes, pgtiou = cas_client.verify_ticket(ticket)
-#     return {'url': cas_login_url}
+@app.get('/test')
+async def testtest(request: Request):
+    """ Test Test Test Method """
+    request.session.pop('username', None)
+    print(request.session)
+    return {}
 
 @app.get('/logout')
 def logout(request: Request):

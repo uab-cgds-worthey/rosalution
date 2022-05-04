@@ -8,6 +8,9 @@
           <button @click="validate" type="submit">Validate</button>
           <br />
           <br />
+          <button @click="test" type="submit">Test</button>
+          <br />
+          <br />
           <button @click="logout" type="submit">Logout</button>
     </div>
 </template>
@@ -39,10 +42,27 @@ export default {
       }
     },
     async validate() {
-      console.log('Validating the login');
+      const validateUrl = '/divergen/api/validate';
+      const newURL = await fetch(validateUrl, {
+        method: 'GET',
+        mode: 'cors',
+      });
+
+      const response = await newURL.json();
+
+      this.username = response['username'];
       console.log(this.username);
-      this.username = 'username';
-      console.log(this.username);
+    },
+    async test() {
+      const validateUrl = '/divergen/api/test';
+      const newURL = await fetch(validateUrl, {
+        method: 'GET',
+        mode: 'cors',
+      });
+
+      const response = await newURL.json();
+
+      console.log(response);
     },
     async logout() {
       const logoutUrl = '/divergen/api/logout';
