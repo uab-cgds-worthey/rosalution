@@ -25,7 +25,7 @@ ultra-rare diseases.
 cas_client = CASClient(
     version=3,
     service_url='http://dev.cgds.uab.edu/divergen/api/login?nexturl=%2Fdivergen',
-    server_url='http://padlockdev.idm.uab.edu/cas/'
+    server_url='https://padlockdev.idm.uab.edu/cas/'
 )
 
 tags_metadata = [{
@@ -40,7 +40,7 @@ tags_metadata = [{
 
 origins = [
     "http://dev.cgds.uab.edu",
-    "http://padlockdev.idm.uab.edu"
+    "https://padlockdev.idm.uab.edu"
 ]
 
 app = FastAPI(
@@ -191,13 +191,16 @@ async def logintest(request: Request, nexturl: Optional[str] = None, ticket: Opt
 @app.get('/validate')
 async def validatetest(request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None):
     """ Test Validate Test Method """
-    request.session['username'] = 'FastAPI'
+    # request.session['username'] = 'FastAPI'
     print(request.session)
     print(request.session.get("username", None))
-    print('Ticket: ', ticket)
-    print('Next URL: ', nexturl)
-    user = request.session.get('username', None)
-    return {'username': user}
+    print(ticket)
+    print(nexturl)
+
+    # user, attributes, pgtiou = cas_client.verify_ticket(ticket)
+
+    # user = request.session.get('username', None)
+    return {'username': ticket}
 
 @app.get('/test')
 async def testtest(request: Request):
