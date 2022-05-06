@@ -126,7 +126,7 @@ async def heartbeat():
 @app.get('/login')
 async def logintest(request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None):
     """ diverGen Login Method """
-    if request.session.get("user", None):
+    if request.session.get("username", None):
         # We're already logged in, don't need to do the login process
         print("We are already logged in as: %s", request.session.get("user", None))
         return {'url': 'http://dev.cgds.uab.edu/divergen/'}
@@ -173,5 +173,5 @@ def logout_callback(request: Request):
     # redirect from CAS logout request after CAS logout successfully
     # response.delete_cookie('username')
     print("Is this being called?")
-    request.session.pop("user", None)
+    request.session.pop("username", None)
     return RedirectResponse("http://dev.cgds.uab.edu/divergen/login")
