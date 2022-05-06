@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     async getUsername() {
-      const validateUrl = '/divergen/api/validate';
+      const validateUrl = '/divergen/api/get_user';
       const newURL = await fetch(validateUrl, {
         method: 'GET',
         mode: 'cors',

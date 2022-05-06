@@ -41,29 +41,6 @@ export default {
         this.username = response['username'];
       }
     },
-    async validate() {
-      const validateUrl = '/divergen/api/validate';
-      const newURL = await fetch(validateUrl, {
-        method: 'GET',
-        mode: 'cors',
-      });
-
-      const response = await newURL.json();
-
-      this.username = response['username'];
-      console.log(this.username);
-    },
-    async test() {
-      const validateUrl = '/divergen/api/test';
-      const newURL = await fetch(validateUrl, {
-        method: 'GET',
-        mode: 'cors',
-      });
-
-      const response = await newURL.json();
-
-      console.log(response);
-    },
     async logout() {
       const logoutUrl = '/divergen/api/logout';
       const newURL = await fetch(logoutUrl, {

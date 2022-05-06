@@ -8,7 +8,7 @@ from typing import List, Optional
 from cas import CASClient
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.requests import Request
 from starlette.middleware.sessions import SessionMiddleware
@@ -122,90 +122,40 @@ async def heartbeat():
     return "thump-thump"
 
 # pylint: disable=no-member
-@app.get('/loginold', tags=["authentication"])
-async def login(request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None):
-    """ Test Login Method """
-    if request.session.get("user", None):
-        # Already logged in
-        return RedirectResponse(request.url_for('divergen'))
-
-    if not ticket:
-        cas_login_url = cas_client.get_login_url()
-        print('CAS login URL: %s', cas_login_url)
-        return RedirectResponse(cas_login_url)
-
-    # There is a ticket, the request come from CAS as callback.
-    # need call `verify_ticket()` to validate ticket and get user profile.
-    print('ticket: %s', ticket)
-    print('nextURL: %s', nexturl)
-
-    user, attributes, pgtiou = cas_client.verify_ticket(ticket)
-
-    print('CAS verify ticket response: user: %s, attributes: %s, pgtiou: %s', user, attributes, pgtiou)
-
-    if not user:
-        return HTMLResponse('Failed to verify ticket. <a href="/login">Login</a>')
-
-    # Login successfully, redirect according `nexturl` query parameter.
-    response = RedirectResponse(nexturl)
-    request.session['user'] = dict(user=user)
-    return response
-
+# This is done because pylint doesn't appear to be recognizing python-cas's functions saying they have no member
 @app.get('/login')
 async def logintest(request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None):
-    """ Test Login Test Method """
-    print("This is happening: #1")
-    print('Ticket: ', ticket)
-    print('Next URL: ', nexturl)
+    """ diverGen Login Method """
     if request.session.get("user", None):
         # We're already logged in, don't need to do the login process
         print("We are already logged in as: %s", request.session.get("user", None))
-        return {'url': nexturl}
-
-    print("This is happening: #2")
+        return {'url': 'http://dev.cgds.uab.edu/divergen/'}
 
     if not ticket:
+        # No ticket, the request comes from end user, send to CAS login
         cas_login_url = cas_client.get_login_url()
         return {'url': cas_login_url}
-
-    print("This is happening: #3")
 
     user, attributes, pgtiou = cas_client.verify_ticket(ticket)
 
     print('CAS verify ticket response: user: %s, attributes: %s, pgtiou: %s', user, attributes, pgtiou)
 
     if not user:
-        # This should be an error page of some kind
+        # Failed ticket verification, this should be an error page of some kind maybe?
         return {'url': 'http://dev.cgds.uab.edu/divergen/login'}
-
-    print("This is happening: #4")
 
     # Login was successful, redirect to the 'nexturl' query parameter
     request.session['username'] = user
-    request.session['ticket'] = ticket
-    print("This is happening: #5")
-    url_full = 'http://dev.cgds.uab.edu/divergen/'
-    # return {'username': request.session.get("user", None)}
-    return RedirectResponse(url_full)
+    base_url = 'http://dev.cgds.uab.edu'
+    return RedirectResponse(base_url + nexturl)
 
-@app.get('/validate')
-async def validatetest(request: Request):
-    """ Test Validate Test Method """
-    ticket = request.session['ticket']
-    user, attributes, pgtiou = cas_client.verify_ticket(ticket)
+@app.get('/get_user')
+def get_user(request: Request):
+    """ Returns active user in session """
+    if 'username' in request.session:
+        return {'username': request.session['username']}
 
-    print('CAS verify ticket response: user: %s, attributes: %s, pgtiou: %s', user, attributes, pgtiou)
-
-    # return {'username': 'FastAPI'}
-    return {'username': user}
-
-@app.get('/test')
-async def testtest(request: Request):
-    """ Test Test Test Method """
-    print(request.session)
-    print(request.session.get("username", None))
-
-    return {}
+    return {'username': ''}
 
 @app.get('/logout')
 def logout(request: Request):
