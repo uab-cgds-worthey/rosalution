@@ -160,10 +160,12 @@ def get_user(request: Request):
 @app.get('/logout')
 def logout(request: Request):
     """ Test Logout Method """
-    redirect_url = request.url_for('logout_callback')
+    print("URL callback: ", request.url_for('logout_callback'))
+    redirect_url = "http://dev.cgds.uab.edu/divergen/api/logout_callback"
+    # redirect_url = request.url_for('logout_callback') Can't do this because we won't get the full url
     cas_logout_url = cas_client.get_logout_url(redirect_url)
     print('CAS logout URL: %s', cas_logout_url)
-    return RedirectResponse(cas_logout_url)
+    return {'url': cas_logout_url}
 
 @app.get('/logout_callback')
 def logout_callback(request: Request):
