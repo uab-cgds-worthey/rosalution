@@ -124,7 +124,7 @@ async def heartbeat():
 # pylint: disable=no-member
 # This is done because pylint doesn't appear to be recognizing python-cas's functions saying they have no member
 @app.get('/login')
-async def logintest(request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None):
+async def login(request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None):
     """ diverGen Login Method """
     if request.session.get("username", None):
         # We're already logged in, don't need to do the login process
@@ -160,18 +160,8 @@ def get_user(request: Request):
 @app.get('/logout')
 def logout(request: Request):
     """ Test Logout Method """
-    print("URL callback: ", request.url_for('logout_callback'))
-    redirect_url = "http://dev.cgds.uab.edu/divergen/api/logout_callback"
-    # redirect_url = request.url_for('logout_callback') Can't do this because we won't get the full url
+    redirect_url = request.url_for('login')
     cas_logout_url = cas_client.get_logout_url(redirect_url)
     print('CAS logout URL: %s', cas_logout_url)
-    return {'url': cas_logout_url}
-
-@app.get('/logout_callback')
-def logout_callback(request: Request):
-    """ Test Logout Callback Method """
-    # redirect from CAS logout request after CAS logout successfully
-    # response.delete_cookie('username')
-    print("Is this being called?")
     request.session.pop("username", None)
-    return RedirectResponse("http://dev.cgds.uab.edu/divergen/login")
+    return {'url': cas_logout_url}

@@ -5,12 +5,6 @@
           <button @click="login" type="submit">Login</button>
           <br />
           <br />
-          <button @click="validate" type="submit">Validate</button>
-          <br />
-          <br />
-          <button @click="test" type="submit">Test</button>
-          <br />
-          <br />
           <button @click="logout" type="submit">Logout</button>
     </div>
 </template>
