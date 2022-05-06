@@ -172,5 +172,6 @@ def logout_callback(request: Request):
     """ Test Logout Callback Method """
     # redirect from CAS logout request after CAS logout successfully
     # response.delete_cookie('username')
+    print("Is this being called?")
     request.session.pop("user", None)
     return RedirectResponse("http://dev.cgds.uab.edu/divergen/login")
