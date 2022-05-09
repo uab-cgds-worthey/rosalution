@@ -3,21 +3,26 @@ import {shallowMount} from '@vue/test-utils';
 import {nextTick} from 'vue';
 import sinon from 'sinon';
 
-
 import Analyses from '@/models/analyses.js';
+import User from '@/models/user.js';
 import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
 import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
 import AnalysisListingView from '@/views/AnalysisListingView.vue';
+
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 describe('AnalysisListingView', () => {
   let mockedData;
+  let mockedUser;
   let wrapper;
 
   beforeAll(() => {
     mockedData = sinon.stub(Analyses, 'all');
     mockedData.returns(fixtureData());
+
+    mockedUser = sinon.stub(User, 'getUser');
+    mockedUser.returns('');
 
     wrapper = shallowMount(AnalysisListingView, {
       global: {

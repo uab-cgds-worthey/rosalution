@@ -29,6 +29,7 @@ import Analyses from '@/models/analyses.js';
 import AnalysisCard from '../components/AnalysisListing/AnalysisCard.vue';
 import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
 import AnalysisListingLegend from '../components/AnalysisListing/AnalysisListingLegend.vue';
+import User from '@/models/user.js';
 
 export default {
   name: 'analysis-listing-view',
@@ -66,15 +67,8 @@ export default {
   },
   methods: {
     async getUsername() {
-      const validateUrl = '/divergen/api/get_user';
-      const newURL = await fetch(validateUrl, {
-        method: 'GET',
-        mode: 'cors',
-      });
-
-      const response = await newURL.json();
-
-      this.username = response['username'];
+      const fetchUser = await User.getUser();
+      this.username = fetchUser['username'];
     },
     async getListing() {
       this.analysisList.length = 0;
