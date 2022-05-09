@@ -155,7 +155,7 @@ def get_user(request: Request):
     if 'username' in request.session:
         return {'username': request.session['username']}
 
-    return {}
+    return {'username': ''}
 
 @app.get('/logout')
 def logout(request: Request):
