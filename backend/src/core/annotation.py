@@ -12,3 +12,16 @@ class AnnotationSource(BaseModel):
     type: GenomicUnitType
     data_set: str
     data_source: str
+
+
+# def is_ready(self, source):
+
+    
+# def process_url(self, source):
+#     # build our URL from self.source.url
+#     #                    self.source.identifier
+#     #                    self.source.query_params
+
+# def process_csv(self, source):
+#     # source.filepath
+#     #source.version

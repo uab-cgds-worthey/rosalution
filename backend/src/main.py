@@ -1,24 +1,19 @@
 """
 End points for backend
 """
-<<<<<<< HEAD
-import os
-import json
-
 from typing import List, Optional
 from cas import CASClient
-=======
 from typing import List
->>>>>>> Work in progress for annotation code base
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.requests import Request
 from starlette.middleware.sessions import SessionMiddleware
+from fastapi import Depends, FastAPI, HTTPException, status
 
 from .core.analysis import Analysis, AnalysisSummary
-from .repository.analysis_collection import AnalysisCollection
+from .database import Database
 
 DESCRIPTION = """
 diverGen REST API assists researchers study 🧬 variation in patients 🧑🏾‍🤝‍🧑🏼
@@ -37,6 +32,9 @@ tags_metadata = [{
     "name": "analysis",
     "description": "Analyses of cases with information such as target gene, variation, phenotyping, and more."
 }, {
+    "name": "annotation",
+    "description": "Temporary endpoint to facilitate annotating an analysis from a default annotation configuration"
+}, {
     "name": "lifecycle",
     "description": "Heart-beat that external services use to verify if the application is running."
 }]
@@ -48,7 +46,9 @@ origins = [
     "https://padlockdev.idm.uab.edu"
 ]
 
-analysis_collection = AnalysisCollection()
+# database_client = FunctionCallToMakeDatabase()
+fakeClientReplaceWithReal = {}
+database = Database(fakeClientReplaceWithReal)
 
 app = FastAPI(
     title="diverGen API",
@@ -69,41 +69,38 @@ app.add_middleware(
 
 ## diverGen endpoints
 
-@app.get('/analysis', response_model=List[Analysis], tags=["analysis"])
-async def get_all_analyses():
+@app.get('/analysis', response_model=List[Analysis], tags=["analysis"], )
+def get_all_analyses(collections = Depends(database)):
     """ Returns every analysis available"""
-    return analysis_collection.all()
+    return collections['analysis'].all()
 
 
 @app.get('/analysis/summary',
          response_model=List[AnalysisSummary], tags=["analysis"])
-async def get_all_analyses_summaries():
+def get_all_analyses_summaries(collections = Depends(database)):
     """ Returns a summary of every analysis within the application"""
-    return analysis_collection.all_summaries()
+    return collections['analysis'].all_summaries()
 
 
 @app.get('/analysis/{name}', response_model=Analysis, tags=["analysis"])
-async def get_analysis_by_name(name: str):
-    """ Returns analysis case data by calling method to find case by it's name """
+def get_analysis_by_name(name: str, collections = Depends(database)):
+    """ Returns analysis case data by calling method to find case by it's name"""
     if name == 'CPAM0002':
-        return analysis_collection.find_by_name('CPAM0002')
+        return collections['analysis'].find_by_name('CPAM0002')
     if name == 'CPAM0046':
-        return analysis_collection.find_by_name('CPAM0046')
+        return collections['analysis'].find_by_name('CPAM0046')
     if name == 'CPAM0053':
-        return analysis_collection.find_by_name('CPAM0053')
+        return collections['analysis'].find_by_name('CPAM0053')
 
-<<<<<<< HEAD
-=======
     raise HTTPException(status_code=404, detail="Item not found")
 
-<<<<<<< HEAD
->>>>>>> Work in progress for annotation code base
-=======
+@app.post('/annotate/{name}', status_code=status.HTTP_202_ACCEPTED)
+def annotate_analysis(name: str):
+    return {"name": name}
 
->>>>>>> Work in progress to queue annotation tasks according to the dataset configuration
 @app.get('/heart-beat', tags=["lifecycle"])
-async def heartbeat():
-    """ Returns a heart-beat that orchestration services can use to determine if the application is running """
+def heartbeat():
+    """ Returns a heart-beat that orchestration services can use to determine if the application is running"""
     return "thump-thump"
 
 # pylint: disable=no-member

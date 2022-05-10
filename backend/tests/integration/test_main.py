@@ -2,13 +2,15 @@
 import json
 from base64 import b64encode
 from cas import CASClient
+from unittest.mock import Mock
+import pytest
 
 from fastapi.testclient import TestClient
 from itsdangerous import TimestampSigner
 
 from src.main import app
+from src.database import Database
 
-client = TestClient(app)
 
 ## Helper functions
 
@@ -22,14 +24,18 @@ def create_session_cookie(data) -> str:
 
 # Analyses Tests #
 
-def test_get_analyses():
+def test_get_analyses(client, mock_database_collections):
     """Testing that the correct number of analyses were returned and in the right order"""
+    ## Future Database Mock Example 
+    ## mock_database_collections.db['analysis'].find()
+    ## mock_database_collections.db['analysis'].find.return_value = JSON Fixture
+
     response = client.get('/analysis')
     assert response.status_code == 200
     assert len(response.json()) == 3
     assert response.json()[2]['name'] == 'CPAM0053'
 
-def test_get_analysis_summary():
+def test_get_analysis_summary(client):
     """Testing if the analysis summary endpoint returns all of the analyses available"""
     response = client.get('/analysis/summary')
     assert len(response.json()) == 5
@@ -83,3 +89,18 @@ def test_logout():
     response = client.get('/logout')
     assert response.json()['url'] == 'https://padlockdev.idm.uab.edu/cas/logout?' \
                                      'service=http%3A%2F%2Ftestserver%2Fdivergen%2Fapi%2Flogin'
+@pytest.fixture(name='client', scope='class')
+def test_application_client():
+    return TestClient(app)
+
+@pytest.fixture(scope='class')
+def mock_database_collections():
+    database_client = Mock()
+    database_client.db = {
+        'analysis': Mock(),
+        'annotations': Mock()
+    }
+    fake_database = Database(database_client)
+    app.dependency_overrides['database'] = fake_database
+    yield database_client.db
+    app.dependency_overrides.clear()

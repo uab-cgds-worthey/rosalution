@@ -3,9 +3,16 @@ Collection with retrieves, creates, and modify analyses.
 """
 from ..utils import read_fixture
 
+# database_client = FunctionCallToMakeDatabase()
+# database_client.db = 'database base'
+# analysis_collection = AnalysisCollection(database_client.db['analysis'])
 
 class AnalysisCollection():
     """Repository to access analyses for projects"""
+    def __init__(self, db_client = {}):
+        # self.db = db_client
+        self.db_collection = db_client
+
     def all(self):
         """Returns all analyses within the system"""
         return read_fixture("analyses.json")
