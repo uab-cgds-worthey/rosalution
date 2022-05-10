@@ -66,7 +66,7 @@ def test_login_successful(monkeypatch):
 
     response = client.get('/login?nexturl=%2Fdivergen&ticket=FakeTicketString')
 
-    assert response.url == 'http://dev.cgds.uab.edu/divergen'
+    assert response.url == 'http://dev.cgds.uab.edu/divergen/login'
 
 def test_get_user_not_logged_in():
     """ Testing the get_user endpoint when there is no user saved in the session """

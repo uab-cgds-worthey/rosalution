@@ -162,5 +162,7 @@ def logout(request: Request):
     redirect_url = request.url_for('login')
     cas_logout_url = cas_client.get_logout_url(redirect_url)
     request.session.pop("username", None)
+    request.session.pop("attributes", None)
+    request.session.pop("pgtiou", None)
 
     return {'url': cas_logout_url}
