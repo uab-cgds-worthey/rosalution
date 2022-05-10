@@ -77,7 +77,7 @@ pipeline {
     }
     stage('swarm deploy') {
       when { 
-        branch 'uab-cas-auth'
+        branch 'main'
       }
       steps {
         sh 'docker stack deploy --prune --with-registry-auth --compose-file docker-compose.production.yml divergen-prod'
