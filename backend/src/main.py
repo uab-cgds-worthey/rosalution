@@ -128,7 +128,6 @@ async def login(request: Request, nexturl: Optional[str] = None, ticket: Optiona
     """ diverGen Login Method """
     if request.session.get("username", None):
         # We're already logged in, don't need to do the login process
-        print("We are already logged in as: %s", request.session.get("user", None))
         return {'url': 'http://dev.cgds.uab.edu/divergen/'}
 
     if not ticket:
@@ -138,7 +137,7 @@ async def login(request: Request, nexturl: Optional[str] = None, ticket: Optiona
 
     user, attributes, pgtiou = cas_client.verify_ticket(ticket)
 
-    print('CAS verify ticket response: user: %s, attributes: %s, pgtiou: %s', user, attributes, pgtiou)
+    print('CAS verify ticket response: user:' + user + ', attributes:' + attributes + ',' + pgtiou)
 
     if not user:
         # Failed ticket verification, this should be an error page of some kind maybe?
