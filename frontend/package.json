@@ -5,7 +5,7 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite",
-    "dev:host": "vite --host 0.0.0.0",
+    "dev:host": "vite --host 0.0.0.0 --port 80",
     "lint": "eslint --ext .js,.vue ./",
     "lint:auto": "eslint --ext .js,.vue ./ --fix",
     "serve": "vite preview",
