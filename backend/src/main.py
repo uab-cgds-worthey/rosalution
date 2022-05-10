@@ -135,13 +135,11 @@ async def login(request: Request, nexturl: Optional[str] = None, ticket: Optiona
         cas_login_url = cas_client.get_login_url()
         return {'url': cas_login_url}
 
-    user, attributes, pgtiou = cas_client.verify_ticket(ticket)
-
-    print('CAS verify ticket response: user:' + user + ', attributes:' + attributes + ',' + pgtiou)
+    user = cas_client.verify_ticket(ticket)
 
     if not user:
         # Failed ticket verification, this should be an error page of some kind maybe?
-        return {'url': 'http://dev.cgds.uab.edu/divergen/login'}
+        return RedirectResponse('http://dev.cgds.uab.edu/divergen/login')
 
     # Login was successful, redirect to the 'nexturl' query parameter
     request.session['username'] = user
@@ -161,6 +159,6 @@ def logout(request: Request):
     """ Test Logout Method """
     redirect_url = request.url_for('login')
     cas_logout_url = cas_client.get_logout_url(redirect_url)
-    print('CAS logout URL: %s', cas_logout_url)
     request.session.pop("username", None)
+
     return {'url': cas_logout_url}
