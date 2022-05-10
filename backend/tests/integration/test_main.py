@@ -1,7 +1,7 @@
 """Endpoint Integration for Analysis Routes"""
 import json 
 from base64 import b64encode
-from sqlite3 import Time
+from cas import CASClient
 
 from fastapi.testclient import TestClient
 from itsdangerous import TimestampSigner
@@ -42,5 +42,24 @@ def test_login_existing_session():
     response = client.get('/login', cookies={'session': create_session_cookie({'username': 'UABProvider'})})
     assert response.json()['url'] == 'http://dev.cgds.uab.edu/divergen/'
 
-def test_login_existing_session_not_valid_user():
+def test_login_successful(monkeypatch):
+    cas_client = CASClient(
+        version=3,
+        service_url='http://dev.cgds.uab.edu/divergen/api/login?nexturl=%2Fdivergen',
+        server_url='https://padlockdev.idm.uab.edu/cas/'
+    )
+
+    def mockVerifyReturn():
+        return '<cas:serviceresponse xmlns:cas="http://www.yale.edy/tp/cas"> \
+                    <cas:authenticationsuccess> \
+                        <cas:user>UABProvider</cas:user> \
+                    </cas:authenticationsuccess> \
+                </cas:serviceresponse>"'
     
+    monkeypatch.setattr(cas_client, "verify_ticket", mockVerifyReturn)
+
+    response = client.get('/login?nexturl=%2Fdivergen&ticket=ST-1651606388-USIl7oNSThX5ET5oV6pMvnZNGKbTNBbE')
+
+    print(response.json())
+
+# def test_login_existing_session_not_valid_user():
