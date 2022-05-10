@@ -135,7 +135,7 @@ async def login(request: Request, nexturl: Optional[str] = None, ticket: Optiona
         cas_login_url = cas_client.get_login_url()
         return {'url': cas_login_url}
 
-    user = cas_client.verify_ticket(ticket)
+    user, attributes, pgtiou = cas_client.verify_ticket(ticket)
 
     if not user:
         # Failed ticket verification, this should be an error page of some kind maybe?
@@ -143,6 +143,8 @@ async def login(request: Request, nexturl: Optional[str] = None, ticket: Optiona
 
     # Login was successful, redirect to the 'nexturl' query parameter
     request.session['username'] = user
+    request.session['attributes'] = attributes
+    request.session['pgtiou'] = pgtiou
     base_url = 'http://dev.cgds.uab.edu'
     return RedirectResponse(base_url + nexturl)
 
