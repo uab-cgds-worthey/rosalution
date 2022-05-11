@@ -51,6 +51,6 @@ class AnnotationService():
             genomic_unit, dataset = annotation_queue.get()
             log += f"Unit '{genomic_unit['unit']}', Queue '{dataset['data_set']}' from '{dataset['data_source']}'\n"
         log += 'queue empty'
-        
+
         with open("divergen-annotation-log.txt", mode="w", encoding="utf-8") as email_file:
             email_file.write(log)

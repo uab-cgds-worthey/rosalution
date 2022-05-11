@@ -3,14 +3,11 @@ End points for backend
 """
 from typing import List, Optional
 from cas import CASClient
-from typing import List
-
-from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Depends, BackgroundTasks, FastAPI, HTTPException, status
 from starlette.requests import Request
 from starlette.middleware.sessions import SessionMiddleware
-from fastapi import Depends, BackgroundTasks,  FastAPI, HTTPException, status
 
 from .annotation import AnnotationQueue, AnnotationService
 from .core.analysis import Analysis, AnalysisSummary

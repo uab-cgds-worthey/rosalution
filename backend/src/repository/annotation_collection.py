@@ -25,12 +25,13 @@ class AnnotationCollection():
 
     def datasets_to_annotate_for_units(self, genomic_units_to_annotate):
         """
-        Returns an dict which uses GenomicUnitType enumeration as a key with 
+        Returns an dict which uses GenomicUnitType enumeration as a key with
         a value being the list of datasets configured to annotate for that type
         """
         types_to_annotate = set(
             map(lambda x: x['type'], genomic_units_to_annotate))
-        datasets_to_annotate = self.datasets_to_annotate_by_type(types_to_annotate)
+        datasets_to_annotate = self.datasets_to_annotate_by_type(
+            types_to_annotate)
 
         configuration = {}
         for genomic_unit_type in types_to_annotate:
