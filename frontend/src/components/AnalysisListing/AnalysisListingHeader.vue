@@ -7,13 +7,27 @@
         <font-awesome-icon icon="magnifying-glass" size="lg" class="search-icon"></font-awesome-icon>
         <input data-test="analysis-search" type="search" @input="onSearch" placeholder="Search">
       </div>
-      <span class="login">LOGIN</span>
+      <span v-if="username" class="login" data-test="user-menu">{{ username }}</span>
+      <span v-else class="login" data-test="user-menu">LOGIN</span>
     </div>
   </header>
 </template>
 
-<style>
+<script>
+export default {
+  name: 'header-component',
+  props: {
+    username: String,
+  },
+  methods: {
+    onSearch(event) {
+      this.$emit('search', event.target.value);
+    },
+  },
+};
+</script>
 
+<style>
 header {
   display: flex;
   flex-direction: row;
@@ -82,13 +96,3 @@ header .left-content {
 </style>
 
 
-<script>
-export default {
-  name: 'header-component',
-  methods: {
-    onSearch(event) {
-      this.$emit('search', event.target.value);
-    },
-  },
-};
-</script>

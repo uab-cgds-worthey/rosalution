@@ -12,6 +12,7 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
  */
 function getMountedComponent(props) {
   const defaultProps = {
+    username: '',
   };
 
   return shallowMount(AnalysisListingHeader, {
@@ -30,6 +31,13 @@ describe('AnalysisListingHeader.vue', () => {
     expect(wrapper.html()).to.contains('diverGen');
   });
 
+  it('should display "Login" in the upper right hand corner if username is a blank string', async () => {
+    const wrapper = getMountedComponent();
+    const userMenuWrapper = wrapper.find('[data-test=user-menu]');
+
+    expect(userMenuWrapper.text()).to.contain('LOGIN');
+  });
+
   it('should emit search event when search text has content', async () => {
     const wrapper = getMountedComponent();
     const searchTextInput = wrapper.get('[data-test="analysis-search"]');
@@ -38,5 +46,14 @@ describe('AnalysisListingHeader.vue', () => {
     const searchEvent = wrapper.emitted('search');
     expect(searchEvent).toHaveLength(1);
     expect(searchEvent[0]).toEqual(['fake-search']);
+  });
+
+  it('should properly display the username in the upper right hand corner', async () => {
+    const wrapper = getMountedComponent({
+      username: 'UABProvider',
+    });
+    const userMenuWrapper = wrapper.find('[data-test=user-menu]');
+
+    expect(userMenuWrapper.text()).to.contain('UABProvider');
   });
 });

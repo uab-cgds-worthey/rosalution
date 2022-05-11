@@ -2,7 +2,7 @@
 <div>
   <!--Header-->
   <app-header>
-    <AnalysisListingHeader v-on:search="onSearch"/>
+    <AnalysisListingHeader v-bind:username="username" v-on:search="onSearch"/>
   </app-header>
   <!--Content-->
   <app-content>
@@ -29,6 +29,7 @@ import Analyses from '@/models/analyses.js';
 import AnalysisCard from '../components/AnalysisListing/AnalysisCard.vue';
 import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
 import AnalysisListingLegend from '../components/AnalysisListing/AnalysisListingLegend.vue';
+import User from '@/models/user.js';
 
 export default {
   name: 'analysis-listing-view',
@@ -41,6 +42,7 @@ export default {
     return {
       searchQuery: '',
       analysisList: [],
+      username: '',
     };
   },
   computed: {
@@ -60,9 +62,14 @@ export default {
     },
   },
   created() {
+    this.getUsername();
     this.getListing();
   },
   methods: {
+    async getUsername() {
+      const fetchUser = await User.getUser();
+      this.username = fetchUser['username'];
+    },
     async getListing() {
       this.analysisList.length = 0;
       this.analysisList.push(...await Analyses.all());

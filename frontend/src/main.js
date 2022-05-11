@@ -2,6 +2,7 @@ import {createApp} from 'vue';
 import {createRouter, createWebHistory} from 'vue-router';
 
 import App from './App.vue';
+import LoginView from './views/LoginView.vue';
 import AnalysisListingView from './views/AnalysisListingView.vue';
 import AnalysisCreateView from './views/AnalysisCreateView.vue';
 import AboutView from './views/AboutView.vue';
@@ -24,6 +25,7 @@ library.add(
 
 // The NotFoundView should always be last because it's an ordered array.
 const routes = [
+  {path: '/divergen/login', component: LoginView},
   {path: '/divergen', component: AnalysisListingView},
   {path: '/divergen/analysis/create', component: AnalysisCreateView},
   {path: '/divergen/about', component: AboutView},
