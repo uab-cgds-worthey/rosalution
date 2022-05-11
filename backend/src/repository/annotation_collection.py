@@ -1,18 +1,39 @@
 """
-Manges the annotation configuration of various genomic units
-according to the type of Genomic Unit.
+Manges the annotation configuration of various genomic units according to the
+type of Genomic Unit.
 """
-
+# pylint: disable=no-self-use
+# This linting disable will be removed once database is added
+from itertools import groupby
 from ..utils import read_fixture
 
 
 class AnnotationCollection():
     """Repository for querying configurations for annotation"""
+    # def __init__(self, annotation_collection):
+    # self.collection = annotation_collection
+
     def all(self):
         """Returns all annotation configurations"""
+        # return self.collection.find() - eventually
         return read_fixture("annotation-sources.json")
 
-    def datasets_configuration(self, types):
+    def datasets_to_annotate(self, types):
         """gets dataset configurations according to the types"""
         configuration = self.all()
         return [dataset for dataset in configuration if dataset['type'] in types]
+
+    def datasets_to_annotate_for_sample(self, genomic_units_to_annotate):
+        """Datasets """
+        types_to_annotate = set(
+            map(lambda x: x['type'], genomic_units_to_annotate))
+        datasets_to_annotate = self.datasets_to_annotate(types_to_annotate)
+
+        configuration = {}
+        for genomic_unit_type in types_to_annotate:
+            configuration[genomic_unit_type] = []
+
+        for key, group in groupby(datasets_to_annotate, lambda x: x['type']):
+            configuration[key] = list(group)
+
+        return configuration

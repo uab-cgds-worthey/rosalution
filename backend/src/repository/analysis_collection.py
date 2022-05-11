@@ -1,17 +1,16 @@
 """
 Collection with retrieves, creates, and modify analyses.
 """
+# pylint: disable=no-self-use
+# This linting disable will be removed once database is added
+
 from ..utils import read_fixture
 
-# database_client = FunctionCallToMakeDatabase()
-# database_client.db = 'database base'
-# analysis_collection = AnalysisCollection(database_client.db['analysis'])
 
 class AnalysisCollection():
     """Repository to access analyses for projects"""
-    def __init__(self, db_client = {}):
-        # self.db = db_client
-        self.db_collection = db_client
+    # def __init__(self, analysis_collection):
+    #     self.collection = analysis_collection
 
     def all(self):
         """Returns all analyses within the system"""

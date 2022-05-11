@@ -40,8 +40,10 @@ def test_get_transcripts_in_units_to_annotate(units_to_annotate):
 
 
 @pytest.fixture(name="analysis_collection")
+# def fixture_analysis_collection(database_collection):
 def fixture_analysis_collection():
     """Fixture fo the analysis collection"""
+    # return AnalysisCollection(database_collection)
     return AnalysisCollection()
 
 
@@ -56,3 +58,10 @@ def fixture_analysis(analysis_collection):
 def fixture_units_to_annotate(analysis):
     """Fixture for the units to annotate for the CPAM0002 Analysis"""
     return analysis.units_to_annotate()
+
+
+# @pytest.fixture(name="database_collection")
+# def fixture_analysis_database_collection():
+#     """Provides a mock for the database client"""
+#     mock_database_collection = Mock()
+#     return mock_database_collection

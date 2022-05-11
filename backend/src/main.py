@@ -10,8 +10,9 @@ from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.requests import Request
 from starlette.middleware.sessions import SessionMiddleware
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import Depends, BackgroundTasks,  FastAPI, HTTPException, status
 
+from .annotation import AnnotationQueue, AnnotationService
 from .core.analysis import Analysis, AnalysisSummary
 from .database import Database
 
@@ -46,10 +47,6 @@ origins = [
     "https://padlockdev.idm.uab.edu"
 ]
 
-# database_client = FunctionCallToMakeDatabase()
-fakeClientReplaceWithReal = {}
-database = Database(fakeClientReplaceWithReal)
-
 app = FastAPI(
     title="diverGen API",
     description=DESCRIPTION,
@@ -58,6 +55,15 @@ app = FastAPI(
 )
 
 app.add_middleware(SessionMiddleware, secret_key="!secret")
+
+# Database/Repositories
+fake_mongodb_client = {}
+database = Database(fake_mongodb_client)
+
+# Queue that processess annotation tasks safely between threads
+annotation_queue = AnnotationQueue()
+
+# diverGen endpoints
 
 app.add_middleware(
     CORSMiddleware,
@@ -70,20 +76,20 @@ app.add_middleware(
 ## diverGen endpoints
 
 @app.get('/analysis', response_model=List[Analysis], tags=["analysis"], )
-def get_all_analyses(collections = Depends(database)):
+def get_all_analyses(collections=Depends(database)):
     """ Returns every analysis available"""
     return collections['analysis'].all()
 
 
 @app.get('/analysis/summary',
          response_model=List[AnalysisSummary], tags=["analysis"])
-def get_all_analyses_summaries(collections = Depends(database)):
+def get_all_analyses_summaries(collections=Depends(database)):
     """ Returns a summary of every analysis within the application"""
     return collections['analysis'].all_summaries()
 
 
 @app.get('/analysis/{name}', response_model=Analysis, tags=["analysis"])
-def get_analysis_by_name(name: str, collections = Depends(database)):
+def get_analysis_by_name(name: str, collections=Depends(database)):
     """ Returns analysis case data by calling method to find case by it's name"""
     if name == 'CPAM0002':
         return collections['analysis'].find_by_name('CPAM0002')
@@ -94,9 +100,32 @@ def get_analysis_by_name(name: str, collections = Depends(database)):
 
     raise HTTPException(status_code=404, detail="Item not found")
 
+
 @app.post('/annotate/{name}', status_code=status.HTTP_202_ACCEPTED)
-def annotate_analysis(name: str):
-    return {"name": name}
+def annotate_analysis(
+  name: str,
+  background_tasks: BackgroundTasks,
+  collections=Depends(database),
+  annotation_task_queue=Depends(annotation_queue)
+):
+    """
+    Placeholder to initiate annotations for an analysis. This queueing/running
+    annotations for a sample will be moved to the analysis creation endpoint
+    when it is created in an upcomming update.
+    """
+    analysis_json = collections['analysis'].find_by_name(name)
+    if analysis_json is None:
+        raise HTTPException(
+            status_code=404, detail=f"'{name}' Analysis not found.")
+
+    analysis = Analysis(**analysis_json)
+    annotation_service = AnnotationService(collections['annotation'])
+    annotation_service.queue_annotation_tasks(
+        analysis, annotation_task_queue)
+    background_tasks.add_task(
+        AnnotationService.process_tasks, annotation_task_queue)
+
+    return {"name": f"{name} annotations queued."}
 
 @app.get('/heart-beat', tags=["lifecycle"])
 def heartbeat():
