@@ -35,7 +35,7 @@ class AnnotationService():
         """
         units_to_annotate = analysis.units_to_annotate()
 
-        annotation_configuration = self.annotation_collection.datasets_to_annotate_for_sample(
+        annotation_configuration = self.annotation_collection.datasets_to_annotate_for_units(
             units_to_annotate)
 
         for genomic_unit in units_to_annotate:

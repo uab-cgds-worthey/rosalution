@@ -18,16 +18,19 @@ class AnnotationCollection():
         # return self.collection.find() - eventually
         return read_fixture("annotation-sources.json")
 
-    def datasets_to_annotate(self, types):
+    def datasets_to_annotate_by_type(self, types):
         """gets dataset configurations according to the types"""
         configuration = self.all()
         return [dataset for dataset in configuration if dataset['type'] in types]
 
-    def datasets_to_annotate_for_sample(self, genomic_units_to_annotate):
-        """Datasets """
+    def datasets_to_annotate_for_units(self, genomic_units_to_annotate):
+        """
+        Returns an dict which uses GenomicUnitType enumeration as a key with 
+        a value being the list of datasets configured to annotate for that type
+        """
         types_to_annotate = set(
             map(lambda x: x['type'], genomic_units_to_annotate))
-        datasets_to_annotate = self.datasets_to_annotate(types_to_annotate)
+        datasets_to_annotate = self.datasets_to_annotate_by_type(types_to_annotate)
 
         configuration = {}
         for genomic_unit_type in types_to_annotate:
