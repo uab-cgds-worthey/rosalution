@@ -35,6 +35,9 @@ tags_metadata = [{
 }, {
     "name": "lifecycle",
     "description": "Heart-beat that external services use to verify if the application is running."
+}, {
+    "name": "auth",
+    "description": "Handles user authentication"
 }]
 
 ## CORS Policy ##
@@ -98,7 +101,7 @@ def get_analysis_by_name(name: str, collections=Depends(database)):
     raise HTTPException(status_code=404, detail="Item not found")
 
 
-@app.post('/annotate/{name}', status_code=status.HTTP_202_ACCEPTED)
+@app.post('/annotate/{name}', status_code=status.HTTP_202_ACCEPTED, tags=["annotation"])
 def annotate_analysis(
   name: str,
   background_tasks: BackgroundTasks,
@@ -131,7 +134,7 @@ def heartbeat():
 
 # pylint: disable=no-member
 # This is done because pylint doesn't appear to be recognizing python-cas's functions saying they have no member
-@app.get('/login')
+@app.get('/login', tags=["auth"])
 async def login(request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None):
     """ diverGen Login Method """
     if request.session.get("username", None):
@@ -156,7 +159,7 @@ async def login(request: Request, nexturl: Optional[str] = None, ticket: Optiona
     base_url = 'http://dev.cgds.uab.edu'
     return RedirectResponse(base_url + nexturl)
 
-@app.get('/get_user')
+@app.get('/get_user', tags=["auth"])
 def get_user(request: Request):
     """ Returns active user in session """
     if 'username' in request.session:
@@ -164,7 +167,7 @@ def get_user(request: Request):
 
     return {'username': ''}
 
-@app.get('/logout')
+@app.get('/logout', tags=["auth"])
 def logout(request: Request):
     """ Test Logout Method """
     redirect_url = request.url_for('login')

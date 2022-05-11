@@ -34,7 +34,7 @@ pipeline {
         withEnv(["HOME=${env.WORKSPACE}"]) {
           sh 'cd frontend && yarn install'
           sh 'cd frontend && yarn test:coverage'
-          sh 'cd backend && pip3 install -r requirements.txt --user'
+          sh 'cd backend && pip install -r requirements.txt --user'
           sh 'cd backend && pytest --cov=src --cov-fail-under=80 --cov-branch --cov-report=term tests/'
         }
       }
