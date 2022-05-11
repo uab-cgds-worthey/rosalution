@@ -12,6 +12,7 @@ html {
   --divergen-yellow-200: #FECA0F;
   --divergen-grey-200: #C4C4C4;
   --divergen-grey-300: #A1A1A1;
+  --divergen-grey-100: #E7E6E6;
   --divergen-black: black;
   --divergen-white: white;
   
@@ -43,6 +44,7 @@ ul {
 h2 {
   font-size: 1.5rem; /* 24px */
   font-weight: 700;
+  color: var(--divergen-black);
 }
 
 a:link { 

@@ -4,20 +4,24 @@
       This page opens the analysis view for each cpam case: Data for {{analysis_name}}
       </app-header>
       <app-content>
-        <p>{{ analysis }}</p>
-        <ContentBox/>
+        <SectionBox
+          v-for="section in sectionsList"
+          :key="section.id"
+          :header="section.header"
+          :contentList="section.content"
+        />
       </app-content>
   </div>
 </template>
 
 <script>
 import Analyses from '@/models/analyses.js';
-import ContentBox from '../components/AnalysisView/ContentBox.vue';
+import SectionBox from '../components/AnalysisView/SectionBox.vue';
 
 export default {
   name: 'analysis-view',
   components: {
-    ContentBox,
+    SectionBox,
   },
   props: ['analysis_name'],
   data: function() {
@@ -32,6 +36,12 @@ export default {
   methods: {
     async getAnalysis() {
       this.analysis = {...await Analyses.getAnalysis(this.analysis_name)};
+      this.getSections();
+    },
+    getSections() {
+      console.log('pushing sections');
+      this.sectionsList=this.analysis.sections;
+      console.log(this.sectionsList);
     },
   },
 };
