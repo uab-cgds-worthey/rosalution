@@ -7,6 +7,8 @@ from datetime import date
 from typing import List, Optional
 from pydantic import BaseModel
 
+from ..enums import GenomicUnitType
+
 
 class GenomicUnit(BaseModel):
     """The basic units within an analysis"""
@@ -31,12 +33,31 @@ class BaseAnalysis(BaseModel):
     last_modified_date: date
 
 
+class AnalysisSummary(BaseAnalysis):
+    """Models the summary of an analysis"""
+    genomic_units: List = []
+
+
 class Analysis(BaseAnalysis):
     """Models a detailed analysis"""
     genomic_units: List[GenomicUnit] = []
     sections: List[Section] = []
 
+    def units_to_annotate(self):
+        """Returns the types of genomic units within the analysis"""
+        units = []
+        for unit in self.genomic_units:
+            if hasattr(unit, 'gene'):
+                units.append({'unit': unit.gene, 'type': GenomicUnitType.GENE})
+            for transcript in unit.transcripts:
+                units.append(
+                    {'unit': transcript['transcript'], 'type': GenomicUnitType.TRANSCRIPT})
+            for variant in unit.variants:
+                if 'hgvs_variant' in variant and variant['hgvs_variant']:
+                    units.append({
+                        'unit': variant['hgvs_variant'],
+                        'type': GenomicUnitType.HGVS_VARIANT,
+                        'genomic_build': variant['build']
+                    })
 
-class AnalysisSummary(BaseAnalysis):
-    """Models the summary of an analysis"""
-    genomic_units: List = []
+        return units

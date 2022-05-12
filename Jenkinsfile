@@ -6,8 +6,7 @@ pipeline {
   }
   environment {
     GITLAB_API_TOKEN = credentials('GitLabToken')
-    // BUILD_TAG = "a${GIT_COMMIT.substring(0, 6)}"
-    BUILD_TAG = "prod"
+    BUILD_TAG = "a${GIT_COMMIT.substring(0, 6)}"
   }
   stages {
     stage('Static Analysis') {
@@ -26,7 +25,7 @@ pipeline {
         }
       }
     }
-    stage('Unit Test') {
+    stage('JavaScript Unit Test') {
       agent {
         docker { image 'gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/utility-images/unit-test:v0.4'}
       }
@@ -40,6 +39,25 @@ pipeline {
         }
         failure {
           sh 'curl --request POST --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "https://gitlab.rc.uab.edu/api/v4/projects/2491/statuses/${GIT_COMMIT}?state=failed&name=jenkins_unit_tests"'
+        }
+      }
+    }
+    stage('Python Unit Test') {
+      agent {
+        docker { image 'gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/utility-images/unit-test-python:v0.4'}
+      }
+      steps {
+        withEnv(["HOME=${env.WORKSPACE}"]) {
+          sh 'cd backend && pip3 install -r requirements.txt --user'
+          sh 'cd backend && pytest --cov=src --cov-fail-under=80 --cov-branch --cov-report=term tests/'
+        }
+      }
+      post {
+        success {
+          sh 'curl --request POST --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "https://gitlab.rc.uab.edu/api/v4/projects/2491/statuses/${GIT_COMMIT}?state=success&name=jenkins_python_unit_tests"'
+        }
+        failure {
+          sh 'curl --request POST --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "https://gitlab.rc.uab.edu/api/v4/projects/2491/statuses/${GIT_COMMIT}?state=failed&name=jenkins_python_unit_tests"'
         }
       }
     }
@@ -62,9 +80,12 @@ pipeline {
         }
       }
     }
-    stage('Compile & Publish'){
+    stage('Compile & Publish Production'){
+      when { 
+        branch 'main'
+      }
       steps {
-        sh 'bash build.sh --tag ${BUILD_TAG} --push'
+        sh 'bash build.sh --tag prod --push'
       }
       post {
         success {
@@ -75,7 +96,7 @@ pipeline {
         }
       }
     }
-    stage('swarm deploy') {
+    stage('Swarm Deploy Production') {
       when { 
         branch 'main'
       }

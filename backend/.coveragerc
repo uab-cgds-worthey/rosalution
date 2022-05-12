@@ -1,0 +1,3 @@
+# .coveragerc to control unit testing done by coverage.py with pytest-cov
+[run]
+omit = src/main.py
