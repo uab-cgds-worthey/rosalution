@@ -6,8 +6,7 @@ pipeline {
   }
   environment {
     GITLAB_API_TOKEN = credentials('GitLabToken')
-    // BUILD_TAG = "a${GIT_COMMIT.substring(0, 6)}"
-    BUILD_TAG = "prod"
+    BUILD_TAG = "a${GIT_COMMIT.substring(0, 6)}"
   }
   stages {
     stage('Static Analysis') {
@@ -81,9 +80,12 @@ pipeline {
         }
       }
     }
-    stage('Compile & Publish'){
+    stage('Compile & Publish Production'){
+      when { 
+        branch 'main'
+      }
       steps {
-        sh 'bash build.sh --tag ${BUILD_TAG} --push'
+        sh 'bash build.sh --tag prod --push'
       }
       post {
         success {
@@ -94,7 +96,7 @@ pipeline {
         }
       }
     }
-    stage('swarm deploy') {
+    stage('Swarm Deploy Production') {
       when { 
         branch 'main'
       }
