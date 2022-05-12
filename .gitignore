@@ -13,10 +13,12 @@ data
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+divergen-annotation-log.txt*
 
 # local data files
 *.vcf
 *.graphql
+
 
 **/node_modules/**
 
