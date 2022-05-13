@@ -1,10 +1,11 @@
+""" Analysis endpoint routes that serve up information regarding anaysis cases for diverGen """
+
+from typing import List
+
 from fastapi import APIRouter, Depends, HTTPException
 
 from ..core.analysis import Analysis, AnalysisSummary
-
 from ..dependencies import database
-
-from typing import List
 
 router = APIRouter(
     prefix="/analysis",
@@ -15,7 +16,6 @@ router = APIRouter(
 @router.get('/', response_model=List[Analysis])
 def get_all_analyses(collections=Depends(database)):
     """ Returns every analysis available"""
-    print("is this happening?")
     return collections['analysis'].all()
 
 @router.get('/summary', response_model=List[AnalysisSummary])
@@ -34,4 +34,3 @@ def get_analysis_by_name(name: str, collections=Depends(database)):
         return collections['analysis'].find_by_name('CPAM0053')
 
     raise HTTPException(status_code=404, detail="Item not found")
-

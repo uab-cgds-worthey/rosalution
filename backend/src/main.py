@@ -8,7 +8,7 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from .routers import analysis, annotation, auth
 
-from .dependencies import database, annotation_queue, cas_client
+from .dependencies import database, annotation_queue
 
 DESCRIPTION = """
 diverGen REST API assists researchers study 🧬 variation in patients 🧑🏾‍🤝‍🧑🏼
@@ -46,7 +46,7 @@ app = FastAPI(
 
 app.include_router(analysis.router, dependencies=[Depends(database)])
 app.include_router(annotation.router, dependencies=[Depends(database), Depends(annotation_queue)])
-app.include_router(auth.router, dependencies=[Depends(cas_client)])
+app.include_router(auth.router)
 
 app.add_middleware(SessionMiddleware, secret_key="!secret")
 

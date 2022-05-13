@@ -1,16 +1,24 @@
+""" FastAPI Authentication router file that handles the auth lifecycle of the application """
+
 from typing import Optional
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from fastapi.responses import RedirectResponse
 
-from ..dependencies import cas_client
+from cas import CASClient
 
 from starlette.requests import Request
 
 router = APIRouter(
     prefix="/auth",
     tags=["auth"],
-    dependencies=[Depends(cas_client)]
+)
+
+# URLs for interacting with UAB CAS Padlock system for BlazerID
+cas_client = CASClient(
+    version=3,
+    service_url='http://dev.cgds.uab.edu/divergen/api/login?nexturl=%2Fdivergen',
+    server_url='https://padlockdev.idm.uab.edu/cas/'
 )
 
 # pylint: disable=no-member
@@ -31,7 +39,7 @@ async def login(request: Request, nexturl: Optional[str] = None, ticket: Optiona
 
     if not user:
         # Failed ticket verification, this should be an error page of some kind maybe?
-        return RedirectResponse('http://dev.cgds.uab.edu/divergen/login')
+        return RedirectResponse('http://dev.cgds.uab.edu/divergen/auth/login')
 
     # Login was successful, redirect to the 'nexturl' query parameter
     request.session['username'] = user

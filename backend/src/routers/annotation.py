@@ -1,3 +1,5 @@
+""" Annotation endpoint routes that handle all things annotation within the application """
+
 from fastapi import APIRouter, Depends, BackgroundTasks, HTTPException, status
 
 from ..annotation import AnnotationService
