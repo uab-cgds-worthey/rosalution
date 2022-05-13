@@ -1,5 +1,8 @@
 """Supports the queueing and processing of genomic unit annotation"""
+import concurrent
 import queue
+
+from .core.data_set_source import DataSetSource
 
 from .core.analysis import Analysis
 
@@ -7,6 +10,16 @@ from .repository.annotation_collection import AnnotationCollection
 
 # Creating a callable wrapper for an instance for FastAPI dependency injection
 # pylint: disable=too-few-public-methods
+
+
+def log_to_file(string):
+    """
+    Temprorary utility function for development purposes abstracted for testing.
+    Will remove once feature is completed.
+    """
+    with open("divergen-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
+        log_file.write(string)
+    print(string)
 
 
 class AnnotationQueue():
@@ -46,11 +59,22 @@ class AnnotationService():
     @staticmethod
     def process_tasks(annotation_queue):
         """Processes items that have been added to the queue"""
-        log = 'running annotations for ...\n'
-        while not annotation_queue.empty():
-            genomic_unit, dataset = annotation_queue.get()
-            log += f"Unit '{genomic_unit['unit']}', Queue '{dataset['data_set']}' from '{dataset['data_source']}'\n"
-        log += 'queue empty'
+        log_to_file('running annotations for ...\n')
 
-        with open("divergen-annotation-log.txt", mode="w", encoding="utf-8") as email_file:
-            email_file.write(log)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+            annotation_task_futures = {}
+            while not annotation_queue.empty():
+                genomic_unit, dataset = annotation_queue.get()
+                annotation = DataSetSource(**dataset)
+                log_to_file(f"Que: {genomic_unit} for datasets {dataset}\n")
+                annotation_task_futures[executor.submit(
+                    annotation.annotate, genomic_unit)] = (genomic_unit, dataset)
+
+            for future in concurrent.futures.as_completed(annotation_task_futures):
+                genomic_unit, dataset = annotation_task_futures[future]
+                try:
+                    log_to_file(f"{future.result()} \n")
+                except FileNotFoundError as error:
+                    log_to_file(f"exception happened {error}")
+
+                del annotation_task_futures[future]
