@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     async login() {
-      const loginUrl = '/divergen/api/login';
+      const loginUrl = '/divergen/api/auth/login';
       const newURL = await fetch(loginUrl, {
         method: 'GET',
         mode: 'cors',
@@ -36,7 +36,7 @@ export default {
       }
     },
     async logout() {
-      const logoutUrl = '/divergen/api/logout';
+      const logoutUrl = '/divergen/api/auth/logout';
       const newURL = await fetch(logoutUrl, {
         method: 'GET',
         mode: 'cors',
