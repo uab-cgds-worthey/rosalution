@@ -1,17 +1,14 @@
 """
 End points for backend
 """
-from typing import List, Optional
-from cas import CASClient
-from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import Depends, BackgroundTasks, FastAPI, HTTPException, status
-from starlette.requests import Request
+from fastapi import Depends, FastAPI
+
 from starlette.middleware.sessions import SessionMiddleware
 
-from .annotation import AnnotationQueue, AnnotationService
-from .core.analysis import Analysis, AnalysisSummary
-from .database import Database
+from .routers import analysis, annotation, auth
+
+from .dependencies import database, annotation_queue
 
 DESCRIPTION = """
 diverGen REST API assists researchers study 🧬 variation in patients 🧑🏾‍🤝‍🧑🏼
@@ -19,12 +16,6 @@ by helping select candidate animal models 🐀🐁🐠🪱 to replicate the vari
 to further research to dervice a diagnose and provide therapies for
 ultra-rare diseases.
 """
-
-cas_client = CASClient(
-    version=3,
-    service_url='http://dev.cgds.uab.edu/divergen/api/login?nexturl=%2Fdivergen',
-    server_url='https://padlockdev.idm.uab.edu/cas/'
-)
 
 tags_metadata = [{
     "name": "analysis",
@@ -41,7 +32,6 @@ tags_metadata = [{
 }]
 
 ## CORS Policy ##
-
 origins = [
     "http://dev.cgds.uab.edu",
     "https://padlockdev.idm.uab.edu"
@@ -54,16 +44,11 @@ app = FastAPI(
     root_path="/divergen/api/"
 )
 
+app.include_router(analysis.router, dependencies=[Depends(database)])
+app.include_router(annotation.router, dependencies=[Depends(database), Depends(annotation_queue)])
+app.include_router(auth.router)
+
 app.add_middleware(SessionMiddleware, secret_key="!secret")
-
-# Database/Repositories
-fake_mongodb_client = {}
-database = Database(fake_mongodb_client)
-
-# Queue that processess annotation tasks safely between threads
-annotation_queue = AnnotationQueue()
-
-# diverGen endpoints
 
 app.add_middleware(
     CORSMiddleware,
@@ -73,107 +58,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-## diverGen endpoints
-
-@app.get('/analysis', response_model=List[Analysis], tags=["analysis"], )
-def get_all_analyses(collections=Depends(database)):
-    """ Returns every analysis available"""
-    return collections['analysis'].all()
-
-
-@app.get('/analysis/summary',
-         response_model=List[AnalysisSummary], tags=["analysis"])
-def get_all_analyses_summaries(collections=Depends(database)):
-    """ Returns a summary of every analysis within the application"""
-    return collections['analysis'].all_summaries()
-
-
-@app.get('/analysis/{name}', response_model=Analysis, tags=["analysis"])
-def get_analysis_by_name(name: str, collections=Depends(database)):
-    """ Returns analysis case data by calling method to find case by it's name"""
-    if name == 'CPAM0002':
-        return collections['analysis'].find_by_name('CPAM0002')
-    if name == 'CPAM0046':
-        return collections['analysis'].find_by_name('CPAM0046')
-    if name == 'CPAM0053':
-        return collections['analysis'].find_by_name('CPAM0053')
-
-    raise HTTPException(status_code=404, detail="Item not found")
-
-
-@app.post('/annotate/{name}', status_code=status.HTTP_202_ACCEPTED, tags=["annotation"])
-def annotate_analysis(
-  name: str,
-  background_tasks: BackgroundTasks,
-  collections=Depends(database),
-  annotation_task_queue=Depends(annotation_queue)
-):
-    """
-    Placeholder to initiate annotations for an analysis. This queueing/running
-    annotations for a sample will be moved to the analysis creation endpoint
-    when it is created in an upcomming update.
-    """
-    analysis_json = collections['analysis'].find_by_name(name)
-    if analysis_json is None:
-        raise HTTPException(
-            status_code=404, detail=f"'{name}' Analysis not found.")
-
-    analysis = Analysis(**analysis_json)
-    annotation_service = AnnotationService(collections['annotation'])
-    annotation_service.queue_annotation_tasks(
-        analysis, annotation_task_queue)
-    background_tasks.add_task(
-        AnnotationService.process_tasks, annotation_task_queue)
-
-    return {"name": f"{name} annotations queued."}
-
 @app.get('/heart-beat', tags=["lifecycle"])
 def heartbeat():
     """ Returns a heart-beat that orchestration services can use to determine if the application is running"""
     return "thump-thump"
-
-# pylint: disable=no-member
-# This is done because pylint doesn't appear to be recognizing python-cas's functions saying they have no member
-@app.get('/login', tags=["auth"])
-async def login(request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None):
-    """ diverGen Login Method """
-    if request.session.get("username", None):
-        # We're already logged in, don't need to do the login process
-        return {'url': 'http://dev.cgds.uab.edu/divergen/'}
-
-    if not ticket:
-        # No ticket, the request comes from end user, send to CAS login
-        cas_login_url = cas_client.get_login_url()
-        return {'url': cas_login_url}
-
-    user, attributes, pgtiou = cas_client.verify_ticket(ticket)
-
-    if not user:
-        # Failed ticket verification, this should be an error page of some kind maybe?
-        return RedirectResponse('http://dev.cgds.uab.edu/divergen/login')
-
-    # Login was successful, redirect to the 'nexturl' query parameter
-    request.session['username'] = user
-    request.session['attributes'] = attributes
-    request.session['pgtiou'] = pgtiou
-    base_url = 'http://dev.cgds.uab.edu'
-    return RedirectResponse(base_url + nexturl)
-
-@app.get('/get_user', tags=["auth"])
-def get_user(request: Request):
-    """ Returns active user in session """
-    if 'username' in request.session:
-        return {'username': request.session['username']}
-
-    return {'username': ''}
-
-@app.get('/logout', tags=["auth"])
-def logout(request: Request):
-    """ Test Logout Method """
-    redirect_url = request.url_for('login')
-    cas_logout_url = cas_client.get_logout_url(redirect_url)
-    request.session.pop("username", None)
-    request.session.pop("attributes", None)
-    request.session.pop("pgtiou", None)
-
-    return {'url': cas_logout_url}

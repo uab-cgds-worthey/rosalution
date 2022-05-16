@@ -2,7 +2,7 @@ import Requests from '@/requests.js';
 
 export default {
   async getUser() {
-    const baseUrl = '/divergen/api/';
+    const baseUrl = '/divergen/api/auth/';
     const urlQuery = 'get_user';
 
     const body = await Requests.get(baseUrl + urlQuery);
