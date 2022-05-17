@@ -2,7 +2,9 @@
 from unittest.mock import Mock, patch
 import queue
 import pytest
+from src.enums import GenomicUnitType
 
+from src.annotation import AnnotationTask
 from src.core.analysis import Analysis
 from src.core.data_set_source import DataSetSource
 from src.repository.analysis_collection import AnalysisCollection
@@ -33,6 +35,41 @@ def test_processing_annotation_tasks(log_to_file_mock, annotation_queue): #pylin
     assert annotation_queue.empty()
     assert DataSetSource.annotate.call_count == 19 # pylint: disable=no-member
 
+def test_annotation_task_base_url_if_not_datasets(cpam0046_hgvs_genomic_unit):
+    """Verifies that an annotation task can return what the base url is for a genomic unit"""
+    task = AnnotationTask()
+    actual = task.base_url(cpam0046_hgvs_genomic_unit)
+    assert actual is None
+
+def test_annotation_task_base_url_with_datasets(transcript_id_dataset, cpam0046_hgvs_genomic_unit):
+    """
+    Verifies that an annotation task returns the base_url
+    """
+    task = AnnotationTask()
+    task.append(DataSetSource(**transcript_id_dataset))
+    actual = task.base_url(cpam0046_hgvs_genomic_unit)
+    assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;"
+    
+def test_annotation_task_base_url_man_datasets(transcript_datasets, cpam0046_hgvs_genomic_unit):
+    task = AnnotationTask()
+    for dataset in transcript_datasets:
+      task.append(DataSetSource(**dataset))
+    actual = task.base_url(cpam0046_hgvs_genomic_unit)
+    assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;"
+    
+  
+@pytest.fixture(name="cpam0046_hgvs_genomic_unit")
+def fixture_cpam0046_hgvs_genomic_unit(cpam0046_analysis):
+    """
+    Returns the HGVS variant within the CPAM0046 analysis.
+    """
+    genomic_units = cpam0046_analysis.units_to_annotate()
+    unit = {}
+    for genomic_unit in genomic_units:
+        if genomic_unit['type'] == GenomicUnitType.HGVS_VARIANT:
+          unit = genomic_unit
+    
+    return unit  
 
 @pytest.fixture(name='cpam0046_analysis')
 def fixture_cpam0046_analysis(analysis_collection):
@@ -46,6 +83,23 @@ def fixture_analysis_collection():
     """Returns the analysis collection to be mocked"""
 
     return AnalysisCollection()
+
+
+@pytest.fixture(name="transcript_id_dataset")
+def fixture_transcript_id_dataset(annotation_collection):
+    """
+    Returns the dict of the transcript_id dataset
+    """
+    return annotation_collection.find_by_data_set('transcript_id')
+
+
+@pytest.fixture(name="transcript_datasets")
+def fixture_transcript_related_datasets(annotation_collection):
+    """
+    Returns the annotation collection for the configuration to verify
+    annotation tasks are created according to the configuration
+    """
+    return list(filter(lambda x: (x['data_set'] == "transcript_id" or x['data_set'] == "SIFT Prediction" or x['data_set'] == "SIFT Score"), annotation_collection))
 
 
 @pytest.fixture(name="annotation_collection")

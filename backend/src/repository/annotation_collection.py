@@ -18,6 +18,14 @@ class AnnotationCollection():
         # return self.collection.find() - eventually
         return read_fixture("dataset-sources.json")
 
+    def find_by_data_set(self, dataset_name):
+        """ Returns a data set source that matches by name"""
+        for dataset in self.all():
+          if dataset_name == dataset.get('data_set'):
+            return dataset
+
+        return None
+
     def datasets_to_annotate_by_type(self, types):
         """gets dataset configurations according to the types"""
         configuration = self.all()

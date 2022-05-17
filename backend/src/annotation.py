@@ -1,6 +1,7 @@
 """Supports the queueing and processing of genomic unit annotation"""
 import concurrent
 import queue
+from functools import reduce
 
 from .core.data_set_source import DataSetSource
 
@@ -42,7 +43,26 @@ class AnnotationQueue():
     def empty(self):
         return self.annotation_queue.empty()
 
+class AnnotationTask():
+    def __init__(self):
+        self.datasets = []
 
+    def base_url(self, genomic_unit):
+      return None if not self.datasets else self.datasets[0].base_url(genomic_unit)
+    
+    def append(self, dataset: DataSetSource):
+        self.datasets.append(dataset)
+    
+    def annotate(self, genomic_unit):
+        url_to_query = self.build_url(genomic_unit)
+        with open("divergen-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
+          log_file.write(f'From Annotation Task Object: {url_to_query}')
+
+    def build_url(self, genomic_unit):
+      base_url_string = self.base_url(genomic_unit)
+      return None if base_url_string is None else reduce(lambda url_string, dataset: url_string.join(dataset.query_param), self.datasets, base_url_string)
+        
+      
 class AnnotationService():
     """
     Creates and user09es annotating genomic units for cases.
@@ -72,9 +92,13 @@ class AnnotationService():
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
             annotation_task_futures = {}
+            batched_annotation_tasks = {}
             while not annotation_queue.empty():
                 genomic_unit, dataset = annotation_queue.get()
                 annotation = DataSetSource(**dataset)
+                # if(annotation.url is not None):
+                #   if(annotation.base_url(dataset) in batched_annotation_tasks):
+                #     batched_annotation_tasks[annotation.base_url(dataset)].append(DataSetSource)
                 log_to_file(f"Que: {genomic_unit} for datasets {dataset}\n")
                 annotation_task_futures[executor.submit(
                     annotation.annotate, genomic_unit)] = (genomic_unit, dataset)
