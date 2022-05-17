@@ -1,5 +1,5 @@
 """ FastAPI Authentication router file that handles the auth lifecycle of the application """
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
@@ -8,13 +8,15 @@ from cas import CASClient
 
 from ..core.jwt import create_access_token
 
-from ..utils import get_current_user
+from ..dependencies import database
+from ..utils import get_current_user, get_user
 
 from src import config
 
 router = APIRouter(
     prefix="/auth",
     tags=["auth"],
+    dependencies=[Depends(database)],
 )
 
 # URLs for interacting with UAB CAS Padlock system for BlazerID
@@ -29,9 +31,11 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
     """
     OAuth2 compatible token login, get an access token for future requests.
     """
+    user_collection = database.collections['user']
+    user_collection.authenticate_user(form_data.username, form_data.password)
     access_token_expires = timedelta(minutes=config.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.username, "scopes": form_data: scopes},
+        data={"sub": form_data.username, "scopes": form_data.scopes},
         expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
