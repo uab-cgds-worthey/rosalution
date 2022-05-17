@@ -33,6 +33,15 @@ class AnnotationQueue():
         """Returns the Thread Safe Blocking Queue"""
         return self.annotation_queue
 
+    def get(self):
+        return self.annotation_queue.get()
+    
+    def put(self, value):
+        self.annotation_queue.put(value)
+    
+    def empty(self):
+        return self.annotation_queue.empty()
+
 
 class AnnotationService():
     """
@@ -42,7 +51,7 @@ class AnnotationService():
     def __init__(self, annotation_collection: AnnotationCollection):
         self.annotation_collection = annotation_collection
 
-    def queue_annotation_tasks(self, analysis: Analysis, annotation_task_queue):
+    def queue_annotation_tasks(self, analysis: Analysis, annotation_task_queue: AnnotationQueue):
         """
         Uses the list of genomic units and the list of types to queue annotation operations.
         """
@@ -75,6 +84,8 @@ class AnnotationService():
                 try:
                     log_to_file(f"{future.result()} \n")
                 except FileNotFoundError as error:
+                    log_to_file(f"exception happened {error}")
+                except Exception as error:
                     log_to_file(f"exception happened {error}")
 
                 del annotation_task_futures[future]

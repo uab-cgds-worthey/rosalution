@@ -43,7 +43,10 @@
   {
     "data_set": "transcript_id",
     "data_source": "Ensembl",
-    "type": "hgvs_variant"
+    "type": "hgvs_variant",
+    "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
+    "query_param": "refseq=1;",
+    "attribute": "transcript_consequences[].transcript_id"
    },
    {
      "data_set": "Polyphen Prediction",
@@ -58,12 +61,18 @@
    {
      "data_set": "SIFT Prediction",
      "data_source": "Ensembl",
-     "type": "hgvs_variant"
+     "type": "hgvs_variant",
+     "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
+     "query_param": "",
+     "attribute": "transcript_consequences[].sift_prediction"
    },
    {
      "data_set": "SIFT Score",
      "data_source": "Ensembl",
-     "type": "hgvs_variant"
+     "type": "hgvs_variant",
+     "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
+     "query_param": "",
+     "attribute": "transcript_consequences[].sift_score"
    },
    {
      "data_set": "cDNA Change",

@@ -16,7 +16,7 @@ class AnnotationCollection():
     def all(self):
         """Returns all annotation configurations"""
         # return self.collection.find() - eventually
-        return read_fixture("annotation-sources.json")
+        return read_fixture("dataset-sources.json")
 
     def datasets_to_annotate_by_type(self, types):
         """gets dataset configurations according to the types"""
