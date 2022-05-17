@@ -1,9 +1,19 @@
 """General utilities for the application"""
+
 import json
 import os
 
-from fastapi import HTTPException, Security
-from fastapi.security import OAuth2PasswordBearer
+from pydantic import ValidationError
+from jose import jwt, JWTError
+
+from fastapi import Depends, HTTPException, Security, status
+from fastapi.security import OAuth2PasswordBearer, SecurityScopes
+
+from src import config
+from .dependencies import database
+
+from .core.user import User, UserInDB
+from .core.token import TokenData
 
 ## Auth Utils
 
@@ -14,6 +24,10 @@ oauth2_scheme = OAuth2PasswordBearer(
         "items": "Read items."
     }
 )
+
+def get_user(user_collection, username: str):
+    user_dict = user_collection.find_by_name(username)
+    return UserInDB(**user_dict)
 
 async def get_current_user(security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme)):
     if security_scopes:
@@ -28,7 +42,7 @@ async def get_current_user(security_scopes: SecurityScopes, token: str = Depends
     )
     
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, config.SECRET_KEY, algorithms=[config.ALGORITHM])
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
@@ -36,7 +50,8 @@ async def get_current_user(security_scopes: SecurityScopes, token: str = Depends
         token_data = TokenData(scopes=token_scopes, username=username)
     except (JWTError, ValidationError):
         raise credentials_exception
-    user = get_user(fake_users_db, username=token_data.username)
+    user_collection = database.collections['user']
+    user = get_user(user_collection, username=token_data.username)
     if user is None:
         raise credentials_exception
     for scope in security_scopes.scopes:
@@ -52,7 +67,6 @@ async def get_current_active_user(current_user: User = Security(get_current_user
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive User")
     return current_user
-
 
 ## Helper Utils
 
