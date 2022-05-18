@@ -2,11 +2,7 @@
 # from unittest.mock import Mock
 import pytest
 
-from src.repository.annotation_collection import AnnotationCollection
 from src.enums import GenomicUnitType
-
-# from src.utils import read_fixture
-
 
 def test_get_datasets_configuration_by_type(annotation_collection):
     """Tests getting the datasets for the provided types of genomic units"""
@@ -34,11 +30,3 @@ def fixture_genomic_units():
       'type': GenomicUnitType.HGVS_VARIANT,
       'unit': 'NM_170707.3:c.745C>T'
     }]
-
-@pytest.fixture(name='annotation_collection')
-def fixture_annotation_collection():
-    """Fixture for the annotation collection"""
-    return AnnotationCollection()
-    # mock_collection = Mock()
-    # mock_collection.find = Mock( return_value = read_fixture("annotation-sources.json") )
-    # return AnnotationCollection(mock_collection)

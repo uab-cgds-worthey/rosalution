@@ -19,14 +19,6 @@ def fixture_transcript_id_dataset(annotation_collection):
     """
     return annotation_collection.find_by_data_set('transcript_id')
 
-@pytest.fixture(name="annotation_collection")
-def fixture_annotation_collection():
-    """
-    Returns the annotation collection for the configuration to verify
-    annotation tasks are created according to the configuration
-    """
-    return AnnotationCollection()
-
 @pytest.fixture(name="cpam0046_hgvs_genomic_unit")
 def fixture_cpam0046_hgvs_genomic_unit(cpam0046_analysis):
     """
@@ -46,10 +38,3 @@ def fixture_cpam0046_analysis(analysis_collection):
     """Returns the Analysis for CPAM0046 to verify creating annotation tasks"""
     analysis_json = analysis_collection.find_by_name('CPAM0046')
     return Analysis(**analysis_json)
-
-
-@pytest.fixture(name="analysis_collection")
-def fixture_analysis_collection():
-    """Returns the analysis collection to be mocked"""
-
-    return AnalysisCollection()

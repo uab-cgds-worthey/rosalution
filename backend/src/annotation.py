@@ -44,22 +44,25 @@ class AnnotationQueue():
         return self.annotation_queue.empty()
 
 class AnnotationTask():
-    def __init__(self):
+    def __init__(self, genomic_unit_json):
         self.datasets = []
+        self.genomic_unit = genomic_unit_json
 
-    def base_url(self, genomic_unit):
-      return None if not self.datasets else self.datasets[0].base_url(genomic_unit)
+    def base_url(self):
+      return None if not self.datasets else self.datasets[0].base_url(self.genomic_unit)
     
     def append(self, dataset: DataSetSource):
         self.datasets.append(dataset)
     
-    def annotate(self, genomic_unit):
-        url_to_query = self.build_url(genomic_unit)
+    def annotate(self):
+        url_to_query = self.build_url()
+        log_line= f'From Annotation Task Object: {url_to_query}\n'
         with open("divergen-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
-          log_file.write(f'From Annotation Task Object: {url_to_query}')
+          log_file.write(log_line)
+        return log_line
 
-    def build_url(self, genomic_unit):
-      base_url_string = self.base_url(genomic_unit)
+    def build_url(self):
+      base_url_string = self.base_url(self.genomic_unit)
       return None if base_url_string is None else reduce(lambda url_string, dataset: url_string.join(dataset.query_param), self.datasets, base_url_string)
         
       
@@ -94,17 +97,27 @@ class AnnotationService():
             annotation_task_futures = {}
             batched_annotation_tasks = {}
             while not annotation_queue.empty():
-                genomic_unit, dataset = annotation_queue.get()
-                annotation = DataSetSource(**dataset)
-                # if(annotation.url is not None):
-                #   if(annotation.base_url(dataset) in batched_annotation_tasks):
-                #     batched_annotation_tasks[annotation.base_url(dataset)].append(DataSetSource)
-                log_to_file(f"Que: {genomic_unit} for datasets {dataset}\n")
-                annotation_task_futures[executor.submit(
-                    annotation.annotate, genomic_unit)] = (genomic_unit, dataset)
+                genomic_unit, dataset_json = annotation_queue.get()
+                dataset = DataSetSource(**dataset_json)
+
+                if(dataset.url is not None):
+                    dataset_base_url = dataset.base_url(genomic_unit)
+                    if(dataset_base_url in batched_annotation_tasks):
+                        batched_annotation_tasks[dataset_base_url].append(DataSetSource)
+                    else:
+                        batched_annotation_tasks[dataset_base_url] = AnnotationTask(genomic_unit)
+                    log_to_file(f"Batched: {genomic_unit} for datasets {dataset_json}\n")
+                else:
+                    log_to_file(f"Que: {genomic_unit} for datasets {dataset_json}\n")
+                    annotation_task_futures[executor.submit(
+                        dataset.annotate, genomic_unit)] = (genomic_unit, dataset)
+
+            for batch_task in batched_annotation_tasks.values():
+                annotation_task_futures[executor.submit(batch_task.annotate)] = (genomic_unit, dataset)
+
 
             for future in concurrent.futures.as_completed(annotation_task_futures):
-                genomic_unit, dataset = annotation_task_futures[future]
+                genomic_unit, dataset_json = annotation_task_futures[future]
                 try:
                     log_to_file(f"{future.result()} \n")
                 except FileNotFoundError as error:
