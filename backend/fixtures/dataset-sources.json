@@ -51,12 +51,18 @@
    {
      "data_set": "Polyphen Prediction",
      "data_source": "Ensembl",
-     "type": "hgvs_variant"
+     "type": "hgvs_variant",
+     "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
+     "query_param": "",
+     "attribute": "transcript_consequences[].polyphen_prediction"
    },
    {
      "data_set": "Polyphen Score",
      "data_source": "Ensembl",
-     "type": "hgvs_variant"
+     "type": "hgvs_variant",
+     "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
+     "query_param": "",
+     "attribute": "transcript_consequences[].polyphen_score"
    },
    {
      "data_set": "SIFT Prediction",
@@ -77,7 +83,10 @@
    {
      "data_set": "cDNA Change",
      "data_source": "Ensembl",
-     "type": "hgvs_variant"
+     "type": "hgvs_variant",
+     "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
+     "query_param": "",
+     "attribute": "transcript_consequences[].{cds_start}{used_ref}>{variant_allele}"
    },
    {
      "data_set": "AA Change",
@@ -87,7 +96,10 @@
    {
      "data_set": "Consequence",
      "data_source": "Ensembl",
-     "type": "hgvs_variant"
+     "type": "hgvs_variant",
+     "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
+     "query_param": "",
+     "attribute": "transcript_consequences[].consequence_terms[]"
    }, {
      "data_set": "Effects",
      "data_source": "",
@@ -124,7 +136,10 @@
   },
   {
     "data_set": "RS ID",
-    "data_source": "Aliance Genome",
-    "type": "variant"
+    "data_source": "Ensembl",
+    "type": "hgvs_variant",
+    "url": "http://rest.ensembl.org/variant_recoder/human/{hgvs_variant}?content-type=application/json",
+    "query_param": "",
+    "attribute": "{alt_allele}.id.[]"
   }
 ]

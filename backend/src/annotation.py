@@ -1,6 +1,8 @@
 """Supports the queueing and processing of genomic unit annotation"""
 import concurrent
 import queue
+import requests
+
 from functools import reduce
 
 from .core.data_set_source import DataSetSource
@@ -56,15 +58,14 @@ class AnnotationTask():
     
     def annotate(self):
         url_to_query = self.build_url()
-        log_line= f'From Annotation Task Object: {url_to_query}\n'
-        with open("divergen-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
-          log_file.write(log_line)
-        return log_line
+        result = requests.get(url_to_query)
+        return  f'Batching with an Annotation Task Object: \n {result.json()}'
 
     def build_url(self):
-      base_url_string = self.base_url(self.genomic_unit)
-      return None if base_url_string is None else reduce(lambda url_string, dataset: url_string.join(dataset.query_param), self.datasets, base_url_string)
-        
+      base_url_string = self.base_url()
+      query_param_list = map(lambda dataset: dataset.query_param, self.datasets)
+      url = reduce(lambda url_string, query_param: url_string + query_param, query_param_list, base_url_string)
+      return url if base_url_string is not None else None        
       
 class AnnotationService():
     """
@@ -102,10 +103,10 @@ class AnnotationService():
 
                 if(dataset.url is not None):
                     dataset_base_url = dataset.base_url(genomic_unit)
-                    if(dataset_base_url in batched_annotation_tasks):
-                        batched_annotation_tasks[dataset_base_url].append(DataSetSource)
-                    else:
+                    if(dataset_base_url not in batched_annotation_tasks):
+                        log_to_file(f"{dataset_base_url}")
                         batched_annotation_tasks[dataset_base_url] = AnnotationTask(genomic_unit)
+                    batched_annotation_tasks[dataset_base_url].append(dataset)
                     log_to_file(f"Batched: {genomic_unit} for datasets {dataset_json}\n")
                 else:
                     log_to_file(f"Que: {genomic_unit} for datasets {dataset_json}\n")
@@ -113,16 +114,23 @@ class AnnotationService():
                         dataset.annotate, genomic_unit)] = (genomic_unit, dataset)
 
             for batch_task in batched_annotation_tasks.values():
-                annotation_task_futures[executor.submit(batch_task.annotate)] = (genomic_unit, dataset)
+                annotation_task_futures[executor.submit(batch_task.annotate)] = (genomic_unit, batch_task)
 
+            log_to_file('------done submitting tasks\n')
 
             for future in concurrent.futures.as_completed(annotation_task_futures):
                 genomic_unit, dataset_json = annotation_task_futures[future]
                 try:
-                    log_to_file(f"{future.result()} \n")
+                    log_to_file(f"{future.result()}")
+                    if isinstance(dataset_json, AnnotationTask):
+                      log_to_file(f'{dataset_json.datasets}')
+                      log_to_file(f'{genomic_unit}')
                 except FileNotFoundError as error:
                     log_to_file(f"exception happened {error}")
                 except Exception as error:
                     log_to_file(f"exception happened {error}")
 
+                log_to_file('\n')
                 del annotation_task_futures[future]
+            
+            log_to_file('after for loop for waiting for all of the futures to finis\n\n')

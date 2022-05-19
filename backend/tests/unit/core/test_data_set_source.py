@@ -3,8 +3,6 @@ from src.core.data_set_source import DataSetSource
 from src.enums import GenomicUnitType
 
 from src.core.analysis import Analysis
-from src.repository.analysis_collection import AnalysisCollection
-from src.repository.annotation_collection import AnnotationCollection
 
 def test_data_set_base_url(transcript_id_dataset, cpam0046_hgvs_genomic_unit):
     dataset = DataSetSource(**transcript_id_dataset)

@@ -47,10 +47,17 @@ def test_annotation_task_base_url_with_datasets(annotation_task, transcript_id_d
     assert annotation_task.base_url() == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;"
 
 
-def test_annotation_task_base_url_man_datasets(annotation_task, transcript_datasets_json):
+def test_annotation_task_base_url_many_datasets(annotation_task, transcript_datasets_json):
     for dataset_json in transcript_datasets_json:
         annotation_task.append(DataSetSource(**dataset_json))
     assert annotation_task.base_url() == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;"
+
+
+def test_annotation_task_build_url(annotation_task, transcript_datasets_json):
+    for dataset_json in transcript_datasets_json:
+        annotation_task.append(DataSetSource(**dataset_json))
+    
+    assert annotation_task.build_url() == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;refseq=1;"
 
 @pytest.fixture(name="annotation_task")
 def fixture_hgvs_variant_annotation_task(cpam0046_hgvs_variant_json):

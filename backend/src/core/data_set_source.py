@@ -28,9 +28,9 @@ class DataSetSource(BaseModel):
         value = randint(0, 10)
         with open("divergen-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
             if(self.url is not None):
-                log_line = f"Annotating {self.base_url(unit)}{self.query_param} and saving {self.attribute}\n"
+                log_line = f"Annotating {self.base_url(unit)}{self.query_param} and saving {self.attribute}"
             else:
                 time.sleep(value)
-                log_line = f"Slept: {value} - Fake annotation for {unit} for datasets {self.data_set} from {self.data_source}\n"
+                log_line = f"Slept: {value} - Fake annotation for {unit} for datasets {self.data_set} from {self.data_source}"
             log_file.write(log_line)
         return log_line
