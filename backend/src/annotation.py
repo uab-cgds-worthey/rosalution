@@ -45,12 +45,33 @@ class AnnotationQueue():
     def empty(self):
         return self.annotation_queue.empty()
 
+
 class AnnotationTask():
+
     def __init__(self, genomic_unit_json):
         self.datasets = []
         self.genomic_unit = genomic_unit_json
+    
+    @classmethod
+    def create(cls, genomic_unit_json, dataset):
+        instance = cls(genomic_unit_json)
+        instance.append(dataset)
+        return (instance.identifier, instance)
 
-    def base_url(self):
+    def identifier(self):
+        return None if not self.datasets else self.datasets[0].base_url(self.genomic_unit)
+
+    def append(self, dataset: DataSetSource):
+        self.datasets.append(dataset)
+    
+    # def annotate(self):
+        
+
+class HttpAnnotationTask(AnnotationTask):
+    def __init__(self, genomic_unit_json):
+        AnnotationTask.__init__(self, genomic_unit_json)
+
+    def identifier(self):
       return None if not self.datasets else self.datasets[0].base_url(self.genomic_unit)
     
     def append(self, dataset: DataSetSource):
@@ -65,8 +86,8 @@ class AnnotationTask():
       base_url_string = self.base_url()
       query_param_list = map(lambda dataset: dataset.query_param, self.datasets)
       url = reduce(lambda url_string, query_param: url_string + query_param, query_param_list, base_url_string)
-      return url if base_url_string is not None else None        
-      
+      return url if base_url_string is not None else None 
+
 class AnnotationService():
     """
     Creates and user09es annotating genomic units for cases.
