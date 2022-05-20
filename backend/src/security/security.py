@@ -1,19 +1,20 @@
 from pydantic import ValidationError
 from jose import jwt, JWTError
 
-from fastapi import Depends, HTTPException, Security, status
+from fastapi import Depends, HTTPException, status, Security
 from fastapi.security import OAuth2PasswordBearer, SecurityScopes
 
-from . import config
-from .dependencies import database
+from passlib.context import CryptContext
 
-from .core.user import User, UserInDB
-from .core.token import TokenData
+from .. import config
+from ..core.user import User, UserInDB
+from ..core.token import TokenData
 
-## Auth Utils
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 oauth2_scheme = OAuth2PasswordBearer(
-    tokenUrl="/divergen/api/auth/token",
+    tokenUrl=config.TOKEN_URL,
     scopes={
         "read": "View the pages on diverGen.",
         "write": "Add/Remove information from diverGen analyses.",
@@ -21,9 +22,11 @@ oauth2_scheme = OAuth2PasswordBearer(
     }
 )
 
-def get_user(user_collection, username: str):
-    user_dict = user_collection.find_by_name(username)
-    return UserInDB(**user_dict)
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+def get_password_hash(password):
+    return pwd_context.hash(password)
 
 async def get_authorization(security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme)):
     if security_scopes:
@@ -55,6 +58,9 @@ async def get_authorization(security_scopes: SecurityScopes, token: str = Depend
             )
     return True
 
+
+## Verify User
+
 async def get_current_user(security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme)):
     if security_scopes:
         authenticate_value = f'Bearer scope="{security_scopes.scope_str}"'        
@@ -76,9 +82,8 @@ async def get_current_user(security_scopes: SecurityScopes, token: str = Depends
         token_data = TokenData(scopes=token_scopes, username=username)
     except (JWTError, ValidationError):
         raise credentials_exception
-    user_collection = database.collections['user']
-    user = get_user(user_collection, username=token_data.username)
-    if user is None:
+    username = token_data.username
+    if username is None:
         raise credentials_exception
     for scope in security_scopes.scopes:
         if scope not in token_data.scopes:
@@ -87,9 +92,4 @@ async def get_current_user(security_scopes: SecurityScopes, token: str = Depends
                 detail="Not enough permissions",
                 headers={"WWW-Authenticate": authenticate_value},
             )
-    return user
-
-async def get_current_active_user(current_user: User = Security(get_current_user, scopes=["read"])):
-    if current_user.disabled:
-        raise HTTPException(status_code=400, detail="Inactive User")
-    return current_user
+    return username

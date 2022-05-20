@@ -2,7 +2,7 @@
 Manages the user collection of the users registered to diverGen
 """
 
-from ..core.security import verify_password
+from ..security.security import verify_password
 from ..utils import read_fixture
 
 class UserCollection():

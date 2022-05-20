@@ -1,17 +1,16 @@
 """ FastAPI Authentication router file that handles the auth lifecycle of the application """
 from datetime import timedelta
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, Security
 from fastapi.security import OAuth2PasswordRequestForm
 
 from ..core.user import User, UserInDB
-from ..core.jwt import create_access_token
+from ..security.jwt import create_access_token
+from ..security.security import get_current_user
 
 from ..dependencies import database
 
 from src import config
-
-from ..security import get_current_active_user
 
 router = APIRouter(
     prefix="/auth",
@@ -45,9 +44,14 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
-@router.post("/verify", response_model=User)
-def test_token(current_user: UserInDB = Depends(get_current_active_user)):
-    print(current_user)
+@router.get("/verify", response_model=User)
+def test_token(username: UserInDB = Security(get_current_user, scopes=['read'])):
+    print(username)
+    user = database.collections['user'].find_by_name(username)
+    current_user = User(**user)
+    if current_user.disabled:
+        raise HTTPException(status_code=400, detail="Inactive User")
+    
     return current_user
 
 ## Disabling for now

@@ -1,24 +1,23 @@
 """ Analysis endpoint routes that serve up information regarding anaysis cases for diverGen """
 
 from typing import List
-from xmlrpc.client import Boolean
 
 from fastapi import APIRouter, Depends, HTTPException, Security
 
 from ..core.analysis import Analysis, AnalysisSummary
 from ..dependencies import database
 
-from ..security import get_authorization
+from ..security.security import get_authorization
 
 router = APIRouter(
     prefix="/analysis",
     tags=["analysis"],
-    dependencies=[Depends(database), Security(get_authorization, scopes=["write"])]
+    dependencies=[Depends(database)]
 )
 
 user_collection = database.collections['analysis']
 
-@router.get('/test', response_model=List[Analysis])
+@router.get('/test', response_model=List[Analysis], dependencies=[Security(get_authorization, scopes=["write"])])
 def get_all_analyses_test(collections=Depends(database)):
     """ Returns every analysis available"""
     return collections['analysis'].all()
