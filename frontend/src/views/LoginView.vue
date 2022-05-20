@@ -14,29 +14,35 @@
           <button @click="verify" type="submit">Verify</button>   
           <br />
           <br />
-          <button @click="logout" type="submit">Logout</button>          
+          <button @click="testInject" type="submit">Test</button>   
+          <br />
+          <br />
+          <button @click="logout" type="submit">Logout</button>
+          <br />
+          <br />
+          <br />
+          <br />
+          <router-link :to="{ path: '/divergen' }">
+            <button @click="back" type="submit">Back</button>
+          </router-link>
     </div>
 </template>
 
 <script>
+import { userStore } from '../authStore.js'
+import { cookie } from '../cookie.js'
 
 export default {
   data() {
     return {
       username: '',
       password: '',
+      userStore
     };
   },
+  // inject: ['userStore'],
   methods: {
-    async loginTemp() {
-      const loginParams = new URLSearchParams({
-        'username': this.username,
-        'password': this.password,
-        'scope': 'read'
-      });
-
-      console.log(loginParams.values)
-      
+    async loginTemp() {      
       const response = await fetch("http://local.divergen.cgds/divergen/api/auth/token", {
           method: 'POST',
           headers: {
@@ -48,9 +54,14 @@ export default {
           body: 'grant_type=password&scope=read+write&username=' + this.username + '&password=' + this.password,
       });
 
-      //grant_type=password&scope=me+items&username=johndoe&password=secret
+      const responseJson = await response.json();
 
-      console.log(await response.json());
+      console.log(responseJson);
+
+      userStore.saveState(responseJson);
+      cookie.setCookie(responseJson['access_token']);
+
+      // this.userStore.state.token = responseJson;
     },
     async verify() {
       const verifyURL = '/divergen/api/auth/verify';
@@ -62,6 +73,9 @@ export default {
       const response = await newURL.json();
 
       console.log(response);
+    },
+    async testInject() {
+      console.log(userStore.state.token);
     },
     async login() {
       const loginUrl = '/divergen/api/auth/login';

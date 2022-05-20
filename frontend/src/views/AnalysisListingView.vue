@@ -67,8 +67,8 @@ export default {
   },
   methods: {
     async getUsername() {
-      const fetchUser = await User.getUser();
-      this.username = fetchUser['username'];
+      // const fetchUser = await User.getUser();
+      // this.username = fetchUser['username'];
     },
     async getListing() {
       this.analysisList.length = 0;
