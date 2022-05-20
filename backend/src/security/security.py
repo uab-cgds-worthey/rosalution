@@ -15,11 +15,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 oauth2_scheme = OAuth2PasswordBearer(
     tokenUrl=config.TOKEN_URL,
-    scopes={
-        "read": "View the pages on diverGen.",
-        "write": "Add/Remove information from diverGen analyses.",
-        "modify": "Add/Remove analyses themselves."
-    }
+    scopes=config.SECURITY_SCOPES
 )
 
 def verify_password(plain_password, hashed_password):
