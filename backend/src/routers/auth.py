@@ -4,14 +4,14 @@ from datetime import timedelta
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 
-from cas import CASClient
-
+from ..core.user import User, UserInDB
 from ..core.jwt import create_access_token
 
 from ..dependencies import database
-from ..utils import get_current_user, get_user
 
 from src import config
+
+from ..security import get_current_active_user
 
 router = APIRouter(
     prefix="/auth",
@@ -19,6 +19,7 @@ router = APIRouter(
     dependencies=[Depends(database)],
 )
 
+<<<<<<< HEAD
 # URLs for interacting with UAB CAS Padlock system for BlazerID
 cas_client = CASClient(
     version=3,
@@ -27,12 +28,16 @@ cas_client = CASClient(
 )
 
 @router.post('/login')
+=======
+@router.post('/token')
+>>>>>>> b6c5c60 (Lots of changes, but it's issuing a token and it's verifying the user is in the database)
 def login(form_data: OAuth2PasswordRequestForm = Depends()):
     """
     OAuth2 compatible token login, get an access token for future requests.
     """
+    print(form_data.scopes)
     user_collection = database.collections['user']
-    user_collection.authenticate_user(form_data.username, form_data.password)
+    user_collection.authenticate_user(user_collection, form_data.username, form_data.password)
     access_token_expires = timedelta(minutes=config.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
         data={"sub": form_data.username, "scopes": form_data.scopes},
@@ -40,12 +45,24 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
+@router.post("/verify", response_model=User)
+def test_token(current_user: UserInDB = Depends(get_current_active_user)):
+    print(current_user)
+    return current_user
 
 ## Disabling for now
 
+# from cas import CASClient
 # from typing import Optional
 # from fastapi.responses import RedirectResponse
 # from starlette.requests import Request
+
+# URLs for interacting with UAB CAS Padlock system for BlazerID
+# cas_client = CASClient(
+#     version=3,
+#     service_url='http://dev.cgds.uab.edu/divergen/api/login?nexturl=%2Fdivergen',
+#     server_url='https://padlockdev.idm.uab.edu/cas/'
+# )
 
 # pylint: disable=no-member
 # This is done because pylint doesn't appear to be recognizing python-cas's functions saying they have no member

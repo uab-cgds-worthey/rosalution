@@ -1,10 +1,10 @@
 from typing import Optional
 
-import jwt
+from jose import jwt
 
 from datetime import datetime, timedelta
 
-from src import config
+from .. import config
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()

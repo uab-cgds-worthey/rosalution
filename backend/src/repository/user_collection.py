@@ -2,8 +2,7 @@
 Manages the user collection of the users registered to diverGen
 """
 
-from src.core.security import get_password_hash, verify_password
-
+from ..core.security import verify_password
 from ..utils import read_fixture
 
 class UserCollection():
@@ -13,7 +12,7 @@ class UserCollection():
         """ Returns all users in the system """
         return read_fixture("users.json")
 
-    def find_by_name(self, name: str):
+    def find_by_name(name: str):
         """ Returns user by searching for user's name """
         users = read_fixture("users.json")
         for user in users:
@@ -26,6 +25,6 @@ class UserCollection():
         user = self.find_by_name(username)
         if not user:
             return False
-        if not verify_password(password, user.hashed_password):
+        if not verify_password(password, user['hashed_password']):
             return False
         return user
