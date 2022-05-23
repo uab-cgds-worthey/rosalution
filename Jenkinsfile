@@ -82,7 +82,8 @@ pipeline {
     }
     stage('Compile & Publish Production'){
       when { 
-        branch 'main'
+        // branch 'main'
+        branch 'minor-auth-fix'
       }
       steps {
         sh 'bash build.sh --tag prod --push'
@@ -98,7 +99,8 @@ pipeline {
     }
     stage('Swarm Deploy Production') {
       when { 
-        branch 'main'
+        // branch 'main'
+        branch 'minor-auth-fix'
       }
       steps {
         sh 'docker stack deploy --prune --with-registry-auth --compose-file docker-compose.production.yml divergen-prod'
