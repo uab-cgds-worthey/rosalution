@@ -16,12 +16,20 @@ class AnnotationCollection():
     def all(self):
         """Returns all annotation configurations"""
         # return self.collection.find() - eventually
-        return read_fixture("annotation-sources.json")
+        return read_fixture("dataset-sources.json")
+
+    def find_by_data_set(self, dataset_name):
+        """ Returns a data set source that matches by name"""
+        for dataset in self.all():
+            if dataset_name == dataset.get('data_set'):
+                return dataset
+
+        return None
 
     def datasets_to_annotate_by_type(self, types):
         """gets dataset configurations according to the types"""
         configuration = self.all()
-        return [dataset for dataset in configuration if dataset['type'] in types]
+        return [dataset for dataset in configuration if dataset['genomic_unit_type'] in types]
 
     def datasets_to_annotate_for_units(self, genomic_units_to_annotate):
         """
@@ -37,7 +45,7 @@ class AnnotationCollection():
         for genomic_unit_type in types_to_annotate:
             configuration[genomic_unit_type] = []
 
-        for key, group in groupby(datasets_to_annotate, lambda x: x['type']):
+        for key, group in groupby(datasets_to_annotate, lambda x: x['genomic_unit_type']):
             configuration[key] = list(group)
 
         return configuration
