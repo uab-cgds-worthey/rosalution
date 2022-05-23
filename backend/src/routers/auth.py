@@ -18,18 +18,7 @@ router = APIRouter(
     dependencies=[Depends(database)],
 )
 
-<<<<<<< HEAD
-# URLs for interacting with UAB CAS Padlock system for BlazerID
-cas_client = CASClient(
-    version=3,
-    service_url='http://dev.cgds.uab.edu/divergen/api/auth/login?nexturl=%2Fdivergen',
-    server_url='https://padlockdev.idm.uab.edu/cas/'
-)
-
-@router.post('/login')
-=======
 @router.post('/token')
->>>>>>> b6c5c60 (Lots of changes, but it's issuing a token and it's verifying the user is in the database)
 def login(form_data: OAuth2PasswordRequestForm = Depends()):
     """
     OAuth2 compatible token login, get an access token for future requests.
