@@ -17,7 +17,7 @@ router = APIRouter(
 # URLs for interacting with UAB CAS Padlock system for BlazerID
 cas_client = CASClient(
     version=3,
-    service_url='http://dev.cgds.uab.edu/divergen/api/login?nexturl=%2Fdivergen',
+    service_url='http://dev.cgds.uab.edu/divergen/api/auth/login?nexturl=%2Fdivergen',
     server_url='https://padlockdev.idm.uab.edu/cas/'
 )
 
