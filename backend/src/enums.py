@@ -11,3 +11,10 @@ class GenomicUnitType(str, Enum):
     VARIANT = "variant"
     HGVS_VARIANT = "hgvs_variant"
     INVALID = "invalid"
+
+
+class AnnotationSourceType(str, Enum):
+    """Enumeration of the different types of annotation sources in the configuration"""
+    HTTP = 'http'
+    CSV = 'csv'
+    NONE = 'none'

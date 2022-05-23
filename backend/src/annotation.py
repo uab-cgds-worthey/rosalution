@@ -1,14 +1,9 @@
 """Supports the queueing and processing of genomic unit annotation"""
 import concurrent
 import queue
-import requests
 
-from functools import reduce
-
-from .core.data_set_source import DataSetSource
-
+from .annotation_task import AnnotationTaskFactory
 from .core.analysis import Analysis
-
 from .repository.annotation_collection import AnnotationCollection
 
 # Creating a callable wrapper for an instance for FastAPI dependency injection
@@ -37,63 +32,24 @@ class AnnotationQueue():
         return self.annotation_queue
 
     def get(self):
+        """Gets the thread safe item from the queue"""
         return self.annotation_queue.get()
-    
+
     def put(self, value):
+        """Puts the value in the thread safe queue"""
         self.annotation_queue.put(value)
-    
+
     def empty(self):
+        """Verifies if the thread safe queue is empty"""
         return self.annotation_queue.empty()
 
-
-class AnnotationTask():
-
-    def __init__(self, genomic_unit_json):
-        self.datasets = []
-        self.genomic_unit = genomic_unit_json
-    
-    @classmethod
-    def create(cls, genomic_unit_json, dataset):
-        instance = cls(genomic_unit_json)
-        instance.append(dataset)
-        return (instance.identifier, instance)
-
-    def identifier(self):
-        return None if not self.datasets else self.datasets[0].base_url(self.genomic_unit)
-
-    def append(self, dataset: DataSetSource):
-        self.datasets.append(dataset)
-    
-    # def annotate(self):
-        
-
-class HttpAnnotationTask(AnnotationTask):
-    def __init__(self, genomic_unit_json):
-        AnnotationTask.__init__(self, genomic_unit_json)
-
-    def identifier(self):
-      return None if not self.datasets else self.datasets[0].base_url(self.genomic_unit)
-    
-    def append(self, dataset: DataSetSource):
-        self.datasets.append(dataset)
-    
-    def annotate(self):
-        url_to_query = self.build_url()
-        result = requests.get(url_to_query)
-        return  f'Batching with an Annotation Task Object: \n {result.json()}'
-
-    def build_url(self):
-      base_url_string = self.base_url()
-      query_param_list = map(lambda dataset: dataset.query_param, self.datasets)
-      url = reduce(lambda url_string, query_param: url_string + query_param, query_param_list, base_url_string)
-      return url if base_url_string is not None else None 
 
 class AnnotationService():
     """
     Creates and user09es annotating genomic units for cases.
     """
-
     def __init__(self, annotation_collection: AnnotationCollection):
+        """Initializes the annotation service and injects the collection that has the annotation configuration"""
         self.annotation_collection = annotation_collection
 
     def queue_annotation_tasks(self, analysis: Analysis, annotation_task_queue: AnnotationQueue):
@@ -120,38 +76,35 @@ class AnnotationService():
             batched_annotation_tasks = {}
             while not annotation_queue.empty():
                 genomic_unit, dataset_json = annotation_queue.get()
-                dataset = DataSetSource(**dataset_json)
 
-                if(dataset.url is not None):
-                    dataset_base_url = dataset.base_url(genomic_unit)
-                    if(dataset_base_url not in batched_annotation_tasks):
-                        log_to_file(f"{dataset_base_url}")
-                        batched_annotation_tasks[dataset_base_url] = AnnotationTask(genomic_unit)
-                    batched_annotation_tasks[dataset_base_url].append(dataset)
-                    log_to_file(f"Batched: {genomic_unit} for datasets {dataset_json}\n")
+                task_identifier, task = AnnotationTaskFactory.create(
+                    genomic_unit, dataset_json)
+
+                if task_identifier not in batched_annotation_tasks:
+                    batched_annotation_tasks[task_identifier] = task
+                    log_to_file(
+                        f"Batched: {genomic_unit} for datasets {dataset_json}\n")
                 else:
-                    log_to_file(f"Que: {genomic_unit} for datasets {dataset_json}\n")
-                    annotation_task_futures[executor.submit(
-                        dataset.annotate, genomic_unit)] = (genomic_unit, dataset)
+                    batched_annotation_tasks[task_identifier].append(
+                        dataset_json)
 
             for batch_task in batched_annotation_tasks.values():
-                annotation_task_futures[executor.submit(batch_task.annotate)] = (genomic_unit, batch_task)
+                annotation_task_futures[executor.submit(
+                    batch_task.annotate)] = (genomic_unit, batch_task)
 
             log_to_file('------done submitting tasks\n')
 
             for future in concurrent.futures.as_completed(annotation_task_futures):
-                genomic_unit, dataset_json = annotation_task_futures[future]
+                genomic_unit, annotation_task = annotation_task_futures[future]
                 try:
-                    log_to_file(f"{future.result()}")
-                    if isinstance(dataset_json, AnnotationTask):
-                      log_to_file(f'{dataset_json.datasets}')
-                      log_to_file(f'{genomic_unit}')
+                    log_to_file(f"{future.result()}\n")
+                    log_to_file(f'{annotation_task.datasets}\n')
+                    log_to_file(f'{genomic_unit}\n')
                 except FileNotFoundError as error:
-                    log_to_file(f"exception happened {error}")
-                except Exception as error:
-                    log_to_file(f"exception happened {error}")
+                    log_to_file(f"exception happened {error} with {genomic_unit} and {annotation_task}\n")
 
                 log_to_file('\n')
                 del annotation_task_futures[future]
-            
-            log_to_file('after for loop for waiting for all of the futures to finis\n\n')
+
+            log_to_file(
+                'after for loop for waiting for all of the futures to finis\n\n')

@@ -2,7 +2,6 @@
 import pytest
 
 from src.core.analysis import Analysis
-from src.repository.analysis_collection import AnalysisCollection
 from src.enums import GenomicUnitType
 
 

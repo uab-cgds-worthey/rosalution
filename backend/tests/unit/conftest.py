@@ -1,5 +1,6 @@
-import pytest
+"""Fixture configuration used for all unit tests"""
 import queue
+import pytest
 
 from src.repository.analysis_collection import AnalysisCollection
 from src.repository.annotation_collection import AnnotationCollection
@@ -9,7 +10,6 @@ from src.annotation import AnnotationService
 @pytest.fixture(name="analysis_collection")
 def fixture_analysis_collection():
     """Returns the analysis collection to be mocked"""
-
     return AnalysisCollection()
 
 @pytest.fixture(name="annotation_collection")
