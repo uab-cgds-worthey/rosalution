@@ -17,24 +17,12 @@
 </template>
 
 <script>
-import { userStore } from '../../authStore.js'
-
 export default {
   name: 'header-component',
   props: {
     username: String,
   },
-  data() {
-    return {
-      userStore
-    };
-  },
-  // inject: ['userStore'],
   methods: {
-    test() {
-      // userStore.saveState({"Hello": "world"});
-      console.log(userStore.state.token);
-    },
     onSearch(event) {
       this.$emit('search', event.target.value);
     },

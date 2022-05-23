@@ -1,13 +1,12 @@
-import {userStore} from './authStore.js';
-
+import {cookie} from './cookie.js';
 export default {
   async get(url) {
-    const authToken = userStore.getState();
+    const authToken = cookie.getCookie();
     const response = await fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + authToken.token,
+        'Authorization': 'Bearer ' + authToken,
       },
       mode: 'cors',
     });

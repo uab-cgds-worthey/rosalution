@@ -1,7 +1,8 @@
 """ FastAPI Authentication router file that handles the auth lifecycle of the application """
 from datetime import timedelta
 
-from fastapi import APIRouter, Depends, HTTPException, Security
+from fastapi import APIRouter, Depends, HTTPException, Security, Response
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
 
 from ..core.user import User, UserInDB
@@ -19,7 +20,7 @@ router = APIRouter(
 )
 
 @router.post('/token')
-def login(form_data: OAuth2PasswordRequestForm = Depends()):
+def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
     """
     OAuth2 compatible token login, get an access token for future requests.
     """
@@ -31,7 +32,12 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
         data={"sub": form_data.username, "scopes": form_data.scopes},
         expires_delta=access_token_expires
     )
-    return {"access_token": access_token, "token_type": "bearer"}
+    content = {"access_token": access_token, "token_type": "bearer"}
+    response = JSONResponse(content=content)
+    response.set_cookie(key='DIVERGEN_TOKEN', value=access_token)
+    print(access_token)
+    return response
+    # return {"access_token": access_token, "token_type": "bearer"}
 
 @router.get("/verify", response_model=User)
 def test_token(username: UserInDB = Security(get_current_user, scopes=['read'])):
@@ -42,6 +48,14 @@ def test_token(username: UserInDB = Security(get_current_user, scopes=['read']))
         raise HTTPException(status_code=400, detail="Inactive User")
     
     return current_user
+
+@router.get('/logout')
+def logout():
+    """ Returns an empty access token """
+    response = Response()
+    response.delete_cookie(key='DIVERGEN_TOKEN')
+    return response
+    # return {"access_token": '', "token_type": "bearer"}
 
 ## Disabling for now
 

@@ -13,7 +13,6 @@ import './styles/main.css';
 import './styles/divergen.css';
 // import './styles/proxima-nova-font.css'
 
-import {userStore} from './authStore.js';
 import {cookie} from './cookie.js';
 
 import {library} from '@fortawesome/fontawesome-svg-core';
@@ -45,15 +44,10 @@ const router = createRouter({
 const app = createApp(App);
 
 console.log("Here we're getting and setting a cookie, hopefully:");
-// cookie.setCookie("fake-auth-token");
 const tempCookie = cookie.getCookie();
 
 console.log(tempCookie)
 
-userStore.saveState(tempCookie);
-
-// app.config.globalProperties.$userStore = userStore
-// app.provide('userStore', userStore);
 app.use(router);
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.mount('#app');

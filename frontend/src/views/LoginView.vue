@@ -17,7 +17,9 @@
           <button @click="testInject" type="submit">Test</button>   
           <br />
           <br />
-          <button @click="logout" type="submit">Logout</button>
+          
+            <button @click="logout" type="submit">Logout</button>
+          
           <br />
           <br />
           <br />
@@ -29,15 +31,11 @@
 </template>
 
 <script>
-import { userStore } from '../authStore.js'
-import { cookie } from '../cookie.js'
-
 export default {
   data() {
     return {
       username: '',
       password: '',
-      userStore
     };
   },
   // inject: ['userStore'],
@@ -57,11 +55,6 @@ export default {
       const responseJson = await response.json();
 
       console.log(responseJson);
-
-      userStore.saveState(responseJson);
-      cookie.setCookie(responseJson['access_token']);
-
-      // this.userStore.state.token = responseJson;
     },
     async verify() {
       const verifyURL = '/divergen/api/auth/verify';
@@ -73,9 +66,6 @@ export default {
       const response = await newURL.json();
 
       console.log(response);
-    },
-    async testInject() {
-      console.log(userStore.state.token);
     },
     async login() {
       const loginUrl = '/divergen/api/auth/login';
@@ -96,15 +86,16 @@ export default {
     },
     async logout() {
       const logoutUrl = '/divergen/api/auth/logout';
-      const newURL = await fetch(logoutUrl, {
+      await fetch(logoutUrl, {
         method: 'GET',
         mode: 'cors',
       });
 
-      const response = await newURL.json();
-      console.log(response['url']);
 
-      window.location = response['url'];
+      // const response = await newURL.json();
+      // console.log(response['url']);
+
+      // window.location = response['url'];
     },
   },
 };
