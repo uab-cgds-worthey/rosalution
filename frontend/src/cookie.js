@@ -1,7 +1,4 @@
 const cookie = {
-    setCookie(token) {
-        document.cookie = `DIVERGEN_TOKEN=${token}`;
-    },
     getCookie() {
         console.log(document.cookie)
         if(document.cookie == '')
@@ -12,6 +9,12 @@ const cookie = {
             .split('=')[1];
         return cookieValue
     },
+    setCookie(token) {
+        document.cookie = `DIVERGEN_TOKEN=${token}`;
+    },
+    removeCookie() {
+        document.cookie = ''
+    }
 };
 
 export { cookie };
