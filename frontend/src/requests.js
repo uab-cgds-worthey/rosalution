@@ -1,8 +1,14 @@
+import {userStore} from './authStore.js';
+
 export default {
   async get(url) {
+    const authToken = userStore.getState();
     const response = await fetch(url, {
       method: 'GET',
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + authToken.token,
+      },
       mode: 'cors',
     });
     if ( response.ok != true ) {

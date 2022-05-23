@@ -12,7 +12,7 @@ from ..security.security import get_authorization
 router = APIRouter(
     prefix="/analysis",
     tags=["analysis"],
-    dependencies=[Depends(database)]
+    dependencies=[Depends(database), Security(get_authorization, scopes=["write"])]
 )
 
 user_collection = database.collections['analysis']

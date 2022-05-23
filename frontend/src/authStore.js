@@ -7,6 +7,9 @@ export const userStore = reactive({
 
     async saveState(token) {
         this.state.token = token;
+    },
+    getState() {
+        return this.state;
     }
 });
 
