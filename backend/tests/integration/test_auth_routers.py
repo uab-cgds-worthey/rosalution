@@ -18,7 +18,7 @@ def test_login_no_session(client):
     """ Testing the login endpoint when there is no login session already """
     response = client.get('/auth/login')
     assert response.json()['url'] == 'https://padlockdev.idm.uab.edu/cas/login?service=http%3A' + \
-                                     '%2F%2Fdev.cgds.uab.edu%2Fdivergen%2Fapi%2Flogin%3Fnexturl%3D%252Fdivergen'
+                                     '%2F%2Fdev.cgds.uab.edu%2Fdivergen%2Fapi%2Fauth%2Flogin%3Fnexturl%3D%252Fdivergen'
 
 
 def test_login_existing_session(client):
