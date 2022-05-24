@@ -68,7 +68,7 @@ export default {
   methods: {
     async getUsername() {
       const fetchUser = await User.getUser();
-      console.log(fetchUser)
+      console.log(fetchUser);
       this.username = fetchUser['username'];
     },
     async getListing() {
@@ -77,11 +77,11 @@ export default {
 
       // TODO: Handle Unauthorized error
       // Right now this is how we're handling unauthorization errors
-      // There needs to be a proper way to user09e these errors, otherwise each function will 
+      // There needs to be a proper way to user09e these errors, otherwise each function will
       // have their own error message
-      if(analyses.error) {
+      if (analyses.error) {
         console.log('Cannot retrieve Analyses. User is not authorized or token is expired.');
-        return
+        return;
       }
 
       this.analysisList.push(...analyses);

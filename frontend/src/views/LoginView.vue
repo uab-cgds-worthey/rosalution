@@ -54,48 +54,47 @@ export default {
       }
     },
     async logoutCAS() {
-      const logoutUrl = '/divergen/api/auth/logout';
-      const newUrl = await fetch(logoutUrl, {
-        method: 'GET',
-        mode: 'cors',
-      });
+      // const logoutUrl = '/divergen/api/auth/logout';
+      // const newUrl = await fetch(logoutUrl, {
+      //   method: 'GET',
+      //   mode: 'cors',
+      // });
 
-      const response = await newUrl.json()
+      const response = await Auth.logoutCas();
 
       window.location = response['url'];
     },
 
     /* OAuth2 Login Functions */
 
-    // Good to go
     async loginOAuth() {
       const userData = {'username': this.username, 'password': this.password};
 
       const responseJson = await Auth.login(userData);
       console.log(responseJson);
-      
+
       this.error = '';
     },
-    // Good to go
+    // TODO: Remove this function and migrate it to the ./models/users.js file
     async verifyUser() {
-      const user = await Auth.verifyUser()
+      const user = await Auth.verifyUser();
 
       // TODO: Handle Unauthorized error
       // Right now this is how we're handling unauthorization errors
-      // There needs to be a proper way to user09e these errors, otherwise each function will 
+      // There needs to be a proper way to user09e these errors, otherwise each function will
       // have their own error message
-      if(user.error) {
-        this.error = user.error
-        return
+      if (user.error) {
+        this.error = user.error;
+        return;
       }
 
       this.message = 'Welcome, ' + user.username;
     },
-    // Good to go
+
     async logoutOAuth() {
       const response = await Auth.logout();
       console.log(response);
-      this.message = 'Logged out successfully!'
+      this.message = 'Logged out successfully!';
       this.username = '';
       this.password = '';
       this.error = '';

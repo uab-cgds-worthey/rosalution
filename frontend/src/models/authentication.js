@@ -6,7 +6,7 @@ export default {
   async loginCas() {
     const baseUrl = '/divergen/api/';
     const urlQuery = 'auth/login';
-    const body = await Requests.postLogin(baseUrl + urlQuery, data);
+    const body = await Requests.get(baseUrl + urlQuery);
     if ('errors' in body) {
       const errorString = body.data.errors.map((error) => error.message).join('; ');
       throw new Error('Failed to login: ' + errorString);
@@ -15,7 +15,15 @@ export default {
     return body;
   },
   async logoutCas() {
+    const baseUrl = '/divergen/api/';
+    const urlQuery = 'auth/logoutCas';
+    const body = await Requests.get(baseUrl + urlQuery);
+    if ('errors' in body) {
+      const errorString = body.data.errors.map((error) => error.message).join('; ');
+      throw new Error('Failed to login: ' + errorString);
+    }
 
+    return body;
   },
 
   /* OAuth2 Login Functions */
@@ -38,11 +46,11 @@ export default {
     const body = await Requests.get(baseUrl + urlQuery);
     if ('errors' in body) {
       const errorString = body.data.errors.map((error) => error.message).join('; ');
-      console.log(errorString)
+      console.log(errorString);
       throw new Error('Failed to verify user: ' + errorString);
     }
 
-    return body
+    return body;
   },
   async logout() {
     const baseUrl = '/divergen/api/';
@@ -54,6 +62,6 @@ export default {
       throw new Error('Failed to logout: ' + errorString);
     }
 
-    return body
+    return body;
   },
 };

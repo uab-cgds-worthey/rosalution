@@ -14,8 +14,7 @@ export default {
     // error that is handled in the respective methods that call this get function.
     if (response.status == 401) {
       return {'error': 'unauthorized'};
-    }
-    else if ( response.ok != true ) {
+    } else if ( response.ok != true ) {
       throw new Error('Status Code: ' +response.status +' '+response.statusText);
     }
     return await response.json();
