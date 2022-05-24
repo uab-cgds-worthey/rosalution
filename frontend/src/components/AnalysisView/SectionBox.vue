@@ -1,40 +1,38 @@
 <template>
   <table class="section-box-container" @wheel.prevent @touchmove.prevent @scroll.prevent>
-      <thead class="section-header">
-        <tr>
-          <th colspan="2">
-            <tr>
-              <td>
-                <h2 class="section-name">
-                  {{header}}
-                </h2>
-              </td>
-              <td>
-                <span class="logo-dropdown-edit" >
-                  <font-awesome-icon icon="chevron-down" size="lg"/>
-                </span>
-              </td>
-              <div class="seperator"></div>
-            </tr>
-          </th>
-        </tr>
-      </thead>
+    <tbody>
+      <tr class="section-header">
+        <th colspan="2">
+          <tr>
+            <td>
+              <h2 class="section-name">
+                {{header}}
+              </h2>
+            </td>
+            <td>
+              <span class="logo-dropdown-edit" >
+                <font-awesome-icon icon="chevron-down" size="lg"/>
+              </span>
+            </td>
+            <div class="seperator"></div>
+          </tr>
+        </th>
+      </tr>
       <div class="fields">
-        <ul class="field-list">
-          <li class="field-value-row" v-for="content in contentList" :key="content">
-            <label class="field">
-              {{content.field}}
-            </label>
-            <span class="value">
-              <ul>
-                <li v-for="value in content.value" :key="value">
-                  {{value}}
-                </li>
-              </ul>
-            </span>
-          </li>
-        </ul>
+          <tr class="field-value-row" v-for="content in contentList" :key="content">
+            <td>
+              <label class="field">
+                {{content.field}}
+              </label>
+            </td>
+            <td class="value">
+              <tr v-for="value in content.value" :key="value">
+                {{value}}
+              </tr>
+            </td>
+          </tr>
       </div>
+    </tbody>
   </table>
 </template>
 
