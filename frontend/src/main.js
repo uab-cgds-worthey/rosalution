@@ -13,8 +13,6 @@ import './styles/main.css';
 import './styles/divergen.css';
 // import './styles/proxima-nova-font.css'
 
-import {cookie} from './cookie.js';
-
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {
@@ -42,11 +40,6 @@ const router = createRouter({
 });
 
 const app = createApp(App);
-
-console.log("Here we're getting and setting a cookie, hopefully:");
-const tempCookie = cookie.getCookie();
-
-console.log(tempCookie)
 
 app.use(router);
 app.component('font-awesome-icon', FontAwesomeIcon);

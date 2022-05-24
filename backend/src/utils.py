@@ -18,4 +18,3 @@ def read_fixture(fixture_filename):
         file_to_open.close()
 
     return data
-

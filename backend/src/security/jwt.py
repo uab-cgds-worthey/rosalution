@@ -1,12 +1,13 @@
+""" Handles creating the JWT token for the frontend """
+
 from typing import Optional
-
-from jose import jwt
-
 from datetime import datetime, timedelta
+from jose import jwt
 
 from .. import config
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+    """ Takes in information and uses JWT to create and return a proper access token """
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta

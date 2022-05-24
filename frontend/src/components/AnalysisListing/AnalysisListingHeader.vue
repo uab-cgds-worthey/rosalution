@@ -11,7 +11,6 @@
       <router-link :to="{ path: '/divergen/login' }">
         <button class="login" data-test="user-menu">LOGIN</button>
       </router-link>
-      <button @click="test" class="login" data-test="user-menu">Verify!</button>
     </div>
   </header>
 </template>

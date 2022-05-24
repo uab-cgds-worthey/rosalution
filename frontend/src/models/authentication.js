@@ -1,19 +1,59 @@
 import Requests from '@/requests.js';
 
 export default {
-    async login() {
-        const baseUrl = '/divergen/api/';
-        const urlQuery = 'auth/token';
-        const body = await Requests.get(baseUrl + urlQuery);
-        if ('errors' in body) {
-            const errorString = body.data.errors.map((error) => error.message).join('; ');
-            throw new Error('Failed to fetch analyses: ' + errorString);
-        }
+  /* CAS Login Functions */
 
-        return body;
-    },
-    async logout() {
-        const baseUrl = '/divergen/api';
-        const urlQuery = 'auth/logout';
+  async loginCas() {
+    const baseUrl = '/divergen/api/';
+    const urlQuery = 'auth/login';
+    const body = await Requests.postLogin(baseUrl + urlQuery, data);
+    if ('errors' in body) {
+      const errorString = body.data.errors.map((error) => error.message).join('; ');
+      throw new Error('Failed to login: ' + errorString);
     }
+
+    return body;
+  },
+  async logoutCas() {
+
+  },
+
+  /* OAuth2 Login Functions */
+
+  async login(data) {
+    const baseUrl = '/divergen/api/';
+    const urlQuery = 'auth/token';
+    const body = await Requests.postLogin(baseUrl + urlQuery, data);
+    if ('errors' in body) {
+      const errorString = body.data.errors.map((error) => error.message).join('; ');
+      throw new Error('Failed to login: ' + errorString);
+    }
+
+    return body;
+  },
+  async verifyUser() {
+    const baseUrl = '/divergen/api/';
+    const urlQuery = 'auth/verify';
+
+    const body = await Requests.get(baseUrl + urlQuery);
+    if ('errors' in body) {
+      const errorString = body.data.errors.map((error) => error.message).join('; ');
+      console.log(errorString)
+      throw new Error('Failed to verify user: ' + errorString);
+    }
+
+    return body
+  },
+  async logout() {
+    const baseUrl = '/divergen/api/';
+    const urlQuery = 'auth/logout';
+
+    const body = await Requests.get(baseUrl + urlQuery);
+    if ('errors' in body) {
+      const errorString = body.data.errors.map((error) => error.message).join('; ');
+      throw new Error('Failed to logout: ' + errorString);
+    }
+
+    return body
+  },
 };
