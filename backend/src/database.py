@@ -30,7 +30,7 @@ class Database:
         self.collections = {
             'analysis':  AnalysisCollection(),
             'annotation': AnnotationCollection(),
-            'user': UserCollection,
+            'user': UserCollection(),
         }
 
     def __call__(self):

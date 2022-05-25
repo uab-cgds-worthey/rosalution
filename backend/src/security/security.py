@@ -26,11 +26,12 @@ def get_password_hash(password):
     """ This function takes the plain password and makes a hash from it using CryptContext """
     return pwd_context.hash(password)
 
-async def get_authorization(security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme)):
+def get_authorization(security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme)):
     """
     This function does a general authorization check to see if the user is authorized and within scope to use the
     endpoint that is requested.
     """
+    print(security_scopes)
     if security_scopes:
         authenticate_value = f'Bearer scope="{security_scopes.scope_str}"'
     else:
@@ -62,8 +63,9 @@ async def get_authorization(security_scopes: SecurityScopes, token: str = Depend
 
 
 ## Verify User
+## We get the user from the token provided by the user to ensure it's the correct user
 
-async def get_current_user(security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme)):
+def get_current_user(security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme)):
     """ This function is useful for verifying and returning the user from the database. """
     if security_scopes:
         authenticate_value = f'Bearer scope="{security_scopes.scope_str}"'

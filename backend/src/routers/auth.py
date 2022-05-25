@@ -81,12 +81,16 @@ def logout(request: Request):
 ## OAuth2 Login ##
 
 @router.post('/token')
-def login_oauth(request: Request, response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
+def login_oauth(
+        request: Request, 
+        response: Response, 
+        form_data: OAuth2PasswordRequestForm = Depends(),
+        collections=Depends(database)
+    ):
     """
     OAuth2 compatible token login, get an access token for future requests.
     """
-    user_collection = database.collections['user']
-    user_collection.authenticate_user(user_collection, form_data.username, form_data.password)
+    collections['user'].authenticate_user(form_data.username, form_data.password)
     access_token_expires = timedelta(minutes=config.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
         data={"sub": form_data.username, "scopes": form_data.scopes},
@@ -99,11 +103,17 @@ def login_oauth(request: Request, response: Response, form_data: OAuth2PasswordR
     return response
 
 @router.get("/verify", response_model=User)
-def issue_token(request: Request, username: UserInDB = Security(get_current_user, scopes=['read'])):
+def issue_token(
+        request: Request,
+        collections=Depends(database),
+        username: UserInDB = Security(get_current_user, scopes=['read']), 
+        
+    ):
     """ This function issues the authentication token for the frontend to make requests """
     if 'username' in request.session:
         print(request.session['username'])
-    user = database.collections['user'].find_by_name(username)
+    user_collection = collections['user']
+    user = user_collection.find_by_name(username)
     current_user = User(**user)
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive User")

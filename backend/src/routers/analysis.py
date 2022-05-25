@@ -15,8 +15,6 @@ router = APIRouter(
     dependencies=[Depends(database), Security(get_authorization, scopes=["write"])]
 )
 
-user_collection = database.collections['analysis']
-
 @router.get('/test', response_model=List[Analysis], dependencies=[Security(get_authorization, scopes=["write"])])
 def get_all_analyses_test(collections=Depends(database)):
     """ Returns every analysis available"""
