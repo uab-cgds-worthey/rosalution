@@ -31,7 +31,6 @@ def get_authorization(security_scopes: SecurityScopes, token: str = Depends(oaut
     This function does a general authorization check to see if the user is authorized and within scope to use the
     endpoint that is requested.
     """
-    print(security_scopes)
     if security_scopes:
         authenticate_value = f'Bearer scope="{security_scopes.scope_str}"'
     else:
@@ -65,12 +64,9 @@ def get_authorization(security_scopes: SecurityScopes, token: str = Depends(oaut
 ## Verify User
 ## We get the user from the token provided by the user to ensure it's the correct user
 
-def get_current_user(security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme)):
-    """ This function is useful for verifying and returning the user from the database. """
-    if security_scopes:
-        authenticate_value = f'Bearer scope="{security_scopes.scope_str}"'
-    else:
-        authenticate_value = f"Bearer"
+def get_current_user(token: str = Depends(oauth2_scheme)):
+    """ Extracts the username from the token, this is useful to ensure the user is who they say they are """
+    authenticate_value = f"Bearer"
 
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -83,18 +79,7 @@ def get_current_user(security_scopes: SecurityScopes, token: str = Depends(oauth
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
-        token_scopes = payload.get("scopes", [])
-        token_data = TokenData(scopes=token_scopes, username=username)
-    except (JWTError, ValidationError):
+    except (JWTError):
         raise credentials_exception
-    username = token_data.username
-    if username is None:
-        raise credentials_exception
-    for scope in security_scopes.scopes:
-        if scope not in token_data.scopes:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Not enough permissions",
-                headers={"WWW-Authenticate": authenticate_value},
-            )
+
     return username
