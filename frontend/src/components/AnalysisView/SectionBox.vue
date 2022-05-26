@@ -53,10 +53,6 @@ export default {
   },
   created() {
   },
-  methods: {
-    dropDown() {
-    },
-  },
 };
 </script>
 
