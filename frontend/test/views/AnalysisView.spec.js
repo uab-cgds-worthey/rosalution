@@ -56,11 +56,6 @@ describe('AnalysisView', () => {
     const appContent = wrapper.find('app-content');
     expect(appContent.exists()).toBe(true);
   });
-
-  it('Contains Analysis Name', () => {
-    const analysisName = wrapper.find('[data-test=analysis-name]');
-    expect(analysisName.text()).to.contain('CPAM0046');
-  });
 });
 
 /**
