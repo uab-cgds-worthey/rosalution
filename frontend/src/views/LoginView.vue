@@ -54,12 +54,6 @@ export default {
       }
     },
     async logoutCAS() {
-      // const logoutUrl = '/divergen/api/auth/logout';
-      // const newUrl = await fetch(logoutUrl, {
-      //   method: 'GET',
-      //   mode: 'cors',
-      // });
-
       const response = await Auth.logoutCas();
 
       window.location = response['url'];
