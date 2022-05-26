@@ -1,4 +1,6 @@
 """ Represents a user that is stored in our database """
+# pylint: disable=too-few-public-methods
+
 from typing import Optional
 
 from pydantic import BaseModel
