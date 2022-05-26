@@ -34,7 +34,7 @@ def get_authorization(security_scopes: SecurityScopes, token: str = Depends(oaut
     if security_scopes:
         authenticate_value = f'Bearer scope="{security_scopes.scope_str}"'
     else:
-        authenticate_value = f"Bearer"
+        authenticate_value = "Bearer"
 
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -49,8 +49,8 @@ def get_authorization(security_scopes: SecurityScopes, token: str = Depends(oaut
             raise credentials_exception
         token_scopes = payload.get("scopes", [])
         token_data = TokenData(scopes=token_scopes, username=username)
-    except (JWTError, ValidationError):
-        raise credentials_exception
+    except (JWTError, ValidationError) as validation_exception:
+        raise validation_exception
     for scope in security_scopes.scopes:
         if scope not in token_data.scopes:
             raise HTTPException(
@@ -66,7 +66,7 @@ def get_authorization(security_scopes: SecurityScopes, token: str = Depends(oaut
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
     """ Extracts the username from the token, this is useful to ensure the user is who they say they are """
-    authenticate_value = f"Bearer"
+    authenticate_value = "Bearer"
 
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -79,7 +79,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
-    except (JWTError):
+    except JWTError as credentials_exception:
         raise credentials_exception
 
     return username

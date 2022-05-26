@@ -82,8 +82,8 @@ def logout(request: Request):
 
 @router.post('/token')
 def login_oauth(
-        request: Request, 
-        response: Response, 
+        request: Request,
+        response: Response,
         form_data: OAuth2PasswordRequestForm = Depends(),
         collections=Depends(database)
     ):
@@ -106,8 +106,8 @@ def login_oauth(
 def issue_token(
         request: Request,
         collections=Depends(database),
-        username: UserInDB = Security(get_current_user, scopes=['read']), 
-        
+        username: UserInDB = Security(get_current_user, scopes=['read']),
+
     ):
     """ This function issues the authentication token for the frontend to make requests """
     if 'username' in request.session:

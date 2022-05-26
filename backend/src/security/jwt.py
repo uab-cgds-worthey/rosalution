@@ -8,6 +8,7 @@ from .. import config
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     """ Takes in information and uses JWT to create and return a proper access token """
+    print(data)
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
