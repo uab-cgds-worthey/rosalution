@@ -8,7 +8,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from starlette.requests import Request
 
 from cas import CASClient
-from src import config
+from src import constants
 
 from ..core.user import User, VerifyUser
 from ..security.jwt import create_access_token
@@ -91,7 +91,7 @@ def login_oauth(
     OAuth2 compatible token login, get an access token for future requests.
     """
     collections['user'].authenticate_user(form_data.username, form_data.password)
-    access_token_expires = timedelta(minutes=config.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(minutes=constants.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
         data={"sub": form_data.username, "scopes": form_data.scopes},
         expires_delta=access_token_expires
