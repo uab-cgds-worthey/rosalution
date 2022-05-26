@@ -13,6 +13,6 @@ class User(BaseModel):
     disabled: Optional[bool] = None
     scope: Optional[str] = None
 
-class UserInDB(User):
+class VerifyUser(User):
     """ Hashed password was omitted from the base object as it's not always needed """
     hashed_password: str

@@ -10,7 +10,7 @@ from starlette.requests import Request
 from cas import CASClient
 from src import config
 
-from ..core.user import User, UserInDB
+from ..core.user import User, VerifyUser
 from ..security.jwt import create_access_token
 from ..security.security import get_current_user
 
@@ -106,7 +106,7 @@ def login_oauth(
 def issue_token(
         request: Request,
         collections=Depends(database),
-        username: UserInDB = Security(get_current_user, scopes=['read']),
+        username: VerifyUser = Security(get_current_user, scopes=['read']),
 
     ):
     """ This function issues the authentication token for the frontend to make requests """
