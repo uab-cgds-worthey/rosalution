@@ -4,7 +4,7 @@ from typing import Optional
 from datetime import datetime, timedelta
 from jose import jwt
 
-from .. import config
+from .. import constants
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     """ Takes in information and uses JWT to create and return a proper access token """
@@ -14,5 +14,5 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     else:
         expire = datetime.utcnow() + timedelta(minutes=15)
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, config.SECRET_KEY, algorithm=config.ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, constants.SECRET_KEY, algorithm=constants.ALGORITHM)
     return encoded_jwt
