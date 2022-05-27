@@ -66,7 +66,7 @@ div {
 .section-box-container {
   display: flex;
   flex-direction: column;
-  padding: 0.625rem;
+  padding: var(--p-10);
   margin: 0.625rem;
   width: 100%;
   gap: .625rem;
