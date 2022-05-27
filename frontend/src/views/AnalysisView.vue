@@ -40,7 +40,6 @@ export default {
     },
     getSections() {
       this.sectionsList=this.analysis.sections;
-      console.log(this.sectionsList);
     },
   },
 };
