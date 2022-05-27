@@ -60,7 +60,7 @@ export default {
 
 div {
   font-family: "Proxima Nova", sans-serif;
-  padding: 0%;
+  padding: var(--p-0);
 }
 
 .section-box-container {
