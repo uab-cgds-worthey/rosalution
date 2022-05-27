@@ -15,7 +15,9 @@ def test_get_analyses_unauthorized(client):
     """ Tries to get the analyses from the endpoint, but is unauthorized. Does not provide valid token """
     response = client.get('/analysis/')
 
-    assert response.status_code == 401
+    # This is temporarily changed as security is removed for the analysis endpoints to make development easier
+    # assert response.status_code == 401
+    assert response.status_code == 200
 
 def test_get_analysis_summary(client, mock_access_token):
     """Testing if the analysis summary endpoint returns all of the analyses available"""

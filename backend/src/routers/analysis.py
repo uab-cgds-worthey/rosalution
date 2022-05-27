@@ -2,23 +2,22 @@
 
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException, Security
+from fastapi import APIRouter, Depends, HTTPException
 
 from ..core.analysis import Analysis, AnalysisSummary
 from ..dependencies import database
 
-from ..security.security import get_authorization
-
+# This is temporarily changed as security is removed for the analysis endpoints to make development easier
+# Change line 18 to the following to enable security:
+# dependencies=[Depends(database), Security(get_authorization, scopes=["write"])]
+# and add the following dependencies at the top:
+# from fastapi import Security
+# from ..security.security import get_authorization
 router = APIRouter(
     prefix="/analysis",
     tags=["analysis"],
     dependencies=[Depends(database)]
 )
-
-@router.get('/test', response_model=List[Analysis], dependencies=[Security(get_authorization, scopes=["write"])])
-def get_all_analyses_test(collections=Depends(database)):
-    """ Returns every analysis available"""
-    return collections['analysis'].all()
 
 @router.get('/', response_model=List[Analysis])
 def get_all_analyses(collections=Depends(database)):
