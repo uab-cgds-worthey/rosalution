@@ -1,5 +1,5 @@
 <template>
-  <table class="section-box-container" @wheel.prevent @touchmove.prevent @scroll.prevent>
+  <table class="section-box-container">
     <tbody>
       <tr class="section-header">
         <td>
@@ -89,7 +89,7 @@ div {
   color: var(--divergen-grey-200);
   float: right;
   right: 3%;
-  position: fixed;
+  position: absolute;
 }
 
 .seperator {
