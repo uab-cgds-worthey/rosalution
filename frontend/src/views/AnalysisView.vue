@@ -39,7 +39,6 @@ export default {
       this.getSections();
     },
     getSections() {
-      console.log('pushing sections');
       this.sectionsList=this.analysis.sections;
       console.log(this.sectionsList);
     },
