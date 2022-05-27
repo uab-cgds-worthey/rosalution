@@ -27,7 +27,7 @@
     "@vitejs/plugin-vue": "2.0.1",
     "@vitest/ui": "0.10.0",
     "@vue/test-utils": "2.0.0-rc.18",
-    "c8": "^7.11.2",
+    "c8": "^7.11.3",
     "eslint": "^8.7.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-vue": "^8.4.0",

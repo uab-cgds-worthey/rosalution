@@ -7,8 +7,10 @@
         <font-awesome-icon icon="magnifying-glass" size="lg" class="search-icon"></font-awesome-icon>
         <input data-test="analysis-search" type="search" @input="onSearch" placeholder="Search">
       </div>
-      <span v-if="username" class="login" data-test="user-menu">{{ username }}</span>
-      <span v-else class="login" data-test="user-menu">LOGIN</span>
+      <span v-if="username" class="login" data-test="user-text">{{ username }}</span>
+      <router-link :to="{ path: '/divergen/login' }">
+        <button class="login" data-test="user-menu">LOGIN</button>
+      </router-link>
     </div>
   </header>
 </template>

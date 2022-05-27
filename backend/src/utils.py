@@ -1,9 +1,9 @@
 """General utilities for the application"""
+
 import json
 import os
 
 RELATIVE_FIXUTRE_DIRECTORY_PATH = "../fixtures/"
-
 
 def read_fixture(fixture_filename):
     """reads the JSON from the filepath relative to the src directory"""

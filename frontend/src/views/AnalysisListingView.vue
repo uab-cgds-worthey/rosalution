@@ -29,7 +29,7 @@ import Analyses from '@/models/analyses.js';
 import AnalysisCard from '../components/AnalysisListing/AnalysisCard.vue';
 import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
 import AnalysisListingLegend from '../components/AnalysisListing/AnalysisListingLegend.vue';
-import User from '@/models/user.js';
+import User from '../models/user';
 
 export default {
   name: 'analysis-listing-view',
@@ -68,11 +68,23 @@ export default {
   methods: {
     async getUsername() {
       const fetchUser = await User.getUser();
+      console.log(fetchUser);
       this.username = fetchUser['username'];
     },
     async getListing() {
       this.analysisList.length = 0;
-      this.analysisList.push(...await Analyses.all());
+      const analyses = await Analyses.all();
+
+      // TODO: Handle Unauthorized error
+      // Right now this is how we're handling unauthorization errors
+      // There needs to be a proper way to user09e these errors, otherwise each function will
+      // have their own error message
+      if (analyses.error) {
+        console.log('Cannot retrieve Analyses. User is not authorized or token is expired.');
+        return;
+      }
+
+      this.analysisList.push(...analyses);
     },
     onSearch(query) {
       this.searchQuery = query;

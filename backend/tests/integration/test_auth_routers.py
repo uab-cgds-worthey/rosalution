@@ -65,6 +65,6 @@ def test_get_user_logged_in(client):
 
 def test_logout(client):
     """ Testing the log out functionality """
-    response = client.get('/auth/logout')
+    response = client.get('/auth/logoutCas')
     assert response.json()['url'] == 'https://padlockdev.idm.uab.edu/cas/logout?' \
                                      'service=http%3A%2F%2Ftestserver%2Fdivergen%2Fapi%2Fauth%2Flogin'

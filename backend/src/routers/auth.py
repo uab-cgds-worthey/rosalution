@@ -1,17 +1,25 @@
 """ FastAPI Authentication router file that handles the auth lifecycle of the application """
-
+from datetime import timedelta
 from typing import Optional
 
-from fastapi import APIRouter
-from fastapi.responses import RedirectResponse
+from fastapi import APIRouter, Depends, HTTPException, Security, Response
+from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.security import OAuth2PasswordRequestForm
+from starlette.requests import Request
 
 from cas import CASClient
+from src import constants
 
-from starlette.requests import Request
+from ..core.user import User, VerifyUser
+from ..security.jwt import create_access_token
+from ..security.security import get_current_user
+
+from ..dependencies import database
 
 router = APIRouter(
     prefix="/auth",
     tags=["auth"],
+    dependencies=[Depends(database)],
 )
 
 # URLs for interacting with UAB CAS Padlock system for BlazerID
@@ -20,6 +28,8 @@ cas_client = CASClient(
     service_url='http://dev.cgds.uab.edu/divergen/api/auth/login?nexturl=%2Fdivergen',
     server_url='https://padlockdev.idm.uab.edu/cas/'
 )
+
+## CAS Login ##
 
 # pylint: disable=no-member
 # This is done because pylint doesn't appear to be recognizing python-cas's functions saying they have no member
@@ -52,11 +62,12 @@ async def login(request: Request, nexturl: Optional[str] = None, ticket: Optiona
 def get_user(request: Request):
     """ Returns active user in session """
     if 'username' in request.session:
+        print(request.session)
         return {'username': request.session['username']}
 
     return {'username': ''}
 
-@router.get('/logout')
+@router.get('/logoutCas')
 def logout(request: Request):
     """ Test Logout Method """
     redirect_url = request.url_for('login')
@@ -66,3 +77,55 @@ def logout(request: Request):
     request.session.pop("pgtiou", None)
 
     return {'url': cas_logout_url}
+
+## OAuth2 Login ##
+
+@router.post('/token')
+def login_oauth(
+        request: Request,
+        response: Response,
+        form_data: OAuth2PasswordRequestForm = Depends(),
+        collections=Depends(database)
+    ):
+    """
+    OAuth2 compatible token login, get an access token for future requests.
+    """
+    collections['user'].authenticate_user(form_data.username, form_data.password)
+    access_token_expires = timedelta(minutes=constants.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": form_data.username, "scopes": form_data.scopes},
+        expires_delta=access_token_expires
+    )
+    content = {"access_token": access_token, "token_type": "bearer"}
+    response = JSONResponse(content=content)
+    response.set_cookie(key='DIVERGEN_TOKEN', value=access_token)
+    request.session['username'] = form_data.username
+    return response
+
+@router.get("/verify", response_model=User)
+def issue_token(
+        request: Request,
+        collections=Depends(database),
+        username: VerifyUser = Security(get_current_user, scopes=['read']),
+
+    ):
+    """ This function issues the authentication token for the frontend to make requests """
+    if 'username' in request.session:
+        print(request.session['username'])
+    user_collection = collections['user']
+    user = user_collection.find_by_name(username)
+    current_user = User(**user)
+    if current_user.disabled:
+        raise HTTPException(status_code=400, detail="Inactive User")
+
+    return current_user
+
+@router.get('/logout')
+def logout_oauth(request: Request):
+    """ Returns an empty access token """
+    content = {'access_token': ''}
+    response = JSONResponse(content=content)
+    response.delete_cookie(key='DIVERGEN_TOKEN')
+    if 'username' in request.session:
+        request.session.pop('username', None)
+    return response
