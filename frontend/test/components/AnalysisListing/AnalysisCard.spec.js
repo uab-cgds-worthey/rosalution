@@ -14,7 +14,7 @@ import {RouterLink} from 'vue-router';
 function getMountedComponent(props) {
   const defaultProps = {
     name: 'CPAM0046',
-    description: ': LMNA-related congenital muscular dystropy',
+    description: 'LMNA-related congenital muscular dystropy',
     genomic_units: [
       {
         gene: 'LMNA',

@@ -51,11 +51,11 @@
                 "content": [
                     {
                         "field": "Nominated",
-                        "value": ""
+                        "value": []
                     },
                     {
                         "field": "Reason",
-                        "value": ""
+                        "value": []
                     },
                     {
                         "field": "Desired Outcomes",
@@ -72,11 +72,15 @@
                 "content": [
                     {
                         "field": "Clinical Diagnosis",
-                        "value": "Vacuolor myopathy with autophagy, X-linked vacuolor myopathy with autophagy"
+                        "value": [
+                            "Vacuolor myopathy with autophagy, X-linked vacuolor myopathy with autophagy"
+                        ]
                     },
                     {
                         "field": "Affected Individuals Identified",
-                        "value": "1 patient, carrier mother"
+                        "value": [
+                            "1 patient, carrier mother"
+                        ]
                     },
                     {
                         "field": "Pedigree",
@@ -92,11 +96,15 @@
                 "content": [
                     {
                         "field": "Systems",
-                        "value": "Musculoskeletal and orthopedics"
+                        "value": [
+                            "Musculoskeletal and orthopedics"
+                        ]
                     }, 
                     {
                         "field": "HPO Terms",
-                        "value": "HP:0003198; HP:0003797; HP:0003325; HP:0008997; HP:0008994; HP:0001288; HP:0009060; HP:0004303; HP:0012103; HP:0003736"
+                        "value": [
+                            "HP:0003198; HP:0003797; HP:0003325; HP:0008997; HP:0008994; HP:0001288; HP:0009060; HP:0004303; HP:0012103; HP:0003736"
+                        ]
                     },
                     {
                         "field": "Additional Details",
@@ -110,7 +118,7 @@
                     },
                     {
                         "field": "Experimental Design",
-                        "value": ""
+                        "value": []
                     },
                     {
                         "field": "Prior Testing",
@@ -160,7 +168,9 @@
                 "content": [
                     {
                         "field": "Nominated",
-                        "value": "Dr. Person Two (Local) - working with Dr. Person Three in Person Four Lab"
+                        "value": [
+                            "Dr. Person Two (Local) - working with Dr. Person Three in Person Four Lab"
+                        ]
                     }, 
                     {
                         "field": "Reason",
@@ -184,7 +194,9 @@
                 "content": [
                     {
                         "field": "Clinical Diagnosis",
-                        "value": "LMNA-related congenital muscular dystropy"
+                        "value": [
+                            "LMNA-related congenital muscular dystropy"
+                        ]
                     },
                     {
                         "field": "Affected Individuals Identified",
@@ -199,11 +211,15 @@
                 "content": [
                     {
                         "field": "Systems",
-                        "value": "Growth Parameters; Craniofacial; Musculoskeletal; Gastrointestinal; Behavior, Cognition and Development; Neurological"
+                        "value": [
+                            "Growth Parameters; Craniofacial; Musculoskeletal; Gastrointestinal; Behavior, Cognition and Development; Neurological"
+                        ]
                     },
                     {
                         "field": "HPO Terms",
-                        "value": "HP:0001508; HP:0001357; HP:0000473; HP:0003560; HP:0003701; HP:0009062; HP:0012389; HP: 0003236; HP:0002020; HP:0011471; HP:0011968; HP:0001263; HP:0001265; HP:0000960"
+                        "value": [
+                            "HP:0001508; HP:0001357; HP:0000473; HP:0003560; HP:0003701; HP:0009062; HP:0012389; HP: 0003236; HP:0002020; HP:0011471; HP:0011968; HP:0001263; HP:0001265; HP:0000960"
+                        ]
                     },
                     {
                         "field": "Additional Details",
@@ -216,7 +232,7 @@
                     },
                     {
                         "field": "Experimental Design",
-                        "value": ""
+                        "value": []
                     },
                     {
                         "field": "Prior Testing",
@@ -277,7 +293,7 @@
                 "content": [
                     {
                         "field": "Nominated",
-                        "value": ""
+                        "value": []
                     },
                     {
                         "field": "Reason",
@@ -317,11 +333,13 @@
                 "content": [
                     {
                         "field":"Systems",
-                        "value": "Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"
+                        "value": [
+                            "Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"
+                        ]
                     },
                     {
                         "field": "HPO Terms",
-                        "value": ""
+                        "value": []
                     },
                     {
                         "field":"Additional Details",
@@ -332,7 +350,7 @@
                     },
                     {
                         "field": "Experimental Design",
-                        "value": ""
+                        "value": []
                     },
                     {
                         "field": "Prior Testing",
