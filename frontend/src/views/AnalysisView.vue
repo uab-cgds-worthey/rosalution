@@ -4,6 +4,7 @@
       This page opens the analysis view for each cpam case: Data for {{analysis_name}}
       </app-header>
       <app-content>
+        <GeneBox/>
         <SectionBox
           v-for="section in sectionsList"
           :key="section.id"
@@ -17,11 +18,13 @@
 <script>
 import Analyses from '@/models/analyses.js';
 import SectionBox from '../components/AnalysisView/SectionBox.vue';
+import GeneBox from '../components/AnalysisView/GeneBox.vue';
 
 export default {
   name: 'analysis-view',
   components: {
     SectionBox,
+    GeneBox,
   },
   props: ['analysis_name'],
   data: function() {
