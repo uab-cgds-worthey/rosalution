@@ -3,16 +3,49 @@
     <table class="gene-box-container">
       <tbody>
         <tr class="gene-box-header">
-        <td>
-          <h2 class="gene-box-name">
-            {{header}} GENE BOX
-          </h2>
+        <td class="gene-name">
+          {{gene}}
+        </td>
+        <td class="transcript" v-if="transcript.transcript">
+          {{transcript.transcript}}
+        </td>
+        <td class="reference-logo">
+          logo here
         </td>
         <td class="logo-dropdown-edit">
           <font-awesome-icon icon="chevron-down" size="lg"/>
         </td>
       </tr>
       <div class="seperator"></div>
+      <tr class="gene-box-second-line">
+        <td class="c-dot">
+          {{variants.c_dot}}
+        </td>
+        <td class="p-dot">
+          {{variants.p_dot}}
+        </td>
+        <td class="reference-logo">
+          logo here
+        </td>
+        <td class="grch-build">
+          grch38
+        </td>
+        <td class="genome-browser-link-logo">
+          Genome Browser
+        </td>
+      </tr>
+      <div class="seperator"></div>
+      <tr class="gene-box-third-line">
+        <td class="case-evidence">
+          {{variants.case.evidence}}
+        </td>
+        <td class="case-interpretation">
+          {{variants.case.interpretation}}
+        </td>
+        <td class="case-inheritance">
+          {{variants.case.inheritance}}
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>
@@ -22,6 +55,17 @@
 
 export default {
   name: 'gene-box',
+  props: {
+    gene: {
+      type: String,
+    },
+    transcripts: {
+      type: Array,
+    },
+    variants: {
+      type: Array,
+    },
+  },
 };
 </script>
 

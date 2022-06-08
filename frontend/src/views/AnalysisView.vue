@@ -4,7 +4,13 @@
       This page opens the analysis view for each cpam case: Data for {{analysis_name}}
       </app-header>
       <app-content>
-        <GeneBox/>
+        <GeneBox
+          v-for="genomicUnit in genomicUnitsList"
+          :key="genomicUnit.id"
+          :gene="genomicUnit.gene"
+          :transcripts="genomicUnit.transcripts"
+          :variants="genomicUnit.variants"
+        />
         <SectionBox
           v-for="section in sectionsList"
           :key="section.id"
@@ -31,6 +37,7 @@ export default {
     return {
       analysis: {},
       sectionsList: [],
+      genomicUnitsList: [],
     };
   },
   created() {
@@ -40,9 +47,13 @@ export default {
     async getAnalysis() {
       this.analysis = {...await Analyses.getAnalysis(this.analysis_name)};
       this.getSections();
+      this.getGenomicUnits();
     },
     getSections() {
       this.sectionsList=this.analysis.sections;
+    },
+    getGenomicUnits() {
+      this.genomicUnitsList=this.analysis.genomic_units;
     },
   },
 };
