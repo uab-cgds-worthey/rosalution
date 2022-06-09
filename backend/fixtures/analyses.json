@@ -21,9 +21,18 @@
                         "p_dot": "p.Gly55Val",
                         "build": "hg19",
                         "case": [
-                            {"Evidence": ["PVS1", "PM2"]},
-                            {"Other Datasource": ["PVS1","PM2"]},
-                            {"Interpretation": "Likely Pathogenic"}
+                            {
+                                "field": "Evidence",
+                                "value": ["PVS1", "PM2"]
+                            },
+                            {
+                                "field": "Other Datasource",
+                                "value": ["PVS1","PM2"]
+                            },
+                            {
+                                "field": "Interpretation",
+                                "value": ["Likely Pathogenic"]
+                            }
                     ]
                 }
                 ]
@@ -31,6 +40,9 @@
             {
                 "gene": "DMD",
                 "transcripts": [
+                    {
+                        "transcript": ""
+                    }
                 ],
                 "variants": [
                     {
@@ -39,7 +51,10 @@
                         "p_dot": "",
                         "build": "",
                         "case": [
-                            {"Interpretation": "Variant of Uncertain Significance"}
+                            {
+                                "field": "Interpretation",
+                                "value": ["Variant of Uncertain Significance"]
+                            }
                     ]
                 }
                 ]
@@ -154,9 +169,18 @@
                         "p_dot": "p.R249W",
                         "build": "hg19",
                         "case": [
-                            {"Evidence": ["PS2","PS3","PM2","PP3","PP5"]},
-                            {"Interpretation": "Pathogenic"},
-                            {"Inheritance": "De Novo"}
+                            {
+                                "field": "Evidence",
+                                "value": ["PS2","PS3","PM2","PP3","PP5"]
+                            },
+                            {
+                                "field": "Interpretation",
+                                "value": ["Pathogenic"]
+                            },
+                            {
+                                "field": "Inheritance",
+                                "value": ["De Novo"]
+                            }
                         ]
                     }
                 ]
@@ -266,22 +290,42 @@
                         "p_dot": "p.Glu10fs", 
                         "build": "hg19",
                         "case": [
-                            {"Evidence": ["PVS1", "PM2","PP5"]},
-                            {"Interpretation": "Pathogenic"},
-                            {"Zygosity": "Compound Hetrozygous"},
-                            {"Inheritance": "Autosomal Recesive"}
+                            {
+                                "field": "Evidence",
+                                "value": ["PVS1", "PM2","PP5"]
+                            },
+                            {
+                                "field": "Interpretation",
+                                "value": ["Pathogenic"]
+                            },
+                            {
+                                "field": "Zygosity",
+                                "value": ["Compound Hetrozygous"]
+                            },
+                            {
+                                "field": "Inheritance",
+                                "value": ["Autosomal Recesive"]
+                            }
                         ]
                     }, 
                     {
-                        "id": "12345678",
                         "hgvs_variant": "NM_153818.2:c.928G>G",
                         "c_dot": "c.928G>G",
                         "p_dot": "p.His310Asp", 
                         "build": "hg19",
                         "case": [
-                            {"Evidence": ["PM2", "PM5", "PP3"]},
-                            {"Interpretation": "Variant of Unknown Signifigance"},
-                            {"Zygosity": "Compound Hetrozygous"}
+                            {
+                                "field": "Evidence",
+                                "value": ["PM2", "PM5", "PP3"]
+                            },
+                            {
+                                "field": "Interpretation",
+                                "value": ["Variant of Unknown Signifigance"]
+                            },
+                            {
+                                "field": "Zygosity",
+                                "value": ["Compound Hetrozygous"]
+                            }
                         ]
                     }
                 ]

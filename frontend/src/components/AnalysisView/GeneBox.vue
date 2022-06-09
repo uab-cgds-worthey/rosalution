@@ -6,7 +6,7 @@
         <td class="gene-name">
           {{gene}}
         </td>
-        <td class="transcript" v-if="transcript.transcript">
+        <td class="transcript" v-for="transcript in transcript" :key="transcript">
           {{transcript.transcript}}
         </td>
         <td class="reference-logo">
@@ -35,17 +35,16 @@
         </td>
       </tr>
       <div class="seperator"></div>
-      <tr class="gene-box-third-line">
-        <td class="case-evidence">
-          {{variants.case.evidence}}
-        </td>
-        <td class="case-interpretation">
-          {{variants.case.interpretation}}
-        </td>
-        <td class="case-inheritance">
-          {{variants.case.inheritance}}
-        </td>
-      </tr>
+      <div v-for="variant in variants" :key="variant">
+        <tr class="gene-box-third-line" v-for="caseInfo in variant.case" :key="caseInfo">
+          <td class="case-field">
+            {{caseInfo.field}}
+          </td>
+          <td class="case-value" v-for="value in caseInfo.value" :key="value">
+            {{value}}
+          </td>
+        </tr>
+      </div>
       </tbody>
     </table>
   </div>
@@ -93,7 +92,7 @@ div {
   flex-direction: row;
 }
 
-.gene-box-name {
+.gene-name {
   height: 1.75rem;
   margin: .125rem .125rem 0 .125rem;
 }
