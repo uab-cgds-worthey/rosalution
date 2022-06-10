@@ -6,36 +6,46 @@
         <td class="gene-name">
           {{gene}}
         </td>
-        <td class="transcript" v-for="transcript in transcript" :key="transcript">
+        <td class="link-logo">
+          <font-awesome-icon icon="up-right-from-square" size="lg"/>
+        </td>
+        <td class="transcript" v-for="transcript in transcripts" :key="transcript">
           {{transcript.transcript}}
         </td>
-        <td class="reference-logo">
-          logo here
+        <td class="copy-logo">
+          <font-awesome-icon icon="copy" size="lg"/>
         </td>
         <td class="logo-dropdown-edit">
           <font-awesome-icon icon="chevron-down" size="lg"/>
         </td>
       </tr>
       <div class="seperator"></div>
-      <tr class="gene-box-second-line">
-        <td class="c-dot">
-          {{variants.c_dot}}
-        </td>
-        <td class="p-dot">
-          {{variants.p_dot}}
-        </td>
-        <td class="reference-logo">
-          logo here
-        </td>
-        <td class="grch-build">
-          grch38
-        </td>
-        <td class="genome-browser-link-logo">
-          Genome Browser
-        </td>
-      </tr>
-      <div class="seperator"></div>
       <div v-for="variant in variants" :key="variant">
+        <tr class="gene-box-second-line">
+          <span v-if="variant.c_dot && variant.c_dot.length > 0">
+            <td class="c-dot">
+              {{variant.c_dot}}
+            </td>
+            <td class="link-logo">
+              <font-awesome-icon icon="up-right-from-square" size="lg"/>
+            </td>
+          </span>
+          <span v-if="variant.p_dot && variant.p_dot.length > 0">
+            <td class="p-dot">
+              ({{variant.p_dot}})
+            </td>
+            <td class="copy-logo">
+              <font-awesome-icon icon="copy" size="lg"/>
+            </td>
+            <td class="grch-build">
+              grch38
+            </td>
+          </span>
+          <td class="genome-browser-link-logo">
+            Genome Browser
+          </td>
+        </tr>
+        <div class="seperator"></div>
         <tr class="gene-box-third-line" v-for="caseInfo in variant.case" :key="caseInfo">
           <td class="case-field">
             {{caseInfo.field}}

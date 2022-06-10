@@ -18,11 +18,12 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {
   faAsterisk, faPause, faCheck, faX, faUser, faUsers, faUserGroup, faCalendar,
   faBookOpen, faList, faLayerGroup, faBoxArchive, faQuestion, faClock,
-  faClipboardCheck, faMagnifyingGlass, faChevronDown} from '@fortawesome/free-solid-svg-icons';
+  faClipboardCheck, faMagnifyingGlass, faChevronDown, faCopy,
+  faUpRightFromSquare} from '@fortawesome/free-solid-svg-icons';
 
 library.add(
     faAsterisk, faPause, faCheck, faX, faMagnifyingGlass, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList,
-    faLayerGroup, faBoxArchive, faQuestion, faClock, faClipboardCheck, faChevronDown);
+    faLayerGroup, faBoxArchive, faQuestion, faClock, faClipboardCheck, faChevronDown, faCopy, faUpRightFromSquare);
 
 // The NotFoundView should always be last because it's an ordered array.
 const routes = [
