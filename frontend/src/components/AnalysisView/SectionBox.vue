@@ -46,13 +46,6 @@ export default {
       type: Array,
     },
   },
-  data: function() {
-    return {
-      fieldsList: [],
-    };
-  },
-  created() {
-  },
 };
 </script>
 

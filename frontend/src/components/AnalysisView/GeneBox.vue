@@ -3,22 +3,23 @@
     <table class="gene-box-container">
       <tbody>
         <tr class="gene-box-header">
-        <td class="gene-name">
-          {{gene}}
-        </td>
-        <td class="link-logo">
-          <font-awesome-icon icon="up-right-from-square" size="lg"/>
-        </td>
-        <td class="transcript" v-for="transcript in transcripts" :key="transcript">
-          {{transcript.transcript}}
-        </td>
-        <td class="copy-logo">
-          <font-awesome-icon icon="copy" size="lg"/>
-        </td>
-        <td class="logo-dropdown-edit">
-          <font-awesome-icon icon="chevron-down" size="lg"/>
-        </td>
-      </tr>
+          <h2 class="gene-name">
+            {{gene}}
+          </h2>
+          <td class="link-logo">
+            <font-awesome-icon icon="up-right-from-square" size="lg"/>
+          </td>
+          <td class="transcript" v-for="transcript in transcripts" :key="transcript">
+            {{transcript.transcript}}
+          </td>
+          <td class="copy-logo">
+            <font-awesome-icon icon="copy" size="lg"/>
+          </td>
+          <td class="logo-dropdown-edit">
+            dropdown
+            <font-awesome-icon icon="chevron-down" size="lg"/>
+          </td>
+        </tr>
       <div class="seperator"></div>
       <div v-for="variant in variants" :key="variant">
         <tr class="gene-box-second-line">
@@ -91,7 +92,7 @@ div {
   padding: var(--p-10);
   margin: 0.625rem;
   width: 100%;
-  gap: .625rem;
+  /* gap: .625rem; */
   border-radius: 1.25rem;
   background-color: var(--divergen-white);
 }
@@ -105,6 +106,7 @@ div {
 .gene-name {
   height: 1.75rem;
   margin: .125rem .125rem 0 .125rem;
+  color: var(--divergen-purple-300);
 }
 
 .logo-dropdown-edit {
@@ -118,6 +120,13 @@ div {
   height: .125rem;
   background-color: var(--divergen-grey-100);
   border: solid .0469rem var(--divergen-grey-100);
+}
+
+.gene-box-third-line {
+  display: flex;
+  flex-direction: row;
+  gap: .625rem;
+  flex-wrap: nowrap;
 }
 
 </style>
