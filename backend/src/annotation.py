@@ -53,17 +53,13 @@ class AnnotationService:
         """Initializes the annotation service and injects the collection that has the annotation configuration"""
         self.annotation_collection = annotation_collection
 
-    def queue_annotation_tasks(
-        self, analysis: Analysis, annotation_task_queue: AnnotationQueue
-    ):
+    def queue_annotation_tasks(self, analysis: Analysis, annotation_task_queue: AnnotationQueue):
         """
         Uses the list of genomic units and the list of types to queue annotation operations.
         """
         units_to_annotate = analysis.units_to_annotate()
 
-        annotation_configuration = (
-            self.annotation_collection.datasets_to_annotate_for_units(units_to_annotate)
-        )
+        annotation_configuration = self.annotation_collection.datasets_to_annotate_for_units(units_to_annotate)
 
         for genomic_unit in units_to_annotate:
             genomic_unit_type = genomic_unit["type"].value
@@ -81,15 +77,11 @@ class AnnotationService:
             while not annotation_queue.empty():
                 genomic_unit, dataset_json = annotation_queue.get()
 
-                task_identifier, task = AnnotationTaskFactory.create(
-                    genomic_unit, dataset_json
-                )
+                task_identifier, task = AnnotationTaskFactory.create(genomic_unit, dataset_json)
 
                 if task_identifier not in batched_annotation_tasks:
                     batched_annotation_tasks[task_identifier] = task
-                    log_to_file(
-                        f"Batched: {genomic_unit} for datasets {dataset_json}\n"
-                    )
+                    log_to_file(f"Batched: {genomic_unit} for datasets {dataset_json}\n")
                 else:
                     batched_annotation_tasks[task_identifier].append(dataset_json)
 
@@ -108,13 +100,9 @@ class AnnotationService:
                     log_to_file(f"{annotation_task.datasets}\n")
                     log_to_file(f"{genomic_unit}\n")
                 except FileNotFoundError as error:
-                    log_to_file(
-                        f"exception happened {error} with {genomic_unit} and {annotation_task}\n"
-                    )
+                    log_to_file(f"exception happened {error} with {genomic_unit} and {annotation_task}\n")
 
                 log_to_file("\n")
                 del annotation_task_futures[future]
 
-            log_to_file(
-                "after for loop for waiting for all of the futures to finis\n\n"
-            )
+            log_to_file("after for loop for waiting for all of the futures to finis\n\n")

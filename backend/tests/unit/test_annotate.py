@@ -8,9 +8,7 @@ from src.core.analysis import Analysis
 from src.annotation import AnnotationService
 
 
-def test_queuing_annotations_for_genomic_units(
-    cpam0046_analysis, annotation_collection
-):
+def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_collection):
     """Verifies annotations are queued according to the specific genomic units"""
     annotation_service = AnnotationService(annotation_collection)
     mock_queue = Mock()
@@ -27,9 +25,7 @@ def test_queuing_annotations_for_genomic_units(
 
 
 @patch("src.annotation.log_to_file")
-def test_processing_annotation_tasks(
-    log_to_file_mock, annotation_queue
-):  # pylint: disable=unused-argument
+def test_processing_annotation_tasks(log_to_file_mock, annotation_queue):  # pylint: disable=unused-argument
     """Verifies that each item on the annotation queue is read and executed"""
     assert not annotation_queue.empty()
     HttpAnnotationTask.annotate = Mock()

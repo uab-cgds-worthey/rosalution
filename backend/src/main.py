@@ -24,7 +24,9 @@ tags_metadata = [
     },
     {
         "name": "annotation",
-        "description": "Temporary endpoint to facilitate annotating an analysis from a default annotation configuration",
+        "description": (
+            "Temporary endpoint to facilitate annotating an analysis from a default annotation configuration"
+        ),
     },
     {
         "name": "lifecycle",
@@ -44,9 +46,7 @@ app = FastAPI(
 )
 
 app.include_router(analysis.router, dependencies=[Depends(database)])
-app.include_router(
-    annotation.router, dependencies=[Depends(database), Depends(annotation_queue)]
-)
+app.include_router(annotation.router, dependencies=[Depends(database), Depends(annotation_queue)])
 app.include_router(auth.router)
 
 app.add_middleware(SessionMiddleware, secret_key="!secret")

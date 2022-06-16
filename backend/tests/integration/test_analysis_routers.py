@@ -6,9 +6,7 @@ def test_get_analyses(client, mock_access_token):
     # database_collections['analysis'].find()
     # database_collections['analysis'].find.return_value = {'trash': 'json'}
 
-    response = client.get(
-        "/analysis/", headers={"Authorization": "Bearer " + mock_access_token}
-    )
+    response = client.get("/analysis/", headers={"Authorization": "Bearer " + mock_access_token})
 
     assert response.status_code == 200
     assert len(response.json()) == 3
@@ -26,7 +24,5 @@ def test_get_analyses_unauthorized(client):
 
 def test_get_analysis_summary(client, mock_access_token):
     """Testing if the analysis summary endpoint returns all of the analyses available"""
-    response = client.get(
-        "/analysis/summary", headers={"Authorization": "Bearer " + mock_access_token}
-    )
+    response = client.get("/analysis/summary", headers={"Authorization": "Bearer " + mock_access_token})
     assert len(response.json()) == 5

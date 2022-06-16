@@ -13,9 +13,7 @@ from ..core.token import TokenData
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-oauth2_scheme = OAuth2PasswordBearer(
-    tokenUrl=constants.TOKEN_URL, scopes=constants.SECURITY_SCOPES
-)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=constants.TOKEN_URL, scopes=constants.SECURITY_SCOPES)
 
 
 def verify_password(plain_password, hashed_password):
@@ -28,9 +26,7 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 
-def get_authorization(
-    security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme)
-):
+def get_authorization(security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme)):
     """
     This function does a general authorization check to see if the user is authorized and within scope to use the
     endpoint that is requested.
@@ -47,9 +43,7 @@ def get_authorization(
     )
 
     try:
-        payload = jwt.decode(
-            token, constants.SECRET_KEY, algorithms=[constants.ALGORITHM]
-        )
+        payload = jwt.decode(token, constants.SECRET_KEY, algorithms=[constants.ALGORITHM])
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
@@ -76,9 +70,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
     authenticate_value = "Bearer"
 
     try:
-        payload = jwt.decode(
-            token, constants.SECRET_KEY, algorithms=[constants.ALGORITHM]
-        )
+        payload = jwt.decode(token, constants.SECRET_KEY, algorithms=[constants.ALGORITHM])
         username: str = payload.get("sub")
         if username is None:
             raise HTTPException(

@@ -30,11 +30,7 @@ class AnnotationCollection:
     def datasets_to_annotate_by_type(self, types):
         """gets dataset configurations according to the types"""
         configuration = self.all()
-        return [
-            dataset
-            for dataset in configuration
-            if dataset["genomic_unit_type"] in types
-        ]
+        return [dataset for dataset in configuration if dataset["genomic_unit_type"] in types]
 
     def datasets_to_annotate_for_units(self, genomic_units_to_annotate):
         """
@@ -48,9 +44,7 @@ class AnnotationCollection:
         for genomic_unit_type in types_to_annotate:
             configuration[genomic_unit_type] = []
 
-        for key, group in groupby(
-            datasets_to_annotate, lambda x: x["genomic_unit_type"]
-        ):
+        for key, group in groupby(datasets_to_annotate, lambda x: x["genomic_unit_type"]):
             configuration[key] = list(group)
 
         return configuration

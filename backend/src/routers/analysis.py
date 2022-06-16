@@ -13,9 +13,7 @@ from ..dependencies import database
 # and add the following dependencies at the top:
 # from fastapi import Security
 # from ..security.security import get_authorization
-router = APIRouter(
-    prefix="/analysis", tags=["analysis"], dependencies=[Depends(database)]
-)
+router = APIRouter(prefix="/analysis", tags=["analysis"], dependencies=[Depends(database)])
 
 
 @router.get("/", response_model=List[Analysis])

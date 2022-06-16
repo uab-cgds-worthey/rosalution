@@ -34,9 +34,7 @@ cas_client = CASClient(
 # pylint: disable=no-member
 # This is done because pylint doesn't appear to be recognizing python-cas's functions saying they have no member
 @router.get("/login")
-async def login(
-    request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None
-):
+async def login(request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None):
     """rosalution Login Method"""
     if request.session.get("username", None):
         # We're already logged in, don't need to do the login process

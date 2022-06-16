@@ -47,11 +47,11 @@ def test_login_successful(client, monkeypatch):
     )
 
     def mock_verify_return():
-        return '<cas:serviceresponse xmlns:cas="http://www.yale.edy/tp/cas"> \
-                    <cas:authenticationsuccess> \
-                        <cas:user>UABProvider</cas:user> \
-                    </cas:authenticationsuccess> \
-                </cas:serviceresponse>"'
+        return (
+            '<cas:serviceresponse xmlns:cas="http://www.yale.edy/tp/cas">                    '
+            " <cas:authenticationsuccess>                         <cas:user>UABProvider</cas:user>                    "
+            ' </cas:authenticationsuccess>                 </cas:serviceresponse>"'
+        )
 
     monkeypatch.setattr(cas_client, "verify_ticket", mock_verify_return)
 
@@ -79,6 +79,6 @@ def test_logout(client):
     """Testing the log out functionality"""
     response = client.get("/auth/logoutCas")
     assert (
-        response.json()["url"] == "https://padlockdev.idm.uab.edu/cas/logout?"
-        "service=http%3A%2F%2Ftestserver%2Frosalution%2Fapi%2Fauth%2Flogin"
+        response.json()["url"]
+        == "https://padlockdev.idm.uab.edu/cas/logout?service=http%3A%2F%2Ftestserver%2Frosalution%2Fapi%2Fauth%2Flogin"
     )
