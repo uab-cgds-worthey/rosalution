@@ -1,5 +1,5 @@
 """
-Manages Analyses for diverGen. An analysis within divergen comprises of
+Manages Analyses for rosalution. An analysis within rosalution comprises of
 of identifiers, case notes, and the genomic units being analyzed.
 """
 # pylint: disable=too-few-public-methods

@@ -25,4 +25,4 @@ fi
 
 install frontend
 
-./etc/etc-hosts.sh local.divergen.cgds
+./etc/etc-hosts.sh local.rosalution.cgds

@@ -15,7 +15,7 @@ def log_to_file(string):
     Temprorary utility function for development purposes abstracted for testing.
     Will remove once feature is completed.
     """
-    with open("divergen-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
+    with open("rosalution-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
         log_file.write(string)
     print(string)
 

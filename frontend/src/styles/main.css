@@ -3,21 +3,21 @@
 html {
   --cgds-blue-100: #CED2FE; /** delphi-blue-100 within figma documentation **/
   
-  --divergen-blue-200: #0066FF;
-  --divergen-green-200: #00C036;
-  --divergen-purple-100: #D9C2FF;
-  --divergen-purple-200: #7E64A9;
-  --divergen-purple-300:#451C89;
-  --divergen-teal-200: #13CEC3;
-  --divergen-yellow-200: #FECA0F;
-  --divergen-grey-200: #C4C4C4;
-  --divergen-grey-300: #A1A1A1;
-  --divergen-grey-100: #E7E6E6;
-  --divergen-black: black;
-  --divergen-white: white;
+  --rosalution-blue-200: #0066FF;
+  --rosalution-green-200: #00C036;
+  --rosalution-purple-100: #D9C2FF;
+  --rosalution-purple-200: #7E64A9;
+  --rosalution-purple-300:#451C89;
+  --rosalution-teal-200: #13CEC3;
+  --rosalution-yellow-200: #FECA0F;
+  --rosalution-grey-200: #C4C4C4;
+  --rosalution-grey-300: #A1A1A1;
+  --rosalution-grey-100: #E7E6E6;
+  --rosalution-black: black;
+  --rosalution-white: white;
   
   --primary-background-color: #F3F5F9;
-  --secondary-background-color: var(--divergen-white);
+  --secondary-background-color: var(--rosalution-white);
   
   --content-border-radius: 10px;
   
@@ -45,7 +45,7 @@ ul {
 h2 {
   font-size: 1.5rem; /* 24px */
   font-weight: 700;
-  color: var(--divergen-black);
+  color: var(--rosalution-black);
 }
 
 a:link { 
@@ -61,15 +61,15 @@ a:hover { text-decoration: none; }
 a:active { text-decoration: none; }
 /* 
 a {
-  color: var(--divergen-purple-300);
+  color: var(--rosalution-purple-300);
 }
 
 a:hover {
-  color: var(--divergen-purple-200);
+  color: var(--rosalution-purple-200);
 }
 
 a:active {
-  color: var(--divergen-purple-100);
+  color: var(--rosalution-purple-100);
 } */
 
 input {

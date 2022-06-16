@@ -101,7 +101,7 @@ pipeline {
         branch 'main'
       }
       steps {
-        sh 'docker stack deploy --prune --with-registry-auth --compose-file docker-compose.production.yml divergen-prod'
+        sh 'docker stack deploy --prune --with-registry-auth --compose-file docker-compose.production.yml rosalution-prod'
       }
       post {
         success {

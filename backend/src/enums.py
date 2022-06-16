@@ -1,5 +1,5 @@
 """
-Enumerations for the diverGen project.
+Enumerations for the rosalution project.
 """
 from enum import Enum
 

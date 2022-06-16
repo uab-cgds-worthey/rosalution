@@ -25,7 +25,7 @@ router = APIRouter(
 # URLs for interacting with UAB CAS Padlock system for BlazerID
 cas_client = CASClient(
     version=3,
-    service_url='http://dev.cgds.uab.edu/divergen/api/auth/login?nexturl=%2Fdivergen',
+    service_url='http://dev.cgds.uab.edu/rosalution/api/auth/login?nexturl=%2Frosalution',
     server_url='https://padlockdev.idm.uab.edu/cas/'
 )
 
@@ -35,10 +35,10 @@ cas_client = CASClient(
 # This is done because pylint doesn't appear to be recognizing python-cas's functions saying they have no member
 @router.get('/login')
 async def login(request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None):
-    """ diverGen Login Method """
+    """ rosalution Login Method """
     if request.session.get("username", None):
         # We're already logged in, don't need to do the login process
-        return {'url': 'http://dev.cgds.uab.edu/divergen/'}
+        return {'url': 'http://dev.cgds.uab.edu/rosalution/'}
 
     if not ticket:
         # No ticket, the request comes from end user, send to CAS login
@@ -49,7 +49,7 @@ async def login(request: Request, nexturl: Optional[str] = None, ticket: Optiona
 
     if not user:
         # Failed ticket verification, this should be an error page of some kind maybe?
-        return RedirectResponse('http://dev.cgds.uab.edu/divergen/auth/login')
+        return RedirectResponse('http://dev.cgds.uab.edu/rosalution/auth/login')
 
     # Login was successful, redirect to the 'nexturl' query parameter
     request.session['username'] = user
@@ -98,7 +98,7 @@ def login_oauth(
     )
     content = {"access_token": access_token, "token_type": "bearer"}
     response = JSONResponse(content=content)
-    response.set_cookie(key='DIVERGEN_TOKEN', value=access_token)
+    response.set_cookie(key='rosalution_TOKEN', value=access_token)
     request.session['username'] = form_data.username
     return response
 
@@ -125,7 +125,7 @@ def logout_oauth(request: Request):
     """ Returns an empty access token """
     content = {'access_token': ''}
     response = JSONResponse(content=content)
-    response.delete_cookie(key='DIVERGEN_TOKEN')
+    response.delete_cookie(key='rosalution_TOKEN')
     if 'username' in request.session:
         request.session.pop('username', None)
     return response

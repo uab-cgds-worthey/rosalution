@@ -15,10 +15,10 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - divergen-network
+      - rosalution-network
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=divergen-network"
+      - "traefik.docker.network=rosalution-network"
   
   frontend:
     build:
@@ -28,12 +28,12 @@ services:
     volumes:
       - ./frontend/src:/app/src
     networks:
-      - divergen-network
+      - rosalution-network
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=divergen-network"
+      - "traefik.docker.network=rosalution-network"
       - "traefik.http.routers.frontend-router.entrypoints=web"
-      - "traefik.http.routers.frontend-router.rule=Host(`local.divergen.cgds`)"
+      - "traefik.http.routers.frontend-router.rule=Host(`local.rosalution.cgds`)"
       - "traefik.http.routers.frontend-router.service=frontend-web-service"
       - "traefik.http.services.frontend-web-service.loadbalancer.server.port=80"
   
@@ -45,17 +45,17 @@ services:
     volumes:
       - ./backend:/app
     networks:
-      - divergen-network
+      - rosalution-network
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=divergen-network"
+      - "traefik.docker.network=rosalution-network"
       - "traefik.http.routers.backend-router.entrypoints=web"
-      - "traefik.http.routers.backend-router.rule=Host(`local.divergen.cgds`) && PathPrefix(`/divergen/api`)"
+      - "traefik.http.routers.backend-router.rule=Host(`local.rosalution.cgds`) && PathPrefix(`/rosalution/api`)"
       - "traefik.http.routers.backend-router.service=backend-api-service"
       - "traefik.http.routers.backend-router.middlewares=backend-strip-prefix"
-      - "traefik.http.middlewares.backend-strip-prefix.stripprefix.prefixes=/divergen/api"
+      - "traefik.http.middlewares.backend-strip-prefix.stripprefix.prefixes=/rosalution/api"
       - "traefik.http.services.backend-api-service.loadbalancer.server.port=8000"
 
 networks:
-  divergen-network:
-    name: divergen-network
+  rosalution-network:
+    name: rosalution-network

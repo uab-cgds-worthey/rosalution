@@ -1,4 +1,4 @@
-""" Analysis endpoint routes that serve up information regarding anaysis cases for diverGen """
+""" Analysis endpoint routes that serve up information regarding anaysis cases for rosalution """
 
 from typing import List
 

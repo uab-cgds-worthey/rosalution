@@ -2,40 +2,40 @@ version: '3.5'
 
 services:
   frontend:
-    image: gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/divergen/frontend:vprod
+    image: gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/rosalution/frontend:vprod
     networks:
-      - divergen-network
+      - rosalution-network
       - traefik
     deploy:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=traefik-public"
-        - "traefik.http.routers.divergen-frontend-prod-router.entrypoints=http"
-        - "traefik.http.routers.divergen-frontend-prod-router.rule=Host(`dev.cgds.uab.edu`) && PathPrefix(`/divergen`)"
-        - "traefik.http.routers.divergen-frontend-prod-router.service=divergen-frontend-prod-service"
-        - "traefik.http.routers.divergen-frontend-prod-router.middlewares=frontend-strip-prefix"
-        - "traefik.http.middlewares.frontend-strip-prefix.stripprefix.prefixes=/divergen"
-        - "traefik.http.services.divergen-frontend-prod-service.loadbalancer.server.port=80"
+        - "traefik.http.routers.rosalution-frontend-prod-router.entrypoints=http"
+        - "traefik.http.routers.rosalution-frontend-prod-router.rule=Host(`dev.cgds.uab.edu`) && PathPrefix(`/rosalution`)"
+        - "traefik.http.routers.rosalution-frontend-prod-router.service=rosalution-frontend-prod-service"
+        - "traefik.http.routers.rosalution-frontend-prod-router.middlewares=frontend-strip-prefix"
+        - "traefik.http.middlewares.frontend-strip-prefix.stripprefix.prefixes=/rosalution"
+        - "traefik.http.services.rosalution-frontend-prod-service.loadbalancer.server.port=80"
 
   backend:
-    image: gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/divergen/backend:vprod
+    image: gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/rosalution/backend:vprod
     networks:
-      - divergen-network
+      - rosalution-network
       - traefik
     deploy:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=traefik-public"
-        - "traefik.http.routers.divergen-backend-prod-router.entrypoints=http"
-        - "traefik.http.routers.divergen-backend-prod-router.rule=Host(`dev.cgds.uab.edu`) && PathPrefix(`/divergen/api`)"
-        - "traefik.http.routers.divergen-backend-prod-router.service=divergen-backend-prod-service"
-        - "traefik.http.routers.divergen-backend-prod-router.middlewares=backend-strip-prefix"
-        - "traefik.http.middlewares.backend-strip-prefix.stripprefix.prefixes=/divergen/api"
-        - "traefik.http.services.divergen-backend-prod-service.loadbalancer.server.port=8000"
+        - "traefik.http.routers.rosalution-backend-prod-router.entrypoints=http"
+        - "traefik.http.routers.rosalution-backend-prod-router.rule=Host(`dev.cgds.uab.edu`) && PathPrefix(`/rosalution/api`)"
+        - "traefik.http.routers.rosalution-backend-prod-router.service=rosalution-backend-prod-service"
+        - "traefik.http.routers.rosalution-backend-prod-router.middlewares=backend-strip-prefix"
+        - "traefik.http.middlewares.backend-strip-prefix.stripprefix.prefixes=/rosalution/api"
+        - "traefik.http.services.rosalution-backend-prod-service.loadbalancer.server.port=8000"
 
 networks:
-  divergen-network:
-    name: divergen-network-prod
+  rosalution-network:
+    name: rosalution-network-prod
   traefik:
     name: traefik-public
     external: true

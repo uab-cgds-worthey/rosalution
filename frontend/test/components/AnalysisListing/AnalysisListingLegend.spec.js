@@ -25,7 +25,7 @@ function getMountedComponent(props) {
 }
 
 describe('AnalysisListingLegend.vue', () => {
-  it('should display several states of diverGen analyses', () => {
+  it('should display several states of rosalution analyses', () => {
     const wrapper = getMountedComponent();
     expect(wrapper.html()).to.contains('Ready');
     expect(wrapper.html()).to.contains('Active');
