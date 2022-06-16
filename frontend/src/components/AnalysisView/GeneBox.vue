@@ -1,25 +1,22 @@
 <template>
-  <div>
-    <table class="gene-box-container">
-      <tbody>
-        <tr class="gene-box-header">
+  <table class="gene-box-container">
+    <tbody>
+      <tr class="gene-box-header">
+        <td>
           <h2 class="gene-name">
             {{gene}}
           </h2>
-          <td class="link-logo">
-            <font-awesome-icon icon="up-right-from-square" size="lg"/>
-          </td>
-          <td class="transcript" v-for="transcript in transcripts" :key="transcript">
-            {{transcript.transcript}}
-          </td>
-          <td class="copy-logo">
-            <font-awesome-icon icon="copy" size="lg"/>
-          </td>
-          <td class="logo-dropdown-edit">
-            dropdown
-            <font-awesome-icon icon="chevron-down" size="lg"/>
-          </td>
-        </tr>
+        </td>
+        <td class="link-logo">
+          <font-awesome-icon icon="up-right-from-square" size="lg"/>
+        </td>
+        <td class="transcript" v-for="transcript in transcripts" :key="transcript">
+          {{transcript.transcript}}
+        </td>
+        <td class="copy-logo">
+          <font-awesome-icon icon="copy" size="lg"/>
+        </td>
+      </tr>
       <div class="seperator"></div>
       <div v-for="variant in variants" :key="variant">
         <tr class="gene-box-second-line">
@@ -39,7 +36,7 @@
               <font-awesome-icon icon="copy" size="lg"/>
             </td>
             <td class="grch-build">
-              grch38
+              {{getBuild(variant.build)}}
             </td>
           </span>
           <td class="genome-browser-link-logo">
@@ -56,9 +53,8 @@
           </td>
         </tr>
       </div>
-      </tbody>
-    </table>
-  </div>
+    </tbody>
+  </table>
 </template>>
 
 <script>
@@ -76,6 +72,15 @@ export default {
       type: Array,
     },
   },
+  methods: {
+    getBuild(build) {
+      if (build == 'hg19') {
+        return 'grch37';
+      } else if (build == 'hg38') {
+        return 'grch38';
+      }
+    },
+  },
 };
 </script>
 
@@ -88,11 +93,10 @@ div {
 
 .gene-box-container {
   display: flex;
-  flex-direction: column;
+  flex-direction:column;
   padding: var(--p-10);
   margin: 0.625rem;
   width: 100%;
-  /* gap: .625rem; */
   border-radius: 1.25rem;
   background-color: var(--divergen-white);
 }
@@ -109,11 +113,8 @@ div {
   color: var(--divergen-purple-300);
 }
 
-.logo-dropdown-edit {
-  color: var(--divergen-grey-200);
-  float: right;
-  right: 3%;
-  position: absolute;
+.transcript {
+  font-weight: bold;
 }
 
 .seperator {
@@ -123,8 +124,8 @@ div {
 }
 
 .gene-box-third-line {
-  display: flex;
-  flex-direction: row;
+  display: table-row;
+  /* flex-direction: column; */
   gap: .625rem;
   flex-wrap: nowrap;
 }

@@ -68,7 +68,6 @@ div {
 app-content {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: column;
   justify-content: center;
   height: 100%;
 }
