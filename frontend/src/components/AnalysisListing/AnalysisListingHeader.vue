@@ -1,14 +1,14 @@
 <template>
   <header>
-    <img src="@/assets/diverGen-logo.svg" class="diverGen-logo">
+    <img src="@/assets/rosalution-logo.svg" class="rosalution-logo">
     <div data-test="primary-content" class="content">
-      <span class="title left-content">diverGen</span>
+      <span class="title left-content">rosalution</span>
       <div class="search">
         <font-awesome-icon icon="magnifying-glass" size="lg" class="search-icon"></font-awesome-icon>
         <input data-test="analysis-search" type="search" @input="onSearch" placeholder="Search">
       </div>
       <span v-if="username" class="login" data-test="user-text">{{ username }}</span>
-      <router-link :to="{ path: '/divergen/login' }">
+      <router-link :to="{ path: '/rosalution/login' }">
         <button class="login" data-test="user-menu">LOGIN</button>
       </router-link>
     </div>
@@ -37,7 +37,7 @@ header {
   background-color: var(--primary-background-color);
 }
 
-img.diverGen-logo {
+img.rosalution-logo {
   width: 55px;
   height: 45px;
   flex: 0 0 auto;
@@ -68,7 +68,7 @@ header .left-content {
 }
 
 .search:hover, .search:focus, .search:focus-within{
-  border: 1px solid var(--divergen-purple-300);
+  border: 1px solid var(--rosalution-purple-300);
   box-shadow:  0px 0 0 4px rgba(69, 28, 137, 0.10);
   background-color: var(--secondary-background-color);
 }

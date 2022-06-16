@@ -13,7 +13,7 @@ data
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-divergen-annotation-log.txt*
+rosalution-annotation-log.txt*
 
 # local data files
 *.vcf

@@ -5,14 +5,18 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+
 class User(BaseModel):
-    """ The most basic information that is needed by the application pretatining to a registered user """
+    """The most basic information that is needed by the application pretatining to a registered user"""
+
     username: str
     email: Optional[str] = None
     full_name: Optional[str] = None
     disabled: Optional[bool] = None
     scope: Optional[str] = None
 
+
 class VerifyUser(User):
-    """ Hashed password was omitted from the base object as it's not always needed """
+    """Hashed password was omitted from the base object as it's not always needed"""
+
     hashed_password: str

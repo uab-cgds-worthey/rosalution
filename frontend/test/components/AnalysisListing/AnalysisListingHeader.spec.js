@@ -38,7 +38,7 @@ afterAll(() => {
 describe('AnalysisListingHeader.vue', () => {
   it('should display application title', () => {
     const wrapper = getMountedComponent();
-    expect(wrapper.html()).to.contains('diverGen');
+    expect(wrapper.html()).to.contains('rosalution');
   });
 
   it('should display "Login" in the upper right hand corner if username is a blank string', async () => {

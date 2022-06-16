@@ -1,16 +1,16 @@
 <template>
   <div class="legend">
-    <font-awesome-icon icon="asterisk" size="lg" style="color: var(--divergen-status-annotation);"/>
+    <font-awesome-icon icon="asterisk" size="lg" style="color: var(--rosalution-status-annotation);"/>
     <p>Annotating</p>
-    <font-awesome-icon icon="clipboard-check" size="lg" style="color: var(--divergen-status-ready);"/>
+    <font-awesome-icon icon="clipboard-check" size="lg" style="color: var(--rosalution-status-ready);"/>
     <p>Ready</p>
-    <font-awesome-icon icon="book-open" size="lg" style="color: var(--divergen-status-active)"/>
+    <font-awesome-icon icon="book-open" size="lg" style="color: var(--rosalution-status-active)"/>
     <p>Active</p>
-    <font-awesome-icon icon="pause" size="lg" style="color: var(--divergen-status-approved)"/>
+    <font-awesome-icon icon="pause" size="lg" style="color: var(--rosalution-status-approved)"/>
     <p>On Hold</p>
-    <font-awesome-icon icon="check" size="lg" style="color: var(--divergen-status-on-hold)"/>
+    <font-awesome-icon icon="check" size="lg" style="color: var(--rosalution-status-on-hold)"/>
     <p>Approved</p>
-    <font-awesome-icon icon="x" size="lg" style="color: var(--divergen-status-declined)"/>
+    <font-awesome-icon icon="x" size="lg" style="color: var(--rosalution-status-declined)"/>
     <p>Declined</p>
   </div>
 </template>

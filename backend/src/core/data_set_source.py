@@ -11,6 +11,7 @@ from ..enums import AnnotationSourceType
 
 class DataSetSource(BaseModel):
     """An annotation source that matches a data set with the type of data it is used to annotate and its source"""
+
     genomic_unit_type: GenomicUnitType
     data_set: str
     data_source: str

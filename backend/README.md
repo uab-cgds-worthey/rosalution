@@ -55,7 +55,7 @@ docker build --target="development-stage" --tag="backend" -f "./Dockerfile" ./
 docker images
 
 # Grab the id from the container that was built for backend
-# Also, the docker run command seems to want the full path to the diverGen folder
+# Also, the docker run command seems to want the full path to the rosalution folder
 
 docker run -v <absolute_path_to_backend>/:/app/ -p 127.0.0.1:8000:8000 <image_id>
 ```
@@ -72,21 +72,21 @@ docker build --target="production-stage" --tag="backend" -f "./Dockerfile" ./
 docker images
 
 # Grab the id from the container that was built for backend
-# Also, the docker run command seems to want the full path to the diverGen folder
+# Also, the docker run command seems to want the full path to the rosalution folder
 
 docker run -v <absolute_path_to_backend>/:/app/ -p 127.0.0.1:8000:8000 <image_id>
 ```
 
 ### Endpoints
 
-#### **diverGen Endpoints**
+#### **rosalution Endpoints**
 
 `/analysis`
 >
 > [http://127.0.0.1:8000/analysis](http://127.0.0.1:8000/analysis)
 >
 >
->Shows a list of analysis available for diverGen
+>Shows a list of analysis available for rosalution
 
 #### **Test Endpoints**
 

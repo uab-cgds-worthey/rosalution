@@ -1,7 +1,7 @@
 <template>
   <div class="navbar">
     <div>
-      <router-link to="/" class="navtitle">diverGen</router-link>
+      <router-link to="/" class="navtitle">rosalution</router-link>
     </div>
     <nav class="navitem">
       <router-link class="" to="/about">About</router-link>

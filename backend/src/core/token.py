@@ -5,12 +5,16 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
+
 class Token(BaseModel):
-    """ Base model for the access token """
+    """Base model for the access token"""
+
     access_token: str
     token_type: str
 
+
 class TokenData(BaseModel):
-    """ Contains information about the user and their auth scopes """
+    """Contains information about the user and their auth scopes"""
+
     username: Optional[str] = None
     scopes: List[str] = []

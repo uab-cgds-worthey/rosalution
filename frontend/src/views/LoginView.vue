@@ -24,7 +24,7 @@
           <button @click="logoutCAS" type="submit">Logout BlazerID</button>
           <br />
           <br />
-          <router-link :to="{ path: '/divergen' }">
+          <router-link :to="{ path: '/rosalution' }">
             <button @click="back" type="submit">Back</button>
           </router-link>
     </div>

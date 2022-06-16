@@ -40,7 +40,7 @@ docker build --target="development-stage" --tag="fast-api-prototype" -f "./Docke
 docker images
 
 # Grab the id from the container that was built for FastAPI prototype
-# Also, the docker run command seems to want the full path to the prototype folder in diverGen
+# Also, the docker run command seems to want the full path to the prototype folder in rosalution
 
 docker run -v <absolute_path_to_prototype>/fast-api-prototype/:/app/ -p 127.0.0.1:8000:8000 <image_id>
 ```
@@ -55,21 +55,21 @@ docker build --target="production-stage" --tag="fast-api-prototype" -f "./Docker
 docker images
 
 # Grab the id from the container that was built for FastAPI prototype
-# Also, the docker run command seems to want the full path to the prototype folder in diverGen
+# Also, the docker run command seems to want the full path to the prototype folder in rosalution
 
 docker run -v <absolute_path_to_prototype>/fast-api-prototype/:/app/ -p 127.0.0.1:8000:8000 <image_id>
 ```
 
 ### Endpoints
 
-#### **diverGen Endpoints**
+#### **rosalution Endpoints**
 
 `/analysis`
 >
 > [http://127.0.0.1:8000/analysis](http://127.0.0.1:8000/analysis)
 >
 >
->Shows a list of analysis available for diverGen
+>Shows a list of analysis available for rosalution
 
 #### **Example FastAPI Endpoints**
 

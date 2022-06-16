@@ -67,8 +67,8 @@ describe('AnalysisListingView', () => {
 });
 
 /**
- * Generates an array of analyses of diverGen projects to test with
- * @return {Object[]} A listing of anlayses for diverGen
+ * Generates an array of analyses of rosalution projects to test with
+ * @return {Object[]} A listing of anlayses for rosalution
  */
 function fixtureData() {
   return [{

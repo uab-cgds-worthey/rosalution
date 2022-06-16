@@ -1,0 +1,10 @@
+/** || Variables **/
+
+html {
+  --rosalution-status-annotation: var(--rosalution-yellow-200);
+  --rosalution-status-ready: var(--rosalution-blue-200);
+  --rosalution-status-active: var(--rosalution-green-200);
+  --rosalution-status-approved: var(--rosalution-teal-200);
+  --rosalution-status-on-hold: var(--cgds-blue-100);
+  --rosalution-status-declined: var(--rosalution-grey-200);
+}

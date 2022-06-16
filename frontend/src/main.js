@@ -10,7 +10,7 @@ import NotFoundView from './views/NotFound.vue';
 import AnalysisView from './views/AnalysisView.vue';
 
 import './styles/main.css';
-import './styles/divergen.css';
+import './styles/rosalution.css';
 // import './styles/proxima-nova-font.css'
 
 import {library} from '@fortawesome/fontawesome-svg-core';
@@ -26,11 +26,11 @@ library.add(
 
 // The NotFoundView should always be last because it's an ordered array.
 const routes = [
-  {path: '/divergen/login', component: LoginView},
-  {path: '/divergen', component: AnalysisListingView},
-  {path: '/divergen/analysis/create', component: AnalysisCreateView},
-  {path: '/divergen/about', component: AboutView},
-  {path: '/divergen/analysis/:analysis_name', name: 'analysis', component: AnalysisView, props: true},
+  {path: '/rosalution/login', component: LoginView},
+  {path: '/rosalution', component: AnalysisListingView},
+  {path: '/rosalution/analysis/create', component: AnalysisCreateView},
+  {path: '/rosalution/about', component: AboutView},
+  {path: '/rosalution/analysis/:analysis_name', name: 'analysis', component: AnalysisView, props: true},
   {path: '/:pathMatch(.*)', component: NotFoundView},
 ];
 

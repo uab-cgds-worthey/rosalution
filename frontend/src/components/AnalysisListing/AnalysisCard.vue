@@ -95,20 +95,20 @@ export default {
     },
     workflowColor: function() {
       if (this.latest_status == 'Annotation') {
-        return '--divergen-status-annotation';
+        return '--rosalution-status-annotation';
       } else if (this.latest_status == 'Ready') {
-        return '--divergen-status-ready';
+        return '--rosalution-status-ready';
       } else if (this.latest_status == 'Active') {
-        return '--divergen-status-active';
+        return '--rosalution-status-active';
       } else if (this.latest_status == 'Approved') {
-        return '--divergen-status-approved';
+        return '--rosalution-status-approved';
       } else if (this.latest_status == 'On-Hold') {
-        return '--divergen-status-on-hold';
+        return '--rosalution-status-on-hold';
       } else if (this.latest_status == 'Declined') {
-        return '--divergen-status-declined';
+        return '--rosalution-status-declined';
       }
 
-      return '--divergen-white';
+      return '--rosalution-white';
     },
     workflowColorStyle: function() {
       return {
@@ -130,7 +130,7 @@ export default {
 div {
   font-family: "Proxima Nova", sans-serif;
   font-size: 0.75rem; /* 12 px */
-  color: var(--divergen-black)
+  color: var(--rosalution-black)
 }
 
 .analysis-card {
@@ -149,7 +149,7 @@ div {
   padding: var(--p-8) var(--p-5) var(--p-8) var(--p-5);
   border-radius: 1.25rem;
   border: solid 0.625rem;
-  background-color: var(--divergen-white);
+  background-color: var(--rosalution-white);
   display: block;
   box-sizing: border-box;
   color: inherit;
@@ -179,8 +179,8 @@ div {
   justify-content: center;
   text-align: center;
   padding: var(--p-1);
-  border-top: 1px solid var(--divergen-grey-300);
-  border-bottom: 1px solid var(--divergen-grey-300);
+  border-top: 1px solid var(--rosalution-grey-300);
+  border-bottom: 1px solid var(--rosalution-grey-300);
 }
 
 .dates-subsection {
@@ -190,14 +190,14 @@ div {
 }
 
 .dates-subsection-label {
-  color: var(--divergen-grey-300)
+  color: var(--rosalution-grey-300)
 }
 
 .middle-separator {
   min-width: 1px;
   max-width: 1px;
   margin: var(--p-1);
-  background-color: var(--divergen-grey-300);
+  background-color: var(--rosalution-grey-300);
 }
 
 .genomic-units-section {
@@ -206,7 +206,7 @@ div {
 
 ul:before{
   content:attr(aria-label);
-  color: var(--divergen-grey-300);
+  color: var(--rosalution-grey-300);
 }
 
 </style>

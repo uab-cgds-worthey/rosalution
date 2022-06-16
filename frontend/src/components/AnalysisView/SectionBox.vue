@@ -71,7 +71,7 @@ div {
   width: 100%;
   gap: .625rem;
   border-radius: 1.25rem;
-  background-color: var(--divergen-white);
+  background-color: var(--rosalution-white);
 }
 
 .section-header {
@@ -86,7 +86,7 @@ div {
 }
 
 .logo-dropdown-edit {
-  color: var(--divergen-grey-200);
+  color: var(--rosalution-grey-200);
   float: right;
   right: 3%;
   position: absolute;
@@ -94,8 +94,8 @@ div {
 
 .seperator {
   height: .125rem;
-  background-color: var(--divergen-grey-100);
-  border: solid .0469rem var(--divergen-grey-100);
+  background-color: var(--rosalution-grey-100);
+  border: solid .0469rem var(--rosalution-grey-100);
 }
 
 .field-value-row {
@@ -113,13 +113,13 @@ div {
   font-size: 1.125rem;
   font-weight: 600;
   text-align: left;
-  color: var(--divergen-black);
+  color: var(--rosalution-black);
 }
 
 .value {
   font-size: 1.125rem;
   text-align: left;
-  color: var(--divergen-black);
+  color: var(--rosalution-black);
 }
 
 </style>

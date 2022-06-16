@@ -1,12 +1,12 @@
-# diverGen
+# Rosalution
 
-diverGen: C-PAM Software Tool
+Rosalution: C-PAM Software Tool
 
 ## Project Setup
 
-`setup.sh` provisions your local environment for developing diverGen.  The script
+`setup.sh` provisions your local environment for developing Rosalution.  The script
 executes `yarn install` within each sub directory and updates your local
-/etc/hosts to support the local DNS name redirect 'local.divergen.cgds' to
+/etc/hosts to support the local DNS name redirect 'local.rosalution.cgds' to
 localhost.
 
 ```bash
@@ -43,7 +43,7 @@ docker-compose up --build
 
 ## Production Build and Deployment
 
-Use the the production docker-compose.production.yml to build & deploy diverGen
+Use the the production docker-compose.production.yml to build & deploy Rosalution
 for production.
 
 ```bash

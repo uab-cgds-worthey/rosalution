@@ -6,8 +6,8 @@ import time
 import requests
 
 
-class AnnotationTaskInterface():
-    """ Abstract class to define the interface for the the types of Annotation Task"""
+class AnnotationTaskInterface:
+    """Abstract class to define the interface for the the types of Annotation Task"""
 
     def __init__(self, genomic_unit_json: dict):
         self.datasets = []
@@ -41,16 +41,16 @@ class NoneAnnotationTask(AnnotationTaskInterface):
         """Createsa fake 'annotation' using a randomly generated pause time to a query io operation"""
         value = randint(0, 10)
         time.sleep(value)
-        datasets_list = map(
-            lambda dataset: dataset['data_set'], self.datasets)
-        datasets_string = ', '.join(datasets_list)
-        return \
-            f'Slept: {value} - Fake annotation for {self.genomic_unit["unit"]}' \
+        datasets_list = map(lambda dataset: dataset["data_set"], self.datasets)
+        datasets_string = ", ".join(datasets_list)
+        return (
+            f'Slept: {value} - Fake annotation for {self.genomic_unit["unit"]}'
             f'for datasets {datasets_string} from {self.datasets[0]["data_source"]}'
+        )
 
 
 class CsvAnnotationTask(AnnotationTaskInterface):
-    """ Example placeholder for a future type of annotation task """
+    """Example placeholder for a future type of annotation task"""
 
     def __init__(self, genomic_unit_json):
         """Insantiates the annotation task associated with the genomic unit"""
@@ -58,15 +58,15 @@ class CsvAnnotationTask(AnnotationTaskInterface):
 
     def identifier(self):
         """placeholder for generating a unique identifier of the task used to determine if a task exists already"""
-        return 'not-implemented'
+        return "not-implemented"
 
     def annotate(self):
         """placeholder for annotating a genomic unit"""
-        return 'not-implemented'
+        return "not-implemented"
 
 
 class HttpAnnotationTask(AnnotationTaskInterface):
-    """ Initializes the annotation that uses an HTTP request to fetch the annotation"""
+    """Initializes the annotation that uses an HTTP request to fetch the annotation"""
 
     def __init__(self, genomic_unit_json):
         """initializes the task with the genomic_unit"""
@@ -80,7 +80,7 @@ class HttpAnnotationTask(AnnotationTaskInterface):
         """builds the complete url and fetches the annotation with an http request"""
         url_to_query = self.build_url()
         result = requests.get(url_to_query)
-        return f'Batching with an Annotation Task Object: \n {result.json()}'
+        return f"Batching with an Annotation Task Object: \n {result.json()}"
 
     def base_url(self):
         """
@@ -96,25 +96,25 @@ class HttpAnnotationTask(AnnotationTaskInterface):
         Builds the URL from the base_url and then appends the list of query parameters for the list of datasets.
         """
         base_url_string = self.base_url()
-        query_param_list = map(
-            lambda dataset: dataset['query_param'], self.datasets)
-        url = reduce(lambda url_string, query_param:
-                     url_string + query_param,
-                     query_param_list,
-                     base_url_string
-                     )
+        query_param_list = map(lambda dataset: dataset["query_param"], self.datasets)
+        url = reduce(
+            lambda url_string, query_param: url_string + query_param,
+            query_param_list,
+            base_url_string,
+        )
         return url if base_url_string is not None else None
 
 
-class AnnotationTaskFactory():
+class AnnotationTaskFactory:
     """
     Factory that creates the annotation task according to the annotation type from a dataset's configuration. This
     will determine the method used to create the unique identifier that bundles annotations.
     """
+
     tasks = {
-        'http': HttpAnnotationTask,
-        'csv': CsvAnnotationTask,
-        'none': NoneAnnotationTask
+        "http": HttpAnnotationTask,
+        "csv": CsvAnnotationTask,
+        "none": NoneAnnotationTask,
     }
 
     @classmethod
@@ -133,7 +133,6 @@ class AnnotationTaskFactory():
         """
         ### In the future, this could be modified to use a static function instead
         ### and those would be set to the dict, or an additional dictionary
-        new_task = cls.tasks[dataset['annotation_source_type']](
-            genomic_unit_json)
+        new_task = cls.tasks[dataset["annotation_source_type"]](genomic_unit_json)
         new_task.append(dataset)
         return (new_task.identifier(), new_task)

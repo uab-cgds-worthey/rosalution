@@ -1,7 +1,7 @@
 
 <template>
   <!--Header-->
-  <app-header>diverGen</app-header>
+  <app-header>rosalution</app-header>
   <!--Content-->
   <app-content>
     <h1>404 Not Found</h1>

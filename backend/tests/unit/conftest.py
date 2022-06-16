@@ -12,6 +12,7 @@ def fixture_analysis_collection():
     """Returns the analysis collection to be mocked"""
     return AnalysisCollection()
 
+
 @pytest.fixture(name="annotation_collection")
 def fixture_annotation_collection():
     """
@@ -23,11 +24,13 @@ def fixture_annotation_collection():
     # return AnnotationCollection(mock_collection)
     return AnnotationCollection()
 
+
 # @pytest.fixture(name="database_collection")
 # def fixture_analysis_database_collection():
 #     """Provides a mock for the database client"""
 #     mock_database_collection = Mock()
 #     return mock_database_collection
+
 
 @pytest.fixture(name="annotation_queue")
 def fixture_annotation_queue(annotation_collection, cpam0046_analysis):

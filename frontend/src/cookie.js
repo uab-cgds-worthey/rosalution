@@ -5,12 +5,12 @@ const cookie = {
     }
 
     const cookieValue = document.cookie.split(';')
-        .find((row) => row.startsWith('DIVERGEN_TOKEN='))
+        .find((row) => row.startsWith('rosalution_TOKEN='))
         .split('=')[1];
     return cookieValue;
   },
   setCookie(token) {
-    document.cookie = `DIVERGEN_TOKEN=${token}`;
+    document.cookie = `rosalution_TOKEN=${token}`;
   },
   removeCookie() {
     document.cookie = '';

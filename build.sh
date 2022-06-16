@@ -123,7 +123,7 @@ pushImage(){
 # build <service name> <build context - optional> 
 #################
 build(){
-  local image_prefix_name="gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/divergen/"
+  local image_prefix_name="gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/rosalution/"
   local service_name=$1
   local build_context=$2
 
