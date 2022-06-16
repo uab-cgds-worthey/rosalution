@@ -38,10 +38,10 @@
             <td class="grch-build">
               {{getBuild(variant.build)}}
             </td>
+            <td class="genome-browser-link-logo">
+              Genome Browser
+            </td>
           </span>
-          <td class="genome-browser-link-logo">
-            Genome Browser
-          </td>
         </tr>
         <div class="seperator"></div>
         <tr class="gene-box-third-line" v-for="caseInfo in variant.case" :key="caseInfo">
@@ -128,6 +128,12 @@ div {
   /* flex-direction: column; */
   gap: .625rem;
   flex-wrap: nowrap;
+}
+
+.genome-browser-link {
+  float: right;
+  right: 3%;
+  position: absolute;
 }
 
 </style>
