@@ -9,6 +9,7 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 8  # 60 minutes * 24 hours * 8 days = 8 days
 TOKEN_URL = "/rosalution/api/auth/token"
 SECURITY_SCOPES = {
-        "read": "View the pages on rosalution.",
-        "write": "Add/Remove information from rosalution analyses.",
-        "modify": "Add/Remove analyses themselves." }
+    "read": "View the pages on rosalution.",
+    "write": "Add/Remove information from rosalution analyses.",
+    "modify": "Add/Remove analyses themselves.",
+}

@@ -7,11 +7,13 @@ client = TestClient(app)
 
 ## Tests for helper endpoints to show how to test FastAPI endpoints
 
+
 def test_read_main():
     """Ensures Hello World is returned"""
     response = client.get("/")
     assert response.status_code == 200
     assert response.json() == {"Hello": "World"}
+
 
 def test_get_fruit_apple():
     """Ensures apple is returned in a json object"""
@@ -19,11 +21,13 @@ def test_get_fruit_apple():
     assert response.status_code == 200
     assert response.json() == {"fruit": "apple"}
 
+
 def test_get_fruit_fail():
     """Tests a failure with the fruit endpoint"""
     response = client.get("/fruit/4")
     assert response.status_code == 404
-    assert response.json() == {'detail': 'Fruit ID not found'}
+    assert response.json() == {"detail": "Fruit ID not found"}
+
 
 def test_items_query():
     """Tests that an item id and query are accepted and returned"""
@@ -33,8 +37,9 @@ def test_items_query():
     assert json_response["query"] == "somequery"
     assert json_response["item_id"] == 5
 
+
 def test_pet_cat():
     """You know what this does, don't you?"""
-    response = client.get('/cat')
+    response = client.get("/cat")
     assert response.status_code == 200
     assert response.json() == "=^.^= Meow"
