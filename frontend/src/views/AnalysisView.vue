@@ -1,7 +1,6 @@
 <template>
   <div class="analysis-view">
     <app-header>
-      This page opens the analysis view for each cpam case: Data for {{analysis_name}}
       </app-header>
       <app-content>
         <GeneBox
