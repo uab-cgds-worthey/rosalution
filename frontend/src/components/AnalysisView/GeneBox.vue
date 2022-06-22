@@ -21,15 +21,12 @@
       <div v-for="variant in variants" :key="variant">
         <div v-if="variant.c_dot && variant.c_dot.length > 0 || variant.p_dot && variant.p_dot.length > 0">
           <tr class="gene-box-second-line">
-            <span v-if="variant.c_dot && variant.c_dot.length > 0">
               <td class="c-dot">
                 {{variant.c_dot}}
               </td>
               <td class="link-logo">
                 <font-awesome-icon icon="up-right-from-square" size="2xs"/>
               </td>
-            </span>
-            <span v-if="variant.p_dot && variant.p_dot.length > 0">
               <td class="p-dot">
                 ({{variant.p_dot}})
               </td>
@@ -40,9 +37,11 @@
                 {{getBuild(variant.build)}}
               </td>
               <td class="genome-browser-link-logo">
-                Genome Browser
+                <a href="https://www.ncbi.nlm.nih.gov/genome/" class>
+                  <img src="@/assets/ncbi-icon.png" class="ncbi-logo"/>
+                  Genome Browser
+                </a>
               </td>
-            </span>
           </tr>
           <div class="seperator-variant"></div>
         </div>
@@ -65,6 +64,8 @@
 
 export default {
   name: 'gene-box',
+  components: {
+  },
   props: {
     gene: {
       type: String,
@@ -124,8 +125,7 @@ div {
 .transcript {
   font-weight: bold;
   height: 1.75rem;
-  margin: .125rem .9375rem 0 .9375rem;
-  /* padding: 0px .9375rem 0px .9375rem; */
+  margin: .125rem .1255rem 0 .125rem;
 }
 
 .copy-logo {
@@ -140,9 +140,9 @@ div {
 }
 
 .gene-box-second-line {
-  display: flex;
-  height: 1.75rem;
+  line-height: 1.75rem;
   margin: .125rem .125rem 0 .125rem;
+  vertical-align: middle;
 }
 
 .c-dot {
@@ -156,10 +156,24 @@ div {
   font-weight: 600;
 }
 
+.ncbi-logo {
+  width: .9375rem;
+  height: 1.125rem;
+  vertical-align: middle;
+}
+
+.genome-browser-link-logo {
+  /* margin: .8125rem; */
+  float: right;
+  right: 3%;
+  position: absolute;
+}
+
 .seperator-variant {
   height: .125rem;
   background-color: var(--rosalution-grey-200);
   border: solid .0469rem var(--rosalution-grey-200);
+  vertical-align: middle;
 }
 
 
@@ -168,6 +182,9 @@ div {
   flex-direction: row;
   gap: .625rem;
   flex-wrap: wrap;
+  line-height: 1.75rem;
+  margin: .125rem .125rem 0 .125rem;
+  vertical-align: middle;
 }
 
 /* This is making the Genome Broser go into gene-box-third-line */
