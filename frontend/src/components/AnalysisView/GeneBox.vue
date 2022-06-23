@@ -2,19 +2,18 @@
   <table class="gene-box-container">
     <tbody>
       <tr class="gene-box-header">
-        <td>
-          <h2 class="gene-name">
-            {{gene}}
-          </h2>
-        </td>
+        <router-link :to="{ name: 'annotation', params: { analysis_name: this.name, genomic_unit: this.gene} }">
+          <td>
+            <h2 class="gene-name">
+              {{gene}}
+            </h2>
+          </td>
+        </router-link>
         <td class="link-logo">
           <font-awesome-icon icon="up-right-from-square" size="2xs"/>
         </td>
         <td class="transcript" v-for="transcript in transcripts" :key="transcript">
           {{transcript.transcript}}
-        </td>
-        <td class="copy-logo">
-          <font-awesome-icon :icon="['far', 'copy']" size="sm"/>
         </td>
       </tr>
       <div class="seperator-gene"></div>
@@ -27,11 +26,13 @@
               <td class="link-logo">
                 <font-awesome-icon icon="up-right-from-square" size="2xs"/>
               </td>
+              <td class="copy">
+                <button class="copy-button" @click="copyHGVSNotation(variant.hgvs_notation)">
+                  <font-awesome-icon :icon="['far', 'copy']" size="sm"/>
+                </button>
+              </td>
               <td class="p-dot">
                 ({{variant.p_dot}})
-              </td>
-              <td class="copy-logo">
-                <font-awesome-icon :icon="['far', 'copy']" size="sm"/>
               </td>
               <td class="genomic-build">
                 {{getBuild(variant.build)}}
@@ -67,6 +68,9 @@ export default {
   components: {
   },
   props: {
+    name: {
+      type: String,
+    },
     gene: {
       type: String,
     },
@@ -84,6 +88,10 @@ export default {
       } else if (build == 'hg38') {
         return 'grch38';
       }
+    },
+    copyHGVSNotation(HGVSNotationValue) {
+      console.log(HGVSNotationValue);
+      navigator.clipboard.writeText('yourText');
     },
   },
 };
@@ -128,9 +136,15 @@ div {
   margin: .125rem .1255rem 0 .125rem;
 }
 
-.copy-logo {
+.copy {
   height: 1.75rem;
   margin: .125rem .125rem 0 .125rem;
+}
+
+.copy-button {
+  border: none;
+  padding: 0;
+  background-color: var(--rosalution-white);
 }
 
 .seperator-gene {
@@ -167,6 +181,8 @@ div {
   float: right;
   right: 3%;
   position: absolute;
+  font-weight: bold;
+  color: var(--rosalution-purple-300);
 }
 
 .seperator-variant {

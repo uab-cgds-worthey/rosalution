@@ -6,6 +6,7 @@
         <GeneBox
           v-for="genomicUnit in genomicUnitsList"
           :key="genomicUnit.id"
+          :name="this.analysis_name"
           :gene="genomicUnit.gene"
           :transcripts="genomicUnit.transcripts"
           :variants="genomicUnit.variants"

@@ -8,6 +8,7 @@ import AnalysisCreateView from './views/AnalysisCreateView.vue';
 import AboutView from './views/AboutView.vue';
 import NotFoundView from './views/NotFound.vue';
 import AnalysisView from './views/AnalysisView.vue';
+import AnnotationView from './views/AnnotationView.vue';
 
 import './styles/main.css';
 import './styles/rosalution.css';
@@ -33,6 +34,8 @@ const routes = [
   {path: '/rosalution/analysis/create', component: AnalysisCreateView},
   {path: '/rosalution/about', component: AboutView},
   {path: '/rosalution/analysis/:analysis_name', name: 'analysis', component: AnalysisView, props: true},
+  {path: '/rosalution/analysis/:analysis_name/annotation/:genomic_unit', name: 'annotation', component: AnnotationView,
+    props: true},
   {path: '/:pathMatch(.*)', component: NotFoundView},
 ];
 
