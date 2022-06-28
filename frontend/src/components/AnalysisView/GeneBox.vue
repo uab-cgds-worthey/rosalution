@@ -20,9 +20,11 @@
       <div v-for="variant in variants" :key="variant">
         <div v-if="variant.c_dot && variant.c_dot.length > 0 || variant.p_dot && variant.p_dot.length > 0">
           <tr class="gene-box-second-line">
+            <router-link :to="{ name: 'annotation', params: { analysis_name: this.name, genomic_unit: variant.c_dot}}">
               <td class="c-dot">
                 {{variant.c_dot}}
               </td>
+            </router-link>
               <td class="link-logo">
                 <font-awesome-icon icon="up-right-from-square" size="2xs"/>
               </td>
@@ -51,8 +53,8 @@
             <span class="case-field">
               {{caseInfo.field}}:
             </span>
-            <span class="case-value" v-for="value in caseInfo.value" :key="value">
-              {{value}},
+            <span class="case-value" v-if="caseInfo.value.length > 0">
+              {{caseInfo.value.join(', ')}}
             </span>
           </td>
         </tr>
