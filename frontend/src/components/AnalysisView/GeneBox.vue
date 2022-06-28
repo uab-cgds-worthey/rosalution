@@ -27,7 +27,7 @@
                 <font-awesome-icon icon="up-right-from-square" size="2xs"/>
               </td>
               <td class="copy">
-                <button class="copy-button" @click="copyHGVSNotation(variant.hgvs_notation)">
+                <button class="copy-button" @click="copyToClipboard(variant.hgvs_variant)">
                   <font-awesome-icon :icon="['far', 'copy']" size="sm"/>
                 </button>
               </td>
@@ -89,9 +89,15 @@ export default {
         return 'grch38';
       }
     },
-    copyHGVSNotation(HGVSNotationValue) {
-      console.log(HGVSNotationValue);
-      navigator.clipboard.writeText('yourText');
+    copyToClipboard(textToCopy) {
+      const tmpTextField = document.createElement('textarea');
+      tmpTextField.textContent = textToCopy;
+      tmpTextField.setAttribute('style', 'position:absolute; right:200%;');
+      document.body.appendChild(tmpTextField);
+      tmpTextField.select();
+      tmpTextField.setSelectionRange(0, 99999);
+      document.execCommand('copy');
+      tmpTextField.remove();
     },
   },
 };
@@ -168,6 +174,8 @@ div {
 .genomic-build {
   font-size: .875rem;
   font-weight: 600;
+  top: -0.5em;
+  position: relative;
 }
 
 .ncbi-logo {
