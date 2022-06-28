@@ -7,7 +7,7 @@
         "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
         "disabled": false
     },
-    "Dev_Admin": {
+    "dev_admin": {
         "username": "dev_admin",
         "full_name": "Dev Admin",
         "email": "devadmin@example.com",
@@ -15,7 +15,7 @@
         "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
         "disabled": false
     },
-    "Dev_User": {
+    "dev_user": {
         "username": "dev_user",
         "full_name": "Dev User",
         "email": "devuser@example.com",
