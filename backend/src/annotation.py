@@ -17,7 +17,7 @@ def log_to_file(string):
     """
     with open("rosalution-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
         log_file.write(string)
-    print(string)
+    # print(string)
 
 
 class AnnotationQueue:
@@ -71,6 +71,9 @@ class AnnotationService:
         """Processes items that have been added to the queue"""
         log_to_file("running annotations for ...\n")
 
+        print("")
+        print("#################################")
+
         with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
             annotation_task_futures = {}
             batched_annotation_tasks = {}
@@ -91,18 +94,19 @@ class AnnotationService:
                     batch_task,
                 )
 
-            log_to_file("------done submitting tasks\n")
+            # log_to_file("------done submitting tasks\n")
 
             for future in concurrent.futures.as_completed(annotation_task_futures):
                 genomic_unit, annotation_task = annotation_task_futures[future]
                 try:
-                    log_to_file(f"{future.result()}\n")
-                    log_to_file(f"{annotation_task.datasets}\n")
-                    log_to_file(f"{genomic_unit}\n")
+                    annotation_task.extract(future.result())
+                    # log_to_file(f"{future.result()}\n")
+                    # log_to_file(f"{annotation_task.datasets}\n")
+                    # log_to_file(f"{genomic_unit}\n")
                 except FileNotFoundError as error:
                     log_to_file(f"exception happened {error} with {genomic_unit} and {annotation_task}\n")
 
-                log_to_file("\n")
+                # log_to_file("\n")
                 del annotation_task_futures[future]
 
-            log_to_file("after for loop for waiting for all of the futures to finis\n\n")
+            # log_to_file("after for loop for waiting for all of the futures to finish\n\n")

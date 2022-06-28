@@ -6,6 +6,7 @@ import time
 import requests
 
 
+
 class AnnotationTaskInterface:
     """Abstract class to define the interface for the the types of Annotation Task"""
 
@@ -24,6 +25,11 @@ class AnnotationTaskInterface:
     @abstractmethod
     def annotate(self):
         """Interface for implementation of of retrieving the annotation for a genomic unit and its set of datasets"""
+    
+    def extract(self, result):
+        """ Interface extraction method for annotation tasks """
+        for dataset in self.datasets:
+            print(dataset)
 
 
 class NoneAnnotationTask(AnnotationTaskInterface):
