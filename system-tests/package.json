@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "test:e2e": "echo \"Error: no test specified\" && exit 1"
-  },
-  "devDependencies": {
-    "cypress": "^10.3.0"
+    "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
     "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-e2e-cypress": "^5.0.6",
+    "cypress": "^10.3.0"
   }
 }
