@@ -1,15 +1,11 @@
 {
-  "name": "rosalution-e2e-tests",
-  "version": "0.1.0",
+  "name": "rosalution-system-tests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "CGDS",
+  "license": "UNLICENSED",
   "private": true,
-  "scripts": {
-    "test:e2e": "vue-cli-service test:e2e"
-  },
-  "dependencies": {
-    "vue": "^3.2.37"
-  },
   "devDependencies": {
-    "@vue/cli-plugin-e2e-cypress": "^5.0.6",
     "cypress": "^10.3.0"
   }
 }
