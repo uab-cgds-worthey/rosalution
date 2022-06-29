@@ -1,0 +1,14 @@
+{
+  "name": "rosalution-e2e-tests",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test:e2e": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "cypress": "^10.3.0"
+  },
+  "dependencies": {
+    "vue": "^3.2.37"
+  }
+}
