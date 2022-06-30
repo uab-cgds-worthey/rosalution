@@ -5,6 +5,45 @@ from functools import reduce
 import time
 import requests
 
+from .utils import replace
+
+## Helper Functions ##
+def recurse(data, attrs, dataset, annotations):
+    first_attr = attrs.pop(0)
+
+    if '[]' in first_attr:
+        first_attr = first_attr.strip('[]')
+        
+        if first_attr not in data:
+            return annotations
+        
+        for object in data[first_attr]:
+            annotations = recurse(object, attrs.copy(), dataset, annotations)
+        return annotations
+
+    if len(attrs) != 0:
+        annotations = recurse(data[first_attr], attrs.copy(), dataset, annotations)
+        return annotations
+
+    dataValue = None
+
+    if '{' in first_attr:
+        dataValue = replace(first_attr, data)
+    else:
+        dataValue = data[first_attr]
+
+    print(first_attr + " : " + str(dataValue))
+
+    return annotations
+
+def log_to_file(string):
+    """
+    Temprorary utility function for development purposes abstracted for testing.
+    Will remove once feature is completed.
+    """
+    with open("divergen-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
+        log_file.write(string)
+    print(string)
 
 
 class AnnotationTaskInterface:
@@ -28,8 +67,19 @@ class AnnotationTaskInterface:
     
     def extract(self, result):
         """ Interface extraction method for annotation tasks """
+        annotations = {}
+        
         for dataset in self.datasets:
-            print(dataset)
+            if hasattr(dataset, 'attribute'):
+                attrArray = dataset.attribute.split('.')
+                dataResponse = result
+                if type(dataResponse) is dict:
+                    annotations = recurse(result, attrArray, dataset, annotations)
+                if type(dataResponse) is list:
+                    for data in dataResponse:
+                        annotations = recurse(data, attrArray, dataset, annotations)
+            
+        return annotations
 
 
 class NoneAnnotationTask(AnnotationTaskInterface):
@@ -47,12 +97,14 @@ class NoneAnnotationTask(AnnotationTaskInterface):
         """Createsa fake 'annotation' using a randomly generated pause time to a query io operation"""
         value = randint(0, 10)
         time.sleep(value)
-        datasets_list = map(lambda dataset: dataset["data_set"], self.datasets)
-        datasets_string = ", ".join(datasets_list)
-        return (
-            f'Slept: {value} - Fake annotation for {self.genomic_unit["unit"]}'
-            f'for datasets {datasets_string} from {self.datasets[0]["data_source"]}'
-        )
+        datasets_list = map(
+            lambda dataset: dataset['data_set'], self.datasets)
+        datasets_string = ', '.join(datasets_list)
+        log_to_file(f'Slept: {value} - Fake annotation for {self.genomic_unit["unit"]}' \
+            f'for datasets {datasets_string} from {self.datasets[0]["data_source"]}\n')
+
+        result = { 'not-real': datasets_string}
+        return result
 
 
 class CsvAnnotationTask(AnnotationTaskInterface):

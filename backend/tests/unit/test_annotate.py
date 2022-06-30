@@ -35,7 +35,6 @@ def test_processing_annotation_tasks(log_to_file_mock, annotation_queue):  # pyl
     assert HttpAnnotationTask.annotate.call_count == 2  # pylint: disable=no-member
     assert NoneAnnotationTask.annotate.call_count == 8  # pylint: disable=no-member
 
-
 @pytest.fixture(name="cpam0046_hgvs_variant_json")
 def fixture_cpam0046_hgvs_variant(cpam0046_analysis):
     """Returns the HGVS variant within the CPAM0046 analysis."""
@@ -46,7 +45,6 @@ def fixture_cpam0046_hgvs_variant(cpam0046_analysis):
             unit = genomic_unit
 
     return unit
-
 
 @pytest.fixture(name="cpam0046_analysis")
 def fixture_cpam0046_analysis(analysis_collection):

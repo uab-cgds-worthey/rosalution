@@ -71,9 +71,6 @@ class AnnotationService:
         """Processes items that have been added to the queue"""
         log_to_file("running annotations for ...\n")
 
-        print("")
-        print("#################################")
-
         with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
             annotation_task_futures = {}
             batched_annotation_tasks = {}

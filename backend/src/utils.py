@@ -2,6 +2,7 @@
 
 import json
 import os
+import re
 
 RELATIVE_FIXUTRE_DIRECTORY_PATH = "../fixtures/"
 
@@ -16,3 +17,14 @@ def read_fixture(fixture_filename):
         file_to_open.close()
 
     return data
+
+def replace(str, dataset):
+    reVar = re.findall(r'\{(.*?)\}', str)
+
+    fetchedVars = {}
+    for var in reVar:
+        fetchedVars[var] = dataset[var]
+
+    replacedStr = str.format(**fetchedVars)
+
+    return replacedStr
