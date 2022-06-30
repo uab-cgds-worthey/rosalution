@@ -96,6 +96,7 @@ class AnnotationService:
             for future in concurrent.futures.as_completed(annotation_task_futures):
                 genomic_unit, annotation_task = annotation_task_futures[future]
                 try:
+                    # print(future.result())
                     annotation_task.extract(future.result())
                     # log_to_file(f"{future.result()}\n")
                     # log_to_file(f"{annotation_task.datasets}\n")

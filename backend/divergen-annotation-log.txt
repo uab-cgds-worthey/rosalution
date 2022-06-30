@@ -1,0 +1,210 @@
+Slept: 0 - Fake annotation for VMA21for datasets Human Gene Expression Profile from gTex
+Slept: 0 - Fake annotation for VMA21for datasets Gene Summary from RefSeq
+Slept: 5 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets AA Change from Ensembl
+Slept: 4 - Fake annotation for VMA21for datasets OMIM from OMIM
+Slept: 1 - Fake annotation for DMDfor datasets HPO from ???
+Slept: 1 - Fake annotation for DMDfor datasets HPO from ???
+Slept: 5 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets AA Change from Ensembl
+Slept: 7 - Fake annotation for VMA21for datasets Gene Summary from RefSeq
+Slept: 7 - Fake annotation for VMA21for datasets HPO from ???
+Slept: 6 - Fake annotation for DMDfor datasets OMIM from OMIM
+Slept: 2 - Fake annotation for DMDfor datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 8 - Fake annotation for VMA21for datasets Druggability from Pharos
+Slept: 8 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets Effects, Affected Regions from ???
+Slept: 8 - Fake annotation for DMDfor datasets Gene Summary from RefSeq
+Slept: 7 - Fake annotation for VMA21for datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 7 - Fake annotation for VMA21for datasets Druggability from Pharos
+Slept: 0 - Fake annotation for DMDfor datasets Gene Summary from RefSeq
+Slept: 7 - Fake annotation for DMDfor datasets OMIM from OMIM
+Slept: 10 - Fake annotation for VMA21for datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 10 - Fake annotation for VMA21for datasets OMIM from OMIM
+Slept: 2 - Fake annotation for VMA21for datasets Druggability from Pharos
+Slept: 0 - Fake annotation for DMDfor datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 9 - Fake annotation for VMA21for datasets Human Gene Expression Profile from gTex
+Slept: 9 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets Effects, Affected Regions from ???
+Slept: 10 - Fake annotation for DMDfor datasets Gene Summary from RefSeq
+Slept: 10 - Fake annotation for VMA21for datasets HPO from ???
+Slept: 6 - Fake annotation for DMDfor datasets Human Gene Expression Profile from gTex
+Slept: 7 - Fake annotation for DMDfor datasets Human Gene Expression Profile from gTex
+Slept: 8 - Fake annotation for DMDfor datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 5 - Fake annotation for VMA21for datasets HPO from ???
+Slept: 5 - Fake annotation for VMA21for datasets Gene Summary from RefSeq
+Slept: 0 - Fake annotation for DMDfor datasets Druggability from Pharos
+Slept: 7 - Fake annotation for DMDfor datasets Druggability from Pharos
+Slept: 6 - Fake annotation for VMA21for datasets Human Gene Expression Profile from gTex
+Slept: 4 - Fake annotation for DMDfor datasets Human Gene Expression Profile from gTex
+Slept: 7 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets AA Change from Ensembl
+Slept: 7 - Fake annotation for VMA21for datasets OMIM from OMIM
+Slept: 7 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets Effects, Affected Regions from ???
+Slept: 7 - Fake annotation for DMDfor datasets HPO from ???
+Slept: 10 - Fake annotation for DMDfor datasets Druggability from Pharos
+Slept: 9 - Fake annotation for VMA21for datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 10 - Fake annotation for DMDfor datasets OMIM from OMIM
+Slept: 1 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets Effects, Affected Regions from ???
+Slept: 1 - Fake annotation for DMDfor datasets OMIM from OMIM
+Slept: 0 - Fake annotation for DMDfor datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 2 - Fake annotation for VMA21for datasets OMIM from OMIM
+Slept: 3 - Fake annotation for VMA21for datasets Druggability from Pharos
+Slept: 0 - Fake annotation for VMA21for datasets Druggability from Pharos
+Slept: 2 - Fake annotation for DMDfor datasets Druggability from Pharos
+Slept: 1 - Fake annotation for DMDfor datasets Gene Summary from RefSeq
+Slept: 1 - Fake annotation for DMDfor datasets OMIM from OMIM
+Slept: 6 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets AA Change from Ensembl
+Slept: 7 - Fake annotation for DMDfor datasets Gene Summary from RefSeq
+Slept: 8 - Fake annotation for VMA21for datasets Gene Summary from RefSeq
+Slept: 8 - Fake annotation for VMA21for datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 3 - Fake annotation for DMDfor datasets Human Gene Expression Profile from gTex
+Slept: 7 - Fake annotation for DMDfor datasets Human Gene Expression Profile from gTex
+Slept: 5 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets Effects, Affected Regions from ???
+Slept: 6 - Fake annotation for VMA21for datasets Human Gene Expression Profile from gTex
+Slept: 10 - Fake annotation for VMA21for datasets Human Gene Expression Profile from gTex
+Slept: 10 - Fake annotation for VMA21for datasets HPO from ???
+Slept: 7 - Fake annotation for VMA21for datasets OMIM from OMIM
+Slept: 10 - Fake annotation for DMDfor datasets HPO from ???
+Slept: 3 - Fake annotation for DMDfor datasets Druggability from Pharos
+Slept: 7 - Fake annotation for DMDfor datasets HPO from ???
+Slept: 8 - Fake annotation for VMA21for datasets HPO from ???
+Slept: 8 - Fake annotation for VMA21for datasets Gene Summary from RefSeq
+Slept: 9 - Fake annotation for VMA21for datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 8 - Fake annotation for DMDfor datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 10 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets AA Change from Ensembl
+Slept: 2 - Fake annotation for VMA21for datasets HPO from ???
+Slept: 4 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets Effects, Affected Regions from ???
+Slept: 5 - Fake annotation for VMA21for datasets Gene Summary from RefSeq
+Slept: 3 - Fake annotation for DMDfor datasets HPO from ???
+Slept: 5 - Fake annotation for DMDfor datasets Gene Summary from RefSeq
+Slept: 6 - Fake annotation for VMA21for datasets Druggability from Pharos
+Slept: 6 - Fake annotation for VMA21for datasets OMIM from OMIM
+Slept: 6 - Fake annotation for VMA21for datasets Human Gene Expression Profile from gTex
+Slept: 2 - Fake annotation for DMDfor datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 8 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets AA Change from Ensembl
+Slept: 3 - Fake annotation for DMDfor datasets Human Gene Expression Profile from gTex
+Slept: 3 - Fake annotation for DMDfor datasets Druggability from Pharos
+Slept: 7 - Fake annotation for DMDfor datasets OMIM from OMIM
+Slept: 9 - Fake annotation for VMA21for datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 2 - Fake annotation for VMA21for datasets HPO from ???
+Slept: 3 - Fake annotation for VMA21for datasets Druggability from Pharos
+Slept: 3 - Fake annotation for VMA21for datasets Human Gene Expression Profile from gTex
+Slept: 1 - Fake annotation for DMDfor datasets HPO from ???
+Slept: 3 - Fake annotation for DMDfor datasets Gene Summary from RefSeq
+Slept: 4 - Fake annotation for VMA21for datasets Gene Summary from RefSeq
+Slept: 2 - Fake annotation for DMDfor datasets Human Gene Expression Profile from gTex
+Slept: 2 - Fake annotation for DMDfor datasets Druggability from Pharos
+Slept: 6 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets AA Change from Ensembl
+Slept: 3 - Fake annotation for DMDfor datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 0 - Fake annotation for DMDfor datasets Gene Summary from RefSeq
+Slept: 1 - Fake annotation for VMA21for datasets Druggability from Pharos
+Slept: 1 - Fake annotation for DMDfor datasets OMIM from OMIM
+Slept: 7 - Fake annotation for DMDfor datasets OMIM from OMIM
+Slept: 8 - Fake annotation for VMA21for datasets OMIM from OMIM
+Slept: 8 - Fake annotation for VMA21for datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 8 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets Effects, Affected Regions from ???
+Slept: 4 - Fake annotation for VMA21for datasets Human Gene Expression Profile from gTex
+Slept: 3 - Fake annotation for DMDfor datasets HPO from ???
+Slept: 0 - Fake annotation for DMDfor datasets Druggability from Pharos
+Slept: 5 - Fake annotation for VMA21for datasets Gene Summary from RefSeq
+Slept: 7 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets Effects, Affected Regions from ???
+Slept: 7 - Fake annotation for DMDfor datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 10 - Fake annotation for VMA21for datasets HPO from ???
+Slept: 10 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets AA Change from Ensembl
+Slept: 10 - Fake annotation for VMA21for datasets OMIM from OMIM
+Slept: 10 - Fake annotation for VMA21for datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 10 - Fake annotation for DMDfor datasets Human Gene Expression Profile from gTex
+Slept: 1 - Fake annotation for VMA21for datasets Druggability from Pharos
+Slept: 1 - Fake annotation for VMA21for datasets Human Gene Expression Profile from gTex
+Slept: 2 - Fake annotation for VMA21for datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 4 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets AA Change from Ensembl
+Slept: 4 - Fake annotation for DMDfor datasets HPO from ???
+Slept: 5 - Fake annotation for DMDfor datasets OMIM from OMIM
+Slept: 7 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets Effects, Affected Regions from ???
+Slept: 6 - Fake annotation for DMDfor datasets Human Gene Expression Profile from gTex
+Slept: 5 - Fake annotation for DMDfor datasets Druggability from Pharos
+Slept: 10 - Fake annotation for VMA21for datasets HPO from ???
+Slept: 10 - Fake annotation for VMA21for datasets Gene Summary from RefSeq
+Slept: 10 - Fake annotation for VMA21for datasets OMIM from OMIM
+Slept: 9 - Fake annotation for DMDfor datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 10 - Fake annotation for DMDfor datasets Gene Summary from RefSeq
+Slept: 1 - Fake annotation for DMDfor datasets Gene Summary from RefSeq
+Slept: 2 - Fake annotation for VMA21for datasets Druggability from Pharos
+Slept: 2 - Fake annotation for VMA21for datasets Gene Summary from RefSeq
+Slept: 0 - Fake annotation for DMDfor datasets Gene Summary from RefSeq
+Slept: 3 - Fake annotation for VMA21for datasets Human Gene Expression Profile from gTex
+Slept: 1 - Fake annotation for DMDfor datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 2 - Fake annotation for VMA21for datasets Gene Summary from RefSeq
+Slept: 3 - Fake annotation for DMDfor datasets HPO from ???
+Slept: 5 - Fake annotation for VMA21for datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 3 - Fake annotation for DMDfor datasets Human Gene Expression Profile from gTex
+Slept: 6 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets AA Change from Ensembl
+Slept: 5 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets Effects, Affected Regions from ???
+Slept: 0 - Fake annotation for DMDfor datasets Human Gene Expression Profile from gTex
+Slept: 7 - Fake annotation for VMA21for datasets Druggability from Pharos
+Slept: 5 - Fake annotation for DMDfor datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 9 - Fake annotation for VMA21for datasets HPO from ???
+Slept: 9 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets Effects, Affected Regions from ???
+Slept: 10 - Fake annotation for VMA21for datasets OMIM from OMIM
+Slept: 9 - Fake annotation for DMDfor datasets OMIM from OMIM
+Slept: 9 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets AA Change from Ensembl
+Slept: 9 - Fake annotation for VMA21for datasets OMIM from OMIM
+Slept: 9 - Fake annotation for VMA21for datasets Human Gene Expression Profile from gTex
+Slept: 9 - Fake annotation for DMDfor datasets OMIM from OMIM
+Slept: 10 - Fake annotation for VMA21for datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 10 - Fake annotation for VMA21for datasets HPO from ???
+Slept: 10 - Fake annotation for DMDfor datasets HPO from ???
+Slept: 10 - Fake annotation for DMDfor datasets Druggability from Pharos
+Slept: 7 - Fake annotation for DMDfor datasets Druggability from Pharos
+Slept: 0 - Fake annotation for VMA21for datasets Druggability from Pharos
+Slept: 0 - Fake annotation for DMDfor datasets OMIM from OMIM
+Slept: 1 - Fake annotation for VMA21for datasets OMIM from OMIM
+Slept: 1 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets AA Change from Ensembl
+Slept: 0 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets AA Change from Ensembl
+Slept: 2 - Fake annotation for VMA21for datasets Gene Summary from RefSeq
+Slept: 1 - Fake annotation for DMDfor datasets Druggability from Pharos
+Slept: 4 - Fake annotation for VMA21for datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 3 - Fake annotation for VMA21for datasets Druggability from Pharos
+Slept: 3 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets Effects, Affected Regions from ???
+Slept: 0 - Fake annotation for DMDfor datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 3 - Fake annotation for DMDfor datasets Gene Summary from RefSeq
+Slept: 4 - Fake annotation for DMDfor datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 5 - Fake annotation for DMDfor datasets Gene Summary from RefSeq
+Slept: 4 - Fake annotation for VMA21for datasets HPO from ???
+Slept: 6 - Fake annotation for VMA21for datasets Human Gene Expression Profile from gTex
+Slept: 2 - Fake annotation for DMDfor datasets Human Gene Expression Profile from gTex
+Slept: 7 - Fake annotation for DMDfor datasets HPO from ???
+Slept: 7 - Fake annotation for VMA21for datasets Gene Summary from RefSeq
+Slept: 7 - Fake annotation for VMA21for datasets OMIM from OMIM
+Slept: 9 - Fake annotation for VMA21for datasets HPO from ???
+Slept: 9 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets Effects, Affected Regions from ???
+Slept: 8 - Fake annotation for VMA21for datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 8 - Fake annotation for VMA21for datasets Human Gene Expression Profile from gTex
+Slept: 9 - Fake annotation for DMDfor datasets Human Gene Expression Profile from gTex
+Slept: 9 - Fake annotation for DMDfor datasets OMIM from OMIM
+Slept: 7 - Fake annotation for DMDfor datasets Druggability from Pharos
+Slept: 10 - Fake annotation for DMDfor datasets HPO from ???
+Slept: 0 - Fake annotation for DMDfor datasets Gene Summary from RefSeq
+Slept: 1 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets Effects, Affected Regions from ???
+Slept: 0 - Fake annotation for VMA21for datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 0 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets Effects, Affected Regions from ???
+Slept: 0 - Fake annotation for DMDfor datasets OMIM from OMIM
+Slept: 0 - Fake annotation for DMDfor datasets HPO from ???
+Slept: 1 - Fake annotation for DMDfor datasets HPO from ???
+Slept: 0 - Fake annotation for DMDfor datasets Human Gene Expression Profile from gTex
+Slept: 1 - Fake annotation for VMA21for datasets HPO from ???
+Slept: 1 - Fake annotation for VMA21for datasets Druggability from Pharos
+Slept: 1 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets AA Change from Ensembl
+Slept: 1 - Fake annotation for DMDfor datasets Gene Summary from RefSeq
+Slept: 2 - Fake annotation for VMA21for datasets OMIM from OMIM
+Slept: 2 - Fake annotation for VMA21for datasets Human Gene Expression Profile from gTex
+Slept: 4 - Fake annotation for VMA21for datasets HPO from ???
+Slept: 2 - Fake annotation for DMDfor datasets Druggability from Pharos
+Slept: 6 - Fake annotation for VMA21for datasets Human Gene Expression Profile from gTex
+Slept: 6 - Fake annotation for NM_001017980.3:c.164G>Tfor datasets AA Change from Ensembl
+Slept: 6 - Fake annotation for VMA21for datasets Gene Summary from RefSeq
+Slept: 5 - Fake annotation for DMDfor datasets Human Gene Expression Profile from gTex
+Slept: 6 - Fake annotation for DMDfor datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 6 - Fake annotation for DMDfor datasets Druggability from Pharos
+Slept: 7 - Fake annotation for VMA21for datasets Gene Summary from RefSeq
+Slept: 9 - Fake annotation for VMA21for datasets OMIM from OMIM
+Slept: 9 - Fake annotation for VMA21for datasets Druggability from Pharos
+Slept: 10 - Fake annotation for VMA21for datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome
+Slept: 10 - Fake annotation for DMDfor datasets OMIM from OMIM
+Slept: 10 - Fake annotation for DMDfor datasets Protein Expression Overview, Model Systems - Rat, Model Systems - Mouse, Modelability from Aliance Genome

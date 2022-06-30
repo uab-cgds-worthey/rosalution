@@ -68,10 +68,10 @@ class AnnotationTaskInterface:
     def extract(self, result):
         """ Interface extraction method for annotation tasks """
         annotations = {}
-        
+
         for dataset in self.datasets:
-            if hasattr(dataset, 'attribute'):
-                attrArray = dataset.attribute.split('.')
+            if 'attribute' in dataset:
+                attrArray = dataset['attribute'].split('.')
                 dataResponse = result
                 if type(dataResponse) is dict:
                     annotations = recurse(result, attrArray, dataset, annotations)
@@ -138,7 +138,7 @@ class HttpAnnotationTask(AnnotationTaskInterface):
         """builds the complete url and fetches the annotation with an http request"""
         url_to_query = self.build_url()
         result = requests.get(url_to_query)
-        return f"Batching with an Annotation Task Object: \n {result.json()}"
+        return result.json()
 
     def base_url(self):
         """

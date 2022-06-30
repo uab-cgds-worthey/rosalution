@@ -51,3 +51,6 @@ def fixture_cpam0046_analysis(analysis_collection):
     """Returns the Analysis for CPAM0046 to verify creating annotation tasks"""
     analysis_json = analysis_collection.find_by_name("CPAM0046")
     return Analysis(**analysis_json)
+
+# @pytest.fixture(name="ensembl_response")
+# def fixture_ensembl_response():
