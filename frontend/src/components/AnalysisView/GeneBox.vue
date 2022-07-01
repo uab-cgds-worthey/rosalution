@@ -92,7 +92,7 @@ export default {
       }
     },
     copyToClipboard(textToCopy) {
-      const tmpTextField = document.createElement('textarea');
+      const tmpTextField = document.createElement('input');
       tmpTextField.value = textToCopy;
       tmpTextField.setAttribute('readonly', '');
       tmpTextField.setAttribute('style', 'position:absolute; right:200%;');

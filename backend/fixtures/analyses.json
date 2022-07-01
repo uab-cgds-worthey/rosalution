@@ -40,9 +40,6 @@
             {
                 "gene": "DMD",
                 "transcripts": [
-                    {
-                        "transcript": ""
-                    }
                 ],
                 "variants": [
                     {
