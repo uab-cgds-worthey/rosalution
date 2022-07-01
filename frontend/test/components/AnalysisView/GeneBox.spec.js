@@ -87,8 +87,8 @@ describe('GeneBox.vue', () => {
   it('should show correct build', () => {
     const wrapper = getMountedComponent();
 
-    const build = wrapper.vm.getBuild('hg19');
-    expect(build).toBe('grch37');
+    // const build = wrapper.vm.getBuild('hg19');
+    expect(wrapper.vm.getBuild('hg19')).toBe('grch37');
     expect(wrapper.text()).to.contains('grch37');
   });
 
