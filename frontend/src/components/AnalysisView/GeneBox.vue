@@ -4,7 +4,7 @@
       <tr class="gene-box-header">
         <router-link :to="{ name: 'annotation', params: { analysis_name: this.name, genomic_unit: this.gene} }">
           <td>
-            <h2 class="gene-name">
+            <h2 class="gene-name" data-test="gene-name">
               {{gene}}
             </h2>
           </td>
@@ -21,7 +21,7 @@
         <div v-if="variant.c_dot && variant.c_dot.length > 0 || variant.p_dot && variant.p_dot.length > 0">
           <tr class="gene-box-second-line">
             <router-link :to="{ name: 'annotation', params: { analysis_name: this.name, genomic_unit: variant.c_dot}}">
-              <td class="c-dot">
+              <td class="c-dot" data-test="c-dot">
                 {{variant.c_dot}}
               </td>
             </router-link>

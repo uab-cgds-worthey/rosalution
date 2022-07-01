@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div data-test="annotations">
     This is the Annotation View
   </div>
 </template>

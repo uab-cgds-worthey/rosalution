@@ -86,6 +86,9 @@ describe('GeneBox.vue', () => {
 
   it('should show correct build', () => {
     const wrapper = getMountedComponent();
+
+    const build = wrapper.vm.getBuild('hg19');
+    expect(build).toBe('grch37');
     expect(wrapper.text()).to.contains('grch37');
   });
 
@@ -99,5 +102,38 @@ describe('GeneBox.vue', () => {
   it('should show values', () => {
     const wrapper = getMountedComponent();
     expect(wrapper.text()).to.contains('PS2, PS3, PM2, PP3, PP5');
+  });
+
+  // These two tests need to mock a router in order to be tested
+  it.skip('should show annotations view when Gene is clicked', async () => {
+    const wrapper = getMountedComponent();
+    const gene = wrapper.find('[data-test=gene-name]');
+
+    await gene.trigger('click');
+    const annotations = wrapper.find('[data-test=annotations]');
+    console.log(annotations);
+
+    expect(annotations.exists()).toBe(true);
+  });
+
+  it.skip('should show annotations view when c-dot notation is clicked', async () => {
+    const wrapper = getMountedComponent();
+    const cDot = wrapper.find('[data-test=c-dot]');
+
+    await cDot.trigger('click');
+    const annotations = wrapper.find('[data-test=annotations]');
+
+    expect(annotations.exists()).toBe(true);
+  });
+
+  it.skip('should redirect to Genome browser when clicked', async () => {
+    const wrapper = getMountedComponent();
+    const genomeBrowserButton = wrapper.find('[data-test=genome-browser-button]');
+
+    await genomeBrowserButton.trigger('click');
+    /* this needs to change to read webpage */
+    // const annotations = wrapper.find('[data-test=annotations]');
+
+    // expect(annotations.exists()).to.equal(true);
   });
 });
