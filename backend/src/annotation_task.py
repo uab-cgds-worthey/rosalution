@@ -69,6 +69,8 @@ class AnnotationTaskInterface:
         """ Interface extraction method for annotation tasks """
         annotations = {}
 
+        print(result)
+
         for dataset in self.datasets:
             if 'attribute' in dataset:
                 attrArray = dataset['attribute'].split('.')

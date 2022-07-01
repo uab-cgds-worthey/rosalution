@@ -25,10 +25,10 @@ def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_col
 
 
 @patch("src.annotation.log_to_file")
-def test_processing_annotation_tasks(log_to_file_mock, annotation_queue):  # pylint: disable=unused-argument
+def test_processing_annotation_tasks(log_to_file_mock, annotation_queue, transcript_annotation_response):  # pylint: disable=unused-argument
     """Verifies that each item on the annotation queue is read and executed"""
     assert not annotation_queue.empty()
-    HttpAnnotationTask.annotate = Mock()
+    HttpAnnotationTask.annotate = Mock(return_value=transcript_annotation_response)
     NoneAnnotationTask.annotate = Mock()
     AnnotationService.process_tasks(annotation_queue)
     assert annotation_queue.empty()
@@ -52,5 +52,39 @@ def fixture_cpam0046_analysis(analysis_collection):
     analysis_json = analysis_collection.find_by_name("CPAM0046")
     return Analysis(**analysis_json)
 
-# @pytest.fixture(name="ensembl_response")
-# def fixture_ensembl_response():
+@pytest.fixture(name="transcript_annotation_response")
+def fixture_annotation_response_for_transcript():
+    return [{
+        "transcript_consequences": [
+            {
+                "sift_prediction": "deleterious",
+                "gene_symbol": "VMA21",
+                "transcript_id": "NM_001017980.4",
+                "polyphen_score": 0.597,
+                "polyphen_prediction": "possibly_damaging",
+                "sift_score": 0.02,
+                "cds_start":164,
+                "variant_allele":"T",
+                "used_ref":"G",
+                "consequence_terms":[
+                    "missense_variant",
+                    "splice_region_variant"
+                ],
+            }, 
+            {
+                "transcript_id": "NM_001363810.1",
+                "sift_score": 0.01,
+                "gene_symbol": "VMA21",
+                "polyphen_prediction": "probably_damaging",
+                "sift_prediction": "deleterious",
+                "polyphen_score": 0.998,
+                "used_ref":"G",
+                "cds_start":329,
+                "variant_allele":"T",
+                "consequence_terms":[
+                    "missense_variant",
+                    "splice_region_variant"
+                ],
+            }
+        ]
+    }]
