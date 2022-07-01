@@ -89,6 +89,7 @@ describe('GeneBox.vue', () => {
 
     // const build = wrapper.vm.getBuild('hg19');
     expect(wrapper.vm.getBuild('hg19')).toBe('grch37');
+    expect(wrapper.vm.getBuild('hg38')).toBe('grch38');
     expect(wrapper.text()).to.contains('grch37');
   });
 
@@ -102,6 +103,19 @@ describe('GeneBox.vue', () => {
   it('should show values', () => {
     const wrapper = getMountedComponent();
     expect(wrapper.text()).to.contains('PS2, PS3, PM2, PP3, PP5');
+  });
+
+  /*
+  does not work with document.execCCommand('copy')
+  copy method needs to be changed to navigator.clipboard.writeText(textToCopy);
+  */
+  it.skip('should copy text when copy button is clicked', async () => {
+    const wrapper = getMountedComponent();
+
+    const copyButton = wrapper.find('[data-test=copy-button]');
+
+    await copyButton.trigger('click');
+    expect(document.execCommand).toHaveBeenCalledWith('copy');
   });
 
   // These two tests need to mock a router in order to be tested
@@ -124,16 +138,5 @@ describe('GeneBox.vue', () => {
     const annotations = wrapper.find('[data-test=annotations]');
 
     expect(annotations.exists()).toBe(true);
-  });
-
-  it.skip('should redirect to Genome browser when clicked', async () => {
-    const wrapper = getMountedComponent();
-    const genomeBrowserButton = wrapper.find('[data-test=genome-browser-button]');
-
-    await genomeBrowserButton.trigger('click');
-    /* this needs to change to read webpage */
-    // const annotations = wrapper.find('[data-test=annotations]');
-
-    // expect(annotations.exists()).to.equal(true);
   });
 });

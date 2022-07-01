@@ -29,7 +29,7 @@
                 <font-awesome-icon icon="up-right-from-square" size="2xs"/>
               </td>
               <td class="copy">
-                <button class="copy-button" @click="copyToClipboard(variant.hgvs_variant)">
+                <button class="copy-button" @click="copyToClipboard(variant.hgvs_variant)" data-test="copy-button">
                   <font-awesome-icon :icon="['far', 'copy']" size="sm"/>
                 </button>
               </td>
@@ -93,7 +93,8 @@ export default {
     },
     copyToClipboard(textToCopy) {
       const tmpTextField = document.createElement('textarea');
-      tmpTextField.textContent = textToCopy;
+      tmpTextField.value = textToCopy;
+      tmpTextField.setAttribute('readonly', '');
       tmpTextField.setAttribute('style', 'position:absolute; right:200%;');
       document.body.appendChild(tmpTextField);
       tmpTextField.select();
