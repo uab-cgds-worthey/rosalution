@@ -5,7 +5,7 @@ from functools import reduce
 import time
 import requests
 
-from .utils import replace
+from .utils import replace, randomword
 
 ## Helper Functions ##
 def recurse(data, attrs, dataset, annotations):
@@ -25,6 +25,7 @@ def recurse(data, attrs, dataset, annotations):
         annotations = recurse(data[first_attr], attrs.copy(), dataset, annotations)
         return annotations
 
+    datasetName = dataset['data_set']
     dataValue = None
 
     if '{' in first_attr:
@@ -32,7 +33,24 @@ def recurse(data, attrs, dataset, annotations):
     else:
         dataValue = data[first_attr]
 
-    print(first_attr + " : " + str(dataValue))
+    annotation = {
+        "data_set_id": randomword(),
+        "data_set": datasetName,
+        "data_source": dataset['data_source'],
+        "version": None,
+        "value": dataValue
+    }
+
+    if 'transcript_id' in data:
+        identifier = data['transcript_id']
+    if 'gene'
+        
+    if transcript_id not in annotations:
+            annotations[transcript_id] = {}
+            annotations[transcript_id][datasetName] = annotation
+        else:
+            annotations[transcript_id][datasetName] = annotation
+        
 
     return annotations
 
@@ -65,11 +83,32 @@ class AnnotationTaskInterface:
     def annotate(self):
         """Interface for implementation of of retrieving the annotation for a genomic unit and its set of datasets"""
     
+    # def extract(self, response):
+    #     """The JSON response results from the annotation"""
+        
+    #     annotations_to_extract = []
+                    
+    #     result = {}
+    #     for dataset in self.datasets:
+    #         if 'attribute' in dataset:
+    #             annotation_attribute = dataset['attribute'].split('.')
+    #             first_attribute = annotation_attribute.pop(0)
+    #             dataset_name = dataset['data_set']
+    #             if '[]' in first_attribute:
+    #                 result[dataset_name] = result[dataset_name] if dataset_name in result else []
+    #                 array_attribute = first_attribute.rstrip('[]')
+                
+    #                 next_attribute = annotation_attribute.pop(0)
+    #                 for item in response[array_attribute]:
+    #                     result[dataset_name].append(item[next_attribute])
+                
+    #     print(result)
+
+    #     return result
+
     def extract(self, result):
         """ Interface extraction method for annotation tasks """
         annotations = {}
-
-        print(result)
 
         for dataset in self.datasets:
             if 'attribute' in dataset:
@@ -81,6 +120,7 @@ class AnnotationTaskInterface:
                     for data in dataResponse:
                         annotations = recurse(data, attrArray, dataset, annotations)
             
+        print(annotations)
         return annotations
 
 

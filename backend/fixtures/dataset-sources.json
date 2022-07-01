@@ -101,7 +101,7 @@
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
      "query_param": "",
-     "attribute": "transcript_consequences[].{cds_start}{used_ref}>{variant_allele}"
+     "attributes": "transcript_consequences[].{cds_start}{used_ref}>{variant_allele}"
    },
    {
      "data_set": "AA Change",

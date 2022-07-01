@@ -2,7 +2,9 @@
 
 import json
 import os
+import random
 import re
+import string
 
 RELATIVE_FIXUTRE_DIRECTORY_PATH = "../fixtures/"
 
@@ -28,3 +30,7 @@ def replace(str, dataset):
     replacedStr = str.format(**fetchedVars)
 
     return replacedStr
+
+def randomword():
+    letters_numbers = string.ascii_letters + string.digits
+    return ''.join(random.SystemRandom().choice(letters_numbers) for _ in range(26))
