@@ -41,15 +41,19 @@ def recurse(data, attrs, dataset, annotations):
         "value": dataValue
     }
 
+    identifier = ''
+
     if 'transcript_id' in data:
         identifier = data['transcript_id']
-    if 'gene'
-        
-    if transcript_id not in annotations:
-            annotations[transcript_id] = {}
-            annotations[transcript_id][datasetName] = annotation
-        else:
-            annotations[transcript_id][datasetName] = annotation
+    if 'gene' in data:
+        identifier = data['gene_symbol']
+
+
+    if identifier not in annotations:
+            annotations[identifier] = {}
+            annotations[identifier][datasetName] = annotation
+    else:
+        annotations[identifier][datasetName] = annotation
         
 
     return annotations
