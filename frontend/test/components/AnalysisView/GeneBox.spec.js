@@ -1,4 +1,4 @@
-import {expect, describe, it, beforeAll, afterAll} from 'vitest';
+import {expect, describe, it, beforeAll, afterAll, vi} from 'vitest';
 import {config, shallowMount} from '@vue/test-utils';
 
 import GeneBox from '@/components/AnalysisView/GeneBox.vue';
@@ -106,16 +106,16 @@ describe('GeneBox.vue', () => {
   });
 
   /*
-  does not work with document.execCCommand('copy')
+  this test will need to be modified when the copy functionality is added
   copy method needs to be changed to navigator.clipboard.writeText(textToCopy);
   */
-  it.skip('should copy text when copy button is clicked', async () => {
+  it('should log text to console when copy button is clicked', async () => {
     const wrapper = getMountedComponent();
 
     const copyButton = wrapper.find('[data-test=copy-button]');
-
+    vi.spyOn(console, 'log');
     await copyButton.trigger('click');
-    expect(document.execCommand).toHaveBeenCalledWith('copy');
+    expect(console.log).toHaveBeenCalled();
   });
 
   // These two tests need to mock a router in order to be tested
