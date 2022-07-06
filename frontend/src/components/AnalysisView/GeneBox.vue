@@ -203,12 +203,15 @@ div {
 }
 
 .genome-browser-link-logo {
-  /* margin: .8125rem; */
   float: right;
   right: 3%;
   position: absolute;
   font-weight: bold;
   color: var(--rosalution-purple-300);
+}
+
+a {
+ color: inherit;
 }
 
 .seperator-variant {
