@@ -100,9 +100,6 @@ class AnnotationTaskInterface:
                     for data in data_response:
                         annotations = recurse(data, attr_array, dataset, annotations)
 
-        # Are there any annotations?
-        if bool(annotations):
-            log_to_file(f"{str(annotations)}\n")
         return annotations
 
 class NoneAnnotationTask(AnnotationTaskInterface):
