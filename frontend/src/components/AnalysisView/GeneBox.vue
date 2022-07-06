@@ -142,11 +142,14 @@ div {
   height: 1.75rem;
   display: flex;
   flex-direction: row;
+  line-height: 1.75rem;
+  vertical-align: middle;
+  margin: .125rem .125rem 0 .125rem;
 }
 
 .gene-name {
   height: 1.75rem;
-  margin: .125rem .125rem 0 .125rem;
+  margin: .125rem .125rem 0 0;
   color: var(--rosalution-purple-300);
 }
 
@@ -178,6 +181,9 @@ div {
 }
 
 .gene-box-second-line {
+  height: 1.75rem;
+  display: flex;
+  flex-direction: row;
   line-height: 1.75rem;
   margin: .125rem .125rem 0 .125rem;
   vertical-align: middle;
