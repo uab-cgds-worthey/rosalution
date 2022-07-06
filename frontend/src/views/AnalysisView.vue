@@ -1,9 +1,16 @@
 <template>
   <div class="analysis-view">
     <app-header>
-      This page opens the analysis view for each cpam case: Data for {{analysis_name}}
       </app-header>
       <app-content>
+        <GeneBox
+          v-for="genomicUnit in genomicUnitsList"
+          :key="genomicUnit.id"
+          :name="this.analysis_name"
+          :gene="genomicUnit.gene"
+          :transcripts="genomicUnit.transcripts"
+          :variants="genomicUnit.variants"
+        />
         <SectionBox
           v-for="section in sectionsList"
           :key="section.id"
@@ -17,17 +24,20 @@
 <script>
 import Analyses from '@/models/analyses.js';
 import SectionBox from '../components/AnalysisView/SectionBox.vue';
+import GeneBox from '../components/AnalysisView/GeneBox.vue';
 
 export default {
   name: 'analysis-view',
   components: {
     SectionBox,
+    GeneBox,
   },
   props: ['analysis_name'],
   data: function() {
     return {
       analysis: {},
       sectionsList: [],
+      genomicUnitsList: [],
     };
   },
   created() {
@@ -37,9 +47,13 @@ export default {
     async getAnalysis() {
       this.analysis = {...await Analyses.getAnalysis(this.analysis_name)};
       this.getSections();
+      this.getGenomicUnits();
     },
     getSections() {
       this.sectionsList=this.analysis.sections;
+    },
+    getGenomicUnits() {
+      this.genomicUnitsList=this.analysis.genomic_units;
     },
   },
 };

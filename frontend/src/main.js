@@ -8,6 +8,7 @@ import AnalysisCreateView from './views/AnalysisCreateView.vue';
 import AboutView from './views/AboutView.vue';
 import NotFoundView from './views/NotFound.vue';
 import AnalysisView from './views/AnalysisView.vue';
+import AnnotationView from './views/AnnotationView.vue';
 
 import './styles/main.css';
 import './styles/rosalution.css';
@@ -18,11 +19,13 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {
   faAsterisk, faPause, faCheck, faX, faUser, faUsers, faUserGroup, faCalendar,
   faBookOpen, faList, faLayerGroup, faBoxArchive, faQuestion, faClock,
-  faClipboardCheck, faMagnifyingGlass, faChevronDown} from '@fortawesome/free-solid-svg-icons';
+  faClipboardCheck, faMagnifyingGlass, faChevronDown,
+  faUpRightFromSquare} from '@fortawesome/free-solid-svg-icons';
+import {faCopy} from '@fortawesome/free-regular-svg-icons';
 
 library.add(
     faAsterisk, faPause, faCheck, faX, faMagnifyingGlass, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList,
-    faLayerGroup, faBoxArchive, faQuestion, faClock, faClipboardCheck, faChevronDown);
+    faLayerGroup, faBoxArchive, faQuestion, faClock, faClipboardCheck, faChevronDown, faUpRightFromSquare, faCopy);
 
 // The NotFoundView should always be last because it's an ordered array.
 const routes = [
@@ -31,6 +34,8 @@ const routes = [
   {path: '/rosalution/analysis/create', component: AnalysisCreateView},
   {path: '/rosalution/about', component: AboutView},
   {path: '/rosalution/analysis/:analysis_name', name: 'analysis', component: AnalysisView, props: true},
+  {path: '/rosalution/analysis/:analysis_name/annotation/:genomic_unit', name: 'annotation', component: AnnotationView,
+    props: true},
   {path: '/:pathMatch(.*)', component: NotFoundView},
 ];
 
