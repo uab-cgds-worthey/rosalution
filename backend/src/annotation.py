@@ -9,7 +9,6 @@ from .repository.annotation_collection import AnnotationCollection
 # Creating a callable wrapper for an instance for FastAPI dependency injection
 # pylint: disable=too-few-public-methods
 
-
 def log_to_file(string):
     """
     Temprorary utility function for development purposes abstracted for testing.
@@ -17,8 +16,7 @@ def log_to_file(string):
     """
     with open("rosalution-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
         log_file.write(string)
-    # print(string)
-
+    print(string)
 
 class AnnotationQueue:
     """Wrapper for the queue to processes annotation tasks"""
@@ -42,7 +40,6 @@ class AnnotationQueue:
     def empty(self):
         """Verifies if the thread safe queue is empty"""
         return self.annotation_queue.empty()
-
 
 class AnnotationService:
     """
@@ -91,20 +88,19 @@ class AnnotationService:
                     batch_task,
                 )
 
-            # log_to_file("------done submitting tasks\n")
+            log_to_file("------done submitting tasks\n")
 
             for future in concurrent.futures.as_completed(annotation_task_futures):
                 genomic_unit, annotation_task = annotation_task_futures[future]
                 try:
-                    # print(future.result())
-                    annotation_task.extract(future.result())
-                    # log_to_file(f"{future.result()}\n")
-                    # log_to_file(f"{annotation_task.datasets}\n")
-                    # log_to_file(f"{genomic_unit}\n")
+                    log_to_file(f"{future.result()}\n")
+                    log_to_file(f"{annotation_task.datasets}\n")
+                    log_to_file(f"{annotation_task.extract(future.result())}\n")
+                    log_to_file(f"{genomic_unit}\n")
                 except FileNotFoundError as error:
                     log_to_file(f"exception happened {error} with {genomic_unit} and {annotation_task}\n")
 
-                # log_to_file("\n")
+                log_to_file("\n")
                 del annotation_task_futures[future]
 
-            # log_to_file("after for loop for waiting for all of the futures to finish\n\n")
+            log_to_file("after for loop for waiting for all of the futures to finish\n\n")

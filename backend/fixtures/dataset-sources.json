@@ -117,12 +117,14 @@
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
      "query_param": "",
      "attribute": "transcript_consequences[].consequence_terms"
-   }, {
+   },
+   {
      "data_set": "Effects",
      "data_source": "???",
      "genomic_unit_type": "hgvs_variant",
      "annotation_source_type": "none"
-   }, {
+   },
+   {
      "data_set": "Affected Regions",
      "data_source": "???",
      "genomic_unit_type": "hgvs_variant",
@@ -165,6 +167,6 @@
     "annotation_source_type": "http",
     "url": "http://grch37.rest.ensembl.org/variant_recoder/human/{hgvs_variant}?content-type=application/json",
     "query_param": "",
-    "attribute-tmp": "{alt_allele}.id - Want to keep this here, but this data source isn't supported"
+    "attribute-tmp": "{alt_allele}.id - Want to keep this here, but this data source isn't supported yet"
   }
 ]

@@ -8,7 +8,6 @@ import string
 
 RELATIVE_FIXUTRE_DIRECTORY_PATH = "../fixtures/"
 
-
 def read_fixture(fixture_filename):
     """reads the JSON from the filepath relative to the src directory"""
     path_to_current_file = os.path.realpath(__file__)
@@ -20,17 +19,19 @@ def read_fixture(fixture_filename):
 
     return data
 
-def replace(str, dataset):
-    reVar = re.findall(r'\{(.*?)\}', str)
+def replace(var_string, dataset):
+    """ Replaces variables that are encased in {} """
+    replace_variables = re.findall(r'\{(.*?)\}', var_string)
 
-    fetchedVars = {}
-    for var in reVar:
-        fetchedVars[var] = dataset[var]
+    fetched_vars = {}
+    for var in replace_variables:
+        fetched_vars[var] = dataset[var]
 
-    replacedStr = str.format(**fetchedVars)
+    replaced_str = str.format(**fetched_vars)
 
-    return replacedStr
+    return replaced_str
 
 def randomword():
+    """ Temporary function for creating UUIDs that would be made from mongo """
     letters_numbers = string.ascii_letters + string.digits
     return ''.join(random.SystemRandom().choice(letters_numbers) for _ in range(26))

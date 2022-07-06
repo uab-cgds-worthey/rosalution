@@ -9,52 +9,52 @@ from .utils import replace, randomword
 
 ## Helper Functions ##
 def recurse(data, attrs, dataset, annotations):
+    """
+    This is a helper function that takes all the datasets included in the task and extracts all the values and
+    returns annotations
+    """
     first_attr = attrs.pop(0)
 
     if '[]' in first_attr:
         first_attr = first_attr.strip('[]')
-        
+
         if first_attr not in data:
             return annotations
-        
-        for object in data[first_attr]:
-            annotations = recurse(object, attrs.copy(), dataset, annotations)
+
+        for item in data[first_attr]:
+            annotations = recurse(item, attrs.copy(), dataset, annotations)
         return annotations
 
     if len(attrs) != 0:
         annotations = recurse(data[first_attr], attrs.copy(), dataset, annotations)
         return annotations
 
-    datasetName = dataset['data_set']
-    dataValue = None
+    dataset_name = dataset['data_set']
+    data_value = None
 
     if '{' in first_attr:
-        dataValue = replace(first_attr, data)
+        data_value = replace(first_attr, data)
     else:
-        dataValue = data[first_attr]
+        data_value = data[first_attr]
 
     annotation = {
         "data_set_id": randomword(),
-        "data_set": datasetName,
+        "data_set": dataset_name,
         "data_source": dataset['data_source'],
         "version": None,
-        "value": dataValue
+        "value": data_value
     }
 
     identifier = ''
 
     if 'transcript_id' in data:
         identifier = data['transcript_id']
-    if 'gene' in data:
-        identifier = data['gene_symbol']
-
 
     if identifier not in annotations:
-            annotations[identifier] = {}
-            annotations[identifier][datasetName] = annotation
+        annotations[identifier] = {}
+        annotations[identifier][dataset_name] = annotation
     else:
-        annotations[identifier][datasetName] = annotation
-        
+        annotations[identifier][dataset_name] = annotation
 
     return annotations
 
@@ -63,10 +63,9 @@ def log_to_file(string):
     Temprorary utility function for development purposes abstracted for testing.
     Will remove once feature is completed.
     """
-    with open("divergen-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
+    with open("rosalution-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
         log_file.write(string)
     print(string)
-
 
 class AnnotationTaskInterface:
     """Abstract class to define the interface for the the types of Annotation Task"""
@@ -86,29 +85,6 @@ class AnnotationTaskInterface:
     @abstractmethod
     def annotate(self):
         """Interface for implementation of of retrieving the annotation for a genomic unit and its set of datasets"""
-    
-    # def extract(self, response):
-    #     """The JSON response results from the annotation"""
-        
-    #     annotations_to_extract = []
-                    
-    #     result = {}
-    #     for dataset in self.datasets:
-    #         if 'attribute' in dataset:
-    #             annotation_attribute = dataset['attribute'].split('.')
-    #             first_attribute = annotation_attribute.pop(0)
-    #             dataset_name = dataset['data_set']
-    #             if '[]' in first_attribute:
-    #                 result[dataset_name] = result[dataset_name] if dataset_name in result else []
-    #                 array_attribute = first_attribute.rstrip('[]')
-                
-    #                 next_attribute = annotation_attribute.pop(0)
-    #                 for item in response[array_attribute]:
-    #                     result[dataset_name].append(item[next_attribute])
-                
-    #     print(result)
-
-    #     return result
 
     def extract(self, result):
         """ Interface extraction method for annotation tasks """
@@ -116,17 +92,18 @@ class AnnotationTaskInterface:
 
         for dataset in self.datasets:
             if 'attribute' in dataset:
-                attrArray = dataset['attribute'].split('.')
-                dataResponse = result
-                if type(dataResponse) is dict:
-                    annotations = recurse(result, attrArray, dataset, annotations)
-                if type(dataResponse) is list:
-                    for data in dataResponse:
-                        annotations = recurse(data, attrArray, dataset, annotations)
-            
-        print(annotations)
-        return annotations
+                attr_array = dataset['attribute'].split('.')
+                data_response = result
+                if isinstance(data_response, dict):
+                    annotations = recurse(result, attr_array, dataset, annotations)
+                if isinstance(data_response, list):
+                    for data in data_response:
+                        annotations = recurse(data, attr_array, dataset, annotations)
 
+        # Are there any annotations?
+        if bool(annotations):
+            log_to_file(f"{str(annotations)}\n")
+        return annotations
 
 class NoneAnnotationTask(AnnotationTaskInterface):
     """An empty annotation task to be a place holder for datasets that do not have an annotation type yet"""
@@ -147,11 +124,10 @@ class NoneAnnotationTask(AnnotationTaskInterface):
             lambda dataset: dataset['data_set'], self.datasets)
         datasets_string = ', '.join(datasets_list)
         log_to_file(f'Slept: {value} - Fake annotation for {self.genomic_unit["unit"]}' \
-            f'for datasets {datasets_string} from {self.datasets[0]["data_source"]}\n')
+            f' for datasets {datasets_string} from {self.datasets[0]["data_source"]}\n')
 
         result = { 'not-real': datasets_string}
         return result
-
 
 class CsvAnnotationTask(AnnotationTaskInterface):
     """Example placeholder for a future type of annotation task"""
@@ -167,7 +143,6 @@ class CsvAnnotationTask(AnnotationTaskInterface):
     def annotate(self):
         """placeholder for annotating a genomic unit"""
         return "not-implemented"
-
 
 class HttpAnnotationTask(AnnotationTaskInterface):
     """Initializes the annotation that uses an HTTP request to fetch the annotation"""
@@ -207,7 +182,6 @@ class HttpAnnotationTask(AnnotationTaskInterface):
             base_url_string,
         )
         return url if base_url_string is not None else None
-
 
 class AnnotationTaskFactory:
     """
