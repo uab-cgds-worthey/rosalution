@@ -229,13 +229,6 @@ div {
   vertical-align: middle;
 }
 
-/* This is making the Genome Broser go into gene-box-third-line */
-/* .genome-browser-link-logo {
-  float: right;
-  right: 3%;
-  position: absolute;
-} */
-
 .case-field-value {
   display: inline-block;
   flex-wrap: wrap;
