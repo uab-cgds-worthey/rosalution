@@ -6,6 +6,11 @@
   "license": "UNLICENSED",
   "private": true,
   "devDependencies": {
-    "cypress": "^10.3.0"
+    "cypress": "^10.3.0",
+    "del": "^6.1.1",
+    "lodash": "^4.17.21"
+  },
+  "scripts": {
+    "test:e2e": "cypress run"
   }
 }

@@ -1,8 +1,4 @@
-describe('login_combined.cy.js', () => {
-  it('renders the webpage', () => {
-    cy.visit('local.rosalution.cgds/rosalution')
-    
-  });
+describe('login_logout_combined.cy.js', () => {
   
   it('app url redirects to login page', () => {
     cy.visit('local.rosalution.cgds/rosalution/login')
