@@ -6,10 +6,9 @@
   "license": "UNLICENSED",
   "private": true,
   "devDependencies": {
-    "cypress": "^10.3.0",
-    "wait-on": "^6.0.1"
+    "cypress": "^10.3.0"
   },
   "scripts": {
-    "test:e2e": "wait-on -l -t 45000 http://local.rosalution.cgds/rosalution && cypress run"
+    "test:e2e": "cypress run"
   }
 }
