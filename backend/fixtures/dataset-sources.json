@@ -101,7 +101,7 @@
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
      "query_param": "",
-     "attribute": "transcript_consequences[].{cds_start}{used_ref}>{variant_allele}"
+     "attributes": "transcript_consequences[].{cds_start}{used_ref}>{variant_allele}"
    },
    {
      "data_set": "AA Change",
@@ -116,13 +116,15 @@
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
      "query_param": "",
-     "attribute": "transcript_consequences[].consequence_terms[]"
-   }, {
+     "attribute": "transcript_consequences[].consequence_terms"
+   },
+   {
      "data_set": "Effects",
      "data_source": "???",
      "genomic_unit_type": "hgvs_variant",
      "annotation_source_type": "none"
-   }, {
+   },
+   {
      "data_set": "Affected Regions",
      "data_source": "???",
      "genomic_unit_type": "hgvs_variant",
@@ -163,8 +165,8 @@
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
     "annotation_source_type": "http",
-    "url": "http://rest.ensembl.org/variant_recoder/human/{hgvs_variant}?content-type=application/json",
+    "url": "http://grch37.rest.ensembl.org/variant_recoder/human/{hgvs_variant}?content-type=application/json",
     "query_param": "",
-    "attribute": "{alt_allele}.id.[]"
+    "attribute-tmp": "{alt_allele}.id - Want to keep this here, but this data source isn't supported yet"
   }
 ]

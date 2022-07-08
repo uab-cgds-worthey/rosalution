@@ -5,6 +5,67 @@ from functools import reduce
 import time
 import requests
 
+from .utils import replace, randomword
+
+## Helper Functions ##
+def recurse(data, attrs, dataset, annotations):
+    """
+    This is a helper function that takes all the datasets included in the task and extracts all the values and
+    returns annotations
+    """
+    first_attr = attrs.pop(0)
+
+    if '[]' in first_attr:
+        first_attr = first_attr.strip('[]')
+
+        if first_attr not in data:
+            return annotations
+
+        for item in data[first_attr]:
+            annotations = recurse(item, attrs.copy(), dataset, annotations)
+        return annotations
+
+    if len(attrs) != 0:
+        annotations = recurse(data[first_attr], attrs.copy(), dataset, annotations)
+        return annotations
+
+    dataset_name = dataset['data_set']
+    data_value = None
+
+    if '{' in first_attr:
+        data_value = replace(first_attr, data)
+    else:
+        data_value = data[first_attr]
+
+    annotation = {
+        "data_set_id": randomword(),
+        "data_set": dataset_name,
+        "data_source": dataset['data_source'],
+        "version": None,
+        "value": data_value
+    }
+
+    identifier = ''
+
+    if 'transcript_id' in data:
+        identifier = data['transcript_id']
+
+    if identifier not in annotations:
+        annotations[identifier] = {}
+        annotations[identifier][dataset_name] = annotation
+    else:
+        annotations[identifier][dataset_name] = annotation
+
+    return annotations
+
+def log_to_file(string):
+    """
+    Temprorary utility function for development purposes abstracted for testing.
+    Will remove once feature is completed.
+    """
+    with open("rosalution-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
+        log_file.write(string)
+    print(string)
 
 class AnnotationTaskInterface:
     """Abstract class to define the interface for the the types of Annotation Task"""
@@ -25,6 +86,21 @@ class AnnotationTaskInterface:
     def annotate(self):
         """Interface for implementation of of retrieving the annotation for a genomic unit and its set of datasets"""
 
+    def extract(self, result):
+        """ Interface extraction method for annotation tasks """
+        annotations = {}
+
+        for dataset in self.datasets:
+            if 'attribute' in dataset:
+                attr_array = dataset['attribute'].split('.')
+                data_response = result
+                if isinstance(data_response, dict):
+                    annotations = recurse(result, attr_array, dataset, annotations)
+                if isinstance(data_response, list):
+                    for data in data_response:
+                        annotations = recurse(data, attr_array, dataset, annotations)
+
+        return annotations
 
 class NoneAnnotationTask(AnnotationTaskInterface):
     """An empty annotation task to be a place holder for datasets that do not have an annotation type yet"""
@@ -41,13 +117,14 @@ class NoneAnnotationTask(AnnotationTaskInterface):
         """Createsa fake 'annotation' using a randomly generated pause time to a query io operation"""
         value = randint(0, 10)
         time.sleep(value)
-        datasets_list = map(lambda dataset: dataset["data_set"], self.datasets)
-        datasets_string = ", ".join(datasets_list)
-        return (
-            f'Slept: {value} - Fake annotation for {self.genomic_unit["unit"]}'
-            f'for datasets {datasets_string} from {self.datasets[0]["data_source"]}'
-        )
+        datasets_list = map(
+            lambda dataset: dataset['data_set'], self.datasets)
+        datasets_string = ', '.join(datasets_list)
+        log_to_file(f'Slept: {value} - Fake annotation for {self.genomic_unit["unit"]}' \
+            f' for datasets {datasets_string} from {self.datasets[0]["data_source"]}\n')
 
+        result = { 'not-real': datasets_string}
+        return result
 
 class CsvAnnotationTask(AnnotationTaskInterface):
     """Example placeholder for a future type of annotation task"""
@@ -64,7 +141,6 @@ class CsvAnnotationTask(AnnotationTaskInterface):
         """placeholder for annotating a genomic unit"""
         return "not-implemented"
 
-
 class HttpAnnotationTask(AnnotationTaskInterface):
     """Initializes the annotation that uses an HTTP request to fetch the annotation"""
 
@@ -80,7 +156,7 @@ class HttpAnnotationTask(AnnotationTaskInterface):
         """builds the complete url and fetches the annotation with an http request"""
         url_to_query = self.build_url()
         result = requests.get(url_to_query)
-        return f"Batching with an Annotation Task Object: \n {result.json()}"
+        return result.json()
 
     def base_url(self):
         """
@@ -103,7 +179,6 @@ class HttpAnnotationTask(AnnotationTaskInterface):
             base_url_string,
         )
         return url if base_url_string is not None else None
-
 
 class AnnotationTaskFactory:
     """

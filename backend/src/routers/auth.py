@@ -58,16 +58,13 @@ async def login(request: Request, nexturl: Optional[str] = None, ticket: Optiona
     base_url = "http://dev.cgds.uab.edu"
     return RedirectResponse(base_url + nexturl)
 
-
 @router.get("/get_user")
 def get_user(request: Request):
     """Returns active user in session"""
     if "username" in request.session:
-        print(request.session)
         return {"username": request.session["username"]}
 
     return {"username": ""}
-
 
 @router.get("/logoutCas")
 def logout(request: Request):
@@ -80,9 +77,7 @@ def logout(request: Request):
 
     return {"url": cas_logout_url}
 
-
 ## OAuth2 Login ##
-
 
 @router.post("/token")
 def login_oauth(
