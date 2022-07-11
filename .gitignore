@@ -23,8 +23,8 @@ rosalution-annotation-log.txt*
 **/node_modules/**
 
 # e2e run captures
-/system-tests/screenshots
-/system-tests/videos
+/system-tests/cypress/screenshots
+/system-tests/cypress/videos
 
 # Editor directories and files
 .idea
