@@ -24,8 +24,8 @@ yarn install
 
 To run the system tests, you need to have rosalution running locally in a docker container.
 
-to run system tests, run the following command:
+Once you have rosalution running, you can run the system tests by running the following command:
 
-``` bash
+```bash
 yarn test:e2e
 ```
