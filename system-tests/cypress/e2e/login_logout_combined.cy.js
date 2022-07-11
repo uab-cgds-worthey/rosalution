@@ -8,16 +8,15 @@ describe('login_logout_combined.cy.js', () => {
     cy.visit('local.rosalution.cgds/rosalution/login');
     cy.get('[placeholder="username"]').type('user01');
     cy.get('[placeholder="password"]').type('secret');
+    cy.intercept('POST', '**/auth/token').as('login');
     cy.get('.center > :nth-child(8)').click();
-    cy.wait(500);
+    cy.wait('@login');
     cy.get('.center > :nth-child(11)').click();
-    cy.wait(500);
     cy.get('h1').should('contain', 'Welcome, user01');
   });
 
   it('logs out', () => {
     cy.get('.center > :nth-child(14)').click();
-    cy.wait(500);
     cy.get('h1').should('contain', 'Logged out successfully!');
   });
 });
