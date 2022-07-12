@@ -1,11 +1,11 @@
 describe('login_logout_combined.cy.js', () => {
   it('app url redirects to login page', () => {
-    cy.visit('local.rosalution.cgds/rosalution/login');
+    cy.visit('/login');
     cy.url().should('include', '/login');
   });
 
   it('logs in a user', () => {
-    cy.visit('local.rosalution.cgds/rosalution/login');
+    cy.visit('/login');
     cy.get('[placeholder="username"]').type('user01');
     cy.get('[placeholder="password"]').type('secret');
     cy.intercept('POST', '**/auth/token').as('login');
