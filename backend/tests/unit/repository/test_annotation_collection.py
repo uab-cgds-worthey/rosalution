@@ -17,6 +17,10 @@ def test_get_datasets_to_annotate_for_units(annotation_collection, genomic_units
     assert len(actual_configuration["gene"]) == 9
     assert len(actual_configuration["hgvs_variant"]) == 11
 
+def test_write_genomic_units_to_file(annotation_collection):
+    data = []
+    annotation_collection.write_genomic_unit(data)
+    assert 1 == 1
 
 @pytest.fixture(name="genomic_units_for_annotation")
 def fixture_genomic_units():

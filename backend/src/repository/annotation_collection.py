@@ -7,7 +7,6 @@ type of Genomic Unit.
 from itertools import groupby
 from ..utils import read_fixture
 
-
 class AnnotationCollection:
     """Repository for querying configurations for annotation"""
 
@@ -48,3 +47,8 @@ class AnnotationCollection:
             configuration[key] = list(group)
 
         return configuration
+
+    def write_genomic_unit(self, genomic_units_to_write):
+        annotations = read_fixture("annotations.json")
+        print(annotations)
+        return
