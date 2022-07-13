@@ -6,6 +6,8 @@ import random
 import re
 import string
 
+from isort import file
+
 RELATIVE_FIXUTRE_DIRECTORY_PATH = "../fixtures/"
 
 def read_fixture(fixture_filename):
@@ -19,10 +21,18 @@ def read_fixture(fixture_filename):
 
     return data
 
-def write_fixture():
-    data = []
-    with open('annotations.json', 'w', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
+def write_fixture(fixture_filename, data_to_write):
+    """reads the JSON from the filepath relative to the src directory"""
+    path_to_current_file = os.path.realpath(__file__)
+    current_directory = os.path.split(path_to_current_file)[0]
+    path_to_file = os.path.join(current_directory, RELATIVE_FIXUTRE_DIRECTORY_PATH + fixture_filename)
+    with open(path_to_file, mode="w", encoding="utf-8") as file_to_write:
+        json.dump(data_to_write, file_to_write, ensure_ascii=False, indent=4)
+
+        file_to_write.close()
+
+    # print(type(data_to_write))
+
     return
 
 def replace(var_string, dataset):

@@ -64,7 +64,7 @@ class AnnotationService:
                 annotation_task_queue.put((genomic_unit, dataset))
 
     @staticmethod
-    def process_tasks(annotation_queue):
+    def process_tasks(annotation_collection, annotation_queue):
         """Processes items that have been added to the queue"""
         log_to_file("running annotations for ...\n")
 
@@ -95,8 +95,12 @@ class AnnotationService:
                 try:
                     log_to_file(f"{future.result()}\n")
                     log_to_file(f"{annotation_task.datasets}\n")
-                    log_to_file(f"{annotation_task.extract(future.result())}\n")
+                    log_to_file(f"{annotation_task.extract(future.result())}\n")                    
                     log_to_file(f"{genomic_unit}\n")
+
+                    for annotation in annotation_task.annotations:
+                        annotation_collection.write_genomic_annotation(annotation)
+
                 except FileNotFoundError as error:
                     log_to_file(f"exception happened {error} with {genomic_unit} and {annotation_task}\n")
 

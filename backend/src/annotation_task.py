@@ -30,14 +30,13 @@ def recurse(data, attrs, dataset, annotations):
         return annotations
 
     dataset_name = dataset['data_set']
-    dataset_genomic_unit = data
     data_value = None
     symbol_notation = None
     symbol_value = None
 
     if 'hgvs_variant' in dataset['genomic_unit_type']:
         symbol_notation = 'transcript_id'
-        symbol_value = data[symbol_notation]
+        symbol_value = data[symbol_notation] + ":c." + str(data["cds_start"]) + data["used_ref"] + ">" + data['variant_allele']
 
 
     if '{' in first_attr:
@@ -70,7 +69,7 @@ def log_to_file(string):
     """
     with open("rosalution-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
         log_file.write(string)
-    print(string)
+    # print(string)
 
 class AnnotationTaskInterface:
     """Abstract class to define the interface for the the types of Annotation Task"""
@@ -107,7 +106,6 @@ class AnnotationTaskInterface:
                         annotations = recurse(data, attr_array, dataset, annotations)
 
         self.annotations = annotations
-        print(annotations)
         return annotations
 
 class NoneAnnotationTask(AnnotationTaskInterface):

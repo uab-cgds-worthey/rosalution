@@ -23,13 +23,13 @@ def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_col
 
 @patch("src.annotation.log_to_file")
 def test_processing_annotation_tasks(
-        log_to_file_mock, annotation_queue, transcript_annotation_response
+        log_to_file_mock, annotation_collection, annotation_queue, transcript_annotation_response
     ):  # pylint: disable=unused-argument
     """Verifies that each item on the annotation queue is read and executed"""
     assert not annotation_queue.empty()
     HttpAnnotationTask.annotate = Mock(return_value=transcript_annotation_response)
     NoneAnnotationTask.annotate = Mock()
-    AnnotationService.process_tasks(annotation_queue)
+    AnnotationService.process_tasks(annotation_collection, annotation_queue)
     assert annotation_queue.empty()
     assert HttpAnnotationTask.annotate.call_count == 2  # pylint: disable=no-member
     assert NoneAnnotationTask.annotate.call_count == 8  # pylint: disable=no-member

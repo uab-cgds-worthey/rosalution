@@ -44,19 +44,18 @@ def test_extract_annotations_from_response(http_annotation_task_many_datasets, t
     """ Tests the annotation task extraction function """
     actual = http_annotation_task_many_datasets.extract(transcript_annotation_response)
 
-    assert 1 == 1
-    # transcripts = list(actual.keys())
+    transcripts = list(actual.keys())
 
-    # first_transcript = transcripts[0]
-    # second_transcript = transcripts[1]
+    first_transcript = transcripts[0]
+    second_transcript = transcripts[1]
 
-    # assert len(actual) == 2
-    # assert first_transcript == 'NM_001017980.4'
-    # assert second_transcript == 'NM_001363810.1'
+    assert len(actual) == 2
+    assert first_transcript == 'NM_001017980.4'
+    assert second_transcript == 'NM_001363810.1'
 
-    # assert len(actual[first_transcript]) == 3
+    assert len(actual[first_transcript]) == 3
 
-    # assert 'SIFT Prediction' in actual[second_transcript]
+    assert 'SIFT Prediction' in actual[second_transcript]
 
 def test_annotation_extraction_recurse(annotation_extraction_recurse_fixtures):
     """ Tests the annotation task recursive helper function for extracting specific pieces of data from a response """

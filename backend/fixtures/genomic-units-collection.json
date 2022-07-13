@@ -1,0 +1,112 @@
+[
+    {
+        "id": "",
+        "gene_symbol": "VMA21",
+        "annotations": []
+    },
+    {
+        "id": "",
+        "gene_symbol": "DMD",
+        "annotations": []
+    },
+    {
+        "id": "",
+        "hgvs_variant": "NM_001017980.4:c.164G>T",
+        "chromosome": "chrX",
+        "position": "150573388",
+        "reference": "G",
+        "alternate": "T",
+        "transcripts": [
+            {
+                "transcript_id": "NM_001017980.3",
+                "gene_symbols": [
+                    "VMA21"
+                ],
+                "annotations": []
+            }
+        ],
+        "annotations": [
+            {
+                "genomic_unit": "hgvs_variant",
+                "symbol_notation": "transcript_id",
+                "symbol_value": "NM_001017980.4:c.164G>T",
+                "key": "transcript_id",
+                "Value": {
+                    "data_set_id": "l5TzJ4RwkrHQ5LNzss6aaTv2qN",
+                    "data_set": "transcript_id",
+                    "data_source": "Ensembl",
+                    "version": null,
+                    "value": "NM_001017980.4"
+                }
+            },
+            {
+                "genomic_unit": "hgvs_variant",
+                "symbol_notation": "transcript_id",
+                "symbol_value": "NM_001017980.4:c.164G>T",
+                "key": "polyphen_prediction",
+                "Value": {
+                    "data_set_id": "550WZ4QIZvpxyH1NIPSnKBUik6",
+                    "data_set": "Polyphen Prediction",
+                    "data_source": "Ensembl",
+                    "version": null,
+                    "value": "possibly_damaging"
+                }
+            },
+            {
+                "genomic_unit": "hgvs_variant",
+                "symbol_notation": "transcript_id",
+                "symbol_value": "NM_001017980.4:c.164G>T",
+                "key": "polyphen_score",
+                "Value": {
+                    "data_set_id": "WdSfHtnAjnpc48kZbHc2yCq5rf",
+                    "data_set": "Polyphen Score",
+                    "data_source": "Ensembl",
+                    "version": null,
+                    "value": 0.597
+                }
+            },
+            {
+                "genomic_unit": "hgvs_variant",
+                "symbol_notation": "transcript_id",
+                "symbol_value": "NM_001017980.4:c.164G>T",
+                "key": "sift_prediction",
+                "Value": {
+                    "data_set_id": "54MClowr1L8T7iwSMcrLca226N",
+                    "data_set": "SIFT Prediction",
+                    "data_source": "Ensembl",
+                    "version": null,
+                    "value": "deleterious"
+                }
+            },
+            {
+                "genomic_unit": "hgvs_variant",
+                "symbol_notation": "transcript_id",
+                "symbol_value": "NM_001017980.4:c.164G>T",
+                "key": "sift_score",
+                "Value": {
+                    "data_set_id": "btUl2VgL4j1MVukfS76lcv2rQY",
+                    "data_set": "SIFT Score",
+                    "data_source": "Ensembl",
+                    "version": null,
+                    "value": 0.02
+                }
+            },
+            {
+                "genomic_unit": "hgvs_variant",
+                "symbol_notation": "transcript_id",
+                "symbol_value": "NM_001017980.4:c.164G>T",
+                "key": "consequence_terms",
+                "Value": {
+                    "data_set_id": "98Bh9r7qWKjztkr142yIq2OJuQ",
+                    "data_set": "Consequence",
+                    "data_source": "Ensembl",
+                    "version": null,
+                    "value": [
+                        "missense_variant",
+                        "splice_region_variant"
+                    ]
+                }
+            }
+        ]
+    }
+]
