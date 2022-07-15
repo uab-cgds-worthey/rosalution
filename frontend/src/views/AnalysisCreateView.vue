@@ -7,7 +7,7 @@
 
 <script>
 import RequiredInputForm from '@/components/FormComponents/RequiredInputForm.vue';
-import SupplementalFormList from '@/components/FormComponents/SupplementalFormList.vue';
+import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
 import analyses from '@/models/analyses.js';
 
 export default {

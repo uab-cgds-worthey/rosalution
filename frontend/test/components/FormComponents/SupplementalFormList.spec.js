@@ -2,8 +2,8 @@ import {describe, it, beforeEach, expect} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 import sinon from 'sinon';
 
-import SupplementalFormList from '../../../src/components/FormComponents/SupplementalFormList.vue';
-import ModalDialog from '../../../src/components/FormComponents/ModalDialog.vue';
+import SupplementalFormList from '../../../src/components/AnalysisView/SupplementalFormList.vue';
+import ModalDialog from '../../../src/components/AnalysisView/ModalDialog.vue';
 
 describe('SupplementalFormList.vue', () => {
   let wrapper;

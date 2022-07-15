@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import ModalDialog from '@/components/FormComponents/ModalDialog.vue';
+import ModalDialog from '@/components/AnalysisView/ModalDialog.vue';
 
 export default {
   name: 'supplemental-form',

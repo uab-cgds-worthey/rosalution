@@ -1,7 +1,7 @@
 import {describe, it, beforeEach, expect} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 
-import SupplementalLoadFile from '../../../src/components/FormComponents/SupplementalLoadFile.vue';
+import SupplementalLoadFile from '../../../src/components/AnalysisView/SupplementalLoadFile.vue';
 
 describe('SupplementalLoadFile.vue', () => {
   let wrapper;

@@ -1,7 +1,7 @@
 import {test, expect} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 
-import ModalDialog from '../../../src/components/FormComponents/ModalDialog.vue';
+import ModalDialog from '../../../src/components/AnalysisView/ModalDialog.vue';
 
 test('Vue instance exists and it is an object', () => {
   const wrapper = shallowMount(ModalDialog);
