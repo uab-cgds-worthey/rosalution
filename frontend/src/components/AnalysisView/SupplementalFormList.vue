@@ -1,10 +1,10 @@
 <template>
   <div>
       <div id="supplementalBlock">
-        <h2>Supplemental</h2>
+        <h2>Supplemental Attachments</h2>
         <div>
             <button class="addAttachmentButton" @click="showAttachDocumentModal()" data-test="add-button">
-                <img style="height: 25px; width: 25px;" src="../../assets/plus-logo.svg"/>
+                <font-awesome-icon icon="circle-plus" size="2xl"/>
             </button>
         </div>
         <ModalDialog v-if="showModal"
@@ -16,28 +16,19 @@
             <tbody v-for="attachment in attachments" v-bind:key="attachment.id">
                 <tr id="attachmentRow">
                     <td class="attachmentLogo">
-                        <!-- This is broken at the moment and we're missing the icons for link and file -->
-                        <!-- <img style="height: 40px; width: 32px; vertical-align: middle;"
-                                  :src="'/src/assets/' + listIcon(attachment.type)"/> -->
+                        <font-awesome-icon :icon="['far', 'file']" size="lg"/>
                     </td>
                     <td id="attachmentName">
                         <span style="vertical-align: middle;"> {{ attachment.name }}</span>
                     </td>
                     <td>
                         <button id="commentButton" v-on:click="comment(attachment.comment)">
-                            <img style="height: 32px; width: 32px; vertical-align: middle;"
-                            src="../../assets/comment.png"/>
+                            <font-awesome-icon :icon="['far', 'comment']" size="xl"/>
                         </button>
                     </td>
                     <td>
                         <button id="editButton" v-on:click="edit(attachment)">
-                            <img style="height: 30px; width: 30px; vertical-align: middle;"
-                            src="../../assets/edit.png"/>
-                        </button>
-                    </td>
-                    <td id="removeAttachmentRow">
-                        <button id="removeAttachmentButton" v-on:click="deleteRow(attachment)">
-                            <img style="height: 30px; width: 30px;" src="../../assets/minus-button.png"/>
+                            <font-awesome-icon icon="pencil" size="xl"/>
                         </button>
                     </td>
                 </tr>
@@ -67,9 +58,6 @@ export default {
     onAttachmentChange(attachment) {
     //   const fileData = file[0];
       this.attachments.push(attachment);
-    },
-    deleteRow(elem) {
-      this.attachments.splice(elem, 1);
     },
     comment(attachment) {
       // This method will handle the commenting modal/feature
