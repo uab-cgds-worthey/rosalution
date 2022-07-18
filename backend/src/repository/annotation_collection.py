@@ -7,8 +7,6 @@ type of Genomic Unit.
 from itertools import groupby
 from ..utils import read_fixture, write_fixture
 
-import json
-
 class AnnotationCollection:
     """Repository for querying configurations for annotation"""
 
@@ -18,6 +16,52 @@ class AnnotationCollection:
     def find_genomic_units(self):
         """ Returns all genomic units that are currently stored """
         return read_fixture("genomic-units-collection.json")
+
+    def update_genomic_unit(self, genomic_unit, genomic_annotation):
+        """ Update record for genomic unit """
+        # This will be replaced by a Mongo update function and the proper query parameters
+        # For right now, we'll get all genomic units, find the right now, update, and re-write the file
+        genomic_units_to_annotate = self.find_genomic_units()
+
+        print(genomic_unit['unit'])
+
+        selected_unit = None
+
+        for unit in genomic_units_to_annotate:
+            if genomic_unit['unit'] in unit.values():
+                selected_unit = unit
+                
+        if selected_unit == None:
+            print("Genomic Unit doesn't exist in collection")
+            return
+
+        # print("====")
+        # print(genomic_annotation)
+        # print(selected_unit)
+        # print("")
+        
+        if genomic_annotation['symbol_notation'] == 'transcript_id':
+            selected_transcript = None
+            for transcript in selected_unit['transcripts']:
+                if genomic_annotation['symbol_value']['transcript_id'] in transcript['transcript_id']:
+                    selected_transcript = transcript
+            
+            if selected_transcript == None:
+                selected_transcript = {
+                    'transcript_id': genomic_annotation['symbol_value']['transcript_id'],
+                    'gene_symbol': genomic_annotation['symbol_value']['gene_symbol'],
+                    'annotations': {}
+                }
+                selected_unit['transcripts'].append(selected_transcript)
+
+            annotation_key = genomic_annotation['key']
+            annotation_value = genomic_annotation['value']
+
+            selected_transcript['annotations'][annotation_key] = [annotation_value]
+
+        write_fixture('genomic-units-collection.json', genomic_units_to_annotate)
+
+        return
 
     def get_annotation_configurations(self):
         """Returns all annotation configurations"""
@@ -53,27 +97,3 @@ class AnnotationCollection:
             configuration[key] = list(group)
 
         return configuration
-
-    def write_genomic_unit(self, genomic_unit):
-        annotations = read_fixture("annotations.json")
-        print(annotations)
-        return
-
-    def write_genomic_annotation(self, genomic_annotation):
-        genomic_units_to_annotate = self.find_genomic_units()
-
-        annotation_genomic_unit = genomic_annotation['genomic_unit']
-        symbol_value = genomic_annotation['symbol_value']
-
-        # print("")
-        # print(annotation_genomic_unit)
-        # print(symbol_value)
-        
-        for unit in genomic_units_to_annotate:
-            if annotation_genomic_unit in unit.keys() and unit[annotation_genomic_unit] == symbol_value:
-                unit['annotations'].append(genomic_annotation)
-                
-        
-        write_fixture("genomic-units-collection.json", genomic_units_to_annotate)
-        
-        return

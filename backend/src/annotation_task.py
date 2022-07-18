@@ -36,8 +36,10 @@ def recurse(data, attrs, dataset, annotations):
 
     if 'hgvs_variant' in dataset['genomic_unit_type']:
         symbol_notation = 'transcript_id'
-        symbol_value = data[symbol_notation] + ":c." + str(data["cds_start"]) + data["used_ref"] + ">" + data['variant_allele']
-
+        symbol_value = {
+            'transcript_id': data['transcript_id'],
+            'gene_symbol': data['gene_symbol']
+        }
 
     if '{' in first_attr:
         data_value = replace(first_attr, data)
@@ -49,7 +51,7 @@ def recurse(data, attrs, dataset, annotations):
         "symbol_notation": symbol_notation,
         "symbol_value": symbol_value,
         "key": first_attr,
-        "Value": {
+        "value": {
             "data_set_id": randomword(),
             "data_set": dataset_name,
             "data_source": dataset['data_source'],
