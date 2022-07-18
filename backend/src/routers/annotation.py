@@ -32,6 +32,6 @@ def annotate_analysis(
     analysis = Analysis(**analysis_json)
     annotation_service = AnnotationService(collections["annotation"])
     annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
-    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue)
+    background_tasks.add_task(AnnotationService.process_tasks, collections['annotation'], annotation_task_queue)
 
     return {"name": f"{name} annotations queued."}
