@@ -95,7 +95,7 @@ class AnnotationService:
                 try:
                     log_to_file(f"{future.result()}\n")
                     log_to_file(f"{annotation_task.datasets}\n")
-                    log_to_file(f"{annotation_task.extract(future.result())}\n")                    
+                    log_to_file(f"{annotation_task.extract(future.result())}\n")
                     log_to_file(f"{genomic_unit}\n")
 
                     for annotation in annotation_task.annotations:

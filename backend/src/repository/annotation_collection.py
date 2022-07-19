@@ -23,8 +23,6 @@ class AnnotationCollection:
         # For right now, we'll get all genomic units, find the right now, update, and re-write the file
         genomic_units_to_annotate = self.find_genomic_units()
 
-        print(genomic_unit['unit'])
-
         selected_unit = None
 
         for unit in genomic_units_to_annotate:
@@ -34,12 +32,9 @@ class AnnotationCollection:
         if selected_unit == None:
             print("Genomic Unit doesn't exist in collection")
             return
-
-        # print("====")
-        # print(genomic_annotation)
-        # print(selected_unit)
-        # print("")
         
+        # If the genomic unit is a transcript, we check to see if the transcript exists before we append it
+        # to the existing genomic unit and then proceed to annotate.
         if genomic_annotation['symbol_notation'] == 'transcript_id':
             selected_transcript = None
             for transcript in selected_unit['transcripts']:
@@ -59,6 +54,7 @@ class AnnotationCollection:
 
             selected_transcript['annotations'][annotation_key] = [annotation_value]
 
+        # Temporary as mongo will be used to update the collection properly
         write_fixture('genomic-units-collection.json', genomic_units_to_annotate)
 
         return

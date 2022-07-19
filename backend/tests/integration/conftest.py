@@ -14,13 +14,11 @@ def test_application_client():
     """A class scoped FastApi Test Client"""
     return TestClient(app)
 
-
 @pytest.fixture(name="mock_annotation_queue", scope="class")
 def mock_queue():
     """A mocked Python queue used to verify if annotation tasks are created"""
     annotation_queue.annotation_queue = Mock()
     return annotation_queue.annotation_queue
-
 
 @pytest.fixture(name="database_collections", scope="class")
 def mock_database_collections():
@@ -32,12 +30,10 @@ def mock_database_collections():
     yield mock_database_client.db
     app.dependency_overrides.clear()
 
-
 @pytest.fixture(name="mock_user")
 def test_auth_user():
     """A mocked user that can be used to generate an OAuth2 access token"""
     return {"sub": "johndoe", "scopes": ["read", "write"]}
-
 
 @pytest.fixture(name="mock_access_token")
 def mock_access_token(mock_user):

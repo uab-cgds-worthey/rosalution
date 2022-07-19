@@ -71,7 +71,7 @@ def log_to_file(string):
     """
     with open("rosalution-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
         log_file.write(string)
-    # print(string)
+    print(string)
 
 class AnnotationTaskInterface:
     """Abstract class to define the interface for the the types of Annotation Task"""

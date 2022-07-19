@@ -31,8 +31,6 @@ def write_fixture(fixture_filename, data_to_write):
 
         file_to_write.close()
 
-    # print(type(data_to_write))
-
     return
 
 def replace(var_string, dataset):
