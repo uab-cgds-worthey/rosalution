@@ -6,12 +6,12 @@ from src.annotation_task import AnnotationTaskFactory, HttpAnnotationTask, recur
 def test_http_annotation_base_url(http_annotation_transcript_id):
     """Verifies if the HTTP annotation creates the base url using the url and genomic_unit as expected."""
     actual = http_annotation_transcript_id.base_url()
-    assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_001017980.3:c.164G>T?content-type=application/json;"
+    assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;"
 
 def test_http_annotation_identifier(http_annotation_transcript_id):
     """Verifies that the HTTP annotation creates the identifier as expected"""
     actual = http_annotation_transcript_id.identifier()
-    assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_001017980.3:c.164G>T?content-type=application/json;"
+    assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;"
 
 # def test_annotation_task_base_url_if_not_datasets(annotation_task):
 #     Keeping this as a placeholder in case this gets added back in
@@ -23,20 +23,20 @@ def test_http_annotation_task_base_url_many_datasets(
 ):
     """Verifies that the HTTP annotation task creates the base url using the 'url' and the genomic unit"""
     actual = http_annotation_task_many_datasets.base_url()
-    assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_001017980.3:c.164G>T?content-type=application/json;"
+    assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;"
 
 def test_http_annotation_task_build_url(http_annotation_task_many_datasets):
     """Verifies that the HTTP annotation task builds the complete URL including the base url and the query params"""
     actual = http_annotation_task_many_datasets.build_url()
     expected = (
-        "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_001017980.3:c.164G>T?content-type=application/json;refseq=1;"
+        "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;refseq=1;"
     )
     assert actual == expected
 
 def test_annotation_task_create_http_task(hgvs_variant_genomic_unit, transcript_id_dataset):
     """Verifies that the annotation task factory creates the correct annotation task according to the dataset type"""
     actual_identifier, actual_task = AnnotationTaskFactory.create(hgvs_variant_genomic_unit, transcript_id_dataset)
-    expected = "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_001017980.3:c.164G>T?content-type=application/json;"
+    expected = "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;"
     assert actual_identifier == expected
     assert isinstance(actual_task, HttpAnnotationTask)
 
@@ -44,21 +44,37 @@ def test_extract_annotations_from_response(http_annotation_task_many_datasets, t
     """ Tests the annotation task extraction function """
     actual = http_annotation_task_many_datasets.extract(transcript_annotation_response)
 
-    
+    annotation_one = actual[2]
+    annotation_two = actual[5]
 
-    assert 1 == 1
+    assert annotation_one['symbol_notation'] is 'transcript_id'
+    assert annotation_one['symbol_value'] == { "transcript_id":"NM_001017980.4", "gene_symbol":"VMA21" }
+
+    assert annotation_two['key'] == 'sift_score'
+    assert annotation_two['value']['data_set'] == "SIFT Score"
+    assert annotation_two['value']['value'] == 0.01
 
 def test_annotation_extraction_recurse(annotation_extraction_recurse_fixtures):
     """ Tests the annotation task recursive helper function for extracting specific pieces of data from a response """
     data, attrs, dataset, annotations = annotation_extraction_recurse_fixtures
 
-    assert 1 == 1
+    actual = recurse(data, attrs, dataset, annotations)
+
+    annotation_one = actual[0]
+    annotation_two = actual[1]
+
+    assert annotation_two['symbol_notation'] == 'transcript_id'
+    assert annotation_two['symbol_value'] == { "transcript_id": "NM_001363810.1", "gene_symbol": "VMA21" }
+
+    assert annotation_one['key'] == 'sift_score'
+    assert annotation_one['value']['data_set'] == "SIFT Score"
+    assert annotation_one['value']['value'] == 0.02
 
 @pytest.fixture(name="hgvs_variant_genomic_unit")
 def fixture_genomic_unit():
-    """Returns the genomic unit 'NM_001017980.3:c.164G>T' to be annotated"""
+    """Returns the genomic unit 'NM_170707.3:c.745C>T' to be annotated"""
     return {
-        "unit": "NM_001017980.3:c.164G>T",
+        "unit": "NM_170707.3:c.745C>T",
         "genomic_unit_type": GenomicUnitType.HGVS_VARIANT,
     }
 
@@ -110,10 +126,12 @@ def fixture_annotation_extraction_recurse():
                 {
                     "transcript_id":"NM_001017980.4",
                     "sift_score":0.02,
+                    "gene_symbol": "VMA21"
                 },
                 {
                     "sift_score":0.01,
                     "transcript_id":"NM_001363810.1",
+                    "gene_symbol": "VMA21"
                 }
             ],
         }

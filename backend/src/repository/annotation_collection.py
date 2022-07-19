@@ -28,11 +28,11 @@ class AnnotationCollection:
         for unit in genomic_units_to_annotate:
             if genomic_unit['unit'] in unit.values():
                 selected_unit = unit
-                
-        if selected_unit == None:
+
+        if selected_unit is None:
             print("Genomic Unit doesn't exist in collection")
             return
-        
+
         # If the genomic unit is a transcript, we check to see if the transcript exists before we append it
         # to the existing genomic unit and then proceed to annotate.
         if genomic_annotation['symbol_notation'] == 'transcript_id':
@@ -40,8 +40,8 @@ class AnnotationCollection:
             for transcript in selected_unit['transcripts']:
                 if genomic_annotation['symbol_value']['transcript_id'] in transcript['transcript_id']:
                     selected_transcript = transcript
-            
-            if selected_transcript == None:
+
+            if selected_transcript is None:
                 selected_transcript = {
                     'transcript_id': genomic_annotation['symbol_value']['transcript_id'],
                     'gene_symbol': genomic_annotation['symbol_value']['gene_symbol'],
