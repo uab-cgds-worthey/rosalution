@@ -7,7 +7,7 @@ import pytest
 from src.enums import GenomicUnitType
 from src.repository.genomic_unit_collection import GenomicUnitCollection
 
-def test_write_genomic_units_to_file(
+def test_update_genomic_unit(
         genomic_unit_collection, hgvs_variant_genomic_unit, genomic_unit_annotation_fixture
     ):
     """
@@ -15,13 +15,13 @@ def test_write_genomic_units_to_file(
     tests updating them in the genomic_unit_collection
     """
 
-    GenomicUnitCollection.write_fixture = Mock()
+    GenomicUnitCollection.update_one = Mock()
 
     genomic_unit_collection.update_genomic_unit(
         hgvs_variant_genomic_unit, genomic_unit_annotation_fixture
     ) # pylint: disable=no-member
 
-    assert GenomicUnitCollection.write_fixture.call_count == 1
+    assert GenomicUnitCollection.update_one.call_count == 1
 
 @pytest.fixture(name="genomic_unit_collection")
 def fixture_genomic_unit_collection():

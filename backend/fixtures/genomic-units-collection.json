@@ -16,7 +16,21 @@
         "position": "150573388",
         "reference": "G",
         "alternate": "T",
-        "transcripts": [],
+        "transcripts": [
+            {
+                "transcript_id": "NM_001017980.4",
+                "gene_symbol": "",
+                "annotations": {
+                    "sift_prediction": {
+                        "data_set_id": "hbIJlfAbyR843yi9pVhxjGZj9a",
+                        "data_set": "SIFT Prediction",
+                        "data_source": "Ensembl",
+                        "version": "None",
+                        "value": "deleterious"
+                    }
+                }
+            }
+        ],
         "annotations": {}
     }
 ]

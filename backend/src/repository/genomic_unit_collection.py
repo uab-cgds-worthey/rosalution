@@ -19,58 +19,78 @@ class GenomicUnitCollection:
 
     def update_genomic_unit(self, genomic_unit, genomic_annotation):
         """
-        Takes a genomic unit from an annotation task and an extracted genomic annotation then proceeds to
-        update the record in the genomic unit collection
+        Takes a genomic_unit from an annotation task as well as a genomic_annotation and arranges them in a pattern
+        that can be sent to mongo to update the genomic unit's document in the collection
         """
+
+        mongo_query = {
+            genomic_unit['genomic_unit_type'].value: genomic_unit['unit'],
+            'transcripts.transcript_id': genomic_annotation['symbol_value']['transcript_id']
+        }
+
+        annotation_path = 'annotations.' + genomic_annotation['key']
+        annotation_document = { annotation_path: genomic_annotation['value'] }
+
+        # Temporary as mongo will be used to update the collection properly
+        # db.collection.updateOne(filter, update, options)
+        self.update_one(mongo_query, annotation_document)
+
+    # This will not be used in the future
+    def update_one(self, genomic_unit, genomic_annotation):
+        """ Takes a file name and data then writes the data to the file """
+
         # This will be replaced by a Mongo update function and the proper query parameters
         # For right now, we'll get all genomic units, find the right now, update, and re-write the file
         genomic_units_to_annotate = self.all()
 
         selected_unit = None
 
+        genomic_unit_key = list(genomic_unit.keys())[0]
+
+        transcript_id = genomic_unit['transcripts.transcript_id']
+
         for unit in genomic_units_to_annotate:
-            if genomic_unit['unit'] in unit.values():
+            if genomic_unit[genomic_unit_key] in unit.values():
                 selected_unit = unit
 
         if selected_unit is None:
             print("Genomic Unit doesn't exist in collection")
             return
 
-        # If the genomic unit is a transcript, we check to see if the transcript exists before we append it
-        # to the existing genomic unit and then proceed to annotate.
-        if genomic_annotation['symbol_notation'] == 'transcript_id':
-            selected_transcript = None
-            for transcript in selected_unit['transcripts']:
-                if genomic_annotation['symbol_value']['transcript_id'] in transcript['transcript_id']:
-                    selected_transcript = transcript
+        ## If the genomic unit is a transcript, we check to see if the transcript exists before we append it
+        ## to the existing genomic unit and then proceed to annotate.
 
-            if selected_transcript is None:
-                selected_transcript = {
-                    'transcript_id': genomic_annotation['symbol_value']['transcript_id'],
-                    'gene_symbol': genomic_annotation['symbol_value']['gene_symbol'],
-                    'annotations': {}
-                }
-                selected_unit['transcripts'].append(selected_transcript)
+        selected_transcript = None
+        for transcript in selected_unit['transcripts']:
+            print("Is this happening?")
+            if transcript_id in transcript['transcript_id']:
+                selected_transcript = transcript
 
-            annotation_key = genomic_annotation['key']
-            annotation_value = genomic_annotation['value']
+        if selected_transcript is None:
+            selected_transcript = {
+                'transcript_id': transcript_id,
+                'gene_symbol': '',
+                'annotations': {}
+            }
+            selected_unit['transcripts'].append(selected_transcript)
 
-            selected_transcript['annotations'][annotation_key] = [annotation_value]
 
-        # Temporary as mongo will be used to update the collection properly
-        self.write_fixture('genomic-units-collection.json', genomic_units_to_annotate)
+        genomic_annotation_key = list(genomic_annotation.keys())[0]
 
-    # This will not be used in the future
-    def write_fixture(self, fixture_filename, data_to_write):
-        """ Takes a file name and data then writes the data to the file """
+        selected_transcript['annotations'].update({
+                genomic_annotation_key.split('.')[1]: genomic_annotation[genomic_annotation_key]
+            }
+        )
 
-        relative_fixture_directory_path = "../fixtures/"
+        #####
 
         path_to_current_file = os.path.realpath(__file__)
         current_directory = os.path.split(path_to_current_file)[0]
-        path_to_file = os.path.join(current_directory, relative_fixture_directory_path + fixture_filename)
+        path_to_file = os.path.join(
+                current_directory, "../../fixtures/genomic-units-collection.json"
+            )
         with open(path_to_file, mode="w", encoding="utf-8") as file_to_write:
-            json.dump(data_to_write, file_to_write, ensure_ascii=False, indent=4)
+            json.dump(genomic_units_to_annotate, file_to_write, ensure_ascii=False, indent=4)
 
             file_to_write.close()
 
