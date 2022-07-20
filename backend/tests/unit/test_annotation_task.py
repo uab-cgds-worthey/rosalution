@@ -47,7 +47,7 @@ def test_extract_annotations_from_response(http_annotation_task_many_datasets, t
     annotation_one = actual[2]
     annotation_two = actual[5]
 
-    assert annotation_one['symbol_notation'] is 'transcript_id'
+    assert annotation_one['symbol_notation'] == 'transcript_id'
     assert annotation_one['symbol_value'] == { "transcript_id":"NM_001017980.4", "gene_symbol":"VMA21" }
 
     assert annotation_two['key'] == 'sift_score'
@@ -107,7 +107,7 @@ def fixture_transcript_related_datasets(annotation_collection):
             lambda x: (
                 x["data_set"] == "transcript_id" or x["data_set"] == "SIFT Prediction" or x["data_set"] == "SIFT Score"
             ),
-            annotation_collection.get_annotation_configurations(),
+            annotation_collection.all(),
         )
     )
 

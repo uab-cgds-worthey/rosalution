@@ -24,11 +24,11 @@ def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_col
 @patch("src.annotation.log_to_file")
 def test_processing_annotation_tasks(log_to_file_mock, cpam0046_annotation_queue):  # pylint: disable=unused-argument
     """Verifies that each item on the annotation queue is read and executed"""
-    mock_annotation_collection = Mock()
+    mock_genomic_unit_collection = Mock()
     assert not cpam0046_annotation_queue.empty()
     HttpAnnotationTask.annotate = Mock(return_value={})
     NoneAnnotationTask.annotate = Mock()
-    AnnotationService.process_tasks(mock_annotation_collection, cpam0046_annotation_queue)
+    AnnotationService.process_tasks(cpam0046_annotation_queue, mock_genomic_unit_collection)
     assert cpam0046_annotation_queue.empty()
     assert HttpAnnotationTask.annotate.call_count == 2  # pylint: disable=no-member
     assert NoneAnnotationTask.annotate.call_count == 8  # pylint: disable=no-member
@@ -36,20 +36,22 @@ def test_processing_annotation_tasks(log_to_file_mock, cpam0046_annotation_queue
 @patch("src.annotation.log_to_file")
 def test_processing_cpam0002_annotations_tasks(
         log_to_file_mock, cpam0002_annotation_queue, transcript_annotation_response
-    ):
-    """ Verifies that the annotation collection is being sent the proper amount of extracted annotations """
-    
-    mock_annotation_collection = Mock()
+    ): # pylint: disable=unused-argument
+    """
+        Verifies that the annotation collection is being sent the proper amount of extracted annotations for
+        CPAM analysis 0002
+    """
+
+    mock_genomic_unit_collection = Mock()
 
     HttpAnnotationTask.annotate = Mock(return_value=transcript_annotation_response)
     NoneAnnotationTask.annotate = Mock()
-    
-    AnnotationService.process_tasks(mock_annotation_collection, cpam0002_annotation_queue)
 
-    assert HttpAnnotationTask.annotate.call_count == 2
-    assert NoneAnnotationTask.annotate.call_count == 14
-    assert mock_annotation_collection.update_genomic_unit.call_count == 12
+    AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
 
+    assert HttpAnnotationTask.annotate.call_count == 2 # pylint: disable=no-member
+    assert NoneAnnotationTask.annotate.call_count == 14 # pylint: disable=no-member
+    assert mock_genomic_unit_collection.update_genomic_unit.call_count == 12
 
 @pytest.fixture(name="cpam0046_hgvs_variant_json")
 def fixture_cpam0046_hgvs_variant(cpam0046_analysis):

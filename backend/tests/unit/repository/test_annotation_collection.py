@@ -1,6 +1,4 @@
 """Tests to verify dataset configuration is returned"""
-from unittest.mock import patch
-
 import pytest
 
 from src.enums import GenomicUnitType
