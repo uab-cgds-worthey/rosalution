@@ -27,7 +27,7 @@ def mock_database_collections():
     mock_database_client.db = {"analysis": Mock(), "annotation": Mock()}
     mock_database = Database(mock_database_client)
     app.dependency_overrides[database] = mock_database
-    yield mock_database_client.db
+    yield mock_database.collections
     app.dependency_overrides.clear()
 
 @pytest.fixture(name="mock_user")

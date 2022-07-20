@@ -1,7 +1,10 @@
 """Tests to verify dataset configuration is returned"""
+from unittest.mock import patch
+
 import pytest
 
 from src.enums import GenomicUnitType
+from src.repository.annotation_collection import AnnotationCollection
 
 
 def test_get_datasets_configuration_by_type(annotation_collection):
@@ -10,32 +13,22 @@ def test_get_datasets_configuration_by_type(annotation_collection):
     datasets = annotation_collection.datasets_to_annotate_by_type(types)
     assert len(datasets) == 20
 
-
 def test_get_datasets_to_annotate_for_units(annotation_collection, genomic_units_for_annotation):
     """Tests if the configuration for datasets is return as expected"""
     actual_configuration = annotation_collection.datasets_to_annotate_for_units(genomic_units_for_annotation)
     assert len(actual_configuration["gene"]) == 9
     assert len(actual_configuration["hgvs_variant"]) == 11
 
-def test_write_genomic_units_to_file(hgvs_genomic_unit_for_annotation, annotation_collection):
-    annotation =    {
-        "genomic_unit":"hgvs_variant",
-        "symbol_notation":"transcript_id",
-        "symbol_value": {
-            "transcript_id": "NM_001017980.4",
-            "gene_symbol": "VMA21"
-        },
-        "key":"sift_prediction",
-        "value":{
-            "data_set_id":"hbIJlfAbyR843yi9pVhxjGZj9a",
-            "data_set":"SIFT Prediction",
-            "data_source":"Ensembl",
-            "version":"None",
-            "value":"deleterious"
-        }
-    }
-    annotation_collection.update_genomic_unit(hgvs_genomic_unit_for_annotation, annotation)
-    assert 1 == 1
+@pytest.fixture(name="annotation_collection")
+def fixture_annotation_collection():
+    """
+    Returns the annotation collection for the configuration to verify
+    annotation tasks are created according to the configuration
+    """
+    # mock_collection = Mock()
+    # mock_collection.find = Mock( return_value = read_fixture("annotation-sources.json") )
+    # return AnnotationCollection(mock_collection)
+    return AnnotationCollection()
 
 @pytest.fixture(name="genomic_units_for_annotation")
 def fixture_genomic_units():

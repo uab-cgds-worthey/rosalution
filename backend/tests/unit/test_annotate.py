@@ -7,8 +7,6 @@ from src.enums import GenomicUnitType
 from src.core.analysis import Analysis
 from src.annotation import AnnotationService
 
-from src.repository.annotation_collection import AnnotationCollection
-
 def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_collection):
     """Verifies annotations are queued according to the specific genomic units"""
     annotation_service = AnnotationService(annotation_collection)

@@ -78,7 +78,6 @@ class AnnotationTaskInterface:
 
     def __init__(self, genomic_unit_json: dict):
         self.datasets = []
-        self.annotations = None
         self.genomic_unit = genomic_unit_json
 
     @abstractmethod
@@ -107,7 +106,6 @@ class AnnotationTaskInterface:
                     for data in data_response:
                         annotations = recurse(data, attr_array, dataset, annotations)
 
-        self.annotations = annotations
         return annotations
 
 class NoneAnnotationTask(AnnotationTaskInterface):

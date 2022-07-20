@@ -23,7 +23,7 @@
                 "annotations": {
                     "transcript_id": [
                         {
-                            "data_set_id": "sypcyYRphl7kvoXnNt9fZnaLxk",
+                            "data_set_id": "aHWAutcBtCBW8yFnHEgBm3dUOn",
                             "data_set": "transcript_id",
                             "data_source": "Ensembl",
                             "version": null,
@@ -32,7 +32,7 @@
                     ],
                     "polyphen_prediction": [
                         {
-                            "data_set_id": "ilxiteLKJDAgMoHFrzlm27alVe",
+                            "data_set_id": "iqsmndoFbpuGVPwW7IDAToFkwi",
                             "data_set": "Polyphen Prediction",
                             "data_source": "Ensembl",
                             "version": null,
@@ -41,7 +41,7 @@
                     ],
                     "polyphen_score": [
                         {
-                            "data_set_id": "q1l8frT370GUyrU3sq46DM4no3",
+                            "data_set_id": "rql7Zyg1s13pgKvZhtKbpTSwx8",
                             "data_set": "Polyphen Score",
                             "data_source": "Ensembl",
                             "version": null,
@@ -50,16 +50,16 @@
                     ],
                     "sift_prediction": [
                         {
-                            "data_set_id": "hbIJlfAbyR843yi9pVhxjGZj9a",
+                            "data_set_id": "VeNfE6hgkOZwrvPKETBLnssLTX",
                             "data_set": "SIFT Prediction",
                             "data_source": "Ensembl",
-                            "version": "None",
+                            "version": null,
                             "value": "deleterious"
                         }
                     ],
                     "sift_score": [
                         {
-                            "data_set_id": "yhiL724B1QFDU71lQUKuWzi31o",
+                            "data_set_id": "XBO6f83rhkzczJZpwTUIZIG9Ll",
                             "data_set": "SIFT Score",
                             "data_source": "Ensembl",
                             "version": null,
@@ -68,7 +68,7 @@
                     ],
                     "consequence_terms": [
                         {
-                            "data_set_id": "xCM6fRDm8vVNOeEaw2FPZSEeMT",
+                            "data_set_id": "4LahePoiz4Kv5i5AhyyiIxyFRF",
                             "data_set": "Consequence",
                             "data_source": "Ensembl",
                             "version": null,
@@ -86,7 +86,7 @@
                 "annotations": {
                     "transcript_id": [
                         {
-                            "data_set_id": "sstBCzLKT7cYkgQRZyg1MvWgOD",
+                            "data_set_id": "nW7PwbAppmF2dmLpnbfclgt9Uy",
                             "data_set": "transcript_id",
                             "data_source": "Ensembl",
                             "version": null,
@@ -95,7 +95,7 @@
                     ],
                     "polyphen_prediction": [
                         {
-                            "data_set_id": "mlSmQOuJBSRgYXBFm7WtXm7kft",
+                            "data_set_id": "s43wb9PV8dcDKwYRc1Ml9GAgIT",
                             "data_set": "Polyphen Prediction",
                             "data_source": "Ensembl",
                             "version": null,
@@ -104,7 +104,7 @@
                     ],
                     "polyphen_score": [
                         {
-                            "data_set_id": "nK8jQJLHa2FsVEVm6U50qcJEbp",
+                            "data_set_id": "d2pwfiprY21QCsHerpHuT5av2h",
                             "data_set": "Polyphen Score",
                             "data_source": "Ensembl",
                             "version": null,
@@ -113,7 +113,7 @@
                     ],
                     "sift_prediction": [
                         {
-                            "data_set_id": "QdGOvDlomflhaLZl4cboDvhCQG",
+                            "data_set_id": "YuWB0aHUopS2OUI3uw7edXfF4V",
                             "data_set": "SIFT Prediction",
                             "data_source": "Ensembl",
                             "version": null,
@@ -122,7 +122,7 @@
                     ],
                     "sift_score": [
                         {
-                            "data_set_id": "o6SNXm44WGlURULX5M4pYqBsWw",
+                            "data_set_id": "3sIMixM7k84q6XgNkZixHykoof",
                             "data_set": "SIFT Score",
                             "data_source": "Ensembl",
                             "version": null,
@@ -131,7 +131,7 @@
                     ],
                     "consequence_terms": [
                         {
-                            "data_set_id": "nLL0q9zTstk6iRvW4yS83wj2ZF",
+                            "data_set_id": "2c01PFoNtw8xH8z1NRzaxlnD2m",
                             "data_set": "Consequence",
                             "data_source": "Ensembl",
                             "version": null,

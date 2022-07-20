@@ -12,7 +12,6 @@ router = APIRouter(
     dependencies=[Depends(database), Depends(annotation_queue)],
 )
 
-
 @router.post("/{name}", status_code=status.HTTP_202_ACCEPTED)
 def annotate_analysis(
     name: str,
@@ -32,6 +31,6 @@ def annotate_analysis(
     analysis = Analysis(**analysis_json)
     annotation_service = AnnotationService(collections["annotation"])
     annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
-    background_tasks.add_task(AnnotationService.process_tasks, collections['annotation'], annotation_task_queue)
+    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, collections['genomic_unit'])
 
     return {"name": f"{name} annotations queued."}
