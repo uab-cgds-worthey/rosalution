@@ -1,42 +1,45 @@
 <template>
-  <div>
-      <div id="supplementalBlock">
-        <h2>Supplemental Attachments</h2>
-        <div>
-            <button class="addAttachmentButton" @click="showAttachDocumentModal()" data-test="add-button">
-                <font-awesome-icon icon="circle-plus" size="2xl"/>
-            </button>
-        </div>
+  <table class="supplemental-container">
+    <tbody>
+        <tr class="supplemental-header">
+            <td>
+                <h2>Supplemental Attachments</h2>
+            </td>
+            <td>
+                <button class="addAttachmentButton" @click="showAttachDocumentModal()" data-test="add-button">
+                    <font-awesome-icon icon="circle-plus" size="2xl"/>
+                </button>
+            </td>
+            <td class="collapse-box">
+                <font-awesome-icon icon="chevron-down" size="lg"/>
+            </td>
+        </tr>
         <ModalDialog v-if="showModal"
-                     v-on:closemodal="this.showAttachDocumentModal"
-                     v-on:addattachment="this.onAttachmentChange"
-                     data-test="modal-dialog"/>
-        <div class="attachmentList" >
-            <table>
-            <tbody v-for="attachment in attachments" v-bind:key="attachment.id">
-                <tr id="attachmentRow">
-                    <td class="attachmentLogo">
-                        <font-awesome-icon :icon="['far', 'file']" size="lg"/>
-                    </td>
-                    <td id="attachmentName">
-                        <span style="vertical-align: middle;"> {{ attachment.name }}</span>
-                    </td>
-                    <td>
-                        <button id="commentButton" v-on:click="comment(attachment.comment)">
-                            <font-awesome-icon :icon="['far', 'comment']" size="xl"/>
-                        </button>
-                    </td>
-                    <td>
-                        <button id="editButton" v-on:click="edit(attachment)">
-                            <font-awesome-icon icon="pencil" size="xl"/>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-            </table>
+                    v-on:closemodal="this.showAttachDocumentModal"
+                    v-on:addattachment="this.onAttachmentChange"
+                    data-test="modal-dialog"/>
+        <div class="attachmentList" v-for="attachment in attachments" v-bind:key="attachment.id">
+            <tr id="attachmentRow">
+                <td class="attachmentLogo">
+                    <font-awesome-icon :icon="['far', 'file']" size="lg"/>
+                </td>
+                <td id="attachmentName">
+                    <span style="vertical-align: middle;"> {{ attachment.name }}</span>
+                </td>
+                <td>
+                    <button id="commentButton" v-on:click="comment(attachment.comment)">
+                        <font-awesome-icon :icon="['far', 'comment']" size="xl"/>
+                    </button>
+                </td>
+                <td>
+                    <button id="editButton" v-on:click="edit(attachment)">
+                        <font-awesome-icon icon="pencil" size="xl"/>
+                    </button>
+                </td>
+            </tr>
         </div>
-      </div>
-  </div>
+    </tbody>
+  </table>
 </template>
 
 <script>
@@ -90,27 +93,39 @@ export default {
         padding: 0%;
     }
 
-    tbody:nth-child(even) {
+    .supplemental-container {
+        display: flex;
+        flex-direction: column;
+        padding: var(--p-10);
+        margin: 0.625rem;
+        width: 100%;
+        gap: .625rem;
+        border-radius: 1.25rem;
+        background-color: var(--rosalution-white);
+    }
+
+    .supplemental-header {
+        background-color: none;
+    }
+
+    .collapse-box {
+        color: var(--rosalution-grey-200);
+        float: right;
+        right: 3%;
+        position: absolute;
+    }
+
+    .attachmentList:nth-child(even) {
         background-color: #DFDADA;
     }
 
-    tbody:nth-child(odd) {
+    .attachmentList:nth-child(odd) {
         background-color: #F6F6F6;
-    }
-
-    h2 {
-        float: left;
-        margin: 0;
-        text-align: left;
     }
 
     .addAttachmentButton {
         border: none;
         background: none;
-        float: right;
-        text-align: center;
-        margin: auto;
-        align-content: center;
     }
 
     .addAttachmentInput {
@@ -130,10 +145,10 @@ export default {
     }
 
     .attachmentList {
-        float: left;
+        /* float: left; */
         /* display: block; */
         height: 4rem;
-        width: 50rem;
+        width: 100%;
         vertical-align: middle;
         align-items: center;
     }
