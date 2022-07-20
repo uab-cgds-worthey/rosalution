@@ -15,6 +15,6 @@ def test_queue_annotations_for_sample(client, database_collections, mock_annotat
         assert mock_annotation_queue.put.call_count == 29
         mock_background_add_task.assert_called_once_with(
             AnnotationService.process_tasks,
-            database_collections['genomic_unit'],
-            mock_annotation_queue
+            mock_annotation_queue,
+            database_collections['genomic_unit']
         )
