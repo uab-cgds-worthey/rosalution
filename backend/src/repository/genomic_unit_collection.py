@@ -23,21 +23,24 @@ class GenomicUnitCollection:
         that can be sent to mongo to update the genomic unit's document in the collection
         """
 
-        mongo_query = {
-            genomic_unit['genomic_unit_type'].value: genomic_unit['unit'],
-            'transcripts.transcript_id': genomic_annotation['symbol_value']['transcript_id']
-        }
+        if genomic_unit['type'].value == 'hgvs_variant':
+            mongo_query = {
+                genomic_unit['type'].value: genomic_unit['unit'],
+                'transcripts.transcript_id': genomic_annotation['symbol_value']['transcript_id']
+            }
 
-        annotation_path = 'annotations.' + genomic_annotation['key']
-        annotation_document = { annotation_path: genomic_annotation['value'] }
+            annotation_path = 'annotations.' + genomic_annotation['key']
+            annotation_document = { annotation_path: genomic_annotation['value'] }
 
-        # Temporary as mongo will be used to update the collection properly
-        # db.collection.updateOne(filter, update, options)
-        self.update_one(mongo_query, annotation_document)
+            # Temporary as mongo will be used to update the collection properly
+            # db.collection.updateOne(filter, update, options)
+            self.update_one(mongo_query, annotation_document)
+
+        return
 
     # This will not be used in the future
     def update_one(self, genomic_unit, genomic_annotation):
-        """ Takes a file name and data then writes the data to the file """
+        """ Takes a file name and data then formats the data needed for the file """
 
         # This will be replaced by a Mongo update function and the proper query parameters
         # For right now, we'll get all genomic units, find the right now, update, and re-write the file
@@ -46,7 +49,6 @@ class GenomicUnitCollection:
         selected_unit = None
 
         genomic_unit_key = list(genomic_unit.keys())[0]
-
         transcript_id = genomic_unit['transcripts.transcript_id']
 
         for unit in genomic_units_to_annotate:
@@ -62,7 +64,6 @@ class GenomicUnitCollection:
 
         selected_transcript = None
         for transcript in selected_unit['transcripts']:
-            print("Is this happening?")
             if transcript_id in transcript['transcript_id']:
                 selected_transcript = transcript
 
@@ -82,8 +83,11 @@ class GenomicUnitCollection:
             }
         )
 
-        #####
+        self.write_fixture(genomic_units_to_annotate)
 
+
+    def write_fixture(self, genomic_units_to_annotate):
+        """ Temporary write fixture function """
         path_to_current_file = os.path.realpath(__file__)
         current_directory = os.path.split(path_to_current_file)[0]
         path_to_file = os.path.join(
