@@ -6,7 +6,7 @@
                 <h2>Supplemental Attachments</h2>
             </td>
             <td>
-                <button class="addAttachmentButton" @click="showAttachDocumentModal()" data-test="add-button">
+                <button class="add-attachment-button" @click="showAttachDocumentModal()" data-test="add-button">
                     <font-awesome-icon icon="circle-plus" size="2xl"/>
                 </button>
             </td>
@@ -18,21 +18,21 @@
                     v-on:closemodal="this.showAttachDocumentModal"
                     v-on:addattachment="this.onAttachmentChange"
                     data-test="modal-dialog"/>
-        <div class="attachmentList" v-for="attachment in attachments" v-bind:key="attachment.id">
-            <tr id="attachmentRow">
-                <td class="attachmentLogo">
+        <div class="attachment-list" v-for="attachment in attachments" v-bind:key="attachment.id">
+            <tr class="attachment-row">
+                <td class="attachment-logo">
                     <font-awesome-icon :icon="['far', 'file']" size="lg"/>
                 </td>
-                <td id="attachmentName">
-                    <span style="vertical-align: middle;"> {{ attachment.name }}</span>
+                <td class="attachment-name">
+                    <span> {{ attachment.name }}</span>
                 </td>
                 <td>
-                    <button id="commentButton" v-on:click="comment(attachment.comment)">
+                    <button class="comment-button" v-on:click="comment(attachment.comment)">
                         <font-awesome-icon :icon="['far', 'comment']" size="xl"/>
                     </button>
                 </td>
                 <td>
-                    <button id="editButton" v-on:click="edit(attachment)">
+                    <button class="edit-button" v-on:click="edit(attachment)">
                         <font-awesome-icon icon="pencil" size="xl"/>
                     </button>
                 </td>
@@ -105,123 +105,83 @@ export default {
     }
 
     .supplemental-header {
-        background-color: none;
+        line-height: 1.75rem;
+        height: 1.75rem;
+        margin: .125rem .125rem 0 .125rem;
     }
 
     .collapse-box {
         color: var(--rosalution-grey-200);
-        float: right;
         right: 3%;
         position: absolute;
+        vertical-align: middle;
+        height: 1.75rem;
     }
 
-    .attachmentList:nth-child(even) {
-        background-color: #DFDADA;
+    .attachment-list:nth-child(even) {
+        background-color: var(--rosalution-grey-100);
     }
 
-    .attachmentList:nth-child(odd) {
-        background-color: #F6F6F6;
+    .attachment-list:nth-child(odd) {
+        background-color: var(--rosalution-grey-50);
     }
 
-    .addAttachmentButton {
+    .add-attachment-button {
         border: none;
         background: none;
     }
 
-    .addAttachmentInput {
-        display:none;
-    }
-
-    #supplementalBlock {
-        display: inline-block;
-        width: 200px;
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
-    }
-
-    input[type="file"]  {
-        height:0;
-        display:none
-    }
-
-    .attachmentList {
-        /* float: left; */
-        /* display: block; */
+    .attachment-list {
         height: 4rem;
         width: 100%;
         vertical-align: middle;
         align-items: center;
     }
 
-    tr {
-        padding: none;
-        font-size: 1.25rem;
-        text-align: left;
-        height: 4rem;
+    .attachment-row {
+        height: 1.75remrem;
         width: 55rem;
-        line-height: 4rem;
+        vertical-align: middle;
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+    }
+
+    .attachment-name {
+        padding-left: 1rem;
+        color: var(--rosalution-purple-300);
+        vertical-align: middle;
+        font-weight: bold;
+    }
+
+    .edit-button {
+        border: none;
+        background: none;
+        float: right;
+        right: 6%;
+        position: absolute;
         vertical-align: middle;
     }
 
-    th {
-        font-weight: normal;
-    }
-
-    .attachmentRow {
-        height: 4rem;
-        width: 55rem;
-    }
-
-    #attachmentName {
-        padding-left: 1rem;
-        height: 4rem;
-        width: 50rem;
-    }
-
-    #removeAttachmentButton {
+    .comment-button {
         border: none;
         background: none;
         float: right;
-        text-align: center;
-        margin: auto;
-        align-content: center;
+        right: 9%;
+        position: absolute;
+        vertical-align: middle;
     }
 
-    #editButton {
-        border: none;
-        background: none;
-        float: right;
-        text-align: center;
-        margin: auto;
-        align-content: center;
-    }
-
-    #commentButton {
-        border: none;
-        background: none;
-        float: right;
-        text-align: center;
-        margin: auto;
-        align-content: center;
-    }
-
-    .attachmentLogo {
+    .attachment-logo {
         border: none;
         background: none;
         float: left;
-        text-align: center;
         margin: auto;
         align-content: center;
         padding-top: 0.5rem;
         padding-bottom: 0.5rem;
         padding-right: 0.75rem;
         padding-left: 0.75rem;
-    }
-
-    #removeAttachmentRow {
-        border-left-width: 1rem;
-        border-left-style: solid;
-        border-left-color: white;
+        vertical-align: middle;
     }
 
 </style>
