@@ -1,3 +1,4 @@
+
 """Module user09es interface to the repository in the data layer that stores the persistent state of the application"""
 # pylint: disable=too-few-public-methods
 # This wrapper is intended to create a callable instance for FastAPI Depedency Injection
@@ -27,16 +28,16 @@ class Database:
         # a constructuro since there is not chance for failure creating/
         # allocating the object."
         # https://pymongo.readthedocs.io/en/stable/tutorial.html#getting-a-collection
-
+        self.db = self.database_client.rosalution_db
         self.collections = {
             "analysis": AnalysisCollection(self.database_client.db['analyses']),
             "annotation": AnnotationCollection(self.database_client.db['dataset_sources']),
             "genomic_unit": GenomicUnitCollection(self.database_client.db['dataset_sources']),
             "user": UserCollection(self.database_client.db['users']),
+            "analysis": AnalysisCollection(self.db['analyses']),
+            "annotation": AnnotationCollection(self.db['dataset_sources']),
+            "user": UserCollection(self.db['users']),
         }
-
-        print("initializing the collections in init for database...")
-        print(self.database_client)
 
     def __call__(self):
         """

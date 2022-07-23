@@ -1,15 +1,21 @@
 """Fixture configuration used for all unit tests"""
 import queue
+from unittest import mock
 import pytest
 
 from src.repository.analysis_collection import AnalysisCollection
 from src.repository.annotation_collection import AnnotationCollection
 from src.annotation import AnnotationService
 
+RELATIVE_FIXUTRE_DIRECTORY_PATH = "../../../etc/fixtures/initial-seed/"
+
 @pytest.fixture(name="analysis_collection")
 def fixture_analysis_collection():
     """Returns the analysis collection to be mocked"""
-    return AnalysisCollection()
+    mock_collection = Mock()
+    mock_collection.find = Mock( return_value = read_fixture("annotation-sources.json") )
+    mock_collection.find_one = Mock( return_value = read_fixture("annotation-sources.json") )
+    return AnnotationCollection(mock_collection)
 
 @pytest.fixture(name="annotation_collection")
 def fixture_annotation_collection():
@@ -17,10 +23,10 @@ def fixture_annotation_collection():
     Returns the annotation collection for the configuration to verify
     annotation tasks are created according to the configuration
     """
-    # mock_collection = Mock()
-    # mock_collection.find = Mock( return_value = read_fixture("annotation-sources.json") )
-    # return AnnotationCollection(mock_collection)
-    return AnnotationCollection()
+    mock_collection = mock()
+    mock_collection.find = Mock( return_value = read_fixture("annotation-sources.json") )
+    mock_collection.find_one = Mock( return_value = read_fixture("annotation-sources.json") )
+    return AnnotationCollection(mock_collection)
 
 # @pytest.fixture(name="database_collection")
 # def fixture_analysis_database_collection():

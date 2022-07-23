@@ -31,11 +31,5 @@ def get_all_analyses_summaries(collections=Depends(database)):
 @router.get("/{name}", response_model=Analysis)
 def get_analysis_by_name(name: str, collections=Depends(database)):
     """Returns analysis case data by calling method to find case by it's name"""
-    if name == "CPAM0002":
-        return collections["analysis"].find_by_name("CPAM0002")
-    if name == "CPAM0046":
-        return collections["analysis"].find_by_name("CPAM0046")
-    if name == "CPAM0053":
-        return collections["analysis"].find_by_name("CPAM0053")
-
-    raise HTTPException(status_code=404, detail="Item not found")
+    return collections["analysis"].find_by_name(name)
+    # raise HTTPException(status_code=404, detail="Item not found")

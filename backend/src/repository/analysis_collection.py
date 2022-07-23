@@ -4,6 +4,9 @@ Collection with retrieves, creates, and modify analyses.
 # pylint: disable=no-self-use
 # This linting disable will be removed once database is added
 
+from statistics import variance
+
+
 class AnalysisCollection:
     """Repository to access analyses for projects"""
 
@@ -17,7 +20,6 @@ class AnalysisCollection:
     def all_summaries(self):
         """Returns all of the summaries for all of the analyses within the system"""
 
-        print("querrying all of the summaries for the analyses...")
         query_result =  self.collection.find({}, {
             "name": 1,
             "description": 1,
@@ -28,27 +30,28 @@ class AnalysisCollection:
             "last_modified_date": 1,
         })
 
-        print(query_result)
-
+        summaries = []
         for summary in query_result:
-            print(f"the summary{summary}")
-            genes_list =  map(lambda unit: unit['gene'], summary.genomic_units)
+            genes_list =  map(lambda unit: unit['gene'], summary['genomic_units'])
             genes_string_list = ', '.join(genes_list)
 
-            transcripts_list = [[ transcript_unit['transcript'] for transcript_unit in unit['transcripts']] for unit in summary.genomic_units]
+            transcripts_list = [[ transcript_unit['transcript'] for transcript_unit in unit['transcripts']] for unit in summary['genomic_units']]
+            flattened_transcripts_list = [transcript for transcript_items in transcripts_list for transcript in transcript_items]
 
-            variants_list = map(lambda unit: (filter(lambda variant: variant['hgvs_variant']), unit['variants']), summary.variants)
+            variant_list = [ variant['hgvs_variant'] for genomic_unit in summary['genomic_units'] for variant in genomic_unit['variants'] if variant['hgvs_variant'] ]
 
             genomic_units_summary = [{
                 "gene": genes_string_list,
-                "transcripts": transcripts_list,
-                "variants": variants_list
+                "transcripts": flattened_transcripts_list,
+                "variants": variant_list
             }]
     
-            summary.genomic_units = genomic_units_summary
-        print(list(query_result))
-        return list(query_result)
+            summary['genomic_units']= genomic_units_summary
+            summaries.append(summary)
+        
+        return summaries
 
     def find_by_name(self, name: str):
         """Returns analysis by searching for name"""
-        return self.collection.findOne( { "name": name } )
+        print(f"trying to find for {name}")
+        return self.collection.find_one( { "name": name } )
