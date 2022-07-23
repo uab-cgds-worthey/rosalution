@@ -8,10 +8,15 @@ from .repository.annotation_collection import AnnotationCollection
 from .repository.genomic_unit_collection import GenomicUnitCollection
 
 class Database:
-    """Interface for collections and additional resources for user09ing persistent state of the application"""
-
+    """
+    Interface for collections and additional resources for user09ing persistent
+    state of the application.
+    
+    Utilize the 'connect(client)' method to accept a configured MongoDB database
+    client. MongoDB does not connect until the first query on a MongoDB
+    collection is executed.
+    """
     def __init__(self, client):
-        """Accepts a configured MongoDB database client.  Does not connect until first operation is user09ed"""
         self.database_client = client
 
         # "An important note about collections (and databases) in MongoDB is that
@@ -23,17 +28,15 @@ class Database:
         # allocating the object."
         # https://pymongo.readthedocs.io/en/stable/tutorial.html#getting-a-collection
 
-        # self.collections = {
-        #   'analysis': AnalysisCollection(self.database_client.db['analysis']),
-        #   'annotation': AnnotationCollection(self.database_client.db['annotation'])
-        # }
-
         self.collections = {
-            "analysis": AnalysisCollection(),
-            "annotation": AnnotationCollection(),
-            "genomic_unit": GenomicUnitCollection(),
-            "user": UserCollection()
+            "analysis": AnalysisCollection(self.database_client.db['analyses']),
+            "annotation": AnnotationCollection(self.database_client.db['dataset_sources']),
+            "genomic_unit": GenomicUnitCollection(self.database_client.db['dataset_sources']),
+            "user": UserCollection(self.database_client.db['users']),
         }
+
+        print("initializing the collections in init for database...")
+        print(self.database_client)
 
     def __call__(self):
         """

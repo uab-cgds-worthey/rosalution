@@ -4,24 +4,21 @@ Manages the user collection of the users registered to rosalution
 # pylint: disable=no-self-use
 # This linting disable will be removed once database is added
 from ..security.security import verify_password
-from ..utils import read_fixture
 
 
 class UserCollection:
     """Collection for user09ing users"""
 
+    def __init__(self, users_collection):
+        self.collection = users_collection
+
     def all(self):
-        """Returns all users in the system"""
-        return read_fixture("users.json")
+        """Returns all annotation configurations"""
+        return self.collection.find()
 
     def find_by_name(self, name: str):
         """Returns user by searching for user's name"""
-        users = read_fixture("users.json")
-        for user in users:
-            if user == name:
-                return users[user]
-
-        return None
+        return self.collection.findOne( { "name": name } )
 
     def authenticate_user(self, username: str, password: str):
         """Takes a username string and a password string, finds the user, verfies the password and returns a user"""
