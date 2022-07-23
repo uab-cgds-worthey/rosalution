@@ -44,6 +44,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./backend:/app
+    environment:
+      MONGODB_HOST: "rosalution-db"
     networks:
       - rosalution-network
     labels:
