@@ -5,7 +5,7 @@
 from .repository.user_collection import UserCollection
 from .repository.analysis_collection import AnalysisCollection
 from .repository.annotation_collection import AnnotationCollection
-
+from .repository.genomic_unit_collection import GenomicUnitCollection
 
 class Database:
     """Interface for collections and additional resources for user09ing persistent state of the application"""
@@ -31,7 +31,8 @@ class Database:
         self.collections = {
             "analysis": AnalysisCollection(),
             "annotation": AnnotationCollection(),
-            "user": UserCollection(),
+            "genomic_unit": GenomicUnitCollection(),
+            "user": UserCollection()
         }
 
     def __call__(self):

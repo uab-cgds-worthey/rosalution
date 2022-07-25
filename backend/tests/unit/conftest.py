@@ -28,14 +28,22 @@ def fixture_annotation_collection():
 #     mock_database_collection = Mock()
 #     return mock_database_collection
 
-@pytest.fixture(name="annotation_queue")
-def fixture_annotation_queue(annotation_collection, cpam0046_analysis):
+@pytest.fixture(name="cpam0046_annotation_queue")
+def fixture_cpam0046_annotation_queue(annotation_collection, cpam0046_analysis):
     """
     Returns an thread-safe annotation queue with tasks
     """
     annotation_service = AnnotationService(annotation_collection)
     test_queue = queue.Queue()
     annotation_service.queue_annotation_tasks(cpam0046_analysis, test_queue)
+    return test_queue
+
+@pytest.fixture(name="cpam0002_annotation_queue")
+def fixture_cpam0002_annotation_queue(annotation_collection, cpam0002_analysis):
+    """ Annotation queue using the CPAM0002 analysis fixtures """
+    annotation_service = AnnotationService(annotation_collection)
+    test_queue = queue.Queue()
+    annotation_service.queue_annotation_tasks(cpam0002_analysis, test_queue)
     return test_queue
 
 @pytest.fixture(name="transcript_annotation_response")

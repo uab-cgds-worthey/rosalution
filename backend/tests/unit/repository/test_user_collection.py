@@ -3,7 +3,6 @@ import pytest
 
 from src.repository.user_collection import UserCollection
 
-
 def test_find_all_users(user_collection):
     """Get all the users from the user collection"""
     all_users = user_collection.all()

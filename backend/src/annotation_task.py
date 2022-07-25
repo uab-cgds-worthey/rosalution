@@ -31,6 +31,15 @@ def recurse(data, attrs, dataset, annotations):
 
     dataset_name = dataset['data_set']
     data_value = None
+    symbol_notation = None
+    symbol_value = None
+
+    if 'hgvs_variant' in dataset['genomic_unit_type']:
+        symbol_notation = 'transcript_id'
+        symbol_value = {
+            'transcript_id': data['transcript_id'],
+            'gene_symbol': data['gene_symbol']
+        }
 
     if '{' in first_attr:
         data_value = replace(first_attr, data)
@@ -38,23 +47,20 @@ def recurse(data, attrs, dataset, annotations):
         data_value = data[first_attr]
 
     annotation = {
-        "data_set_id": randomword(),
-        "data_set": dataset_name,
-        "data_source": dataset['data_source'],
-        "version": None,
-        "value": data_value
+        "genomic_unit": dataset['genomic_unit_type'],
+        "symbol_notation": symbol_notation,
+        "symbol_value": symbol_value,
+        "key": first_attr,
+        "value": {
+            "data_set_id": randomword(),
+            "data_set": dataset_name,
+            "data_source": dataset['data_source'],
+            "version": None,
+            "value": data_value
+        }
     }
 
-    identifier = ''
-
-    if 'transcript_id' in data:
-        identifier = data['transcript_id']
-
-    if identifier not in annotations:
-        annotations[identifier] = {}
-        annotations[identifier][dataset_name] = annotation
-    else:
-        annotations[identifier][dataset_name] = annotation
+    annotations.append(annotation)
 
     return annotations
 
@@ -88,7 +94,7 @@ class AnnotationTaskInterface:
 
     def extract(self, result):
         """ Interface extraction method for annotation tasks """
-        annotations = {}
+        annotations = []
 
         for dataset in self.datasets:
             if 'attribute' in dataset:

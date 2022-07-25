@@ -7,7 +7,6 @@ type of Genomic Unit.
 from itertools import groupby
 from ..utils import read_fixture
 
-
 class AnnotationCollection:
     """Repository for querying configurations for annotation"""
 

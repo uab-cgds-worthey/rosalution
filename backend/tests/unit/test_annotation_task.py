@@ -44,18 +44,15 @@ def test_extract_annotations_from_response(http_annotation_task_many_datasets, t
     """ Tests the annotation task extraction function """
     actual = http_annotation_task_many_datasets.extract(transcript_annotation_response)
 
-    transcripts = list(actual.keys())
+    annotation_one = actual[2]
+    annotation_two = actual[5]
 
-    first_transcript = transcripts[0]
-    second_transcript = transcripts[1]
+    assert annotation_one['symbol_notation'] == 'transcript_id'
+    assert annotation_one['symbol_value'] == { "transcript_id":"NM_001017980.4", "gene_symbol":"VMA21" }
 
-    assert len(actual) == 2
-    assert first_transcript == 'NM_001017980.4'
-    assert second_transcript == 'NM_001363810.1'
-
-    assert len(actual[first_transcript]) == 3
-
-    assert 'SIFT Prediction' in actual[second_transcript]
+    assert annotation_two['key'] == 'sift_score'
+    assert annotation_two['value']['data_set'] == "SIFT Score"
+    assert annotation_two['value']['value'] == 0.01
 
 def test_annotation_extraction_recurse(annotation_extraction_recurse_fixtures):
     """ Tests the annotation task recursive helper function for extracting specific pieces of data from a response """
@@ -63,16 +60,15 @@ def test_annotation_extraction_recurse(annotation_extraction_recurse_fixtures):
 
     actual = recurse(data, attrs, dataset, annotations)
 
-    actual_keys_list = list(actual.keys())
+    annotation_one = actual[0]
+    annotation_two = actual[1]
 
-    first_transcript = actual_keys_list[0]
-    second_transcript = actual_keys_list[1]
+    assert annotation_two['symbol_notation'] == 'transcript_id'
+    assert annotation_two['symbol_value'] == { "transcript_id": "NM_001363810.1", "gene_symbol": "VMA21" }
 
-    assert first_transcript == 'NM_001017980.4'
-    assert second_transcript == 'NM_001363810.1'
-
-    assert 'SIFT Score' in actual[first_transcript]
-    assert actual[second_transcript]['SIFT Score']['value'] == 0.01
+    assert annotation_one['key'] == 'sift_score'
+    assert annotation_one['value']['data_set'] == "SIFT Score"
+    assert annotation_one['value']['value'] == 0.02
 
 @pytest.fixture(name="hgvs_variant_genomic_unit")
 def fixture_genomic_unit():
@@ -130,10 +126,12 @@ def fixture_annotation_extraction_recurse():
                 {
                     "transcript_id":"NM_001017980.4",
                     "sift_score":0.02,
+                    "gene_symbol": "VMA21"
                 },
                 {
                     "sift_score":0.01,
                     "transcript_id":"NM_001363810.1",
+                    "gene_symbol": "VMA21"
                 }
             ],
         }
@@ -150,6 +148,6 @@ def fixture_annotation_extraction_recurse():
         "attribute": "transcript_consequences[].sift_score"
     }
 
-    annotations = {}
+    annotations = []
 
     return http_response_data, desired_attribute, transcript_dataset, annotations
