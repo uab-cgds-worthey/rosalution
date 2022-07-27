@@ -1,8 +1,6 @@
 """
 Manages the user collection of the users registered to rosalution
 """
-# pylint: disable=no-self-use
-# This linting disable will be removed once database is added
 from ..security.security import verify_password
 
 

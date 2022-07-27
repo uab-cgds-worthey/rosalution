@@ -1,27 +1,27 @@
 // connection URI
-const uri = "mongodb://localhost:27017/rosalution_db"
+const uri = 'mongodb://localhost:27017/rosalution_db';
 
 // The default path to the fixtures, can be changed to a script argument in the future
-const fixture_path = "/tmp/fixtures"
+const fixturePath = '/tmp/fixtures';
 
-db = connect(uri)
+// This JavaScript executes within a mongosh shell making 'connect' is implicitly available
+const db = connect(uri); // eslint-disable-line no-undef
 
-collections = {
-  'analyses': require(`${fixture_path}/initial-seed/analyses.json`),
-  'dataset_sources': require(`${fixture_path}/initial-seed/dataset-sources.json`),
-  'users': require(`${fixture_path}/initial-seed/users.json`),
-}
+const collections = {
+  'analyses': require(`${fixturePath}/initial-seed/analyses.json`),
+  'dataset_sources': require(`${fixturePath}/initial-seed/dataset-sources.json`),
+  'users': require(`${fixturePath}/initial-seed/users.json`),
+};
 
 try {
-  console.log(`Connected to MongoDB with URI ${uri}`)
+  console.log(`Connected to MongoDB with URI ${uri}`);
 
-  for( const [collection_name, collection_fixture] of Object.entries(collections) ) {
-    db[collection_name].drop()
-    print(`Dropping [${collection_name}] collection...`)
-    db[collection_name].insertMany(collection_fixture)
-    print(`Seeding [${collection_name}] with ${db[collection_name].countDocuments()} documents...`)
+  for ( const [collectionName, collectionFixture] of Object.entries(collections) ) {
+    db[collectionName].drop();
+    print(`Dropping [${collectionName}] collection...`);
+    db[collectionName].insertMany(collectionFixture);
+    print(`Seeding [${collectionName}] with ${db[collectionName].countDocuments()} documents...`);
   }
-  
-} catch(err) {
-  console.log(err.stack)
+} catch (err) {
+  console.log(err.stack);
 }
