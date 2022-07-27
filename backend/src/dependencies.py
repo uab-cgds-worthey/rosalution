@@ -1,4 +1,6 @@
 """ FastAPI application dependencies that are shared within the entire application """
+# pylint: disable=too-few-public-methods
+# Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 from pydantic import BaseSettings
 from pymongo import MongoClient
 
