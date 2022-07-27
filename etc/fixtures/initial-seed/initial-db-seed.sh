@@ -12,9 +12,9 @@ usage() {
   exit
 }
 
-while getopts ":d:f" opt; do
+while getopts ":a:v:h" opt; do
   case $opt in
-    h) mongodb_host=$OPTARG;;
+    a) mongodb_host=$OPTARG;;
     v) fixture_filepath=${OPTARG};;
     h) usage;;
     \?) echo "Invalid option -$OPTARG" && exit 127;;
