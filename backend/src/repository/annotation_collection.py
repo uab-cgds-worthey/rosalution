@@ -2,14 +2,13 @@
 Manges the annotation configuration of various genomic units according to the
 type of Genomic Unit.
 """
-# pylint: disable=no-self-use
-# This linting disable will be removed once database is added
 from itertools import groupby
 
 class AnnotationCollection:
     """Repository for querying configurations for annotation"""
 
     def __init__(self, annotation_collection):
+        """Initializes with the 'PyMongo' Collection object for the Data sets collection"""
         self.collection = annotation_collection
 
     def all(self):

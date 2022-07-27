@@ -13,6 +13,10 @@ from ..utils import read_fixture
 class GenomicUnitCollection:
     """ Repository for user09ing genomic units and their annotations """
 
+    def __init__(self, genomic_units_collection):
+        """Initializes with the 'PyMongo' Collection object for the Genomic Units collection"""
+        self.collection = genomic_units_collection
+
     def all(self):
         """ Returns all genomic units that are currently stored """
         return read_fixture("genomic-units-collection.json")

@@ -7,6 +7,10 @@ from .database import Database
 
 
 class Settings(BaseSettings):
+    """
+    Settings for Rosalution.  See https://fastapi.tiangolo.com/advanced/settings/
+    for more details.
+    """
     mongodb_host: str = "rosalution-db"
     mongodb_db: str = "rosalution_db"
 
@@ -20,4 +24,3 @@ database = Database(mongodb_client)
 
 # Queue that processess annotation tasks safely between threads
 annotation_queue = AnnotationQueue()
-

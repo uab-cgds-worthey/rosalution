@@ -1,101 +1,101 @@
 [
-    {
-        "username": "johndoe",
-        "full_name": "John Doe",
-        "email": "johndoe@example.com",
-        "scope": "modify",
-        "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-        "disabled": false
-    }, {
-        "username": "dev_admin",
-        "full_name": "Dev Admin",
-        "email": "devadmin@example.com",
-        "scope": "modify",
-        "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-        "disabled": false
-    }, {
-        "username": "dev_user",
-        "full_name": "Dev User",
-        "email": "devuser@example.com",
-        "scope": "modify",
-        "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-        "disabled": false
-    },{
-        "username": "user01",
-        "full_name": "User One",
-        "email": "userone@example.com",
-        "scope": "modify",
-        "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-        "disabled": false
-    },{
-        "username": "user02",
-        "full_name": "User Two",
-        "email": "usertwo@example.com",
-        "scope": "modify",
-        "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-        "disabled": false
-    }, {
-        "username": "user05",
-        "full_name": "User Five",
-        "email": "userfive@example.com",
-        "scope": "modify",
-        "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-        "disabled": false
-    }, {
-        "username": "user06",
-        "full_name": "User Six",
-        "email": "user06onison@uabmc.edu",
-        "scope": "modify",
-        "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-        "disabled": false
-    }, {
-        "username": "user07",
-        "full_name": "User Seven",
-        "email": "userseven@example.com",
-        "scope": "modify",
-        "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-        "disabled": false
-    },{
-        "username": "user08",
-        "full_name": "User Eight",
-        "email": "usereight@example.com",
-        "scope": "modify",
-        "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-        "disabled": false
-    },{
-        "username": "user09",
-        "full_name": "User Nine",
-        "email": "usernine@example.com",
-        "scope": "modify",
-        "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-        "disabled": false
-    }, {
-        "username": "user10",
-        "full_name": "User Ten",
-        "email": "user10@uab.edu",
-        "scope": "modify",
-        "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-        "disabled": false
-    },{
-        "username": "user11",
-        "full_name": "User Eleven",
-        "email": "user11l@uab.edu",
-        "scope": "modify",
-        "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-        "disabled": false
-    }, {
-        "username": "user12",
-        "full_name": "User Twelve",
-        "email": "usertwelve@example.com",
-        "scope": "modify",
-        "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-        "disabled": false
-    },{
-        "username": "user13",
-        "full_name": "User Thirteen",
-        "email": "user13@uab.edu",
-        "scope": "modify",
-        "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-        "disabled": false
-    }
+  {
+      "username": "johndoe",
+      "full_name": "John Doe",
+      "email": "johndoe@example.com",
+      "scope": "modify",
+      "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled": false
+  }, {
+      "username": "dev_admin",
+      "full_name": "Dev Admin",
+      "email": "devadmin@example.com",
+      "scope": "modify",
+      "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled": false
+  }, {
+      "username": "dev_user",
+      "full_name": "Dev User",
+      "email": "devuser@example.com",
+      "scope": "modify",
+      "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled": false
+  },{
+      "username": "user01",
+      "full_name": "User One",
+      "email": "userone@example.com",
+      "scope": "modify",
+      "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled": false
+  },{
+      "username": "user02",
+      "full_name": "User Two",
+      "email": "usertwo@example.com",
+      "scope": "modify",
+      "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled": false
+  }, {
+      "username": "user05",
+      "full_name": "User Five",
+      "email": "userfive@example.com",
+      "scope": "modify",
+      "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled": false
+  }, {
+      "username": "user06",
+      "full_name": "User Six",
+      "email": "user06onison@uabmc.edu",
+      "scope": "modify",
+      "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled": false
+  }, {
+      "username": "user07",
+      "full_name": "User Seven",
+      "email": "userseven@example.com",
+      "scope": "modify",
+      "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled": false
+  },{
+      "username": "user08",
+      "full_name": "User Eight",
+      "email": "usereight@example.com",
+      "scope": "modify",
+      "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled": false
+  },{
+      "username": "user09",
+      "full_name": "User Nine",
+      "email": "usernine@example.com",
+      "scope": "modify",
+      "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled": false
+  }, {
+      "username": "user10",
+      "full_name": "User Ten",
+      "email": "user10@uab.edu",
+      "scope": "modify",
+      "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled": false
+  },{
+      "username": "user11",
+      "full_name": "User Eleven",
+      "email": "user11l@uab.edu",
+      "scope": "modify",
+      "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled": false
+  }, {
+      "username": "user12",
+      "full_name": "User Twelve",
+      "email": "usertwelve@example.com",
+      "scope": "modify",
+      "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled": false
+  },{
+      "username": "user13",
+      "full_name": "User Thirteen",
+      "email": "user13@uab.edu",
+      "scope": "modify",
+      "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled": false
+  }
 ]

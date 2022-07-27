@@ -1,576 +1,576 @@
 [
-    {
-        "name": "CPAM0002",
-        "description": "Vacuolar myopathy with autophagy, X-linked vacuolar myopathy with autophagy",
-        "nominated_by": "Dr. Person One",
-        "latest_status": "Approved",
-        "created_date": "2020-11-09",
-        "last_modified_date": "2021-03-16",
-        "genomic_units": [
-            {
-                "gene": "VMA21",
-                "transcripts": [
-                    {
-                        "transcript": "NM_001017980.3"
-                    }
-                ],
-                "variants": [
-                    {
-                        "hgvs_variant": "NM_001017980.3:c.164G>T",
-                        "c_dot": "c.164G>T",
-                        "p_dot": "p.Gly55Val",
-                        "build": "hg19",
-                        "case": [
-                            {
-                                "field": "Evidence",
-                                "value": ["PVS1", "PM2"]
-                            },
-                            {
-                                "field": "Other Datasource",
-                                "value": ["PVS1","PM2"]
-                            },
-                            {
-                                "field": "Interpretation",
-                                "value": ["Likely Pathogenic"]
-                            }
-                    ]
-                }
-                ]
-            },
-            {
-                "gene": "DMD",
-                "transcripts": [
-                ],
-                "variants": [
-                    {
-                        "hgvs_variant": "",
-                        "c_dot": "",
-                        "p_dot": "",
-                        "build": "",
-                        "case": [
-                            {
-                                "field": "Interpretation",
-                                "value": ["Variant of Uncertain Significance"]
-                            }
-                    ]
-                }
-                ]
-            }
-        ],
-        "sections": [
-            {
-                "header": "Brief",
-                "content": [
-                    {
-                        "field": "Nominated",
-                        "value": []
-                    },
-                    {
-                        "field": "Reason",
-                        "value": []
-                    },
-                    {
-                        "field": "Desired Outcomes",
-                        "value": [
-                            "Review of ACMG classification", 
-                            "Functional impact study (in silico/animal/cell modeling)",
-                            "Therapeutic predictions (in silico predictions)"
-                        ]
-                    }
-                ]
-            },
-            {
-                "header": "Medical Summary",
-                "content": [
-                    {
-                        "field": "Clinical Diagnosis",
-                        "value": [
-                            "Vacuolor myopathy with autophagy, X-linked vacuolor myopathy with autophagy"
-                        ]
-                    },
-                    {
-                        "field": "Affected Individuals Identified",
-                        "value": [
-                            "1 patient, carrier mother"
-                        ]
-                    },
-                    {
-                        "field": "Pedigree",
-                        "value": ["Maternal grandfather with myopathy.",
-                            "Mother has muscle signal changes on MRI",
-                            "Thus presumed to be an X-linked myopathy"
-                        ]
-                    }
-                ]
-            },
-            {
-                "header": "Case Information",
-                "content": [
-                    {
-                        "field": "Systems",
-                        "value": [
-                            "Musculoskeletal and orthopedics"
-                        ]
-                    }, 
-                    {
-                        "field": "HPO Terms",
-                        "value": [
-                            "HP:0003198; HP:0003797; HP:0003325; HP:0008997; HP:0008994; HP:0001288; HP:0009060; HP:0004303; HP:0012103; HP:0003736"
-                        ]
-                    },
-                    {
-                        "field": "Additional Details",
-                        "value": [
-                            "8 yo male at time of testing. Ambulatory. Myopathy starting from 2 years of age with falls, elevated CK, and myopathic muscle biopsy. Clinical course is slowly progressive.",
-                            "Exam showed proximal limb girdle pattern of weakness. Proximal upper and lower extremity weakness. Myopathy Congenital myopathy. Diminished muscle bulk / eps. scapular, Lordotic gait.",
-                            "Muscle biopsy (2014) showed fiber size variability with prominent perimysial fibrous tissue; scattered myofibers with vacuoles staining dark blue with trichome and positive PAS staining; normal enzyme activity for phosphorylase, myoadenylase and phosphofructokinase.",
-                            "Electron microscopy (2014) showed membrane bound vacuoles which contain glycogen and degenerated mitochondria; some of these vacuoles contain secondary lysosomes.",
-                            "CK level 1121U/L."
-                        ]
-                    },
-                    {
-                        "field": "Experimental Design",
-                        "value": []
-                    },
-                    {
-                        "field": "Prior Testing",
-                        "value": [
-                            "DMD, LAMP2, myofibrillar myopathy panel performed testing for BAG3, crystalline B, desmin, DNAJB6, FLH1, LDB3, and myotilin. Non diagnostic.",
-                            "DMD testing revealed a hemizygous variant of unknown significance in the DMD gene.",
-                            "Fulgent Diagnostics identified a hemizygous VUS in the VMA21(XMEA); c.164G>T (p.Gly55Val). His mother also carried this variant."
-                        ]
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "name": "CPAM0046",
-        "description": ": LMNA-related congenital muscular dystropy",
-        "nominated_by": "Dr. Person Two",
-        "latest_status": "Approved",
-        "created_date": "2021-09-30",
-        "last_modified_date": "2021-10-01",
-        "genomic_units": [
-            {
-                "gene": "LMNA",
-                "transcripts": [
-                    {
-                        "transcript": "NM_170707.3"
-                    }
-                ],
-                "variants": [
-                    {
-                        "hgvs_variant": "NM_170707.3:c.745C>T",
-                        "c_dot": "c.745C>T",
-                        "p_dot": "p.R249W",
-                        "build": "hg19",
-                        "case": [
-                            {
-                                "field": "Evidence",
-                                "value": ["PS2","PS3","PM2","PP3","PP5"]
-                            },
-                            {
-                                "field": "Interpretation",
-                                "value": ["Pathogenic"]
-                            },
-                            {
-                                "field": "Inheritance",
-                                "value": ["De Novo"]
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
-        "sections": [
-            {
-                "header": "Brief",
-                "content": [
-                    {
-                        "field": "Nominated",
-                        "value": [
-                            "Dr. Person Two (Local) - working with Dr. Person Three in Person Four Lab"
-                        ]
-                    }, 
-                    {
-                        "field": "Reason",
-                        "value": [
-                            "Contribute a dominant negative patient-variant model to the existing zebrafish model (LOF; in-progress)",
-                            "Will be used in NBL 240: a research-based undergraduate course at UAB"
-                        ]
-                    },
-                    {
-                        "field": "Desired Outcomes",
-                        "value":  [
-                            "Functional impact confirmation (animal/cell modeling)", 
-                            "Therapeutic predictions (in-silico predictions)",
-                            "Downstream applications (sharing model to conduct larger drug screens)"
-                        ]
-                    }
-                ]
-            },
-            {
-                "header": "Medical Summary",
-                "content": [
-                    {
-                        "field": "Clinical Diagnosis",
-                        "value": [
-                            "LMNA-related congenital muscular dystropy"
-                        ]
-                    },
-                    {
-                        "field": "Affected Individuals Identified",
-                        "value": [
-                            "Male, YOB: 2019"
-                        ]
-                    }
-                ]
-            },
-            {
-                "header": "Case Information",
-                "content": [
-                    {
-                        "field": "Systems",
-                        "value": [
-                            "Growth Parameters; Craniofacial; Musculoskeletal; Gastrointestinal; Behavior, Cognition and Development; Neurological"
-                        ]
-                    },
-                    {
-                        "field": "HPO Terms",
-                        "value": [
-                            "HP:0001508; HP:0001357; HP:0000473; HP:0003560; HP:0003701; HP:0009062; HP:0012389; HP: 0003236; HP:0002020; HP:0011471; HP:0011968; HP:0001263; HP:0001265; HP:0000960"
-                        ]
-                    },
-                    {
-                        "field": "Additional Details",
-                        "value": [
-                            "Review of VUSes (Why not considered)",
-                            "NEB (NM_001164508.1)  | c.7385C>G (p.A2462G) (Pat.) and c.16625A>G (p.H5542R) (Mat.). - Associated with Nemaline myopathy 2, autosomal recessive -Both variants  are still classified as VUS (last evaluated Feb 2020) - 195 out of 203 (96.1%) non-VUS missense variants in gene NEB are benign",
-                            "LYZL6 (NM_020426.2)  | c.228G>C (p.Q76H) (Mat./Pat.) - Lysozyme Like 6. - No currently known disease associations.",
-                            "NOL6 (NM_022917.4)  | c.518G>A (p.R173Q) (Pat.) and c.91G>A (p.G31R) (Mat.). - Nucleolar protein 6. - No currently known disease associations"
-                        ]
-                    },
-                    {
-                        "field": "Experimental Design",
-                        "value": []
-                    },
-                    {
-                        "field": "Prior Testing",
-                        "value": [
-                            "WES - February  2020;"
-                        ]
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "name": "CPAM0047",
-        "description": "Congenital variant of Rett syndrome",
-        "genomic_units": [
+  {
+      "name": "CPAM0002",
+      "description": "Vacuolar myopathy with autophagy, X-linked vacuolar myopathy with autophagy",
+      "nominated_by": "Dr. Person One",
+      "latest_status": "Approved",
+      "created_date": "2020-11-09",
+      "last_modified_date": "2021-03-16",
+      "genomic_units": [
           {
-            "gene": "SBF1",
-            "transcripts": [
-                {
-                    "transcript": "NM_002972.2"
-                }
-            ],
-            "variants": [{
-                "hgvs_variant": "NM_002972.2:c.3493_3494dupTA",
-                "c_dot": "c.3493_3494dupTA",
-                "build": "hg19",
-                "case": []
-            }, {
-                "hgvs_variant": "NM_002972.2:c.5474_5475delTG",
-                "c_dot": "c.5474_5475delTG",
-                "build": "hg19",
-                "case": []
-            }]
-          }
-        ],
-        "nominated_by": "CMT4B3 Foundation",
-        "latest_status": "Declined",
-        "created_date": "2020-12-03",
-        "last_modified_date": "2021-12-12",
-        "sections": [
-            {
-                "header": "Brief",
-                "content": [
-                    {
-                        "field": "Nominated",
-                        "value": [ "CMT4B3 Foundation" ]
-                    }, 
-                    {
-                        "field": "Reason",
-                        "value": [ ] 
-                    },
-                    {
-                        "field": "Desired Outcomes",
-                        "value":  [ ]
-                    }
-                ]
-            },
-            {
-                "header": "Medical Summary",
-                "content": [
-                    {
-                        "field": "Clinical Diagnosis",
-                        "value": [ ]
-                    },
-                    {
-                        "field": "Affected Individuals Identified",
-                        "value": [ ]
-                    }
-                ]
-            },
-            {
-                "header": "Case Information",
-                "content": [
-                    {
-                        "field": "Systems",
-                        "value": [ ]
-                    },
-                    {
-                        "field": "HPO Terms",
-                        "value": [ ]
-                    },
-                    {
-                        "field": "Additional Details",
-                        "value": [ ]
-                    },
-                    {
-                        "field": "Experimental Design",
-                        "value": []
-                    },
-                    {
-                        "field": "Prior Testing",
-                        "value": [ ]
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "name": "CPAM0053",
-        "description": "Mild Zellweger Spectrum Disorder, a Peroxisome Biogenesis Disorder",
-        "nominated_by": "N/A",
-        "latest_status": "Ready",
-        "created_date": "2021-11-02",
-        "last_modified_date": "2021-11-23",
-        "genomic_units": [
-            {
-                "gene": "PEX10", 
-                "transcripts": [
-                    {
-                        "transcript": "NM_153818.2"
-                    }
-                ],
-                "variants": [ 
-                    {
-                        "hgvs_variant": "NM_153818.2:c.28dup",
-                        "c_dot": "c.28dup",
-                        "p_dot": "p.Glu10fs", 
-                        "build": "hg19",
-                        "case": [
-                            {
-                                "field": "Evidence",
-                                "value": ["PVS1", "PM2","PP5"]
-                            },
-                            {
-                                "field": "Interpretation",
-                                "value": ["Pathogenic"]
-                            },
-                            {
-                                "field": "Zygosity",
-                                "value": ["Compound Hetrozygous"]
-                            },
-                            {
-                                "field": "Inheritance",
-                                "value": ["Autosomal Recesive"]
-                            }
-                        ]
-                    }, 
-                    {
-                        "hgvs_variant": "NM_153818.2:c.928G>G",
-                        "c_dot": "c.928G>G",
-                        "p_dot": "p.His310Asp", 
-                        "build": "hg19",
-                        "case": [
-                            {
-                                "field": "Evidence",
-                                "value": ["PM2", "PM5", "PP3"]
-                            },
-                            {
-                                "field": "Interpretation",
-                                "value": ["Variant of Unknown Signifigance"]
-                            },
-                            {
-                                "field": "Zygosity",
-                                "value": ["Compound Hetrozygous"]
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
-        "sections": [
-            {
-                "header": "Brief",
-                "content": [
-                    {
-                        "field": "Nominated",
-                        "value": []
-                    },
-                    {
-                        "field": "Reason",
-                        "value": []
-                    },
-                    {
-                        "field": "Desired Outcomes",
-                        "value": [
-                            "Functional impact confirmation (animal/cell modeling)", 
-                            "Therapeutic predictions (in-silico predictions)",
-                            "Downstream applications",
-                            "Multiple labs interested in Zebrafish model"
-                        ]
-                    }
-                ]
-            },
-            {
-                "header": "Medical Summary",
-                "content": [
-                    {
-                        "field": "Clinical Diagnosis",
-                        "value": [
-                            "Mild Zellweger Spectrum Disorder (a Peroxisome Biogenesis Disorder)",
-                            "Current clinical manifestation is cerebellar ataxia that has impeded gross motor development."
-                        ]
-                    },
-                    {
-                        "field": "Affected Individuals Identified",
-                        "value": [
-                            "Pediatric Male (YOB: 2017) Local Participant"
-                        ]
-                    }
-                ]
-            },
-            {
-                "header": "Case Information",
-                "content": [
-                    {
-                        "field":"Systems",
-                        "value": [
-                            "Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"
-                        ]
-                    },
-                    {
-                        "field": "HPO Terms",
-                        "value": []
-                    },
-                    {
-                        "field":"Additional Details",
-                        "value": [
-                            "Invitae Boosted Exome in 2019",
-                            "Symptoms: postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus"
-                        ]
-                    },
-                    {
-                        "field": "Experimental Design",
-                        "value": []
-                    },
-                    {
-                        "field": "Prior Testing",
-                        "value": []
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "name": "CPAM0065",
-        "description": "Congenital variant of Rett syndrome",
-        "genomic_units": [
-            {
-                "gene": "FOXG1",
-                "transcripts": [
-                    {
-                        "transcript": "NPM_005249.5"
-                    }
-                ],
-                "variants": [{
-                    "hgvs_variant": "NPM_005249.5:c.924G>A",
-                    "c_dot": "c.924G>A",
-                    "build": "hg19",
-                    "case": []
-                }, {
-                    "hgvs_variant": "NPM_005249.5:c.256dup",
-                    "c_dot": "c.256dup",
-                    "build": "hg19",
-                    "case": []
-                }]
+              "gene": "VMA21",
+              "transcripts": [
+                  {
+                      "transcript": "NM_001017980.3"
+                  }
+              ],
+              "variants": [
+                  {
+                      "hgvs_variant": "NM_001017980.3:c.164G>T",
+                      "c_dot": "c.164G>T",
+                      "p_dot": "p.Gly55Val",
+                      "build": "hg19",
+                      "case": [
+                          {
+                              "field": "Evidence",
+                              "value": ["PVS1", "PM2"]
+                          },
+                          {
+                              "field": "Other Datasource",
+                              "value": ["PVS1","PM2"]
+                          },
+                          {
+                              "field": "Interpretation",
+                              "value": ["Likely Pathogenic"]
+                          }
+                  ]
               }
-        ],
-        "nominated_by": "Believe in a Cure Foundation",
-        "latest_status": "Declined",
-        "created_date": "2020-12-03",
-        "last_modified_date": "2021-12-12",
-        "sections": [
-            {
-                "header": "Brief",
-                "content": [
-                    {
-                        "field": "Nominated",
-                        "value": [ "Believe in a Cure Foundation" ]
-                    }, 
-                    {
-                        "field": "Reason",
-                        "value": [ ] 
-                    },
-                    {
-                        "field": "Desired Outcomes",
-                        "value":  [ ]
-                    }
-                ]
-            },
-            {
-                "header": "Medical Summary",
-                "content": [
-                    {
-                        "field": "Clinical Diagnosis",
-                        "value": [ ]
-                    },
-                    {
-                        "field": "Affected Individuals Identified",
-                        "value": [ ]
-                    }
-                ]
-            },
-            {
-                "header": "Case Information",
-                "content": [
-                    {
-                        "field": "Systems",
-                        "value": [ ]
-                    },
-                    {
-                        "field": "HPO Terms",
-                        "value": [ ]
-                    },
-                    {
-                        "field": "Additional Details",
-                        "value": [ ]
-                    },
-                    {
-                        "field": "Experimental Design",
-                        "value": []
-                    },
-                    {
-                        "field": "Prior Testing",
-                        "value": [ ]
-                    }
-                ]
+              ]
+          },
+          {
+              "gene": "DMD",
+              "transcripts": [
+              ],
+              "variants": [
+                  {
+                      "hgvs_variant": "",
+                      "c_dot": "",
+                      "p_dot": "",
+                      "build": "",
+                      "case": [
+                          {
+                              "field": "Interpretation",
+                              "value": ["Variant of Uncertain Significance"]
+                          }
+                  ]
+              }
+              ]
+          }
+      ],
+      "sections": [
+          {
+              "header": "Brief",
+              "content": [
+                  {
+                      "field": "Nominated",
+                      "value": []
+                  },
+                  {
+                      "field": "Reason",
+                      "value": []
+                  },
+                  {
+                      "field": "Desired Outcomes",
+                      "value": [
+                          "Review of ACMG classification", 
+                          "Functional impact study (in silico/animal/cell modeling)",
+                          "Therapeutic predictions (in silico predictions)"
+                      ]
+                  }
+              ]
+          },
+          {
+              "header": "Medical Summary",
+              "content": [
+                  {
+                      "field": "Clinical Diagnosis",
+                      "value": [
+                          "Vacuolor myopathy with autophagy, X-linked vacuolor myopathy with autophagy"
+                      ]
+                  },
+                  {
+                      "field": "Affected Individuals Identified",
+                      "value": [
+                          "1 patient, carrier mother"
+                      ]
+                  },
+                  {
+                      "field": "Pedigree",
+                      "value": ["Maternal grandfather with myopathy.",
+                          "Mother has muscle signal changes on MRI",
+                          "Thus presumed to be an X-linked myopathy"
+                      ]
+                  }
+              ]
+          },
+          {
+              "header": "Case Information",
+              "content": [
+                  {
+                      "field": "Systems",
+                      "value": [
+                          "Musculoskeletal and orthopedics"
+                      ]
+                  }, 
+                  {
+                      "field": "HPO Terms",
+                      "value": [
+                          "HP:0003198; HP:0003797; HP:0003325; HP:0008997; HP:0008994; HP:0001288; HP:0009060; HP:0004303; HP:0012103; HP:0003736"
+                      ]
+                  },
+                  {
+                      "field": "Additional Details",
+                      "value": [
+                          "8 yo male at time of testing. Ambulatory. Myopathy starting from 2 years of age with falls, elevated CK, and myopathic muscle biopsy. Clinical course is slowly progressive.",
+                          "Exam showed proximal limb girdle pattern of weakness. Proximal upper and lower extremity weakness. Myopathy Congenital myopathy. Diminished muscle bulk / eps. scapular, Lordotic gait.",
+                          "Muscle biopsy (2014) showed fiber size variability with prominent perimysial fibrous tissue; scattered myofibers with vacuoles staining dark blue with trichome and positive PAS staining; normal enzyme activity for phosphorylase, myoadenylase and phosphofructokinase.",
+                          "Electron microscopy (2014) showed membrane bound vacuoles which contain glycogen and degenerated mitochondria; some of these vacuoles contain secondary lysosomes.",
+                          "CK level 1121U/L."
+                      ]
+                  },
+                  {
+                      "field": "Experimental Design",
+                      "value": []
+                  },
+                  {
+                      "field": "Prior Testing",
+                      "value": [
+                          "DMD, LAMP2, myofibrillar myopathy panel performed testing for BAG3, crystalline B, desmin, DNAJB6, FLH1, LDB3, and myotilin. Non diagnostic.",
+                          "DMD testing revealed a hemizygous variant of unknown significance in the DMD gene.",
+                          "Fulgent Diagnostics identified a hemizygous VUS in the VMA21(XMEA); c.164G>T (p.Gly55Val). His mother also carried this variant."
+                      ]
+                  }
+              ]
+          }
+      ]
+  },
+  {
+      "name": "CPAM0046",
+      "description": ": LMNA-related congenital muscular dystropy",
+      "nominated_by": "Dr. Person Two",
+      "latest_status": "Approved",
+      "created_date": "2021-09-30",
+      "last_modified_date": "2021-10-01",
+      "genomic_units": [
+          {
+              "gene": "LMNA",
+              "transcripts": [
+                  {
+                      "transcript": "NM_170707.3"
+                  }
+              ],
+              "variants": [
+                  {
+                      "hgvs_variant": "NM_170707.3:c.745C>T",
+                      "c_dot": "c.745C>T",
+                      "p_dot": "p.R249W",
+                      "build": "hg19",
+                      "case": [
+                          {
+                              "field": "Evidence",
+                              "value": ["PS2","PS3","PM2","PP3","PP5"]
+                          },
+                          {
+                              "field": "Interpretation",
+                              "value": ["Pathogenic"]
+                          },
+                          {
+                              "field": "Inheritance",
+                              "value": ["De Novo"]
+                          }
+                      ]
+                  }
+              ]
+          }
+      ],
+      "sections": [
+          {
+              "header": "Brief",
+              "content": [
+                  {
+                      "field": "Nominated",
+                      "value": [
+                          "Dr. Person Two (Local) - working with Dr. Person Three in Person Four Lab"
+                      ]
+                  }, 
+                  {
+                      "field": "Reason",
+                      "value": [
+                          "Contribute a dominant negative patient-variant model to the existing zebrafish model (LOF; in-progress)",
+                          "Will be used in NBL 240: a research-based undergraduate course at UAB"
+                      ]
+                  },
+                  {
+                      "field": "Desired Outcomes",
+                      "value":  [
+                          "Functional impact confirmation (animal/cell modeling)", 
+                          "Therapeutic predictions (in-silico predictions)",
+                          "Downstream applications (sharing model to conduct larger drug screens)"
+                      ]
+                  }
+              ]
+          },
+          {
+              "header": "Medical Summary",
+              "content": [
+                  {
+                      "field": "Clinical Diagnosis",
+                      "value": [
+                          "LMNA-related congenital muscular dystropy"
+                      ]
+                  },
+                  {
+                      "field": "Affected Individuals Identified",
+                      "value": [
+                          "Male, YOB: 2019"
+                      ]
+                  }
+              ]
+          },
+          {
+              "header": "Case Information",
+              "content": [
+                  {
+                      "field": "Systems",
+                      "value": [
+                          "Growth Parameters; Craniofacial; Musculoskeletal; Gastrointestinal; Behavior, Cognition and Development; Neurological"
+                      ]
+                  },
+                  {
+                      "field": "HPO Terms",
+                      "value": [
+                          "HP:0001508; HP:0001357; HP:0000473; HP:0003560; HP:0003701; HP:0009062; HP:0012389; HP: 0003236; HP:0002020; HP:0011471; HP:0011968; HP:0001263; HP:0001265; HP:0000960"
+                      ]
+                  },
+                  {
+                      "field": "Additional Details",
+                      "value": [
+                          "Review of VUSes (Why not considered)",
+                          "NEB (NM_001164508.1)  | c.7385C>G (p.A2462G) (Pat.) and c.16625A>G (p.H5542R) (Mat.). - Associated with Nemaline myopathy 2, autosomal recessive -Both variants  are still classified as VUS (last evaluated Feb 2020) - 195 out of 203 (96.1%) non-VUS missense variants in gene NEB are benign",
+                          "LYZL6 (NM_020426.2)  | c.228G>C (p.Q76H) (Mat./Pat.) - Lysozyme Like 6. - No currently known disease associations.",
+                          "NOL6 (NM_022917.4)  | c.518G>A (p.R173Q) (Pat.) and c.91G>A (p.G31R) (Mat.). - Nucleolar protein 6. - No currently known disease associations"
+                      ]
+                  },
+                  {
+                      "field": "Experimental Design",
+                      "value": []
+                  },
+                  {
+                      "field": "Prior Testing",
+                      "value": [
+                          "WES - February  2020;"
+                      ]
+                  }
+              ]
+          }
+      ]
+  },
+  {
+      "name": "CPAM0047",
+      "description": "Congenital variant of Rett syndrome",
+      "genomic_units": [
+        {
+          "gene": "SBF1",
+          "transcripts": [
+              {
+                  "transcript": "NM_002972.2"
+              }
+          ],
+          "variants": [{
+              "hgvs_variant": "NM_002972.2:c.3493_3494dupTA",
+              "c_dot": "c.3493_3494dupTA",
+              "build": "hg19",
+              "case": []
+          }, {
+              "hgvs_variant": "NM_002972.2:c.5474_5475delTG",
+              "c_dot": "c.5474_5475delTG",
+              "build": "hg19",
+              "case": []
+          }]
+        }
+      ],
+      "nominated_by": "CMT4B3 Foundation",
+      "latest_status": "Declined",
+      "created_date": "2020-12-03",
+      "last_modified_date": "2021-12-12",
+      "sections": [
+          {
+              "header": "Brief",
+              "content": [
+                  {
+                      "field": "Nominated",
+                      "value": [ "CMT4B3 Foundation" ]
+                  }, 
+                  {
+                      "field": "Reason",
+                      "value": [ ] 
+                  },
+                  {
+                      "field": "Desired Outcomes",
+                      "value":  [ ]
+                  }
+              ]
+          },
+          {
+              "header": "Medical Summary",
+              "content": [
+                  {
+                      "field": "Clinical Diagnosis",
+                      "value": [ ]
+                  },
+                  {
+                      "field": "Affected Individuals Identified",
+                      "value": [ ]
+                  }
+              ]
+          },
+          {
+              "header": "Case Information",
+              "content": [
+                  {
+                      "field": "Systems",
+                      "value": [ ]
+                  },
+                  {
+                      "field": "HPO Terms",
+                      "value": [ ]
+                  },
+                  {
+                      "field": "Additional Details",
+                      "value": [ ]
+                  },
+                  {
+                      "field": "Experimental Design",
+                      "value": []
+                  },
+                  {
+                      "field": "Prior Testing",
+                      "value": [ ]
+                  }
+              ]
+          }
+      ]
+  },
+  {
+      "name": "CPAM0053",
+      "description": "Mild Zellweger Spectrum Disorder, a Peroxisome Biogenesis Disorder",
+      "nominated_by": "N/A",
+      "latest_status": "Ready",
+      "created_date": "2021-11-02",
+      "last_modified_date": "2021-11-23",
+      "genomic_units": [
+          {
+              "gene": "PEX10", 
+              "transcripts": [
+                  {
+                      "transcript": "NM_153818.2"
+                  }
+              ],
+              "variants": [ 
+                  {
+                      "hgvs_variant": "NM_153818.2:c.28dup",
+                      "c_dot": "c.28dup",
+                      "p_dot": "p.Glu10fs", 
+                      "build": "hg19",
+                      "case": [
+                          {
+                              "field": "Evidence",
+                              "value": ["PVS1", "PM2","PP5"]
+                          },
+                          {
+                              "field": "Interpretation",
+                              "value": ["Pathogenic"]
+                          },
+                          {
+                              "field": "Zygosity",
+                              "value": ["Compound Hetrozygous"]
+                          },
+                          {
+                              "field": "Inheritance",
+                              "value": ["Autosomal Recesive"]
+                          }
+                      ]
+                  }, 
+                  {
+                      "hgvs_variant": "NM_153818.2:c.928G>G",
+                      "c_dot": "c.928G>G",
+                      "p_dot": "p.His310Asp", 
+                      "build": "hg19",
+                      "case": [
+                          {
+                              "field": "Evidence",
+                              "value": ["PM2", "PM5", "PP3"]
+                          },
+                          {
+                              "field": "Interpretation",
+                              "value": ["Variant of Unknown Signifigance"]
+                          },
+                          {
+                              "field": "Zygosity",
+                              "value": ["Compound Hetrozygous"]
+                          }
+                      ]
+                  }
+              ]
+          }
+      ],
+      "sections": [
+          {
+              "header": "Brief",
+              "content": [
+                  {
+                      "field": "Nominated",
+                      "value": []
+                  },
+                  {
+                      "field": "Reason",
+                      "value": []
+                  },
+                  {
+                      "field": "Desired Outcomes",
+                      "value": [
+                          "Functional impact confirmation (animal/cell modeling)", 
+                          "Therapeutic predictions (in-silico predictions)",
+                          "Downstream applications",
+                          "Multiple labs interested in Zebrafish model"
+                      ]
+                  }
+              ]
+          },
+          {
+              "header": "Medical Summary",
+              "content": [
+                  {
+                      "field": "Clinical Diagnosis",
+                      "value": [
+                          "Mild Zellweger Spectrum Disorder (a Peroxisome Biogenesis Disorder)",
+                          "Current clinical manifestation is cerebellar ataxia that has impeded gross motor development."
+                      ]
+                  },
+                  {
+                      "field": "Affected Individuals Identified",
+                      "value": [
+                          "Pediatric Male (YOB: 2017) Local Participant"
+                      ]
+                  }
+              ]
+          },
+          {
+              "header": "Case Information",
+              "content": [
+                  {
+                      "field":"Systems",
+                      "value": [
+                          "Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"
+                      ]
+                  },
+                  {
+                      "field": "HPO Terms",
+                      "value": []
+                  },
+                  {
+                      "field":"Additional Details",
+                      "value": [
+                          "Invitae Boosted Exome in 2019",
+                          "Symptoms: postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus"
+                      ]
+                  },
+                  {
+                      "field": "Experimental Design",
+                      "value": []
+                  },
+                  {
+                      "field": "Prior Testing",
+                      "value": []
+                  }
+              ]
+          }
+      ]
+  },
+  {
+      "name": "CPAM0065",
+      "description": "Congenital variant of Rett syndrome",
+      "genomic_units": [
+          {
+              "gene": "FOXG1",
+              "transcripts": [
+                  {
+                      "transcript": "NPM_005249.5"
+                  }
+              ],
+              "variants": [{
+                  "hgvs_variant": "NPM_005249.5:c.924G>A",
+                  "c_dot": "c.924G>A",
+                  "build": "hg19",
+                  "case": []
+              }, {
+                  "hgvs_variant": "NPM_005249.5:c.256dup",
+                  "c_dot": "c.256dup",
+                  "build": "hg19",
+                  "case": []
+              }]
             }
-        ]
-      }
+      ],
+      "nominated_by": "Believe in a Cure Foundation",
+      "latest_status": "Declined",
+      "created_date": "2020-12-03",
+      "last_modified_date": "2021-12-12",
+      "sections": [
+          {
+              "header": "Brief",
+              "content": [
+                  {
+                      "field": "Nominated",
+                      "value": [ "Believe in a Cure Foundation" ]
+                  }, 
+                  {
+                      "field": "Reason",
+                      "value": [ ] 
+                  },
+                  {
+                      "field": "Desired Outcomes",
+                      "value":  [ ]
+                  }
+              ]
+          },
+          {
+              "header": "Medical Summary",
+              "content": [
+                  {
+                      "field": "Clinical Diagnosis",
+                      "value": [ ]
+                  },
+                  {
+                      "field": "Affected Individuals Identified",
+                      "value": [ ]
+                  }
+              ]
+          },
+          {
+              "header": "Case Information",
+              "content": [
+                  {
+                      "field": "Systems",
+                      "value": [ ]
+                  },
+                  {
+                      "field": "HPO Terms",
+                      "value": [ ]
+                  },
+                  {
+                      "field": "Additional Details",
+                      "value": [ ]
+                  },
+                  {
+                      "field": "Experimental Design",
+                      "value": []
+                  },
+                  {
+                      "field": "Prior Testing",
+                      "value": [ ]
+                  }
+              ]
+          }
+      ]
+    }
 ]

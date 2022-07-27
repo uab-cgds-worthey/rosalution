@@ -2,8 +2,6 @@
 import pytest
 
 from src.enums import GenomicUnitType
-from src.repository.annotation_collection import AnnotationCollection
-
 
 def test_get_datasets_configuration_by_type(annotation_collection):
     """Tests getting the datasets for the provided types of genomic units"""
@@ -16,17 +14,6 @@ def test_get_datasets_to_annotate_for_units(annotation_collection, genomic_units
     actual_configuration = annotation_collection.datasets_to_annotate_for_units(genomic_units_for_annotation)
     assert len(actual_configuration["gene"]) == 9
     assert len(actual_configuration["hgvs_variant"]) == 11
-
-@pytest.fixture(name="annotation_collection")
-def fixture_annotation_collection():
-    """
-    Returns the annotation collection for the configuration to verify
-    annotation tasks are created according to the configuration
-    """
-    # mock_collection = Mock()
-    # mock_collection.find = Mock( return_value = read_fixture("annotation-sources.json") )
-    # return AnnotationCollection(mock_collection)
-    return AnnotationCollection()
 
 @pytest.fixture(name="genomic_units_for_annotation")
 def fixture_genomic_units():

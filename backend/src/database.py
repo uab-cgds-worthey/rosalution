@@ -12,7 +12,7 @@ class Database:
     """
     Interface for collections and additional resources for user09ing persistent
     state of the application.
-    
+
     Utilize the 'connect(client)' method to accept a configured MongoDB database
     client. MongoDB does not connect until the first query on a MongoDB
     collection is executed.
@@ -28,15 +28,12 @@ class Database:
         # a constructuro since there is not chance for failure creating/
         # allocating the object."
         # https://pymongo.readthedocs.io/en/stable/tutorial.html#getting-a-collection
-        self.db = self.database_client.rosalution_db
+        self.database = self.database_client.rosalution_db
         self.collections = {
-            "analysis": AnalysisCollection(self.database_client.db['analyses']),
-            "annotation": AnnotationCollection(self.database_client.db['dataset_sources']),
-            "genomic_unit": GenomicUnitCollection(self.database_client.db['dataset_sources']),
-            "user": UserCollection(self.database_client.db['users']),
-            "analysis": AnalysisCollection(self.db['analyses']),
-            "annotation": AnnotationCollection(self.db['dataset_sources']),
-            "user": UserCollection(self.db['users']),
+            "analysis": AnalysisCollection(self.database['analyses']),
+            "annotation": AnnotationCollection(self.database['dataset_sources']),
+            "genomic_unit": GenomicUnitCollection(self.database['genomic_units']),
+            "user": UserCollection(self.database['users']),
         }
 
     def __call__(self):

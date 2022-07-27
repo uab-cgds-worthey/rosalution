@@ -10,7 +10,8 @@
     "data_source": "OMIM",
     "genomic_unit_type": "gene",
     "annotation_source_type": "none"
-  },{
+  },
+  {
     "data_set": "HPO",
     "data_source": "???",
     "genomic_unit_type": "gene",
@@ -33,17 +34,20 @@
     "data_source": "Aliance Genome",
     "genomic_unit_type": "gene",
     "annotation_source_type": "none"
-  }, {
+  },
+  {
     "data_set": "Modelability",
     "data_source": "Aliance Genome",
     "genomic_unit_type": "gene",
     "annotation_source_type": "none"
-  }, {
+  },
+  {
     "data_set": "Human Gene Expression Profile",
     "data_source": "gTex",
     "genomic_unit_type": "gene",
     "annotation_source_type": "none"
-  }, {
+  },
+  {
     "data_set": "Druggability",
     "data_source": "Pharos",
     "genomic_unit_type": "gene",

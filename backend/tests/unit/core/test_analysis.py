@@ -1,7 +1,6 @@
 """Tests to verify Analysis operations"""
 import pytest
 
-from src.core.analysis import Analysis
 from src.enums import GenomicUnitType
 
 
@@ -35,14 +34,7 @@ def test_get_transcripts_in_units_to_annotate(units_to_annotate):
     assert "NM_001017980.3" in transcript_names
 
 
-@pytest.fixture(name="analysis")
-def fixture_analysis(analysis_collection):
-    """Fixture for the CPAM0002 Analysis"""
-    analysis_json = analysis_collection.find_by_name("CPAM0002")
-    return Analysis(**analysis_json)
-
-
 @pytest.fixture(name="units_to_annotate")
-def fixture_units_to_annotate(analysis):
+def fixture_units_to_annotate(cpam0002_analysis):
     """Fixture for the units to annotate for the CPAM0002 Analysis"""
-    return analysis.units_to_annotate()
+    return cpam0002_analysis.units_to_annotate()

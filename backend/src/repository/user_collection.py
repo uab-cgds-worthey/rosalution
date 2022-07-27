@@ -10,6 +10,7 @@ class UserCollection:
     """Collection for user09ing users"""
 
     def __init__(self, users_collection):
+        """Initializes with the 'PyMongo' Collection object for the users collection"""
         self.collection = users_collection
 
     def all(self):
@@ -18,7 +19,7 @@ class UserCollection:
 
     def find_by_name(self, name: str):
         """Returns user by searching for user's name"""
-        return self.collection.findOne( { "name": name } )
+        return self.collection.find_one( { "name": name } )
 
     def authenticate_user(self, username: str, password: str):
         """Takes a username string and a password string, finds the user, verfies the password and returns a user"""
