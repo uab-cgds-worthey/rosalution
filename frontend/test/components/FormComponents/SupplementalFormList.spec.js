@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import SupplementalFormList from '../../../src/components/AnalysisView/SupplementalFormList.vue';
 import ModalDialog from '../../../src/components/AnalysisView/ModalDialog.vue';
 
-describe('SupplementalFormList.vue', () => {
+describe.skip('SupplementalFormList.vue', () => {
   let wrapper;
 
   beforeEach(() => {

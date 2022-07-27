@@ -3,17 +3,18 @@
     <tbody>
         <tr class="supplemental-header">
             <td>
-                <h2>Supplemental Attachments</h2>
+                <h2 class="supplemental-header-name">Supplemental Attachments</h2>
             </td>
             <td>
                 <button class="add-attachment-button" @click="showAttachDocumentModal()" data-test="add-button">
-                    <font-awesome-icon icon="circle-plus" size="2xl"/>
+                    <font-awesome-icon icon="circle-plus" size="xl"/>
                 </button>
             </td>
             <td class="collapse-box">
                 <font-awesome-icon icon="chevron-down" size="lg"/>
             </td>
         </tr>
+        <div class="seperator"></div>
         <ModalDialog v-if="showModal"
                     v-on:closemodal="this.showAttachDocumentModal"
                     v-on:addattachment="this.onAttachmentChange"
@@ -24,15 +25,15 @@
                     <font-awesome-icon :icon="['far', 'file']" size="lg"/>
                 </td>
                 <td class="attachment-name">
-                    <span> {{ attachment.name }}</span>
+                    {{ attachment.name }}
                 </td>
-                <td>
-                    <button class="comment-button" v-on:click="comment(attachment.comment)">
+                <td class="comment-button">
+                    <button v-on:click="comment(attachment.comment)">
                         <font-awesome-icon :icon="['far', 'comment']" size="xl"/>
                     </button>
                 </td>
-                <td>
-                    <button class="edit-button" v-on:click="edit(attachment)">
+                <td class="edit-button">
+                    <button  v-on:click="edit(attachment)">
                         <font-awesome-icon icon="pencil" size="xl"/>
                     </button>
                 </td>
@@ -89,99 +90,109 @@ export default {
     @import url("https://use.typekit.net/rgh1osc.css");
 
     div {
-        font-family: "Proxima Nova", sans-serif;
-        padding: 0%;
+      font-family: "Proxima Nova", sans-serif;
+      padding: 0%;
     }
 
     .supplemental-container {
-        display: flex;
-        flex-direction: column;
-        padding: var(--p-10);
-        margin: 0.625rem;
-        width: 100%;
-        gap: .625rem;
-        border-radius: 1.25rem;
-        background-color: var(--rosalution-white);
+      display: flex;
+      flex-direction: column;
+      padding: var(--p-10);
+      margin: 0.625rem;
+      width: 100%;
+      gap: .625rem;
+      border-radius: 1.25rem;
+      background-color: var(--rosalution-white);
     }
 
     .supplemental-header {
-        line-height: 1.75rem;
-        height: 1.75rem;
-        margin: .125rem .125rem 0 .125rem;
+      height: 1.75rem;
+      display: flex;
+      flex-direction: row;
+    }
+
+    .supplemental-header-name {
+      height: 1.75rem;
+      margin: .125rem .125rem 0 .125rem;
+    }
+    .add-attachment-button {
+      border: none;
+      background: none;
+      height: 1.75rem;
+      padding: 0;
     }
 
     .collapse-box {
-        color: var(--rosalution-grey-200);
-        right: 3%;
-        position: absolute;
-        vertical-align: middle;
-        height: 1.75rem;
+      color: var(--rosalution-grey-200);
+      float: right;
+      right: 3%;
+      position: absolute;
+    }
+
+    .seperator {
+      height: .125rem;
+      background-color: var(--rosalution-grey-100);
+      border: solid .0469rem var(--rosalution-grey-100);
     }
 
     .attachment-list:nth-child(even) {
-        background-color: var(--rosalution-grey-100);
+      background-color: var(--rosalution-grey-100);
     }
 
     .attachment-list:nth-child(odd) {
-        background-color: var(--rosalution-grey-50);
-    }
-
-    .add-attachment-button {
-        border: none;
-        background: none;
+      background-color: var(--rosalution-grey-50);
     }
 
     .attachment-list {
-        height: 4rem;
-        width: 100%;
-        vertical-align: middle;
-        align-items: center;
+      width: 100%;
+      vertical-align: middle;
+      align-items: center;
     }
 
     .attachment-row {
-        height: 1.75remrem;
-        width: 55rem;
-        vertical-align: middle;
-        font-size: 1.125rem;
-        line-height: 1.75rem;
+      height: 1.75rem;
+      width: 100%;
+      vertical-align: middle;
+      font-size: 1.125rem;
+      line-height: 1.75rem;
     }
 
     .attachment-name {
-        padding-left: 1rem;
-        color: var(--rosalution-purple-300);
-        vertical-align: middle;
-        font-weight: bold;
+      padding-left: 1rem;
+      color: var(--rosalution-purple-300);
+      vertical-align: middle;
+      font-weight: bold;
     }
 
     .edit-button {
-        border: none;
-        background: none;
-        float: right;
-        right: 6%;
-        position: absolute;
-        vertical-align: middle;
+      border: none;
+      background: none;
+      float: right;
+      right: 3%;
+      position: absolute;
+      padding: 0.5rem 0 0.5rem 0;
     }
 
     .comment-button {
-        border: none;
-        background: none;
-        float: right;
-        right: 9%;
-        position: absolute;
-        vertical-align: middle;
+      border: none;
+      background: none;
+      float: right;
+      right: 6%;
+      position: absolute;
+      padding: 0.5rem 0 0.5rem 0;
+    }
+
+    button {
+      border: inherit;
+      background-color: inherit;
+      color: inherit;
     }
 
     .attachment-logo {
-        border: none;
-        background: none;
-        float: left;
-        margin: auto;
-        align-content: center;
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
-        padding-right: 0.75rem;
-        padding-left: 0.75rem;
-        vertical-align: middle;
+      border: none;
+      background: none;
+      float: left;
+      padding: 0.5rem 0.75rem 0.5rem 0.75rem;
     }
 
 </style>
