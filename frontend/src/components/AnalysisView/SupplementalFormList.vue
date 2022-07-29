@@ -60,7 +60,6 @@ export default {
   },
   methods: {
     onAttachmentChange(attachment) {
-    //   const fileData = file[0];
       this.attachments.push(attachment);
     },
     comment(attachment) {
@@ -87,112 +86,112 @@ export default {
 
 
 <style scoped>
-    @import url("https://use.typekit.net/rgh1osc.css");
+  @import url("https://use.typekit.net/rgh1osc.css");
 
-    div {
-      font-family: "Proxima Nova", sans-serif;
-      padding: 0%;
-    }
+  div {
+    font-family: "Proxima Nova", sans-serif;
+    padding: 0%;
+  }
 
-    .supplemental-container {
-      display: flex;
-      flex-direction: column;
-      padding: var(--p-10);
-      margin: 0.625rem;
-      width: 100%;
-      gap: .625rem;
-      border-radius: 1.25rem;
-      background-color: var(--rosalution-white);
-    }
+  .supplemental-container {
+    display: flex;
+    flex-direction: column;
+    padding: var(--p-10);
+    margin: 0.625rem;
+    width: 100%;
+    gap: .625rem;
+    border-radius: 1.25rem;
+    background-color: var(--rosalution-white);
+  }
 
-    .supplemental-header {
-      height: 1.75rem;
-      display: flex;
-      flex-direction: row;
-    }
+  .supplemental-header {
+    height: 1.75rem;
+    display: flex;
+    flex-direction: row;
+  }
 
-    .supplemental-header-name {
-      height: 1.75rem;
-      margin: .125rem .125rem 0 .125rem;
-    }
-    .add-attachment-button {
-      border: none;
-      background: none;
-      height: 1.75rem;
-      padding: 0;
-    }
+  .supplemental-header-name {
+    height: 1.75rem;
+    margin: .125rem .125rem 0 .125rem;
+  }
+  .add-attachment-button {
+    border: none;
+    background: none;
+    height: 1.75rem;
+    padding: 0;
+  }
 
-    .collapse-box {
-      color: var(--rosalution-grey-200);
-      float: right;
-      right: 3%;
-      position: absolute;
-    }
+  .collapse-box {
+    color: var(--rosalution-grey-200);
+    float: right;
+    right: 3%;
+    position: absolute;
+  }
 
-    .seperator {
-      height: .125rem;
-      background-color: var(--rosalution-grey-100);
-      border: solid .0469rem var(--rosalution-grey-100);
-    }
+  .seperator {
+    height: .125rem;
+    background-color: var(--rosalution-grey-100);
+    border: solid .0469rem var(--rosalution-grey-100);
+  }
 
-    .attachment-list:nth-child(even) {
-      background-color: var(--rosalution-grey-100);
-    }
+  .attachment-list:nth-child(even) {
+    background-color: var(--rosalution-grey-100);
+  }
 
-    .attachment-list:nth-child(odd) {
-      background-color: var(--rosalution-grey-50);
-    }
+  .attachment-list:nth-child(odd) {
+    background-color: var(--rosalution-grey-50);
+  }
 
-    .attachment-list {
-      width: 100%;
-      vertical-align: middle;
-      align-items: center;
-    }
+  .attachment-list {
+    width: 100%;
+    vertical-align: middle;
+    align-items: center;
+  }
 
-    .attachment-row {
-      height: 1.75rem;
-      width: 100%;
-      vertical-align: middle;
-      font-size: 1.125rem;
-      line-height: 1.75rem;
-    }
+  .attachment-row {
+    height: 1.75rem;
+    width: 100%;
+    vertical-align: middle;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
 
-    .attachment-name {
-      padding-left: 1rem;
-      color: var(--rosalution-purple-300);
-      vertical-align: middle;
-      font-weight: bold;
-    }
+  .attachment-name {
+    padding-left: 1rem;
+    color: var(--rosalution-purple-300);
+    vertical-align: middle;
+    font-weight: bold;
+  }
 
-    .edit-button {
-      border: none;
-      background: none;
-      float: right;
-      right: 3%;
-      position: absolute;
-      padding: 0.5rem 0 0.5rem 0;
-    }
+  .edit-button {
+    border: none;
+    background: none;
+    float: right;
+    right: 3%;
+    position: absolute;
+    padding: 0.5rem 0 0.5rem 0;
+  }
 
-    .comment-button {
-      border: none;
-      background: none;
-      float: right;
-      right: 6%;
-      position: absolute;
-      padding: 0.5rem 0 0.5rem 0;
-    }
+  .comment-button {
+    border: none;
+    background: none;
+    float: right;
+    right: 6%;
+    position: absolute;
+    padding: 0.5rem 0 0.5rem 0;
+  }
 
-    button {
-      border: inherit;
-      background-color: inherit;
-      color: inherit;
-    }
+  button {
+    border: inherit;
+    background-color: inherit;
+    color: inherit;
+  }
 
-    .attachment-logo {
-      border: none;
-      background: none;
-      float: left;
-      padding: 0.5rem 0.75rem 0.5rem 0.75rem;
-    }
+  .attachment-logo {
+    border: none;
+    background: none;
+    float: left;
+    padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+  }
 
 </style>
