@@ -17,6 +17,7 @@
           :header="section.header"
           :contentList="section.content"
         />
+        <SupplementalFormList/>
       </app-content>
   </div>
 </template>
@@ -25,12 +26,14 @@
 import Analyses from '@/models/analyses.js';
 import SectionBox from '../components/AnalysisView/SectionBox.vue';
 import GeneBox from '../components/AnalysisView/GeneBox.vue';
+import SupplementalFormList from '../components/AnalysisView/SupplementalFormList.vue';
 
 export default {
   name: 'analysis-view',
   components: {
     SectionBox,
     GeneBox,
+    SupplementalFormList,
   },
   props: ['analysis_name'],
   data: function() {

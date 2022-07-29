@@ -2,8 +2,8 @@ import {describe, it, beforeEach, expect} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 import sinon from 'sinon';
 
-import SupplementalFormList from '../../../src/components/FormComponents/SupplementalFormList.vue';
-import ModalDialog from '../../../src/components/FormComponents/ModalDialog.vue';
+import SupplementalFormList from '../../../src/components/AnalysisView/SupplementalFormList.vue';
+import ModalDialog from '../../../src/components/AnalysisView/ModalDialog.vue';
 
 describe('SupplementalFormList.vue', () => {
   let wrapper;
@@ -42,34 +42,19 @@ describe('SupplementalFormList.vue', () => {
 
     modalWrapper.vm.$emit('closemodal');
 
-    expect(wrapper.findAll('tr').length).toBe(0);
+    expect(wrapper.findAll('tr').length).toBe(1);
 
     await wrapper.vm.$nextTick();
 
     expect(onModalDialogSpy.called).toBe(true);
     expect(onAttachmentSpy.called).toBe(true);
-    expect(wrapper.findAll('tr').length).toBe(1);
+    expect(wrapper.findAll('tr').length).toBe(2);
     expect(wrapper.vm.$data.attachments.length).toBe(1);
-  });
-
-  it('Clicking minus-logo button removes the attachment', async () => {
-    const fakeAttachments = [{
-      data: 'fakeFiledData',
-      name: '/path/to/fakeFile.ext',
-      type: 'file',
-    }];
-
-    await wrapper.setData({attachments: fakeAttachments});
-
-    expect(wrapper.findAll('tr').length).toBe(1);
-
-    await wrapper.find('#removeAttachmentButton').trigger('click');
-
-    expect(wrapper.findAll('tr').length).toBe(0);
-    expect(wrapper.vm.$data.attachments.length).toBe(0);
   });
 
   // These have not been implemented yet with the new design.
   it.skip('clicking comment-logo pops up the comment modal', () => {});
   it.skip('clicking edit-logo pops up the edit modal', () => {});
+  // This test will be added when the Modal dialog is completed to attch links and files.
+  it.skip('correct logo displays based on attachment type', () => {});
 });

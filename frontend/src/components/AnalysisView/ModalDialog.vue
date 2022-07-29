@@ -22,8 +22,8 @@
 
 <script>
 // Unsure how tabbed will handle this, but leaving here for now
-// import SupplementalLoadFile from '@/components/FormComponents/SupplementalLoadFile.vue';
-import SupplementalLoadLink from '@/components/FormComponents/SupplementalLoadLink.vue';
+// import SupplementalLoadFile from '@/components/AnalysisView/SupplementalLoadFile.vue';
+import SupplementalLoadLink from '@/components/AnalysisView/SupplementalLoadLink.vue';
 
 export default {
   name: 'modal-dialog',
