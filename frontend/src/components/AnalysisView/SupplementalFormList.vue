@@ -28,7 +28,7 @@
                     {{ attachment.name }}
                 </td>
                 <td class="comment-button">
-                    <button v-on:click="comment(attachment.comment)">
+                    <button v-on:click="comment(attachment)">
                         <font-awesome-icon :icon="['far', 'comment']" size="xl"/>
                     </button>
                 </td>
