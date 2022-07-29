@@ -41,6 +41,30 @@ To force images to re-build, use the `--build` option
 docker-compose up --build
 ```
 
+## Database, Fixtures, and Seeding the Database
+
+Fixtures are located in the `<project-root>/etc/fixtures` directory.  Mount
+`initial-db-seed.sh` and `./etc/fixtures` with the MongoDB container
+respectively to `/docker-entrypoint-initdb.d/initial-db-seed.sh` and
+`./tmp/fixtures`.
+
+### Seeding the Database
+
+The database is initially seeded at the time of container startup using the
+`/docker-entrypoint-initdb.d/initial-db-seed.sh` script.  See
+<https://hub.docker.com/_/mongo/>[MongoDB Initializing a fresh instance] for
+more information on `/docker-entrypoint-initdb.d` and how `*.js` and `*.sh`
+scripts are executed at the time of startup in that directory.
+
+`./etc/fixtures/seed.js` script is used to reset the state of the database or 
+update it to be within a different state.  Cypress will utilize this script
+via a `docker-compose exec` command to run the script within the mongodb
+database container, as seen below.
+
+```bash
+docker-compose exec rosalution-db  mongosh /tmp/fixtures/seed.js
+```
+
 ## Production Build and Deployment
 
 Use the the production docker-compose.production.yml to build & deploy Rosalution
