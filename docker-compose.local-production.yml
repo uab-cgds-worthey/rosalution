@@ -45,6 +45,8 @@ services:
       dockerfile: Dockerfile
     networks:
       - rosalution-network
+    environment:
+      MONGODB_HOST: "rosalution-db"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=rosalution-network"
@@ -54,6 +56,16 @@ services:
       - "traefik.http.routers.backend-router.middlewares=backend-strip-prefix"
       - "traefik.http.middlewares.backend-strip-prefix.stripprefix.prefixes=/rosalution/api"
       - "traefik.http.services.backend-api-service.loadbalancer.server.port=8000"
+
+  rosalution-db:
+    image: mongo:5.0.9
+    volumes:
+      - ./etc/fixtures/initial-seed/initial-db-seed.sh:/docker-entrypoint-initdb.d/initial-db-seed.sh
+      - ./etc/fixtures/:/tmp/fixtures
+    networks:
+      - rosalution-network
+    environment:
+      MONGO_INITDB_DATABASE: rosluation_db
 
 networks:
   rosalution-network:

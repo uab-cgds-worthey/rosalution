@@ -13,8 +13,11 @@
 // Cypress.Commands.add('login', (email, password) => { ... })
 //
 //
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
+Cypress.Commands.add('resetDatabase', () => {
+  console.log('adding  reset database');
+  return cy.exec(`docker-compose exec rosalution-db  mongosh /tmp/fixtures/seed.js`);
+});
+
 //
 //
 // -- This is a dual command --

@@ -14,7 +14,7 @@ def test_find_all_users(user_collection):
 
 def test_find_specific_user_successful(user_collection):
     """Get all the users from the user collection"""
-    user = user_collection.find_by_name("johndoe")
+    user = user_collection.find_by_username("johndoe")
     assert user["full_name"] == "John Doe"
     assert user["email"] == "johndoe@example.com"
 
@@ -22,7 +22,7 @@ def test_find_specific_user_successful(user_collection):
 def test_find_specific_user_unsuccessful(user_collection):
     """Get all the users from the user collection"""
     user_collection.collection.find_one.return_value = None
-    user = user_collection.find_by_name("johnnybravo")
+    user = user_collection.find_by_username("johnnybravo")
     assert user is None
 
 

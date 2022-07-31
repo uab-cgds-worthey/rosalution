@@ -15,13 +15,13 @@ class UserCollection:
         """Returns all annotation configurations"""
         return self.collection.find()
 
-    def find_by_name(self, name: str):
+    def find_by_username(self, username: str):
         """Returns user by searching for user's name"""
-        return self.collection.find_one( { "name": name } )
+        return self.collection.find_one({ "username": username })
 
     def authenticate_user(self, username: str, password: str):
         """Takes a username string and a password string, finds the user, verfies the password and returns a user"""
-        user = self.find_by_name(username)
+        user = self.find_by_username(username)
         if not user:
             return False
         if not verify_password(password, user["hashed_password"]):
