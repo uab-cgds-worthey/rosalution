@@ -55,7 +55,7 @@ Now go to `localhost:port` in a web browser.
 
 To run the backend service in a docker container.
 
-**Local Development Build:**
+### Local Development Build
 
 ```bash
 # From the base project folder: /backend
@@ -72,7 +72,7 @@ docker images
 docker run -v <absolute_path_to_backend>/:/app/ -p 127.0.0.1:8000:8000 <image_id>
 ```
 
-**Local Production Build:**
+### Local Production Build
 
 ```bash
 # From the base project folder: /backend

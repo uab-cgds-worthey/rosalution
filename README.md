@@ -56,7 +56,7 @@ The database is initially seeded at the time of container startup using the
 more information on `/docker-entrypoint-initdb.d` and how `*.js` and `*.sh`
 scripts are executed at the time of startup in that directory.
 
-`./etc/fixtures/seed.js` script is used to reset the state of the database or 
+`./etc/fixtures/seed.js` script is used to reset the state of the database or
 update it to be within a different state.  Cypress will utilize this script
 via a `docker-compose exec` command to run the script within the mongodb
 database container, as seen below.
