@@ -58,10 +58,10 @@ services:
       - "traefik.http.services.backend-api-service.loadbalancer.server.port=8000"
 
   rosalution-db:
-    image: mongo:5.0.9
-    volumes:
-      - ./etc/fixtures/initial-seed/initial-db-seed.sh:/docker-entrypoint-initdb.d/initial-db-seed.sh
-      - ./etc/fixtures/:/tmp/fixtures
+    build:
+      context: ./etc/fixtures/
+      target: production-stage
+      dockerfile: production.Dockerfile
     networks:
       - rosalution-network
     environment:

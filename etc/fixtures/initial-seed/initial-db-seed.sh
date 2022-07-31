@@ -6,7 +6,7 @@ usage() {
   echo " -h MongoDB host URL"
   echo "    (default) localhost:27017"
   echo " -f Fixtures filepath"
-  echo "    (default) /tmp/fixtures"
+  echo "    (default) /tmp/fixtures/initial-seed"
   echo " "
   echo "Seeds the initial Rosalution database with base fixtures for local development and system testing"
   exit
