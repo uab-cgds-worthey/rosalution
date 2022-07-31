@@ -18,9 +18,12 @@ pip install -r requirements.txt
 Rosalution uses Environment variables for configuring the application at the time
 of startup.
 
-- **MONGODB_HOST** Sets the host or host:port for the server host address for MongoDB. (default) rosalution-db
-  - The default is the docker-compose name for the service, so inside other docker containers within the same network, the docker-compose name will resolve to that service
-- **MONGODB_DB** Sets the database name to connect to at startup time (default) rosalution_db
+- **MONGODB_HOST** Sets the host or host:port for the server host address for MongoDB.
+    (default) rosalution-db
+      - The default is the docker-compose name for the service, so inside other docker containers within the same network,
+      the docker-compose name will resolve to that service
+- **MONGODB_DB** Sets the database name to connect to at startup time
+    (default) rosalution_db
 
 ## Linting
 
