@@ -1,11 +1,12 @@
 """ Manages the genomic unit collection. Including reading, writing, fetching various genomic units. """
 
 from unittest.mock import Mock, patch, MagicMock
-
 import pytest
 
 from src.enums import GenomicUnitType
 from src.repository.genomic_unit_collection import GenomicUnitCollection
+
+from ...test_utils import mock_mongo_collection
 
 # Strictly for test coverage, this function will disappear when mongo is added
 @patch("json.dump", MagicMock(return_value='{cool}'))
@@ -35,7 +36,7 @@ def test_update_genomic_unit(
 @pytest.fixture(name="genomic_unit_collection")
 def fixture_genomic_unit_collection():
     """ Returns a genomic unit collection """
-    return GenomicUnitCollection()
+    return GenomicUnitCollection(mock_mongo_collection())
 
 @pytest.fixture(name="genomic_unit_annotation_fixture")
 def fixture_genomic_unit_annotation():

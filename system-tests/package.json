@@ -13,6 +13,7 @@
   },
   "scripts": {
     "test:e2e": "cypress run",
+    "test:e2e:open": "cypress open --e2e",
     "lint": "eslint --ext .js,.ts ./",
     "lint:auto": "eslint --ext .js,.ts ./ --fix"
   }

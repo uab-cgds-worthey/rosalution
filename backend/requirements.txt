@@ -2,6 +2,7 @@ fastapi==0.74.1
 uvicorn==0.17.5
 python-cas==1.5.0
 itsdangerous==2.1.2
+pymongo==4.2.0
 
 python-multipart
 python-jose[cryptography]

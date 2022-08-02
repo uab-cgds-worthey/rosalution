@@ -33,6 +33,8 @@ cas_client = CASClient(
 
 # pylint: disable=no-member
 # This is done because pylint doesn't appear to be recognizing python-cas's functions saying they have no member
+
+
 @router.get("/login")
 async def login(request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None):
     """rosalution Login Method"""
@@ -58,6 +60,7 @@ async def login(request: Request, nexturl: Optional[str] = None, ticket: Optiona
     base_url = "http://dev.cgds.uab.edu"
     return RedirectResponse(base_url + nexturl)
 
+
 @router.get("/get_user")
 def get_user(request: Request):
     """Returns active user in session"""
@@ -65,6 +68,7 @@ def get_user(request: Request):
         return {"username": request.session["username"]}
 
     return {"username": ""}
+
 
 @router.get("/logoutCas")
 def logout(request: Request):
@@ -79,6 +83,7 @@ def logout(request: Request):
 
 ## OAuth2 Login ##
 
+
 @router.post("/token")
 def login_oauth(
     request: Request,
@@ -89,8 +94,10 @@ def login_oauth(
     """
     OAuth2 compatible token login, get an access token for future requests.
     """
-    collections["user"].authenticate_user(form_data.username, form_data.password)
-    access_token_expires = timedelta(minutes=constants.ACCESS_TOKEN_EXPIRE_MINUTES)
+    collections["user"].authenticate_user(
+        form_data.username, form_data.password)
+    access_token_expires = timedelta(
+        minutes=constants.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
         data={"sub": form_data.username, "scopes": form_data.scopes},
         expires_delta=access_token_expires,
@@ -112,7 +119,7 @@ def issue_token(
     if "username" in request.session:
         print(request.session["username"])
     user_collection = collections["user"]
-    user = user_collection.find_by_name(username)
+    user = user_collection.find_by_username(username)
     current_user = User(**user)
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive User")

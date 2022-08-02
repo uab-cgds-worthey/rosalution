@@ -13,6 +13,18 @@ root structure.
 pip install -r requirements.txt
 ```
 
+## Configuration
+
+Rosalution uses Environment variables for configuring the application at the time
+of startup.
+
+- **MONGODB_HOST** Sets the host or host:port for the server host address for MongoDB.
+    (default) rosalution-db
+      - The default is the docker-compose name for the service, so inside other docker containers within the same network,
+      the docker-compose name will resolve to that service
+- **MONGODB_DB** Sets the database name to connect to at startup time
+    (default) rosalution_db
+
 ## Linting
 
 This project uses `pylint` as a linting tool.
@@ -43,7 +55,7 @@ Now go to `localhost:port` in a web browser.
 
 To run the backend service in a docker container.
 
-**Local Development Build:**
+### Local Development Build
 
 ```bash
 # From the base project folder: /backend
@@ -60,7 +72,7 @@ docker images
 docker run -v <absolute_path_to_backend>/:/app/ -p 127.0.0.1:8000:8000 <image_id>
 ```
 
-**Local Production Build:**
+### Local Production Build
 
 ```bash
 # From the base project folder: /backend

@@ -1,3 +1,4 @@
+
 """Module user09es interface to the repository in the data layer that stores the persistent state of the application"""
 # pylint: disable=too-few-public-methods
 # This wrapper is intended to create a callable instance for FastAPI Depedency Injection
@@ -8,10 +9,15 @@ from .repository.annotation_collection import AnnotationCollection
 from .repository.genomic_unit_collection import GenomicUnitCollection
 
 class Database:
-    """Interface for collections and additional resources for user09ing persistent state of the application"""
+    """
+    Interface for collections and additional resources for user09ing persistent
+    state of the application.
 
+    Utilize the 'connect(client)' method to accept a configured MongoDB database
+    client. MongoDB does not connect until the first query on a MongoDB
+    collection is executed.
+    """
     def __init__(self, client):
-        """Accepts a configured MongoDB database client.  Does not connect until first operation is user09ed"""
         self.database_client = client
 
         # "An important note about collections (and databases) in MongoDB is that
@@ -22,17 +28,12 @@ class Database:
         # a constructuro since there is not chance for failure creating/
         # allocating the object."
         # https://pymongo.readthedocs.io/en/stable/tutorial.html#getting-a-collection
-
-        # self.collections = {
-        #   'analysis': AnalysisCollection(self.database_client.db['analysis']),
-        #   'annotation': AnnotationCollection(self.database_client.db['annotation'])
-        # }
-
+        self.database = self.database_client.rosalution_db
         self.collections = {
-            "analysis": AnalysisCollection(),
-            "annotation": AnnotationCollection(),
-            "genomic_unit": GenomicUnitCollection(),
-            "user": UserCollection()
+            "analysis": AnalysisCollection(self.database['analyses']),
+            "annotation": AnnotationCollection(self.database['dataset_sources']),
+            "genomic_unit": GenomicUnitCollection(self.database['genomic_units']),
+            "user": UserCollection(self.database['users']),
         }
 
     def __call__(self):

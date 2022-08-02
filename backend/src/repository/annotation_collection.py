@@ -2,29 +2,22 @@
 Manges the annotation configuration of various genomic units according to the
 type of Genomic Unit.
 """
-# pylint: disable=no-self-use
-# This linting disable will be removed once database is added
 from itertools import groupby
-from ..utils import read_fixture
 
 class AnnotationCollection:
     """Repository for querying configurations for annotation"""
 
-    # def __init__(self, annotation_collection):
-    # self.collection = annotation_collection
+    def __init__(self, annotation_collection):
+        """Initializes with the 'PyMongo' Collection object for the Data sets collection"""
+        self.collection = annotation_collection
 
     def all(self):
         """Returns all annotation configurations"""
-        # return self.collection.find() - eventually
-        return read_fixture("dataset-sources.json")
+        return self.collection.find()
 
     def find_by_data_set(self, dataset_name):
         """Returns a data set source that matches by name"""
-        for dataset in self.all():
-            if dataset_name == dataset.get("data_set"):
-                return dataset
-
-        return None
+        return self.collection.findOne( { "data_set": dataset_name } )
 
     def datasets_to_annotate_by_type(self, types):
         """gets dataset configurations according to the types"""

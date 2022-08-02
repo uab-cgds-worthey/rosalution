@@ -1,0 +1,23 @@
+[
+    {
+        "id": "",
+        "gene_symbol": "VMA21",
+        "annotations": {}
+    },
+    {
+        "id": "",
+        "gene_symbol": "DMD",
+        "annotations": {}
+    },
+    {
+        "id": "",
+        "hgvs_notation": "NM_001017980.3:c.164G>T",
+        "chromosome": "chrX",
+        "position": "150573388",
+        "reference": "G",
+        "alternate": "T",
+        "transcripts": [
+        ],
+        "annotations": {}
+    }
+]

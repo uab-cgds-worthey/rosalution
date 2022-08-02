@@ -6,7 +6,6 @@ from itsdangerous import TimestampSigner
 
 # Helper functions
 
-
 def create_session_cookie(data) -> str:
     """Function that creates a fake session token cookie to mimic Starlette session middleware"""
     signer = TimestampSigner(str("!secret"))

@@ -4,7 +4,6 @@ import pytest
 
 from src.annotation_task import HttpAnnotationTask, NoneAnnotationTask
 from src.enums import GenomicUnitType
-from src.core.analysis import Analysis
 from src.annotation import AnnotationService
 
 def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_collection):
@@ -20,7 +19,6 @@ def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_col
 # The patch requires that the 'mock' being created must be the first argument
 # so removing it causes the test to not run.  Also is unable to detect
 # the mock overide of the 'annotate' function on DataSetSource is valid either.
-
 @patch("src.annotation.log_to_file")
 def test_processing_annotation_tasks(log_to_file_mock, cpam0046_annotation_queue):  # pylint: disable=unused-argument
     """Verifies that each item on the annotation queue is read and executed"""
@@ -63,15 +61,3 @@ def fixture_cpam0046_hgvs_variant(cpam0046_analysis):
             unit = genomic_unit
 
     return unit
-
-@pytest.fixture(name="cpam0046_analysis")
-def fixture_cpam0046_analysis(analysis_collection):
-    """Returns the Analysis for CPAM0046 to verify creating annotation tasks"""
-    analysis_json = analysis_collection.find_by_name("CPAM0046")
-    return Analysis(**analysis_json)
-
-@pytest.fixture(name="cpam0002_analysis")
-def fixture_cpam0002_analysis(analysis_collection):
-    """Returns the Analysis for CPAM0002 to verify creating annotation tasks"""
-    analysis_json = analysis_collection.find_by_name("CPAM0002")
-    return Analysis(**analysis_json)

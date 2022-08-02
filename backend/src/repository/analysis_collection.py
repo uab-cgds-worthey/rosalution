@@ -1,32 +1,57 @@
 """
 Collection with retrieves, creates, and modify analyses.
 """
-# pylint: disable=no-self-use
-# This linting disable will be removed once database is added
-
-from ..utils import read_fixture
 
 
 class AnalysisCollection:
     """Repository to access analyses for projects"""
 
-    # def __init__(self, analysis_collection):
-    #     self.collection = analysis_collection
+    def __init__(self, analysis_collection):
+        """Initializes with the 'PyMongo' Collection object for the Analyses collection"""
+        self.collection = analysis_collection
 
     def all(self):
         """Returns all analyses within the system"""
-        return read_fixture("analyses.json")
+        return list(self.collection.find())
 
     def all_summaries(self):
         """Returns all of the summaries for all of the analyses within the system"""
-        return read_fixture("analyses-summary.json")
+
+        query_result = self.collection.find({}, {
+            "name": 1,
+            "description": 1,
+            "genomic_units": 1,
+            "nominated_by": 1,
+            "latest_status": 1,
+            "created_date": 1,
+            "last_modified_date": 1,
+        })
+
+        summaries = []
+        for summary in query_result:
+            genes_list = map(
+                lambda unit: unit['gene'], summary['genomic_units'])
+            genes_string_list = ', '.join(genes_list)
+
+            transcripts_list = [[transcript_unit['transcript']
+                                 for transcript_unit in unit['transcripts']] for unit in summary['genomic_units']]
+            flattened_transcripts_list = [
+                transcript for transcript_items in transcripts_list for transcript in transcript_items]
+
+            variant_list = [variant['c_dot'] for genomic_unit in summary['genomic_units']
+                            for variant in genomic_unit['variants'] if variant['c_dot']]
+
+            genomic_units_summary = [{
+                "gene": genes_string_list,
+                "transcripts": flattened_transcripts_list,
+                "variants": variant_list
+            }]
+
+            summary['genomic_units'] = genomic_units_summary
+            summaries.append(summary)
+
+        return summaries
 
     def find_by_name(self, name: str):
         """Returns analysis by searching for name"""
-        analyses = read_fixture("analyses.json")
-        for analysis in analyses:
-            analysis_name = analysis.get("name")
-            if analysis_name == name:
-                return analysis
-
-        return None
+        return self.collection.find_one({"name": name})
