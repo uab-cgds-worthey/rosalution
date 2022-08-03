@@ -1,23 +1,20 @@
 <template>
-  <header>
-    <img src="@/assets/rosalution-logo.svg" class="rosalution-logo">
-    <div data-test="primary-content" class="content">
-      <span class="title left-content">rosalution</span>
+  <HeaderComponent>
       <div class="search">
         <font-awesome-icon icon="magnifying-glass" size="lg" class="search-icon"></font-awesome-icon>
         <input data-test="analysis-search" type="search" @input="onSearch" placeholder="Search">
       </div>
-      <span v-if="username" class="login" data-test="user-text">{{ username }}</span>
-      <router-link :to="{ path: '/rosalution/login' }">
-        <button class="login" data-test="user-menu">LOGIN</button>
-      </router-link>
-    </div>
-  </header>
+  </HeaderComponent>
 </template>
 
 <script>
+import HeaderComponent from '@/components/HeaderComponent.vue';
+
 export default {
-  name: 'header-component',
+  name: 'analysis-listing-header-component',
+  components: {
+    HeaderComponent,
+  },
   props: {
     username: String,
   },
@@ -30,32 +27,6 @@ export default {
 </script>
 
 <style>
-header {
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
-  background-color: var(--primary-background-color);
-}
-
-img.rosalution-logo {
-  width: 55px;
-  height: 45px;
-  flex: 0 0 auto;
-}
-
-header .content {
-  display: flex;
-  flex: 1 1 auto;
-  align-items: center;
-  gap: 12px;
-  padding: var(--p-8);
-  border-radius: var(--content-border-radius);
-  background-color: var(--secondary-background-color);
-}
-
-header .left-content {
-  flex: 0;
-}
 
 .search {
   flex: 1 1 auto;
@@ -87,12 +58,6 @@ header .left-content {
 .search input:hover,
 .search input:focus {
   background-color:var(--secondary-background-color);
-}
-
-/** todo: need to figure out what this style ought to be */
-.login {
-  font-size: 1.125rem;
-  line-height: 2rem;
 }
 
 </style>

@@ -1,7 +1,7 @@
 import {expect, describe, it, beforeAll, afterAll} from 'vitest';
 import {config, shallowMount} from '@vue/test-utils';
 
-import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
+import HeaderComponent from '@/components/HeaderComponent.vue';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {RouterLink} from 'vue-router';
@@ -16,7 +16,7 @@ function getMountedComponent(props) {
     username: '',
   };
 
-  return shallowMount(AnalysisListingHeader, {
+  return shallowMount(HeaderComponent, {
     props: {...defaultProps, ...props},
     global: {
       components: {
@@ -35,10 +35,9 @@ afterAll(() => {
   config.renderStubDefaultSlot = false;
 });
 
-describe('AnalysisListingHeader.vue', () => {
-  it.only('should display application title', () => {
+describe('HeaderComponent.vue', () => {
+  it('should display application title', () => {
     const wrapper = getMountedComponent();
-    console.log(wrapper.html())
     expect(wrapper.html()).to.contains('rosalution');
   });
 
@@ -50,14 +49,12 @@ describe('AnalysisListingHeader.vue', () => {
     expect(userMenuWrapper.text()).to.contain('LOGIN');
   });
 
-  it('should emit search event when search text has content', async () => {
-    const wrapper = getMountedComponent();
+  it('should properly display the username in the upper right hand corner', async () => {
+    const wrapper = getMountedComponent({
+      username: 'UABProvider',
+    });
+    const userMenuWrapper = wrapper.find('[data-test=user-text]');
 
-    const searchTextInput = wrapper.get('[data-test="analysis-search"]');
-    await searchTextInput.setValue('fake-search');
-
-    const searchEvent = wrapper.emitted('search');
-    expect(searchEvent).toHaveLength(1);
-    expect(searchEvent[0]).toEqual(['fake-search']);
+    expect(userMenuWrapper.text()).to.contain('UABProvider');
   });
 });
