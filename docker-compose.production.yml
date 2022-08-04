@@ -36,6 +36,7 @@ services:
         - "traefik.http.services.rosalution-backend-prod-service.loadbalancer.server.port=8000"
 
   rosalution-db:
+    image: gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/rosalution/database-fixture:vprod
     build:
       context: ./etc/fixtures/
       target: production-stage

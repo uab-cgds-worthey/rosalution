@@ -157,11 +157,30 @@ build(){
   fi
 }
 
+buildDatabaseFixture() {
+  local build_target="production-stage"
+  local image_name="gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/rosalution/database-fixture:v$build_tag"
+  local build_context="./etc/fixtures"
+  local docker_build_command="DOCKER_BUILDKIT=1 docker build --no-cache=true --target=$build_target --tag=$image_name -f $build_context/production.Dockerfile $build_context"
+
+  echo "Building Database Fixture..."
+  eval "$docker_build_command"
+
+  if [ "$flag_push" = true ]
+    then
+    built_images+=("$image_name")
+  fi
+}
+
 ## Frontend 
 build frontend
 
 ## Backend
 build backend
+
+## Building a base database fixture for testing deployments of Rosalution
+## for database
+buildDatabaseFixture
 
 if [ "$flag_push" = true ]
   then
