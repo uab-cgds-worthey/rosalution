@@ -37,12 +37,8 @@ services:
 
   rosalution-db:
     image: gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/rosalution/database-fixture:vprod
-    build:
-      context: ./etc/fixtures/
-      target: production-stage
-      dockerfile: production.Dockerfile
     networks:
-      - rosalution-network-prod
+      - rosalution-network
     environment:
       MONGO_INITDB_DATABASE: rosluation_db
 
