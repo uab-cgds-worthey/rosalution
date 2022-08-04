@@ -1,8 +1,11 @@
 <template>
   <Header :actions="this.actions">
       <div class="search">
-        <font-awesome-icon icon="magnifying-glass" size="lg" class="search-icon"></font-awesome-icon>
-        <input data-test="analysis-search" type="search" @input="onSearch" placeholder="Search">
+      <button></button>
+      <button></button>
+      <button></button>
+        <!-- <font-awesome-icon icon="magnifying-glass" size="lg" class="search-icon"></font-awesome-icon>
+        <input data-test="analysis-search" type="search" @input="onSearch" placeholder="Search"> -->
       </div>
   </Header>
 </template>
@@ -67,5 +70,3 @@ export default {
 }
 
 </style>
-
-

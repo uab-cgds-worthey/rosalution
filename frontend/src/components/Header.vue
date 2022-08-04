@@ -9,7 +9,7 @@
       <router-link :to="{ path: '/rosalution/login' }">
         <button class="login" data-test="user-menu">LOGIN</button>
       </router-link>
-      <font-awesome-icon v-if="actionsExist" :icon="faEllipsisVertical" size="2x"></font-awesome-icon>
+      <font-awesome-icon v-if="actionsExist" icon="ellipsis-vertical" size="2x"></font-awesome-icon>
     </div>
   </header>
 </template>

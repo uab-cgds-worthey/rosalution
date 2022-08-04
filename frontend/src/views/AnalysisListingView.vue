@@ -2,7 +2,11 @@
 <div>
   <!--Header-->
   <app-header>
-    <AnalysisListingHeader v-bind:username="username" v-on:search="onSearch"/>
+    <AnalysisListingHeader 
+      :username="username"
+      :actions="menuActions"
+      v-on:search="onSearch"
+      v-on:edit="onEditAnalysis" />
   </app-header>
   <!--Content-->
   <app-content>
@@ -43,6 +47,7 @@ export default {
       searchQuery: '',
       analysisList: [],
       username: '',
+      menuActions: ['test1', 'test2', '-----', 'test3'],
     };
   },
   computed: {
@@ -89,6 +94,9 @@ export default {
     onSearch(query) {
       this.searchQuery = query;
     },
+    onEditAnalysis() {
+
+    }
   },
 };
 </script>
