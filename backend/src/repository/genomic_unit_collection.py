@@ -35,7 +35,7 @@ class GenomicUnitCollection:
 
             annotation_path = 'annotations.' + genomic_annotation['key']
             annotation_document = { annotation_path: genomic_annotation['value'] }
-            
+
             self.update_one(mongo_query, annotation_document)
 
             # self.collection.updateOne(mongo_query, annotation_document, { 'upsert': True })

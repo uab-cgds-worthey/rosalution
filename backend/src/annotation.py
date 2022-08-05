@@ -69,7 +69,7 @@ class AnnotationService:
     #     annotation.depedencies exist in genomic_unit.annotations
     #     if not
     #       return false
-          
+
     #     return true
 
     @staticmethod
