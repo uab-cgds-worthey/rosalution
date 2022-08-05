@@ -36,9 +36,9 @@ class GenomicUnitCollection:
             annotation_path = 'annotations.' + genomic_annotation['key']
             annotation_document = { annotation_path: genomic_annotation['value'] }
 
-            # Temporary as mongo will be used to update the collection properly
-            # db.collection.updateOne(filter, update, options)
             self.update_one(mongo_query, annotation_document)
+
+            # self.collection.updateOne(mongo_query, annotation_document, { 'upsert': True })
 
         return
 

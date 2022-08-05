@@ -63,6 +63,15 @@ class AnnotationService:
             for dataset in annotation_configuration[genomic_unit_type]:
                 annotation_task_queue.put((genomic_unit, dataset))
 
+    # @staticmethod
+    # def check_if_annotation_ready(genomic_unit_name,annotation,  genomic_unit_collection):
+    #     gemomic_unit = genomic_unit_collection.get(genomic_unit)
+    #     annotation.depedencies exist in genomic_unit.annotations
+    #     if not
+    #       return false
+
+    #     return true
+
     @staticmethod
     def process_tasks(annotation_queue, genomic_unit_collection):
         """Processes items that have been added to the queue"""
