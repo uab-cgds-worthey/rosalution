@@ -43,7 +43,7 @@ services:
     networks:
       - rosalution-network-prod
     environment:
-      MONGO_INITDB_DATABASE: rosluation_db
+      MONGO_INITDB_DATABASE: rosalution_db
 
 networks:
   rosalution-network:

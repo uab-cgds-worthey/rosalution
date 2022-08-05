@@ -11,6 +11,7 @@ const collections = {
   'analyses': require(`${fixturePath}/initial-seed/analyses.json`),
   'dataset_sources': require(`${fixturePath}/initial-seed/dataset-sources.json`),
   'users': require(`${fixturePath}/initial-seed/users.json`),
+  'genomic_units': require(`{fixturePath}/initial-seed/genomic-units-collection.json`),
 };
 
 try {
