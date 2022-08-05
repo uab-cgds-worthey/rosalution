@@ -1,12 +1,12 @@
 <template>
     <div>
         <div>
-            <input placeholder="Text to display (optional)" id="textBox" @change="onTextChange"
+            <input placeholder="Text to display" id="textBox" @change="onTextChange"
             v-model="linkNameUploaded"
             data-test="link-name-input"/>
         </div>
         <div>
-            <input placeholder="Link" id="linkBox" @change="onLinkChange" v-model="linkUploaded"
+            <input placeholder="Paste a link" id="linkBox" @change="onLinkChange" v-model="linkUploaded"
             data-test="link-input"/>
         </div>
         <div>

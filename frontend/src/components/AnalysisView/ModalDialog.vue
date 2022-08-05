@@ -4,9 +4,7 @@
     <div class="modal-container">
       <a title="Close" class="close-item" @click="closeModal()" data-test="close-modal">Close</a>
       <a title="Add" class="addbutton-item" @click="addAttachment()" data-test="add-button">Add</a>
-      <h1 class="header-item">Hello World!</h1>
       <div class="content-item">
-        <small>Check out</small>
         <br>
         <!-- Leaving here for tabbed in the future -->
         <!-- <SupplementalLoadFile v-on:fileadded="this.getFile" v-on:commentadded="this.getComments"/> -->
