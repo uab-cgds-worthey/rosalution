@@ -9,9 +9,9 @@ const db = connect(uri); // eslint-disable-line no-undef
 
 const collections = {
   'analyses': require(`${fixturePath}/initial-seed/analyses.json`),
-  'dataset_sources': require(`${fixturePath}/initial-seed/dataset-sources.json`),
+  'annotations_config': require(`${fixturePath}/initial-seed/annotations-config.json`),
   'users': require(`${fixturePath}/initial-seed/users.json`),
-  'genomic_units': require(`{fixturePath}/initial-seed/genomic-units-collection.json`),
+  'genomic_units': require(`${fixturePath}/initial-seed/genomic-units.json`),
 };
 
 try {

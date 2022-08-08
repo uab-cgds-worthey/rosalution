@@ -13,9 +13,10 @@ def test_queue_annotations_for_sample(client, database_collections, mock_annotat
     database_collections['analysis'].collection.find.return_value = analysis_collection_json
     database_collections['analysis'].collection.find_one.return_value = next(
         (analysis for analysis in analysis_collection_json if analysis['name'] == "CPAM0002"), None)
-    database_collections['annotation'].collection.find.return_value = read_database_fixture("dataset-sources.json")
+    database_collections['annotation_config'].collection.find.return_value = read_database_fixture(
+        "annotations-config.json")
     database_collections['genomic_unit'].collection.find.return_value = read_database_fixture(
-        "genomic-units-collection.json")
+        "genomic-units.json")
 
     with patch.object(BackgroundTasks, "add_task", return_value=None) as mock_background_add_task:
         response = client.post("/annotate/CPAM0002")

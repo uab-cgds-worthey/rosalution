@@ -27,7 +27,7 @@ def mock_database_collections():
     mock_database_client = Mock()
     mock_database_client.rosalution_db = {
       "analyses": mock_mongo_collection(),
-      "dataset_sources": mock_mongo_collection(),
+      "annotations_config": mock_mongo_collection(),
       "genomic_units": mock_mongo_collection(),
       "users": mock_mongo_collection()
     }

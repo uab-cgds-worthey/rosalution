@@ -4,7 +4,7 @@ import queue
 
 from .annotation_task import AnnotationTaskFactory
 from .core.analysis import Analysis
-from .repository.annotation_collection import AnnotationCollection
+from .repository.annotation_config_collection import AnnotationConfigCollection
 
 # Creating a callable wrapper for an instance for FastAPI dependency injection
 # pylint: disable=too-few-public-methods
@@ -46,9 +46,9 @@ class AnnotationService:
     Creates and user09es annotating genomic units for cases.
     """
 
-    def __init__(self, annotation_collection: AnnotationCollection):
+    def __init__(self, annotation_config_collection: AnnotationConfigCollection):
         """Initializes the annotation service and injects the collection that has the annotation configuration"""
-        self.annotation_collection = annotation_collection
+        self.annotation_config_collection = annotation_config_collection
 
     def queue_annotation_tasks(self, analysis: Analysis, annotation_task_queue: AnnotationQueue):
         """
@@ -56,7 +56,7 @@ class AnnotationService:
         """
         units_to_annotate = analysis.units_to_annotate()
 
-        annotation_configuration = self.annotation_collection.datasets_to_annotate_for_units(units_to_annotate)
+        annotation_configuration = self.annotation_config_collection.datasets_to_annotate_for_units(units_to_annotate)
 
         for genomic_unit in units_to_annotate:
             genomic_unit_type = genomic_unit["type"].value

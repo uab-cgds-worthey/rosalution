@@ -5,7 +5,7 @@
 # there is no need to include any additional methods
 from .repository.user_collection import UserCollection
 from .repository.analysis_collection import AnalysisCollection
-from .repository.annotation_collection import AnnotationCollection
+from .repository.annotation_config_collection import AnnotationConfigCollection
 from .repository.genomic_unit_collection import GenomicUnitCollection
 
 class Database:
@@ -31,7 +31,7 @@ class Database:
         self.database = self.database_client.rosalution_db
         self.collections = {
             "analysis": AnalysisCollection(self.database['analyses']),
-            "annotation": AnnotationCollection(self.database['dataset_sources']),
+            "annotation_config": AnnotationConfigCollection(self.database['annotations_config']),
             "genomic_unit": GenomicUnitCollection(self.database['genomic_units']),
             "user": UserCollection(self.database['users']),
         }
