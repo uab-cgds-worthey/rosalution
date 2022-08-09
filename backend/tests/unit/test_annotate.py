@@ -49,7 +49,7 @@ def test_processing_cpam0002_annotations_tasks(
 
     assert HttpAnnotationTask.annotate.call_count == 2 # pylint: disable=no-member
     assert NoneAnnotationTask.annotate.call_count == 14 # pylint: disable=no-member
-    assert mock_genomic_unit_collection.update_genomic_unit.call_count == 12
+    assert mock_genomic_unit_collection.annotate_genomic_unit.call_count == 12
 
 @pytest.fixture(name="cpam0046_hgvs_variant_json")
 def fixture_cpam0046_hgvs_variant(cpam0046_analysis):

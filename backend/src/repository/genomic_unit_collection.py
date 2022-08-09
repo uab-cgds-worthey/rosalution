@@ -14,7 +14,7 @@ class GenomicUnitCollection:
         """ Returns all genomic units that are currently stored """
         return self.collection.find()
 
-    def update_genomic_unit(self, genomic_unit, genomic_annotation):
+    def annotate_genomic_unit(self, genomic_unit, genomic_annotation):
         """
         Takes a genomic_unit from an annotation task as well as a genomic_annotation and arranges them in a pattern
         that can be sent to mongo to update the genomic unit's document in the collection
