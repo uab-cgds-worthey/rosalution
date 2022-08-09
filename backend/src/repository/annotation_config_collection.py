@@ -42,6 +42,7 @@ class AnnotationConfigCollection:
             type = dataset['genomic_unit_type']
             configuration[type].append(dataset)
 
+        # Unsure why this wasn't working, keeping here for now
         # for key, group in groupby(datasets_to_annotate, lambda x: x["genomic_unit_type"]):
         #     configuration[key] = list(group)
 
