@@ -19,7 +19,7 @@ class GenomicUnitCollection:
 
     def all(self):
         """ Returns all genomic units that are currently stored """
-        return read_fixture("genomic-units-collection.json")
+        return read_fixture("genomic-units.json")
 
     def update_genomic_unit(self, genomic_unit, genomic_annotation):
         """
