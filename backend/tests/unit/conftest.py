@@ -5,7 +5,7 @@ import pytest
 
 from src.core.analysis import Analysis
 from src.repository.analysis_collection import AnalysisCollection
-from src.repository.annotation_collection import AnnotationCollection
+from src.repository.annotation_config_collection import AnnotationConfigCollection
 from src.annotation import AnnotationService
 
 from ..test_utils import read_database_fixture, mock_mongo_collection
@@ -46,10 +46,10 @@ def fixture_annotation_collection():
     """Returns the annotation collection for the datasets to be mocked"""
     mock_collection = mock_mongo_collection()
     mock_collection.find = Mock(
-        return_value=read_database_fixture("dataset-sources.json"))
+        return_value=read_database_fixture("annotations-config.json"))
     mock_collection.find_one = Mock(
-        return_value=read_database_fixture("dataset-sources.json"))
-    return AnnotationCollection(mock_collection)
+        return_value=read_database_fixture("annotations-config.json"))
+    return AnnotationConfigCollection(mock_collection)
 
 
 @pytest.fixture(name="cpam0046_annotation_queue")

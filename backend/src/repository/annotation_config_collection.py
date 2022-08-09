@@ -4,12 +4,12 @@ type of Genomic Unit.
 """
 from itertools import groupby
 
-class AnnotationCollection:
+class AnnotationConfigCollection:
     """Repository for querying configurations for annotation"""
 
-    def __init__(self, annotation_collection):
+    def __init__(self, annotation_config_collection):
         """Initializes with the 'PyMongo' Collection object for the Data sets collection"""
-        self.collection = annotation_collection
+        self.collection = annotation_config_collection
 
     def all(self):
         """Returns all annotation configurations"""

@@ -1,8 +1,9 @@
 """Authentication Routes Intergration test"""
 import json
 from base64 import b64encode
-from cas import CASClient
 from itsdangerous import TimestampSigner
+
+from src.routers.auth import cas_client
 
 # Helper functions
 
@@ -15,7 +16,7 @@ def create_session_cookie(data) -> str:
     ).decode("utf-8")
 
 
-# Authentication Tests #
+# # Authentication Tests #
 
 
 def test_login_no_session(client):
@@ -39,16 +40,12 @@ def test_login_existing_session(client):
 
 def test_login_successful(client, monkeypatch):
     """Testing the login endpoint when there's a successful login and redirect"""
-    cas_client = CASClient(
-        version=3,
-        service_url="http://fake.url/auth/login",
-        server_url="https://fake.url/cas/",
-    )
-
-    def mock_verify_return():
+    # This unused parameter is required for the monkeypatch to successfully use the mock verify function,
+    # if no empty paramter is provided then the tests will crash.
+    def mock_verify_return(paramater): #pylint: disable=unused-argument
         return (
-            '<cas:serviceresponse xmlns:cas="http://www.yale.edy/tp/cas">                    '
-            " <cas:authenticationsuccess>                         <cas:user>UABProvider</cas:user>                    "
+            '<cas:serviceresponse xmlns:cas="http://www.yale.edy/tp/cas">                    ',
+            " <cas:authenticationsuccess>                         <cas:user>UABProvider</cas:user>                    ",
             ' </cas:authenticationsuccess>                 </cas:serviceresponse>"'
         )
 
@@ -56,7 +53,7 @@ def test_login_successful(client, monkeypatch):
 
     response = client.get("/auth/login?nexturl=%2Frosalution&ticket=FakeTicketString")
 
-    assert response.url == "http://dev.cgds.uab.edu/rosalution/auth/login"
+    assert response.url == "http://dev.cgds.uab.edu/rosalution"
 
 
 def test_get_user_not_logged_in(client):

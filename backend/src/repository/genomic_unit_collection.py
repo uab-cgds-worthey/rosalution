@@ -95,7 +95,7 @@ class GenomicUnitCollection:
         path_to_current_file = os.path.realpath(__file__)
         current_directory = os.path.split(path_to_current_file)[0]
         path_to_file = os.path.join(
-                current_directory, "../../fixtures/genomic-units-collection.json"
+                current_directory, "../../fixtures/genomic-units.json"
             )
         with open(path_to_file, mode="w", encoding="utf-8") as file_to_write:
             json.dump(genomic_units_to_annotate, file_to_write, ensure_ascii=False, indent=4)

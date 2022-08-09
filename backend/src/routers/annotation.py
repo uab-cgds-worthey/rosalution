@@ -29,7 +29,7 @@ def annotate_analysis(
         raise HTTPException(status_code=404, detail=f"'{name}' Analysis not found.")
 
     analysis = Analysis(**analysis_json)
-    annotation_service = AnnotationService(collections["annotation"])
+    annotation_service = AnnotationService(collections["annotation_config"])
     annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
     background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, collections['genomic_unit'])
 
