@@ -3,7 +3,6 @@ FROM python:3.9.10 as development-stage
 WORKDIR /app
 COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
-COPY  ./fixtures /app/fixtures
 COPY ./src /app/src
 ENTRYPOINT ["/bin/sh", "-c", "uvicorn src.main:app --host 0.0.0.0 --port 8000 --log-level info --reload"]
 
@@ -12,6 +11,5 @@ FROM python:3.9.10 as production-stage
 WORKDIR /app
 COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
-COPY  ./fixtures /app/fixtures
 COPY ./src /app/src
 ENTRYPOINT ["/bin/sh", "-c", "uvicorn src.main:app --host 0.0.0.0 --port 8000 --log-level info"]
