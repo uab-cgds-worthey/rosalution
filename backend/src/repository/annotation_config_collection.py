@@ -2,7 +2,6 @@
 Manges the annotation configuration of various genomic units according to the
 type of Genomic Unit.
 """
-from itertools import groupby
 
 class AnnotationConfigCollection:
     """Repository for querying configurations for annotation"""
@@ -30,13 +29,15 @@ class AnnotationConfigCollection:
         a value being the list of datasets configured to annotate for that type
         """
         types_to_annotate = set(map(lambda x: x["type"], genomic_units_to_annotate))
+
         datasets_to_annotate = self.datasets_to_annotate_by_type(types_to_annotate)
 
         configuration = {}
         for genomic_unit_type in types_to_annotate:
             configuration[genomic_unit_type] = []
 
-        for key, group in groupby(datasets_to_annotate, lambda x: x["genomic_unit_type"]):
-            configuration[key] = list(group)
+        for dataset in datasets_to_annotate:
+            genomic_unit_type = dataset['genomic_unit_type']
+            configuration[genomic_unit_type].append(dataset)
 
         return configuration

@@ -110,7 +110,7 @@ class AnnotationService:
                     log_to_file(f"{genomic_unit}\n")
 
                     for annotation in annotations:
-                        genomic_unit_collection.update_genomic_unit(annotation_task.genomic_unit, annotation)
+                        genomic_unit_collection.annotate_genomic_unit(annotation_task.genomic_unit, annotation)
 
                 except FileNotFoundError as error:
                     log_to_file(f"exception happened {error} with {genomic_unit} and {annotation_task}\n")
