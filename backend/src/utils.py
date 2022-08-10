@@ -4,8 +4,6 @@ import random
 import re
 import string
 
-RELATIVE_FIXUTRE_DIRECTORY_PATH = "../fixtures/"
-
 def replace(var_string, dataset):
     """ Replaces variables that are encased in {} """
     replace_variables = re.findall(r'\{(.*?)\}', var_string)
