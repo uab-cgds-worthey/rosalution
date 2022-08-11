@@ -1,7 +1,7 @@
 import {expect, describe, it, beforeAll, afterAll} from 'vitest';
 import {config, shallowMount} from '@vue/test-utils';
 
-import HeaderComponent from '@/components/HeaderComponent.vue';
+import Header from '@/components/Header.vue';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {RouterLink} from 'vue-router';
@@ -16,7 +16,7 @@ function getMountedComponent(props) {
     username: '',
   };
 
-  return shallowMount(HeaderComponent, {
+  return shallowMount(Header, {
     props: {...defaultProps, ...props},
     global: {
       components: {
@@ -36,9 +36,24 @@ afterAll(() => {
 });
 
 describe('HeaderComponent.vue', () => {
-  it('should display application title', () => {
+  it('should display application title by default', () => {
     const wrapper = getMountedComponent();
-    expect(wrapper.html()).to.contains('rosalution');
+    const headerTextLink = wrapper.find('[data-test="header-title-text"]');
+    expect(headerTextLink.html()).to.contains('rosalution');
+  });
+
+  it('should display the title route the the analysis listing by default', () => {
+    const wrapper = getMountedComponent();
+    const headerTextLink = wrapper.get('[data-test="header-title-text"]');
+    // console.log(JSON.stringify(headerTextLink.attributes().to, null, 4));
+    // Object.keys(headerTextLink.attributes().to).forEach((prop)=> console.log(prop));
+    // console.log(headerTextLink.attributes('to')['path'])
+    // const toProp = headerTextLink.attributes('to');
+    // Object.values(toProp).forEach((prop)=> console.log(prop));
+    console.log(headerTextLink.html());
+    console.log(headerTextLink.vm)
+    
+    // expect(headerTextLink.attribute('to')).to.contain('rosalution');
   });
 
   it('should display "Login" in the upper right hand corner if username is a blank string', async () => {

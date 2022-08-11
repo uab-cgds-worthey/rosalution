@@ -1,5 +1,5 @@
 <template>
-  <Header :actions="this.actions">
+  <Header>
       <div class="search">
         <font-awesome-icon icon="magnifying-glass" size="lg" class="search-icon"></font-awesome-icon>
         <input data-test="analysis-search" type="search" @input="onSearch" placeholder="Search">
@@ -17,12 +17,6 @@ export default {
   },
   props: {
     username: String,
-    actions: {
-      type: Array,
-      default: ()=> {
-        return [];
-      },
-    },
   },
   methods: {
     onSearch(event) {

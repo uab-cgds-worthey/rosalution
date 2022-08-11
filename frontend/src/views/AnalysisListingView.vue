@@ -2,7 +2,7 @@
 <div>
   <!--Header-->
   <app-header>
-    <AnalysisListingHeader 
+    <AnalysisListingHeader
       :username="username"
       :actions="menuActions"
       v-on:search="onSearch"
@@ -96,7 +96,7 @@ export default {
     },
     onEditAnalysis() {
 
-    }
+    },
   },
 };
 </script>

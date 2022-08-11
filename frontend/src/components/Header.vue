@@ -2,11 +2,15 @@
   <header>
     <img src="@/assets/rosalution-logo.svg" class="rosalution-logo">
     <div data-test="primary-content" class="content">
-      <span class="title left-content">rosalution</span>
+      <!--todo: verify with team to disable the link 'visited' style from the title -->
+      <!--todo: ask what the acitve styling should be again for a hyperlink-->
+      <router-link class="title left-content" :to="{work: 'tacos'}" data-test="header-title-text">
+        {{ titleText }}
+      </router-link>
       <slot>
       </slot>
       <span v-if="username" class="login" data-test="user-text">{{ username }}</span>
-      <router-link :to="{ path: '/rosalution/login' }">
+      <router-link to="/rosalution/login">
         <button class="login" data-test="user-menu">LOGIN</button>
       </router-link>
       <font-awesome-icon v-if="actionsExist" icon="ellipsis-vertical" size="2x"></font-awesome-icon>
@@ -18,6 +22,18 @@
 export default {
   name: 'header-component',
   props: {
+    titleText: {
+      type: String,
+      default: 'rosalution',
+    },
+    titleRouteParams: {
+      type: Object,
+      default: () => {
+        return {
+          path: '/rosalution/',
+        };
+      },
+    },
     username: String,
     actions: {
       type: Array,

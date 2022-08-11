@@ -36,18 +36,9 @@ afterAll(() => {
 });
 
 describe('AnalysisListingHeader.vue', () => {
-  it.only('should display application title', () => {
+  it.only('should provide no actions to display', () => {
     const wrapper = getMountedComponent();
-    console.log(wrapper.html())
-    expect(wrapper.html()).to.contains('rosalution');
-  });
-
-  it('should display "Login" in the upper right hand corner if username is a blank string', async () => {
-    const wrapper = getMountedComponent();
-
-    const userMenuWrapper = wrapper.find('[data-test=user-menu]');
-
-    expect(userMenuWrapper.text()).to.contain('LOGIN');
+    expect(wrapper.attributes('actions')).to.be.empty;
   });
 
   it('should emit search event when search text has content', async () => {
