@@ -2,7 +2,8 @@
   <div>
     <div class="modal-background" @click="closeModal()"></div>
     <div class="modal-container">
-      <a title="Close" class="close-item" @click="closeModal()" data-test="close-modal">Close</a>
+      <!-- <a title="Clear" class="clear-item" @click="closeModal()" data-test="close-modal">Clear</a> -->
+      <a title="Cancel" class="cancel-item" @click="cancelModal()" data-test="cancel-modal">Cancel</a>
       <a title="Add" class="addbutton-item" @click="addAttachment()" data-test="add-button">Add</a>
       <div class="content-item">
         <br>
@@ -40,8 +41,8 @@ export default {
   created() {
   },
   methods: {
-    closeModal() {
-      this.$emit('closemodal');
+    cancelModal() {
+      this.$emit('cancelmodal');
     },
     addAttachment() {
       const attachment = {
@@ -83,47 +84,6 @@ export default {
   background-color: rgba(192, 192, 192, 0.45);
 }
 
-.header-item {
-  grid-area: header;
-  font-size: 150%;
-  margin: 25px;
-}
-.content-item {
-  grid-area: main;
-  text-align: left;
-  margin: 25px;
-}
-.addbutton-item {
-  grid-area: addbutton;
-  background-color: green;
-  border-radius: 2rem;
-  text-decoration: none;
-  font-size: 80%;
-  line-height: 50px;
-  text-align: center;
-  justify-self: stretch;
-  margin: 25px;
-}
-.addbutton-item:hover{
-  background-color: rgba(0, 128, 0, 0.74);
-}
-.close-item {
-  grid-area: close;
-  color: #aaa;
-  text-decoration: none;
-  font-size: 80%;
-  line-height: 50px;
-  text-align: center;
-  justify-self: stretch;
-  border-radius: 2rem;
-  border-color: black;
-  border-style: solid;
-  margin: 25px;
-}
-.close-item:hover{
-  color:black;
-  background-color: red;
-}
 .modal-container {
   vertical-align: middle;
   display: grid;
@@ -133,7 +93,7 @@ export default {
   grid-template-areas:
     "header header header header"
     "main main main main"
-    ". close addbutton  .";
+    ". cancel addbutton  .";
   background-color: white;
   font-weight: 600;
   font-size: 18px;
@@ -147,6 +107,53 @@ export default {
   transform: translate(-50%, -50%);
 }
 
+.header-item {
+  grid-area: header;
+  font-size: 150%;
+  margin: 25px;
+}
+
+.content-item {
+  grid-area: main;
+  text-align: left;
+  margin: 25px;
+}
+
+.addbutton-item {
+  grid-area: addbutton;
+  background-color: green;
+  border-radius: 2rem;
+  text-decoration: none;
+  font-size: 80%;
+  line-height: 50px;
+  text-align: center;
+  justify-self: stretch;
+  margin: 25px;
+}
+
+.addbutton-item:hover{
+  background-color: rgba(0, 128, 0, 0.74);
+}
+
+.cancel-item {
+  grid-area: cancel;
+  color: #aaa;
+  text-decoration: none;
+  font-size: 80%;
+  line-height: 50px;
+  text-align: center;
+  justify-self: stretch;
+  border-radius: 2rem;
+  border-color: black;
+  border-style: solid;
+  margin: 25px;
+}
+
+.cancel-item:hover{
+  color:black;
+  background-color: red;
+}
+
 a {
   color: inherit;
 }
@@ -154,6 +161,5 @@ a {
 small {
   color: lightslategrey;
 }
-
 
 </style>

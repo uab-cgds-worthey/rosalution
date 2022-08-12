@@ -10,8 +10,8 @@ test('Vue instance exists and it is an object', () => {
 
 test('Should close the modal when clicking on the close button.', async () => {
   const wrapper = shallowMount(ModalDialog);
-  wrapper.find('[data-test=close-modal]').trigger('click');
-  expect(wrapper.emitted().closemodal).to.not.be.undefined;
+  wrapper.find('[data-test=cancel-modal]').trigger('click');
+  expect(wrapper.emitted().cancelmodal).to.not.be.undefined;
 });
 
 test('Should emit "addfile" when clicking on the add button', async () => {

@@ -16,7 +16,7 @@
         </tr>
         <div class="seperator"></div>
         <ModalDialog v-if="showModal"
-                    v-on:closemodal="this.showAttachDocumentModal"
+                    v-on:cancelmodal="this.showAttachDocumentModal"
                     v-on:addattachment="this.onAttachmentChange"
                     data-test="modal-dialog"/>
         <div class="attachment-list" v-for="attachment in attachments" v-bind:key="attachment.id">
