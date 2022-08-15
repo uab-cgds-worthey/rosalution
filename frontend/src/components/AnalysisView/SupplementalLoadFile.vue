@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="supplemental-load-file-container">
         <div id="dropFileBox" @dragover="dragover"  @drop="drop">
           <div v-if="!fileUploaded || !fileUploaded.length">
             Drag & drop or
@@ -72,6 +72,11 @@ export default {
 div {
     font-family: "Proxima Nova", sans-serif;
     padding: 0%;
+}
+
+.supplemental-load-file-container {
+  width: fit-content;
+  height: fit-content;
 }
 
 h2 {
