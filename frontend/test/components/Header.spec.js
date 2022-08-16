@@ -51,8 +51,8 @@ describe('HeaderComponent.vue', () => {
     // const toProp = headerTextLink.attributes('to');
     // Object.values(toProp).forEach((prop)=> console.log(prop));
     console.log(headerTextLink.html());
-    console.log(headerTextLink.vm)
-    
+    console.log(headerTextLink.vm);
+
     // expect(headerTextLink.attribute('to')).to.contain('rosalution');
   });
 
