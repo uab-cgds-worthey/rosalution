@@ -15,7 +15,7 @@
 //
 Cypress.Commands.add('resetDatabase', () => {
   console.log('adding  reset database');
-  return cy.exec(`docker-compose exec -T rosalution-db  mongosh /tmp/fixtures/seed.js`);
+  return cy.exec(`docker-compose exec -T rosalution-db mongosh /tmp/fixtures/seed.js`);
 });
 
 //

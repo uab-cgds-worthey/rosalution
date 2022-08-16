@@ -3,66 +3,72 @@ from abc import abstractmethod
 from random import randint
 from functools import reduce
 import time
+import jq
 import requests
 
 from .utils import replace, randomword
 
 ## Helper Functions ##
-def recurse(data, attrs, dataset, annotations):
-    """
-    This is a helper function that takes all the datasets included in the task and extracts all the values and
-    returns annotations
-    """
-    first_attr = attrs.pop(0)
+# def recurse(data, attrs, dataset, annotations):
+#     """
+#     This is a helper function that takes all the datasets included in the task and extracts all the values and
+#     returns annotations
+#     """
+#     first_attr = attrs.pop(0)
 
-    if '[]' in first_attr:
-        first_attr = first_attr.strip('[]')
+#     if '[]' in first_attr:
+#         first_attr = first_attr.strip('[]')
 
-        if first_attr not in data:
-            return annotations
+#         if first_attr not in data:
+#             return annotations
 
-        for item in data[first_attr]:
-            annotations = recurse(item, attrs.copy(), dataset, annotations)
-        return annotations
+#         for item in data[first_attr]:
+#             annotations = recurse(item, attrs.copy(), dataset, annotations)
+#         return annotations
 
-    if len(attrs) != 0:
-        annotations = recurse(data[first_attr], attrs.copy(), dataset, annotations)
-        return annotations
+#     if len(attrs) != 0:
+#         annotations = recurse(data[first_attr], attrs.copy(), dataset, annotations)
+#         return annotations
 
-    dataset_name = dataset['data_set']
-    data_value = None
-    symbol_notation = None
-    symbol_value = None
+#     dataset_name = dataset['data_set']
+#     data_value = None
+#     symbol_notation = None
+#     symbol_value = None
 
-    if 'hgvs_variant' in dataset['genomic_unit_type']:
-        symbol_notation = 'transcript_id'
-        symbol_value = {
-            'transcript_id': data['transcript_id'],
-            'gene_symbol': data['gene_symbol']
-        }
+#     if 'hgvs_variant' in dataset['genomic_unit_type']:
+#         symbol_notation = 'transcript_id'
+#         symbol_value = {
+#             'transcript_id': data['transcript_id'],
+#             'gene_symbol': data['gene_symbol']
+#         }
 
-    if '{' in first_attr:
-        data_value = replace(first_attr, data)
-    else:
-        data_value = data[first_attr]
+#     if '{' in first_attr:
+#         data_value = replace(first_attr, data)
+#     else:
+#         data_value = data[first_attr]
 
-    annotation = {
-        "genomic_unit": dataset['genomic_unit_type'],
-        "symbol_notation": symbol_notation,
-        "symbol_value": symbol_value,
-        "key": first_attr,
-        "value": {
-            "data_set_id": randomword(),
-            "data_set": dataset_name,
-            "data_source": dataset['data_source'],
-            "version": None,
-            "value": data_value
-        }
-    }
+#     annotation = {
+#         "genomic_unit": dataset['genomic_unit_type'],
+#         "symbol_notation": symbol_notation,
+#         "symbol_value": symbol_value,
+#         "key": first_attr,
+#         "value": {
+#             "data_set_id": randomword(),
+#             "data_set": dataset_name,
+#             "data_source": dataset['data_source'],
+#             "version": None,
+#             "value": data_value
+#         }
+#     }
 
-    annotations.append(annotation)
+#     annotations.append(annotation)
 
-    return annotations
+#     return annotations
+
+def transcript_annotation_extration(annotation_unit, transcript_result, desired_attribute):
+    annotation_unit['transcript_id'] = transcript_result['transcript_id']
+    annotation_unit['value'] = transcript_result[desired_attribute]
+    return annotation_unit
 
 def log_to_file(string):
     """
@@ -92,20 +98,40 @@ class AnnotationTaskInterface:
     def annotate(self):
         """Interface for implementation of of retrieving the annotation for a genomic unit and its set of datasets"""
 
-    def extract(self, result):
+    def extract(self, json_result):
         """ Interface extraction method for annotation tasks """
         annotations = []
 
         for dataset in self.datasets:
             if 'attribute' in dataset:
-                attr_array = dataset['attribute'].split('.')
-                data_response = result
-                if isinstance(data_response, dict):
-                    annotations = recurse(result, attr_array, dataset, annotations)
-                if isinstance(data_response, list):
-                    for data in data_response:
-                        annotations = recurse(data, attr_array, dataset, annotations)
+                attribute_path = dataset['attribute'].split('.')
+                desired_attribute = attribute_path.pop()
 
+                annotation_unit = {
+                    "data_set": dataset['data_set'],
+                    "data_source": dataset['data_source'],
+                    "version": "",
+                    "value": "",
+                }
+
+                if isinstance(json_result, list):
+                    if 'transcript' in dataset:
+                        transcript_results = jq.compile('.[].' + '.'.join(attribute_path) + ' | { ' + desired_attribute + ': .' + desired_attribute + ', transcript_id: .transcript_id }').input(json_result).all()
+                        for transcript_result in transcript_results:
+                            annotations.append(transcript_annotation_extration(annotation_unit.copy(), transcript_result, desired_attribute))        
+
+        # for dataset in self.datasets:
+        #     if 'attribute' in dataset:
+        #         attr_array = dataset['attribute'].split('.')
+        #         data_response = result
+        #         if isinstance(data_response, dict):
+        #             annotations = recurse(result, attr_array, dataset, annotations)
+        #         if isinstance(data_response, list):
+        #             for data in data_response:
+        #                 annotations = recurse(data, attr_array, dataset, annotations)
+
+        print("ANNOTATIONS")
+        print(annotations)
         return annotations
 
 class NoneAnnotationTask(AnnotationTaskInterface):
