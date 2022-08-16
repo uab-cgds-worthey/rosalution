@@ -105,7 +105,7 @@ export default {
   top: 110%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width:fit-content;
+  width: fit-content;
   height: fit-content;
 }
 
@@ -131,7 +131,7 @@ export default {
   line-height: 1.625rem;
   text-align: center;
   justify-self: stretch;
-  margin: 25px;
+  margin: 1.5rem;
 }
 
 .clear-item {
@@ -144,7 +144,7 @@ export default {
   text-align: center;
   justify-self: stretch;
   border-radius: 2rem;
-  margin: 25px;
+  margin: 1.5rem;
 }
 
 .cancel-item {
@@ -158,7 +158,7 @@ export default {
   border-radius: 2rem;
   border-color: black;
   border-style: solid;
-  margin: 25px;
+  margin: 1.5rem;
 }
 
 a {
