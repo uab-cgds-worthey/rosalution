@@ -102,21 +102,20 @@ class AnnotationService:
             for future in concurrent.futures.as_completed(annotation_task_futures):
                 genomic_unit, annotation_task = annotation_task_futures[future]
                 try:
-                    # log_to_file(f"{future.result()}\n")
-                    # log_to_file(f"{annotation_task.datasets}\n")
+                    log_to_file(f"{future.result()}\n")
+                    log_to_file(f"{annotation_task.datasets}\n")
                     annotations = annotation_task.extract(future.result())
 
-                    # log_to_file(f"{annotation_task.extract(future.result())}\n")
-                    # log_to_file(f"{genomic_unit}\n")
+                    log_to_file(f"{annotation_task.extract(future.result())}\n")
+                    log_to_file(f"{genomic_unit}\n")
 
                     for annotation in annotations:
                         genomic_unit_collection.annotate_genomic_unit(annotation_task.genomic_unit, annotation)
 
                 except FileNotFoundError as error:
-                    print("")
-                    # log_to_file(f"exception happened {error} with {genomic_unit} and {annotation_task}\n")
+                    log_to_file(f"exception happened {error} with {genomic_unit} and {annotation_task}\n")
 
-                # log_to_file("\n")
+                log_to_file("\n")
                 del annotation_task_futures[future]
 
             log_to_file("after for loop for waiting for all of the futures to finish\n\n")

@@ -1,7 +1,7 @@
 """Tests Annotation Tasks and the creation of them"""
 import pytest
 from src.enums import GenomicUnitType
-from src.annotation_task import AnnotationTaskFactory, HttpAnnotationTask, recurse
+from src.annotation_task import AnnotationTaskFactory, HttpAnnotationTask
 
 
 def test_http_annotation_base_url(http_annotation_transcript_id):
@@ -64,22 +64,22 @@ def test_extract_annotations_from_response(http_annotation_task_many_datasets, t
     assert annotation_two['value']['value'] == 0.01
 
 
-def test_annotation_extraction_recurse(annotation_extraction_recurse_fixtures):
-    """ Tests the annotation task recursive helper function for extracting specific pieces of data from a response """
-    data, attrs, dataset, annotations = annotation_extraction_recurse_fixtures
+# def test_annotation_extraction_recurse(annotation_extraction_recurse_fixtures):
+#     """ Tests the annotation task recursive helper function for extracting specific pieces of data from a response """
+#     data, attrs, dataset, annotations = annotation_extraction_recurse_fixtures
 
-    actual = recurse(data, attrs, dataset, annotations)
+#     actual = recurse(data, attrs, dataset, annotations)
 
-    annotation_one = actual[0]
-    annotation_two = actual[1]
+#     annotation_one = actual[0]
+#     annotation_two = actual[1]
 
-    assert annotation_two['symbol_notation'] == 'transcript_id'
-    assert annotation_two['symbol_value'] == {
-        "transcript_id": "NM_001363810.1", "gene_symbol": "VMA21"}
+#     assert annotation_two['symbol_notation'] == 'transcript_id'
+#     assert annotation_two['symbol_value'] == {
+#         "transcript_id": "NM_001363810.1", "gene_symbol": "VMA21"}
 
-    assert annotation_one['key'] == 'sift_score'
-    assert annotation_one['value']['data_set'] == "SIFT Score"
-    assert annotation_one['value']['value'] == 0.02
+#     assert annotation_one['key'] == 'sift_score'
+#     assert annotation_one['value']['data_set'] == "SIFT Score"
+#     assert annotation_one['value']['value'] == 0.02
 
 
 @pytest.fixture(name="hgvs_variant_genomic_unit")
