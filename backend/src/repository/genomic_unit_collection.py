@@ -40,10 +40,10 @@ class GenomicUnitCollection:
             }
         )
 
-    def update_genomic_unit_with_mongo_id(self, genomic_unit):
+    def update_genomic_unit_with_mongo_id(self, genomic_unit_document):
         """ Takes a genomic unit and overwrites the existing object based on the object's id """
-        genomic_unit_id = genomic_unit['_id']
-        self.collection.update_one({'_id': ObjectId(str(genomic_unit_id))}, { '$set': genomic_unit } )
+        genomic_unit_id = genomic_unit_document['_id']
+        self.collection.update_one({'_id': ObjectId(str(genomic_unit_id))}, { '$set': genomic_unit_document } )
 
     def annotate_genomic_unit(self, genomic_unit, genomic_annotation):
         """
@@ -53,17 +53,17 @@ class GenomicUnitCollection:
 
         if genomic_unit['type'].value == 'hgvs_variant':
             if 'transcript_id' in genomic_annotation:
-                transcript_genomic_unit = self.find_genomic_unit_with_transcript_id(
-                    genomic_unit, genomic_annotation['transcript_id']
-                )
-
-                if not transcript_genomic_unit:
-                    self.update_genomic_unit_with_transcript_id(genomic_unit, genomic_annotation['transcript_id'])
-
-                transcript_genomic_unit = self.find_genomic_unit_with_transcript_id(
+                genomic_unit_document = self.find_genomic_unit_with_transcript_id(
                     genomic_unit,
                     genomic_annotation['transcript_id']
                 )
+
+                if not genomic_unit_document:
+                    self.update_genomic_unit_with_transcript_id(genomic_unit, genomic_annotation['transcript_id'])
+                    genomic_unit_document = self.find_genomic_unit_with_transcript_id(
+                        genomic_unit,
+                        genomic_annotation['transcript_id']
+                    )
 
                 # We'll need to find if the genomic annotation exists before updating the record, but here, we know
                 # it doesn't exist, so we insert it directly. This needs to be a check.
@@ -77,10 +77,10 @@ class GenomicUnitCollection:
 
                 temp_data_set[genomic_annotation['data_set']].append(temp_data_set)
 
-                for transcript in transcript_genomic_unit['transcripts']:
+                for transcript in genomic_unit_document['transcripts']:
                     if transcript['transcript_id'] == genomic_annotation['transcript_id']:
                         transcript['annotations'].append(temp_data_set)
 
-                self.update_genomic_unit_with_mongo_id(transcript_genomic_unit)
+                self.update_genomic_unit_with_mongo_id(genomic_unit_document)
 
         return
