@@ -29,15 +29,7 @@ class GenomicUnitCollection:
         """ Takes a genomic unit and transcript id and updates the document with a new transcript """
         return self.collection.update_one(
             { genomic_unit['type'].value: genomic_unit['unit'] },
-            {
-                '$addToSet':
-                { 'transcripts':
-                    {
-                        'transcript_id': transcript_id,
-                        'annotations': []
-                    }
-                }
-            }
+            { '$addToSet': { 'transcripts': { 'transcript_id': transcript_id, 'annotations': [] }}}
         )
 
     def update_genomic_unit_with_mongo_id(self, genomic_unit_document):
@@ -74,8 +66,6 @@ class GenomicUnitCollection:
                         'value': genomic_annotation['value'],
                     }]
                 }
-
-                temp_data_set[genomic_annotation['data_set']].append(temp_data_set)
 
                 for transcript in genomic_unit_document['transcripts']:
                     if transcript['transcript_id'] == genomic_annotation['transcript_id']:

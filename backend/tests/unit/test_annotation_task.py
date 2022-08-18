@@ -42,7 +42,10 @@ def test_annotation_task_create_http_task(hgvs_variant_genomic_unit, transcript_
     assert isinstance(actual_task, HttpAnnotationTask)
 
 def test_transcript_annotation_extraction():
-
+    """
+    When jq extracts annotations from an array, it can yield many results in an array. This tests that proper result
+    are associated with the correct transcript and returns an updated annotation unit.
+    """
     annotation_unit = {
         "data_set": "SIFT Prediction",
         "data_source": "Ensembl",
@@ -77,7 +80,7 @@ def test_extract_annotations_from_response(http_annotation_task_many_datasets, t
     assert annotation_one['data_set'] == 'SIFT Prediction'
     assert annotation_one['data_source'] == 'Ensembl'
     assert annotation_one['transcript_id'] == 'NM_001017980.4'
-    
+
     assert annotation_two['data_set'] == 'SIFT Score'
     assert annotation_two['value'] == 0.01
 
