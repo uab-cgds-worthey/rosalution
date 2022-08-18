@@ -1,5 +1,5 @@
 <template>
-  <Header>
+  <Header :username="this.username">
       <div class="search">
         <font-awesome-icon icon="magnifying-glass" size="lg" class="search-icon"></font-awesome-icon>
         <input data-test="analysis-search" type="search" @input="onSearch" placeholder="Search">
@@ -16,7 +16,11 @@ export default {
     Header,
   },
   props: {
-    username: String,
+    username: {
+      type: String,
+      default: undefined,
+      required: false,
+    },
   },
   methods: {
     onSearch(event) {
@@ -26,7 +30,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 
 .search {
   flex: 1 1 auto;

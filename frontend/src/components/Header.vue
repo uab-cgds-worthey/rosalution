@@ -1,10 +1,12 @@
 <template>
   <header>
-    <img src="@/assets/rosalution-logo.svg" class="rosalution-logo">
+    <router-link :to="{path: '/rosalution/'}">
+      <img src="@/assets/rosalution-logo.svg" class="rosalution-logo">
+    </router-link>
     <div data-test="primary-content" class="content">
       <!--todo: verify with team to disable the link 'visited' style from the title -->
-      <!--todo: ask what the acitve styling should be again for a hyperlink-->
-      <router-link class="title left-content" :to="{work: 'tacos'}" data-test="header-title-text">
+      <!--todo: ask what the acitve styling should be again for a hyperlink, chose the 200 purple for now-->
+      <router-link class="title left-content" :to="titleRouteParams" data-test="header-title-text">
         {{ titleText }}
       </router-link>
       <slot>
@@ -13,7 +15,7 @@
       <router-link to="/rosalution/login">
         <button class="login" data-test="user-menu">LOGIN</button>
       </router-link>
-      <font-awesome-icon v-if="actionsExist" icon="ellipsis-vertical" size="2x"></font-awesome-icon>
+      <font-awesome-icon v-if="actionsExist" icon="ellipsis-vertical" size="xl"></font-awesome-icon>
     </div>
   </header>
 </template>

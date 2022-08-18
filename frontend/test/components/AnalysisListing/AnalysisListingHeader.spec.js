@@ -36,7 +36,7 @@ afterAll(() => {
 });
 
 describe('AnalysisListingHeader.vue', () => {
-  it.only('should provide no actions to display', () => {
+  it('should provide no actions to display', () => {
     const wrapper = getMountedComponent();
     expect(wrapper.attributes('actions')).to.be.empty;
   });

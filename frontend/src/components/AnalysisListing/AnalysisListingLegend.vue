@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 
 .legend {
   display: flex;

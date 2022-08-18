@@ -42,18 +42,33 @@ describe('HeaderComponent.vue', () => {
     expect(headerTextLink.html()).to.contains('rosalution');
   });
 
-  it('should display the title route the the analysis listing by default', () => {
+  it('should display the applications name in the title position by default', () => {
     const wrapper = getMountedComponent();
     const headerTextLink = wrapper.get('[data-test="header-title-text"]');
-    // console.log(JSON.stringify(headerTextLink.attributes().to, null, 4));
-    // Object.keys(headerTextLink.attributes().to).forEach((prop)=> console.log(prop));
-    // console.log(headerTextLink.attributes('to')['path'])
-    // const toProp = headerTextLink.attributes('to');
-    // Object.values(toProp).forEach((prop)=> console.log(prop));
-    console.log(headerTextLink.html());
-    console.log(headerTextLink.vm);
+    expect(headerTextLink.text()).to.equal('rosalution');
+  });
 
-    // expect(headerTextLink.attribute('to')).to.contain('rosalution');
+  it('should provide a route link path object pointing to the root route by default', () => {
+    const wrapper = getMountedComponent();
+    const headerTextLink = wrapper.get('[data-test="header-title-text"]');
+    // Due to how VueJS handles the object as a prop, can't access the value
+    // but am doing a direct passthrough of what the route is
+    expect(headerTextLink.attributes('to')).to.exist;
+  });
+
+  it('should render the menu actions icon if actions are provided', () => {
+    const wrapper = getMountedComponent({
+      actions: ['Action1', 'Action2', 'Action3'],
+    });
+
+    const icon = wrapper.find('font-awesome-icon-stub');
+    expect(icon.exists()).to.be.true;
+  });
+
+  it('should not render the menu actions icon if no actions are provided', () => {
+    const wrapper = getMountedComponent();
+    const icon = wrapper.findComponent('font-awesome-icon-stub');
+    expect(icon.exists()).to.not.be.true;
   });
 
   it('should display "Login" in the upper right hand corner if username is a blank string', async () => {
