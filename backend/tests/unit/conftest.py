@@ -75,37 +75,39 @@ def fixture_cpam0002_annotation_queue(annotation_collection, cpam0002_analysis):
 @pytest.fixture(name="transcript_annotation_response")
 def fixture_annotation_response_for_transcript():
     """Returns a mocked response from a web page, particularly ensembl"""
-    return {
-        "transcript_consequences": [
-            {
-                "sift_prediction": "deleterious",
-                "gene_symbol": "VMA21",
-                "transcript_id": "NM_001017980.4",
-                "polyphen_score": 0.597,
-                "polyphen_prediction": "possibly_damaging",
-                "sift_score": 0.02,
-                "cds_start": 164,
-                "variant_allele": "T",
-                "used_ref": "G",
-                "consequence_terms": [
-                    "missense_variant",
-                    "splice_region_variant"
-                ],
-            },
-            {
-                "transcript_id": "NM_001363810.1",
-                "sift_score": 0.01,
-                "gene_symbol": "VMA21",
-                "polyphen_prediction": "probably_damaging",
-                "sift_prediction": "deleterious",
-                "polyphen_score": 0.998,
-                "used_ref": "G",
-                "cds_start": 329,
-                "variant_allele": "T",
-                "consequence_terms": [
-                    "missense_variant",
-                    "splice_region_variant"
-                ],
-            }
-        ]
-    }
+    return [
+        {
+            "transcript_consequences": [
+                {
+                    "sift_prediction": "deleterious",
+                    "gene_symbol": "VMA21",
+                    "transcript_id": "NM_001017980.4",
+                    "polyphen_score": 0.597,
+                    "polyphen_prediction": "possibly_damaging",
+                    "sift_score": 0.02,
+                    "cds_start": 164,
+                    "variant_allele": "T",
+                    "used_ref": "G",
+                    "consequence_terms": [
+                        "missense_variant",
+                        "splice_region_variant"
+                    ],
+                },
+                {
+                    "transcript_id": "NM_001363810.1",
+                    "sift_score": 0.01,
+                    "gene_symbol": "VMA21",
+                    "polyphen_prediction": "probably_damaging",
+                    "sift_prediction": "deleterious",
+                    "polyphen_score": 0.998,
+                    "used_ref": "G",
+                    "cds_start": 329,
+                    "variant_allele": "T",
+                    "consequence_terms": [
+                        "missense_variant",
+                        "splice_region_variant"
+                    ],
+                }
+            ]
+        }
+    ]

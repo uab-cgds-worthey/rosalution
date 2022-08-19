@@ -8,11 +8,7 @@
         "annotations": {}
     },
     {
-        "hgvs_notation": "NM_001017980.3:c.164G>T",
-        "chromosome": "chrX",
-        "position": "150573388",
-        "reference": "G",
-        "alternate": "T",
+        "hgvs_variant": "NM_001017980.3:c.164G>T",
         "transcripts": [
         ],
         "annotations": {}
