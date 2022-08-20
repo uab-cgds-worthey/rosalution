@@ -1,7 +1,7 @@
 <template>
   <Header :username="this.username" :titleText="this.titleText" :actions="this.actions">
     <div>
-      <a v-for="anchorLink in this.sectionAnchors" :href="'#' + anchorLink" :key="anchorLink">
+      <a v-for="anchorLink in this.sectionAnchors" :href="this.toAnchorId(anchorLink)" :key="anchorLink">
         {{ anchorLink }}
       </a>
     </div>
@@ -33,6 +33,11 @@ export default {
     actions: {
       type: Array,
       required: true,
+    },
+  },
+  methods: {
+    toAnchorId(anchorText) {
+      return `#${anchorText.replace(' ', '_')}`;
     },
   },
 };

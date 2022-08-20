@@ -4,11 +4,10 @@
       <img src="@/assets/rosalution-logo.svg" class="rosalution-logo">
     </router-link>
     <div data-test="primary-content" class="content">
-      <!--todo: verify with team to disable the link 'visited' style from the title -->
-      <!--todo: ask what the acitve styling should be again for a hyperlink, chose the 200 purple for now-->
-      <router-link class="title left-content" :to="titleRouteParams" data-test="header-title-text">
+      <router-link v-if="titleRouteProp" class="title left-content" :to="titleRouteProp" data-test="header-title-text">
         {{ titleText }}
       </router-link>
+      <a v-else class="title left-content" href="#top" data-test="header-title-text">{{ titleText }}</a>
       <slot>
       </slot>
       <span v-if="username" class="login" data-test="user-text">{{ username }}</span>
@@ -28,13 +27,9 @@ export default {
       type: String,
       default: 'rosalution',
     },
-    titleRouteParams: {
+    titleRouteProp: {
       type: Object,
-      default: () => {
-        return {
-          path: '/rosalution/',
-        };
-      },
+      required: false,
     },
     username: String,
     actions: {
@@ -52,7 +47,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 header {
   display: flex;
   flex-direction: row;
@@ -64,6 +59,18 @@ img.rosalution-logo {
   width: 55px;
   height: 45px;
   flex: 0 0 auto;
+}
+
+a:link.title.left-content {
+  color: var(--rosalution-purple-300)
+}
+
+a:active.title.left-content {
+  color: var(--rosalution-purple-200)
+}
+
+a:visited.title.left-content {
+  color: var(--rosalution-purple-300)
 }
 
 header .content {

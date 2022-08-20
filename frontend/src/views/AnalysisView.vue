@@ -20,13 +20,13 @@
         />
         <SectionBox
           v-for="section in sectionsList"
-          :id="section.header"
+          :id="section.header.replace(' ', '_')"
           :key="section.id"
           :header="section.header"
           :contentList="section.content"
         />
         <SupplementalFormList
-          id="Supplemental Attachments"
+          id="Supplemental_Attachments"
         />
       </app-content>
   </div>

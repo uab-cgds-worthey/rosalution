@@ -1,5 +1,5 @@
-describe('Rosalution Analaysis', () => {
-  it('allows the user to navigate the analysis page', () => {
+describe('As a Clinical Analyst using Rosalution for analysis', () => {
+  it('should allow the user to navigate the analysis via the logo, header, and section anchor links', () => {
     cy.visit('/');
     cy.get('.analysis-card')
         .find(':contains(CPAM0002)')
@@ -12,10 +12,17 @@ describe('Rosalution Analaysis', () => {
     cy.get('div.content').get('div > a').each(($el) => {
       cy.wrap($el).invoke('text').should('be.oneOf', expectedHeaderLinks).then((text) => {
         if (anchorLinks.includes(text)) {
-          const urlText = text.replace(' ', '%20');
-          cy.wrap($el).click().url().should('contain', `analysis/CPAM0002#${urlText}`);
+          const anchorLink = `#${text.replace(' ', '_')}`;
+          cy.wrap($el).click().url().should('contain', `analysis/CPAM0002${anchorLink}`);
+          cy.get(anchorLink);
         }
       });
     });
+
+    cy.get('[data-test="header-title-text"]').click();
+    cy.window().its('scrollY').should('equal', 0);
+
+    cy.get('.rosalution-logo').click();
+    cy.url().should('eq', Cypress.config().baseUrl + '/');
   });
 });

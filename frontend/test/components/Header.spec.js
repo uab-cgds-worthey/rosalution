@@ -48,12 +48,10 @@ describe('HeaderComponent.vue', () => {
     expect(headerTextLink.text()).to.equal('rosalution');
   });
 
-  it('should provide a route link path object pointing to the root route by default', () => {
+  it('should provide a anchor to return to the top of the page', () => {
     const wrapper = getMountedComponent();
     const headerTextLink = wrapper.get('[data-test="header-title-text"]');
-    // Due to how VueJS handles the object as a prop, can't access the value
-    // but am doing a direct passthrough of what the route is
-    expect(headerTextLink.attributes('to')).to.exist;
+    expect(headerTextLink.attributes('href')).to.contain('#top');
   });
 
   it('should render the menu actions icon if actions are provided', () => {
