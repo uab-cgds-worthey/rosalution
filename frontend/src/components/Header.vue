@@ -4,10 +4,7 @@
       <img src="@/assets/rosalution-logo.svg" class="rosalution-logo">
     </router-link>
     <div data-test="primary-content" class="content">
-      <router-link v-if="titleRouteProp" class="title left-content" :to="titleRouteProp" data-test="header-title-text">
-        {{ titleText }}
-      </router-link>
-      <a v-else class="title left-content" href="#top" data-test="header-title-text">{{ titleText }}</a>
+      <a class="title left-content" href="#top" data-test="header-title-text">{{ titleText }}</a>
       <slot>
       </slot>
       <span v-if="username" class="login" data-test="user-text">{{ username }}</span>
@@ -26,10 +23,6 @@ export default {
     titleText: {
       type: String,
       default: 'rosalution',
-    },
-    titleRouteProp: {
-      type: Object,
-      required: false,
     },
     username: String,
     actions: {
