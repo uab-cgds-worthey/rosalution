@@ -8,7 +8,6 @@ from .repository.annotation_config_collection import AnnotationConfigCollection
 
 # Creating a callable wrapper for an instance for FastAPI dependency injection
 # pylint: disable=too-few-public-methods
-
 def log_to_file(string):
     """
     Temprorary utility function for development purposes abstracted for testing.
@@ -79,31 +78,21 @@ class AnnotationService:
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
             annotation_task_futures = {}
-            batched_annotation_tasks = {}
             while not annotation_queue.empty():
                 genomic_unit, dataset_json = annotation_queue.get()
 
-                task_identifier, task = AnnotationTaskFactory.create(genomic_unit, dataset_json)
+                task = AnnotationTaskFactory.create(genomic_unit, dataset_json)
 
-                if task_identifier not in batched_annotation_tasks:
-                    batched_annotation_tasks[task_identifier] = task
-                    log_to_file(f"Batched: {genomic_unit} for datasets {dataset_json}\n")
-                else:
-                    batched_annotation_tasks[task_identifier].append(dataset_json)
-
-            for batch_task in batched_annotation_tasks.values():
-                annotation_task_futures[executor.submit(batch_task.annotate)] = (
+                annotation_task_futures[executor.submit(task.annotate)] = (
                     genomic_unit,
-                    batch_task,
+                    task,
                 )
-
-            log_to_file("------done submitting tasks\n")
 
             for future in concurrent.futures.as_completed(annotation_task_futures):
                 genomic_unit, annotation_task = annotation_task_futures[future]
                 try:
                     log_to_file(f"{future.result()}\n")
-                    log_to_file(f"{annotation_task.datasets}\n")
+                    log_to_file(f"{annotation_task.dataset}\n")
                     log_to_file(f"{genomic_unit}\n")
 
                     annotations = annotation_task.extract(future.result())

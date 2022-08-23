@@ -28,8 +28,8 @@ def test_processing_annotation_tasks(log_to_file_mock, cpam0046_annotation_queue
     NoneAnnotationTask.annotate = Mock()
     AnnotationService.process_tasks(cpam0046_annotation_queue, mock_genomic_unit_collection)
     assert cpam0046_annotation_queue.empty()
-    assert HttpAnnotationTask.annotate.call_count == 2  # pylint: disable=no-member
-    assert NoneAnnotationTask.annotate.call_count == 8  # pylint: disable=no-member
+    assert HttpAnnotationTask.annotate.call_count == 8  # pylint: disable=no-member
+    assert NoneAnnotationTask.annotate.call_count == 12  # pylint: disable=no-member
 
 @patch("src.annotation.log_to_file")
 def test_processing_cpam0002_annotations_tasks(
@@ -47,8 +47,8 @@ def test_processing_cpam0002_annotations_tasks(
 
     AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
 
-    assert HttpAnnotationTask.annotate.call_count == 2 # pylint: disable=no-member
-    assert NoneAnnotationTask.annotate.call_count == 14 # pylint: disable=no-member
+    assert HttpAnnotationTask.annotate.call_count == 8 # pylint: disable=no-member
+    assert NoneAnnotationTask.annotate.call_count == 21 # pylint: disable=no-member
     assert mock_genomic_unit_collection.annotate_genomic_unit.call_count == 12
 
 @pytest.fixture(name="cpam0046_hgvs_variant_json")

@@ -1,13 +1,13 @@
 """Tasks for annotating a genomic unit with datasets"""
 from abc import abstractmethod
 from random import randint
-from functools import reduce
 import time
 
 # pylint: disable=too-few-public-methods
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 import jq
 import requests
+
 
 def transcript_annotation_extration(annotation_unit, transcript_result, desired_attribute):
     """
@@ -19,6 +19,7 @@ def transcript_annotation_extration(annotation_unit, transcript_result, desired_
     annotation_unit['value'] = transcript_result[desired_attribute]
     return annotation_unit
 
+
 def log_to_file(string):
     """
     Temprorary utility function for development purposes abstracted for testing.
@@ -28,20 +29,17 @@ def log_to_file(string):
         log_file.write(string)
     print(string)
 
+
 class AnnotationTaskInterface:
     """Abstract class to define the interface for the the types of Annotation Task"""
 
     def __init__(self, genomic_unit_json: dict):
-        self.datasets = []
+        self.dataset = {}
         self.genomic_unit = genomic_unit_json
 
-    @abstractmethod
-    def identifier(self):
-        """Interface for implementations to create an identifer using a genomic unit and a dataset"""
-
-    def append(self, dataset: dict):
-        """Adds the dataset configuration to the list of datasets batched with this annotation"""
-        self.datasets.append(dataset)
+    def set(self, dataset: dict):
+        """Adds the dataset configuration for the annotation"""
+        self.dataset = dataset
 
     @abstractmethod
     def annotate(self):
@@ -51,36 +49,36 @@ class AnnotationTaskInterface:
         """ Interface extraction method for annotation tasks """
         annotations = []
 
-        for dataset in self.datasets:
-            if 'attribute' in dataset:
-                attribute_path = dataset['attribute'].split('.')
-                desired_attribute = attribute_path.pop()
+        if 'attribute' in self.dataset:
+            attribute_path = self.dataset['attribute'].split('.')
+            desired_attribute = attribute_path.pop()
 
-                annotation_unit = {
-                    "data_set": dataset['data_set'],
-                    "data_source": dataset['data_source'],
-                    "version": "",
-                    "value": "",
-                }
+            annotation_unit = {
+                "data_set": self.dataset['data_set'],
+                "data_source": self.dataset['data_source'],
+                "version": "",
+                "value": "",
+            }
 
-                if isinstance(json_result, list):
-                    if 'transcript' in dataset:
-                        transcript_results = jq.compile('.[].' +
-                            '.'.join(attribute_path) +
-                            ' | { ' + desired_attribute +
-                            ': .' + desired_attribute +
-                            ', transcript_id: .transcript_id }').input(json_result).all()
+            if isinstance(json_result, list):
+                if 'transcript' in self.dataset:
+                    transcript_results = jq.compile('.[].' +
+                                                    '.'.join(attribute_path) +
+                                                    ' | { ' + desired_attribute +
+                                                    ': .' + desired_attribute +
+                                                    ', transcript_id: .transcript_id }').input(json_result).all()
 
-                        for transcript_result in transcript_results:
-                            annotations.append(
-                                transcript_annotation_extration(
-                                    annotation_unit.copy(),
-                                    transcript_result,
-                                    desired_attribute
-                                )
+                    for transcript_result in transcript_results:
+                        annotations.append(
+                            transcript_annotation_extration(
+                                annotation_unit.copy(),
+                                transcript_result,
+                                desired_attribute
                             )
+                        )
 
         return annotations
+
 
 class NoneAnnotationTask(AnnotationTaskInterface):
     """An empty annotation task to be a place holder for datasets that do not have an annotation type yet"""
@@ -89,22 +87,16 @@ class NoneAnnotationTask(AnnotationTaskInterface):
         """Instantiates the annotation task for the fake annotation with a genomic unit"""
         AnnotationTaskInterface.__init__(self, genomic_unit_json)
 
-    def identifier(self):
-        """Bundles a genomic unit and the set of datasets by their source"""
-        return f"{self.genomic_unit['unit']}-{self.datasets[0]['data_source']}"
-
     def annotate(self):
         """Createsa fake 'annotation' using a randomly generated pause time to a query io operation"""
         value = randint(0, 10)
         time.sleep(value)
-        datasets_list = map(
-            lambda dataset: dataset['data_set'], self.datasets)
-        datasets_string = ', '.join(datasets_list)
-        log_to_file(f'Slept: {value} - Fake annotation for {self.genomic_unit["unit"]}' \
-            f' for datasets {datasets_string} from {self.datasets[0]["data_source"]}\n')
+        log_to_file(f'Slept: {value} - Fake annotation for {self.genomic_unit["unit"]}'
+                    f' for dataset {self.dataset["data_set"]} from {self.dataset["data_source"]}\n')
 
-        result = { 'not-real': datasets_string}
+        result = {'not-real': self.dataset["data_set"]}
         return result
+
 
 class CsvAnnotationTask(AnnotationTaskInterface):
     """Example placeholder for a future type of annotation task"""
@@ -113,13 +105,10 @@ class CsvAnnotationTask(AnnotationTaskInterface):
         """Insantiates the annotation task associated with the genomic unit"""
         AnnotationTaskInterface.__init__(self, genomic_unit_json)
 
-    def identifier(self):
-        """placeholder for generating a unique identifier of the task used to determine if a task exists already"""
-        return "not-implemented"
-
     def annotate(self):
         """placeholder for annotating a genomic unit"""
         return "not-implemented"
+
 
 class HttpAnnotationTask(AnnotationTaskInterface):
     """Initializes the annotation that uses an HTTP request to fetch the annotation"""
@@ -127,10 +116,6 @@ class HttpAnnotationTask(AnnotationTaskInterface):
     def __init__(self, genomic_unit_json):
         """initializes the task with the genomic_unit"""
         AnnotationTaskInterface.__init__(self, genomic_unit_json)
-
-    def identifier(self):
-        """Uses the base url for the http request as an identifier for the annotation task"""
-        return self.base_url()
 
     def annotate(self):
         """builds the complete url and fetches the annotation with an http request"""
@@ -140,30 +125,25 @@ class HttpAnnotationTask(AnnotationTaskInterface):
 
     def base_url(self):
         """
-        creates the base url for the annotation according to the configuration,  searches for the {genomic_unit_type}
-        within the 'url' attribute in the description and replaces it with the genomic_unit being annotated.
+        Creates the base url for the annotation according to the configuration.  Searches for string {genomic_unit_type}
+        within the 'url' attribute and replaces it with the genomic_unit being annotated.
         """
-        first_dataset = self.datasets[0]
-        string_to_replace = f"{{{first_dataset['genomic_unit_type']}}}"
-        return f"{first_dataset['url'].replace(string_to_replace, self.genomic_unit['unit'])};"
+        string_to_replace = f"{{{self.dataset['genomic_unit_type']}}}"
+        return f"{self.dataset['url'].replace(string_to_replace, self.genomic_unit['unit'])};"
 
     def build_url(self):
         """
         Builds the URL from the base_url and then appends the list of query parameters for the list of datasets.
         """
         base_url_string = self.base_url()
-        query_param_list = map(lambda dataset: dataset["query_param"], self.datasets)
-        url = reduce(
-            lambda url_string, query_param: url_string + query_param,
-            query_param_list,
-            base_url_string,
-        )
+        url = base_url_string + self.dataset["query_param"]
         return url if base_url_string is not None else None
+
 
 class AnnotationTaskFactory:
     """
-    Factory that creates the annotation task according to the annotation type from a dataset's configuration. This
-    will determine the method used to create the unique identifier that bundles annotations.
+    Factory that creates the annotation task according to the annotation type
+    from a dataset's configuration.
     """
 
     tasks = {
@@ -186,8 +166,8 @@ class AnnotationTaskFactory:
         Creates an annotation task with a genomic_units and dataset json.  Instantiates the class according to
         a datasets 'annotation_source_type' from the datasets configurtion.
         """
-        ### In the future, this could be modified to use a static function instead
-        ### and those would be set to the dict, or an additional dictionary
+        # In the future, this could be modified to use a static function instead
+        # and those would be set to the dict, or an additional dictionary
         new_task = cls.tasks[dataset["annotation_source_type"]](genomic_unit_json)
-        new_task.append(dataset)
-        return (new_task.identifier(), new_task)
+        new_task.set(dataset)
+        return new_task

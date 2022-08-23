@@ -70,7 +70,7 @@
      "transcript": true,
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
-     "query_param": "",
+     "query_param": "refseq=1;",
      "attribute": "transcript_consequences[].polyphen_prediction"
    },
    {
@@ -80,7 +80,7 @@
      "transcript": true,
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
-     "query_param": "",
+     "query_param": "refseq=1;",
      "attribute": "transcript_consequences[].polyphen_score"
    },
    {
@@ -90,7 +90,7 @@
      "transcript": true,
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
-     "query_param": "",
+     "query_param": "refseq=1;",
      "attribute": "transcript_consequences[].sift_prediction"
    },
    {
@@ -100,7 +100,7 @@
      "transcript": true,
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
-     "query_param": "",
+     "query_param": "refseq=1;",
      "attribute": "transcript_consequences[].sift_score"
    },
    {
@@ -110,7 +110,7 @@
      "transcript": true,
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
-     "query_param": "",
+     "query_param": "refseq=1;",
      "attributes": "transcript_consequences[].{cds_start}{used_ref}>{variant_allele}"
    },
    {
@@ -126,7 +126,7 @@
      "transcript": true,
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
-     "query_param": "",
+     "query_param": "refseq=1;",
      "attribute": "transcript_consequences[].consequence_terms"
    },
    {
@@ -177,7 +177,7 @@
     "genomic_unit_type": "hgvs_variant",
     "annotation_source_type": "http",
     "url": "http://grch37.rest.ensembl.org/variant_recoder/human/{hgvs_variant}?content-type=application/json",
-    "query_param": "",
+    "query_param": "refseq=1;",
     "attribute-tmp": "{alt_allele}.id - Want to keep this here, but this data source isn't supported yet"
   }
 ]
