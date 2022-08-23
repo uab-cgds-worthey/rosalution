@@ -1,6 +1,6 @@
 <template>
     <div class="supplemental-load-file-container">
-        <div id="dropFileBox" @dragover="dragover"  @drop="drop">
+        <div class="drop-file-box" @dragover="dragover"  @drop="drop">
           <div v-if="!fileUploaded || !fileUploaded.length">
             Drag & drop or
             <input type="file" id="attachFileBtn" @change="onFileChange" ref="file" accept=".pdf, .jpg, .jpeg, .png"
@@ -86,12 +86,14 @@ h2 {
     display: block;
 }
 
-#dropFileBox {
+.drop-file-box {
   display: inline-block;
-  padding: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 2rem;
   margin: 1rem;
   border-style: dashed;
-  border-color: #C4C4C4;
+  border-color: var(--rosalution-grey-100);
   border-radius: 7px;
   width: 24rem;
   height: 6.5rem;
