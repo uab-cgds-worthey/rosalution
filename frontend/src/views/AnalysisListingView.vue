@@ -2,7 +2,10 @@
 <div>
   <!--Header-->
   <app-header>
-    <AnalysisListingHeader v-bind:username="username" v-on:search="onSearch"/>
+    <AnalysisListingHeader
+      :username="username"
+      v-on:search="onSearch"
+    />
   </app-header>
   <!--Content-->
   <app-content>

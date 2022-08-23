@@ -27,6 +27,8 @@ html {
   --p-5: 0.313rem;
   --p-8: 0.5rem;
   --p-10: 0.625rem;
+
+  scroll-padding-top: 4rem;
 }
 
 /** || General Styles **/
@@ -43,7 +45,7 @@ ul {
   margin: 0;
 }
 
-h2 {
+h2 { 
   font-size: 1.5rem; /* 24px */
   font-weight: 700;
   color: var(--rosalution-black);
@@ -59,7 +61,10 @@ a:visited { text-decoration: none; }
 a:hover { text-decoration: none; }
 
 
-a:active { text-decoration: none; }
+a:active { 
+  text-decoration: none;
+  color: var(--rosalution-purple-200)
+}
 /* 
 a {
   color: var(--rosalution-purple-300);
