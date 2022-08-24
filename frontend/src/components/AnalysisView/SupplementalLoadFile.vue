@@ -92,9 +92,8 @@ h2 {
   padding-right: 1rem;
   padding-top: 2rem;
   margin: 1rem;
-  border-style: dashed;
-  border-color: var(--rosalution-grey-100);
-  border-radius: 7px;
+  border: 0.170rem dashed var(--rosalution-grey-100);
+  border-radius: .4375rem;
   width: 24rem;
   height: 6.5rem;
   text-align: center;
@@ -110,7 +109,7 @@ h2 {
   border-style: solid;
   border-color: #C4C4C4;
   border-radius: 7px;
-  width: 24rem;
+  width: 24.2rem;
   height: 6.5rem;
   outline: none;
   resize: none;
