@@ -39,10 +39,7 @@ def test_transcript_annotation_extraction():
     transcript_result = {'sift_prediction': 'deleterious',
                          'transcript_id': 'NM_001363810.1'}
 
-    desired_attribute = 'sift_prediction'
-
-    actual = transcript_annotation_extration(
-        annotation_unit, transcript_result, desired_attribute)
+    actual = transcript_annotation_extration(annotation_unit, transcript_result)
 
     transcript_annotation_unit = {
         'data_set': 'SIFT Prediction',
@@ -55,7 +52,6 @@ def test_transcript_annotation_extraction():
     assert actual == transcript_annotation_unit
 
 ## Fixtures ##
-
 
 @pytest.fixture(name="hgvs_variant_genomic_unit")
 def fixture_genomic_unit():

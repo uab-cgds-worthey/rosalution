@@ -61,7 +61,7 @@
     "annotation_source_type": "http",
     "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
     "query_param": "refseq=1;",
-    "attribute": "transcript_consequences[].transcript_id"
+    "attribute": ".[].transcript_consequences[] | { transcript_id: .transcript_id }"
    },
    {
      "data_set": "Polyphen Prediction",
@@ -71,7 +71,7 @@
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
      "query_param": "refseq=1;",
-     "attribute": "transcript_consequences[].polyphen_prediction"
+     "attribute": ".[].transcript_consequences[] | { polyphen_prediction: .polyphen_prediction, transcript_id: .transcript_id }"
    },
    {
      "data_set": "Polyphen Score",
@@ -81,7 +81,7 @@
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
      "query_param": "refseq=1;",
-     "attribute": "transcript_consequences[].polyphen_score"
+     "attribute": ".[].transcript_consequences[] | { polyphen_score: .polyphen_score, transcript_id: .transcript_id }"
    },
    {
      "data_set": "SIFT Prediction",
@@ -91,7 +91,7 @@
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
      "query_param": "refseq=1;",
-     "attribute": "transcript_consequences[].sift_prediction"
+     "attribute": ".[].transcript_consequences[] | { sift_prediction: .sift_prediction, transcript_id: .transcript_id }"
    },
    {
      "data_set": "SIFT Score",
@@ -101,7 +101,7 @@
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
      "query_param": "refseq=1;",
-     "attribute": "transcript_consequences[].sift_score"
+     "attribute": ".[].transcript_consequences[] | { sift_score: .sift_score, transcript_id: .transcript_id }"
    },
    {
      "data_set": "cDNA Change",
@@ -127,7 +127,7 @@
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
      "query_param": "refseq=1;",
-     "attribute": "transcript_consequences[].consequence_terms"
+     "attribute": ".[].transcript_consequences[] | { consequence_terms: .consequence_terms, transcript_id: .transcript_id }"
    },
    {
      "data_set": "Effects",
