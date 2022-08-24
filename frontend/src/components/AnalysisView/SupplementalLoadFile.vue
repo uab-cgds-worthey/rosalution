@@ -91,8 +91,8 @@ h2 {
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 2rem;
-  margin: 1rem;
-  border: 0.170rem dashed var(--rosalution-grey-100);
+  margin: 1rem 1rem .5rem 1rem;
+  border: 0.120rem dashed var(--rosalution-grey-100);
   border-radius: .4375rem;
   width: 24rem;
   height: 6.5rem;
@@ -105,11 +105,11 @@ h2 {
 #commentsBox {
   display: block;
   padding: 1rem;
-  margin: 1rem;
+  margin: 1rem 1rem .5rem 1rem;
   border-style: solid;
-  border-color: #C4C4C4;
+  border-color: var(--rosalution-grey-100);
   border-radius: 7px;
-  width: 24.2rem;
+  width: 24rem;
   height: 6.5rem;
   outline: none;
   resize: none;

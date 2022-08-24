@@ -9,11 +9,11 @@
         <br>
         <!-- Leaving here for tabbed in the future -->
         <SupplementalLoadFile v-on:fileadded="this.getFile" v-on:commentadded="this.getComments"/>
-        <!-- <SupplementalLoadLink
+        <SupplementalLoadLink
           v-on:linknameadded="this.getLinkName"
           v-on:linkadded="this.getLink"
           v-on:commentadded="this.getComments"
-        /> -->
+        />
       </div>
     </div>
   </div>
@@ -22,13 +22,13 @@
 <script>
 // Unsure how tabbed will handle this, but leaving here for now
 import SupplementalLoadFile from '@/components/AnalysisView/SupplementalLoadFile.vue';
-// import SupplementalLoadLink from '@/components/AnalysisView/SupplementalLoadLink.vue';
+import SupplementalLoadLink from '@/components/AnalysisView/SupplementalLoadLink.vue';
 
 export default {
   name: 'modal-dialog',
   components: {
     SupplementalLoadFile,
-    // SupplementalLoadLink,
+    SupplementalLoadLink,
   },
   data: function() {
     return {

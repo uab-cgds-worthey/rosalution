@@ -65,7 +65,7 @@ h2 {
     padding: 1rem;
     margin: 1rem 1rem .5rem 1rem;
     border-style: solid;
-    border-color: #C4C4C4;
+    border-color: var(--rosalution-grey-100);
     border-radius: 7px;
     border-width: 1px;
     width: 24rem;
@@ -82,7 +82,7 @@ h2 {
     padding: 1rem;
     margin: .5rem 1rem 1rem 1rem;
     border-style: solid;
-    border-color: #C4C4C4;
+    border-color: var(--rosalution-grey-100);
     border-radius: 7px;
     border-width: 1px;
     width: 24rem;
@@ -99,7 +99,7 @@ h2 {
   padding: 1rem;
   margin: 1rem;
   border-style: solid;
-  border-color: #C4C4C4;
+  border-color: var(--rosalution-grey-100);
   border-radius: 7px;
   width: 24rem;
   height: 6.5rem;
