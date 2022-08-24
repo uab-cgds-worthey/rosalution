@@ -120,6 +120,14 @@ input[type=file]::file-selector-button {
   border: none;
 }
 
+input::placeholder {
+  color: var(--rosalution-grey-200);
+}
+
+textarea::placeholder {
+  color: var(--rosalution-grey-200);
+}
+
 #browseBtn {
   display: inline-block;
   background-color: white;

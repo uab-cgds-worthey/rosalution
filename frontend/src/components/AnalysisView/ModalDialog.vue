@@ -9,19 +9,24 @@
         <br>
         <!-- Leaving here for tabbed in the future -->
         <div class="tab-container">
-          <span class="link-tab-container">
-            <button class="link-tab-button">
-              <font-awesome-icon icon="link" size="xl"/>
-            </button>
-          </span>
-          <span class="file-tab-container">
-            <button class="file-tab-button">
-              <font-awesome-icon :icon="['far', 'file']" size="xl"/>
-            </button>
-          </span>
+          <div class="tab-buttons">
+            <span class="link-tab-container">
+              <button class="link-tab-button" @click="showSupplementalLoadLink()">
+                <font-awesome-icon icon="link" size="xl"/>
+              </button>
+            </span>
+            <span class="file-tab-container">
+              <button class="file-tab-button" @click="showSupplementalLoadFile()">
+                <font-awesome-icon :icon="['far', 'file']" size="xl"/>
+              </button>
+            </span>
+          </div>
         </div>
-        <SupplementalLoadFile v-on:fileadded="this.getFile" v-on:commentadded="this.getComments"/>
-        <SupplementalLoadLink
+        <SupplementalLoadFile v-if="showFile"
+          v-on:fileadded="this.getFile"
+          v-on:commentadded="this.getComments"
+        />
+        <SupplementalLoadLink v-if="showLink"
           v-on:linknameadded="this.getLinkName"
           v-on:linkadded="this.getLink"
           v-on:commentadded="this.getComments"
@@ -48,11 +53,21 @@ export default {
       type: '',
       data: null,
       comments: '',
+      showFile: true,
+      showLink: false,
     };
   },
   created() {
   },
   methods: {
+    showSupplementalLoadFile() {
+      this.showFile = true;
+      this.showLink = false;
+    },
+    showSupplementalLoadLink() {
+      this.showLink = true;
+      this.showFile = false;
+    },
     cancelModal() {
       this.$emit('cancelmodal');
     },
@@ -64,7 +79,7 @@ export default {
         comment: this.comments,
       };
       this.$emit('addattachment', attachment);
-      this.closeModal();
+      this.cancelModal();
     },
     getFile(fileUploaded) {
       this.data = fileUploaded[0];
@@ -185,6 +200,55 @@ small {
   text-align: center;
   vertical-align: middle;
   align-items: center;
+  grid-area: header;
+  /* display: inline;
+  border: 1px red solid; */
+  /* width: 154px; */
+}
+
+.tab-buttons {
+  text-align: center;
+  vertical-align: middle;
+  align-items: center;
+  grid-area: header;
+  display: inline-block;
+  border: 2px var(--rosalution-grey-100) solid;
+  width: 154px;
+  border-radius: 7px;
+  height: 36px;
+}
+
+.link-tab-button {
+  background-color: var(--rosalution-white);
+  border: none;
+  border-right: 1px var(--rosalution-grey-100) solid;
+  text-align: center;
+  vertical-align: middle;
+  align-items: center;
+  width: 73px;
+  height: 36px;
+  color: var(--rosalution-grey-300);
+}
+
+.link-tab-button:focus {
+  color: var(--rosalution-blue-150);
+}
+
+.file-tab-button {
+  background-color: white;
+  border: none;
+  border-left: 1px var(--rosalution-grey-100) solid;
+  text-align: center;
+  vertical-align: middle;
+  align-items: center;
+  width: 73px;
+  height: 36px;
+  padding: 0%;
+  color: var(--rosalution-grey-300);
+}
+
+.file-tab-button:focus {
+  color: var(--rosalution-blue-150);
 }
 
 </style>

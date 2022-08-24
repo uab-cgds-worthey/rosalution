@@ -116,6 +116,7 @@ h2 {
   font-family: "Proxima Nova", sans-serif;
   text-align: left;
   font-size: 1.125rem;
+  color: var(--rosalution-grey-200);
 }
 
 span {
@@ -128,11 +129,15 @@ input[type=file]::file-selector-button {
   border: none;
 }
 
+textarea::placeholder {
+  color: var(--rosalution-grey-200);
+}
+
 #browseBtn {
   display: inline-block;
   background-color: white;
-  color: #19A3CF;
-  border-bottom: 2px solid #19A3CF;
+  color: var(--rosalution-blue-150);
+  border-bottom: 2px solid var(--rosalution-blue-150);
   font-family: sans-serif;
   cursor: pointer;
   margin-top: 1rem;
