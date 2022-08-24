@@ -9,16 +9,21 @@ import jq
 import requests
 
 
-def transcript_annotation_extration(annotation_unit, transcript_result, desired_attribute):
+def transcript_annotation_extration(annotation_unit, transcript_result):
     """
     Takes in a copy of the annotation unit object, jq extracted result for the annotation, and the
     attribute for the dataset intended to extract and assigns the value and transcript id to the
     annotation unit to be returned.
     """
-    annotation_unit['transcript_id'] = transcript_result['transcript_id']
-    annotation_unit['value'] = transcript_result[desired_attribute]
-    return annotation_unit
+    result_keys = list(transcript_result.keys())
 
+    for key in result_keys:
+        if key == 'transcript_id':
+            annotation_unit['transcript_id'] = transcript_result['transcript_id']
+        else:
+            annotation_unit['value'] = transcript_result[key]
+
+    return annotation_unit
 
 def log_to_file(string):
     """
@@ -50,9 +55,6 @@ class AnnotationTaskInterface:
         annotations = []
 
         if 'attribute' in self.dataset:
-            attribute_path = self.dataset['attribute'].split('.')
-            desired_attribute = attribute_path.pop()
-
             annotation_unit = {
                 "data_set": self.dataset['data_set'],
                 "data_source": self.dataset['data_source'],
@@ -62,20 +64,10 @@ class AnnotationTaskInterface:
 
             if isinstance(json_result, list):
                 if 'transcript' in self.dataset:
-                    transcript_results = jq.compile('.[].' +
-                                                    '.'.join(attribute_path) +
-                                                    ' | { ' + desired_attribute +
-                                                    ': .' + desired_attribute +
-                                                    ', transcript_id: .transcript_id }').input(json_result).all()
+                    transcript_results = jq.compile(self.dataset['attribute']).input(json_result).all()
 
                     for transcript_result in transcript_results:
-                        annotations.append(
-                            transcript_annotation_extration(
-                                annotation_unit.copy(),
-                                transcript_result,
-                                desired_attribute
-                            )
-                        )
+                        annotations.append(transcript_annotation_extration(annotation_unit.copy(), transcript_result))
 
         return annotations
 
