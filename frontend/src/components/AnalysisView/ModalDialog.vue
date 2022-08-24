@@ -8,6 +8,18 @@
       <div class="content-item">
         <br>
         <!-- Leaving here for tabbed in the future -->
+        <div class="tab-container">
+          <span class="link-tab-container">
+            <button class="link-tab-button">
+              <font-awesome-icon icon="link" size="xl"/>
+            </button>
+          </span>
+          <span class="file-tab-container">
+            <button class="file-tab-button">
+              <font-awesome-icon :icon="['far', 'file']" size="xl"/>
+            </button>
+          </span>
+        </div>
         <SupplementalLoadFile v-on:fileadded="this.getFile" v-on:commentadded="this.getComments"/>
         <SupplementalLoadLink
           v-on:linknameadded="this.getLinkName"
@@ -167,6 +179,12 @@ a {
 
 small {
   color: lightslategrey;
+}
+
+.tab-container {
+  text-align: center;
+  vertical-align: middle;
+  align-items: center;
 }
 
 </style>
