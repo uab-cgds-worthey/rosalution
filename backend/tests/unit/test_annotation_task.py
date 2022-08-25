@@ -16,6 +16,10 @@ def test_http_annotation_task_build_url(http_annotation_transcript_id):
     assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;refseq=1;"  # pylint: disable=line-too-long
     # This link cannot be shortened, will just disable for this one due to the nature of the long URL dependency
 
+def test_http_annotation_task_build_url_with_dependency(http_annotation_task_gene):
+    """Verifies that the HTTP annotation task builds the URL that includes depdencies"""
+    actual = http_annotation_task_gene.build_url()
+    assert actual == "https://hpo.jax.org/api/hpo/gene/45614"
 
 def test_annotation_task_create_http_task(hgvs_variant_genomic_unit, transcript_id_dataset):
     """Verifies that the annotation task factory creates the correct annotation task according to the dataset type"""
@@ -53,6 +57,37 @@ def test_transcript_annotation_extraction():
 
 ## Fixtures ##
 
+@pytest.fixture(name="gene_hpo_dataset")
+def fixture_gene_hpo_dataset():
+    """
+    Returns the dict of the HPO dataset that has a dependency
+    """
+    return   {
+        "data_set": "HPO",
+        "data_source": "HPO",
+        "genomic_unit_type": "gene",
+        "annotation_source_type": "http",
+        "url": "https://hpo.jax.org/api/hpo/gene/{Entrez Gene Id}",
+        "query_param": "",
+        "dependencies": ["Entrez Gene Id"]
+    }
+
+@pytest.fixture(name="gene_genomic_unit")
+def fixture_gene_genomic_unit():
+    """Returns the genomic unit 'VMA21' to be annotated"""
+    return {
+        "unit": "VMA21",
+        "Entrez Gene Id": "45614",
+        "genomic_unit_type": GenomicUnitType.GENE,
+    }
+
+@pytest.fixture(name="http_annotation_task_gene")
+def fixture_http_annotation_empty(gene_genomic_unit, gene_hpo_dataset):
+    """Returns an HTTP annotation taskd"""
+    task = HttpAnnotationTask(gene_genomic_unit)
+    task.set(gene_hpo_dataset)
+    return task
+
 @pytest.fixture(name="hgvs_variant_genomic_unit")
 def fixture_genomic_unit():
     """Returns the genomic unit 'NM_170707.3:c.745C>T' to be annotated"""
@@ -60,12 +95,6 @@ def fixture_genomic_unit():
         "unit": "NM_170707.3:c.745C>T",
         "genomic_unit_type": GenomicUnitType.HGVS_VARIANT,
     }
-
-
-@pytest.fixture(name="http_annotation_task_empty")
-def fixture_http_annotation_empty(hgvs_variant_genomic_unit):
-    """Returns an HTTP annotation task with not datasets appended"""
-    return HttpAnnotationTask(hgvs_variant_genomic_unit)
 
 
 @pytest.fixture(name="transcript_id_dataset")
@@ -79,17 +108,18 @@ def fixture_transcript_id_dataset():
         "genomic_unit_type": "hgvs_variant",
         "transcript": True,
         "annotation_source_type": "http",
-        "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json",
+        "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;",
         "query_param": "refseq=1;",
         "attribute": "transcript_consequences[].transcript_id"
     }
 
 
 @pytest.fixture(name="http_annotation_transcript_id")
-def fixture_http_annotation_transcript_id(http_annotation_task_empty, transcript_id_dataset):
+def fixture_http_annotation_transcript_id(hgvs_variant_genomic_unit, transcript_id_dataset):
     """An HTTP annotation task with a single dataset"""
-    http_annotation_task_empty.set(transcript_id_dataset)
-    return http_annotation_task_empty
+    task = HttpAnnotationTask(hgvs_variant_genomic_unit)
+    task.set(transcript_id_dataset)
+    return task
 
 
 @pytest.fixture(name="transcript_datasets_json")

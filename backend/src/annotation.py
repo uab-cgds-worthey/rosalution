@@ -55,21 +55,13 @@ class AnnotationService:
         """
         units_to_annotate = analysis.units_to_annotate()
 
-        annotation_configuration = self.annotation_config_collection.datasets_to_annotate_for_units(units_to_annotate)
+        annotation_configuration = self.annotation_config_collection.datasets_to_annotate_for_units(
+            units_to_annotate)
 
         for genomic_unit in units_to_annotate:
             genomic_unit_type = genomic_unit["type"].value
             for dataset in annotation_configuration[genomic_unit_type]:
                 annotation_task_queue.put((genomic_unit, dataset))
-
-    # @staticmethod
-    # def check_if_annotation_ready(genomic_unit_name,annotation,  genomic_unit_collection):
-    #     gemomic_unit = genomic_unit_collection.get(genomic_unit)
-    #     annotation.depedencies exist in genomic_unit.annotations
-    #     if not
-    #       return false
-
-    #     return true
 
     @staticmethod
     def process_tasks(annotation_queue, genomic_unit_collection):
@@ -80,6 +72,21 @@ class AnnotationService:
             annotation_task_futures = {}
             while not annotation_queue.empty():
                 genomic_unit, dataset_json = annotation_queue.get()
+                ready = True
+                if 'dependencies' in dataset_json:
+                    missing_dependencies = [
+                        dependency for dependency in dataset_json['dependencies'] if dependency not in genomic_unit]
+                    for missing in missing_dependencies:
+                        annotation_value = genomic_unit_collection.find_genomic_unit_annotation_value(
+                            genomic_unit, missing)
+                        if annotation_value:
+                            genomic_unit[missing] = annotation_value
+                        else:
+                            ready = False
+
+                if not ready:
+                    annotation_queue.put((genomic_unit, dataset_json))
+                    continue
 
                 task = AnnotationTaskFactory.create(genomic_unit, dataset_json)
 
@@ -95,15 +102,16 @@ class AnnotationService:
                     log_to_file(f"{annotation_task.dataset}\n")
                     log_to_file(f"{genomic_unit}\n")
 
-                    annotations = annotation_task.extract(future.result())
-
-                    for annotation in annotations:
-                        genomic_unit_collection.annotate_genomic_unit(annotation_task.genomic_unit, annotation)
+                    for annotation in annotation_task.extract(future.result()):
+                        genomic_unit_collection.annotate_genomic_unit(
+                            annotation_task.genomic_unit, annotation)
 
                 except FileNotFoundError as error:
-                    log_to_file(f"exception happened {error} with {genomic_unit} and {annotation_task}\n")
+                    log_to_file(
+                        f"exception happened {error} with {genomic_unit} and {annotation_task}\n")
 
                 log_to_file("\n")
                 del annotation_task_futures[future]
 
-            log_to_file("after for loop for waiting for all of the futures to finish\n\n")
+            log_to_file(
+                "after for loop for waiting for all of the futures to finish\n\n")

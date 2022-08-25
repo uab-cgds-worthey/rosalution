@@ -80,7 +80,7 @@ class NoneAnnotationTask(AnnotationTaskInterface):
         AnnotationTaskInterface.__init__(self, genomic_unit_json)
 
     def annotate(self):
-        """Createsa fake 'annotation' using a randomly generated pause time to a query io operation"""
+        """Creates a fake 'annotation' using a randomly generated pause time to a query io operation"""
         value = randint(0, 10)
         time.sleep(value)
         log_to_file(f'Slept: {value} - Fake annotation for {self.genomic_unit["unit"]}'
@@ -112,7 +112,10 @@ class HttpAnnotationTask(AnnotationTaskInterface):
     def annotate(self):
         """builds the complete url and fetches the annotation with an http request"""
         url_to_query = self.build_url()
-        result = requests.get(url_to_query)
+        log_to_file(f'No Sleep: {url_to_query} - Real annotation for {self.genomic_unit["unit"]}'
+                    f' for dataset {self.dataset["data_set"]} from {self.dataset["data_source"]}\n')
+
+        result = requests.get(url_to_query, verify=False)
         return result.json()
 
     def base_url(self):
@@ -121,7 +124,15 @@ class HttpAnnotationTask(AnnotationTaskInterface):
         within the 'url' attribute and replaces it with the genomic_unit being annotated.
         """
         string_to_replace = f"{{{self.dataset['genomic_unit_type']}}}"
-        return f"{self.dataset['url'].replace(string_to_replace, self.genomic_unit['unit'])};"
+        replace_string = self.dataset['url'].replace(
+            string_to_replace, self.genomic_unit['unit'])
+
+        if 'dependencies' in self.dataset:
+            for depedency in self.dataset['dependencies']:
+                depedency_replace_string = f"{{{depedency}}}"
+                replace_string = replace_string.replace(
+                    depedency_replace_string, self.genomic_unit[depedency])
+        return replace_string
 
     def build_url(self):
         """
@@ -160,6 +171,7 @@ class AnnotationTaskFactory:
         """
         # In the future, this could be modified to use a static function instead
         # and those would be set to the dict, or an additional dictionary
-        new_task = cls.tasks[dataset["annotation_source_type"]](genomic_unit_json)
+        new_task = cls.tasks[dataset["annotation_source_type"]](
+            genomic_unit_json)
         new_task.set(dataset)
         return new_task
