@@ -11,12 +11,12 @@
         <div class="tab-container">
           <div class="tab-buttons">
             <span class="link-tab-container">
-              <button class="link-tab-button" @click="showSupplementalLoadLink()">
+              <button class="link-tab-button" @click="showSupplementalLoadLink()" v-bind:class="{focus: showLink}">
                 <font-awesome-icon icon="link" size="xl"/>
               </button>
             </span>
             <span class="file-tab-container">
-              <button class="file-tab-button" @click="showSupplementalLoadFile()">
+              <button class="file-tab-button" @click="showSupplementalLoadFile()" v-bind:class="{focus: showFile}">
                 <font-awesome-icon :icon="['far', 'file']" size="xl"/>
               </button>
             </span>
@@ -67,6 +67,13 @@ export default {
     showSupplementalLoadLink() {
       this.showLink = true;
       this.showFile = false;
+    },
+    // Function to set the default File tab color to blue
+    // Tried this by setting .file-tab-button { color: var(setFileTabColor());}
+    // Did not work
+    setFileTabColor() {
+      if (this.showFile) return '--rosalution-blue-150';
+      else return '--rosalution-grey-300';
     },
     cancelModal() {
       this.$emit('cancelmodal');
@@ -248,7 +255,7 @@ small {
 }
 
 .file-tab-button:focus {
-  color: var(--rosalution-blue-150);
+  color: var(--rosalution-blue-150) !important;
 }
 
 </style>
