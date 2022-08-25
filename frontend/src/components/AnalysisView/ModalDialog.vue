@@ -11,12 +11,16 @@
         <div class="tab-container">
           <div class="tab-buttons">
             <span class="link-tab-container">
-              <button class="link-tab-button" @click="showSupplementalLoadLink()" v-bind:class="{focus: showLink}">
+              <button class="link-tab-button" @click="showSupplementalLoadLink()"
+                v-bind:class="{'link-tab-button_focused': showLink}"
+              >
                 <font-awesome-icon icon="link" size="xl"/>
               </button>
             </span>
             <span class="file-tab-container">
-              <button class="file-tab-button" @click="showSupplementalLoadFile()" v-bind:class="{focus: showFile}">
+              <button class="file-tab-button" @click="showSupplementalLoadFile()"
+                v-bind:class="{'file-tab-button_focused': showFile}"
+              >
                 <font-awesome-icon :icon="['far', 'file']" size="xl"/>
               </button>
             </span>
@@ -237,8 +241,8 @@ small {
   color: var(--rosalution-grey-300);
 }
 
-.link-tab-button:focus {
-  color: var(--rosalution-blue-150);
+.link-tab-button_focused {
+  color: var(--rosalution-blue-150) !important;
 }
 
 .file-tab-button {
@@ -254,7 +258,7 @@ small {
   color: var(--rosalution-grey-300);
 }
 
-.file-tab-button:focus {
+.file-tab-button_focused {
   color: var(--rosalution-blue-150) !important;
 }
 
