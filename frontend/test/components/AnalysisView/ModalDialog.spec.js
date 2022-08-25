@@ -23,5 +23,5 @@ test('Should emit "addfile" when clicking on the add button', async () => {
 test('Should close the modal after clicking on the add button', async () => {
   const wrapper = shallowMount(ModalDialog);
   wrapper.find('[data-test=add-button]').trigger('click');
-  expect(wrapper.emitted().closemodal).to.not.be.undefined;
+  expect(wrapper.emitted().cancelmodal).to.not.be.undefined;
 });

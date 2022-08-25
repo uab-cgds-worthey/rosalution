@@ -72,13 +72,6 @@ export default {
       this.showLink = true;
       this.showFile = false;
     },
-    // Function to set the default File tab color to blue
-    // Tried this by setting .file-tab-button { color: var(setFileTabColor());}
-    // Did not work
-    setFileTabColor() {
-      if (this.showFile) return '--rosalution-blue-150';
-      else return '--rosalution-grey-300';
-    },
     cancelModal() {
       this.$emit('cancelmodal');
     },

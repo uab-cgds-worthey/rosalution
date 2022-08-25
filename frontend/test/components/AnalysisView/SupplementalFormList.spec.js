@@ -40,7 +40,7 @@ describe('SupplementalFormList.vue', () => {
       type: 'file',
     });
 
-    modalWrapper.vm.$emit('closemodal');
+    modalWrapper.vm.$emit('cancelmodal');
 
     expect(wrapper.findAll('tr').length).toBe(1);
 
