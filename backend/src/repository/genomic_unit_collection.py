@@ -18,6 +18,23 @@ class GenomicUnitCollection:
         """ Returns all genomic units that are currently stored """
         return self.collection.find()
 
+    def find_genomic_unit_annotation_value(self, genomic_unit, dataset):
+        """ Returns the annotation value for a genomic unit according the the dataset"""
+        data_set_name = dataset
+        find_query = {
+            genomic_unit['type'].value: genomic_unit['unit'],
+            f"annotations.{data_set_name}": {'$exists': True}
+        }
+        result = self.collection.find_one(find_query)
+
+        if result is None:
+            return None
+
+        return next(
+            (annotation[data_set_name]['value'] for annotation in result['annotations'] if data_set_name in annotation),
+            None
+        )
+
     def find_genomic_unit_with_transcript_id(self, genomic_unit, transcript_id):
         """ Returns the genomic unit with the corresponding transcript if it exists """
         return self.collection.find_one({
@@ -28,14 +45,16 @@ class GenomicUnitCollection:
     def update_genomic_unit_with_transcript_id(self, genomic_unit, transcript_id):
         """ Takes a genomic unit and transcript id and updates the document with a new transcript """
         return self.collection.update_one(
-            { genomic_unit['type'].value: genomic_unit['unit'] },
-            { '$addToSet': { 'transcripts': { 'transcript_id': transcript_id, 'annotations': [] }}}
+            {genomic_unit['type'].value: genomic_unit['unit']},
+            {'$addToSet': {'transcripts': {
+                'transcript_id': transcript_id, 'annotations': []}}}
         )
 
     def update_genomic_unit_with_mongo_id(self, genomic_unit_document):
         """ Takes a genomic unit and overwrites the existing object based on the object's id """
         genomic_unit_id = genomic_unit_document['_id']
-        self.collection.update_one({'_id': ObjectId(str(genomic_unit_id))}, { '$set': genomic_unit_document } )
+        self.collection.update_one({'_id': ObjectId(str(genomic_unit_id))}, {
+                                   '$set': genomic_unit_document})
 
     def annotate_genomic_unit(self, genomic_unit, genomic_annotation):
         """
@@ -51,7 +70,8 @@ class GenomicUnitCollection:
                 )
 
                 if not genomic_unit_document:
-                    self.update_genomic_unit_with_transcript_id(genomic_unit, genomic_annotation['transcript_id'])
+                    self.update_genomic_unit_with_transcript_id(
+                        genomic_unit, genomic_annotation['transcript_id'])
                     genomic_unit_document = self.find_genomic_unit_with_transcript_id(
                         genomic_unit,
                         genomic_annotation['transcript_id']

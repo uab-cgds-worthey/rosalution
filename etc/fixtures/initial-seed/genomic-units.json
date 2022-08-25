@@ -1,11 +1,25 @@
 [
     {
         "gene_symbol": "VMA21",
-        "annotations": {}
+        "gene": "VMA21",
+        "annotations": [{
+            "Entrez Gene Id": {
+                "data_source": "HPO",
+                "version": "0.0",
+                "value": "203547"
+            }
+        }]
     },
     {
         "gene_symbol": "DMD",
-        "annotations": {}
+        "gene": "DMD",
+        "annotations": [{
+            "Entrez Gene Id": {
+                "data_source": "HPO",
+                "version": "0.0",
+                "value": "1756"
+            }
+        }]
     },
     {
         "hgvs_variant": "NM_001017980.3:c.164G>T",
