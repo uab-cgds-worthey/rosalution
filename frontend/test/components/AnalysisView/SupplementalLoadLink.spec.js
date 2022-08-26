@@ -14,7 +14,7 @@ describe('SupplementalLoadLink.vue', () => {
     expect(typeof wrapper).toBe('object');
   });
 
-  it('should emit "linknameadded" when file is inputted', async () => {
+  it('should emit "linknameadded" when link name is inputted', async () => {
     const actualLinkName = 'it-is-a-link-name';
 
     const input = wrapper.find('[data-test=link-name-input]');
@@ -26,7 +26,7 @@ describe('SupplementalLoadLink.vue', () => {
     expect(wrapper.emitted().linknameadded[0]).deep.to.equal([actualLinkName]);
   });
 
-  it('should emit "linkadded" when file is inputted', async () => {
+  it('should emit "linkadded" when link is inputted', async () => {
     const actualLink = 'it-is-a-link';
 
     const input = wrapper.find('[data-test=link-input]');
