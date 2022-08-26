@@ -94,3 +94,15 @@ class GenomicUnitCollection:
                 self.update_genomic_unit_with_mongo_id(genomic_unit_document)
 
         return
+
+
+    def create_genomic_unit(self, genomic_unit):
+        """
+        Takes a genomic_unit and adds it to the collection if it doesn't already exist (exact match).
+        """
+
+        # Make sure the genomic unit doesn't already exist
+        if self.collection.find_one(genomic_unit):
+            print("Genomic unit already exists, skipping creation")
+        self.collection.insert_one(genomic_unit)
+        return

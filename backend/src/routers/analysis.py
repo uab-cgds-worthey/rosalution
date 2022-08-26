@@ -2,10 +2,12 @@
 
 from typing import List
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 
 from ..core.analysis import Analysis, AnalysisSummary
+from ..core.phenotips_json import BasePhenotips
 from ..dependencies import database
+from ..phenotips_importer import PhenotipsImporter
 
 # This is temporarily changed as security is removed for the analysis endpoints to make development easier
 # Change line 18 to the following to enable security:
@@ -33,3 +35,14 @@ def get_all_analyses_summaries(rosalution_db=Depends(database)):
 def get_analysis_by_name(name: str, rosalution_db=Depends(database)):
     """Returns analysis case data by calling method to find case by it's name"""
     return rosalution_db["analysis"].find_by_name(name)
+
+
+@router.post("/import", response_model=Analysis)
+async def import_phenotips_json(phenotips_input: BasePhenotips, rosalution_db=Depends(database)):
+    """Imports the phenotips.json file into the database"""
+    phenotips_importer = PhenotipsImporter(
+        rosalution_db["analysis"], rosalution_db["genomic_unit"])
+    try:
+        return phenotips_importer.import_phenotips_json(phenotips_input)
+    except ValueError as exception:
+        raise HTTPException(status_code=409) from exception

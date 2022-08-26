@@ -65,6 +65,14 @@ database container, as seen below.
 docker-compose exec rosalution-db  mongosh /tmp/fixtures/seed.js
 ```
 
+### Viewing the Database
+
+Use the following command to view the database within the mongodb container.
+
+```bash
+docker exec -it rosalution_rosalution-db_1 mongosh rosalution_db
+```
+
 ## Production Build and Deployment
 
 Use the the production docker-compose.production.yml to build & deploy Rosalution
