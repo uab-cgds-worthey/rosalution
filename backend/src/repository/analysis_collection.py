@@ -55,3 +55,13 @@ class AnalysisCollection:
     def find_by_name(self, name: str):
         """Returns analysis by searching for name"""
         return self.collection.find_one({"name": name})
+
+
+    def create_analysis(self, analysis_data: dict):
+        """Creates a new analysis if the name does not already exist"""
+        if self.collection.find_one({"name": analysis_data["name"]}) is not None:
+            raise ValueError(
+                f"Analysis with name {analysis_data['name']} already exists")
+
+        # returns an instance of InsertOneResult.
+        return self.collection.insert_one(analysis_data)

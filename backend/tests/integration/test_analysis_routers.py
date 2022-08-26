@@ -1,5 +1,6 @@
-"""Analysis Routes Intergration test"""
+"""Analysis Routes Integration test"""
 
+import pytest
 from ..test_utils import read_database_fixture, read_test_fixture
 
 
@@ -34,3 +35,23 @@ def test_get_analysis_summary(client, mock_access_token, database_collections):
     response = client.get(
         "/analysis/summary", headers={"Authorization": "Bearer " + mock_access_token})
     assert len(response.json()) == 5
+
+
+def test_create_analysis(client, mock_access_token, database_collections, exported_phenotips_to_import_json):
+    """Testing if the create analysis endpoint creates a new analysis"""
+    database_collections["analysis"].collection.insert_one.return_value = True
+    database_collections["analysis"].collection.find_one.return_value = None
+    database_collections["genomic_unit"].collection.find_one.return_value = None
+    response = client.post(
+        "/analysis/import",
+        headers={"Authorization": "Bearer " + mock_access_token,
+                 "Content-Type": "application/json"},
+        json=exported_phenotips_to_import_json,
+    )
+    assert response.status_code == 200
+
+
+@pytest.fixture(name="exported_phenotips_to_import_json")
+def fixture_phenotips_import():
+    """Returns a phenotips json fixture"""
+    return read_test_fixture("phenotips-import.json")

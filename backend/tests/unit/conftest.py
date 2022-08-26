@@ -6,6 +6,7 @@ import pytest
 from src.core.analysis import Analysis
 from src.repository.analysis_collection import AnalysisCollection
 from src.repository.annotation_config_collection import AnnotationConfigCollection
+from src.repository.genomic_unit_collection import GenomicUnitCollection
 from src.annotation import AnnotationService
 
 from ..test_utils import read_database_fixture, mock_mongo_collection
@@ -23,6 +24,22 @@ def fixture_analysis_collection(analysis_collection_json):
     mock_collection = mock_mongo_collection()
     mock_collection.find = Mock(return_value=analysis_collection_json)
     return AnalysisCollection(mock_collection)
+
+
+@pytest.fixture(name="genomic_unit_collection_json")
+def fixture_genomic_unit_collection_json():
+    """Returns the JSON for the genomic units collection used to seed the MongoDB database"""
+    return read_database_fixture("genomic-units.json")
+
+
+@pytest.fixture(name="genomic_unit_collection")
+def fixture_genomic_unit_collection(genomic_unit_collection_json):
+    """Returns a genomic unit collection"""
+
+    mock_collection = mock_mongo_collection()
+    mock_collection.find = Mock(return_value=genomic_unit_collection_json)
+
+    return GenomicUnitCollection(mock_collection)
 
 
 @pytest.fixture(name="cpam0002_analysis")

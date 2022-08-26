@@ -37,6 +37,7 @@ def mock_mongo_collection():
     mock_collection.find = Mock()
     mock_collection.find_one = Mock()
     mock_collection.update_one = Mock()
+    mock_collection.insert_one = Mock()
     return mock_collection
 
 def magic_mock_mongo_collection():
@@ -48,4 +49,5 @@ def magic_mock_mongo_collection():
     mock_collection.find = MagicMock()
     mock_collection.find_one = MagicMock()
     mock_collection.update_one = MagicMock()
+    mock_collection.insert_one = MagicMock()
     return mock_collection

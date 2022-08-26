@@ -1,4 +1,3 @@
-
 """Module user09es interface to the repository in the data layer that stores the persistent state of the application"""
 # pylint: disable=too-few-public-methods
 # This wrapper is intended to create a callable instance for FastAPI Depedency Injection
@@ -7,6 +6,7 @@ from .repository.user_collection import UserCollection
 from .repository.analysis_collection import AnalysisCollection
 from .repository.annotation_config_collection import AnnotationConfigCollection
 from .repository.genomic_unit_collection import GenomicUnitCollection
+
 
 class Database:
     """
@@ -17,6 +17,7 @@ class Database:
     client. MongoDB does not connect until the first query on a MongoDB
     collection is executed.
     """
+
     def __init__(self, client):
         self.database_client = client
 
