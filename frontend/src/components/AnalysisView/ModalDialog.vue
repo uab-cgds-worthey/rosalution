@@ -2,7 +2,7 @@
   <div>
     <div class="modal-background" @click="closeModal()"></div>
     <div class="modal-container">
-      <a title="Clear" class="clear-item" @click="cancelModal()" data-test="close-modal">Clear</a>
+      <a title="Clear" class="clear-item" @click="clearModal()" data-test="close-modal">Clear</a>
       <a title="Cancel" class="cancel-item" @click="cancelModal()" data-test="cancel-modal">Cancel</a>
       <a title="Add" class="addbutton-item" @click="addAttachment()" data-test="add-button">Add</a>
       <div class="content-item">
@@ -26,15 +26,17 @@
             </span>
           </div>
         </div>
-        <SupplementalLoadFile v-if="showFile"
-          v-on:fileadded="this.getFile"
-          v-on:commentadded="this.getComments"
-        />
-        <SupplementalLoadLink v-if="showLink"
-          v-on:linknameadded="this.getLinkName"
-          v-on:linkadded="this.getLink"
-          v-on:commentadded="this.getComments"
-        />
+        <form ref="modal">
+          <SupplementalLoadFile v-if="showFile"
+            v-on:fileadded="this.getFile"
+            v-on:commentadded="this.getComments"
+          />
+          <SupplementalLoadLink v-if="showLink"
+            v-on:linknameadded="this.getLinkName"
+            v-on:linkadded="this.getLink"
+            v-on:commentadded="this.getComments"
+          />
+        </form>
       </div>
     </div>
   </div>
@@ -71,6 +73,12 @@ export default {
     showSupplementalLoadLink() {
       this.showLink = true;
       this.showFile = false;
+    },
+    clearModal() {
+      this.$refs.modal.reset();
+      if (this.showFile) {
+        document.getElementById('removeBtn').click();
+      }
     },
     cancelModal() {
       this.$emit('cancelmodal');

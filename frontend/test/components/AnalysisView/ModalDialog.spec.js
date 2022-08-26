@@ -25,3 +25,15 @@ test('Should close the modal after clicking on the add button', async () => {
   wrapper.find('[data-test=add-button]').trigger('click');
   expect(wrapper.emitted().cancelmodal).to.not.be.undefined;
 });
+
+test.skip('Should show the supplemental load file when clicking on the file tab', async () => {
+  const wrapper = shallowMount(ModalDialog);
+  wrapper.find('[data-test=add-button]').trigger('click');
+  expect(wrapper.emitted().cancelmodal).to.not.be.undefined;
+});
+
+test.skip('Should show the supplemental load link when clicking on the link tab', async () => {
+  const wrapper = shallowMount(ModalDialog);
+  wrapper.find('[data-test=add-button]').trigger('click');
+  // expect(wrapper.emitted().cancelmodal).to.not.be.undefined;
+});
