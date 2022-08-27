@@ -20,11 +20,13 @@ def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_col
 # so removing it causes the test to not run.  Also is unable to detect
 # the mock overide of the 'annotate' function on DataSetSource is valid either.
 @patch("src.annotation.log_to_file")
-def test_processing_annotation_tasks(log_to_file_mock, cpam0046_annotation_queue):  # pylint: disable=unused-argument
+def test_processing_cpam0046_annotation_tasks(log_to_file_mock, cpam0046_annotation_queue):  # pylint: disable=unused-argument
     """Verifies that each item on the annotation queue is read and executed"""
     mock_genomic_unit_collection = Mock()
     mock_genomic_unit_collection.find_genomic_unit_annotation_value = Mock()
     mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = [None, '123456']
+    mock_genomic_unit_collection.annotation_exist.return_value = False
+
     assert not cpam0046_annotation_queue.empty()
     HttpAnnotationTask.annotate = Mock(return_value={})
     NoneAnnotationTask.annotate = Mock()
@@ -43,7 +45,8 @@ def test_processing_cpam0002_annotations_tasks(
     """
 
     mock_genomic_unit_collection = Mock()
-
+    mock_genomic_unit_collection.annotation_exist.return_value = False
+    
     HttpAnnotationTask.annotate = Mock(return_value=transcript_annotation_response)
     NoneAnnotationTask.annotate = Mock()
 

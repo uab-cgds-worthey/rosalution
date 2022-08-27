@@ -1,5 +1,6 @@
 """Supports the queueing and processing of genomic unit annotation"""
 import concurrent
+import json
 import queue
 
 from .annotation_task import AnnotationTaskFactory
@@ -72,6 +73,10 @@ class AnnotationService:
             annotation_task_futures = {}
             while not annotation_queue.empty():
                 genomic_unit, dataset_json = annotation_queue.get()
+
+                if genomic_unit_collection.annotation_exist(genomic_unit, dataset_json):
+                    continue
+
                 ready = True
                 if 'dependencies' in dataset_json:
                     missing_dependencies = [
@@ -85,6 +90,7 @@ class AnnotationService:
                             ready = False
 
                 if not ready:
+                    log_to_file(f"Delaying {dataset_json['data_set']} with {json.dumps(genomic_unit)}")
                     annotation_queue.put((genomic_unit, dataset_json))
                     continue
 

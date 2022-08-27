@@ -7,6 +7,7 @@ type of Genomic Unit.
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 from bson import ObjectId
 
+
 class GenomicUnitCollection:
     """ Repository for user09ing genomic units and their annotations """
 
@@ -17,6 +18,30 @@ class GenomicUnitCollection:
     def all(self):
         """ Returns all genomic units that are currently stored """
         return self.collection.find()
+
+    def annotation_exist(self, genomic_unit, dataset):
+        """ Returns true if the genomic_unit already has that dataset annotated """
+        data_set_name = dataset['data_set']
+        find_query = {
+            genomic_unit['type'].value: genomic_unit['unit'],
+        }
+
+        if 'transcript' in dataset:
+            hgvs_genomic_unit = self.collection.find_one(find_query)
+            
+            if not hgvs_genomic_unit['transcripts']:
+                return False
+
+            for transcript in hgvs_genomic_unit['transcripts']:
+                if not next(
+                    (annotation for annotation in transcript['annotations'] if data_set_name in annotation), None
+                ):
+                    return False
+            return True
+
+        annotation_field_key = f"annotations.{data_set_name}"
+        find_query[annotation_field_key] = {'$exists': True}
+        return True if self.collection.count_documents(find_query, limit=1) else False
 
     def find_genomic_unit_annotation_value(self, genomic_unit, dataset):
         """ Returns the annotation value for a genomic unit according the the dataset"""
@@ -31,7 +56,8 @@ class GenomicUnitCollection:
             return None
 
         return next(
-            (annotation[data_set_name]['value'] for annotation in result['annotations'] if data_set_name in annotation),
+            (annotation[data_set_name]['value']
+             for annotation in result['annotations'] if data_set_name in annotation),
             None
         )
 
