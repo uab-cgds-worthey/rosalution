@@ -17,6 +17,7 @@ def test_find_genomic_units(genomic_unit_collection):
 
 
 def test_transcript_annotation_not_exist_with_no_annotations(genomic_unit_collection, hgvs_variant_genomic_unit_json):
+    """ Tests if a transcript that has no annotations will return false on a test"""
     genomic_unit = {'unit': 'NM_001017980.3:c.164G>T',
                     'type': GenomicUnitType.HGVS_VARIANT}
     dataset = {'data_set': 'transcript_id', 'transcript': True}
@@ -25,9 +26,11 @@ def test_transcript_annotation_not_exist_with_no_annotations(genomic_unit_collec
 
     actual = genomic_unit_collection.annotation_exist(genomic_unit, dataset)
 
-    assert actual == False
+    assert actual is False
+
 
 def test_transcript_annotation_not_exist(genomic_unit_collection, hgvs_variant_genomic_unit_json):
+    """ Tests if a transcript annotation does not exist """
     genomic_unit = {'unit': 'NM_001017980.3:c.164G>T',
                     'type': GenomicUnitType.HGVS_VARIANT}
     dataset = {'data_set': 'Polyphen Prediction', 'transcript': True}
@@ -41,9 +44,11 @@ def test_transcript_annotation_not_exist(genomic_unit_collection, hgvs_variant_g
 
     actual = genomic_unit_collection.annotation_exist(genomic_unit, dataset)
 
-    assert actual == False
+    assert actual is False
+
 
 def test_transcript_annotation_exist(genomic_unit_collection, hgvs_variant_genomic_unit_json):
+    """ Tests if there is an annotation for a transcript """
     genomic_unit = {'unit': 'NM_001017980.3:c.164G>T',
                     'type': GenomicUnitType.HGVS_VARIANT}
     dataset = {'data_set': 'transcript_id', 'transcript': True}
@@ -57,10 +62,11 @@ def test_transcript_annotation_exist(genomic_unit_collection, hgvs_variant_genom
 
     actual = genomic_unit_collection.annotation_exist(genomic_unit, dataset)
 
-    assert actual == True
+    assert actual is True
 
 
-def test_annotation_exists_for_gene(genomic_unit_collection, vma21_genomic_unit):
+def test_annotation_exists_for_gene(genomic_unit_collection):
+    """ Tests if an annotation exists for a gene"""
     genomic_unit = {'unit': 'VMA21', 'type': GenomicUnitType.GENE}
     dataset = {'data_set': "Entrez Gene Id"}
 
@@ -74,10 +80,11 @@ def test_annotation_exists_for_gene(genomic_unit_collection, vma21_genomic_unit)
                     "annotations.Entrez Gene Id": {'$exists': True}
         }, limit=1
     )
-    assert actual == True
+    assert actual is True
 
 
 def test_annotation_does_not_exist_for_gene(genomic_unit_collection):
+    """ Tests if an annotation does not exist for a gene """
     genomic_unit = {'unit': 'VMA21', 'type': GenomicUnitType.GENE}
     dataset = {'data_set': "HPO"}
 
@@ -90,7 +97,7 @@ def test_annotation_does_not_exist_for_gene(genomic_unit_collection):
             "annotations.HPO": {'$exists': True}
         }, limit=1
     )
-    assert actual == False
+    assert actual is False
 
 
 def test_find_genomic_unit_with_transcript_id(genomic_unit_collection):

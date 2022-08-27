@@ -28,7 +28,7 @@ class GenomicUnitCollection:
 
         if 'transcript' in dataset:
             hgvs_genomic_unit = self.collection.find_one(find_query)
-            
+
             if not hgvs_genomic_unit['transcripts']:
                 return False
 
@@ -41,7 +41,7 @@ class GenomicUnitCollection:
 
         annotation_field_key = f"annotations.{data_set_name}"
         find_query[annotation_field_key] = {'$exists': True}
-        return True if self.collection.count_documents(find_query, limit=1) else False
+        return  bool(self.collection.count_documents(find_query, limit=1))
 
     def find_genomic_unit_annotation_value(self, genomic_unit, dataset):
         """ Returns the annotation value for a genomic unit according the the dataset"""
