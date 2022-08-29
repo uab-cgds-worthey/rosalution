@@ -56,7 +56,6 @@ class AnalysisCollection:
         """Returns analysis by searching for name"""
         return self.collection.find_one({"name": name})
 
-
     def create_analysis(self, analysis_data: dict):
         """Creates a new analysis if the name does not already exist"""
         if self.collection.find_one({"name": analysis_data["name"]}) is not None:
@@ -65,3 +64,8 @@ class AnalysisCollection:
 
         # returns an instance of InsertOneResult.
         return self.collection.insert_one(analysis_data)
+
+    def update_analysis(self, name: str, updated_analysis_data: dict):
+        """Updates an existing analysis"""
+        existing = self.collection.find_one({"name": name})
+        return self.collection.update_one({"name": existing["name"]}, {"$set": updated_analysis_data})

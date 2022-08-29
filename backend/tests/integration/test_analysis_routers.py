@@ -51,6 +51,22 @@ def test_create_analysis(client, mock_access_token, database_collections, export
     assert response.status_code == 200
 
 
+# this is a work in progress
+def test_update_analysis(client, mock_access_token, database_collections):
+    """Testing if the update analysis endpoint updates an existing analysis"""
+    database_collections["analysis"].collection.find_one.return_value = read_test_fixture(
+        "analysis-CPAM0112.json")  # this is the analysis to update and also the fixture needs to be created
+    database_collections["analysis"].collection.update_one.return_value = True
+    response = client.put(
+        "/analysis/update/CPAM0112",
+        headers={"Authorization": "Bearer " + mock_access_token,
+                 "Content-Type": "application/json"},
+        # this is the new analysis data
+        json=read_test_fixture("analyses-update.json"),
+    )
+    assert response.status_code == 200
+
+
 @pytest.fixture(name="exported_phenotips_to_import_json")
 def fixture_phenotips_import():
     """Returns a phenotips json fixture"""
