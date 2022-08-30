@@ -1,12 +1,11 @@
-[
-  {
-      "name": "CPAM0112",
-      "description": "Vacuolar myopathy with autophagy, X-linked vacuolar myopathy with autophagy",
-      "nominated_by": "Dr. Person One",
-      "latest_status": "Approved",
-      "created_date": "2020-11-09",
-      "last_modified_date": "2021-03-16",
-      "genomic_units": [
+{
+  "name": "CPAM0112",
+  "description": "Vacuolar myopathy with autophagy, X-linked vacuolar myopathy with autophagy",
+  "nominated_by": "Dr. Person One",
+  "latest_status": "Annotation",
+  "created_date": "2021-02-18",
+  "last_modified_date": "2021-02-22",
+  "genomic_units": [
           {
               "gene": "VMA21",
               "transcripts": [
@@ -56,6 +55,62 @@
               }
               ]
           }
+      ],
+  "sections": [
+    {
+      "header": "Brief",
+      "content": [
+        {
+          "field": "Nominated",
+          "value": []
+        },
+        {
+          "field": "Reason",
+          "value": []
+        },
+        {
+          "field": "Desired Outcomes",
+          "value": []
+        }
       ]
-  }
-]
+    },
+    {
+      "header": "Medical Summary",
+      "content": [
+        {
+          "field": "Clinical Diagnosis",
+          "value": []
+        },
+        {
+          "field": "Affected Individuals Identified",
+          "value": []
+        }
+      ]
+    },
+    {
+      "header": "Case Information",
+      "content": [
+        {
+          "field": "Systems",
+          "value": []
+        },
+        {
+          "field": "HPO Terms",
+          "value": []
+        },
+        {
+          "field": "Additional Details",
+          "value": []
+        },
+        {
+          "field": "Experimental Design",
+          "value": []
+        },
+        {
+          "field": "Prior Testing",
+          "value": []
+        }
+      ]
+    }
+  ]
+}

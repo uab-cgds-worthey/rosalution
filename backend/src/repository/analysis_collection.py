@@ -68,4 +68,6 @@ class AnalysisCollection:
     def update_analysis(self, name: str, updated_analysis_data: dict):
         """Updates an existing analysis"""
         existing = self.collection.find_one({"name": name})
-        return self.collection.update_one({"name": existing["name"]}, {"$set": updated_analysis_data})
+        self.collection.update_one({"name": existing["name"]}, {
+                                   "$set": updated_analysis_data})
+        return self.collection.find_one({"name": name})

@@ -49,6 +49,6 @@ async def import_phenotips_json(phenotips_input: BasePhenotips, rosalution_db=De
 
 
 @router.put("/update/{name}", response_model=Analysis)
-def update_analysis(name: str, analysis_data: Analysis, rosalution_db=Depends(database)):
+def update_analysis(name: str, analysis_data_changes: dict, rosalution_db=Depends(database)):
     """Updates an existing analysis"""
-    return rosalution_db["analysis"].update_analysis(name, analysis_data)
+    return rosalution_db["analysis"].update_analysis(name, analysis_data_changes)

@@ -1,0 +1,103 @@
+{
+  "name": "CPAM0112",
+  "description": "",
+  "nominated_by": "",
+  "latest_status": "Annotation",
+  "created_date": "2021-02-18",
+  "last_modified_date": "2021-02-22",
+  "genomic_units": [
+    {
+      "gene": "VMA21",
+      "transcripts": [
+        {
+          "transcript": "NM_001017980.3"
+        }
+      ],
+      "variants": [
+        {
+          "hgvs_variant": "NM_001017980.3:c.164G>T",
+          "c_dot": "c.164G>T",
+          "p_dot": "",
+          "build": "GRCh38",
+          "case": [
+            {
+              "field": "Interpretation",
+              "value": [
+                "variant_u_s"
+              ]
+            },
+            {
+              "field": "Zygosity",
+              "value": [
+                "hemizygous"
+              ]
+            },
+            {
+              "field": "Inheritance",
+              "value": [
+                "maternal"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "header": "Brief",
+      "content": [
+        {
+          "field": "Nominated",
+          "value": []
+        },
+        {
+          "field": "Reason",
+          "value": []
+        },
+        {
+          "field": "Desired Outcomes",
+          "value": []
+        }
+      ]
+    },
+    {
+      "header": "Medical Summary",
+      "content": [
+        {
+          "field": "Clinical Diagnosis",
+          "value": []
+        },
+        {
+          "field": "Affected Individuals Identified",
+          "value": []
+        }
+      ]
+    },
+    {
+      "header": "Case Information",
+      "content": [
+        {
+          "field": "Systems",
+          "value": []
+        },
+        {
+          "field": "HPO Terms",
+          "value": []
+        },
+        {
+          "field": "Additional Details",
+          "value": []
+        },
+        {
+          "field": "Experimental Design",
+          "value": []
+        },
+        {
+          "field": "Prior Testing",
+          "value": []
+        }
+      ]
+    }
+  ]
+}
