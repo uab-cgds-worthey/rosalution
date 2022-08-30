@@ -1,8 +1,6 @@
 """Supports the queueing and processing of genomic unit annotation"""
 import concurrent
-import json
 import queue
-from unittest import result
 
 from .annotation_task import AnnotationTaskFactory
 from .core.analysis import Analysis
@@ -92,7 +90,7 @@ class AnnotationService:
                     for missing in missing_dependencies:
                         annotation_value = genomic_unit_collection.find_genomic_unit_annotation_value(
                             genomic_unit, missing)
-                        # print(f"List of depedencies not on the object {missing}, {genomic_unit['unit']}: {annotation_value}")
+                        print(f"List of depedencies not on the object {missing}, {genomic_unit['unit']}: {annotation_value}")
                         if annotation_value:
                             genomic_unit[missing] = annotation_value
                         else:
