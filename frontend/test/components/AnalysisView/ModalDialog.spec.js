@@ -1,8 +1,8 @@
 import {test, expect} from 'vitest';
-import {shallowMount} from '@vue/test-utils';
+import {shallowMount, mount} from '@vue/test-utils';
 
 import ModalDialog from '../../../src/components/AnalysisView/ModalDialog.vue';
-// import SupplementalLoadLink from '../../../src/components/AnalysisView/SupplementalLoadLink.vue';
+import SupplementalLoadLink from '../../../src/components/AnalysisView/SupplementalLoadLink.vue';
 
 test('Vue instance exists and it is an object', () => {
   const wrapper = shallowMount(ModalDialog);
@@ -43,28 +43,41 @@ test('Should show the supplemental load file when clicking on the file tab', asy
   expect(supplementalLoadFile.exists()).toBe(true);
 });
 
-test('Should clear the supplemental load link when clicking on the clear button', async () => {
-  const wrapper = shallowMount(ModalDialog);
+test.only('Should clear the supplemental load link when clicking on the clear button', async () => {
+  const wrapper = mount(ModalDialog);
   await wrapper.find('[data-test=link-tab-button]').trigger('click');
   await wrapper.vm.$nextTick();
-  // const supplementalLoadLink = wrapper.find('[data-test=supplemental-load-link]');
+  // const supplementalLoadLinkWrapper = mount(wrapper.find('[data-test=supplemental-load-link]'));
+  const supplementalLoadLinkWrapper = wrapper.findComponent(SupplementalLoadLink);
+  // console.log('LOAD LINK MOUNTED!!!!!!!!!!!!!!!!!!!!!!!!');
+  // console.log(supplementalLoadLinkWrapper);
+  // expect(supplementalLoadLink.exists()).toBe(true);
+  // console.log(supplementalLoadLinkWrapper);
+  // console.log('link loads is true');
   const actualLinkName = 'it-is-a-link-name';
-  const actualLink = 'it-is-a-link';
-  const actualComments = 'it-is-a-comment';
+  // const actualLink = 'it-is-a-link';
+  // const actualComments = 'it-is-a-comment';
 
-  const linkNameInput = wrapper.find('[data-test=link-name-input]');
-  expect(linkNameInput.exists()).toBe(true);
-  linkNameInput.setValue(actualLinkName);
+  // const linkNameInput = supplementalLoadLinkWrapper.find('[data-test=link-name-input]');
+  // expect(linkNameInput.exists()).toBe(true);
+  // console.log('HERE!!!!!!!!!!!!!!!!!!!');
+  // console.log(linkNameInput);
+  await supplementalLoadLinkWrapper.setData({linkNameUploaded: actualLinkName});
+  expect(supplementalLoadLinkWrapper.vm.linkNameUploaded).to.equal(actualLinkName);
+  // linkNameInput.setValue(actualLinkName);
+  // await linkNameInput.trigger('change');
+  // const linkInput = wrapper.find('[data-test=link-input]');
+  // linkInput.setValue(actualLink);
 
-  const linkInput = wrapper.find('[data-test=link-input]');
-  linkInput.setValue(actualLink);
+  // const commentsInput = wrapper.find('[data-test=comments-text-area]');
+  // commentsInput.setValue(actualComments);
 
-  const commentsInput = wrapper.find('[data-test=comments-text-area]');
-  commentsInput.setValue(actualComments);
-
-  await wrapper.find('[data-test=clear-modal]').trigger('click');
-
-  expect(linkNameInput.getValue()).toBe('');
+  const clearBtn = wrapper.find('[data-test=clear-modal]');
+  // console.log(clearBtn);
+  await clearBtn.trigger('click');
+  console.log('CLEAR IS CLICKEd');
+  // await supplementalLoadLinkWrapper.vm.$nextTick();
+  expect(supplementalLoadLinkWrapper.vm.linkNameUploaded).toBe('');
 });
 
 test.skip('Should clear the supplemental load file when clicking on the clear button', async () => {
@@ -73,4 +86,14 @@ test.skip('Should clear the supplemental load file when clicking on the clear bu
   const supplementalLoadFile = wrapper.find('[data-test=supplemental-load-file]');
 
   expect(supplementalLoadFile.exists()).toBe(true);
+
+  const actualComments = 'it-is-a-comment';
+
+  const input = wrapper.find('[data-test=comments-text-area]');
+  expect(input.exists()).toBe(true);
+  input.setValue(actualComments);
+
+  await wrapper.find('[data-test=clear-modal]').trigger('click');
+
+  expect(input.html()).toBe('');
 });

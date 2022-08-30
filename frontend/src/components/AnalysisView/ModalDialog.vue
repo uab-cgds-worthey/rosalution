@@ -79,10 +79,16 @@ export default {
       this.showFile = false;
     },
     clearModal() {
+      console.log('BEFORE CLEARING!');
       this.$refs.modal.reset();
       if (this.showFile) {
         document.getElementById('removeBtn').click();
       }
+      this.name = '';
+      this.type = '';
+      this.data = null;
+      this.comments = '';
+      console.log('AFTER CLEARING!');
     },
     cancelModal() {
       this.$emit('cancelmodal');
