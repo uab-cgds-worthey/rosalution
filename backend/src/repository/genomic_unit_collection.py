@@ -7,14 +7,14 @@ type of Genomic Unit.
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 from bson import ObjectId
 
-# def log_to_file(string):
-#     """
-#     Temprorary utility function for development purposes abstracted for testing.
-#     Will remove once feature is completed.
-#     """
-#     with open("rosalution-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
-#         log_file.write(string)
-#     print(string)
+def log_to_file(string):
+    """
+    Temprorary utility function for development purposes abstracted for testing.
+    Will remove once feature is completed.
+    """
+    with open("rosalution-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
+        log_file.write(string)
+    print(string)
 
 class GenomicUnitCollection:
     """ Repository for user09ing genomic units and their annotations """
@@ -70,7 +70,8 @@ class GenomicUnitCollection:
         )
 
     def find_genomic_unit(self, genomic_unit):
-        return self.collection.find_one({genomic_unit['type'], genomic_unit['unit']})
+        genomic_unit_document = self.collection.find_one({genomic_unit['type'].value: genomic_unit['unit']})
+        return genomic_unit_document
 
     def find_genomic_unit_with_transcript_id(self, genomic_unit, transcript_id):
         """ Returns the genomic unit with the corresponding transcript if it exists """
@@ -133,6 +134,7 @@ class GenomicUnitCollection:
         
         else:
             genomic_unit_document = self.find_genomic_unit(genomic_unit)
+            log_to_file(f"{genomic_unit['unit']} for {genomic_unit_document['gene']} - Saving to Mongo...\n")
             genomic_unit_document['annotations'].append(annotation_data_set)
             self.update_genomic_unit_with_mongo_id(genomic_unit_document)
 
