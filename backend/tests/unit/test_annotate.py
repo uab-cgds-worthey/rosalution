@@ -2,7 +2,7 @@
 from unittest.mock import Mock, patch
 import pytest
 
-from src.annotation_task import HttpAnnotationTask, NoneAnnotationTask
+from src.annotation_task import AnnotationTaskInterface, HttpAnnotationTask, NoneAnnotationTask
 from src.enums import GenomicUnitType
 from src.annotation import AnnotationService
 
@@ -32,6 +32,7 @@ def test_processing_cpam0046_annotation_tasks(log_to_file_mock, cpam0046_annotat
     mock_genomic_unit_collection.annotation_exist.return_value = False
 
     assert not cpam0046_annotation_queue.empty()
+    AnnotationTaskInterface.extract = Mock(return_value=[])
     HttpAnnotationTask.annotate = Mock(return_value={})
     NoneAnnotationTask.annotate = Mock()
     AnnotationService.process_tasks(
@@ -39,6 +40,7 @@ def test_processing_cpam0046_annotation_tasks(log_to_file_mock, cpam0046_annotat
     assert cpam0046_annotation_queue.empty()
     assert HttpAnnotationTask.annotate.call_count == 10  # pylint: disable=no-member
     assert NoneAnnotationTask.annotate.call_count == 9  # pylint: disable=no-member
+    assert HttpAnnotationTask.extract.call_count == 19 # This result is combining both for HTTP and None tasks
 
 
 @patch("src.annotation.log_to_file")
@@ -53,8 +55,8 @@ def test_processing_cpam0002_annotations_tasks(
     mock_genomic_unit_collection = Mock()
     mock_genomic_unit_collection.annotation_exist.return_value = False
 
-    HttpAnnotationTask.annotate = Mock(
-        return_value=transcript_annotation_response)
+    AnnotationTaskInterface.extract = Mock(return_value=[])
+    HttpAnnotationTask.annotate = Mock()
     NoneAnnotationTask.annotate = Mock()
 
     AnnotationService.process_tasks(
@@ -62,7 +64,7 @@ def test_processing_cpam0002_annotations_tasks(
 
     assert HttpAnnotationTask.annotate.call_count == 12  # pylint: disable=no-member
     assert NoneAnnotationTask.annotate.call_count == 17  # pylint: disable=no-member
-    assert mock_genomic_unit_collection.annotate_genomic_unit.call_count == 12
+    assert HttpAnnotationTask.extract.call_count == 29 # This result is combining both for HTTP and None tasks
 
 
 @pytest.fixture(name="cpam0046_hgvs_variant_json")

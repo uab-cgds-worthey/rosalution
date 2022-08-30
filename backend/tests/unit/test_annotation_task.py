@@ -1,13 +1,13 @@
 """Tests Annotation Tasks and the creation of them"""
 import pytest
 from src.enums import GenomicUnitType
-from src.annotation_task import AnnotationTaskFactory, HttpAnnotationTask, transcript_annotation_extration
+from src.annotation_task import AnnotationTaskFactory, HttpAnnotationTask
 
 
 def test_http_annotation_base_url(http_annotation_transcript_id):
     """Verifies if the HTTP annotation creates the base url using the url and genomic_unit as expected."""
     actual = http_annotation_transcript_id.base_url()
-    assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;"
+    assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;refseq=1;"
 
 
 def test_http_annotation_task_build_url(http_annotation_transcript_id):
@@ -28,32 +28,32 @@ def test_annotation_task_create_http_task(hgvs_variant_genomic_unit, transcript_
     assert isinstance(actual_task, HttpAnnotationTask)
 
 
-def test_transcript_annotation_extraction():
-    """
-    When jq extracts annotations from an array, it can yield many results in an array. This tests that proper result
-    are associated with the correct transcript and returns an updated annotation unit.
-    """
-    annotation_unit = {
-        "data_set": "SIFT Prediction",
-        "data_source": "Ensembl",
-        "version": "",
-        "value": "",
-    }
+# def test_transcript_annotation_extraction():
+#     """
+#     When jq extracts annotations from an array, it can yield many results in an array. This tests that proper result
+#     are associated with the correct transcript and returns an updated annotation unit.
+#     """
+#     annotation_unit = {
+#         "data_set": "SIFT Prediction",
+#         "data_source": "Ensembl",
+#         "version": "",
+#         "value": "",
+#     }
 
-    transcript_result = {'sift_prediction': 'deleterious',
-                         'transcript_id': 'NM_001363810.1'}
+#     transcript_result = {'sift_prediction': 'deleterious',
+#                          'transcript_id': 'NM_001363810.1'}
 
-    actual = transcript_annotation_extration(annotation_unit, transcript_result)
+#     actual = transcript_annotation_extration(annotation_unit, transcript_result)
 
-    transcript_annotation_unit = {
-        'data_set': 'SIFT Prediction',
-        'data_source': 'Ensembl',
-        'version': '',
-        'value': 'deleterious',
-        'transcript_id': 'NM_001363810.1'
-    }
+#     transcript_annotation_unit = {
+#         'data_set': 'SIFT Prediction',
+#         'data_source': 'Ensembl',
+#         'version': '',
+#         'value': 'deleterious',
+#         'transcript_id': 'NM_001363810.1'
+#     }
 
-    assert actual == transcript_annotation_unit
+#     assert actual == transcript_annotation_unit
 
 ## Fixtures ##
 
@@ -108,8 +108,7 @@ def fixture_transcript_id_dataset():
         "genomic_unit_type": "hgvs_variant",
         "transcript": True,
         "annotation_source_type": "http",
-        "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;",
-        "query_param": "refseq=1;",
+        "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;refseq=1;",
         "attribute": "transcript_consequences[].transcript_id"
     }
 

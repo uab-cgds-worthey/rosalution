@@ -2,6 +2,7 @@
 import concurrent
 import json
 import queue
+from unittest import result
 
 from .annotation_task import AnnotationTaskFactory
 from .core.analysis import Analysis
@@ -73,28 +74,41 @@ class AnnotationService:
             annotation_task_futures = {}
             while not annotation_queue.empty():
                 genomic_unit, dataset_json = annotation_queue.get()
-
+                log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} - Popping off queue...\n")
+                # print('--------------------\n')
                 if genomic_unit_collection.annotation_exist(genomic_unit, dataset_json):
+                    log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} - Annotation Exists...\n")
+                    # print(f"IT DOES EXIST AND WHATS UP {dataset_json['data_set']}, {genomic_unit['unit']} \n")
                     continue
+                else:
+                    log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} - Annotation Does not exist...\n")
 
                 ready = True
                 if 'dependencies' in dataset_json:
                     missing_dependencies = [
                         dependency for dependency in dataset_json['dependencies'] if dependency not in genomic_unit]
+                    
+ 
                     for missing in missing_dependencies:
                         annotation_value = genomic_unit_collection.find_genomic_unit_annotation_value(
                             genomic_unit, missing)
+                        # print(f"List of depedencies not on the object {missing}, {genomic_unit['unit']}: {annotation_value}")
                         if annotation_value:
                             genomic_unit[missing] = annotation_value
                         else:
                             ready = False
+                        # print("")
 
+                # print('----------------------\n')
                 if not ready:
-                    log_to_file(f"Delaying {dataset_json['data_set']} with {json.dumps(genomic_unit)}")
+                    log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} - Delaying Annotation, Missing Dependency...\n")
+                    # print('does it fail being ready? cause it shouldnt')
                     annotation_queue.put((genomic_unit, dataset_json))
                     continue
 
                 task = AnnotationTaskFactory.create(genomic_unit, dataset_json)
+                log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} - Creating Task To Annotate...\n")
+                # print('task is being created?')
 
                 annotation_task_futures[executor.submit(task.annotate)] = (
                     genomic_unit,
@@ -103,14 +117,17 @@ class AnnotationService:
 
             for future in concurrent.futures.as_completed(annotation_task_futures):
                 genomic_unit, annotation_task = annotation_task_futures[future]
+                log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} - future Query completed...\n")
                 try:
-                    log_to_file(f"{future.result()}\n")
-                    log_to_file(f"{annotation_task.dataset}\n")
-                    log_to_file(f"{genomic_unit}\n")
+                    # log_to_file(f"{future.result()}\n")
+                    # log_to_file(f"{annotation_task.dataset}\n")
+                    # log_to_file(f"{genomic_unit}\n")
+                    
+                    result_temp = future.result()
 
-                    for annotation in annotation_task.extract(future.result()):
-                        genomic_unit_collection.annotate_genomic_unit(
-                            annotation_task.genomic_unit, annotation)
+                    for annotation in annotation_task.extract(result_temp):
+                        log_to_file(f"{genomic_unit['unit']} for {annotation_task.dataset['data_set']} - Saving {annotation['value']}...\n")
+                        genomic_unit_collection.annotate_genomic_unit(annotation_task.genomic_unit, annotation)
 
                 except FileNotFoundError as error:
                     log_to_file(

@@ -68,6 +68,7 @@ class Analysis(BaseAnalysis):
                             "unit": variant["hgvs_variant"],
                             "type": GenomicUnitType.HGVS_VARIANT,
                             "genomic_build": variant["build"],
+                            "transcript": variant["hgvs_variant"].split(':')[0]
                         }
                     )
 
