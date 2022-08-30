@@ -26,7 +26,7 @@ describe('SupplementalFormList.vue', () => {
     expect(modal.exists()).to.equal(true);
   });
 
-  it.only('new file populates in a row woth correct data', async () => {
+  it('new file populates in a row with correct data', async () => {
     const onModalDialogSpy = sinon.spy(wrapper.vm, 'showAttachDocumentModal');
     const onAttachmentSpy = sinon.spy(wrapper.vm, 'onAttachmentChange');
 
@@ -51,10 +51,10 @@ describe('SupplementalFormList.vue', () => {
     expect(wrapper.findAll('tr').length).toBe(2);
     expect(wrapper.vm.$data.attachments.length).toBe(1);
 
-    // const attachment = wrapper.vm.$data.attachments[0];
-    // expect(attachment.data).deep.to.equal('fakeFiledData');
-    // expect(attachment.name).deep.to.equal('/path/to/fakeFile.ext');
-    // expect(attachment.type).deep.to.equal('file');
+    const attachment = wrapper.vm.$data.attachments[0];
+    expect(attachment.data).deep.to.equal('fakeFiledData');
+    expect(attachment.name).deep.to.equal('/path/to/fakeFile.ext');
+    expect(attachment.type).deep.to.equal('file');
   });
 
   // These have not been implemented yet with the new design.
