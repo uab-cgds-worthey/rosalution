@@ -115,26 +115,28 @@ class AnnotationService:
                     task,
                 )
 
-            for future in concurrent.futures.as_completed(annotation_task_futures):
-                genomic_unit, annotation_task = annotation_task_futures[future]
-                log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} - future Query completed...\n")
-                try:
-                    # log_to_file(f"{future.result()}\n")
-                    # log_to_file(f"{annotation_task.dataset}\n")
-                    # log_to_file(f"{genomic_unit}\n")
+                for future in concurrent.futures.as_completed(annotation_task_futures):
+                    genomic_unit, annotation_task = annotation_task_futures[future]
+                    log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} - futureQuery completed...\n")
+                    try:
+                        # log_to_file(f"{future.result()}\n")
+                        # log_to_file(f"{annotation_task.dataset}\n")
+                        # log_to_file(f"{genomic_unit}\n")
+                        
+                        result_temp = future.result()
+                        
                     
-                    result_temp = future.result()
+                        for annotation in annotation_task.extract(result_temp):
+                            log_to_file(f"{genomic_unit['unit']} for {annotation_task.dataset['data_set']} - Saving {annotation['value']}...\n")
+                            genomic_unit_collection.annotate_genomic_unit(
+                                annotation_task.genomic_unit, annotation)
 
-                    for annotation in annotation_task.extract(result_temp):
-                        log_to_file(f"{genomic_unit['unit']} for {annotation_task.dataset['data_set']} - Saving {annotation['value']}...\n")
-                        genomic_unit_collection.annotate_genomic_unit(annotation_task.genomic_unit, annotation)
+                    except FileNotFoundError as error:
+                        log_to_file(
+                            f"exception happened {error} with {genomic_unit} and {annotation_task}\n")
 
-                except FileNotFoundError as error:
-                    log_to_file(
-                        f"exception happened {error} with {genomic_unit} and {annotation_task}\n")
-
-                log_to_file("\n")
-                del annotation_task_futures[future]
+                    log_to_file("\n")
+                    del annotation_task_futures[future]
 
             log_to_file(
                 "after for loop for waiting for all of the futures to finish\n\n")
