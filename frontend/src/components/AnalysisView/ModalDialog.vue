@@ -2,7 +2,6 @@
   <div>
     <div class="modal-background" @click="closeModal()"></div>
     <div class="modal-container">
-      <a title="Clear" class="clear-item" @click="clearModal()" data-test="clear-modal">Clear</a>
       <a title="Cancel" class="cancel-item" @click="cancelModal()" data-test="cancel-modal">Cancel</a>
       <a title="Add" class="addbutton-item" @click="addAttachment()" data-test="add-button">Add</a>
       <div class="content-item">
@@ -47,7 +46,6 @@
 </template>
 
 <script>
-// Unsure how tabbed will handle this, but leaving here for now
 import SupplementalLoadFile from '@/components/AnalysisView/SupplementalLoadFile.vue';
 import SupplementalLoadLink from '@/components/AnalysisView/SupplementalLoadLink.vue';
 
@@ -78,18 +76,6 @@ export default {
       this.showLink = true;
       this.showFile = false;
     },
-    clearModal() {
-      console.log('BEFORE CLEARING!');
-      this.$refs.modal.reset();
-      if (this.showFile) {
-        document.getElementById('removeBtn').click();
-      }
-      this.name = '';
-      this.type = '';
-      this.data = null;
-      this.comments = '';
-      console.log('AFTER CLEARING!');
-    },
     cancelModal() {
       this.$emit('cancelmodal');
     },
@@ -114,9 +100,15 @@ export default {
     },
     getLinkName(name) {
       this.name = name;
+      this.type = 'link';
     },
     getComments(comments) {
       this.comments = comments;
+      if (this.showFile) {
+        this.type = 'file';
+      } else if (this.showLink) {
+        this.type = 'link';
+      }
     },
   },
 };
@@ -142,7 +134,7 @@ export default {
   grid-template-areas:
     "header header header"
     "main main main"
-    "clear cancel addbutton";
+    "remove cancel addbutton";
   background-color: white;
   font-weight: 600;
   font-size: 18px;
@@ -180,19 +172,6 @@ export default {
   line-height: 1.625rem;
   text-align: center;
   justify-self: stretch;
-  margin: 1.5rem;
-}
-
-.clear-item {
-  grid-area: clear;
-  background-color: var(--cgds-red-200);
-  text-decoration: none;
-  font-size: 100%;
-  font-weight: bold;
-  line-height: 1.625rem;
-  text-align: center;
-  justify-self: stretch;
-  border-radius: 2rem;
   margin: 1.5rem;
 }
 

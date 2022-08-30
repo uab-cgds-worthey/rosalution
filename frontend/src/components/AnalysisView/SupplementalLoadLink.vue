@@ -1,5 +1,5 @@
 <template>
-    <div @reset="onReset">
+    <div>
         <div>
             <input placeholder="Text to display" id="textBox" @change="onTextChange"
             v-model="linkNameUploaded"
@@ -28,11 +28,6 @@ export default {
     };
   },
   methods: {
-    onReset() {
-      this.linkNameUploaded = '';
-      this.linkUploaded = '';
-      this.comments = '';
-    },
     onTextChange() {
       this.$emit('linknameadded', this.linkNameUploaded);
     },

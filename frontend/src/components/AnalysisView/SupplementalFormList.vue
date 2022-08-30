@@ -22,7 +22,8 @@
         <div class="attachment-list" v-for="attachment in attachments" v-bind:key="attachment.id">
             <tr class="attachment-row">
                 <td class="attachment-logo">
-                    <font-awesome-icon :icon="['far', 'file']" size="lg"/>
+                    <font-awesome-icon :icon="['far', 'file']" size="lg" v-if="attachment.type==='file'"/>
+                    <font-awesome-icon icon="link" size="lg" v-else-if="attachment.type==='link'"/>
                 </td>
                 <td class="attachment-name">
                     {{ attachment.name }}
@@ -72,13 +73,6 @@ export default {
     },
     showAttachDocumentModal() {
       this.showModal = !this.showModal;
-    },
-    listIcon(type) {
-      if (type === 'file') {
-        return 'file.svg';
-      } else if (type === 'link') {
-        return 'link.svg';
-      }
     },
   },
 };
