@@ -1,12 +1,12 @@
 <template>
     <div>
         <div>
-            <input placeholder="Text to display (optional)" id="textBox" @change="onTextChange"
+            <input placeholder="Text to display" id="textBox" @change="onTextChange"
             v-model="linkNameUploaded"
             data-test="link-name-input"/>
         </div>
         <div>
-            <input placeholder="Link" id="linkBox" @change="onLinkChange" v-model="linkUploaded"
+            <input placeholder="Paste a link" id="linkBox" @change="onLinkChange" v-model="linkUploaded"
             data-test="link-input"/>
         </div>
         <div>
@@ -65,7 +65,7 @@ h2 {
     padding: 1rem;
     margin: 1rem 1rem .5rem 1rem;
     border-style: solid;
-    border-color: #C4C4C4;
+    border-color: var(--rosalution-grey-100);
     border-radius: 7px;
     border-width: 1px;
     width: 24rem;
@@ -82,7 +82,7 @@ h2 {
     padding: 1rem;
     margin: .5rem 1rem 1rem 1rem;
     border-style: solid;
-    border-color: #C4C4C4;
+    border-color: var(--rosalution-grey-100);
     border-radius: 7px;
     border-width: 1px;
     width: 24rem;
@@ -99,7 +99,7 @@ h2 {
   padding: 1rem;
   margin: 1rem;
   border-style: solid;
-  border-color: #C4C4C4;
+  border-color: var(--rosalution-grey-100);
   border-radius: 7px;
   width: 24rem;
   height: 6.5rem;
@@ -118,6 +118,14 @@ span {
 
 input[type=file]::file-selector-button {
   border: none;
+}
+
+input::placeholder {
+  color: var(--rosalution-grey-200);
+}
+
+textarea::placeholder {
+  color: var(--rosalution-grey-200);
 }
 
 #browseBtn {

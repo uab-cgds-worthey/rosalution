@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div id="dropFileBox" @dragover="dragover"  @drop="drop">
+    <div class="supplemental-load-file-container">
+        <div class="drop-file-box" @dragover="dragover"  @drop="drop">
           <div v-if="!fileUploaded || !fileUploaded.length">
             Drag & drop or
             <input type="file" id="attachFileBtn" @change="onFileChange" ref="file" accept=".pdf, .jpg, .jpeg, .png"
@@ -74,6 +74,11 @@ div {
     padding: 0%;
 }
 
+.supplemental-load-file-container {
+  width: fit-content;
+  height: fit-content;
+}
+
 h2 {
     float: left;
     margin: 0%;
@@ -81,13 +86,14 @@ h2 {
     display: block;
 }
 
-#dropFileBox {
+.drop-file-box {
   display: inline-block;
-  padding: 1rem;
-  margin: 1rem;
-  border-style: dashed;
-  border-color: #C4C4C4;
-  border-radius: 7px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 2rem;
+  margin: 1rem 1rem .5rem 1rem;
+  border: 0.120rem dashed var(--rosalution-grey-100);
+  border-radius: .4375rem;
   width: 24rem;
   height: 6.5rem;
   text-align: center;
@@ -99,9 +105,9 @@ h2 {
 #commentsBox {
   display: block;
   padding: 1rem;
-  margin: 1rem;
+  margin: 1rem 1rem .5rem 1rem;
   border-style: solid;
-  border-color: #C4C4C4;
+  border-color: var(--rosalution-grey-100);
   border-radius: 7px;
   width: 24rem;
   height: 6.5rem;
@@ -110,6 +116,7 @@ h2 {
   font-family: "Proxima Nova", sans-serif;
   text-align: left;
   font-size: 1.125rem;
+  color: var(--rosalution-grey-200);
 }
 
 span {
@@ -122,11 +129,15 @@ input[type=file]::file-selector-button {
   border: none;
 }
 
+textarea::placeholder {
+  color: var(--rosalution-grey-200);
+}
+
 #browseBtn {
   display: inline-block;
   background-color: white;
-  color: #19A3CF;
-  border-bottom: 2px solid #19A3CF;
+  color: var(--rosalution-blue-150);
+  border-bottom: 2px solid var(--rosalution-blue-150);
   font-family: sans-serif;
   cursor: pointer;
   margin-top: 1rem;

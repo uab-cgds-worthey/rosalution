@@ -26,7 +26,7 @@ describe('SupplementalFormList.vue', () => {
     expect(modal.exists()).to.equal(true);
   });
 
-  it('new file populates in a row', async () => {
+  it('new file populates in a row with correct data', async () => {
     const onModalDialogSpy = sinon.spy(wrapper.vm, 'showAttachDocumentModal');
     const onAttachmentSpy = sinon.spy(wrapper.vm, 'onAttachmentChange');
 
@@ -40,7 +40,7 @@ describe('SupplementalFormList.vue', () => {
       type: 'file',
     });
 
-    modalWrapper.vm.$emit('closemodal');
+    modalWrapper.vm.$emit('cancelmodal');
 
     expect(wrapper.findAll('tr').length).toBe(1);
 
@@ -50,11 +50,14 @@ describe('SupplementalFormList.vue', () => {
     expect(onAttachmentSpy.called).toBe(true);
     expect(wrapper.findAll('tr').length).toBe(2);
     expect(wrapper.vm.$data.attachments.length).toBe(1);
+
+    const attachment = wrapper.vm.$data.attachments[0];
+    expect(attachment.data).deep.to.equal('fakeFiledData');
+    expect(attachment.name).deep.to.equal('/path/to/fakeFile.ext');
+    expect(attachment.type).deep.to.equal('file');
   });
 
   // These have not been implemented yet with the new design.
   it.skip('clicking comment-logo pops up the comment modal', () => {});
   it.skip('clicking edit-logo pops up the edit modal', () => {});
-  // This test will be added when the Modal dialog is completed to attch links and files.
-  it.skip('correct logo displays based on attachment type', () => {});
 });

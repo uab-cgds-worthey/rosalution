@@ -19,13 +19,13 @@ import {
   faAsterisk, faPause, faCheck, faX, faUser, faUsers, faUserGroup, faCalendar,
   faBookOpen, faList, faLayerGroup, faBoxArchive, faQuestion, faClock,
   faClipboardCheck, faMagnifyingGlass, faChevronDown,
-  faUpRightFromSquare, faCirclePlus, faPencil, faEllipsisVertical} from '@fortawesome/free-solid-svg-icons';
+  faUpRightFromSquare, faCirclePlus, faPencil, faEllipsisVertical, faLink} from '@fortawesome/free-solid-svg-icons';
 import {faCopy, faFile, faComment} from '@fortawesome/free-regular-svg-icons';
 
 library.add(
     faAsterisk, faPause, faCheck, faX, faMagnifyingGlass, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList,
     faLayerGroup, faBoxArchive, faQuestion, faClock, faClipboardCheck, faChevronDown, faUpRightFromSquare, faCopy,
-    faCirclePlus, faFile, faComment, faPencil, faEllipsisVertical);
+    faCirclePlus, faFile, faComment, faPencil, faEllipsisVertical, faLink);
 
 // The NotFoundView should always be last because it's an ordered array.
 const routes = [
