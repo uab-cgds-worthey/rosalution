@@ -63,11 +63,18 @@ class GenomicUnitCollection:
         if result is None:
             return None
 
-        return next(
-            (annotation[data_set_name]['value']
-             for annotation in result['annotations'] if data_set_name in annotation),
-            None
-        )
+        for annotation in result['annotations']:
+            if dataset in annotation:
+                for data in annotation[dataset]:
+                    return data['value']
+
+        return None
+
+        # return next(
+        #     (annotation[data_set_name]['value']
+        #      for annotation in result['annotations'] if data_set_name in annotation),
+        #     None
+        # )
 
     def find_genomic_unit(self, genomic_unit):
         genomic_unit_document = self.collection.find_one({genomic_unit['type'].value: genomic_unit['unit']})

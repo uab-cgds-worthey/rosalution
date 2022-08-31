@@ -122,8 +122,7 @@ class AnnotationService:
                         # log_to_file(f"{genomic_unit}\n")
                         
                         result_temp = future.result()
-                        
-                    
+
                         for annotation in annotation_task.extract(result_temp):
                             log_to_file(f"{genomic_unit['unit']} for {annotation_task.dataset['data_set']} - Saving {annotation['value']}...\n")
                             genomic_unit_collection.annotate_genomic_unit(

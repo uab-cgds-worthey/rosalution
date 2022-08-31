@@ -65,7 +65,7 @@ class AnnotationTaskInterface:
         if 'dependencies' in self.dataset:
             for dependency in self.dataset['dependencies']:
                 dependency_string = f"{{{dependency}}}"
-                replace_string = replace_string.replace(dependency_string, self.genomic_unit[dependency])
+                replace_string = replace_string.replace(dependency_string, str(self.genomic_unit[dependency]))
 
         return replace_string
 
