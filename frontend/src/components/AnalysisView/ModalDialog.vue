@@ -135,19 +135,15 @@ export default {
     "header header header"
     "main main main"
     "remove cancel addbutton";
-  background-color: white;
+  background-color: var(--rosalution-white);
   font-weight: 600;
-  font-size: 18px;
-  /* line-height: 1.4; */
-  /* color: black; */
+  font-size: 1rem;
   position: absolute;
   border-radius: 1rem;
   justify-items: center;
-  top: 50%;
+  top: 100%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: fit-content;
-  height: fit-content;
 }
 
 .header-item {
@@ -158,8 +154,6 @@ export default {
 
 .content-item {
   grid-area: main;
-  /* text-align: left; */
-  /* margin: 25px; */
 }
 
 .addbutton-item {
@@ -194,7 +188,7 @@ a {
 }
 
 small {
-  color: lightslategrey;
+  color: var(--rosalution-grey-200);
 }
 
 .tab-container {
@@ -202,9 +196,6 @@ small {
   vertical-align: middle;
   align-items: center;
   grid-area: header;
-  /* display: inline;
-  border: 1px red solid; */
-  /* width: 154px; */
 }
 
 .tab-buttons {
