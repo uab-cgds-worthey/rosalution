@@ -7,8 +7,7 @@ from src.annotation_task import AnnotationTaskFactory, HttpAnnotationTask
 def test_http_annotation_base_url(http_annotation_transcript_id):
     """Verifies if the HTTP annotation creates the base url using the url and genomic_unit as expected."""
     actual = http_annotation_transcript_id.base_url()
-    assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;refseq=1;"
-
+    assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;refseq=1;" # pylint: disable=line-too-long
 
 def test_http_annotation_task_build_url(http_annotation_transcript_id):
     """Verifies that the HTTP annotation task creates the base url using the 'url' and the genomic unit"""
@@ -26,34 +25,6 @@ def test_annotation_task_create_http_task(hgvs_variant_genomic_unit, transcript_
     actual_task = AnnotationTaskFactory.create(
         hgvs_variant_genomic_unit, transcript_id_dataset)
     assert isinstance(actual_task, HttpAnnotationTask)
-
-
-# def test_transcript_annotation_extraction():
-#     """
-#     When jq extracts annotations from an array, it can yield many results in an array. This tests that proper result
-#     are associated with the correct transcript and returns an updated annotation unit.
-#     """
-#     annotation_unit = {
-#         "data_set": "SIFT Prediction",
-#         "data_source": "Ensembl",
-#         "version": "",
-#         "value": "",
-#     }
-
-#     transcript_result = {'sift_prediction': 'deleterious',
-#                          'transcript_id': 'NM_001363810.1'}
-
-#     actual = transcript_annotation_extration(annotation_unit, transcript_result)
-
-#     transcript_annotation_unit = {
-#         'data_set': 'SIFT Prediction',
-#         'data_source': 'Ensembl',
-#         'version': '',
-#         'value': 'deleterious',
-#         'transcript_id': 'NM_001363810.1'
-#     }
-
-#     assert actual == transcript_annotation_unit
 
 ## Fixtures ##
 

@@ -77,8 +77,8 @@ class GenomicUnitCollection:
         # )
 
     def find_genomic_unit(self, genomic_unit):
-        genomic_unit_document = self.collection.find_one({genomic_unit['type'].value: genomic_unit['unit']})
-        return genomic_unit_document
+        """ Returns the given genomic unit from the genomic unit collection """
+        return self.collection.find_one({genomic_unit['type'].value: genomic_unit['unit']})
 
     def find_genomic_unit_with_transcript_id(self, genomic_unit, transcript_id):
         """ Returns the genomic unit with the corresponding transcript if it exists """
@@ -116,9 +116,6 @@ class GenomicUnitCollection:
                     }]
                 }
 
-        # log_to_file("---------- HERE!!! ----------")
-        # log_to_file(annotation_data_set)
-
         if 'transcript_id' in genomic_annotation:
             genomic_unit_document = self.find_genomic_unit_with_transcript_id(
                 genomic_unit,
@@ -131,14 +128,14 @@ class GenomicUnitCollection:
                 genomic_unit_document = self.find_genomic_unit_with_transcript_id(
                     genomic_unit,
                     genomic_annotation['transcript_id']
-                )              
+                )
 
             for transcript in genomic_unit_document['transcripts']:
                 if transcript['transcript_id'] == genomic_annotation['transcript_id']:
                     transcript['annotations'].append(annotation_data_set)
 
             self.update_genomic_unit_with_mongo_id(genomic_unit_document)
-        
+
         else:
             genomic_unit_document = self.find_genomic_unit(genomic_unit)
             log_to_file(f"{genomic_unit['unit']} for {genomic_unit_document['gene']} - Saving to Mongo...\n")

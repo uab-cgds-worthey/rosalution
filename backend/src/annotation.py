@@ -64,7 +64,7 @@ class AnnotationService:
                 annotation_task_queue.put((genomic_unit, dataset))
 
     @staticmethod
-    def process_tasks(annotation_queue, genomic_unit_collection):
+    def process_tasks(annotation_queue, genomic_unit_collection): # pylint: disable=too-many-locals
         """Processes items that have been added to the queue"""
         log_to_file("running annotations for ...\n")
 
@@ -78,28 +78,24 @@ class AnnotationService:
                     log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} - Annotation Exists...\n")
                     # print(f"IT DOES EXIST AND WHATS UP {dataset_json['data_set']}, {genomic_unit['unit']} \n")
                     continue
-                else:
-                    log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} - Annotation Does not exist...\n")
 
                 ready = True
                 if 'dependencies' in dataset_json:
                     missing_dependencies = [
                         dependency for dependency in dataset_json['dependencies'] if dependency not in genomic_unit]
-                    
- 
+
                     for missing in missing_dependencies:
                         annotation_value = genomic_unit_collection.find_genomic_unit_annotation_value(
                             genomic_unit, missing)
-                        print(f"List of depedencies not on the object {missing}, {genomic_unit['unit']}: {annotation_value}")
                         if annotation_value:
                             genomic_unit[missing] = annotation_value
                         else:
                             ready = False
-                        # print("")
 
                 # print('----------------------\n')
                 if not ready:
-                    log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} - Delaying Annotation, Missing Dependency...\n")
+                    log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} + \
+                        - Delaying Annotation, Missing Dependency...\n")
                     # print('does it fail being ready? cause it shouldnt')
                     annotation_queue.put((genomic_unit, dataset_json))
                     continue
@@ -117,14 +113,16 @@ class AnnotationService:
                     genomic_unit, annotation_task = annotation_task_futures[future]
                     log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} - futureQuery completed...\n")
                     try:
-                        # log_to_file(f"{future.result()}\n")
-                        # log_to_file(f"{annotation_task.dataset}\n")
-                        # log_to_file(f"{genomic_unit}\n")
-                        
+                        log_to_file(f"{future.result()}\n")
+                        log_to_file(f"{annotation_task.dataset}\n")
+                        log_to_file(f"{genomic_unit}\n")
+
                         result_temp = future.result()
 
                         for annotation in annotation_task.extract(result_temp):
-                            log_to_file(f"{genomic_unit['unit']} for {annotation_task.dataset['data_set']} - Saving {annotation['value']}...\n")
+                            log_to_file(
+                                f"{genomic_unit['unit']} for {annotation_task.dataset['data_set']} - + \
+                                Saving {annotation['value']}...\n")
                             genomic_unit_collection.annotate_genomic_unit(
                                 annotation_task.genomic_unit, annotation)
 

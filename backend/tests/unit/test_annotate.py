@@ -40,7 +40,8 @@ def test_processing_cpam0046_annotation_tasks(log_to_file_mock, cpam0046_annotat
     assert cpam0046_annotation_queue.empty()
     assert HttpAnnotationTask.annotate.call_count == 10  # pylint: disable=no-member
     assert NoneAnnotationTask.annotate.call_count == 9  # pylint: disable=no-member
-    assert HttpAnnotationTask.extract.call_count == 19 # This result is combining both for HTTP and None tasks
+    # This result is combining both for HTTP and None tasks
+    assert HttpAnnotationTask.extract.call_count == 19 # pylint: disable=no-member
 
 
 @patch("src.annotation.log_to_file")
@@ -64,8 +65,9 @@ def test_processing_cpam0002_annotations_tasks(
 
     assert HttpAnnotationTask.annotate.call_count == 12  # pylint: disable=no-member
     assert NoneAnnotationTask.annotate.call_count == 17  # pylint: disable=no-member
-    assert HttpAnnotationTask.extract.call_count == 29 # This result is combining both for HTTP and None tasks
 
+    # This result is combining both for HTTP and None tasks
+    assert HttpAnnotationTask.extract.call_count == 29 # pylint: disable=no-member
 
 @pytest.fixture(name="cpam0046_hgvs_variant_json")
 def fixture_cpam0046_hgvs_variant(cpam0046_analysis):
