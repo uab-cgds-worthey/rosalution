@@ -89,13 +89,17 @@ class AnnotationTaskInterface:
 
             replaced_attributes = self.aggregate_string_replacements(self.dataset['attribute'])
 
-            # print("REPLACE ATTR")
-            # print(replaced_attributes)
+            jq_results = jq.compile(replaced_attributes).input(json_result).all()
+            log_to_file("")
+            log_to_file("THIS IS THE JQ RESULT!!")
+            print(jq_results)
 
-            jq_results = iter(jq.compile(replaced_attributes).input(json_result).all())
+            jq_results = iter(jq_results)
 
             while (jq_result := next(jq_results, None)) is not None:
                 result_keys = list(jq_result.keys())
+
+                
 
                 if 'transcript' in self.dataset:
                     transcript_annotation_unit = annotation_unit.copy()
@@ -105,11 +109,9 @@ class AnnotationTaskInterface:
                         else:
                             transcript_annotation_unit['value'] = jq_result[key]
                     annotations.append(transcript_annotation_unit)
-
-                    return annotations
-
-                annotation_unit['value'] = jq_result[result_keys[0]]
-                annotations.append(annotation_unit)
+                else:
+                    annotation_unit['value'] = jq_result[result_keys[0]]
+                    annotations.append(annotation_unit)
 
         # if 'attribute' in self.dataset:
         #     annotation_unit = {
