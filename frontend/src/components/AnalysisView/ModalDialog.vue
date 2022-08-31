@@ -143,7 +143,7 @@ export default {
   position: absolute;
   border-radius: 1rem;
   justify-items: center;
-  top: 110%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: fit-content;
