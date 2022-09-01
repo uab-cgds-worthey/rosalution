@@ -1,6 +1,5 @@
 """Tasks for annotating a genomic unit with datasets"""
 from abc import abstractmethod
-import json
 from random import randint
 import time
 
@@ -9,15 +8,14 @@ import time
 import jq
 import requests
 
-def log_to_file(string):
-    """
-    Temprorary utility function for development purposes abstracted for testing.
-    Will remove once feature is completed.
-    """
-    with open("rosalution-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
-        log_file.write(string)
-    print(string)
-
+# def log_to_file(string):
+#     """
+#     Temprorary utility function for development purposes abstracted for testing.
+#     Will remove once feature is completed.
+#     """
+#     with open("rosalution-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
+#         log_file.write(string)
+#     print(string)
 
 class AnnotationTaskInterface:
     """Abstract class to define the interface for the the types of Annotation Task"""
@@ -40,9 +38,6 @@ class AnnotationTaskInterface:
         genomic_unit['gene'] or genomic_unit['Entrez Gene Id']
         """
         genomic_unit_string = f"{{{self.dataset['genomic_unit_type']}}}"
-        # print(f"Replacing {genomic_unit_string} with {self.genomic_unit['unit']} in {base_string}")
-        # print(f"{base_string.replace(genomic_unit_string, self.genomic_unit['unit'])}")
-
         replace_string = base_string.replace(genomic_unit_string, self.genomic_unit['unit'])
 
         if 'dependencies' in self.dataset:
@@ -60,8 +55,6 @@ class AnnotationTaskInterface:
         """ Interface extraction method for annotation tasks """
         annotations = []
 
-        log_to_file(f"{self.genomic_unit['unit']} for {self.dataset['data_set']} - Extract initation...\n")
-
         if 'attribute' in self.dataset:
             annotation_unit = {
                 "data_set": self.dataset['data_set'],
@@ -72,10 +65,7 @@ class AnnotationTaskInterface:
 
             replaced_attributes = self.aggregate_string_replacements(self.dataset['attribute'])
 
-            jq_results = jq.compile(replaced_attributes).input(json_result).all()
-
-            jq_results = iter(jq_results)
-
+            jq_results = iter(jq.compile(replaced_attributes).input(json_result).all())
             jq_result = next(jq_results, None)
             while jq_result is not None:
                 result_keys = list(jq_result.keys())
@@ -90,8 +80,6 @@ class AnnotationTaskInterface:
                     annotations.append(transcript_annotation_unit)
                 else:
                     annotation_unit['value'] = jq_result[result_keys[0]]
-                    log_to_file("DOING A DUMP\n")
-                    log_to_file(f"{json.dumps(annotation_unit)}")
                     annotations.append(annotation_unit)
 
                 jq_result = next(jq_results, None)
@@ -138,16 +126,11 @@ class HttpAnnotationTask(AnnotationTaskInterface):
 
     def annotate(self):
         """builds the complete url and fetches the annotation with an http request"""
-        log_to_file(f"{self.genomic_unit['unit']} for {self.dataset['data_set']} - Annotating...\n")
         url_to_query = self.build_url()
-        log_to_file(f"{self.genomic_unit['unit']} for {self.dataset['data_set']} - {url_to_query}...\n")
         # log_to_file(f'No Sleep: {url_to_query} - Real annotation for {self.genomic_unit["unit"]}'
         #             f' for dataset {s][''elf.dataset["data_set"]} from {self.dataset["data_source"]}\n')
-        # print('i hope this is not running')
         result = requests.get(url_to_query, verify=False)
-        log_to_file(f"{self.genomic_unit['unit']} for {self.dataset['data_set']} - {url_to_query} Returned...\n")
         json_result = result.json()
-        log_to_file(json.dumps(json_result))
         return json_result
 
     def base_url(self):

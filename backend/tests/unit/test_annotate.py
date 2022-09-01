@@ -23,7 +23,8 @@ def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_col
 
 
 @patch("src.annotation.log_to_file")
-def test_processing_cpam0046_annotation_tasks(log_to_file_mock, cpam0046_annotation_queue):  # pylint: disable=unused-argument
+@patch("src.annotation_task.AnnotationTaskInterface.extract")
+def test_processing_cpam0046_annotation_tasks(log_to_file_mock, annotate_extract_mock, cpam0046_annotation_queue):  # pylint: disable=unused-argument
     """Verifies that each item on the annotation queue is read and executed"""
     mock_genomic_unit_collection = Mock()
     mock_genomic_unit_collection.find_genomic_unit_annotation_value = Mock()
@@ -45,9 +46,13 @@ def test_processing_cpam0046_annotation_tasks(log_to_file_mock, cpam0046_annotat
 
 
 @patch("src.annotation.log_to_file")
-def test_processing_cpam0002_annotations_tasks(
-    log_to_file_mock, cpam0002_annotation_queue, transcript_annotation_response
-):  # pylint: disable=unused-argument
+@patch("src.annotation_task.AnnotationTaskInterface.extract",return_value=[{
+        'data_set': 'mock_datset',
+        'data_source': 'mock_source',
+        'version': '0.0',
+        'value': '9000'
+    }])
+def test_processing_cpam0002_annotations_tasks(log_to_file_mock, annotate_extract_mock, cpam0002_annotation_queue):  # pylint: disable=unused-argument
     """
         Verifies that the annotation collection is being sent the proper amount of extracted annotations for
         CPAM analysis 0002
@@ -56,7 +61,6 @@ def test_processing_cpam0002_annotations_tasks(
     mock_genomic_unit_collection = Mock()
     mock_genomic_unit_collection.annotation_exist.return_value = False
 
-    AnnotationTaskInterface.extract = Mock(return_value=[])
     HttpAnnotationTask.annotate = Mock()
     NoneAnnotationTask.annotate = Mock()
 
@@ -68,6 +72,7 @@ def test_processing_cpam0002_annotations_tasks(
 
     # This result is combining both for HTTP and None tasks
     assert HttpAnnotationTask.extract.call_count == 29 # pylint: disable=no-member
+    mock_genomic_unit_collection.annotate_genomic_unit.assert_called()
 
 @pytest.fixture(name="cpam0046_hgvs_variant_json")
 def fixture_cpam0046_hgvs_variant(cpam0046_analysis):
