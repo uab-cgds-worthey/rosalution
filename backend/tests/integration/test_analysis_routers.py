@@ -53,10 +53,9 @@ def test_create_analysis(client, mock_access_token, database_collections, export
 
 def test_update_analysis(client, mock_access_token, database_collections):
     """Testing if the update analysis endpoint updates an existing analysis"""
-    database_collections["analysis"].collection.find_one.return_value = read_test_fixture(
-        "analysis-CPAM0112.json")
+    database_collections["analysis"].collection.find_one.side_effect = [read_test_fixture(
+        "analysis-CPAM0112.json"), read_test_fixture("analysis-update.json")]
     database_collections["analysis"].collection.update_one.return_value = True
-    print(read_test_fixture("analysis-update.json"))
     response = client.put(
         "/analysis/update/CPAM0112",
         headers={"Authorization": "Bearer " + mock_access_token,
@@ -64,10 +63,8 @@ def test_update_analysis(client, mock_access_token, database_collections):
         # this is the new analysis data
         json=read_test_fixture("analysis-update.json"),
     )
-    print(response.json())
     assert response.status_code == 200
     assert response.json()["name"] == "CPAM0112"
-    # for some reason this is not being updated
     assert response.json()["nominated_by"] == "Dr. Person One"
 
 
