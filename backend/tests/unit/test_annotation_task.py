@@ -1,13 +1,13 @@
 """Tests Annotation Tasks and the creation of them"""
 import pytest
 from src.enums import GenomicUnitType
-from src.annotation_task import AnnotationTaskFactory, HttpAnnotationTask, transcript_annotation_extration
+from src.annotation_task import AnnotationTaskFactory, HttpAnnotationTask
 
 
 def test_http_annotation_base_url(http_annotation_transcript_id):
     """Verifies if the HTTP annotation creates the base url using the url and genomic_unit as expected."""
     actual = http_annotation_transcript_id.base_url()
-    assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;"
+    assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;refseq=1;"  # pylint: disable=line-too-long
 
 
 def test_http_annotation_task_build_url(http_annotation_transcript_id):
@@ -16,44 +16,49 @@ def test_http_annotation_task_build_url(http_annotation_transcript_id):
     assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;refseq=1;"  # pylint: disable=line-too-long
     # This link cannot be shortened, will just disable for this one due to the nature of the long URL dependency
 
+
 def test_http_annotation_task_build_url_with_dependency(http_annotation_task_gene):
     """Verifies that the HTTP annotation task builds the URL that includes depdencies"""
     actual = http_annotation_task_gene.build_url()
     assert actual == "https://hpo.jax.org/api/hpo/gene/45614"
 
+
 def test_annotation_task_create_http_task(hgvs_variant_genomic_unit, transcript_id_dataset):
     """Verifies that the annotation task factory creates the correct annotation task according to the dataset type"""
-    actual_task = AnnotationTaskFactory.create(
-        hgvs_variant_genomic_unit, transcript_id_dataset)
+    actual_task = AnnotationTaskFactory.create(hgvs_variant_genomic_unit, transcript_id_dataset)
     assert isinstance(actual_task, HttpAnnotationTask)
 
 
-def test_transcript_annotation_extraction():
-    """
-    When jq extracts annotations from an array, it can yield many results in an array. This tests that proper result
-    are associated with the correct transcript and returns an updated annotation unit.
-    """
-    annotation_unit = {
-        "data_set": "SIFT Prediction",
-        "data_source": "Ensembl",
-        "version": "",
-        "value": "",
-    }
-
-    transcript_result = {'sift_prediction': 'deleterious',
-                         'transcript_id': 'NM_001363810.1'}
-
-    actual = transcript_annotation_extration(annotation_unit, transcript_result)
-
-    transcript_annotation_unit = {
-        'data_set': 'SIFT Prediction',
+def test_annotation_extraction_for_transcript_dataset(http_annotation_transcript_id, transcript_annotation_response):
+    """Verifieng genomic unit extraction for a transcript using the the transcript ID dataset"""
+    actual_extractions = http_annotation_transcript_id.extract(transcript_annotation_response)
+    assert len(actual_extractions) == 2
+    assert {
+        'data_set': 'transcript_id',
         'data_source': 'Ensembl',
-        'version': '',
-        'value': 'deleterious',
-        'transcript_id': 'NM_001363810.1'
-    }
+        'version': '', 'value': '',
+        'transcript_id': 'NM_001017980.4'
+    } in actual_extractions
 
-    assert actual == transcript_annotation_unit
+    assert {
+        'data_set': 'transcript_id',
+        'data_source': 'Ensembl',
+        'version': '', 'value': '',
+        'transcript_id': 'NM_001363810.1'
+    } in actual_extractions
+
+
+def test_annotation_extraction_for_genomic_unit(http_annotation_task_gene, hpo_annotation_response):
+    """Verifieng genomic unit extraction for a gene using the HPO dataset"""
+    actual_extractions = http_annotation_task_gene.extract(hpo_annotation_response)
+    assert len(actual_extractions) == 1
+    assert {
+        'data_set': 'HPO',
+        'data_source': 'HPO',
+        'version': '',
+        'value': ['Myopathy, X-linked, With Excessive Autophagy']
+    } in actual_extractions
+
 
 ## Fixtures ##
 
@@ -62,15 +67,16 @@ def fixture_gene_hpo_dataset():
     """
     Returns the dict of the HPO dataset that has a dependency
     """
-    return   {
+    return {
         "data_set": "HPO",
         "data_source": "HPO",
         "genomic_unit_type": "gene",
         "annotation_source_type": "http",
         "url": "https://hpo.jax.org/api/hpo/gene/{Entrez Gene Id}",
-        "query_param": "",
-        "dependencies": ["Entrez Gene Id"]
+        "dependencies": ["Entrez Gene Id"],
+        "attribute": "{ \"diseaseAssoc\": [.diseaseAssoc[].diseaseName]}",
     }
+
 
 @pytest.fixture(name="gene_genomic_unit")
 def fixture_gene_genomic_unit():
@@ -81,12 +87,14 @@ def fixture_gene_genomic_unit():
         "genomic_unit_type": GenomicUnitType.GENE,
     }
 
+
 @pytest.fixture(name="http_annotation_task_gene")
 def fixture_http_annotation_empty(gene_genomic_unit, gene_hpo_dataset):
     """Returns an HTTP annotation taskd"""
     task = HttpAnnotationTask(gene_genomic_unit)
     task.set(gene_hpo_dataset)
     return task
+
 
 @pytest.fixture(name="hgvs_variant_genomic_unit")
 def fixture_genomic_unit():
@@ -108,9 +116,8 @@ def fixture_transcript_id_dataset():
         "genomic_unit_type": "hgvs_variant",
         "transcript": True,
         "annotation_source_type": "http",
-        "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;",
-        "query_param": "refseq=1;",
-        "attribute": "transcript_consequences[].transcript_id"
+        "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;refseq=1;",
+        "attribute": ".[].transcript_consequences[] | { transcript_id: .transcript_id }"
     }
 
 
@@ -136,3 +143,50 @@ def fixture_transcript_related_datasets(annotation_collection):
             annotation_collection.all(),
         )
     )
+
+
+@pytest.fixture(name="hpo_annotation_response")
+def fixture_hpo_annotation_response():
+    """
+    Returns an object that contains the actual return aoutput for GENE VMA21 for HPO terms"""
+    return {
+        "gene": {"entrezGeneId": 203547, "entrezGeneSymbol": "VMA21"},
+        "termAssoc": [
+            {"ontologyId": "HP:0001270", "name": "Motor delay",
+                "definition": "A type of Developmental delay characterized"},
+            {"ontologyId": "HP:0001419", "name": "X-linked recessive inheritance",
+                "definition": "A mode of inheritancee."},
+            {"ontologyId": "HP:0001371", "name": "Flexion contracture",
+                "definition": "A flexion contracnt of joints."},
+            {"ontologyId": "HP:0003391", "name": "Gowers sign",
+                "definition": "A phenomenon whereby patie"},
+            {"ontologyId": "HP:0008994", "name": "Proximal muscle weakness in lower limbs",
+                "definition": "A lack of legs."},
+            {"ontologyId": "HP:0002650", "name": "Scoliosis",
+                "definition": "The presence of an abnormal lateral curv"},
+            {"ontologyId": "HP:0003551", "name": "Difficulty climbing stairs",
+                "definition": "Reduced ability to climb stairs."},
+            {"ontologyId": "HP:0002093",
+                "name": "Respiratory insufficiency", "definition": ""},
+            {"ontologyId": "HP:0003198", "name": "Myopathy",
+                "definition": "A disorder of muscle unrelated to impairment"},
+            {"ontologyId": "HP:0009046", "name": "Difficulty running",
+                "definition": "Reduced ability to run."},
+            {"ontologyId": "HP:0003202", "name": "Skeletal muscle atrophy",
+                "definition": "The presence of skeletal "},
+            {"ontologyId": "HP:0001319", "name": "Neonatal hypotonia",
+                "definition": "Muscular hypotonia (abnormally "},
+            {"ontologyId": "HP:0003236",
+                "name": "Elevated circulating creatine kinase concentration", "definition": "An "},
+            {"ontologyId": "HP:0002486", "name": "Myotonia",
+                "definition": "An involuntartrical stimulation."},
+            {"ontologyId": "HP:0007941", "name": "Limited extraocular movements",
+                "definition": "Limited mobility of the"}
+        ],
+        "diseaseAssoc": [{
+            "diseaseId": "OMIM:310440",
+            "diseaseName": "Myopathy, X-linked, With Excessive Autophagy",
+            "dbId": "310440",
+            "db": "OMIM"
+        }]
+    }

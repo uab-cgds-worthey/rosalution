@@ -18,6 +18,30 @@ class GenomicUnitCollection:
         """ Returns all genomic units that are currently stored """
         return self.collection.find()
 
+    def annotation_exist(self, genomic_unit, dataset):
+        """ Returns true if the genomic_unit already has that dataset annotated """
+        data_set_name = dataset['data_set']
+        find_query = {
+            genomic_unit['type'].value: genomic_unit['unit'],
+        }
+
+        if 'transcript' in dataset:
+            hgvs_genomic_unit = self.collection.find_one(find_query)
+
+            if not hgvs_genomic_unit['transcripts']:
+                return False
+
+            for transcript in hgvs_genomic_unit['transcripts']:
+                if not next(
+                    (annotation for annotation in transcript['annotations'] if data_set_name in annotation), None
+                ):
+                    return False
+            return True
+
+        annotation_field_key = f"annotations.{data_set_name}"
+        find_query[annotation_field_key] = {'$exists': True}
+        return  bool(self.collection.count_documents(find_query, limit=1))
+
     def find_genomic_unit_annotation_value(self, genomic_unit, dataset):
         """ Returns the annotation value for a genomic unit according the the dataset"""
         data_set_name = dataset
@@ -30,10 +54,16 @@ class GenomicUnitCollection:
         if result is None:
             return None
 
-        return next(
-            (annotation[data_set_name]['value'] for annotation in result['annotations'] if data_set_name in annotation),
-            None
-        )
+        for annotation in result['annotations']:
+            if dataset in annotation:
+                for data in annotation[dataset]:
+                    return data['value']
+
+        return None
+
+    def find_genomic_unit(self, genomic_unit):
+        """ Returns the given genomic unit from the genomic unit collection """
+        return self.collection.find_one({genomic_unit['type'].value: genomic_unit['unit']})
 
     def find_genomic_unit_with_transcript_id(self, genomic_unit, transcript_id):
         """ Returns the genomic unit with the corresponding transcript if it exists """
@@ -62,24 +92,7 @@ class GenomicUnitCollection:
         that can be sent to mongo to update the genomic unit's document in the collection
         """
 
-        if genomic_unit['type'].value == 'hgvs_variant':
-            if 'transcript_id' in genomic_annotation:
-                genomic_unit_document = self.find_genomic_unit_with_transcript_id(
-                    genomic_unit,
-                    genomic_annotation['transcript_id']
-                )
-
-                if not genomic_unit_document:
-                    self.update_genomic_unit_with_transcript_id(
-                        genomic_unit, genomic_annotation['transcript_id'])
-                    genomic_unit_document = self.find_genomic_unit_with_transcript_id(
-                        genomic_unit,
-                        genomic_annotation['transcript_id']
-                    )
-
-                # We'll need to find if the genomic annotation exists before updating the record, but here, we know
-                # it doesn't exist, so we insert it directly. This needs to be a check.
-                temp_data_set = {
+        annotation_data_set = {
                     genomic_annotation['data_set']: [{
                         'data_source': genomic_annotation['data_source'],
                         'version': genomic_annotation['version'],
@@ -87,11 +100,30 @@ class GenomicUnitCollection:
                     }]
                 }
 
-                for transcript in genomic_unit_document['transcripts']:
-                    if transcript['transcript_id'] == genomic_annotation['transcript_id']:
-                        transcript['annotations'].append(temp_data_set)
+        if 'transcript_id' in genomic_annotation:
+            genomic_unit_document = self.find_genomic_unit_with_transcript_id(
+                genomic_unit,
+                genomic_annotation['transcript_id']
+            )
 
-                self.update_genomic_unit_with_mongo_id(genomic_unit_document)
+            if not genomic_unit_document:
+                self.update_genomic_unit_with_transcript_id(
+                    genomic_unit, genomic_annotation['transcript_id'])
+                genomic_unit_document = self.find_genomic_unit_with_transcript_id(
+                    genomic_unit,
+                    genomic_annotation['transcript_id']
+                )
+
+            for transcript in genomic_unit_document['transcripts']:
+                if transcript['transcript_id'] == genomic_annotation['transcript_id']:
+                    transcript['annotations'].append(annotation_data_set)
+
+            self.update_genomic_unit_with_mongo_id(genomic_unit_document)
+
+        else:
+            genomic_unit_document = self.find_genomic_unit(genomic_unit)
+            genomic_unit_document['annotations'].append(annotation_data_set)
+            self.update_genomic_unit_with_mongo_id(genomic_unit_document)
 
         return
 

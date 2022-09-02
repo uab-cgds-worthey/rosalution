@@ -8,32 +8,14 @@ import time
 import jq
 import requests
 
-
-def transcript_annotation_extration(annotation_unit, transcript_result):
-    """
-    Takes in a copy of the annotation unit object, jq extracted result for the annotation, and the
-    attribute for the dataset intended to extract and assigns the value and transcript id to the
-    annotation unit to be returned.
-    """
-    result_keys = list(transcript_result.keys())
-
-    for key in result_keys:
-        if key == 'transcript_id':
-            annotation_unit['transcript_id'] = transcript_result['transcript_id']
-        else:
-            annotation_unit['value'] = transcript_result[key]
-
-    return annotation_unit
-
-def log_to_file(string):
-    """
-    Temprorary utility function for development purposes abstracted for testing.
-    Will remove once feature is completed.
-    """
-    with open("rosalution-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
-        log_file.write(string)
-    print(string)
-
+# def log_to_file(string):
+#     """
+#     Temprorary utility function for development purposes abstracted for testing.
+#     Will remove once feature is completed.
+#     """
+#     with open("rosalution-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
+#         log_file.write(string)
+#     print(string)
 
 class AnnotationTaskInterface:
     """Abstract class to define the interface for the the types of Annotation Task"""
@@ -45,6 +27,25 @@ class AnnotationTaskInterface:
     def set(self, dataset: dict):
         """Adds the dataset configuration for the annotation"""
         self.dataset = dataset
+
+    def aggregate_string_replacements(self, base_string):
+        """
+        Replaces the content 'base_string' where strings within the pattern
+        {item} are replaced, 'item' can be the genomic unit's type such as
+        {gene} or {hgvs_variant} or a dataset dependency, such as {Entrez Gene Id}.
+
+        The follow are examples of the genomic_unit's dict's attributes like
+        genomic_unit['gene'] or genomic_unit['Entrez Gene Id']
+        """
+        genomic_unit_string = f"{{{self.dataset['genomic_unit_type']}}}"
+        replace_string = base_string.replace(genomic_unit_string, self.genomic_unit['unit'])
+
+        if 'dependencies' in self.dataset:
+            for dependency in self.dataset['dependencies']:
+                dependency_string = f"{{{dependency}}}"
+                replace_string = replace_string.replace(dependency_string, str(self.genomic_unit[dependency]))
+
+        return replace_string
 
     @abstractmethod
     def annotate(self):
@@ -59,15 +60,29 @@ class AnnotationTaskInterface:
                 "data_set": self.dataset['data_set'],
                 "data_source": self.dataset['data_source'],
                 "version": "",
-                "value": "",
+                "value": ""
             }
 
-            if isinstance(json_result, list):
-                if 'transcript' in self.dataset:
-                    transcript_results = jq.compile(self.dataset['attribute']).input(json_result).all()
+            replaced_attributes = self.aggregate_string_replacements(self.dataset['attribute'])
 
-                    for transcript_result in transcript_results:
-                        annotations.append(transcript_annotation_extration(annotation_unit.copy(), transcript_result))
+            jq_results = iter(jq.compile(replaced_attributes).input(json_result).all())
+            jq_result = next(jq_results, None)
+            while jq_result is not None:
+                result_keys = list(jq_result.keys())
+
+                if 'transcript' in self.dataset:
+                    transcript_annotation_unit = annotation_unit.copy()
+                    for key in result_keys:
+                        if key == 'transcript_id':
+                            transcript_annotation_unit['transcript_id'] = jq_result['transcript_id']
+                        else:
+                            transcript_annotation_unit['value'] = jq_result[key]
+                    annotations.append(transcript_annotation_unit)
+                else:
+                    annotation_unit['value'] = jq_result[result_keys[0]]
+                    annotations.append(annotation_unit)
+
+                jq_result = next(jq_results, None)
 
         return annotations
 
@@ -83,8 +98,8 @@ class NoneAnnotationTask(AnnotationTaskInterface):
         """Creates a fake 'annotation' using a randomly generated pause time to a query io operation"""
         value = randint(0, 10)
         time.sleep(value)
-        log_to_file(f'Slept: {value} - Fake annotation for {self.genomic_unit["unit"]}'
-                    f' for dataset {self.dataset["data_set"]} from {self.dataset["data_source"]}\n')
+        # log_to_file(f'Slept: {value} - Fake annotation for {self.genomic_unit["unit"]}'
+        #             f' for dataset {self.dataset["data_set"]} from {self.dataset["data_source"]}\n')
 
         result = {'not-real': self.dataset["data_set"]}
         return result
@@ -112,11 +127,11 @@ class HttpAnnotationTask(AnnotationTaskInterface):
     def annotate(self):
         """builds the complete url and fetches the annotation with an http request"""
         url_to_query = self.build_url()
-        log_to_file(f'No Sleep: {url_to_query} - Real annotation for {self.genomic_unit["unit"]}'
-                    f' for dataset {self.dataset["data_set"]} from {self.dataset["data_source"]}\n')
-
+        # log_to_file(f'No Sleep: {url_to_query} - Real annotation for {self.genomic_unit["unit"]}'
+        #             f' for dataset {s][''elf.dataset["data_set"]} from {self.dataset["data_source"]}\n')
         result = requests.get(url_to_query, verify=False)
-        return result.json()
+        json_result = result.json()
+        return json_result
 
     def base_url(self):
         """
@@ -138,9 +153,7 @@ class HttpAnnotationTask(AnnotationTaskInterface):
         """
         Builds the URL from the base_url and then appends the list of query parameters for the list of datasets.
         """
-        base_url_string = self.base_url()
-        url = base_url_string + self.dataset["query_param"]
-        return url if base_url_string is not None else None
+        return self.aggregate_string_replacements(self.dataset['url'])
 
 
 class AnnotationTaskFactory:
