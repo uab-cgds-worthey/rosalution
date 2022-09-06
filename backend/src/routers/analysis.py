@@ -48,7 +48,7 @@ async def import_phenotips_json(phenotips_input: BasePhenotips, rosalution_db=De
         raise HTTPException(status_code=409) from exception
 
 
-@router.put("/update/{name}", response_model=Analysis)
+@router.put("/update/{name}")
 def update_analysis(name: str, analysis_data_changes: dict, rosalution_db=Depends(database)):
     """Updates an existing analysis"""
     return rosalution_db["analysis"].update_analysis(name, analysis_data_changes)
