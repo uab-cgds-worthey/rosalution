@@ -3,7 +3,7 @@ import json
 from base64 import b64encode
 from itsdangerous import TimestampSigner
 
-from src.routers.auth import cas_client
+from src.routers.auth_router import cas_client
 
 # Helper functions
 
