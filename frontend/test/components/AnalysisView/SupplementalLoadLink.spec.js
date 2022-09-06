@@ -2,12 +2,19 @@ import {describe, it, beforeEach, expect} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 
 import SupplementalLoadLink from '../../../src/components/AnalysisView/SupplementalLoadLink.vue';
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 describe('SupplementalLoadLink.vue', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallowMount(SupplementalLoadLink);
+    wrapper = shallowMount(SupplementalLoadLink, {
+      global: {
+        components: {
+          'font-awesome-icon': FontAwesomeIcon,
+        },
+      },
+    });
   });
 
   it('renders a vue instance', () => {

@@ -4,12 +4,19 @@ import sinon from 'sinon';
 
 import SupplementalFormList from '../../../src/components/AnalysisView/SupplementalFormList.vue';
 import ModalDialog from '../../../src/components/AnalysisView/ModalDialog.vue';
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 describe('SupplementalFormList.vue', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallowMount(SupplementalFormList);
+    wrapper = shallowMount(SupplementalFormList, {
+      global: {
+        components: {
+          'font-awesome-icon': FontAwesomeIcon,
+        },
+      },
+    });
   });
 
   it('Vue instance exists and it is an object', () => {
