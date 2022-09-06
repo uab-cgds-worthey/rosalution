@@ -2,7 +2,7 @@
 from unittest.mock import patch
 from fastapi import BackgroundTasks
 
-from src.annotation import AnnotationService
+from src.core.annotation import AnnotationService
 
 from ..test_utils import read_database_fixture
 

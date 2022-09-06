@@ -1,7 +1,8 @@
 """Tests Annotation Tasks and the creation of them"""
 import pytest
+
+from src.core.annotation_task import AnnotationTaskFactory, HttpAnnotationTask
 from src.enums import GenomicUnitType
-from src.annotation_task import AnnotationTaskFactory, HttpAnnotationTask
 
 
 def test_http_annotation_base_url(http_annotation_transcript_id):

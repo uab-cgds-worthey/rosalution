@@ -3,11 +3,11 @@ import queue
 from unittest.mock import Mock
 import pytest
 
+from src.core.annotation import AnnotationService
 from src.models.analysis import Analysis
 from src.repository.analysis_collection import AnalysisCollection
 from src.repository.annotation_config_collection import AnnotationConfigCollection
 from src.repository.genomic_unit_collection import GenomicUnitCollection
-from src.annotation import AnnotationService
 
 from ..test_utils import read_database_fixture, read_test_fixture, mock_mongo_collection
 
