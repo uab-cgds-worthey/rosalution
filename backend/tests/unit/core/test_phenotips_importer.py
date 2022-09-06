@@ -1,9 +1,10 @@
 """Tests importing the phenotips data"""
 import pytest
 
+from src.core.phenotips_importer import PhenotipsImporter
+
 from ...test_utils import read_test_fixture
 
-from src.core.phenotips_importer import PhenotipsImporter
 
 
 def test_import_genomic_unit_data_hgvs(phenotips_importer):
