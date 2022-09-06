@@ -28,14 +28,14 @@
                 <td class="attachment-name">
                     {{ attachment.name }}
                 </td>
-                <td class="comment-button">
-                    <button v-on:click="comment(attachment)">
-                        <font-awesome-icon :icon="['far', 'comment']" size="xl"/>
-                    </button>
-                </td>
                 <td class="edit-button">
                     <button  v-on:click="edit(attachment)">
                         <font-awesome-icon icon="pencil" size="xl"/>
+                    </button>
+                </td>
+                <td class="delete-button">
+                    <button id="removeAttachmentButton" v-on:click="deleteRow(attachment)">
+                        <font-awesome-icon icon="xmark" size="xl"/>
                     </button>
                 </td>
             </tr>
@@ -63,9 +63,8 @@ export default {
     onAttachmentChange(attachment) {
       this.attachments.push(attachment);
     },
-    comment(attachment) {
-      // This method will handle the commenting modal/feature
-      console.log('Skeleton method for Commenting ' + attachment.name);
+    deleteRow(elem) {
+      this.attachments.splice(elem, 1);
     },
     edit(attachment) {
       // This method will handle the edit modal/feature
@@ -161,16 +160,16 @@ export default {
     border: none;
     background: none;
     float: right;
-    right: 3%;
+    right: 6%;
     position: absolute;
     padding: 0.5rem 0 0.5rem 0;
   }
 
-  .comment-button {
+  .delete-button {
     border: none;
     background: none;
     float: right;
-    right: 6%;
+    right: 3%;
     position: absolute;
     padding: 0.5rem 0 0.5rem 0;
   }
