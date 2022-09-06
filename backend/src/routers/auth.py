@@ -10,7 +10,7 @@ from starlette.requests import Request
 from cas import CASClient
 from src import constants
 
-from ..core.user import User, VerifyUser
+from ..models.user import User, VerifyUser
 from ..security.jwt import create_access_token
 from ..security.security import get_current_user
 

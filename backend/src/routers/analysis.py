@@ -4,8 +4,8 @@ from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
 
-from ..core.analysis import Analysis, AnalysisSummary
-from ..core.phenotips_json import BasePhenotips
+from ..models.analysis import Analysis, AnalysisSummary
+from ..models.phenotips_json import BasePhenotips
 from ..dependencies import database
 from ..phenotips_importer import PhenotipsImporter
 
