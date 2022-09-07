@@ -16,16 +16,16 @@ import './styles/rosalution.css';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {
-  faAsterisk, faPause, faCheck, faX, faUser, faUsers, faUserGroup, faCalendar,
-  faBookOpen, faList, faLayerGroup, faBoxArchive, faQuestion, faClock,
-  faClipboardCheck, faMagnifyingGlass, faChevronDown, faUpRightFromSquare, faCirclePlus, faPencil,
-  faEllipsisVertical, faLink, faXmark} from '@fortawesome/free-solid-svg-icons';
+  faAsterisk, faPause, faCheck, faX, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList, faLayerGroup,
+  faBoxArchive, faQuestion, faClock, faClipboardCheck, faMagnifyingGlass, faChevronDown, faUpRightFromSquare,
+  faCirclePlus, faPencil, faEllipsisVertical, faLink, faUserDoctor,
+} from '@fortawesome/free-solid-svg-icons';
 import {faCopy, faFile, faComment} from '@fortawesome/free-regular-svg-icons';
 
 library.add(
     faAsterisk, faPause, faCheck, faX, faMagnifyingGlass, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList,
     faLayerGroup, faBoxArchive, faQuestion, faClock, faClipboardCheck, faChevronDown, faUpRightFromSquare, faCopy,
-    faCirclePlus, faFile, faComment, faPencil, faEllipsisVertical, faLink, faXmark);
+    faCirclePlus, faFile, faComment, faPencil, faEllipsisVertical, faLink, faXmark, faUserDoctor);
 
 // The NotFoundView should always be last because it's an ordered array.
 const routes = [
