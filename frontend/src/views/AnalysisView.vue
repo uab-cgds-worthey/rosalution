@@ -2,7 +2,6 @@
   <div>
       <app-header>
         <AnalysisViewHeader
-          :username="username"
           :actions="menuActions"
           :titleText="this.analysis_name"
           :sectionAnchors="this.sectionsHeaders"
@@ -38,7 +37,6 @@ import AnalysisViewHeader from '../components/AnalysisView/AnalysisViewHeader.vu
 import SectionBox from '../components/AnalysisView/SectionBox.vue';
 import GeneBox from '../components/AnalysisView/GeneBox.vue';
 import SupplementalFormList from '../components/AnalysisView/SupplementalFormList.vue';
-import User from '../models/user';
 
 export default {
   name: 'analysis-view',
@@ -54,7 +52,6 @@ export default {
       analysis: {},
       sectionsList: [],
       genomicUnitsList: [],
-      username: '',
       menuActions: ['Edit', '----', 'Attach', 'Attach Monday.com', 'Connect PhenoTips'],
     };
   },
@@ -68,15 +65,9 @@ export default {
     },
   },
   created() {
-    this.getUsername();
     this.getAnalysis();
   },
   methods: {
-    async getUsername() {
-      const fetchUser = await User.getUser();
-      console.log(fetchUser);
-      this.username = fetchUser['username'];
-    },
     async getAnalysis() {
       this.analysis = {...await Analyses.getAnalysis(this.analysis_name)};
       this.getSections();

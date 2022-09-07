@@ -3,6 +3,8 @@ import {config, shallowMount} from '@vue/test-utils';
 
 import LoginView from '@/views/LoginView.vue';
 
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+
 /**
  * helper function that shadllow mounts and returns the rendered component
  * @param {props} props props for testing to overwrite default props
@@ -18,7 +20,6 @@ function getMountedComponent(props) {
     global: {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
-        'router-link': RouterLink,
       },
     },
   });
