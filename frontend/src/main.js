@@ -18,7 +18,7 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {
   faAsterisk, faPause, faCheck, faX, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList, faLayerGroup,
   faBoxArchive, faQuestion, faClock, faClipboardCheck, faMagnifyingGlass, faChevronDown, faUpRightFromSquare,
-  faCirclePlus, faPencil, faEllipsisVertical, faLink, faUserDoctor,
+  faCirclePlus, faPencil, faEllipsisVertical, faLink, faXmark, faUserDoctor,
 } from '@fortawesome/free-solid-svg-icons';
 import {faCopy, faFile, faComment} from '@fortawesome/free-regular-svg-icons';
 
