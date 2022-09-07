@@ -4,12 +4,19 @@ import sinon from 'sinon';
 
 import SupplementalFormList from '../../../src/components/AnalysisView/SupplementalFormList.vue';
 import ModalDialog from '../../../src/components/AnalysisView/ModalDialog.vue';
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 describe('SupplementalFormList.vue', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallowMount(SupplementalFormList);
+    wrapper = shallowMount(SupplementalFormList, {
+      global: {
+        components: {
+          'font-awesome-icon': FontAwesomeIcon,
+        },
+      },
+    });
   });
 
   it('Vue instance exists and it is an object', () => {
@@ -57,7 +64,23 @@ describe('SupplementalFormList.vue', () => {
     expect(attachment.type).deep.to.equal('file');
   });
 
-  // These have not been implemented yet with the new design.
-  it.skip('clicking comment-logo pops up the comment modal', () => {});
+  it('Clicking minus-logo button removes the attachment', async () => {
+    const fakeAttachments = [{
+      data: 'fakeFiledData',
+      name: '/path/to/fakeFile.ext',
+      type: 'file',
+    }];
+
+    await wrapper.setData({attachments: fakeAttachments});
+
+    expect(wrapper.findAll('tr').length).toBe(2);
+
+    await wrapper.find('#removeAttachmentButton').trigger('click');
+
+    expect(wrapper.findAll('tr').length).toBe(1);
+    expect(wrapper.vm.$data.attachments.length).toBe(0);
+  });
+
+  // This test will be added when the edit supplemental attachment experience is implemented.
   it.skip('clicking edit-logo pops up the edit modal', () => {});
 });

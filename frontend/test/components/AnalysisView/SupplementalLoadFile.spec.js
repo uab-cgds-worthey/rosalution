@@ -2,12 +2,19 @@ import {describe, it, beforeEach, expect} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 
 import SupplementalLoadFile from '../../../src/components/AnalysisView/SupplementalLoadFile.vue';
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 describe('SupplementalLoadFile.vue', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallowMount(SupplementalLoadFile);
+    wrapper = shallowMount(SupplementalLoadFile, {
+      global: {
+        components: {
+          'font-awesome-icon': FontAwesomeIcon,
+        },
+      },
+    });
   });
 
   it('Vue instance exists and it is an object', () => {
