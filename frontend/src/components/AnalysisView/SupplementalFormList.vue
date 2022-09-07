@@ -112,6 +112,7 @@ export default {
     background: none;
     height: 1.75rem;
     padding: 0;
+    color: var(--rosalution-black);
   }
 
   .collapse-box {
@@ -163,6 +164,7 @@ export default {
     right: 6%;
     position: absolute;
     padding: 0.5rem 0 0.5rem 0;
+    color: var(--rosalution-black);
   }
 
   .delete-button {
@@ -172,6 +174,7 @@ export default {
     right: 3%;
     position: absolute;
     padding: 0.5rem 0 0.5rem 0;
+    color: var(--rosalution-black);
   }
 
   button {
@@ -185,6 +188,7 @@ export default {
     background: none;
     float: left;
     padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+    color: var(--rosalution-black);
   }
 
 </style>
