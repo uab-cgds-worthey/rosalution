@@ -12,9 +12,11 @@ def read_database_fixture(fixture_filename):
     """reads the JSON from the filepath relative to the database fixtures in etc"""
     return read_fixtures(DATABSE_FIXTURE_PATH, fixture_filename)
 
+
 def read_test_fixture(fixture_filename):
     """reads the JSON from the filepath relative to the tests"""
     return read_fixtures(UNIT_TEST_FIXTURE_PATH, fixture_filename)
+
 
 def read_fixtures(base_path, fixture_filename):
     """With a base path relative to the current directory, loads a fixture for fixture_filename"""
@@ -28,6 +30,7 @@ def read_fixtures(base_path, fixture_filename):
 
     return data
 
+
 def mock_mongo_collection():
     """
     Returns the annotation collection for the configuration to verify
@@ -38,7 +41,9 @@ def mock_mongo_collection():
     mock_collection.find_one = Mock()
     mock_collection.update_one = Mock()
     mock_collection.insert_one = Mock()
+    mock_collection.find_one_and_update = Mock()
     return mock_collection
+
 
 def magic_mock_mongo_collection():
     """
@@ -50,4 +55,5 @@ def magic_mock_mongo_collection():
     mock_collection.find_one = MagicMock()
     mock_collection.update_one = MagicMock()
     mock_collection.insert_one = MagicMock()
+    mock_collection.find_one_and_update = MagicMock()
     return mock_collection

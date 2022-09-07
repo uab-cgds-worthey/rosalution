@@ -1,6 +1,7 @@
 """
 Collection with retrieves, creates, and modify analyses.
 """
+from pymongo import ReturnDocument
 
 
 class AnalysisCollection:
@@ -67,5 +68,9 @@ class AnalysisCollection:
 
     def update_analysis(self, name: str, updated_analysis_data: dict):
         """Updates an existing analysis"""
-        existing = self.collection.find_one({"name": name})
-        return self.collection.update_one({"name": existing["name"]}, {"$set": updated_analysis_data}).raw_result
+        update_response = self.collection.find_one_and_update({"name": name},
+                                                              {"$set": updated_analysis_data},
+                                                              return_document=ReturnDocument.AFTER)
+        # remove the _id field from the returned document since it is not JSON serializable
+        update_response.pop("_id", None)
+        return update_response

@@ -53,9 +53,8 @@ def test_create_analysis(client, mock_access_token, database_collections, export
 
 def test_update_analysis(client, mock_access_token, database_collections):
     """Testing if the update analysis endpoint updates an existing analysis"""
-    database_collections["analysis"].collection.find_one.side_effect = [read_test_fixture(
-        "analysis-CPAM0112.json"), read_test_fixture("analysis-update.json")]
-    database_collections["analysis"].collection.update_one.return_value = True
+    database_collections["analysis"].collection.find_one_and_update.return_value = read_test_fixture(
+        "analysis-update.json")
     response = client.put(
         "/analysis/update/CPAM0112",
         headers={"Authorization": "Bearer " + mock_access_token,
