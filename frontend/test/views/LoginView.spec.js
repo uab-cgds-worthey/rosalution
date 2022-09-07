@@ -1,5 +1,5 @@
 import {expect, afterEach, beforeEach, describe, it} from 'vitest';
-import {config, shallowMount} from '@vue/test-utils';
+import {shallowMount} from '@vue/test-utils';
 
 import Auth from '@/models/authentication.js';
 import sinon from 'sinon';
@@ -45,27 +45,27 @@ describe('LoginView.vue', () => {
   it('When login button pressed, does it call the oauth2 function with the correct parameters', async () => {
     const wrapper = getMountedComponent();
 
-    const userInput = wrapper.find('[data-test=username-input]')
-    const localLoginButton = wrapper.find('[data-test=local-login-button]')
+    const userInput = wrapper.find('[data-test=username-input]');
+    const localLoginButton = wrapper.find('[data-test=local-login-button]');
 
-    await userInput.setValue('UABProvider')
+    await userInput.setValue('UABProvider');
     await wrapper.vm.$nextTick();
 
     localLoginButton.trigger('click');
     await wrapper.vm.$nextTick();
-    
-    expect(mockOAuthLogin.calledWith(fakeUserData)).toBe(true)
+
+    expect(mockOAuthLogin.calledWith(fakeUserData)).toBe(true);
   });
 
-  it('When the UAB login button is pressed, does it call the CAS login function', async() => {
+  it('When the UAB login button is pressed, does it call the CAS login function', async () => {
     const wrapper = getMountedComponent();
 
-    const prodLoginButton = wrapper.find('[data-test=prod-login-button]')
+    const prodLoginButton = wrapper.find('[data-test=prod-login-button]');
 
     prodLoginButton.trigger('click');
     await wrapper.vm.$nextTick();
-    
-    expect(mockUABCASLogin.called).toBe(true)
+
+    expect(mockUABCASLogin.called).toBe(true);
   });
 });
 

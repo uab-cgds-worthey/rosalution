@@ -31,14 +31,14 @@ export default {
   methods: {
     async developmentLogin() {
       // Password is hard coded. Taking it out would require a rewrite of the backend as of now.
-      if(this.username != '') {
+      if (this.username != '') {
         const userData = {'username': this.username, 'password': 'secret'};
         await Auth.loginOAuth(userData);
       }
     },
     async productionLogin() {
       await Auth.loginCas();
-    }
+    },
   },
 };
 </script>
@@ -108,7 +108,7 @@ hr.login-divider {
   width: 12rem;
   border: none;
   border-radius: 25px;
-  margin-top: 10px; 
+  margin-top: 10px;
 }
 
 .login-uab-button:hover {

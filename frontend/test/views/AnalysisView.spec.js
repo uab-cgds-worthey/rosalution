@@ -10,7 +10,6 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 describe('AnalysisView', () => {
   let mockedData;
-  let mockedUser;
   let wrapper;
 
   const mockRoute = {

@@ -19,10 +19,10 @@ describe('user.js', () => {
   });
 
   it('Initiates a development login and recieves a bearer token', async () => {
-    mockPostLoginRequest.returns(test_token);
+    mockPostLoginRequest.returns(testToken);
 
     const userData = {'username': 'fakeUser', 'password': 'secret'};
-    const token = await Auth.loginOAuth(userData)
+    const token = await Auth.loginOAuth(userData);
     expect(token.access_token).to.equal('fake-token');
   });
 
@@ -39,7 +39,7 @@ describe('user.js', () => {
   });
 });
 
-const test_token = {
-  access_token: "fake-token",
-  token_type: "bearer"
-}
+const testToken = {
+  'access_token': 'fake-token',
+  'token_type': 'bearer',
+};
