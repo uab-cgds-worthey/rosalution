@@ -4,10 +4,14 @@
         <img src="@/assets/rosalution-logo.svg" class="rosalution-logo-large" img>
         <span style="font-weight: bold; font-size: 30px; margin-top: 10px;">Rosalution</span>
         <span class= "" style="font-weight: 600; font-size: 15px; margin-top: 10px;">Local Development Login</span>
-        <input class="username-input" v-model="username" placeholder="username"/>
-        <button class="login-local-button" @click="developmentLogin" type="submit">Login</button>
+        <input class="username-input" v-model="username" placeholder="username" data-test="username-input"/>
+        <button class="login-local-button" @click="developmentLogin" type="submit" data-test="local-login-button">
+          Login
+        </button>
         <hr class="login-divider">
-        <button class="login-uab-button" @click="productionLogin" type="submit">UAB LOGIN</button>
+        <button class="login-uab-button" @click="productionLogin" type="submit" data-test="prod-login-button">
+          UAB LOGIN
+        </button>
       </div>
     </app-content>
 </template>
@@ -27,11 +31,13 @@ export default {
   methods: {
     async developmentLogin() {
       // Password is hard coded. Taking it out would require a rewrite of the backend as of now.
-      const userData = {'username': this.username, 'password': 'secret'};
-      Auth.loginOAuth(userData);
+      if(this.username != '') {
+        const userData = {'username': this.username, 'password': 'secret'};
+        await Auth.loginOAuth(userData);
+      }
     },
     async productionLogin() {
-      Auth.loginCas();
+      await Auth.loginCas();
     }
   },
 };
