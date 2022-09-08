@@ -9,7 +9,7 @@ from src.repository.annotation_config_collection import AnnotationConfigCollecti
 from src.repository.genomic_unit_collection import GenomicUnitCollection
 from src.annotation import AnnotationService
 
-from ..test_utils import read_database_fixture, mock_mongo_collection
+from ..test_utils import read_database_fixture, read_test_fixture, mock_mongo_collection
 
 
 @pytest.fixture(name="analysis_collection_json")
@@ -18,11 +18,19 @@ def fixture_analysis_collection_json():
     return read_database_fixture("analyses.json")
 
 
+@pytest.fixture(name="updated_analysis_collection_json")
+def fixture_updated_analysis_collection_json():
+    """Returns the JSON for the analyses collection used to seed the MongoDB database"""
+    return read_test_fixture("analysis-update.json")
+
+
 @pytest.fixture(name="analysis_collection")
-def fixture_analysis_collection(analysis_collection_json):
+def fixture_analysis_collection(analysis_collection_json, updated_analysis_collection_json):
     """Returns the analysis collection to be mocked"""
     mock_collection = mock_mongo_collection()
     mock_collection.find = Mock(return_value=analysis_collection_json)
+    mock_collection.find_one_and_update = Mock(
+        return_value=updated_analysis_collection_json)
     return AnalysisCollection(mock_collection)
 
 

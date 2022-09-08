@@ -11,7 +11,8 @@ def test_get_units_to_annotate(units_to_annotate):
 
 def test_get_genes_in_units_to_annotate(units_to_annotate):
     """Tests the list of genes returned"""
-    genes = list(filter(lambda x: GenomicUnitType.GENE == x["type"], units_to_annotate))
+    genes = list(filter(lambda x: GenomicUnitType.GENE ==
+                 x["type"], units_to_annotate))
     gene_names = list(map(lambda x: x["unit"], genes))
     assert len(gene_names) == 2
     assert "VMA21" in gene_names
@@ -20,7 +21,8 @@ def test_get_genes_in_units_to_annotate(units_to_annotate):
 
 def test_get_variants_in_units_to_annotate(units_to_annotate):
     """Tests the list of variants returned"""
-    variants = list(filter(lambda x: GenomicUnitType.HGVS_VARIANT == x["type"], units_to_annotate))
+    variants = list(
+        filter(lambda x: GenomicUnitType.HGVS_VARIANT == x["type"], units_to_annotate))
     variant_names = list(map(lambda x: x["unit"], variants))
     assert len(variant_names) == 1
     assert "NM_001017980.3:c.164G>T" in variant_names
@@ -28,7 +30,8 @@ def test_get_variants_in_units_to_annotate(units_to_annotate):
 
 def test_get_transcripts_in_units_to_annotate(units_to_annotate):
     """Tests the list of transcripts returned"""
-    transcripts = list(filter(lambda x: GenomicUnitType.TRANSCRIPT == x["type"], units_to_annotate))
+    transcripts = list(
+        filter(lambda x: GenomicUnitType.TRANSCRIPT == x["type"], units_to_annotate))
     transcript_names = list(map(lambda x: x["unit"], transcripts))
     assert len(transcript_names) == 1
     assert "NM_001017980.3" in transcript_names
