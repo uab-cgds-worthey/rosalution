@@ -68,9 +68,9 @@ class AnalysisCollection:
 
     def update_analysis(self, name: str, updated_analysis_data: dict):
         """Updates an existing analysis"""
-        update_response = self.collection.find_one_and_update({"name": name},
-                                                              {"$set": updated_analysis_data},
-                                                              return_document=ReturnDocument.AFTER)
+        updated_document = self.collection.find_one_and_update({"name": name},
+                                                               {"$set": updated_analysis_data},
+                                                               return_document=ReturnDocument.AFTER)
         # remove the _id field from the returned document since it is not JSON serializable
-        update_response.pop("_id", None)
-        return update_response
+        updated_document.pop("_id", None)
+        return updated_document
