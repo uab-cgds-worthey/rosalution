@@ -3,8 +3,8 @@ import concurrent
 import queue
 
 from .annotation_task import AnnotationTaskFactory
-from .core.analysis import Analysis
-from .repository.annotation_config_collection import AnnotationConfigCollection
+from ..models.analysis import Analysis
+from ..repository.annotation_config_collection import AnnotationConfigCollection
 
 # Creating a callable wrapper for an instance for FastAPI dependency injection
 # pylint: disable=too-few-public-methods

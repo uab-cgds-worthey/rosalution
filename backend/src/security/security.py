@@ -9,7 +9,7 @@ from fastapi.security import OAuth2PasswordBearer, SecurityScopes
 from passlib.context import CryptContext
 
 from .. import constants
-from ..core.token import TokenData
+from ..models.token import TokenData
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

@@ -4,10 +4,10 @@ from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
 
-from ..core.analysis import Analysis, AnalysisSummary
-from ..core.phenotips_json import BasePhenotips
+from ..core.phenotips_importer import PhenotipsImporter
 from ..dependencies import database
-from ..phenotips_importer import PhenotipsImporter
+from ..models.analysis import Analysis, AnalysisSummary
+from ..models.phenotips_json import BasePhenotips
 
 # This is temporarily changed as security is removed for the analysis endpoints to make development easier
 # Change line 18 to the following to enable security:

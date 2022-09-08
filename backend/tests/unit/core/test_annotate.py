@@ -2,9 +2,9 @@
 from unittest.mock import Mock, patch
 import pytest
 
-from src.annotation_task import AnnotationTaskInterface, HttpAnnotationTask, NoneAnnotationTask
+from src.core.annotation import AnnotationService
+from src.core.annotation_task import AnnotationTaskInterface, HttpAnnotationTask, NoneAnnotationTask
 from src.enums import GenomicUnitType
-from src.annotation import AnnotationService
 
 
 def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_collection):
@@ -22,8 +22,8 @@ def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_col
 # the mock overide of the 'annotate' function on DataSetSource is valid either.
 
 
-@patch("src.annotation.log_to_file")
-@patch("src.annotation_task.AnnotationTaskInterface.extract")
+@patch("src.core.annotation.log_to_file")
+@patch("src.core.annotation_task.AnnotationTaskInterface.extract")
 def test_processing_cpam0046_annotation_tasks(log_to_file_mock, annotate_extract_mock, cpam0046_annotation_queue):  # pylint: disable=unused-argument
     """Verifies that each item on the annotation queue is read and executed"""
     mock_genomic_unit_collection = Mock()
@@ -45,8 +45,8 @@ def test_processing_cpam0046_annotation_tasks(log_to_file_mock, annotate_extract
     assert HttpAnnotationTask.extract.call_count == 19 # pylint: disable=no-member
 
 
-@patch("src.annotation.log_to_file")
-@patch("src.annotation_task.AnnotationTaskInterface.extract",return_value=[{
+@patch("src.core.annotation.log_to_file")
+@patch("src.core.annotation_task.AnnotationTaskInterface.extract",return_value=[{
         'data_set': 'mock_datset',
         'data_source': 'mock_source',
         'version': '0.0',

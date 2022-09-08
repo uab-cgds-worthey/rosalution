@@ -4,7 +4,7 @@
 from pydantic import BaseSettings
 from pymongo import MongoClient
 
-from .annotation import AnnotationQueue
+from .core.annotation import AnnotationQueue
 from .database import Database
 
 

@@ -2,9 +2,9 @@
 
 from fastapi import APIRouter, Depends, BackgroundTasks, HTTPException, status
 
-from ..annotation import AnnotationService
+from ..core.annotation import AnnotationService
 from ..dependencies import database, annotation_queue
-from ..core.analysis import Analysis
+from ..models.analysis import Analysis
 
 router = APIRouter(
     prefix="/annotate",

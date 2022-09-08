@@ -6,7 +6,7 @@ from fastapi import Depends, FastAPI
 
 from starlette.middleware.sessions import SessionMiddleware
 
-from .routers import analysis, annotation, auth
+from .routers import analysis_router, annotation_router, auth_router
 
 from .dependencies import database, annotation_queue
 
@@ -45,9 +45,9 @@ app = FastAPI(
     root_path="/rosalution/api/",
 )
 
-app.include_router(analysis.router, dependencies=[Depends(database)])
-app.include_router(annotation.router, dependencies=[Depends(database), Depends(annotation_queue)])
-app.include_router(auth.router)
+app.include_router(analysis_router.router, dependencies=[Depends(database)])
+app.include_router(annotation_router.router, dependencies=[Depends(database), Depends(annotation_queue)])
+app.include_router(auth_router.router)
 
 app.add_middleware(SessionMiddleware, secret_key="!secret")
 
