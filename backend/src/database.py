@@ -2,6 +2,7 @@
 # pylint: disable=too-few-public-methods
 # This wrapper is intended to create a callable instance for FastAPI Depedency Injection
 # there is no need to include any additional methods
+import gridfs
 from .repository.user_collection import UserCollection
 from .repository.analysis_collection import AnalysisCollection
 from .repository.annotation_config_collection import AnnotationConfigCollection
@@ -35,6 +36,7 @@ class Database:
             "annotation_config": AnnotationConfigCollection(self.database['annotations_config']),
             "genomic_unit": GenomicUnitCollection(self.database['genomic_units']),
             "user": UserCollection(self.database['users']),
+            "bucket": gridfs.GridFS(self.database)
         }
 
     def __call__(self):
