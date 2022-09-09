@@ -63,7 +63,7 @@ describe('HeaderComponent.vue', () => {
     expect(icon.exists()).to.be.true;
   });
 
-  it('should not render the menu actions icon if no actions are provided, but user icon should exist', () => {
+  it('should render user icon and not render menu actions icon when no actions exist', () => {
     const wrapper = getMountedComponent();
     const icons = wrapper.findAllComponents('font-awesome-icon-stub');
     expect(icons.length).to.equal(1);
