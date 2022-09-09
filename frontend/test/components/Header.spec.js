@@ -63,18 +63,10 @@ describe('HeaderComponent.vue', () => {
     expect(icon.exists()).to.be.true;
   });
 
-  it('should not render the menu actions icon if no actions are provided', () => {
+  it('should render user icon and not render menu actions icon when no actions exist', () => {
     const wrapper = getMountedComponent();
-    const icon = wrapper.findComponent('font-awesome-icon-stub');
-    expect(icon.exists()).to.not.be.true;
-  });
-
-  it('should display "Login" in the upper right hand corner if username is a blank string', async () => {
-    const wrapper = getMountedComponent();
-
-    const userMenuWrapper = wrapper.find('[data-test=user-menu]');
-
-    expect(userMenuWrapper.text()).to.contain('LOGIN');
+    const icons = wrapper.findAllComponents('font-awesome-icon-stub');
+    expect(icons.length).to.equal(1);
   });
 
   it('should properly display the username in the upper right hand corner', async () => {

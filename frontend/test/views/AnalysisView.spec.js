@@ -3,7 +3,6 @@ import {shallowMount} from '@vue/test-utils';
 import sinon from 'sinon';
 
 import Analyses from '@/models/analyses.js';
-import User from '@/models/user.js';
 
 import AnalysisView from '@/views/AnalysisView.vue';
 
@@ -11,7 +10,6 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 describe('AnalysisView', () => {
   let mockedData;
-  let mockedUser;
   let wrapper;
 
   const mockRoute = {
@@ -27,9 +25,6 @@ describe('AnalysisView', () => {
   beforeAll(() => {
     mockedData = sinon.stub(Analyses, 'getAnalysis');
     mockedData.returns(fixtureData());
-
-    mockedUser = sinon.stub(User, 'getUser');
-    mockedUser.returns('');
 
     const defaultProps = {analysis_name: 'CPAM0046'};
 

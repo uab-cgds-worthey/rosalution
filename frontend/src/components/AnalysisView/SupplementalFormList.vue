@@ -51,8 +51,7 @@ export default {
   name: 'supplemental-form',
   data() {
     return {
-      attachments: [
-      ],
+      attachments: [],
       showModal: false,
     };
   },

@@ -32,7 +32,7 @@ import Analyses from '@/models/analyses.js';
 import AnalysisCard from '../components/AnalysisListing/AnalysisCard.vue';
 import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
 import AnalysisListingLegend from '../components/AnalysisListing/AnalysisListingLegend.vue';
-import User from '../models/user';
+import Auth from '../models/authentication.js';
 
 export default {
   name: 'analysis-listing-view',
@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     async getUsername() {
-      const fetchUser = await User.getUser();
+      const fetchUser = await Auth.getUser();
       console.log(fetchUser);
       this.username = fetchUser['username'];
     },

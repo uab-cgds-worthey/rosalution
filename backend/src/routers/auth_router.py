@@ -83,7 +83,6 @@ def logout(request: Request):
 
 ## OAuth2 Login ##
 
-
 @router.post("/token")
 def login_oauth(
     request: Request,

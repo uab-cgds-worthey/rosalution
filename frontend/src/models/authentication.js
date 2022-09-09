@@ -28,7 +28,7 @@ export default {
 
   /* OAuth2 Login Functions */
 
-  async login(data) {
+  async loginOAuth(data) {
     const baseUrl = '/rosalution/api/';
     const urlQuery = 'auth/token';
     const body = await Requests.postLogin(baseUrl + urlQuery, data);
@@ -60,6 +60,22 @@ export default {
     if ('errors' in body) {
       const errorString = body.data.errors.map((error) => error.message).join('; ');
       throw new Error('Failed to logout: ' + errorString);
+    }
+
+    return body;
+  },
+
+  /* User specific endpoints */
+
+  async getUser() {
+    const baseUrl = '/rosalution/api/';
+    const urlQuery = 'auth/get_user';
+
+    const body = await Requests.get(baseUrl + urlQuery);
+
+    if ('errors' in body) {
+      const errorString = body.data.errors.map((error) => error.message).join('; ');
+      throw new Error('Failed to fetch user: ' + errorString);
     }
 
     return body;

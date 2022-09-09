@@ -7,11 +7,15 @@
       <a class="title left-content" href="#top" data-test="header-title-text">{{ titleText }}</a>
       <slot>
       </slot>
-      <span v-if="username" class="login" data-test="user-text">{{ username }}</span>
       <router-link to="/rosalution/login">
-        <button class="login" data-test="user-menu">LOGIN</button>
+        <span v-if="username" class="login" data-test="user-text">{{ username }}</span>
       </router-link>
-      <font-awesome-icon v-if="actionsExist" icon="ellipsis-vertical" size="xl"></font-awesome-icon>
+      <router-link to="/rosalution/login">
+        <button class="login" data-test="user-menu">
+          <font-awesome-icon class="header-icon" icon="user-doctor" size="xl"/>
+        </button>
+      </router-link>
+      <font-awesome-icon v-if="actionsExist" class="header-icon" icon="ellipsis-vertical" size="xl"/>
     </div>
   </header>
 </template>
@@ -82,8 +86,15 @@ header .left-content {
 
 /** todo: need to figure out what this style ought to be */
 .login {
+  border: none;
+  background-color: white;
   font-size: 1.125rem;
   line-height: 2rem;
+  cursor: pointer;
+}
+
+.header-icon {
+  color: var(--rosalution-purple-300);
 }
 
 </style>
