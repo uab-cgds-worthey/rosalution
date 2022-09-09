@@ -31,9 +31,12 @@ export default defineConfig({
         },
       },
     }),
-    strip({
-      include: ['**/*.js','**/*.vue'],
-      labels: ['label'],
-    })
+    {
+      ...strip({
+        include: ['**/*.js','**/*.vue'],
+        labels: ['label']
+      }),
+      apply: 'build'
+    }
   ],
 });

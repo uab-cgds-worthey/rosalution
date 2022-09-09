@@ -1,5 +1,5 @@
-<template>
-    <app-content>
+<template>  
+    <app-content ref="loginPage">
       <img src="@/assets/rosalution-logo.svg" class="rosalution-logo-large" img>
       <h2>
         Rosalution
@@ -22,16 +22,12 @@ import Auth from '../models/authentication.js';
 export default {
   data() {
     return {
-      message: 'Authenticate User',
-      error: '',
       username: '',
       password: '',
     };
   },
   created() {
-    label:
-    document.querySelector('#app').appendChild(document.createTextNode("AAAAAWWWWEEEEESSSSSOOOOOMMMMMEEEEE"));
-    
+    console.log("Am I happening?")
   },
   methods: {
     async developmentLogin() {
