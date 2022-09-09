@@ -2,7 +2,7 @@
     <app-content>
       <img src="@/assets/rosalution-logo.svg" class="rosalution-logo-large" img>
       <span style="font-weight: bold; font-size: 30px; margin-top: 10px;">Rosalution</span>
-      <span class= "" style="font-weight: 600; font-size: 15px; margin-top: 10px;">Local Development Login</span>
+      <span style="font-weight: 600; font-size: 1rem; margin-top: 10px;">Local Development Login</span>
       <input class="username-input" v-model="username" placeholder="username" data-test="username-input"/>
       <button class="login-local-button" @click="developmentLogin" type="submit" data-test="local-login-button">
         Login
