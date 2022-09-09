@@ -12,10 +12,10 @@
       </router-link>
       <router-link to="/rosalution/login">
         <button class="login" data-test="user-menu">
-          <font-awesome-icon icon="user-doctor" size="xl"/>
+          <font-awesome-icon class="header-icon" icon="user-doctor" size="xl"/>
         </button>
       </router-link>
-      <font-awesome-icon v-if="actionsExist" icon="ellipsis-vertical" size="xl"></font-awesome-icon>
+      <font-awesome-icon v-if="actionsExist" class="header-icon" icon="ellipsis-vertical" size="xl"/>
     </div>
   </header>
 </template>
@@ -91,6 +91,10 @@ header .left-content {
   font-size: 1.125rem;
   line-height: 2rem;
   cursor: pointer;
+}
+
+.header-icon {
+  color: var(--rosalution-purple-300);
 }
 
 </style>
