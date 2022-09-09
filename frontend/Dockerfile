@@ -18,7 +18,7 @@ COPY yarn.lock /app/
 COPY index.html /app/
 COPY vite.config.js /app/
 
-RUN yarn install --frozen-lockfile && yarn build --base=/rosalution/
+RUN yarn install --frozen-lockfile && yarn build --base=/rosalution/ --debug
 
 FROM nginx:1.17.6-alpine as production-stage
 

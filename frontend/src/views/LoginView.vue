@@ -28,6 +28,11 @@ export default {
       password: '',
     };
   },
+  created() {
+    label:
+    document.querySelector('#app').appendChild(document.createTextNode("AAAAAWWWWEEEEESSSSSOOOOOMMMMMEEEEE"));
+    
+  },
   methods: {
     async developmentLogin() {
       // Password is hard coded. Taking it out would require a rewrite of the backend as of now.
