@@ -1,8 +1,10 @@
 <template>
     <app-content>
       <img src="@/assets/rosalution-logo.svg" class="rosalution-logo-large" img>
-      <span style="font-weight: bold; font-size: 30px; margin-top: 10px;">Rosalution</span>
-      <span style="font-weight: 600; font-size: 1rem; margin-top: 10px;">Local Development Login</span>
+      <h2>
+        Rosalution
+      </h2>
+      <span style="font-weight: 600; font-size: 1rem;">Local Development Login</span>
       <input class="username-input" v-model="username" placeholder="username" data-test="username-input"/>
       <button class="login-local-button" @click="developmentLogin" type="submit" data-test="local-login-button">
         Login
@@ -51,21 +53,27 @@ app-content{
   height: 60%;
 }
 
+h2 {
+  font-weight: bold;
+  font-size: 1.875rem;
+  margin-top: 0.625rem;
+}
+
 .rosalution-logo-large {
-  width: 132px;
-  height: 105px;
-  margin-top: 15px;
+  width: 8.25rem;
+  height: 6.563rem;
+  margin-top: 0.938rem;
 }
 
 .username-input {
   text-align: center;
-  font-size: 13px;
-  margin-top: 25px;
+  font-size: 0.813rem;
+  margin-top: 1.563rem;
   border: solid;
-  border-radius: 7px;
+  border-radius: 0.438rem;
   border-color: var(--rosalution-grey-100);
-  width: 150px;
-  height: 27px;
+  width: 9.375rem;
+  height: 1.688rem;
 }
 
 .username-input::placeholder {
@@ -77,12 +85,12 @@ app-content{
   color: var(--rosalution-purple-300);
   font-family: "Proxima Nova", sans-serif;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 1.125rem;
   height: 1.75rem;
   width: 7rem;
   border: none;
-  border-radius: 25px;
-  margin-top: 20px;
+  border-radius: 1.563rem;
+  margin-top: 1.25rem;
 }
 
 .login-local-button:hover {
@@ -90,10 +98,10 @@ app-content{
 }
 
 hr.login-divider {
-  margin-top: 20px;
+  margin-top: 1.25rem;
   border: none;
-  width: 380px;
-  height: 1px;
+  width: 23.75rem;
+  height: 0.063rem;
   background-color: var(--rosalution-grey-200);
 }
 
@@ -102,12 +110,12 @@ hr.login-divider {
   color: var(--rosalution-purple-300);
   font-family: "Proxima Nova", sans-serif;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 1.125rem;
   height: 2.25rem;
   width: 12rem;
   border: none;
-  border-radius: 25px;
-  margin-top: 10px;
+  border-radius: 1.563rem;
+  margin-top: 0.625rem;
 }
 
 .login-uab-button:hover {
