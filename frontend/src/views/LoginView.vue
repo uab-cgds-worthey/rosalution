@@ -1,18 +1,16 @@
 <template>
     <app-content>
-      <div class="center">
-        <img src="@/assets/rosalution-logo.svg" class="rosalution-logo-large" img>
-        <span style="font-weight: bold; font-size: 30px; margin-top: 10px;">Rosalution</span>
-        <span class= "" style="font-weight: 600; font-size: 15px; margin-top: 10px;">Local Development Login</span>
-        <input class="username-input" v-model="username" placeholder="username" data-test="username-input"/>
-        <button class="login-local-button" @click="developmentLogin" type="submit" data-test="local-login-button">
-          Login
-        </button>
-        <hr class="login-divider">
-        <button class="login-uab-button" @click="productionLogin" type="submit" data-test="prod-login-button">
-          UAB LOGIN
-        </button>
-      </div>
+      <img src="@/assets/rosalution-logo.svg" class="rosalution-logo-large" img>
+      <span style="font-weight: bold; font-size: 30px; margin-top: 10px;">Rosalution</span>
+      <span class= "" style="font-weight: 600; font-size: 15px; margin-top: 10px;">Local Development Login</span>
+      <input class="username-input" v-model="username" placeholder="username" data-test="username-input"/>
+      <button class="login-local-button" @click="developmentLogin" type="submit" data-test="local-login-button">
+        Login
+      </button>
+      <hr class="login-divider">
+      <button class="login-uab-button" @click="productionLogin" type="submit" data-test="prod-login-button">
+        UAB LOGIN
+      </button>
     </app-content>
 </template>
 
@@ -43,8 +41,9 @@ export default {
 };
 </script>
 
-<style>
-.center {
+<style scoped>
+
+app-content{
   display: flex;
   flex-direction: column;
   justify-content: center;
