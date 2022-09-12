@@ -1,14 +1,14 @@
 <template>  
-    <app-content ref="loginPage">
+    <app-content>
       <img src="@/assets/rosalution-logo.svg" class="rosalution-logo-large" img>
       <h2>
         Rosalution
       </h2>
-      <span style="font-weight: 600; font-size: 1rem;">Local Development Login</span>
+      <!-- <span style="font-weight: 600; font-size: 1rem;">Local Development Login</span>
       <input class="username-input" v-model="username" placeholder="username" data-test="username-input"/>
       <button class="login-local-button" @click="developmentLogin" type="submit" data-test="local-login-button">
         Login
-      </button>
+      </button> -->
       <hr class="login-divider">
       <button class="login-uab-button" @click="productionLogin" type="submit" data-test="prod-login-button">
         UAB LOGIN
@@ -26,12 +26,57 @@ export default {
       password: '',
     };
   },
-  created() {
-    console.log("Am I happening?")
+  mounted() {
+    let localLoginPage = document.querySelector('h2');
+    console.log(localLoginPage)
+    let localDevelopmentString;
+    let localUsernameInput;
+    let localLoginButton;
+    
+    // label:
+    // localDevelopmentString = document.createElement('div');
+    // localDevelopmentString.innerHTML =
+    //   `<span style="font-weight: 600; font-size: 1rem;">Local Development Login</span>`
+    // localUsernameInput = document.createElement('div');
+    // localUsernameInput.innerHTML = `<input class="username-input" v-model="username" placeholder="username" data-test="username-input"/>`
+    // localLoginButton = document.createElement('div');
+    // localLoginButton.innerHTML = 
+    //   `<button @click="developmentLogin" type="submit" data-test="local-login-button">
+    //     Login
+    //   </button>`
+    // localLoginButton.setAttribute('class', 'login-local-button')
+    // localLoginPage.insertAdjacentElement('afterend', localLoginButton.firstElementChild);
+    // localLoginPage.insertAdjacentElement('afterend', localUsernameInput.firstElementChild);
+    // localLoginPage.insertAdjacentElement('afterend', localDevelopmentString.firstElementChild);
+    
+    
+    localLoginButton = document.createElement("button");
+    
+    localLoginButton.setAttribute('style', '')
+    localLoginButton.setAttribute('style', 'font-family: "Proxima Nova", sans-serif')
+    
+    localLoginButton.setAttribute('style', `
+      background-color: var(--rosalution-purple-100);
+      color: var(--rosalution-purple-300);
+      height: 2.25rem;
+      border-radius: 1.563rem;
+      border: none;
+      width: 12rem;
+      height: 2.25rem;
+      font-size: 1.125rem;
+      font-weight: 700;
+      font-family: "Proxima Nova", sans-serif;
+    `)
+    localLoginButton.addEventListener('click', this.developmentLogin)
+    localLoginButton.innerText = 'Login'
+
+    let parentDiv = localLoginPage.parentNode
+
+    parentDiv.insertBefore(localLoginButton, localLoginPage)
   },
   methods: {
     async developmentLogin() {
-      // Password is hard coded. Taking it out would require a rewrite of the backend as of now.
+      // Password is hard coded. Taking it out would require a rewrite of the backend as of now.      
       if (this.username != '') {
         const userData = {'username': this.username, 'password': 'secret'};
         await Auth.loginOAuth(userData);
