@@ -1,5 +1,5 @@
 import {expect, afterEach, beforeEach, describe, it} from 'vitest';
-import {shallowMount} from '@vue/test-utils';
+import {mount} from '@vue/test-utils';
 
 import Auth from '@/models/authentication.js';
 import sinon from 'sinon';
@@ -18,7 +18,7 @@ function getMountedComponent(props) {
     username: '',
   };
 
-  return shallowMount(LoginView, {
+  return mount(LoginView, {
     props: {...defaultProps, ...props},
     global: {
       components: {

@@ -4,13 +4,12 @@
       <h2>
         Rosalution
       </h2>
-      <!-- <span style="font-weight: 600; font-size: 1rem;">Local Development Login</span>
-      <input class="username-input" v-model="username" placeholder="username" data-test="username-input"/>
-      <button class="login-local-button" @click="developmentLogin" type="submit" data-test="local-login-button">
-        Login
-      </button> -->
-      <hr class="login-divider">
-      <button class="login-uab-button" @click="productionLogin" type="submit" data-test="prod-login-button">
+      <button
+        class="rosalution-button login-uab-button"
+        @click="productionLogin"
+        type="submit"
+        data-test="prod-login-button"
+      >
         UAB LOGIN
       </button>
     </app-content>
@@ -27,56 +26,47 @@ export default {
     };
   },
   mounted() {
-    let localLoginPage = document.querySelector('h2');
-    console.log(localLoginPage)
+    let localLoginPage = document.querySelector('button');
     let localDevelopmentString;
     let localUsernameInput;
     let localLoginButton;
+    let loginDivider;
+    let parentDiv;
     
-    // label:
-    // localDevelopmentString = document.createElement('div');
-    // localDevelopmentString.innerHTML =
-    //   `<span style="font-weight: 600; font-size: 1rem;">Local Development Login</span>`
-    // localUsernameInput = document.createElement('div');
-    // localUsernameInput.innerHTML = `<input class="username-input" v-model="username" placeholder="username" data-test="username-input"/>`
-    // localLoginButton = document.createElement('div');
-    // localLoginButton.innerHTML = 
-    //   `<button @click="developmentLogin" type="submit" data-test="local-login-button">
-    //     Login
-    //   </button>`
-    // localLoginButton.setAttribute('class', 'login-local-button')
-    // localLoginPage.insertAdjacentElement('afterend', localLoginButton.firstElementChild);
-    // localLoginPage.insertAdjacentElement('afterend', localUsernameInput.firstElementChild);
-    // localLoginPage.insertAdjacentElement('afterend', localDevelopmentString.firstElementChild);
-    
-    
+    label:
+    /* Development Login Label */
+    localDevelopmentString = document.createElement("span");
+    localDevelopmentString.setAttribute('style', 'font-weight: 600; font-size: 1rem;');
+    localDevelopmentString.innerText = 'Local Development Login'
+    /* Development Username Input */
+    localUsernameInput = document.createElement("input");
+    localUsernameInput.classList.add('rosalution-input');
+    localUsernameInput.setAttribute('placeholder', 'Username')
+    localUsernameInput.setAttribute(`v-model="username"`)
+    /* Development Login Button */
     localLoginButton = document.createElement("button");
-    
-    localLoginButton.setAttribute('style', '')
-    localLoginButton.setAttribute('style', 'font-family: "Proxima Nova", sans-serif')
-    
-    localLoginButton.setAttribute('style', `
-      background-color: var(--rosalution-purple-100);
-      color: var(--rosalution-purple-300);
-      height: 2.25rem;
-      border-radius: 1.563rem;
+    localLoginButton.classList.add('rosalution-button');
+    localLoginButton.setAttribute('style', 'margin-top: 0.625rem;');
+    localLoginButton.addEventListener('click', this.developmentLogin);
+    localLoginButton.innerText = 'Login';
+    /* The divider line between local and UAB login */
+    loginDivider = document.createElement('hr');
+    loginDivider.setAttribute("style", 
+      `margin-top: 1.25rem;
       border: none;
-      width: 12rem;
-      height: 2.25rem;
-      font-size: 1.125rem;
-      font-weight: 700;
-      font-family: "Proxima Nova", sans-serif;
+      width: 23.75rem;
+      height: 0.063rem;
+      background-color: var(--rosalution-grey-200);
     `)
-    localLoginButton.addEventListener('click', this.developmentLogin)
-    localLoginButton.innerText = 'Login'
-
-    let parentDiv = localLoginPage.parentNode
-
-    parentDiv.insertBefore(localLoginButton, localLoginPage)
+    parentDiv = localLoginPage.parentNode;
+    parentDiv.insertBefore(localDevelopmentString, localLoginPage);
+    parentDiv.insertBefore(localUsernameInput, localLoginPage);
+    parentDiv.insertBefore(localLoginButton, localLoginPage);
+    parentDiv.insertBefore(loginDivider, localLoginPage)
   },
   methods: {
     async developmentLogin() {
-      // Password is hard coded. Taking it out would require a rewrite of the backend as of now.      
+      // Password is hard coded. Taking it out would require a rewrite of the backend as of now.
       if (this.username != '') {
         const userData = {'username': this.username, 'password': 'secret'};
         await Auth.loginOAuth(userData);
@@ -111,56 +101,9 @@ h2 {
   margin-top: 0.938rem;
 }
 
-.username-input {
-  text-align: center;
-  font-size: 0.813rem;
-  margin-top: 1.563rem;
-  border: solid;
-  border-radius: 0.438rem;
-  border-color: var(--rosalution-grey-100);
-  width: 9.375rem;
-  height: 1.688rem;
-}
-
-.username-input::placeholder {
-  color: var(--rosalution-grey-300);
-}
-
-.login-local-button {
-  background-color: var(--rosalution-purple-100);
-  color: var(--rosalution-purple-300);
-  font-family: "Proxima Nova", sans-serif;
-  font-weight: 700;
-  font-size: 1.125rem;
-  height: 1.75rem;
-  width: 7rem;
-  border: none;
-  border-radius: 1.563rem;
-  margin-top: 1.25rem;
-}
-
-.login-local-button:hover {
-  background-color: var(--rosalution-purple-200);
-}
-
-hr.login-divider {
-  margin-top: 1.25rem;
-  border: none;
-  width: 23.75rem;
-  height: 0.063rem;
-  background-color: var(--rosalution-grey-200);
-}
-
 .login-uab-button {
-  background-color: var(--rosalution-purple-100);
-  color: var(--rosalution-purple-300);
-  font-family: "Proxima Nova", sans-serif;
-  font-weight: 700;
-  font-size: 1.125rem;
   height: 2.25rem;
   width: 12rem;
-  border: none;
-  border-radius: 1.563rem;
   margin-top: 0.625rem;
 }
 
