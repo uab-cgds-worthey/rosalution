@@ -33,10 +33,10 @@ export default defineConfig({
     }),
     {
       ...strip({
-        include: ['**/*.js','**/*.vue'],
-        labels: ['label']
+        include: ['**/*.js', '**/*.vue'],
+        labels: ['development'],
       }),
-      apply: 'build'
-    }
+      apply: 'build',
+    },
   ],
 });

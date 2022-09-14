@@ -1,5 +1,5 @@
 import {expect, afterEach, beforeEach, describe, it} from 'vitest';
-import {mount} from '@vue/test-utils';
+import {shallowMount} from '@vue/test-utils';
 
 import Auth from '@/models/authentication.js';
 import sinon from 'sinon';
@@ -18,8 +18,9 @@ function getMountedComponent(props) {
     username: '',
   };
 
-  return mount(LoginView, {
+  return shallowMount(LoginView, {
     props: {...defaultProps, ...props},
+    attachTo: document.body,
     global: {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
