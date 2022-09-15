@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import Analyses from '@/models/analyses.js';
 import Auth from '@/models/authentication.js';
 import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
+import AnalysisCreateCard from '@/components/AnalysisListing/AnalysisCreateCard.vue';
 import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
 import AnalysisListingView from '@/views/AnalysisListingView.vue';
 
@@ -46,6 +47,11 @@ describe('AnalysisListingView', () => {
 
     const appContent = wrapper.find('app-content');
     expect(appContent.exists()).toBe(true);
+  });
+
+  it('Contains an analysis create card', async () => {
+    const createCard = wrapper.findComponent(AnalysisCreateCard);
+    expect(createCard).to.exist;
   });
 
   it('Contains listing of Analyses', async () => {

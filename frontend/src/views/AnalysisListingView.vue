@@ -9,6 +9,7 @@
   </app-header>
   <!--Content-->
   <app-content>
+    <AnalysisCreateCard/>
     <AnalysisCard
       v-for="analysis in searchedAnalysisListing"
       :key="analysis.id"
@@ -30,6 +31,7 @@
 <script>
 import Analyses from '@/models/analyses.js';
 import AnalysisCard from '../components/AnalysisListing/AnalysisCard.vue';
+import AnalysisCreateCard from '@/components/AnalysisListing/AnalysisCreateCard.vue';
 import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
 import AnalysisListingLegend from '../components/AnalysisListing/AnalysisListingLegend.vue';
 import Auth from '../models/authentication.js';
@@ -38,6 +40,7 @@ export default {
   name: 'analysis-listing-view',
   components: {
     AnalysisCard,
+    AnalysisCreateCard,
     AnalysisListingHeader,
     AnalysisListingLegend,
   },
