@@ -18,7 +18,7 @@
   "ethnicity": { "maternal_ethnicity": [], "paternal_ethnicity": [] },
   "date_of_birth": { "year": 2017 },
   "solved": { "status": "unsolved" },
-  "external_id": "C-PAM0074 (GRIN2D)",
+  "external_id": "C-PAM0074",
   "variants": [
     {
       "start_position": "48945923",

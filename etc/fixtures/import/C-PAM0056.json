@@ -21,7 +21,7 @@
   },
   "date_of_birth": { "year": 2002 },
   "solved": { "status": "unsolved" },
-  "external_id": "C-PAM0056 (LAMA2)",
+  "external_id": "C-PAM0056",
   "variants": [
     {
       "start_position": "129835645",

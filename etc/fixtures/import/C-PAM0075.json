@@ -18,7 +18,7 @@
   "ethnicity": { "maternal_ethnicity": [], "paternal_ethnicity": [] },
   "date_of_birth": { "year": 2017 },
   "solved": { "status": "unsolved" },
-  "external_id": "C-PAM0075 (AUTS2)",
+  "external_id": "C-PAM0075",
   "variants": [
     {
       "start_position": "770252380",

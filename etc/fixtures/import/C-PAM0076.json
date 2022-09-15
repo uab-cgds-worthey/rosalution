@@ -18,7 +18,7 @@
   "ethnicity": { "maternal_ethnicity": [], "paternal_ethnicity": [] },
   "date_of_birth": {},
   "solved": { "status": "unsolved" },
-  "external_id": "C-PAM0076 (SETBP1)",
+  "external_id": "C-PAM0076",
   "variants": [
     {
       "start_position": "42531913",
