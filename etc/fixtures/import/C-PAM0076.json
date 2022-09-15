@@ -1,0 +1,155 @@
+{
+  "date": "2022-08-03T01:36:26.000Z",
+  "parental_names": {
+    "paternal_first_name": "",
+    "maternal_first_name": "",
+    "paternal_last_name": "",
+    "maternal_last_name": ""
+  },
+  "apgar": {},
+  "notes": {
+    "family_history": "",
+    "prenatal_development": "",
+    "indication_for_referral": "",
+    "genetic_notes": "",
+    "medical_history": "",
+    "diagnosis_notes": ""
+  },
+  "ethnicity": { "maternal_ethnicity": [], "paternal_ethnicity": [] },
+  "date_of_birth": {},
+  "solved": { "status": "unsolved" },
+  "external_id": "C-PAM0076 (SETBP1)",
+  "variants": [
+    {
+      "start_position": "42531913",
+      "evidence": ["rare", "predicted", "reported"],
+      "gene": "ENSG00000152217",
+      "chromosome": "18",
+      "inheritance": "denovo_germline",
+      "end_position": "42531913",
+      "transcript": "NM_015559.3",
+      "sanger": "NA",
+      "zygosity": "heterozygous",
+      "interpretation": "pathogenic",
+      "reference_genome": "GRCh37",
+      "protein": "p.Gly870Ser",
+      "effect": "missense",
+      "dbsnp": "rs267607040",
+      "cdna": "c.2608G>A",
+      "segregation": "NA"
+    }
+  ],
+  "clinicalStatus": "affected",
+  "disorders": [],
+  "features": [
+    {
+      "id": "HP:0000126",
+      "label": "Hydronephrosis",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001762",
+      "label": "Talipes equinovarus",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0002694",
+      "label": "Sclerosis of skull base",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0005943",
+      "label": "Respiratory arrest",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0008872",
+      "label": "Feeding difficulties in infancy",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0010302",
+      "label": "Spinal cord tumor",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0011800",
+      "label": "Midface retrusion",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0012469",
+      "label": "Infantile spasms",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0012768",
+      "label": "Neonatal asphyxia",
+      "type": "phenotype",
+      "observed": "yes"
+    }
+  ],
+  "date_of_death": {},
+  "contact": [
+    {
+      "name": "User Four",
+      "id": "xwiki:XWiki.affoksinska",
+      "email": "user04@uab.edu"
+    }
+  ],
+  "last_modification_date": "2022-08-30T17:17:56.000Z",
+  "patient_name": { "last_name": "", "first_name": "" },
+  "specificity": {
+    "date": "2022-08-30T21:08:50.972Z",
+    "score": 0.9117832147117026,
+    "server": "local-omim"
+  },
+  "nonstandard_features": [],
+  "id": "P0000035",
+  "prenatal_perinatal_history": {
+    "multipleGestation": null,
+    "icsi": null,
+    "ivf": null,
+    "assistedReproduction_donoregg": null,
+    "assistedReproduction_iui": null,
+    "twinNumber": null,
+    "assistedReproduction_fertilityMeds": null,
+    "gestation": null,
+    "assistedReproduction_surrogacy": null,
+    "assistedReproduction_donorsperm": null
+  },
+  "family_history": {
+    "miscarriages": null,
+    "consanguinity": null,
+    "affectedRelatives": null
+  },
+  "genes": [
+    {
+      "gene": "SETBP1",
+      "id": "ENSG00000152217",
+      "strategy": ["sequencing"],
+      "status": "solved"
+    }
+  ],
+  "life_status": "alive",
+  "sex": "U",
+  "clinical-diagnosis": [],
+  "reporter": "affoksinska",
+  "last_modified_by": "affoksinska",
+  "report_id": "P0000035",
+  "meta": {
+    "hgnc_version": "2020-09-16T16:21:14.971Z",
+    "omim_version": "2018-10-03T17:01:45.970Z",
+    "ordo_version": "3.0",
+    "hpo_version": "hp/releases/2020-08-11",
+    "phenotips_version": "6.9.2.RELEASE"
+  }
+}
