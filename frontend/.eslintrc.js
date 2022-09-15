@@ -13,7 +13,6 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-unused-labels': 'off',
     'max-len': [2, 120, 4],
     'no-invalid-this': 0,
   },

@@ -25,9 +25,6 @@ export default {
       password: '',
     };
   },
-  created() {
-    this.username = '';
-  },
   mounted() {
     /*
     This mounted function is used to turn on and off the development login components. They are unused in the production
@@ -35,53 +32,52 @@ export default {
     and it won't appear in the final product.
     */
 
-    // These cannot be defined under the label, so we need to insiantiate them here and then assign them as needed.
-    const localLoginPage = document.querySelector('button');
-    let localDevelopmentString = null;
-    let localUsernameInput = null;
-    let localLoginButton = null;
-    let loginDivider = null;
-    let parentDiv = null;
-    const that = this;
 
-    // This label is unused in code, so we disabled the 'no-unused-labels' linting rule. It may not be used in code,
-    // but it is certainly used by vite to strip this code if 'vite build' command is ran and will not appear.
-    development:
-    /* Development Login Label */
-    localDevelopmentString = document.createElement('span');
-    localDevelopmentString.setAttribute('style', 'font-weight: 600; font-size: 1rem;');
-    localDevelopmentString.innerText = 'Local Development Login';
-    /* Development Username Input */
-    localUsernameInput = document.createElement('input');
-    localUsernameInput.classList.add('rosalution-input');
-    localUsernameInput.setAttribute('placeholder', 'Username');
-    localUsernameInput.setAttribute('id', 'username-input-id');
-    localUsernameInput.setAttribute('data-test', 'username-input');
-    localUsernameInput.addEventListener('input', function(text) {
-      const inputText = document.getElementById('username-input-id').value;
-      that.username = inputText;
-    });
-    /* Development Login Button */
-    localLoginButton = document.createElement('button');
-    localLoginButton.classList.add('rosalution-button');
-    localLoginButton.setAttribute('style', 'margin-top: 0.625rem;');
-    localLoginButton.setAttribute('data-test', 'local-login-button');
-    localLoginButton.addEventListener('click', this.developmentLogin);
-    localLoginButton.innerText = 'Login';
-    /* The divider line between local and UAB login */
-    loginDivider = document.createElement('hr');
-    loginDivider.setAttribute('style',
-        `margin-top: 1.25rem;
-      border: none;
-      width: 23.75rem;
-      height: 0.063rem;
-      background-color: var(--rosalution-grey-200);
-    `);
-    parentDiv = localLoginPage.parentNode;
-    parentDiv.insertBefore(localDevelopmentString, localLoginPage);
-    parentDiv.insertBefore(localUsernameInput, localLoginPage);
-    parentDiv.insertBefore(localLoginButton, localLoginPage);
-    parentDiv.insertBefore(loginDivider, localLoginPage);
+    development: { // eslint-disable-line no-unused-labels
+      const that = this;
+
+      /* Development Login Label */
+      const localDevelopmentString = document.createElement('span');
+      localDevelopmentString.setAttribute('style', 'font-weight: 600; font-size: 1rem;');
+      localDevelopmentString.innerText = 'Local Development Login';
+
+      /* Development Username Input */
+      const localUsernameInput = document.createElement('input');
+      localUsernameInput.classList.add('rosalution-input');
+      localUsernameInput.setAttribute('placeholder', 'Username');
+      localUsernameInput.setAttribute('id', 'username-input-id');
+      localUsernameInput.setAttribute('data-test', 'username-input');
+      localUsernameInput.addEventListener('input', function(text) {
+        const inputText = document.getElementById('username-input-id').value;
+        that.username = inputText;
+      });
+
+      /* Development Login Button */
+      const localLoginButton = document.createElement('button');
+      localLoginButton.classList.add('rosalution-button');
+      localLoginButton.setAttribute('style', 'margin-top: 0.625rem;');
+      localLoginButton.setAttribute('data-test', 'local-login-button');
+      localLoginButton.addEventListener('click', this.developmentLogin);
+      localLoginButton.innerText = 'Login';
+
+      /* The divider line between local and UAB login */
+      const loginDivider = document.createElement('hr');
+      loginDivider.setAttribute('style',
+          `margin-top: 1.25rem;
+        border: none;
+        width: 23.75rem;
+        height: 0.063rem;
+        background-color: var(--rosalution-grey-200);
+      `);
+
+      const localLoginPage = document.querySelector('button');
+
+      const parentDiv = localLoginPage.parentNode;
+      parentDiv.insertBefore(localDevelopmentString, localLoginPage);
+      parentDiv.insertBefore(localUsernameInput, localLoginPage);
+      parentDiv.insertBefore(localLoginButton, localLoginPage);
+      parentDiv.insertBefore(loginDivider, localLoginPage);
+    }
   },
   methods: {
     async developmentLogin() {
