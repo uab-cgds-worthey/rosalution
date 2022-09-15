@@ -1,10 +1,10 @@
 <template>
     <div class="analysis-create-card">
         <button @click="createAnalysisClicked" data-test="create-analysis-button">
-        <div class="analysis-base" :style="cardBorderColorStyle">
-            <span style="margin-top: 1rem">Create New Analysis</span>
-            <font-awesome-icon icon="plus" size="8x" class="create-card-icon"></font-awesome-icon>
-        </div>
+          <div class="analysis-base" :style="cardBorderColorStyle">
+              <span style="margin-top: 1rem">Create New Analysis</span>
+              <font-awesome-icon icon="plus" size="8x" class="create-card-icon"></font-awesome-icon>
+          </div>
         </button>
     </div>
   </template>
@@ -39,6 +39,11 @@ export default {
     color: var(--rosalution-black)
   }
 
+  button {
+    border:none;
+    background: none;
+  }
+
   .analysis-create-card {
     position: relative;
     text-decoration: none;
@@ -47,6 +52,11 @@ export default {
   .analysis-base:hover {
     box-shadow: 0 0.5em 0.5em -0.4em;
     transform: translateY(-0.4em);
+  }
+
+  .analysis-base:active {
+    transform: translateY(0em);
+    transition: all .1s ease-in-out;
   }
 
   .analysis-base {
