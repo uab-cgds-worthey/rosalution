@@ -57,6 +57,7 @@ def update_analysis(name: str, analysis_data_changes: dict, rosalution_db=Depend
 
 @router.post("/import_file")
 async def create_file(phenotips_file: Union[bytes, None] = File(default=None), rosalution_db=Depends(database)):
+    """ Imports a .json file for a phenotips case """
     # Quick and dirty json loads
     phenotips_input = BasePhenotips(**json.loads(phenotips_file))
 

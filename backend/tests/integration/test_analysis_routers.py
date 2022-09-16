@@ -1,7 +1,7 @@
 """Analysis Routes Integration test"""
 
-import pytest
 import os
+import pytest
 from ..test_utils import read_database_fixture, read_test_fixture
 
 
@@ -52,26 +52,28 @@ def test_create_analysis(client, mock_access_token, database_collections, export
     assert response.status_code == 200
 
 def test_create_analysis_with_file(client, mock_access_token, database_collections):
+    """ Testing if the create analysis function works with file upload """
     database_collections["analysis"].collection.insert_one.return_value = True
     database_collections["analysis"].collection.find_one.return_value = None
     database_collections["genomic_unit"].collection.find_one.return_value = None
 
-    # This is used here because the 'read_fixture' returns a json dict
+    # This is used here because the 'read_fixture' returns a json dict rather than raw binary
     # We actually want to send a binary file through the endpoint to simulate a file being sent
-    # json.loads is used on the other end in the repository.
+    # then json.loads is used on the other end in the repository.
     # This'll get updated and broken out in the test_utils in the future
     path_to_current_file = os.path.realpath(__file__)
     current_directory = os.path.split(path_to_current_file)[0]
     path_to_file = os.path.join(
     current_directory, '../fixtures/' + 'phenotips-import.json')
 
-    f = open(path_to_file, "rb")
+    with open(path_to_file, "rb") as phenotips_file:
+        response  = client.post(
+            "/analysis/import_file",
+            headers={"Authorization": "Bearer " + mock_access_token},
+            files={"phenotips_file": ("phenotips-import.json", phenotips_file.read())}
+        )
 
-    response  = client.post(
-        "/analysis/import_file",
-        headers={"Authorization": "Bearer " + mock_access_token},
-        files={"phenotips_file": ("phenotips-import.json", f.read())}
-    )
+        phenotips_file.close()
 
     assert response.status_code == 200
 
