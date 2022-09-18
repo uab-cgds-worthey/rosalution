@@ -9,7 +9,9 @@
   </app-header>
   <!--Content-->
   <app-content>
-    <AnalysisCreateCard/>
+    <AnalysisCreateCard
+      @click="showModal = !showModal"
+    />
     <AnalysisCard
       v-for="analysis in searchedAnalysisListing"
       :key="analysis.id"
@@ -23,6 +25,12 @@
     />
   </app-content>
   <app-footer>
+    <PhenotipsImportModal
+      v-if="showModal"
+      v-on:close="showModal = !showModal"
+      v-on:upload="this.importPhenotipsAnalysis"
+      data-test="modal-dialog"
+    />
     <AnalysisListingLegend/>
   </app-footer>
 </div>
@@ -30,11 +38,13 @@
 
 <script>
 import Analyses from '@/models/analyses.js';
-import AnalysisCard from '../components/AnalysisListing/AnalysisCard.vue';
+import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
 import AnalysisCreateCard from '@/components/AnalysisListing/AnalysisCreateCard.vue';
 import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
-import AnalysisListingLegend from '../components/AnalysisListing/AnalysisListingLegend.vue';
+import AnalysisListingLegend from '@/components/AnalysisListing/AnalysisListingLegend.vue';
+import PhenotipsImportModal from '@/components/AnalysisListing/PhenotipsImportModal.vue';
 import Auth from '../models/authentication.js';
+
 
 export default {
   name: 'analysis-listing-view',
@@ -43,12 +53,14 @@ export default {
     AnalysisCreateCard,
     AnalysisListingHeader,
     AnalysisListingLegend,
+    PhenotipsImportModal,
   },
   data: function() {
     return {
       searchQuery: '',
       analysisList: [],
       username: '',
+      showModal: false,
     };
   },
   computed: {
@@ -94,6 +106,10 @@ export default {
     },
     onSearch(query) {
       this.searchQuery = query;
+    },
+    importPhenotipsAnalysis(file) {
+      this.showModal = !this.showModal;
+      Analyses.importPhenotipsAnalysis(file[0]);
     },
   },
 };

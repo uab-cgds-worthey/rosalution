@@ -25,12 +25,13 @@ export default {
       headers: {'Content-Type': 'application/json'},
       mode: 'cors',
       cache: 'no-cache',
-      body: JSON.stringify({query: data}),
+      body: JSON.stringify(data),
     });
+    const content = await response.json();
     if ( response.ok != true ) {
-      throw new Error('Status Code: ' +response.status +' '+response.statusText);
+      throw new Error('Status Code: ' +response.status +' '+response.statusText + '\n' + JSON.stringify(content));
     }
-    return await response.json();
+    return content;
   },
   // TODO: Need to find a way to craft the body of the request more elegantly
   // Needs to allow for granting specific scope types dynamically?

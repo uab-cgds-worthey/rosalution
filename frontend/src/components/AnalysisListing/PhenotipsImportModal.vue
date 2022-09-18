@@ -1,69 +1,39 @@
 <template>
   <div>
-    <div class="modal-background" @click="closeModal()"></div>
+    <div class="modal-background" @click="$emit('close')"></div>
     <div class="modal-container">
-      <a title="Cancel" class="cancel-item" @click="cancelModal()" data-test="cancel-modal" >
-        Cancel
-      </a>
-      <a title="Add" class="addbutton-item" @click="addAttachment()" data-test="add-button" >
-        Add
-      </a >
+      <button title="Cancel" class="cancelbutton" @click="$emit('close')" data-test="cancel-modal">Cancel</button>
+      <button title="Add" class="addbutton" @click="onAddFile" data-test="add-button">Add</button>
       <div class="content-item">
         <br />
-        <!-- Leaving here for tabbed in the future -->
         <div class="tab-container">
           <div class="tab-buttons">
-            <span class="link-tab-container">
-              <button class="file-upload" data-test="file-upload-button">
-                <img src="@/assets/phenotips-favicon-96x96.svg" />
-              </button>
-            </span>
+              <img class="phenotips-icon" src="@/assets/phenotips-favicon-96x96.png">
           </div>
         </div>
         <form ref="modal">
-          <div class="supplemental-load-file-container">
-            <div class="drop-file-box" @dragover="dragover" @drop="drop">
-              <div v-if="!fileUploaded || !fileUploaded.length">
-                Drag & drop or
-                <input
-                  type="file"
-                  id="attachFileBtn"
-                  @change="onFileChange"
-                  ref="file"
-                  accept=".pdf, .jpg, .jpeg, .png"
-                  data-test="attach-file-button"
-                  hidden
-                />
-                <label for="attachFileBtn" id="browseBtn"> browse </label>
-              </div>
-              <div>
-                <tbody v-if="this.fileUploaded.length" v-cloak>
-                  <tr v-for="file in fileUploaded" v-bind:key="file.name" id="fileName">
-                    {{
-                      file.name
-                    }}
-                    <button
-                      type="button"
-                      @click="remove(fileUploaded)"
-                      title="Remove file"
-                      id="removeBtn"
-                    >
-                      remove
-                    </button>
-                  </tr>
-                </tbody>
-              </div>
+          <div class="drop-file-box" @dragover="dragover" @drop="drop">
+            <div v-if="!fileUploaded || !fileUploaded.length">
+              Drag & drop or
+              <input
+                type="file"
+                id="attachFileBtn"
+                @change="onFileChange"
+                ref="file"
+                accept=".json"
+                data-test="attach-file-button"
+                hidden
+              />
+              <label for="attachFileBtn" id="browseBtn"> browse </label>
             </div>
-            <div>
-              <textarea
-                placeholder="Comments"
-                id="commentsBox"
-                @change="onCommentChange"
-                v-model="comments"
-                data-test="comments-text-area"
-              >
-              </textarea>
-            </div>
+            <tbody v-if="this.fileUploaded.length" v-cloak>
+              <tr v-for="file in this.fileUploaded" v-bind:key="file.name" id="fileName">
+                {{ file.name }}
+                <button type="button" @click="remove(fileUploaded)" title="Remove file" id="removeBtn">
+                  remove
+                </button>
+              </tr>
+            </tbody>
           </div>
         </form>
       </div>
@@ -73,33 +43,53 @@
 
 <script>
 export default {
-  name: "modal-dialog",
+  name: 'phenotips-modal-dialog',
   components: {},
-  data: function () {
+  data: function() {
     return {
-      name: "",
-      type: "",
-      data: null,
-      comments: "",
-      showFile: true,
-      showLink: false,
+      fileUploaded: '',
     };
   },
   created() {},
   methods: {
-    cancelModal() {
-      this.$emit("cancelmodal");
+    onFileChange() {
+      console.log('file changed')
+      this.fileUploaded = this.$refs.file.files;
+      console.log(this.fileUploaded)
     },
-    getFile(fileUploaded) {
-      this.data = fileUploaded[0];
-      this.name = fileUploaded[0].name;
-      this.type = "file";
+    remove(i) {
+      console.log('removing it!')
+      this.fileUploaded = '';
+    },
+    dragover(event) {
+      event.preventDefault();
+    },
+    dragleave(event) {
+      // event.preventDefault();
+    },
+    drop(event) {
+      event.preventDefault();
+      if (!this.fileUploaded || !this.fileUploaded.length) {
+        this.$refs.file.files = event.dataTransfer.files;
+        this.onFileChange();
+      }
+    },
+    onAddFile() {
+      this.$emit('upload', this.fileUploaded);
     },
   },
 };
 </script>
 
 <style scoped>
+
+button {
+  border: none;
+  background: none;
+}
+
+.phenotips-icon {
+  height:24px}
 .modal-background {
   position: fixed;
   top: 0;
@@ -119,7 +109,7 @@ export default {
   grid-template-areas:
     "header header header"
     "main main main"
-    "remove cancel addbutton";
+    "remove cancelbutton addbutton";
   background-color: var(--rosalution-white);
   font-weight: 600;
   font-size: 1rem;
@@ -131,17 +121,11 @@ export default {
   transform: translate(-50%, -50%);
 }
 
-.header-item {
-  grid-area: header;
-  font-size: 150%;
-  margin: 25px;
-}
-
 .content-item {
   grid-area: main;
 }
 
-.addbutton-item {
+.addbutton {
   grid-area: addbutton;
   background-color: var(--rosalution-purple-100);
   border-radius: 2rem;
@@ -154,8 +138,8 @@ export default {
   margin: 1.5rem;
 }
 
-.cancel-item {
-  grid-area: cancel;
+.cancelbutton {
+  grid-area: cancelbutton;
   text-decoration: none;
   font-size: 100%;
   font-weight: bold;
@@ -176,11 +160,6 @@ small {
   color: var(--rosalution-grey-200);
 }
 
-.supplemental-load-file-container {
-  width: fit-content;
-  height: fit-content;
-}
-
 .tab-container {
   text-align: center;
   vertical-align: middle;
@@ -198,35 +177,6 @@ small {
   width: 154px;
   border-radius: 7px;
   height: 36px;
-}
-
-.link-tab-button {
-  background-color: var(--rosalution-white);
-  border: none;
-  border-right: 1px var(--rosalution-grey-100) solid;
-  text-align: center;
-  vertical-align: middle;
-  align-items: center;
-  width: 73px;
-  height: 36px;
-  color: var(--rosalution-grey-300);
-}
-
-.link-tab-button_focused {
-  color: var(--rosalution-blue-150) !important;
-}
-
-.file-tab-button {
-  background-color: white;
-  border: none;
-  border-left: 1px var(--rosalution-grey-100) solid;
-  text-align: center;
-  vertical-align: middle;
-  align-items: center;
-  width: 73px;
-  height: 36px;
-  padding: 0%;
-  color: var(--rosalution-grey-300);
 }
 
 .drop-file-box {
