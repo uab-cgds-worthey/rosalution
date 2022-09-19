@@ -68,15 +68,15 @@ async def create_file(phenotips_file: Union[bytes, None] = File(default=None), r
         raise HTTPException(status_code=409) from exception
 
 @router.post("/upload/{name}")
-def upload(name: str, file: UploadFile = File(...), comments: str = Form(...), rosalution_db=Depends(database)):
+def upload(name: str, upload_file: UploadFile = File(...), comments: str = Form(...), rosalution_db=Depends(database)):
     """Uploads a file to the server"""
     try:
-        contents = file.file.read()
-        with open(file.filename, "wb") as f:
-            f.write(contents)
+        contents = upload_file.file.read()
+        with open(upload_file.filename, "wb") as working_file:
+            working_file.write(contents)
     except Exception as exception:
         raise HTTPException(status_code=500) from exception
     finally:
-        file.file.close()
+        upload_file.file.close()
 
-    return rosalution_db["analysis"].add_file(name, file.filename, comments)
+    return rosalution_db["analysis"].add_file(name, upload_file.filename, comments)

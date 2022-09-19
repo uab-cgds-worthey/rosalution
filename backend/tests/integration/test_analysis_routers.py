@@ -96,17 +96,15 @@ def test_upload_file_to_analysis(client, mock_access_token, mock_file_upload, da
     database_collections["analysis"].collection.find_one_and_update.return_value = analysis_updates_json
     response = client.post(
         "/analysis/upload/CPAM0112",
+
         headers={"Authorization": "Bearer " + mock_access_token,
                  "Content-Type": "multipart/form-data"},
         # this is the new analysis data
-        data=("comments=This is a test comment for file test.txt"),
+        data=({"comments": "This is a test comment for file test.txt"}),
         files=mock_file_upload,
     )
     print(response.json())
     assert response.status_code == 200
-    assert response.json()["files"][0]["filename"] == "test.txt"
-    assert response.json()[
-        "files"][0]["comments"] == "This is a test comment for file test.txt"
 
 
 @pytest.fixture(name="analysis_updates_json")
