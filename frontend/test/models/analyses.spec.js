@@ -7,9 +7,11 @@ import sinon from 'sinon';
 describe('analyses.js', () => {
   const sandbox = sinon.createSandbox();
   let mockGetRequest;
+  let mockPostFormResponse;
 
   beforeEach(() => {
     mockGetRequest = sandbox.stub(Requests, 'get');
+    mockPostFormResponse = sandbox.stub(Requests, 'postForm');
   });
 
   afterEach(() => {
@@ -31,10 +33,10 @@ describe('analyses.js', () => {
     expect(specificAnalysis.nominated_by).to.equal('Dr. Person One');
   });
 
-  it('Formats the formData to be sent off and saved', async () => {
-    const fakeFormInput = await Analyses.saveAnalysis(incomingCreateAnalysisFormFixture);
-
-    expect(fakeFormInput).to.not.be.undefined;
+  it('Imports a browser file to the Analysis API succesfully', async () => {
+    mockPostFormResponse.returns({sucess: 'yay'});
+    await Analyses.importPhenotipsAnalysis(incomingCreateAnalysisFormFixture);
+    expect(mockPostFormResponse.called).to.be.true;
   });
 });
 

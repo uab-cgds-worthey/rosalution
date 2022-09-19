@@ -3,58 +3,22 @@ export default {
   async all() {
     const baseUrl = '/rosalution/api/';
     const urlQuery = 'analysis/summary';
-    const body = await Requests.get(baseUrl + urlQuery);
-    if ('errors' in body) {
-      const errorString = body.data.errors.map((error) => error.message).join('; ');
-      throw new Error('Failed to fetch analyses: ' + errorString);
-    }
-    return body;
+    return await Requests.get(baseUrl + urlQuery);
   },
 
   async getAnalysis(analysisName) {
     const baseUrl = '/rosalution/api/';
     const urlQuery = 'analysis/' + analysisName;
-    const body = await Requests.get(baseUrl + urlQuery);
-    if ('errors' in body) {
-      const errorString = body.data.errors.map((error) => error.message).join('; ');
-      throw new Error('Failed to fetch analyses: ' + errorString);
-    }
-    return body;
+    return await Requests.get(baseUrl + urlQuery);
   },
 
-  async saveAnalysis(formData) {
-    // Linting - Assigned but never used
-    // const url = '/sample/analysis';
+  async importPhenotipsAnalysis(file) {
+    const url = '/rosalution/api/analysis/import_file';
 
-    const formInput = {
-      analysisJson: {
-        name: formData.name,
-        description: formData.description,
-        samples: [],
-        annotations: {
-          case_type: 'proband',
-          granting_source: 'UW Madison',
-          comments: 'IT will be what it must be',
-        },
-      },
+    const fileUploadFormData = {
+      'phenotips_file': file,
     };
 
-    formData.samples.forEach((sample, index) => {
-      formInput.analysisJson.samples.push(sample.name);
-
-      const sampleFormFieldName = `sample${index + 1}Json`;
-      formInput[sampleFormFieldName] = JSON.stringify({
-        name: sample.name,
-        sources: sample.sources,
-      });
-
-      formInput.analysisJson = JSON.stringify(formInput.analysisJson);
-    });
-
-    // Here is where we posting a request with our formatted formInput and URL
-    // await Requests.postForm(url, formInput);
-
-    // Returning for now to ensure data is correct
-    return formInput;
+    return Requests.postForm(url, fileUploadFormData);
   },
 };

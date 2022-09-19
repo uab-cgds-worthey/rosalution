@@ -56,7 +56,7 @@ export default {
     },
     drop(event) {
       event.preventDefault();
-      if (!this.fileUploaded || !this.fileUploaded.length) {
+      if (!this.fileUploaded) {
         this.$refs.file.files = event.dataTransfer.files;
         this.onFileChange();
       }

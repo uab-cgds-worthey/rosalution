@@ -1,6 +1,6 @@
 <template>
     <div class="analysis-create-card">
-        <button @click="createAnalysisClicked" data-test="create-analysis-button">
+        <button data-test="create-analysis-button">
           <div class="analysis-base" :style="cardBorderColorStyle">
               <span style="margin-top: 1rem">Create New Analysis</span>
               <font-awesome-icon icon="plus" size="8x" class="create-card-icon"></font-awesome-icon>
@@ -19,12 +19,6 @@ export default {
         'border-color': `var(--rosalution-grey-300)`,
         'color': `var(--rosalution-grey-300)`,
       };
-    },
-  },
-  methods: {
-    createAnalysisClicked() {
-      // This is where we'll open a modal for uploading a file to create a analysis
-      console.log('Opening create analysis modal...');
     },
   },
 };
