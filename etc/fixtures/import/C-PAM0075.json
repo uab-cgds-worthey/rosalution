@@ -1,0 +1,153 @@
+{
+  "date": "2022-08-03T01:24:28.000Z",
+  "parental_names": {
+    "paternal_first_name": "",
+    "maternal_first_name": "",
+    "paternal_last_name": "",
+    "maternal_last_name": ""
+  },
+  "apgar": {},
+  "notes": {
+    "family_history": "",
+    "prenatal_development": "",
+    "indication_for_referral": "",
+    "genetic_notes": "",
+    "medical_history": "",
+    "diagnosis_notes": ""
+  },
+  "ethnicity": { "maternal_ethnicity": [], "paternal_ethnicity": [] },
+  "date_of_birth": { "year": 2017 },
+  "solved": { "status": "unsolved" },
+  "external_id": "C-PAM0075",
+  "variants": [
+    {
+      "start_position": "770252380",
+      "gene": "ENSG00000158321",
+      "chromosome": "7",
+      "inheritance": "unknown",
+      "end_position": "770252380",
+      "transcript": "NM_015570.2",
+      "sanger": "NA",
+      "zygosity": "heterozygous",
+      "interpretation": "variant_u_s",
+      "reference_genome": "GRCh37",
+      "protein": "p.Lys832Glu",
+      "effect": "missense",
+      "cdna": "c.2494A>G",
+      "segregation": "NA"
+    }
+  ],
+  "clinicalStatus": "affected",
+  "disorders": [],
+  "features": [
+    {
+      "id": "HP:0000175",
+      "label": "Cleft palate",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0000252",
+      "label": "Microcephaly",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0000708",
+      "label": "Behavioral abnormality",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0000750",
+      "label": "Delayed speech and language development",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001263",
+      "label": "Global developmental delay",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0002719",
+      "label": "Recurrent infections",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0004322",
+      "label": "Short stature",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0008872",
+      "label": "Feeding difficulties in infancy",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0410030",
+      "label": "Cleft lip",
+      "type": "phenotype",
+      "observed": "yes"
+    }
+  ],
+  "date_of_death": {},
+  "contact": [
+    {
+      "name": "User Four",
+      "id": "xwiki:XWiki.affoksinska",
+      "email": "user04@uab.edu"
+    }
+  ],
+  "last_modification_date": "2022-08-30T21:06:09.000Z",
+  "patient_name": { "last_name": "", "first_name": "" },
+  "specificity": {
+    "date": "2022-08-30T21:06:25.701Z",
+    "score": 0.829835836361237,
+    "server": "local-omim"
+  },
+  "nonstandard_features": [],
+  "id": "P0000034",
+  "prenatal_perinatal_history": {
+    "multipleGestation": null,
+    "icsi": null,
+    "ivf": null,
+    "assistedReproduction_donoregg": null,
+    "assistedReproduction_iui": null,
+    "twinNumber": null,
+    "assistedReproduction_fertilityMeds": null,
+    "gestation": null,
+    "assistedReproduction_surrogacy": null,
+    "assistedReproduction_donorsperm": null
+  },
+  "family_history": {
+    "miscarriages": null,
+    "consanguinity": null,
+    "affectedRelatives": null
+  },
+  "genes": [
+    {
+      "gene": "AUTS2",
+      "id": "ENSG00000158321",
+      "strategy": ["sequencing"],
+      "status": "candidate"
+    }
+  ],
+  "life_status": "alive",
+  "sex": "U",
+  "clinical-diagnosis": [],
+  "reporter": "affoksinska",
+  "last_modified_by": "affoksinska",
+  "report_id": "P0000034",
+  "meta": {
+    "hgnc_version": "2020-09-16T16:21:14.971Z",
+    "omim_version": "2018-10-03T17:01:45.970Z",
+    "ordo_version": "3.0",
+    "hpo_version": "hp/releases/2020-08-11",
+    "phenotips_version": "6.9.2.RELEASE"
+  }
+}
