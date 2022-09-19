@@ -7,11 +7,11 @@ import sinon from 'sinon';
 describe('analyses.js', () => {
   const sandbox = sinon.createSandbox();
   let mockGetRequest;
-  let mockPostResponse;
+  let mockPostFormResponse;
 
   beforeEach(() => {
     mockGetRequest = sandbox.stub(Requests, 'get');
-    mockPostResponse = sandbox.stub(Requests, 'post');
+    mockPostFormResponse = sandbox.stub(Requests, 'postForm');
   });
 
   afterEach(() => {
@@ -34,9 +34,9 @@ describe('analyses.js', () => {
   });
 
   it('Imports a browser file to the Analysis API succesfully', async () => {
-    mockPostResponse.returns({sucess: 'yay'});
+    mockPostFormResponse.returns({sucess: 'yay'});
     await Analyses.importPhenotipsAnalysis(incomingCreateAnalysisFormFixture);
-    expect(mockPostResponse.called).to.be.true;
+    expect(mockPostFormResponse.called).to.be.true;
   });
 });
 

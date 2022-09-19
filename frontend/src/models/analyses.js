@@ -13,7 +13,12 @@ export default {
   },
 
   async importPhenotipsAnalysis(file) {
-    const url = '/rosalution/api/analysis/import';
-    return Requests.post(url, file);
+    const url = '/rosalution/api/analysis/import_file';
+
+    const fileUploadFormData = {
+      'phenotips_file': file,
+    };
+
+    return Requests.postForm(url, fileUploadFormData);
   },
 };
