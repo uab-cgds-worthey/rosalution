@@ -14,14 +14,19 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 describe('AnalysisListingView', () => {
   let mockedData;
+  let mockedImport;
   let mockedUser;
   let wrapper;
+  let sandbox;
 
   beforeAll(() => {
-    mockedData = sinon.stub(Analyses, 'all');
+    sandbox = sinon.createSandbox();
+    mockedData = sandbox.stub(Analyses, 'all');
     mockedData.returns(fixtureData());
 
-    mockedUser = sinon.stub(Auth, 'getUser');
+    mockedImport = sandbox.stub(Analyses, 'importPhenotipsAnalysis');
+
+    mockedUser = sandbox.stub(Auth, 'getUser');
     mockedUser.returns('');
 
     wrapper = shallowMount(AnalysisListingView, {
@@ -34,7 +39,7 @@ describe('AnalysisListingView', () => {
   });
 
   afterAll(() => {
-    mockedData.restore();
+    sandbox.restore();
   });
 
   it('Vue instance exists and it is an object', () => {
@@ -51,7 +56,7 @@ describe('AnalysisListingView', () => {
 
   it('Contains an analysis create card', async () => {
     const createCard = wrapper.findComponent(AnalysisCreateCard);
-    expect(createCard).to.exist;
+    expect(createCard.exists()).to.be.true;
   });
 
   it('Contains listing of Analyses', async () => {
@@ -68,6 +73,21 @@ describe('AnalysisListingView', () => {
 
     const cards = wrapper.findAllComponents(AnalysisCard);
     expect(cards).to.have.lengthOf(2);
+  });
+
+  // Combined these three tests in one due to the way the test structure is set up
+  // and using the same wrapper, so the other tests were changing the state of the
+  // wrapper.
+  it('should allow file upload to import a phenotips json on prompt', async ()=> {
+    const createCard = wrapper.findComponent(AnalysisCreateCard);
+    await createCard.trigger('click');
+
+    const phenotipsImportModal = wrapper.get('[data-test=phenotips-file-modal]');
+    expect(phenotipsImportModal.isVisible()).to.be.true;
+    await phenotipsImportModal.trigger('upload');
+    expect(mockedImport.called).to.be.true;
+    const wrapperPhenotipsImportModalRemoved = wrapper.find('[data-test=phenotips-file-modal]');
+    expect(wrapperPhenotipsImportModalRemoved.exists()).to.be.false;
   });
 });
 

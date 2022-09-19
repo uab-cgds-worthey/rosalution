@@ -2,7 +2,7 @@
   <div>
     <div class="modal-background" @click="$emit('close')"></div>
     <div class="modal-container">
-      <button title="Cancel" class="cancelbutton" @click="$emit('close')" data-test="cancel-modal">Cancel</button>
+      <button title="Cancel" class="cancelbutton" @click="$emit('close')" data-test="cancel-button">Cancel</button>
       <button title="Add" class="addbutton" @click="onAddFile" data-test="add-button">Add</button>
       <div class="content-item">
         <br />
@@ -17,19 +17,18 @@
               Drag & drop or
               <input
                 type="file"
-                id="attachFileBtn"
+                id="attach-file-button"
                 @change="onFileChange"
                 ref="file"
                 accept=".json"
-                data-test="attach-file-button"
                 hidden
               />
-              <label for="attachFileBtn" id="browseBtn"> browse </label>
+              <label for="attach-file-button" class="browse-file-button"> browse </label>
             </div>
             <tbody v-if="this.fileUploaded.length" v-cloak>
-              <tr v-for="file in this.fileUploaded" v-bind:key="file.name" id="fileName">
+              <tr v-for="file in this.fileUploaded" v-bind:key="file.name" class="file-name">
                 {{ file.name }}
-                <button type="button" @click="remove(fileUploaded)" title="Remove file" id="removeBtn">
+                <button type="button" @click="remove(fileUploaded)" title="Remove file" class="remove-button">
                   remove
                 </button>
               </tr>
@@ -53,12 +52,9 @@ export default {
   created() {},
   methods: {
     onFileChange() {
-      console.log('file changed')
       this.fileUploaded = this.$refs.file.files;
-      console.log(this.fileUploaded)
     },
-    remove(i) {
-      console.log('removing it!')
+    remove() {
       this.fileUploaded = '';
     },
     dragover(event) {
@@ -69,7 +65,7 @@ export default {
     },
     drop(event) {
       event.preventDefault();
-      if (!this.fileUploaded || !this.fileUploaded.length) {
+      if (!this.fileUploaded) {
         this.$refs.file.files = event.dataTransfer.files;
         this.onFileChange();
       }
@@ -205,7 +201,7 @@ input[type="file"]::file-selector-button {
   border: none;
 }
 
-#browseBtn {
+.browse-file-button {
   display: inline-block;
   background-color: white;
   color: var(--rosalution-blue-150);
@@ -219,7 +215,7 @@ input[type="file"]::file-selector-button {
   display: none;
 }
 
-#fileName {
+.file-name {
   display: inline-block;
   text-align: center;
   vertical-align: middle;
@@ -227,7 +223,7 @@ input[type="file"]::file-selector-button {
   margin: 0%;
 }
 
-#removeBtn {
+.remove-button {
   border-radius: 9999px;
   border-color: black;
   border-width: thin;

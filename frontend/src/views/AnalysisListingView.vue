@@ -29,7 +29,7 @@
       v-if="showModal"
       v-on:close="showModal = !showModal"
       v-on:upload="this.importPhenotipsAnalysis"
-      data-test="modal-dialog"
+      data-test="phenotips-file-modal"
     />
     <AnalysisListingLegend/>
   </app-footer>

@@ -43,5 +43,38 @@ describe('SupplementalLoadFile.vue', () => {
     expect(wrapper.emitted().commentadded).to.not.be.undefined;
     expect(wrapper.emitted().commentadded[0]).deep.to.equal([actualComments]);
   });
+
+  it('should display the file dropped in the component', async () => {
+    const eventObject = {
+      dataTransfer: {
+        files: [{name: 'fakeFile.ext'}],
+      },
+    };
+
+    const fileInput = wrapper.find('[class=drop-file-box]');
+    await fileInput.trigger('drop', eventObject);
+
+    const fileNameText = wrapper.find('[id=fileName]');
+
+    expect(fileNameText.text()).to.be.equal('fakeFile.ext  remove');
+  });
+
+  it('should remove the file chosen to upload remove button clicked', async () => {
+    const eventObject = {
+      dataTransfer: {
+        files: [{name: 'fakeFile.ext'}],
+      },
+    };
+
+    const fileInput = wrapper.find('[id=attachFileBtn]');
+    await fileInput.trigger('drop', eventObject);
+
+    const fileListedComponent = wrapper.find('tr');
+    const removeButton = fileListedComponent.get('[id=removeBtn]');
+    await removeButton.trigger('click');
+
+    const tableBody = wrapper.find('tbody');
+    expect(tableBody.exists()).to.be.false;
+  });
 });
 
