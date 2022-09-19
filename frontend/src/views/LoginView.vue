@@ -4,13 +4,12 @@
       <h2>
         Rosalution
       </h2>
-      <span style="font-weight: 600; font-size: 1rem;">Local Development Login</span>
-      <input class="username-input" v-model="username" placeholder="username" data-test="username-input"/>
-      <button class="login-local-button" @click="developmentLogin" type="submit" data-test="local-login-button">
-        Login
-      </button>
-      <hr class="login-divider">
-      <button class="login-uab-button" @click="productionLogin" type="submit" data-test="prod-login-button">
+      <button
+        class="rosalution-button login-uab-button"
+        @click="productionLogin"
+        type="submit"
+        data-test="prod-login-button"
+      >
         UAB LOGIN
       </button>
     </app-content>
@@ -22,15 +21,69 @@ import Auth from '../models/authentication.js';
 export default {
   data() {
     return {
-      message: 'Authenticate User',
-      error: '',
       username: '',
       password: '',
     };
   },
+  mounted() {
+    /*
+    This mounted function is used to turn on and off the development login components. They are unused in the production
+    deployment of Rosalution, but are necessary here as we can strip all the components at the time of build with rollup
+    and it won't appear in the final product.
+    */
+
+
+    development: { // eslint-disable-line no-unused-labels
+      const that = this;
+
+      /* Development Login Label */
+      const localDevelopmentString = document.createElement('span');
+      localDevelopmentString.setAttribute('style', 'font-weight: 600; font-size: 1rem;');
+      localDevelopmentString.innerText = 'Local Development Login';
+
+      /* Development Username Input */
+      const localUsernameInput = document.createElement('input');
+      localUsernameInput.classList.add('rosalution-input');
+      localUsernameInput.setAttribute('placeholder', 'Username');
+      localUsernameInput.setAttribute('id', 'username-input-id');
+      localUsernameInput.setAttribute('data-test', 'username-input');
+      localUsernameInput.addEventListener('input', function(text) {
+        const inputText = document.getElementById('username-input-id').value;
+        that.username = inputText;
+      });
+
+      /* Development Login Button */
+      const localLoginButton = document.createElement('button');
+      localLoginButton.classList.add('rosalution-button');
+      localLoginButton.setAttribute('style', 'margin-top: 0.625rem;');
+      localLoginButton.setAttribute('data-test', 'local-login-button');
+      localLoginButton.addEventListener('click', this.developmentLogin);
+      localLoginButton.innerText = 'Login';
+
+      /* The divider line between local and UAB login */
+      const loginDivider = document.createElement('hr');
+      loginDivider.setAttribute('style',
+          `margin-top: 1.25rem;
+        border: none;
+        width: 23.75rem;
+        height: 0.063rem;
+        background-color: var(--rosalution-grey-200);
+      `);
+
+      const localLoginPage = document.querySelector('button');
+
+      const parentDiv = localLoginPage.parentNode;
+      parentDiv.insertBefore(localDevelopmentString, localLoginPage);
+      parentDiv.insertBefore(localUsernameInput, localLoginPage);
+      parentDiv.insertBefore(localLoginButton, localLoginPage);
+      parentDiv.insertBefore(loginDivider, localLoginPage);
+    }
+  },
   methods: {
     async developmentLogin() {
       // Password is hard coded. Taking it out would require a rewrite of the backend as of now.
+      console.log('I am a thing being called');
+      console.log(this.username);
       if (this.username != '') {
         const userData = {'username': this.username, 'password': 'secret'};
         await Auth.loginOAuth(userData);
@@ -65,56 +118,9 @@ h2 {
   margin-top: 0.938rem;
 }
 
-.username-input {
-  text-align: center;
-  font-size: 0.813rem;
-  margin-top: 1.563rem;
-  border: solid;
-  border-radius: 0.438rem;
-  border-color: var(--rosalution-grey-100);
-  width: 9.375rem;
-  height: 1.688rem;
-}
-
-.username-input::placeholder {
-  color: var(--rosalution-grey-300);
-}
-
-.login-local-button {
-  background-color: var(--rosalution-purple-100);
-  color: var(--rosalution-purple-300);
-  font-family: "Proxima Nova", sans-serif;
-  font-weight: 700;
-  font-size: 1.125rem;
-  height: 1.75rem;
-  width: 7rem;
-  border: none;
-  border-radius: 1.563rem;
-  margin-top: 1.25rem;
-}
-
-.login-local-button:hover {
-  background-color: var(--rosalution-purple-200);
-}
-
-hr.login-divider {
-  margin-top: 1.25rem;
-  border: none;
-  width: 23.75rem;
-  height: 0.063rem;
-  background-color: var(--rosalution-grey-200);
-}
-
 .login-uab-button {
-  background-color: var(--rosalution-purple-100);
-  color: var(--rosalution-purple-300);
-  font-family: "Proxima Nova", sans-serif;
-  font-weight: 700;
-  font-size: 1.125rem;
   height: 2.25rem;
   width: 12rem;
-  border: none;
-  border-radius: 1.563rem;
   margin-top: 0.625rem;
 }
 

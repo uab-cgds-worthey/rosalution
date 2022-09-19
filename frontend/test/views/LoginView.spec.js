@@ -20,6 +20,7 @@ function getMountedComponent(props) {
 
   return shallowMount(LoginView, {
     props: {...defaultProps, ...props},
+    attachTo: document.body,
     global: {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
