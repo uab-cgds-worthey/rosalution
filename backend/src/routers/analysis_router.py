@@ -1,8 +1,9 @@
 """ Analysis endpoint routes that serve up information regarding anaysis cases for rosalution """
+import json
 
-from typing import List
+from typing import List, Union
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, File
 
 from ..core.phenotips_importer import PhenotipsImporter
 from ..dependencies import database
@@ -52,3 +53,16 @@ async def import_phenotips_json(phenotips_input: BasePhenotips, rosalution_db=De
 def update_analysis(name: str, analysis_data_changes: dict, rosalution_db=Depends(database)):
     """Updates an existing analysis"""
     return rosalution_db["analysis"].update_analysis(name, analysis_data_changes)
+
+
+@router.post("/import_file", response_model=Analysis)
+async def create_file(phenotips_file: Union[bytes, None] = File(default=None), rosalution_db=Depends(database)):
+    """ Imports a .json file for a phenotips case """
+    # Quick and dirty json loads
+    phenotips_input = BasePhenotips(**json.loads(phenotips_file))
+
+    phenotips_importer = PhenotipsImporter(rosalution_db["analysis"], rosalution_db["genomic_unit"])
+    try:
+        return phenotips_importer.import_phenotips_json(phenotips_input)
+    except ValueError as exception:
+        raise HTTPException(status_code=409) from exception

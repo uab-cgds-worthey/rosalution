@@ -17,7 +17,6 @@ def read_test_fixture(fixture_filename):
     """reads the JSON from the filepath relative to the tests"""
     return read_fixtures(UNIT_TEST_FIXTURE_PATH, fixture_filename)
 
-
 def read_fixtures(base_path, fixture_filename):
     """With a base path relative to the current directory, loads a fixture for fixture_filename"""
     path_to_current_file = os.path.realpath(__file__)
@@ -29,7 +28,6 @@ def read_fixtures(base_path, fixture_filename):
         file_to_open.close()
 
     return data
-
 
 def mock_mongo_collection():
     """
