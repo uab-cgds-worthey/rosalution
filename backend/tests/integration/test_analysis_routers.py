@@ -91,18 +91,28 @@ def test_update_analysis(client, mock_access_token, database_collections, analys
     assert response.json()["name"] == "CPAM0112"
     assert response.json()["nominated_by"] == "Dr. Person One"
 
-def test_upload_file_to_analysis(client, mock_access_token, mock_file_upload, database_collections, analysis_updates_json):
-    """Testing if the upload file endpoint uploads a file to an analysis"""
-    database_collections["analysis"].collection.find_one_and_update.return_value = analysis_updates_json
-    response = client.post(
-        "/analysis/upload/CPAM0112",
 
-        headers={"Authorization": "Bearer " + mock_access_token,
-                 "Content-Type": "multipart/form-data"},
-        # this is the new analysis data
-        data=({"comments": "This is a test comment for file test.txt"}),
-        files=mock_file_upload,
-    )
+def test_upload_file_to_analysis(client, mock_access_token, mock_file_upload):
+    """Testing if the upload file endpoint uploads a file to an analysis"""
+    path_to_current_file = os.path.realpath(__file__)
+    current_directory = os.path.split(path_to_current_file)[0]
+    path_to_file = os.path.join(
+        current_directory, '../fixtures/' + 'example_file_to_upload.txt')
+
+    with open(path_to_file, 'rb') as upload_file:
+        response = client.post(
+            "/analysis/upload/CPAM0002",
+            headers={"Authorization": "Bearer " + mock_access_token},
+            data={'file': (upload_file, 'example_file_to_upload.txt')},
+        )
+    # response = client.post(
+    #     "/analysis/upload/CPAM0112",
+    #     headers={"Authorization": "Bearer " + mock_access_token,
+    #              "Content-Type": "multipart/form-data"},
+    #     data=({"comments": "This is a test comment for file test.txt"}),
+    #     files=mock_file_upload,
+    # )
+
     print(response.json())
     assert response.status_code == 200
 

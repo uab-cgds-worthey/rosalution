@@ -70,6 +70,9 @@ async def create_file(phenotips_file: Union[bytes, None] = File(default=None), r
 @router.post("/upload/{name}")
 def upload(name: str, upload_file: UploadFile = File(...), comments: str = Form(...), rosalution_db=Depends(database)):
     """Uploads a file to the server"""
+    print("name: ", name)
+    print("comments: ", comments)
+    print("upload_file: ", upload_file)
     try:
         contents = upload_file.file.read()
         with open(upload_file.filename, "wb") as working_file:

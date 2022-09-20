@@ -60,4 +60,4 @@ def mock_file_upload():
     """A mocked file upload"""
     file_temp = tempfile.NamedTemporaryFile()
     path_like_file_temp = pathlib.Path(file_temp.name)
-    return {"file": (file_temp.name, open(path_like_file_temp, "rb"), "text/plain")}
+    return {"upload_file": (file_temp.name, open(path_like_file_temp, "rb"))}
