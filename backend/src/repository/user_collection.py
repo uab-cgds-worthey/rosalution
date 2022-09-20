@@ -23,7 +23,7 @@ class UserCollection:
         """Takes a username string and a password string, finds the user, verfies the password and returns a user"""
         user = self.find_by_username(username)
         if not user:
-            return False
+            return None
         if not verify_password(password, user["hashed_password"]):
-            return False
+            return None
         return user

@@ -32,7 +32,6 @@ export default {
     and it won't appear in the final product.
     */
 
-
     development: { // eslint-disable-line no-unused-labels
       const that = this;
 
@@ -90,7 +89,15 @@ export default {
       }
     },
     async productionLogin() {
-      await Auth.loginCas();
+      const response = await Auth.loginCas();
+
+      /*
+      The CAS login sends a URL as a response. The URL can change depending on whether or not you have a valid
+      login token. If you are not logged in, it will send you to the UAB blazerid page. If you are logged in, it 
+      will send you to the Analysis Listing page.
+      */
+      if ('url' in response)
+        window.location = response['url'];
     },
   },
 };

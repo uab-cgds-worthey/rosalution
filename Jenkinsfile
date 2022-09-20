@@ -81,9 +81,9 @@ pipeline {
       }
     }
     stage('Compile & Publish Production'){
-      when { 
-        branch 'main'
-      }
+      // when { 
+      //   branch 'main'
+      // }
       steps {
         sh 'bash build.sh --tag prod --push'
       }
@@ -97,9 +97,9 @@ pipeline {
       }
     }
     stage('Swarm Deploy Production') {
-      when { 
-        branch 'main'
-      }
+      // when { 
+      //   branch 'main'
+      // }
       steps {
         sh 'docker stack deploy --prune --with-registry-auth --compose-file docker-compose.production.yml rosalution-prod'
       }
