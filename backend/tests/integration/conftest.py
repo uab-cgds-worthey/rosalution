@@ -1,7 +1,5 @@
 """Test Fixtures for integration tests"""
-from asyncore import file_dispatcher
-import pathlib
-import tempfile
+import os
 from unittest.mock import Mock
 import pytest
 from fastapi.testclient import TestClient
@@ -58,6 +56,11 @@ def mock_access_token(mock_user):
 @pytest.fixture(name="mock_file_upload")
 def mock_file_upload():
     """A mocked file upload"""
-    file_temp = tempfile.NamedTemporaryFile()
-    path_like_file_temp = pathlib.Path(file_temp.name)
-    return {"upload_file": (file_temp.name, open(path_like_file_temp, "rb"))}
+    path_to_current_file = os.path.realpath(__file__)
+    current_directory = os.path.split(path_to_current_file)[0]
+    path_to_file = os.path.join(
+        current_directory, '../fixtures/' + 'example_file_to_upload.txt')
+    return {"upload_file": ('example_file_to_upload.txt', open(path_to_file, 'rb'))}
+    # file_temp = tempfile.NamedTemporaryFile()
+    # path_like_file_temp = pathlib.Path(file_temp.name)
+    # return {"upload_file": (file_temp.name, open(path_like_file_temp, "rb"))}
