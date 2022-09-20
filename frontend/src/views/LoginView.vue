@@ -96,7 +96,7 @@ export default {
       login token. If you are not logged in, it will send you to the UAB blazerid page. If you are logged in, it
       will send you to the Analysis Listing page.
       */
-      if ('url' in response) {
+      if (response && 'url' in response) {
         window.location = response['url'];
       }
     },
