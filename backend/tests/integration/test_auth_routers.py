@@ -18,7 +18,6 @@ def create_session_cookie(data) -> str:
 
 # # Authentication Tests #
 
-
 def test_login_no_session(client):
     """Testing the login endpoint when there is no login session already"""
     response = client.get("/auth/login")
@@ -38,7 +37,7 @@ def test_login_existing_session(client):
     assert response.json()["url"] == "http://dev.cgds.uab.edu/rosalution/"
 
 
-def test_login_successful(client, monkeypatch):
+def test_login_successful(client, database_collections, monkeypatch):
     """Testing the login endpoint when there's a successful login and redirect"""
     # This unused parameter is required for the monkeypatch to successfully use the mock verify function,
     # if no empty paramter is provided then the tests will crash.
@@ -50,6 +49,11 @@ def test_login_successful(client, monkeypatch):
         )
 
     monkeypatch.setattr(cas_client, "verify_ticket", mock_verify_return)
+
+    database_collections['user'].collection.find_one.return_value = {
+        "username": "UABProvider",
+        "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm"
+    }
 
     response = client.get("/auth/login?nexturl=%2Frosalution&ticket=FakeTicketString")
 
