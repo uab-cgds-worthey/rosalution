@@ -59,7 +59,7 @@ async def login(
 
     # Login was successful, redirect to the 'nexturl' query parameter
     user = collections["user"].authenticate_user(user, 'secret')
-    
+
     if not user:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
 
