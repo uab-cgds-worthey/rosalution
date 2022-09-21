@@ -92,8 +92,12 @@ def test_update_analysis(client, mock_access_token, database_collections, analys
     assert response.json()["nominated_by"] == "Dr. Person One"
 
 
-def test_upload_file_to_analysis(client, mock_access_token, mock_file_upload):
+def test_upload_file_to_analysis(client, mock_access_token, mock_file_upload, database_collections):
     """Testing if the upload file endpoint uploads a file to an analysis"""
+    # This test currently writes a file to the backend folder, This will eventually be changed to write
+    # the mongo database instead with GridFS. We are currently git-ignoring this file to avoid it being commited.
+    database_collections["analysis"].collection.find_one_and_update.return_value = {
+        'fakevalue': 'fakeyfake'}
     response = client.post(
         "/analysis/upload/CPAM0002",
         headers={"Authorization": "Bearer " + mock_access_token},
@@ -101,7 +105,6 @@ def test_upload_file_to_analysis(client, mock_access_token, mock_file_upload):
         files=mock_file_upload
     )
 
-    print(response.json())
     assert response.status_code == 200
 
 

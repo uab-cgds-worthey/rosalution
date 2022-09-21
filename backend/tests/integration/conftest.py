@@ -61,6 +61,3 @@ def mock_file_upload():
     path_to_file = os.path.join(
         current_directory, '../fixtures/' + 'example_file_to_upload.txt')
     return {"upload_file": ('example_file_to_upload.txt', open(path_to_file, 'rb'))}
-    # file_temp = tempfile.NamedTemporaryFile()
-    # path_like_file_temp = pathlib.Path(file_temp.name)
-    # return {"upload_file": (file_temp.name, open(path_like_file_temp, "rb"))}
