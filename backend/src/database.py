@@ -34,7 +34,7 @@ class Database:
             "analysis": AnalysisCollection(self.database['analyses']),
             "annotation_config": AnnotationConfigCollection(self.database['annotations_config']),
             "genomic_unit": GenomicUnitCollection(self.database['genomic_units']),
-            "user": UserCollection(self.database['users']),
+            "user": UserCollection(self.database['users'])
         }
 
     def __call__(self):

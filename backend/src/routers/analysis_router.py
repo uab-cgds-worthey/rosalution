@@ -3,7 +3,7 @@ import json
 
 from typing import List, Union
 
-from fastapi import APIRouter, Depends, HTTPException, File
+from fastapi import APIRouter, Depends, HTTPException, File, UploadFile, Form
 
 from ..core.phenotips_importer import PhenotipsImporter
 from ..dependencies import database
@@ -66,3 +66,17 @@ async def create_file(phenotips_file: Union[bytes, None] = File(default=None), r
         return phenotips_importer.import_phenotips_json(phenotips_input)
     except ValueError as exception:
         raise HTTPException(status_code=409) from exception
+
+@router.post("/upload/{name}")
+def upload(name: str, upload_file: UploadFile = File(...), comments: str = Form(...), rosalution_db=Depends(database)):
+    """Uploads a file to the server"""
+    try:
+        contents = upload_file.file.read()
+        with open(upload_file.filename, "wb") as working_file:
+            working_file.write(contents)
+    except Exception as exception:
+        raise HTTPException(status_code=500) from exception
+    finally:
+        upload_file.file.close()
+
+    return rosalution_db["analysis"].add_file(name, upload_file.filename, comments)

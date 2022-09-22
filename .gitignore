@@ -56,3 +56,4 @@ coverage.xml
 .pytest_cache/
 cover/
 import.json
+backend/example_file_to_upload.txt
