@@ -113,7 +113,7 @@
       ]
     }
   ],
-  "files": [
+  "supporting_evidence_files": [
     {
       "filename": "test.txt",
       "comments": "This is a test comment for file test.txt"

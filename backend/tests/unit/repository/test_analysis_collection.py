@@ -20,5 +20,5 @@ def test_add_file(analysis_collection):
     """Tests the update_analysis function"""
     actual = analysis_collection.add_file(
         "CPAM0002", "test.txt", "This is a test comment for file test.txt")
-    assert actual["files"][0]["filename"] == "test.txt"
-    assert actual["files"][0]["comments"] == "This is a test comment for file test.txt"
+    assert actual["supporting_evidence_files"][0]["filename"] == "test.txt"
+    assert actual["supporting_evidence_files"][0]["comments"] == "This is a test comment for file test.txt"

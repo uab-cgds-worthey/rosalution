@@ -51,6 +51,7 @@ def test_create_analysis(client, mock_access_token, database_collections, export
     )
     assert response.status_code == 200
 
+
 def test_create_analysis_with_file(client, mock_access_token, database_collections):
     """ Testing if the create analysis function works with file upload """
     database_collections["analysis"].collection.insert_one.return_value = True
@@ -64,18 +65,20 @@ def test_create_analysis_with_file(client, mock_access_token, database_collectio
     path_to_current_file = os.path.realpath(__file__)
     current_directory = os.path.split(path_to_current_file)[0]
     path_to_file = os.path.join(
-    current_directory, '../fixtures/' + 'phenotips-import.json')
+        current_directory, '../fixtures/' + 'phenotips-import.json')
 
     with open(path_to_file, "rb") as phenotips_file:
-        response  = client.post(
+        response = client.post(
             "/analysis/import_file",
             headers={"Authorization": "Bearer " + mock_access_token},
-            files={"phenotips_file": ("phenotips-import.json", phenotips_file.read())}
+            files={"phenotips_file": (
+                "phenotips-import.json", phenotips_file.read())}
         )
 
         phenotips_file.close()
 
     assert response.status_code == 200
+
 
 def test_update_analysis(client, mock_access_token, database_collections, analysis_updates_json):
     """Testing if the update analysis endpoint updates an existing analysis"""
@@ -104,7 +107,6 @@ def test_upload_file_to_analysis(client, mock_access_token, mock_file_upload, da
         data=({"comments": "This is a test comment for file test.txt"}),
         files=mock_file_upload
     )
-
     assert response.status_code == 200
 
 
