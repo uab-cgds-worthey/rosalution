@@ -116,7 +116,7 @@ def fixture_analysis_updates_json():
     return read_test_fixture("analysis-update.json")
 
 
-@ pytest.fixture(name="exported_phenotips_to_import_json")
+@pytest.fixture(name="exported_phenotips_to_import_json")
 def fixture_phenotips_import():
     """Returns a phenotips json fixture"""
     return read_test_fixture("phenotips-import.json")
