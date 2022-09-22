@@ -31,10 +31,11 @@ export default {
   name: 'modal-confirmation',
   methods: {
     deleteAttachment() {
-      console.log('This deletes the item from the list');
+      this.$emit('deleteattachment');
+      this.cancelModal();
     },
     cancelModal() {
-      console.log('Goodbye modal');
+      this.$emit('cancelconfirmation');
     },
   },
 };
@@ -59,10 +60,14 @@ export default {
     background-color: var(--rosalution-white);
     width: 385px;
     height: 170px;
-    padding: 10px;
     border-radius: 10px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    padding: 10px;
+    padding: 20px 35px 15px 35px;
+    z-index: 999;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   h2 {
@@ -95,12 +100,14 @@ export default {
     align-items: center;
     height: 25px;
     width: 100px;
+    cursor: pointer;
   }
 
   .delete-button-column {
     display: flex;
     justify-content: right;
     align-items: center;
+    cursor: pointer;
   }
 
   .cancel-button-column {

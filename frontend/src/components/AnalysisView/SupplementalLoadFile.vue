@@ -1,31 +1,31 @@
 <template>
-    <div class="supplemental-load-file-container">
-        <div class="drop-file-box" @dragover="dragover"  @drop="drop">
-          <div v-if="!fileUploaded || !fileUploaded.length">
-            Drag & drop or
-            <input type="file" id="attachFileBtn" @change="onFileChange" ref="file" accept=".pdf, .jpg, .jpeg, .png"
-            data-test="attach-file-button" hidden/>
-            <label for="attachFileBtn" id="browseBtn">
-              browse
-            </label>
-          </div>
-          <div>
-            <tbody v-if="this.fileUploaded.length" v-cloak>
-              <tr v-for="file in fileUploaded" v-bind:key="file.name" id="fileName">
-                {{ file.name }}
-                <button type="button" @click="remove(fileUploaded)" title="Remove file" id="removeBtn">
-                  remove
-                </button>
-              </tr>
-            </tbody>
-          </div>
-        </div>
-        <div>
-            <textarea placeholder="Comments" id="commentsBox" @change="onCommentChange" v-model="comments"
-            data-test="comments-text-area">
-            </textarea>
-        </div>
+  <div class="supplemental-load-file-container">
+    <div class="drop-file-box" @dragover="dragover"  @drop="drop">
+      <div v-if="!fileUploaded || !fileUploaded.length">
+        Drag & drop or
+        <input type="file" id="attachFileBtn" @change="onFileChange" ref="file" accept=".pdf, .jpg, .jpeg, .png"
+        data-test="attach-file-button" hidden/>
+        <label for="attachFileBtn" id="browseBtn">
+          browse
+        </label>
+      </div>
+      <div>
+        <tbody v-if="this.fileUploaded.length" v-cloak>
+          <tr v-for="file in fileUploaded" v-bind:key="file.name" id="fileName">
+            {{ file.name }}
+            <button type="button" @click="remove(fileUploaded)" title="Remove file" id="removeBtn">
+              remove
+            </button>
+          </tr>
+        </tbody>
+      </div>
     </div>
+    <div>
+      <textarea placeholder="Comments" id="commentsBox" @change="onCommentChange" v-model="comments"
+      data-test="comments-text-area">
+      </textarea>
+    </div>
+  </div>
 </template>
 
 <script>
