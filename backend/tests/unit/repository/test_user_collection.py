@@ -40,7 +40,7 @@ def test_authenticate_user_unsuccessful_no_user(user_collection):
     authenticate_result = user_collection.authenticate_user(
         "johndoe", "secret1")
 
-    assert authenticate_result is False
+    assert authenticate_result is None
 
 
 def test_authenticate_user_unsuccessful_password(user_collection, user_john_doe):
@@ -49,7 +49,7 @@ def test_authenticate_user_unsuccessful_password(user_collection, user_john_doe)
     authenticate_result = user_collection.authenticate_user(
         "johndoe", "secret1")
 
-    assert authenticate_result is False
+    assert authenticate_result is None
 
 
 @pytest.fixture(name="user_collection")

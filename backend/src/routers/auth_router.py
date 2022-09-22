@@ -34,9 +34,13 @@ cas_client = CASClient(
 # pylint: disable=no-member
 # This is done because pylint doesn't appear to be recognizing python-cas's functions saying they have no member
 
-
 @router.get("/login")
-async def login(request: Request, nexturl: Optional[str] = None, ticket: Optional[str] = None):
+async def login(
+    request: Request,
+    nexturl: Optional[str] = None,
+    ticket: Optional[str] = None,
+    collections=Depends(database)
+):
     """rosalution Login Method"""
     if request.session.get("username", None):
         # We're already logged in, don't need to do the login process
@@ -54,6 +58,11 @@ async def login(request: Request, nexturl: Optional[str] = None, ticket: Optiona
         return RedirectResponse("http://dev.cgds.uab.edu/rosalution/auth/login")
 
     # Login was successful, redirect to the 'nexturl' query parameter
+    user = collections["user"].authenticate_user(user, 'secret')
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
+
     request.session["username"] = user
     request.session["attributes"] = attributes
     request.session["pgtiou"] = pgtiou
@@ -93,20 +102,23 @@ def login_oauth(
     """
     OAuth2 compatible token login, get an access token for future requests.
     """
-    collections["user"].authenticate_user(
+    user = collections["user"].authenticate_user(
         form_data.username, form_data.password)
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
+
     access_token_expires = timedelta(
         minutes=constants.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": form_data.username, "scopes": form_data.scopes},
+        data={"sub": user['username'], "scopes": form_data.scopes},
         expires_delta=access_token_expires,
     )
     content = {"access_token": access_token, "token_type": "bearer"}
     response = JSONResponse(content=content)
     response.set_cookie(key="rosalution_TOKEN", value=access_token)
-    request.session["username"] = form_data.username
+    request.session["username"] = user['username']
     return response
-
 
 @router.get("/verify", response_model=User)
 def issue_token(
@@ -124,7 +136,6 @@ def issue_token(
         raise HTTPException(status_code=400, detail="Inactive User")
 
     return current_user
-
 
 @router.get("/logout")
 def logout_oauth(request: Request):
