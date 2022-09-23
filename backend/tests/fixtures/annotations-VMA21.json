@@ -1,0 +1,19 @@
+[
+  {
+    "Entrez Gene Id": [ {
+      "data_source": "HPO",
+      "version": "",
+      "value": 203547 } ]
+  },
+  {
+    "HPO": [
+      {
+        "data_source": "HPO",
+        "version": "",
+        "value": [
+          "Myopathy, X-linked, With Excessive Autophagy"
+        ]
+      }
+    ]
+  }
+]
