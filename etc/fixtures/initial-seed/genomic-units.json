@@ -13,5 +13,20 @@
         "hgvs_variant": "NM_001017980.3:c.164G>T",
         "transcripts": [],
         "annotations": []
+    },
+    {
+        "gene_symbol": "SBF1",
+        "gene": "SBF1",
+        "annotations": []
+    },
+    {
+        "hgvs_variant": "NM_002972.2:c.3493_3494dupTA",
+        "transcripts": [],
+        "annotations": []
+    },
+    {
+        "hgvs_variant": "NM_002972.2:c.5474_5475delTG",
+        "transcripts": [],
+        "annotations": []
     }
 ]

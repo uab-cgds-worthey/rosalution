@@ -20,6 +20,9 @@ class GenomicUnitCollection:
 
     def annotation_exist(self, genomic_unit, dataset):
         """ Returns true if the genomic_unit already has that dataset annotated """
+        print("INSIDE COLLECTION")
+        print(genomic_unit)
+        print(dataset)
         data_set_name = dataset['data_set']
         find_query = {
             genomic_unit['type'].value: genomic_unit['unit'],
@@ -27,6 +30,9 @@ class GenomicUnitCollection:
 
         if 'transcript' in dataset:
             hgvs_genomic_unit = self.collection.find_one(find_query)
+
+            print("AM I BEING REACHED?")
+            print(hgvs_genomic_unit)
 
             if not hgvs_genomic_unit['transcripts']:
                 return False

@@ -33,16 +33,17 @@ class PhenotipsImporter:
 
             phenotips_variants.append(variant_data)
 
-        
-        for gene in phenotips_json_data["genes"]:
-            for phenotips_variant in phenotips_variants:
-                phenotips_variant["gene"] = gene["gene"]
+        # It looks like we're just overwriting the set gene in variant to be the last gene?
+        # for gene in phenotips_json_data["genes"]:
+        #     for phenotips_variant in phenotips_variants:
+        #         phenotips_variant["gene"] = gene["gene"]
+
+        # Commenting this, we assume that each variant has an associated gene. Otherwise we don't handle it.
 
         for gene in phenotips_json_data["genes"]:
             genomic_unit_data = self.import_genomic_unit_collection_data(gene, "gene")
             self.genomic_unit_collection.create_genomic_unit(genomic_unit_data)
 
-        
         for variant in phenotips_variants:
             genomic_unit_data = self.import_genomic_unit_collection_data(variant, "hgvs")
             self.genomic_unit_collection.create_genomic_unit(genomic_unit_data)
@@ -56,8 +57,7 @@ class PhenotipsImporter:
         """Formats the genomic unit data from the phenotips.json file"""
         if data_format == "hgvs":
             genomic_data = {
-                "id": "",
-                "hgvs_notation": str(data["transcript"] + ":" + data["cdna"]),
+                "hgvs_variant": str(data["transcript"] + ":" + data["cdna"]),
                 "chromosome": "",
                 "position": "",
                 "reference": "",
@@ -67,7 +67,7 @@ class PhenotipsImporter:
                 "annotations": [],
             }
         elif data_format == "gene":
-            genomic_data = {"gene": data['gene'], "annotations": []}
+            genomic_data = { "gene_symbol": data['gene'], "gene": data['gene'], "annotations": []}
         else:
             warnings.warn(
                 "Invalid data format for import_genomic_unit_collection_data method")

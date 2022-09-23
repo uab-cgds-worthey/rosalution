@@ -495,16 +495,16 @@
               "gene": "FOXG1",
               "transcripts": [
                   {
-                      "transcript": "NPM_005249.5"
+                      "transcript": "NM_005249.5"
                   }
               ],
               "variants": [{
-                  "hgvs_variant": "NPM_005249.5:c.924G>A",
+                  "hgvs_variant": "NM_005249.5:c.924G>A",
                   "c_dot": "c.924G>A",
                   "build": "hg19",
                   "case": []
               }, {
-                  "hgvs_variant": "NPM_005249.5:c.256dup",
+                  "hgvs_variant": "NM_005249.5:c.256dup",
                   "c_dot": "c.256dup",
                   "build": "hg19",
                   "case": []
