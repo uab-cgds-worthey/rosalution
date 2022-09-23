@@ -81,8 +81,6 @@ export default {
   methods: {
     async developmentLogin() {
       // Password is hard coded. Taking it out would require a rewrite of the backend as of now.
-      console.log('I am a thing being called');
-      console.log(this.username);
       if (this.username != '') {
         const userData = {'username': this.username, 'password': 'secret'};
         await Auth.loginOAuth(userData);

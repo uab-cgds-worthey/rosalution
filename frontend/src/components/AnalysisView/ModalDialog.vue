@@ -141,7 +141,7 @@ export default {
   position: absolute;
   border-radius: 1rem;
   justify-items: center;
-  top: 50%;
+  top: 100%;
   left: 50%;
   transform: translate(-50%, -50%);
 }

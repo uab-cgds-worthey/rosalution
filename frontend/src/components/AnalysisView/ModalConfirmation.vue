@@ -1,14 +1,14 @@
 <template>
     <div class="modal-background">
         <div class="modal-container">
-            <h2>Delete File?</h2>
-            <span>Deleting this file will remove it from the supporting evidence list.</span>
+            <h2>Delete Supporting Information?</h2>
+            <span>Deleting this item will remove it from the supporting evidence list.</span>
             <div class="cancel-button-column">
               <a
                   title="Cancel"
                   class="cancel-button-item"
                   @click="cancelModal()"
-                  data-test="cancel-modal">
+                  data-test="cancel-modal-button">
                       Cancel
               </a>
             </div>
@@ -17,7 +17,7 @@
                   title="Delete"
                   class="delete-button-item"
                   @click="deleteAttachment()"
-                  data-test="delete-button">
+                  data-test="delete-item-button">
                       Delete
               </a>
             </div>

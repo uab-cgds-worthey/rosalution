@@ -4,6 +4,7 @@ import sinon from 'sinon';
 
 import SupplementalFormList from '../../../src/components/AnalysisView/SupplementalFormList.vue';
 import ModalDialog from '../../../src/components/AnalysisView/ModalDialog.vue';
+import ModalConfirmation from '../../../src/components/AnalysisView/ModalConfirmation.vue';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 describe('SupplementalFormList.vue', () => {
@@ -64,7 +65,7 @@ describe('SupplementalFormList.vue', () => {
     expect(attachment.type).deep.to.equal('file');
   });
 
-  it('Clicking minus-logo button removes the attachment', async () => {
+  it('Clicking the X button opens the confirmation modal dialog box', async () => {
     const fakeAttachments = [{
       data: 'fakeFiledData',
       name: '/path/to/fakeFile.ext',
@@ -73,9 +74,17 @@ describe('SupplementalFormList.vue', () => {
 
     await wrapper.setData({attachments: fakeAttachments});
 
+    await wrapper.setData({showConfirmation: true});
+    await wrapper.setData({selectedAttachment: fakeAttachments[0]});
+
     expect(wrapper.findAll('tr').length).toBe(2);
 
-    await wrapper.find('#removeAttachmentButton').trigger('click');
+    const confirmationWrapper = wrapper.findComponent(ModalConfirmation);
+
+    confirmationWrapper.vm.$emit('deleteattachment');
+    confirmationWrapper.vm.$emit('cancelconfirmation');
+
+    await wrapper.vm.$nextTick();
 
     expect(wrapper.findAll('tr').length).toBe(1);
     expect(wrapper.vm.$data.attachments.length).toBe(0);
