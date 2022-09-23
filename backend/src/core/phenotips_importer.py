@@ -16,31 +16,38 @@ class PhenotipsImporter:
         """Imports the phenotips json data into the database"""
         phenotips_json_data = phenotips_json_data.dict()
         phenotips_variants = []
-        phenotips_genes = []
         variant_annotations = ["inheritance", "zygosity",
-                               "interpretation", "transcript", "cdna", "reference_genome"]
+                               "interpretation", "transcript",
+                               "cdna", "reference_genome",
+                               "protein", "gene"]
 
         for variant in phenotips_json_data["variants"]:
             variant_data = {}
             for annotation in variant_annotations:
                 if annotation in variant:
                     variant_data[annotation] = variant[annotation]
+            if 'gene' in variant_data:
+                for gene in phenotips_json_data["genes"]:
+                    if gene['id'] == variant_data['gene']:
+                        variant_data['gene'] = gene['gene']
+
             phenotips_variants.append(variant_data)
 
+        
         for gene in phenotips_json_data["genes"]:
             for phenotips_variant in phenotips_variants:
                 phenotips_variant["gene"] = gene["gene"]
 
-        for gene in phenotips_genes:
-            genomic_unit_data = self.import_genomic_unit_collection_data(
-                gene, "gene")
+        for gene in phenotips_json_data["genes"]:
+            genomic_unit_data = self.import_genomic_unit_collection_data(gene, "gene")
             self.genomic_unit_collection.create_genomic_unit(genomic_unit_data)
 
-        genomic_unit_data = self.import_genomic_unit_collection_data(
-            phenotips_variants[0], "hgvs")
-        self.genomic_unit_collection.create_genomic_unit(genomic_unit_data)
-        analysis_data = self.import_analyses_data(
-            phenotips_json_data, phenotips_variants[0])
+        
+        for variant in phenotips_variants:
+            genomic_unit_data = self.import_genomic_unit_collection_data(variant, "hgvs")
+            self.genomic_unit_collection.create_genomic_unit(genomic_unit_data)
+
+        analysis_data = self.import_analysis_data(phenotips_json_data, phenotips_variants, phenotips_json_data["genes"])
         self.analysis_collection.create_analysis(analysis_data)
         return analysis_data
 
@@ -55,45 +62,29 @@ class PhenotipsImporter:
                 "position": "",
                 "reference": "",
                 "alternate": "",
+                "build": data['reference_genome'],
                 "transcripts": [],
-                "annotations": {},
+                "annotations": [],
             }
         elif data_format == "gene":
-            genomic_data = {"id": "", "gene_symbol": data, "annotations": {}}
+            genomic_data = {"gene": data['gene'], "annotations": []}
         else:
             warnings.warn(
                 "Invalid data format for import_genomic_unit_collection_data method")
             return None
         return genomic_data
 
-    def import_analyses_data(self, phenotips_json_data, variant_data):
+    def import_analysis_data(self, phenotips_json_data, phenotips_variants, phenotips_genes):
         """Formats the analysis data from the phenotips.json file"""
 
-        transcripts_list = [
-            {"transcript": variant_data["transcript"]}] if variant_data["transcript"] else []
-
-        analyses_data = {
+        analysis_data = {
             "name": str(phenotips_json_data["external_id"]).replace("-", ""),
             "description": "",
             "nominated_by": "",
             "latest_status": "Annotation",  # set as Annotation as default for now
             "created_date": str(phenotips_json_data["date"]).split(" ", maxsplit=1)[0],
             "last_modified_date": str(phenotips_json_data["last_modification_date"]).split(" ", maxsplit=1)[0],
-            "genomic_units": [
-                {
-                    "gene": str(variant_data["gene"]),
-                    "transcripts": transcripts_list,
-                    "variants": [
-                        {
-                            "hgvs_variant": str(variant_data["transcript"] + ":" + variant_data["cdna"]),
-                            "c_dot": variant_data["cdna"],
-                            "p_dot": "",
-                            "build": str(variant_data["reference_genome"]),
-                            "case": self.format_case_data(variant_data),
-                        }
-                    ],
-                }
-            ],
+            "genomic_units": [],
             "sections": [{
                 "header": 'Brief',
                 "content": [
@@ -118,7 +109,33 @@ class PhenotipsImporter:
                 ]
             }]
         }
-        return analyses_data
+
+        for phenotips_gene in phenotips_genes:
+            analysis_unit = {
+                "gene": phenotips_gene["gene"],
+                "transcripts": [],
+                "variants": [],
+            }
+
+            for phenotips_variant in phenotips_variants:
+                if phenotips_variant['gene'] == phenotips_gene['gene']:
+                    analysis_unit['variants'].append({
+                        "hgvs_variant": str(phenotips_variant["transcript"] + ":" + phenotips_variant["cdna"]),
+                        "c_dot": phenotips_variant["cdna"],
+                        # "p_dot": phenotips_variant["protein"],
+                        "p_dot": "",
+                        "build": str(phenotips_variant['reference_genome']),
+                        "case": self.format_case_data(phenotips_variant)
+                    })
+                
+                if 'transcript' in phenotips_variant:
+                    new_transcript = { 'transcript': phenotips_variant['transcript'] }
+                    if new_transcript not in analysis_unit['transcripts']:
+                        analysis_unit['transcripts'].append(new_transcript)
+            
+            analysis_data['genomic_units'].append(analysis_unit)
+        
+        return analysis_data
 
     @ staticmethod
     def format_case_data(variant_data):
