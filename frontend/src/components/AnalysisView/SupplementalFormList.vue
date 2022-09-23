@@ -74,9 +74,12 @@ export default {
       this.attachments.push(attachment);
     },
     deleteRow() {
-      const elem = this.attachment;
-      this.attachments.splice(elem, 1);
-      this.attachment = null;
+      const element = this.selectedAttachment;
+
+      this.attachments = this.attachments.filter(function(item) {
+        return item !== element;
+      });
+      this.selectedAttachment = null;
     },
     edit(attachment) {
       // This method will handle the edit modal/feature
