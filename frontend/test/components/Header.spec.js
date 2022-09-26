@@ -7,7 +7,7 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {RouterLink} from 'vue-router';
 
 /**
- * helper function that shadllow mounts and returns the rendered component
+ * Helper mounts and returns the rendered component
  * @param {props} props props for testing to overwrite default props
  * @return {VueWrapper} returns a shallow mounted using props
  */
@@ -54,19 +54,19 @@ describe('HeaderComponent.vue', () => {
     expect(headerTextLink.attributes('href')).to.contain('#top');
   });
 
-  it('should render the menu actions icon if actions are provided', () => {
+  it('should render the menu actions drop-down menu if actions are provided', () => {
     const wrapper = getMountedComponent({
-      actions: ['Action1', 'Action2', 'Action3'],
+      actions: [{text: 'Action1'}, {text: 'Action2'}, {text: 'Action3'}],
     });
 
-    const icon = wrapper.find('font-awesome-icon-stub');
-    expect(icon.exists()).to.be.true;
+    const dropDownMenu = wrapper.find('[data-test=user-menu]');
+    expect(dropDownMenu.exists()).to.be.true;
   });
 
-  it('should render user icon and not render menu actions icon when no actions exist', () => {
+  it('should not render menu actions drop down if no actions are provided', () => {
     const wrapper = getMountedComponent();
-    const icons = wrapper.findAllComponents('font-awesome-icon-stub');
-    expect(icons.length).to.equal(1);
+    const dropDownMenu = wrapper.find('[data-test=user-menu]');
+    expect(dropDownMenu.exists()).to.be.false;
   });
 
   it('should properly display the username in the upper right hand corner', async () => {

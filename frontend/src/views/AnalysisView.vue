@@ -2,9 +2,11 @@
   <div>
       <app-header>
         <AnalysisViewHeader
-          :actions="menuActions"
+          :actions="this.menuActions"
           :titleText="this.analysis_name"
           :sectionAnchors="this.sectionsHeaders"
+          :username="this.username"
+          @logout="this.onLogout"
           data-test="analysis-view-header">
         </AnalysisViewHeader>
       </app-header>
@@ -26,6 +28,22 @@
         />
         <SupplementalFormList
           id="Supplemental_Attachments"
+          :attachments="this.attachments"
+          @open-modal="this.toggleAttachmentModal"
+          @delete="this.onDeleteAttachmentEvent"
+          @edit="this.onEditAttachment"
+        />
+        <ModalDialog
+          v-if="showAttachmentModal"
+          @add="this.onAddAttachment"
+          @close="this.toggleAttachmentModal()"
+          data-test="modal-dialog"
+        />
+        <RemoveFileConfirmationDialog
+          v-if="showDeleteFileConfirmation"
+          @cancel="this.onDeleteAttachmentCancel"
+          @delete="this.deleteAttachment"
+          data-test="confirmation-dialog"
         />
       </app-content>
   </div>
@@ -36,7 +54,10 @@ import Analyses from '@/models/analyses.js';
 import AnalysisViewHeader from '../components/AnalysisView/AnalysisViewHeader.vue';
 import SectionBox from '../components/AnalysisView/SectionBox.vue';
 import GeneBox from '../components/AnalysisView/GeneBox.vue';
+import ModalDialog from '@/components/AnalysisView/ModalDialog.vue';
+import RemoveFileConfirmationDialog from '../components/AnalysisView/RemoveFileConfirmationDialog.vue';
 import SupplementalFormList from '../components/AnalysisView/SupplementalFormList.vue';
+import Auth from '../models/authentication.js';
 
 export default {
   name: 'analysis-view',
@@ -44,15 +65,26 @@ export default {
     AnalysisViewHeader,
     SectionBox,
     GeneBox,
+    RemoveFileConfirmationDialog,
+    ModalDialog,
     SupplementalFormList,
   },
   props: ['analysis_name'],
   data: function() {
     return {
+      username: '',
       analysis: {},
       sectionsList: [],
       genomicUnitsList: [],
-      menuActions: ['Edit', '----', 'Attach', 'Attach Monday.com', 'Connect PhenoTips'],
+      attachments: [],
+      menuActions: [
+        {icon: 'pencil', text: 'Edit', operation: () => {
+          console.log('Weeeeeee! Placeholder for Editing an analysis');
+        }, divider: true},
+        {icon: 'paperclip', text: 'Attach', operation: this.toggleAttachmentModal},
+      ],
+      showAttachmentModal: false,
+      attachmentConfirmingToDelete: null,
     };
   },
   computed: {
@@ -63,11 +95,19 @@ export default {
       sections.push('Supplemental Attachments');
       return sections;
     },
+    showDeleteFileConfirmation() {
+      return null != this.attachmentConfirmingToDelete;
+    },
   },
   created() {
+    this.getUsername();
     this.getAnalysis();
   },
   methods: {
+    async getUsername() {
+      const fetchUser = await Auth.getUser();
+      this.username = fetchUser['username'];
+    },
     async getAnalysis() {
       this.analysis = {...await Analyses.getAnalysis(this.analysis_name)};
       this.getSections();
@@ -78,6 +118,34 @@ export default {
     },
     getGenomicUnits() {
       this.genomicUnitsList=this.analysis.genomic_units;
+    },
+    toggleAttachmentModal() {
+      this.showAttachmentModal = !this.showAttachmentModal;
+    },
+    onAddAttachment(attachment) {
+      this.attachments.push(attachment);
+      this.toggleAttachmentModal();
+    },
+    onDeleteAttachmentEvent(attachment) {
+      this.attachmentConfirmingToDelete = attachment;
+    },
+    deleteAttachment() {
+      const attachmentIndex =
+        this.attachments.findIndex((attachment) => {
+          return attachment.name == this.attachmentConfirmingToDelete.name;
+        });
+      this.attachments.splice(attachmentIndex, 1);
+      this.attachmentConfirmingToDelete = null;
+    },
+    onDeleteAttachmentCancel() {
+      this.attachmentConfirmingToDelete = null;
+    },
+    onEditAttachment(attachment) {
+      /* will update the props going into the modal component to edit this attachment */
+    },
+    async onLogout() {
+      await Auth.logout();
+      this.$router.push({path: '/rosalution/login'});
     },
   },
 };

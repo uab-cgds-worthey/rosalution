@@ -7,7 +7,7 @@
               <a
                   title="Cancel"
                   class="cancel-button-item"
-                  @click="cancelModal()"
+                  @click="$emit('cancel')"
                   data-test="cancel-modal-button">
                       Cancel
               </a>
@@ -16,7 +16,7 @@
               <a
                   title="Delete"
                   class="delete-button-item"
-                  @click="deleteAttachment()"
+                  @click="$emit('delete')"
                   data-test="delete-item-button">
                       Delete
               </a>
@@ -26,18 +26,8 @@
   </template>
 
 <script>
-
 export default {
-  name: 'modal-confirmation',
-  methods: {
-    deleteAttachment() {
-      this.$emit('deleteattachment');
-      this.cancelModal();
-    },
-    cancelModal() {
-      this.$emit('cancelconfirmation');
-    },
-  },
+  name: 'remove-file-confirmation-dialog',
 };
 </script>
 

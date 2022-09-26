@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="modal-screen-area">
     <div class="modal-background" @click="$emit('close')"></div>
     <div class="modal-container">
       <button title="Cancel" class="cancelbutton" @click="$emit('close')" data-test="cancel-button">Cancel</button>
@@ -85,19 +85,28 @@ button {
 }
 
 .phenotips-icon {
-  height:24px}
+  height:24px
+}
+
+.modal-screen-area {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
 .modal-background {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1;
+  z-index: 10;
   background-color: rgba(192, 192, 192, 0.45);
 }
 
 .modal-container {
-  vertical-align: middle;
   display: grid;
   z-index: 999;
   grid-template-columns: 200px 200px 200px;
@@ -110,9 +119,10 @@ button {
   font-weight: 600;
   font-size: 1rem;
   position: absolute;
-  border-radius: 1rem;
+  border-radius: var(--content-border-radius);
   justify-items: center;
-  top: 100%;
+  position: absolute;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }

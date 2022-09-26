@@ -1,97 +1,57 @@
 <template>
   <table class="supplemental-container">
     <tbody>
-      <tr class="supplemental-header">
-        <td>
-          <h2 class="supplemental-header-name">Supplemental Attachments</h2>
-        </td>
-        <td>
-          <button class="add-attachment-button" @click="showAttachDocumentModal()" data-test="add-button">
-            <font-awesome-icon icon="circle-plus" size="xl"/>
-          </button>
-        </td>
-        <td class="collapse-box">
-            <font-awesome-icon icon="chevron-down" size="lg"/>
-        </td>
-      </tr>
-      <div class="seperator"></div>
-      <ModalDialog
-        v-if="showModal"
-        v-on:cancelmodal="this.showAttachDocumentModal"
-        v-on:addattachment="this.onAttachmentChange"
-        data-test="modal-dialog"/>
-      <ModalConfirmation
-        v-if="showConfirmation"
-        v-on:cancelconfirmation="this.showConfirmationModal"
-        v-on:deleteattachment="this.deleteRow"
-        data-test="confirmation-dialog"
-      />
-      <div class="attachment-list" v-for="attachment in attachments" v-bind:key="attachment.id">
-        <tr class="attachment-row">
-          <td class="attachment-logo">
-            <font-awesome-icon :icon="['far', 'file']" size="lg" v-if="attachment.type==='file'"/>
-            <font-awesome-icon icon="link" size="lg" v-else-if="attachment.type==='link'"/>
-          </td>
-          <td class="attachment-name">
-              {{ attachment.name }}
-          </td>
-          <td class="edit-button">
-            <button  v-on:click="edit(attachment)">
-              <font-awesome-icon icon="pencil" size="xl"/>
-            </button>
-          </td>
-          <td class="delete-button">
-            <button id="removeAttachmentButton" v-on:click="showConfirmationModal(attachment)">
-              <font-awesome-icon icon="xmark" size="xl"/>
-            </button>
-          </td>
+        <tr class="supplemental-header">
+            <td>
+                <h2 class="supplemental-header-name">Supplemental Attachments</h2>
+            </td>
+            <td>
+                <button class="add-attachment-button" @click="$emit('openModal')" data-test="add-button">
+                    <font-awesome-icon icon="circle-plus" size="xl"/>
+                </button>
+            </td>
+            <td class="collapse-box">
+                <font-awesome-icon icon="chevron-down" size="lg"/>
+            </td>
         </tr>
-      </div>
+        <div class="seperator"></div>
+        <div class="attachment-list" v-for="attachment in attachments" v-bind:key="attachment.id">
+            <tr class="attachment-row">
+                <td class="attachment-logo">
+                    <font-awesome-icon :icon="['far', 'file']" size="lg" v-if="attachment.type==='file'"/>
+                    <font-awesome-icon icon="link" size="lg" v-else-if="attachment.type==='link'"/>
+                </td>
+                <td class="attachment-name">
+                    {{ attachment.name }}
+                </td>
+                <td class="edit-button">
+                    <button @click="$emit('edit', attachment)" data-test="edit-button">
+                        <font-awesome-icon icon="pencil" size="xl"/>
+                    </button>
+                </td>
+                <td class="delete-button">
+                    <button @click="$emit('delete', attachment)" data-test="delete-button">
+                        <font-awesome-icon icon="xmark" size="xl"/>
+                    </button>
+                </td>
+            </tr>
+        </div>
     </tbody>
   </table>
 </template>
 
 <script>
-import ModalDialog from '@/components/AnalysisView/ModalDialog.vue';
-import ModalConfirmation from './ModalConfirmation.vue';
 
 export default {
   name: 'supplemental-form',
-  data() {
-    return {
-      attachments: [],
-      showModal: false,
-      showConfirmation: false,
-      selectedAttachment: null,
-    };
-  },
-  components: {
-    ModalDialog,
-    ModalConfirmation,
-  },
-  methods: {
-    onAttachmentChange(attachment) {
-      this.attachments.push(attachment);
+  props: {
+    attachments: {
+      type: Array,
+      default: () => {
+        return [];
+      },
     },
-    deleteRow() {
-      const element = this.selectedAttachment;
 
-      this.attachments = this.attachments.filter(function(item) {
-        return item !== element;
-      });
-      this.selectedAttachment = null;
-    },
-    edit(attachment) {
-      // This method will handle the edit modal/feature
-      console.log('Skeleton method for Editing ' + attachment.name);
-    },
-    showAttachDocumentModal() {
-      this.showModal = !this.showModal;
-    },
-    showConfirmationModal(attachment) {
-      this.showConfirmation = !this.showConfirmation;
-      this.selectedAttachment = attachment;
-    },
   },
 };
 </script>

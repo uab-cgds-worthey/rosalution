@@ -84,6 +84,7 @@ export default {
       if (this.username != '') {
         const userData = {'username': this.username, 'password': 'secret'};
         await Auth.loginOAuth(userData);
+        this.$router.push('/rosalution/');
       }
     },
     async productionLogin() {

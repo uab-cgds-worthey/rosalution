@@ -1,6 +1,5 @@
 import {describe, it, expect, beforeAll, afterAll} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
-import {nextTick} from 'vue';
 import sinon from 'sinon';
 
 import Analyses from '@/models/analyses.js';
@@ -16,6 +15,7 @@ describe('AnalysisListingView', () => {
   let mockedData;
   let mockedImport;
   let mockedUser;
+  let mockedLogout;
   let wrapper;
   let sandbox;
 
@@ -29,10 +29,20 @@ describe('AnalysisListingView', () => {
     mockedUser = sandbox.stub(Auth, 'getUser');
     mockedUser.returns('');
 
+    mockedLogout = sandbox.stub(Auth, 'logout');
+
     wrapper = shallowMount(AnalysisListingView, {
       global: {
         components: {
           'font-awesome-icon': FontAwesomeIcon,
+        },
+        mocks: {
+          $route: {
+            push: sandbox.spy(),
+          },
+          $router: {
+            push: sandbox.spy(),
+          },
         },
       },
     });
@@ -60,7 +70,6 @@ describe('AnalysisListingView', () => {
   });
 
   it('Contains listing of Analyses', async () => {
-    await nextTick();
     const cards = wrapper.findAllComponents(AnalysisCard);
     expect(cards).to.have.lengthOf(4);
   });
@@ -69,7 +78,7 @@ describe('AnalysisListingView', () => {
     const searchBarWrapper = wrapper.findComponent(AnalysisListingHeader);
     searchBarWrapper.vm.$emit('search', 'NM_1');
 
-    await nextTick();
+    await wrapper.vm.$nextTick();
 
     const cards = wrapper.findAllComponents(AnalysisCard);
     expect(cards).to.have.lengthOf(2);
@@ -88,6 +97,15 @@ describe('AnalysisListingView', () => {
     expect(mockedImport.called).to.be.true;
     const wrapperPhenotipsImportModalRemoved = wrapper.find('[data-test=phenotips-file-modal]');
     expect(wrapperPhenotipsImportModalRemoved.exists()).to.be.false;
+  });
+
+  it('should logout when the analysis listing header emits the logout event', async () => {
+    const header = wrapper.findComponent(AnalysisListingHeader);
+    header.vm.$emit('logout');
+    await header.vm.$nextTick();
+
+    expect(mockedLogout.called).to.be.true;
+    expect(wrapper.vm.$router.push.called).to.be.true;
   });
 });
 
