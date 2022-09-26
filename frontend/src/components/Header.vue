@@ -5,24 +5,41 @@
     </router-link>
     <div data-test="primary-content" class="content">
       <a class="title left-content" href="#top" data-test="header-title-text">{{ titleText }}</a>
-      <slot>
-      </slot>
-      <router-link to="/rosalution/login">
-        <span v-if="username" class="login" data-test="user-text">{{ username }}</span>
-      </router-link>
-      <router-link to="/rosalution/login">
-        <button class="login" data-test="user-menu">
-          <font-awesome-icon class="header-icon" icon="user-doctor" size="xl"/>
-        </button>
-      </router-link>
-      <font-awesome-icon v-if="actionsExist" class="header-icon" icon="ellipsis-vertical" size="xl"/>
+      <slot></slot>
+      <ul class="actions-menu">
+        <drop-down-menu :actions="this.userAuthActions" data-test="auth-menu">
+          <span v-if="username" class="login" data-test="user-text">
+            {{ username }}
+          </span>
+          <font-awesome-icon class="header-icon" icon="user-doctor" size="xl" />
+        </drop-down-menu>
+        <drop-down-menu v-if="actionsExist" :actions="actions" data-test="user-menu">
+          <font-awesome-icon class="header-icon" icon="ellipsis-vertical" size="xl" />
+        </drop-down-menu>
+      </ul>
     </div>
   </header>
 </template>
 
 <script>
+import DropDownMenu from '@/components/DropDownMenu.vue';
+
 export default {
   name: 'header-component',
+  components: {
+    DropDownMenu,
+  },
+  data: function() {
+    return {
+      userAuthActions: [{
+        icon: '',
+        text: 'Logout',
+        operation: () => {
+          this.$emit('logout');
+        },
+      }],
+    };
+  },
   props: {
     titleText: {
       type: String,
@@ -59,15 +76,15 @@ img.rosalution-logo {
 }
 
 a:link.title.left-content {
-  color: var(--rosalution-purple-300)
+  color: var(--rosalution-purple-300);
 }
 
 a:active.title.left-content {
-  color: var(--rosalution-purple-200)
+  color: var(--rosalution-purple-200);
 }
 
 a:visited.title.left-content {
-  color: var(--rosalution-purple-300)
+  color: var(--rosalution-purple-300);
 }
 
 header .content {
@@ -95,6 +112,10 @@ header .left-content {
 
 .header-icon {
   color: var(--rosalution-purple-300);
+  padding: var(--p-8);
 }
 
+.actions-menu > li {
+  float: left;
+}
 </style>

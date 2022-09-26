@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <div class="modal-background" @click="closeModal()"></div>
+  <div class="modal-screen-area">
+    <div class="modal-background" @click="$emit('close')"></div>
     <div class="modal-container">
-      <a title="Cancel" class="cancel-item" @click="cancelModal()" data-test="cancel-modal">Cancel</a>
-      <a title="Add" class="addbutton-item" @click="addAttachment()" data-test="add-button">Add</a>
+      <a title="Cancel" class="cancel-item" @click="$emit('close')" data-test="cancel-button">Cancel</a>
+      <a title="Add" class="addbutton-item" @click="this.addAttachment()" data-test="add-button">Add</a>
       <div class="content-item">
         <br>
         <!-- Leaving here for tabbed in the future -->
@@ -76,9 +76,6 @@ export default {
       this.showLink = true;
       this.showFile = false;
     },
-    cancelModal() {
-      this.$emit('cancelmodal');
-    },
     addAttachment() {
       const attachment = {
         name: this.name,
@@ -86,8 +83,7 @@ export default {
         data: this.data,
         comment: this.comments,
       };
-      this.$emit('addattachment', attachment);
-      this.cancelModal();
+      this.$emit('add', attachment);
     },
     getFile(fileUploaded) {
       this.data = fileUploaded[0];
@@ -115,18 +111,24 @@ export default {
 </script>
 
 <style scoped>
+.modal-screen-area {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
 .modal-background {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1;
+  z-index: 20;
   background-color: rgba(192, 192, 192, 0.45);
 }
 
 .modal-container {
-  vertical-align: middle;
   display: grid;
   z-index: 999;
   grid-template-columns: 200px 200px 200px;
@@ -138,18 +140,12 @@ export default {
   background-color: var(--rosalution-white);
   font-weight: 600;
   font-size: 1rem;
-  position: absolute;
-  border-radius: 1rem;
+  border-radius: var(--content-border-radius);
   justify-items: center;
-  top: 100%;
+  position: absolute;
+  top: 90%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.header-item {
-  grid-area: header;
-  font-size: 150%;
-  margin: 25px;
 }
 
 .content-item {

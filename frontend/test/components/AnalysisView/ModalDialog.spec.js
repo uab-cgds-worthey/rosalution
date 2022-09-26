@@ -22,18 +22,13 @@ describe('ModalDialog.vue', () => {
   });
 
   it('Should close the modal when clicking on the close button.', async () => {
-    wrapper.find('[data-test=cancel-modal]').trigger('click');
-    expect(wrapper.emitted().cancelmodal).to.not.be.undefined;
+    wrapper.find('[data-test=cancel-button]').trigger('click');
+    expect(wrapper.emitted().close).to.not.be.undefined;
   });
 
   it('Should emit "addfile" when clicking on the add button', async () => {
     wrapper.find('[data-test=add-button]').trigger('click');
-    expect(wrapper.emitted().addattachment).to.not.be.undefined;
-  });
-
-  it('Should close the modal after clicking on the add button', async () => {
-    wrapper.find('[data-test=add-button]').trigger('click');
-    expect(wrapper.emitted().cancelmodal).to.not.be.undefined;
+    expect(wrapper.emitted().add).to.not.be.undefined;
   });
 
   it('Should show the supplemental load link when clicking on the link tab', async () => {

@@ -1,95 +1,70 @@
 import {describe, it, beforeEach, expect} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
-import sinon from 'sinon';
 
 import SupplementalFormList from '../../../src/components/AnalysisView/SupplementalFormList.vue';
-import ModalDialog from '../../../src/components/AnalysisView/ModalDialog.vue';
-import ModalConfirmation from '../../../src/components/AnalysisView/ModalConfirmation.vue';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+
+/**
+ * Helper mounts and returns the rendered component
+ * @param {props} props props for testing to overwrite default props
+ * @return {VueWrapper} returns a shallow mounted using props
+ */
+function getMountedComponent(props) {
+  return shallowMount(SupplementalFormList, {
+    props: {...props},
+    attachTo: document.body,
+    global: {
+      components: {
+        'font-awesome-icon': FontAwesomeIcon,
+      },
+    },
+  });
+}
 
 describe('SupplementalFormList.vue', () => {
   let wrapper;
+  const defaultAttachment = {
+    data: 'fakeFiledData',
+    name: '/path/to/fakeFile.ext',
+    type: 'file',
+  };
 
   beforeEach(() => {
-    wrapper = shallowMount(SupplementalFormList, {
-      global: {
-        components: {
-          'font-awesome-icon': FontAwesomeIcon,
-        },
-      },
+    wrapper = getMountedComponent({
+      attachments: [defaultAttachment],
     });
   });
 
-  it('Vue instance exists and it is an object', () => {
-    expect(typeof wrapper).toBe('object');
-  });
-
-  it('plus-logo pops up the add attachment modal', async () => {
+  it('plus icon emits open modal event', async () => {
     const button = wrapper.find('[data-test=add-button]');
 
     await button.trigger('click');
 
-    const modal = wrapper.find('[data-test=modal-dialog]');
-
-    expect(modal.exists()).to.equal(true);
+    expect(wrapper.emitted().openModal).to.not.be.undefined;
   });
 
-  it('new file populates in a row with correct data', async () => {
-    const onModalDialogSpy = sinon.spy(wrapper.vm, 'showAttachDocumentModal');
-    const onAttachmentSpy = sinon.spy(wrapper.vm, 'onAttachmentChange');
-
-    await wrapper.setData({showModal: true});
-
-    const modalWrapper = wrapper.findComponent(ModalDialog);
-
-    modalWrapper.vm.$emit('addattachment', {
-      data: 'fakeFiledData',
-      name: '/path/to/fakeFile.ext',
-      type: 'file',
-    });
-
-    modalWrapper.vm.$emit('cancelmodal');
-
-    expect(wrapper.findAll('tr').length).toBe(1);
-
-    await wrapper.vm.$nextTick();
-
-    expect(onModalDialogSpy.called).toBe(true);
-    expect(onAttachmentSpy.called).toBe(true);
-    expect(wrapper.findAll('tr').length).toBe(2);
-    expect(wrapper.vm.$data.attachments.length).toBe(1);
-
-    const attachment = wrapper.vm.$data.attachments[0];
-    expect(attachment.data).deep.to.equal('fakeFiledData');
-    expect(attachment.name).deep.to.equal('/path/to/fakeFile.ext');
-    expect(attachment.type).deep.to.equal('file');
+  it('should render each attachemnt', async () => {
+    const attachmentRow = wrapper.get('.attachment-row');
+    expect(attachmentRow.text()).to.equal('/path/to/fakeFile.ext');
   });
 
-  it('Clicking the X button opens the confirmation modal dialog box', async () => {
-    const fakeAttachments = [{
-      data: 'fakeFiledData',
-      name: '/path/to/fakeFile.ext',
-      type: 'file',
-    }];
+  it('should emit remove for the designated attachment', async () => {
+    const attachmentRow = wrapper.get('.attachment-row');
+    await attachmentRow.get('[data-test=delete-button]').trigger('click');
 
-    await wrapper.setData({attachments: fakeAttachments});
-
-    await wrapper.setData({showConfirmation: true});
-    await wrapper.setData({selectedAttachment: fakeAttachments[0]});
-
-    expect(wrapper.findAll('tr').length).toBe(2);
-
-    const confirmationWrapper = wrapper.findComponent(ModalConfirmation);
-
-    confirmationWrapper.vm.$emit('deleteattachment');
-    confirmationWrapper.vm.$emit('cancelconfirmation');
-
-    await wrapper.vm.$nextTick();
-
-    expect(wrapper.findAll('tr').length).toBe(1);
-    expect(wrapper.vm.$data.attachments.length).toBe(0);
+    const attachmentToDelete = wrapper.emitted().delete[0][0];
+    expect(attachmentToDelete.data).to.equal('fakeFiledData');
+    expect(attachmentToDelete.name).to.equal('/path/to/fakeFile.ext');
+    expect(attachmentToDelete.type).to.equal('file');
   });
 
-  // This test will be added when the edit supplemental attachment experience is implemented.
-  it.skip('clicking edit-logo pops up the edit modal', () => {});
+  it('should emit edit for the designated attachment', async () => {
+    const attachmentRow = wrapper.get('.attachment-row');
+    await attachmentRow.get('[data-test=edit-button]').trigger('click');
+
+    const attachmentToEdit = wrapper.emitted().edit[0][0];
+    expect(attachmentToEdit.data).to.equal('fakeFiledData');
+    expect(attachmentToEdit.name).to.equal('/path/to/fakeFile.ext');
+    expect(attachmentToEdit.type).to.equal('file');
+  });
 });

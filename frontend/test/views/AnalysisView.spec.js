@@ -1,56 +1,74 @@
-import {expect, describe, it, beforeAll, afterAll} from 'vitest';
+import {expect, describe, it, beforeAll, afterAll, beforeEach} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 import sinon from 'sinon';
 
 import Analyses from '@/models/analyses.js';
+import Auth from '@/models/authentication.js';
 
 import AnalysisView from '@/views/AnalysisView.vue';
+import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
+import RemoveFileConfirmationDialog from '@/components/AnalysisView/RemoveFileConfirmationDialog.vue';
+import ModalDialog from '@/components/AnalysisView/ModalDialog.vue';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import {RouterLink} from 'vue-router';
+
+
+/**
+ * Helper mounts and returns the rendered component
+ * @param {props} props props for testing to overwrite default props
+ * @return {VueWrapper} returns a shallow mounted using props
+ */
+function getMountedComponent(props) {
+  const defaultProps = {analysis_name: 'CPAM0046'};
+
+  return shallowMount(AnalysisView, {
+    props: {...defaultProps, ...props},
+    global: {
+      components: {
+        'font-awesome-icon': FontAwesomeIcon,
+        'router-link': RouterLink,
+      },
+      mocks: {
+        $route: {
+          push: sinon.spy(),
+        },
+        $router: {
+          push: sinon.spy(),
+        },
+      },
+    },
+  });
+}
+
 
 describe('AnalysisView', () => {
   let mockedData;
+  let mockedUser;
+  let mockedLogout;
   let wrapper;
-
-  const mockRoute = {
-    params: {
-      id: 1,
-    },
-  };
-
-  const mockRouter = {
-    push: sinon.spy(),
-  };
+  let sandbox;
 
   beforeAll(() => {
-    mockedData = sinon.stub(Analyses, 'getAnalysis');
+    sandbox = sinon.createSandbox();
+    mockedData = sandbox.stub(Analyses, 'getAnalysis');
     mockedData.returns(fixtureData());
 
-    const defaultProps = {analysis_name: 'CPAM0046'};
+    mockedUser = sandbox.stub(Auth, 'getUser');
+    mockedUser.returns('');
 
-    wrapper = shallowMount(AnalysisView, {
-      props: {...defaultProps},
-      global: {
-        components: {
-          'font-awesome-icon': FontAwesomeIcon,
-        },
-        mocks: {
-          $route: mockRoute,
-          $router: mockRouter,
-        },
-      },
-    });
+    mockedLogout = sandbox.stub(Auth, 'logout');
+  });
+
+  beforeEach(() => {
+    wrapper = getMountedComponent();
   });
 
   afterAll(() => {
-    mockedData.restore();
+    sandbox.restore();
   });
 
-  it('Vue instance exists and it is an object', () => {
-    expect(typeof wrapper).toBe('object');
-  });
-
-  it('Analysis view contains a header and content', () => {
+  it('contains a header and content', () => {
     const appHeader = wrapper.find('app-header');
     expect(appHeader.exists()).toBe(true);
 
@@ -58,10 +76,118 @@ describe('AnalysisView', () => {
     expect(appContent.exists()).toBe(true);
   });
 
-  it('Analysis view provides the expected headings of sections to be used as anchors to header', () => {
+  it('provides the expected headings of sections to be used as anchors to header', () => {
     const headerComponent = wrapper.get('[data-test="analysis-view-header"]');
     expect(headerComponent.attributes('sectionanchors'))
         .to.equal('Brief,Medical Summary,Case Information,Supplemental Attachments');
+  });
+
+  it('displays the attachment modal when the supplemental form list requests dialog', async () => {
+    const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+    supplementalComponent.vm.$emit('open-modal');
+
+    await wrapper.vm.$nextTick();
+
+    const attachmentDialog = wrapper.findComponent(ModalDialog);
+    expect(attachmentDialog.exists()).to.be.true;
+  });
+
+  it('attachment dialog adds a new attachment to the analysis', async () => {
+    const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+    expect(supplementalComponent.props('attachments').length).to.equal(0);
+
+    supplementalComponent.vm.$emit('open-modal');
+    await wrapper.vm.$nextTick();
+
+    const attachmentDialog = wrapper.findComponent(ModalDialog);
+    attachmentDialog.vm.$emit('add', {file: 'fake'});
+    await wrapper.vm.$nextTick();
+
+    expect(supplementalComponent.props('attachments').length).to.equal(1);
+  });
+
+  it('prompts a confirmation when an attachment is to be deleted', async () => {
+    const fakeAttachment = {file: 'fake'};
+    const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+    expect(supplementalComponent.props('attachments').length).to.equal(0);
+
+    // Manually adding to the modal needs to be done at this time due to not
+    // querying existing attachments for the analaysis being viewed yet yet
+    supplementalComponent.vm.$emit('open-modal');
+    await wrapper.vm.$nextTick();
+
+    const attachmentDialog = wrapper.findComponent(ModalDialog);
+    attachmentDialog.vm.$emit('add', fakeAttachment);
+    await wrapper.vm.$nextTick();
+
+    expect(supplementalComponent.props('attachments').length).to.equal(1);
+
+    supplementalComponent.vm.$emit('delete', fakeAttachment);
+    await wrapper.vm.$nextTick();
+
+    const confirmationDialog = wrapper.findComponent(RemoveFileConfirmationDialog);
+    expect( confirmationDialog.exists()).to.be.true;
+  });
+
+  it('can cancel deleting the attachment via the confirmation and not delete the attachment', async () => {
+    const fakeAttachment = {file: 'fake'};
+    const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+    expect(supplementalComponent.props('attachments').length).to.equal(0);
+
+    // Manually adding to the modal needs to be done at this time due to not
+    // querying existing attachments for the analaysis being viewed yet yet
+    supplementalComponent.vm.$emit('open-modal');
+    await wrapper.vm.$nextTick();
+
+    const attachmentDialog = wrapper.findComponent(ModalDialog);
+    attachmentDialog.vm.$emit('add', fakeAttachment);
+    await wrapper.vm.$nextTick();
+
+    expect(supplementalComponent.props('attachments').length).to.equal(1);
+
+    supplementalComponent.vm.$emit('delete', fakeAttachment);
+    await wrapper.vm.$nextTick();
+
+    const confirmationDialog = wrapper.findComponent(RemoveFileConfirmationDialog);
+    confirmationDialog.vm.$emit('cancel');
+    await wrapper.vm.$nextTick();
+
+    expect(supplementalComponent.props('attachments').length).to.equal(1);
+  });
+
+  it('confirmation removes the attachment to the analysis', async () => {
+    const fakeAttachment = {file: 'fake'};
+    const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+    expect(supplementalComponent.props('attachments').length).to.equal(0);
+
+    // Manually adding to the modal needs to be done at this time due to not
+    // querying existing attachments for the analaysis being viewed yet yet
+    supplementalComponent.vm.$emit('open-modal');
+    await wrapper.vm.$nextTick();
+
+    const attachmentDialog = wrapper.findComponent(ModalDialog);
+    attachmentDialog.vm.$emit('add', fakeAttachment);
+    await wrapper.vm.$nextTick();
+
+    expect(supplementalComponent.props('attachments').length).to.equal(1);
+
+    supplementalComponent.vm.$emit('delete', fakeAttachment);
+    await wrapper.vm.$nextTick();
+
+    const confirmationDialog = wrapper.findComponent(RemoveFileConfirmationDialog);
+    confirmationDialog.vm.$emit('delete');
+    await wrapper.vm.$nextTick();
+
+    expect(supplementalComponent.props('attachments').length).to.equal(0);
+  });
+
+  it('should logout when the analysis listing header emits the logout event', async () => {
+    const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
+    headerComponent.vm.$emit('logout');
+    await headerComponent.vm.$nextTick();
+
+    expect(mockedLogout.called).to.be.true;
+    expect(wrapper.vm.$router.push.called).to.be.true;
   });
 });
 

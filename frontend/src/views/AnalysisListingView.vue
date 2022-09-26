@@ -1,16 +1,15 @@
 <template>
 <div>
-  <!--Header-->
   <app-header>
     <AnalysisListingHeader
       :username="username"
       v-on:search="onSearch"
+      @logout="this.onLogout"
     />
   </app-header>
-  <!--Content-->
   <app-content>
     <AnalysisCreateCard
-      @click="showModal = !showModal"
+      @click="this.toggleImportModal"
     />
     <AnalysisCard
       v-for="analysis in searchedAnalysisListing"
@@ -27,8 +26,8 @@
   <app-footer>
     <PhenotipsImportModal
       v-if="showModal"
-      v-on:close="showModal = !showModal"
-      v-on:upload="this.importPhenotipsAnalysis"
+      @close="this.toggleImportModal"
+      @upload="this.importPhenotipsAnalysis"
       data-test="phenotips-file-modal"
     />
     <AnalysisListingLegend/>
@@ -86,7 +85,6 @@ export default {
   methods: {
     async getUsername() {
       const fetchUser = await Auth.getUser();
-      console.log(fetchUser);
       this.username = fetchUser['username'];
     },
     async getListing() {
@@ -98,7 +96,7 @@ export default {
       // There needs to be a proper way to user09e these errors, otherwise each function will
       // have their own error message
       if (analyses.error) {
-        console.log('Cannot retrieve Analyses. User is not authorized or token is expired.');
+        console.warn('Cannot retrieve Analyses. User is not authorized or token is expired.');
         return;
       }
 
@@ -107,9 +105,16 @@ export default {
     onSearch(query) {
       this.searchQuery = query;
     },
-    importPhenotipsAnalysis(file) {
+    toggleImportModal() {
       this.showModal = !this.showModal;
+    },
+    importPhenotipsAnalysis(file) {
+      this.toggleImportModal();
       Analyses.importPhenotipsAnalysis(file[0]);
+    },
+    async onLogout() {
+      await Auth.logout();
+      this.$router.push({path: '/rosalution/login'});
     },
   },
 };
