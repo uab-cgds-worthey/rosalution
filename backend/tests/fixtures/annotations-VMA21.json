@@ -1,17 +1,23 @@
 [
   {
-    "Entrez Gene Id": [ {
-      "data_source": "HPO",
-      "version": "",
-      "value": 203547 } ]
-  },
-  {
-    "HPO": [
+    "gene_symbol": "VMA21",
+    "gene": "VMA21",
+    "annotations": [
       {
-        "data_source": "HPO",
-        "version": "",
-        "value": [
-          "Myopathy, X-linked, With Excessive Autophagy"
+        "Entrez Gene Id": [ {
+          "data_source": "HPO",
+          "version": "",
+          "value": 203547 } ]
+      },
+      {
+        "HPO": [
+          {
+            "data_source": "HPO",
+            "version": "",
+            "value": [
+              "Myopathy, X-linked, With Excessive Autophagy"
+            ]
+          }
         ]
       }
     ]

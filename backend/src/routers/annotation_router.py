@@ -50,8 +50,10 @@ def get_annotations_by_gene(gene, rosalution_db=Depends(database)):
         'unit': gene,
     }
 
+    print("is this happening?")
     queried_genomic_unit = rosalution_db["genomic_unit"].find_genomic_unit(genomic_unit)
 
+    print(queried_genomic_unit);
     if queried_genomic_unit is None:
         raise HTTPException(status_code=404, detail="Item not found")
 
