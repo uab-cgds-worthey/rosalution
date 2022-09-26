@@ -36,6 +36,7 @@ const annotationRenderingTemporary = [
     'type': 'section',
     'class': '',
     'header': 'gene',
+    'anchor': 'Gene',
     'props': {
       'linkouts': [],
     },
@@ -56,7 +57,7 @@ const annotationRenderingTemporary = [
             'type': 'text-dataset',
             'props': {
               'label': '',
-              'EntrezGeneId': '',
+              'Entrez Gene Id': '',
               'url': 'https://www.omim.org/entry/{Entrez Gene Id}',
             },
           },
@@ -71,7 +72,7 @@ const annotationRenderingTemporary = [
               'label': 'OMIM',
               '': '',
               'url': 'https://hpo.jax.org/app/browse/search?q={gene}&navFilter=all',
-            }
+            },
           },
         ],
       },
@@ -81,6 +82,7 @@ const annotationRenderingTemporary = [
     'type': 'section',
     'class': '',
     'header': 'variant',
+    'anchor': 'Variant',
     'props': {
       'linkouts': [],
     },
@@ -138,6 +140,7 @@ const annotationRenderingTemporary = [
     'type': 'section',
     'class': '',
     'header': 'Gene Homology/Multi-Sequence allignment',
+    'anchor': 'Gene_Homology',
     'props': {
       'linkouts': [],
     },
@@ -145,6 +148,7 @@ const annotationRenderingTemporary = [
     'type': 'section',
     'class': '',
     'header': 'Protein Expression',
+    'anchor': 'Protein_Expression',
     'props': {
       'linkouts': [],
     },
@@ -152,6 +156,7 @@ const annotationRenderingTemporary = [
     'type': 'section',
     'class': '',
     'header': 'Modelability',
+    'anchor': 'Modelability',
     'props': {
       'linkouts': [],
     },
@@ -159,6 +164,7 @@ const annotationRenderingTemporary = [
     'type': 'section',
     'class': '',
     'header': 'Model Systems',
+    'anchor': 'Model_Systems',
     'props': {
       'linkouts': [],
     },
@@ -166,6 +172,7 @@ const annotationRenderingTemporary = [
     'type': 'section',
     'class': '',
     'header': 'Druggability',
+    'anchor': 'Druggability',
     'props': {
       'linkouts': [],
     },

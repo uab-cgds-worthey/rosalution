@@ -37,12 +37,24 @@ div {
   padding: var(--p-0);
 }
 
+table {
+  width:100%;
+}
+tr {
+  display: flex;
+  align-items: stretch;
+}
+
+td:last-child {
+    flex: 1;
+    background: yellow;
+}
+
 .section-box-container {
   display: flex;
   flex-direction: column;
   padding: var(--p-10);
   margin: 0.625rem;
-  width: 100%;
   gap: .625rem;
   border-radius: 1.25rem;
   background-color: var(--rosalution-white);
