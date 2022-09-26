@@ -1,126 +1,131 @@
-[
-  {
-    "transcript_id": "NM_001017980.4",
-    "annotations": [
-      {
-        "transcript_id": [
-          {
-            "data_source": "Ensembl",
-            "version": "",
-            "value": ""
-          }
-        ]
-      },
-      {
-        "Polyphen Score": [
-          {
-            "data_source": "Ensembl",
-            "version": "",
-            "value": 0.597
-          }
-        ]
-      },
-      {
-        "Polyphen Prediction": [
-          {
-            "data_source": "Ensembl",
-            "version": "",
-            "value": "possibly_damaging"
-          }
-        ]
-      },
-      {
-        "SIFT Score": [
-          {
-            "data_source": "Ensembl",
-            "version": "",
-            "value": 0.02
-          }
-        ]
-      },
-      {
-        "Consequences": [
-          {
-            "data_source": "Ensembl",
-            "version": "",
-            "value": [
-              "missense_variant",
-              "splice_region_variant"
-            ]
-          }
-        ]
-      },
-      {
-        "SIFT Prediction": [
-          {
-            "data_source": "Ensembl",
-            "version": "",
-            "value": "deleterious"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "transcript_id": "NM_001363810.1",
-    "annotations": [
-      {
-        "transcript_id": [
-          {
-            "data_source": "Ensembl",
-            "version": "",
-            "value": ""
-          }
-        ]
-      },
-      {
-        "Polyphen Score": [
-          {
-            "data_source": "Ensembl",
-            "version": "",
-            "value": 0.998
-          }
-        ]
-      },
-      {
-        "Polyphen Prediction": [
-          {
-            "data_source": "Ensembl",
-            "version": "",
-            "value": "probably_damaging"
-          }
-        ]
-      },
-      {
-        "SIFT Score": [
-          {
-            "data_source": "Ensembl",
-            "version": "",
-            "value": 0.01
-          }
-        ]
-      },
-      {
-        "Consequences": [
-          {
-            "data_source": "Ensembl",
-            "version": "",
-            "value": [
-              "missense_variant",
-              "splice_region_variant"
-            ]
-          }
-        ]
-      },
-      {
-        "SIFT Prediction": [
-          {
-            "data_source": "Ensembl",
-            "version": "",
-            "value": "deleterious"
-          }
-        ]
-      }
-    ]
-  }
-]
+{
+  "hgvs_variant": "NM_001017980.3:c.164G>T",
+  "transcripts": 
+  [
+    {
+      "transcript_id": "NM_001017980.4",
+      "annotations": [
+        {
+          "transcript_id": [
+            {
+              "data_source": "Ensembl",
+              "version": "",
+              "value": ""
+            }
+          ]
+        },
+        {
+          "Polyphen Score": [
+            {
+              "data_source": "Ensembl",
+              "version": "",
+              "value": 0.597
+            }
+          ]
+        },
+        {
+          "Polyphen Prediction": [
+            {
+              "data_source": "Ensembl",
+              "version": "",
+              "value": "possibly_damaging"
+            }
+          ]
+        },
+        {
+          "SIFT Score": [
+            {
+              "data_source": "Ensembl",
+              "version": "",
+              "value": 0.02
+            }
+          ]
+        },
+        {
+          "Consequences": [
+            {
+              "data_source": "Ensembl",
+              "version": "",
+              "value": [
+                "missense_variant",
+                "splice_region_variant"
+              ]
+            }
+          ]
+        },
+        {
+          "SIFT Prediction": [
+            {
+              "data_source": "Ensembl",
+              "version": "",
+              "value": "deleterious"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "transcript_id": "NM_001363810.1",
+      "annotations": [
+        {
+          "transcript_id": [
+            {
+              "data_source": "Ensembl",
+              "version": "",
+              "value": ""
+            }
+          ]
+        },
+        {
+          "Polyphen Score": [
+            {
+              "data_source": "Ensembl",
+              "version": "",
+              "value": 0.998
+            }
+          ]
+        },
+        {
+          "Polyphen Prediction": [
+            {
+              "data_source": "Ensembl",
+              "version": "",
+              "value": "probably_damaging"
+            }
+          ]
+        },
+        {
+          "SIFT Score": [
+            {
+              "data_source": "Ensembl",
+              "version": "",
+              "value": 0.01
+            }
+          ]
+        },
+        {
+          "Consequences": [
+            {
+              "data_source": "Ensembl",
+              "version": "",
+              "value": [
+                "missense_variant",
+                "splice_region_variant"
+              ]
+            }
+          ]
+        },
+        {
+          "SIFT Prediction": [
+            {
+              "data_source": "Ensembl",
+              "version": "",
+              "value": "deleterious"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "annotations": []
+}
