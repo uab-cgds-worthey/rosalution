@@ -132,6 +132,7 @@ button {
   text-align: center;
   justify-self: stretch;
   margin: 1.5rem;
+  cursor: pointer;
 }
 
 .cancelbutton {
@@ -146,6 +147,7 @@ button {
   border-color: black;
   border-style: solid;
   margin: 1.5rem;
+  cursor: pointer;
 }
 
 a {

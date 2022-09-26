@@ -167,6 +167,7 @@ export default {
   text-align: center;
   justify-self: stretch;
   margin: 1.5rem;
+  cursor: pointer;
 }
 
 .cancel-item {
@@ -181,6 +182,7 @@ export default {
   border-color: black;
   border-style: solid;
   margin: 1.5rem;
+  cursor: pointer;
 }
 
 a {
@@ -208,6 +210,7 @@ small {
   width: 154px;
   border-radius: 7px;
   height: 36px;
+  cursor: pointer;
 }
 
 .link-tab-button {
@@ -220,6 +223,7 @@ small {
   width: 73px;
   height: 36px;
   color: var(--rosalution-grey-300);
+  cursor: pointer;
 }
 
 .link-tab-button_focused {
@@ -237,6 +241,7 @@ small {
   height: 36px;
   padding: 0%;
   color: var(--rosalution-grey-300);
+  cursor: pointer;
 }
 
 .file-tab-button_focused {
