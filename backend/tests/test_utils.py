@@ -1,6 +1,7 @@
 """General test utilities for the application"""
 import json
 import os
+import mongomock
 
 from unittest.mock import Mock, MagicMock
 
@@ -17,6 +18,7 @@ def read_test_fixture(fixture_filename):
     """reads the JSON from the filepath relative to the tests"""
     return read_fixtures(UNIT_TEST_FIXTURE_PATH, fixture_filename)
 
+
 def read_fixtures(base_path, fixture_filename):
     """With a base path relative to the current directory, loads a fixture for fixture_filename"""
     path_to_current_file = os.path.realpath(__file__)
@@ -28,6 +30,7 @@ def read_fixtures(base_path, fixture_filename):
         file_to_open.close()
 
     return data
+
 
 def mock_mongo_collection():
     """
@@ -54,4 +57,13 @@ def magic_mock_mongo_collection():
     mock_collection.update_one = MagicMock()
     mock_collection.insert_one = MagicMock()
     mock_collection.find_one_and_update = MagicMock()
+    return mock_collection
+
+
+def mongomock_collection():
+    """
+    Returns the annotation collection for the configuration to verify
+    annotation tasks are created according to the configuration
+    """
+    mock_collection = mongomock.MongoClient().db.collection
     return mock_collection
