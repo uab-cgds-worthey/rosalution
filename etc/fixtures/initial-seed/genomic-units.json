@@ -28,5 +28,45 @@
         "hgvs_variant": "NM_002972.2:c.5474_5475delTG",
         "transcripts": [],
         "annotations": []
+    },
+    {
+        "gene_symbol": "LMNA",
+        "gene": "LMNA",
+        "annotations": []
+    },
+    {
+        "hgvs_variant": "NM_170707.3:c.745C>T",
+        "transcripts": [],
+        "annotations": []
+    },
+    {
+        "gene_symbol": "FOXG1",
+        "gene": "FOXG1",
+        "annotations": []
+    },
+    {
+        "hgvs_variant": "NM_005249.5:c.924G>A",
+        "transcripts": [],
+        "annotations": []
+    },
+    {
+        "hgvs_variant": "NM_005249.5:c.256dup",
+        "transcripts": [],
+        "annotations": []
+    },
+    {
+        "gene_symbol": "PEX10",
+        "gene": "PEX10",
+        "annotations": []
+    },
+    {
+        "hgvs_variant": "NM_153818.2:c.28dup",
+        "transcripts": [],
+        "annotations": []
+    },
+    {
+        "hgvs_variant": "NM_153818.2:c.928C>G",
+        "transcripts": [],
+        "annotations": []
     }
 ]

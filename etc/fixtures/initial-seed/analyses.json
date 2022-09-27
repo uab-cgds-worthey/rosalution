@@ -392,7 +392,7 @@
                       ]
                   }, 
                   {
-                      "hgvs_variant": "NM_153818.2:c.928G>G",
+                      "hgvs_variant": "NM_153818.2:c.928C>G",
                       "c_dot": "c.928G>G",
                       "p_dot": "p.His310Asp", 
                       "build": "hg19",

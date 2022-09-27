@@ -3,7 +3,6 @@ Class to support the importing of phenotips data
 """
 import warnings
 
-
 class PhenotipsImporter:
     """imports the incoming phenotips json data"""
 
