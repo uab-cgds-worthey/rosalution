@@ -10,6 +10,16 @@
         :header="sectionHeader(section.header)"
         :id="`${section.anchor}`"
       >
+        <div v-for="(row, index) in section.rows" :key="`${index}`">
+          <component
+              v-for="(datasetConfig, index) in row.datasets"
+              :key="`${datasetConfig.dataset}-${index}`"
+              :is="datasetConfig.type"
+              v-bind="datasetConfig.props"
+              :value="annotations[datasetConfig.dataset]"
+              :data-test="datasetConfig.dataset"
+            />
+        </div>
       </AnnotationSection>
     </div>
     <AnnotationSidebar class="sidebar" :section-anchors="sectionAnchors"></AnnotationSidebar>
@@ -25,12 +35,15 @@ import AnnotationSection from '@/components/AnnotationView/AnnotationSection.vue
 import AnnotationSidebar from '@/components/AnnotationView/AnnotationSidebar.vue';
 import AnnotationViewHeader from '@/components/AnnotationView/AnnotationViewHeader.vue';
 
+import TextDataset from '@/components/AnnotationView/TextDataset.vue';
+
 export default {
   name: 'annotation-view',
   components: {
     AnnotationSection,
     AnnotationSidebar,
     AnnotationViewHeader,
+    TextDataset,
   },
   props: ['analysis_name', 'gene', 'variant'],
   data: function() {

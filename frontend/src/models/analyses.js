@@ -47,18 +47,20 @@ const annotationRenderingTemporary = [
           {
             'dataset': 'Gene Description',
             'type': 'text-dataset',
+            'props': {
+            },
           },
         ],
-      }, {
+      },
+      {
         'class': '',
         'datasets': [
           {
             'dataset': 'OMIM',
             'type': 'text-dataset',
             'props': {
-              'label': '',
-              'Entrez Gene Id': '',
-              'url': 'https://www.omim.org/entry/{Entrez Gene Id}',
+              'label': 'OMIM',
+              // 'url': 'https://www.omim.org/entry/{Entrez Gene Id}',
             },
           },
         ],
@@ -69,9 +71,8 @@ const annotationRenderingTemporary = [
             'dataset': 'HPO',
             'type': 'text-dataset',
             'props': {
-              'label': 'OMIM',
-              '': '',
-              'url': 'https://hpo.jax.org/app/browse/search?q={gene}&navFilter=all',
+              'label': 'HPO',
+              // 'url': 'https://hpo.jax.org/app/browse/search?q={gene}&navFilter=all',
             },
           },
         ],
@@ -90,53 +91,55 @@ const annotationRenderingTemporary = [
       {
         'class': '',
         'datasets': [
-          {
-            'dataset': 'CADD',
-            'type': 'score-dataset',
-            'props': {
-              'label': 'CADD Indel Raw',
-              'minimum': -10,
-              'maximum': 99,
-              'bounds': {
-                'lowerBounds': 0.9,
-                'upperBounds': 1.33,
-              },
-              'cutoff': 15,
-            },
-          },
-          {
-            'dataset': 'Phylop100',
-            'type': 'score-dataset',
-            'props': {
-              'label': 'Phylop100',
-            },
-          },
+          // {
+          //   'dataset': 'CADD',
+          //   'type': 'score-dataset',
+          //   'props': {
+          //     'label': 'CADD Indel Raw',
+          //     'minimum': -10,
+          //     'maximum': 99,
+          //     'bounds': {
+          //       'lowerBounds': 0.9,
+          //       'upperBounds': 1.33,
+          //     },
+          //     'cutoff': 15,
+          //   },
+          // },
+          // {
+          //   'dataset': 'Phylop100',
+          //   'type': 'score-dataset',
+          //   'props': {
+          //     'label': 'Phylop100',
+          //   },
+          // },
         ],
       },
       {
         'class': '',
         'datasets': [
-          {
-            'dataset': 'GERP',
-            'type': 'score-dataset',
-            'props': {
-              'label': 'GERP',
-              'minimum': -13.1,
-              'maximum': 6.54,
-            },
-          },
-          {
-            'dataset': 'Mappability',
-            'type': 'score-dataset',
-            'props': {
-              'label': 'Mappability',
-              'minimum': -13.1,
-              'maximum': 6.54,
-            },
-          }],
+          // {
+          //   'dataset': 'GERP',
+          //   'type': 'score-dataset',
+          //   'props': {
+          //     'label': 'GERP',
+          //     'minimum': -13.1,
+          //     'maximum': 6.54,
+          //   },
+          // },
+          // {
+          //   'dataset': 'Mappability',
+          //   'type': 'score-dataset',
+          //   'props': {
+          //     'label': 'Mappability',
+          //     'minimum': -13.1,
+          //     'maximum': 6.54,
+          //   },
+          // },
+        ],
       },
     ],
-  }, {
+  },
+  {
     'type': 'section',
     'class': '',
     'header': 'Gene Homology/Multi-Sequence allignment',
@@ -144,6 +147,7 @@ const annotationRenderingTemporary = [
     'props': {
       'linkouts': [],
     },
+    'rows': [],
   }, {
     'type': 'section',
     'class': '',
@@ -152,6 +156,7 @@ const annotationRenderingTemporary = [
     'props': {
       'linkouts': [],
     },
+    'rows': [],
   }, {
     'type': 'section',
     'class': '',
@@ -160,6 +165,7 @@ const annotationRenderingTemporary = [
     'props': {
       'linkouts': [],
     },
+    'rows': [],
   }, {
     'type': 'section',
     'class': '',
@@ -168,6 +174,7 @@ const annotationRenderingTemporary = [
     'props': {
       'linkouts': [],
     },
+    'rows': [],
   }, {
     'type': 'section',
     'class': '',
@@ -176,5 +183,6 @@ const annotationRenderingTemporary = [
     'props': {
       'linkouts': [],
     },
+    'rows': [],
   },
 ];

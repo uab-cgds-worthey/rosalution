@@ -1,5 +1,5 @@
 import {expect, describe, it, beforeAll, afterAll} from 'vitest';
-import {shallowMount} from '@vue/test-utils';
+import {config, shallowMount} from '@vue/test-utils';
 import sinon from 'sinon';
 
 import Auth from '@/models/authentication.js';
@@ -7,6 +7,7 @@ import Auth from '@/models/authentication.js';
 import AnnotationView from '@/views/AnnotationView.vue';
 import AnnotationSection from '@/components/AnnotationView/AnnotationSection.vue';
 import AnnotationViewHeader from '@/components/AnnotationView/AnnotationViewHeader.vue';
+import TextDataset from '@/components/AnnotationView/TextDataset.vue';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
@@ -28,6 +29,7 @@ describe('AnnotationView', () => {
   let sandbox;
 
   beforeAll(() => {
+    config.renderStubDefaultSlot = true;
     sandbox = sinon.createSandbox();
 
     const defaultProps = {
@@ -52,23 +54,29 @@ describe('AnnotationView', () => {
   });
 
   afterAll(() => {
+    config.renderStubDefaultSlot = false;
     // mockedData.restore();
   });
 
-  it('Annotation view contains a header with the analysis name', () => {
+  it('contains a header with the analysis name', () => {
     const headerComponent = wrapper.findComponent(AnnotationViewHeader);
     expect(headerComponent.props('titleText')).to.equal('CPAM0046');
   });
 
-  it('Annotation View renders expected number of sections ', () => {
+  it('renders expected number of sections ', () => {
     const sections = wrapper.findAllComponents(AnnotationSection);
     expect(sections.length).to.equal(7);
   });
 
-  it('Annotation View renders each section with an Id to be used for an achor', () => {
+  it('renders each section with an Id to be used for an achor', () => {
     const sections = wrapper.findAllComponents(AnnotationSection);
     sections.forEach((section) => {
       expect(section.attributes('id')).to.not.be.empty;
     });
+  });
+
+  it('renders text datasets according to configuration', () => {
+    const textDatasets = wrapper.findAllComponents(TextDataset);
+    expect(textDatasets.length).to.equal(3);
   });
 });
