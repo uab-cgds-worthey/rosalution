@@ -1,7 +1,7 @@
 """General test utilities for the application"""
 import json
 import os
-import mongomock
+# import mongomock
 
 from unittest.mock import Mock, MagicMock
 
@@ -60,10 +60,10 @@ def magic_mock_mongo_collection():
     return mock_collection
 
 
-def mongomock_collection():
-    """
-    Returns the annotation collection for the configuration to verify
-    annotation tasks are created according to the configuration
-    """
-    mock_collection = mongomock.MongoClient().db.collection
-    return mock_collection
+# def mongomock_collection():
+#     """
+#     Returns the annotation collection for the configuration to verify
+#     annotation tasks are created according to the configuration
+#     """
+#     mock_collection = mongomock.MongoClient().db.collection
+#     return mock_collection

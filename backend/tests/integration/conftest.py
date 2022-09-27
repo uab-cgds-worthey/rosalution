@@ -9,7 +9,7 @@ from src.database import Database
 from src.dependencies import database, annotation_queue
 from src.security.jwt import create_access_token
 
-from ..test_utils import mock_mongo_collection, mongomock_collection
+from ..test_utils import mock_mongo_collection
 
 
 @pytest.fixture(name="client", scope="class")
@@ -34,8 +34,7 @@ def mock_database_collections():
         "annotations_config": mock_mongo_collection(),
         "genomic_units": mock_mongo_collection(),
         "users": mock_mongo_collection(),
-        # this is doing something that I want it to but not quite what im trying to do
-        "bucket": mongomock_collection()
+        "bucket": mock_mongo_collection()
     }
     mock_database = Database(mock_database_client)
     app.dependency_overrides[database] = mock_database
