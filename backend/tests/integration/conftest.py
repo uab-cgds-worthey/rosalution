@@ -9,7 +9,7 @@ from src.database import Database
 from src.dependencies import database, annotation_queue
 from src.security.jwt import create_access_token
 
-from ..test_utils import mock_mongo_collection
+from ..test_utils import mock_mongo_collection, mock_gridfs_bucket
 
 
 @pytest.fixture(name="client", scope="class")
@@ -29,13 +29,15 @@ def mock_queue():
 def mock_database_collections():
     """A mocked database client which overrides the database depedency injected"""
     mock_database_client = Mock()
+    mock_gridfs_client = Mock()
     mock_database_client.rosalution_db = {
         "analyses": mock_mongo_collection(),
         "annotations_config": mock_mongo_collection(),
         "genomic_units": mock_mongo_collection(),
-        "users": mock_mongo_collection()
+        "users": mock_mongo_collection(),
+        "bucket": mock_gridfs_bucket()
     }
-    mock_database = Database(mock_database_client)
+    mock_database = Database(mock_database_client, mock_gridfs_client)
     app.dependency_overrides[database] = mock_database
     yield mock_database.collections
     app.dependency_overrides.clear()

@@ -61,15 +61,23 @@ async def create_file(phenotips_file: Union[bytes, None] = File(default=None), r
     # Quick and dirty json loads
     phenotips_input = BasePhenotips(**json.loads(phenotips_file))
 
-    phenotips_importer = PhenotipsImporter(rosalution_db["analysis"], rosalution_db["genomic_unit"])
+    phenotips_importer = PhenotipsImporter(
+        rosalution_db["analysis"], rosalution_db["genomic_unit"])
     try:
         return phenotips_importer.import_phenotips_json(phenotips_input)
     except ValueError as exception:
         raise HTTPException(status_code=409) from exception
 
+
 @router.post("/upload/{name}")
 def upload(name: str, upload_file: UploadFile = File(...), comments: str = Form(...), rosalution_db=Depends(database)):
     """Uploads a file to the server"""
+    # The following code is to be used in a future version of the application
+    # new_file_object_id = rosalution_db['bucket'].put(
+    #     upload_file.file, filename=upload_file.filename)
+    # return rosalution_db["analysis"].add_file(name, new_file_object_id, comments)
+
+    # This code is to be used for the current version of the application
     try:
         contents = upload_file.file.read()
         with open(upload_file.filename, "wb") as working_file:
