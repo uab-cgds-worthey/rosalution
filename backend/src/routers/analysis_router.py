@@ -84,7 +84,7 @@ async def create_file(
         new_analysis = phenotips_importer.import_phenotips_json(phenotips_input)
     except ValueError as exception:
         raise HTTPException(status_code=409) from exception
-    
+
     analysis = Analysis(**new_analysis)
     annotation_service = AnnotationService(rosalution_db["annotation_config"])
     annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)

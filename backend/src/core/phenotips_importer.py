@@ -32,13 +32,6 @@ class PhenotipsImporter:
 
             phenotips_variants.append(variant_data)
 
-        # It looks like we're just overwriting the set gene in variant to be the last gene?
-        # for gene in phenotips_json_data["genes"]:
-        #     for phenotips_variant in phenotips_variants:
-        #         phenotips_variant["gene"] = gene["gene"]
-
-        # Commenting this, we assume that each variant has an associated gene. Otherwise we don't handle it.
-
         for gene in phenotips_json_data["genes"]:
             genomic_unit_data = self.import_genomic_unit_collection_data(gene, "gene")
             self.genomic_unit_collection.create_genomic_unit(genomic_unit_data)
@@ -126,14 +119,14 @@ class PhenotipsImporter:
                         "build": str(phenotips_variant['reference_genome']),
                         "case": self.format_case_data(phenotips_variant)
                     })
-                
+
                 if 'transcript' in phenotips_variant:
                     new_transcript = { 'transcript': phenotips_variant['transcript'] }
                     if new_transcript not in analysis_unit['transcripts']:
                         analysis_unit['transcripts'].append(new_transcript)
-            
+
             analysis_data['genomic_units'].append(analysis_unit)
-        
+
         return analysis_data
 
     @ staticmethod
