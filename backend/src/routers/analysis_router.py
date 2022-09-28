@@ -72,16 +72,19 @@ async def create_file(phenotips_file: Union[bytes, None] = File(default=None), r
 @router.post("/upload/{name}")
 def upload(name: str, upload_file: UploadFile = File(...), comments: str = Form(...), rosalution_db=Depends(database)):
     """Uploads a file to the server"""
-    new_file_object_id = rosalution_db['bucket'].put(
-        upload_file.file, filename=upload_file.filename)
-    return rosalution_db["analysis"].add_file(name, new_file_object_id, comments)
-    # try:
-    #     contents = upload_file.file.read()
-    #     with open(upload_file.filename, "wb") as working_file:
-    #         working_file.write(contents)
-    # except Exception as exception:
-    #     raise HTTPException(status_code=500) from exception
-    # finally:
-    #     upload_file.file.close()
+    # The following code is to be used in a future version of the application
+    # new_file_object_id = rosalution_db['bucket'].put(
+    #     upload_file.file, filename=upload_file.filename)
+    # return rosalution_db["analysis"].add_file(name, new_file_object_id, comments)
 
-    # return rosalution_db["analysis"].add_file(name, upload_file.filename, comments)
+    # This code is to be used for the current version of the application
+    try:
+        contents = upload_file.file.read()
+        with open(upload_file.filename, "wb") as working_file:
+            working_file.write(contents)
+    except Exception as exception:
+        raise HTTPException(status_code=500) from exception
+    finally:
+        upload_file.file.close()
+
+    return rosalution_db["analysis"].add_file(name, upload_file.filename, comments)
