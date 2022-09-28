@@ -22,10 +22,10 @@ settings = Settings()
 
 mongodb_connection_uri = f"mongodb://{settings.mongodb_host}/{settings.mongodb_db}"
 mongodb_client = MongoClient(mongodb_connection_uri)
-bucket = gridfs.GridFS(mongodb_client)
+bucket = gridfs.GridFS(mongodb_client.rosalution_db)
 
 # Database/Repositories
-database = Database(mongodb_client, gridfs_bucket)
+database = Database(mongodb_client, bucket)
 
 # Queue that processess annotation tasks safely between threads
 annotation_queue = AnnotationQueue()

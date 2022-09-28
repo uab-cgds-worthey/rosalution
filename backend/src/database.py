@@ -2,7 +2,6 @@
 # pylint: disable=too-few-public-methods
 # This wrapper is intended to create a callable instance for FastAPI Depedency Injection
 # there is no need to include any additional methods
-import gridfs
 from .repository.user_collection import UserCollection
 from .repository.analysis_collection import AnalysisCollection
 from .repository.annotation_config_collection import AnnotationConfigCollection
@@ -19,7 +18,7 @@ class Database:
     collection is executed.
     """
 
-    def __init__(self, client):
+    def __init__(self, client, gridfs_bucket):
         self.database_client = client
 
         # "An important note about collections (and databases) in MongoDB is that
@@ -36,7 +35,7 @@ class Database:
             "annotation_config": AnnotationConfigCollection(self.database['annotations_config']),
             "genomic_unit": GenomicUnitCollection(self.database['genomic_units']),
             "user": UserCollection(self.database['users']),
-            "bucket": gridfs.GridFS(self.database)
+            "bucket": gridfs_bucket
         }
 
     def __call__(self):
