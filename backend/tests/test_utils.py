@@ -64,4 +64,18 @@ def mock_gridfs_bucket():
     mock_bucket = Mock()
     mock_bucket.open_download_stream = Mock()
     mock_bucket.open_upload_stream = Mock()
+    mock_bucket.put = Mock()
+    mock_bucket.get = Mock()
+    mock_bucket.list = Mock()
+    return mock_bucket
+
+
+def magic_mock_gridfs_bucket():
+    """Returns a mocked GridFS bucket"""
+    mock_bucket = MagicMock()
+    mock_bucket.open_download_stream = MagicMock()
+    mock_bucket.open_upload_stream = MagicMock()
+    mock_bucket.put = MagicMock()
+    mock_bucket.get = MagicMock()
+    mock_bucket.list = MagicMock()
     return mock_bucket
