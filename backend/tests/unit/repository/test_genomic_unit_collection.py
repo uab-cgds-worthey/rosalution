@@ -20,7 +20,7 @@ def test_transcript_annotation_not_exist_with_no_annotations(genomic_unit_collec
     """ Tests if a transcript that has no annotations will return false on a test"""
     genomic_unit = {'unit': 'NM_001017980.3:c.164G>T',
                     'type': GenomicUnitType.HGVS_VARIANT}
-    dataset = {'data_set': 'transcript_id', 'transcript': True}
+    dataset = {'data_set': 'fake_annotation_not_exist', 'transcript': True}
 
     genomic_unit_collection.collection.find_one.return_value = hgvs_variant_genomic_unit_json
 
