@@ -1,7 +1,13 @@
 """Analysis Routes Integration test"""
 
 import os
+from unittest.mock import patch
+
 import pytest
+from fastapi import BackgroundTasks
+
+from src.core.annotation import AnnotationService
+
 from ..test_utils import read_database_fixture, read_test_fixture
 
 
@@ -38,25 +44,49 @@ def test_get_analysis_summary(client, mock_access_token, database_collections):
     assert len(response.json()) == 5
 
 
-def test_create_analysis(client, mock_access_token, database_collections, exported_phenotips_to_import_json):
+def test_create_analysis(
+    client,
+    mock_access_token,
+    database_collections,
+    exported_phenotips_to_import_json,
+    mock_annotation_queue
+):
     """Testing if the create analysis endpoint creates a new analysis"""
     database_collections["analysis"].collection.insert_one.return_value = True
     database_collections["analysis"].collection.find_one.return_value = None
     database_collections["genomic_unit"].collection.find_one.return_value = None
-    response = client.post(
-        "/analysis/import",
-        headers={"Authorization": "Bearer " + mock_access_token,
-                 "Content-Type": "application/json"},
-        json=exported_phenotips_to_import_json,
-    )
+    database_collections['genomic_unit'].collection.find.return_value = read_database_fixture(
+        "genomic-units.json")
+    database_collections['annotation_config'].collection.find.return_value = read_database_fixture(
+        "annotations-config.json")
+
+    with patch.object(BackgroundTasks, "add_task", return_value=None) as mock_background_add_task:
+        response = client.post(
+            "/analysis/import",
+            headers={"Authorization": "Bearer " + mock_access_token,
+                    "Content-Type": "application/json"},
+            json=exported_phenotips_to_import_json,
+        )
+
+        assert mock_annotation_queue.put.call_count == 19
+
+        mock_background_add_task.assert_called_once_with(
+            AnnotationService.process_tasks,
+            mock_annotation_queue,
+            database_collections['genomic_unit']
+        )
+
     assert response.status_code == 200
 
-
-def test_create_analysis_with_file(client, mock_access_token, database_collections):
+def test_create_analysis_with_file(client, mock_access_token, database_collections, mock_annotation_queue):
     """ Testing if the create analysis function works with file upload """
     database_collections["analysis"].collection.insert_one.return_value = True
     database_collections["analysis"].collection.find_one.return_value = None
     database_collections["genomic_unit"].collection.find_one.return_value = None
+    database_collections['annotation_config'].collection.find.return_value = read_database_fixture(
+        "annotations-config.json")
+    database_collections['genomic_unit'].collection.find.return_value = read_database_fixture(
+        "genomic-units.json")
 
     # This is used here because the 'read_fixture' returns a json dict rather than raw binary
     # We actually want to send a binary file through the endpoint to simulate a file being sent
@@ -67,18 +97,26 @@ def test_create_analysis_with_file(client, mock_access_token, database_collectio
     path_to_file = os.path.join(
         current_directory, '../fixtures/' + 'phenotips-import.json')
 
-    with open(path_to_file, "rb") as phenotips_file:
-        response = client.post(
-            "/analysis/import_file",
-            headers={"Authorization": "Bearer " + mock_access_token},
-            files={"phenotips_file": (
-                "phenotips-import.json", phenotips_file.read())}
-        )
+    with patch.object(BackgroundTasks, "add_task", return_value=None) as mock_background_add_task:
+        with open(path_to_file, "rb") as phenotips_file:
+            response = client.post(
+                "/analysis/import_file",
+                headers={"Authorization": "Bearer " + mock_access_token},
+                files={"phenotips_file": (
+                    "phenotips-import.json", phenotips_file.read())}
+            )
 
-        phenotips_file.close()
+            phenotips_file.close()
+
+            assert mock_annotation_queue.put.call_count == 19
+
+            mock_background_add_task.assert_called_once_with(
+                AnnotationService.process_tasks,
+                mock_annotation_queue,
+                database_collections['genomic_unit']
+            )
 
     assert response.status_code == 200
-
 
 def test_update_analysis(client, mock_access_token, database_collections, analysis_updates_json):
     """Testing if the update analysis endpoint updates an existing analysis"""
