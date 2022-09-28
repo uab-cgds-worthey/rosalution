@@ -2,7 +2,14 @@
   <table class="gene-box-container">
     <tbody>
       <tr class="gene-box-header">
-        <router-link :to="{ name: 'annotation', params: { analysis_name: this.name, genomic_unit: this.gene} }">
+        <router-link :to="{
+            name: 'annotation',
+            params: {
+              analysis_name: this.name,
+              gene: this.gene,
+              variant: variants.length ? variants[0].hgvs_variant : undefined
+            }
+        }">
           <td>
             <h2 class="gene-name" data-test="gene-name">
               {{gene}}
@@ -20,7 +27,14 @@
       <div v-for="variant in variants" :key="variant">
         <div v-if="variant.c_dot && variant.c_dot.length > 0 || variant.p_dot && variant.p_dot.length > 0">
           <tr class="gene-box-second-line">
-            <router-link :to="{ name: 'annotation', params: { analysis_name: this.name, genomic_unit: variant.c_dot}}">
+            <router-link :to="{
+              name: 'annotation',
+              params: {
+                analysis_name: this.name,
+                gene: this.gene,
+                variant: variant.hgvs_variant,
+              }
+            }">
               <td class="c-dot" data-test="c-dot">
                 {{variant.c_dot}}
               </td>

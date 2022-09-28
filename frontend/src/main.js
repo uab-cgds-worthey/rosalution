@@ -17,15 +17,16 @@ import {library} from '@fortawesome/fontawesome-svg-core';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {
   faAsterisk, faPause, faCheck, faX, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList, faLayerGroup,
-  faBoxArchive, faQuestion, faClock, faClipboardCheck, faMagnifyingGlass, faChevronDown, faUpRightFromSquare,
-  faCirclePlus, faPencil, faEllipsisVertical, faLink, faXmark, faUserDoctor, faPlus, faPaperclip,
+  faBoxArchive, faQuestion, faClock, faClipboardCheck, faMagnifyingGlass, faChevronDown, faChevronRight,
+  faUpRightFromSquare, faCirclePlus, faPencil, faEllipsisVertical, faLink, faXmark, faUserDoctor, faPaperclip, faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import {faCopy, faFile, faComment} from '@fortawesome/free-regular-svg-icons';
 
 library.add(
     faAsterisk, faPause, faCheck, faX, faMagnifyingGlass, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList,
-    faLayerGroup, faBoxArchive, faQuestion, faClock, faClipboardCheck, faChevronDown, faUpRightFromSquare, faCopy,
-    faCirclePlus, faFile, faComment, faPencil, faEllipsisVertical, faLink, faXmark, faUserDoctor, faPlus, faPaperclip);
+    faLayerGroup, faBoxArchive, faQuestion, faClock, faClipboardCheck, faChevronDown, faChevronRight,
+    faUpRightFromSquare, faCopy, faCirclePlus, faFile, faComment, faPencil, faEllipsisVertical, faLink, faXmark,
+    faUserDoctor, faPaperclip, faPlus);
 
 // The NotFoundView should always be last because it's an ordered array.
 const routes = [
@@ -33,7 +34,7 @@ const routes = [
   {path: '/rosalution', component: AnalysisListingView},
   {path: '/rosalution/about', component: AboutView},
   {path: '/rosalution/analysis/:analysis_name', name: 'analysis', component: AnalysisView, props: true},
-  {path: '/rosalution/analysis/:analysis_name/annotation/:genomic_unit', name: 'annotation', component: AnnotationView,
+  {path: '/rosalution/analysis/:analysis_name/annotation/:gene/:variant', name: 'annotation', component: AnnotationView,
     props: true},
   {path: '/:pathMatch(.*)', component: NotFoundView},
 ];
