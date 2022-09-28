@@ -3,10 +3,11 @@ import json
 
 from typing import List, Union
 
-from fastapi import APIRouter, Depends, HTTPException, File, UploadFile, Form
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, File, UploadFile, Form
 
+from ..core.annotation import AnnotationService
 from ..core.phenotips_importer import PhenotipsImporter
-from ..dependencies import database
+from ..dependencies import database, annotation_queue
 from ..models.analysis import Analysis, AnalysisSummary
 from ..models.phenotips_json import BasePhenotips
 
@@ -39,15 +40,26 @@ def get_analysis_by_name(name: str, rosalution_db=Depends(database)):
 
 
 @router.post("/import", response_model=Analysis)
-async def import_phenotips_json(phenotips_input: BasePhenotips, rosalution_db=Depends(database)):
+async def import_phenotips_json(
+    background_tasks: BackgroundTasks,
+    phenotips_input: BasePhenotips,
+    rosalution_db=Depends(database),
+    annotation_task_queue=Depends(annotation_queue)
+):
     """Imports the phenotips.json file into the database"""
     phenotips_importer = PhenotipsImporter(
         rosalution_db["analysis"], rosalution_db["genomic_unit"])
     try:
-        return phenotips_importer.import_phenotips_json(phenotips_input)
+        new_analysis = phenotips_importer.import_phenotips_json(phenotips_input)
     except ValueError as exception:
         raise HTTPException(status_code=409) from exception
 
+    analysis = Analysis(**new_analysis)
+    annotation_service = AnnotationService(rosalution_db["annotation_config"])
+    annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
+    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, rosalution_db['genomic_unit'])
+
+    return new_analysis
 
 @router.put("/update/{name}")
 def update_analysis(name: str, analysis_data_changes: dict, rosalution_db=Depends(database)):
@@ -56,7 +68,12 @@ def update_analysis(name: str, analysis_data_changes: dict, rosalution_db=Depend
 
 
 @router.post("/import_file", response_model=Analysis)
-async def create_file(phenotips_file: Union[bytes, None] = File(default=None), rosalution_db=Depends(database)):
+async def create_file(
+    background_tasks: BackgroundTasks,
+    phenotips_file: Union[bytes, None] = File(default=None),
+    rosalution_db=Depends(database),
+    annotation_task_queue=Depends(annotation_queue)
+):
     """ Imports a .json file for a phenotips case """
     # Quick and dirty json loads
     phenotips_input = BasePhenotips(**json.loads(phenotips_file))
@@ -64,9 +81,16 @@ async def create_file(phenotips_file: Union[bytes, None] = File(default=None), r
     phenotips_importer = PhenotipsImporter(
         rosalution_db["analysis"], rosalution_db["genomic_unit"])
     try:
-        return phenotips_importer.import_phenotips_json(phenotips_input)
+        new_analysis = phenotips_importer.import_phenotips_json(phenotips_input)
     except ValueError as exception:
         raise HTTPException(status_code=409) from exception
+
+    analysis = Analysis(**new_analysis)
+    annotation_service = AnnotationService(rosalution_db["annotation_config"])
+    annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
+    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, rosalution_db['genomic_unit'])
+
+    return new_analysis
 
 
 @router.post("/upload/{name}")

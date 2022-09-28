@@ -89,7 +89,6 @@ class AnnotationService:
                         else:
                             ready = False
 
-                # print('----------------------\n')
                 if not ready:
                     log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} + \
                         - Delaying Annotation, Missing Dependency...\n")
