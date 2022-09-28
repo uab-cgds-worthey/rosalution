@@ -1,72 +1,3028 @@
 [
     {
-        "gene_symbol": "VMA21",
-        "gene": "VMA21",
-        "annotations": []
+       "gene_symbol":"VMA21",
+       "gene":"VMA21",
+       "annotations":[
+          {
+             "Entrez Gene Id":[
+                {
+                   "data_source":"HPO",
+                   "version":"",
+                   "value":203547
+                }
+             ]
+          },
+          {
+             "HPO":[
+                {
+                   "data_source":"HPO",
+                   "version":"",
+                   "value":[
+                      "Myopathy, X-linked, With Excessive Autophagy"
+                   ]
+                }
+             ]
+          }
+       ]
     },
     {
-        "gene_symbol": "DMD",
-        "gene": "DMD",
-        "annotations": []
+       "gene_symbol":"DMD",
+       "gene":"DMD",
+       "annotations":[
+          {
+             "Entrez Gene Id":[
+                {
+                   "data_source":"HPO",
+                   "version":"",
+                   "value":1756
+                }
+             ]
+          },
+          {
+             "HPO":[
+                {
+                   "data_source":"HPO",
+                   "version":"",
+                   "value":[
+                      "Symptomatic Form Of Muscular Dystrophy Of Duchenne And Becker In Female Carriers",
+                      "Duchenne Muscular Dystrophy",
+                      "Becker Muscular Dystrophy",
+                      "Duchenne Muscular Dystrophy",
+                      "X-linked Non-syndromic Intellectual Disability",
+                      "Familial Isolated Dilated Cardiomyopathy",
+                      "Cardiomyopathy, Dilated, 3b",
+                      "Muscular Dystrophy, Becker Type"
+                   ]
+                }
+             ]
+          }
+       ]
     },
     {
-        "hgvs_variant": "NM_001017980.3:c.164G>T",
-        "transcripts": [],
-        "annotations": []
+       "hgvs_variant":"NM_001017980.3:c.164G>T",
+       "transcripts":[
+          {
+             "transcript_id":"NM_001017980.4",
+             "annotations":[
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"possibly_damaging"
+                      }
+                   ]
+                },
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"deleterious"
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":0.597
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":0.02
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "missense_variant",
+                            "splice_region_variant"
+                         ]
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"possibly_damaging"
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001363810.1",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"deleterious"
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":0.998
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":0.01
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "missense_variant",
+                            "splice_region_variant"
+                         ]
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"probably_damaging"
+                      }
+                   ]
+                }
+             ]
+          }
+       ],
+       "annotations":[
+          
+       ]
     },
     {
-        "gene_symbol": "SBF1",
-        "gene": "SBF1",
-        "annotations": []
+       "gene_symbol":"SBF1",
+       "gene":"SBF1",
+       "annotations":[
+          {
+             "Entrez Gene Id":[
+                {
+                   "data_source":"HPO",
+                   "version":"",
+                   "value":6305
+                }
+             ]
+          },
+          {
+             "HPO":[
+                {
+                   "data_source":"HPO",
+                   "version":"",
+                   "value":[
+                      "Charcot-marie-tooth Disease, Type 4b3"
+                   ]
+                }
+             ]
+          }
+       ]
     },
     {
-        "hgvs_variant": "NM_002972.2:c.3493_3494dupTA",
-        "transcripts": [],
-        "annotations": []
+       "hgvs_variant":"NM_002972.2:c.3493_3494dupTA",
+       "transcripts":[
+          {
+             "transcript_id":"NM_001365819.1",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "frameshift_variant",
+                            "splice_region_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_002972.4",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "frameshift_variant",
+                            "splice_region_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          }
+       ],
+       "annotations":[
+          
+       ]
     },
     {
-        "hgvs_variant": "NM_002972.2:c.5474_5475delTG",
-        "transcripts": [],
-        "annotations": []
+       "hgvs_variant":"NM_002972.2:c.5474_5475delTG",
+       "transcripts":[
+          {
+             "transcript_id":"NM_001242898.2",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "downstream_gene_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001242899.2",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "downstream_gene_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001242900.2",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "downstream_gene_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001351641.2",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "downstream_gene_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001351642.2",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "downstream_gene_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001351643.2",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "downstream_gene_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001351644.2",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "downstream_gene_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001351645.2",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "downstream_gene_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001351646.2",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "downstream_gene_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001351647.2",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "downstream_gene_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001351648.2",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "downstream_gene_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001365819.1",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "frameshift_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001365836.1",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "downstream_gene_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_002972.4",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "frameshift_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_014678.5",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "downstream_gene_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          }
+       ],
+       "annotations":[
+          
+       ]
     },
     {
-        "gene_symbol": "LMNA",
-        "gene": "LMNA",
-        "annotations": []
+       "gene_symbol":"LMNA",
+       "gene":"LMNA",
+       "annotations":[
+          {
+             "Entrez Gene Id":[
+                {
+                   "data_source":"HPO",
+                   "version":"",
+                   "value":4000
+                }
+             ]
+          },
+          {
+             "HPO":[
+                {
+                   "data_source":"HPO",
+                   "version":"",
+                   "value":[
+                      "Familial Dilated Cardiomyopathy With Conduction Defect Due To Lmna Mutation",
+                      "Emery-dreifuss Muscular Dystrophy 2, Autosomal Dominant",
+                      "Charcot-marie-tooth Disease Type 2b1",
+                      "Charcot-marie-tooth Disease, Axonal, Type 2b1",
+                      "Autosomal Recessive Emery-dreifuss Muscular Dystrophy",
+                      "Congenital Muscular Dystrophy Due To Lmna Mutation",
+                      "Muscular Dystrophy, Congenital, Lmna-related",
+                      "Atypical Werner Syndrome",
+                      "Familial Partial Lipodystrophy, Köbberling Type",
+                      "Heart-hand Syndrome, Slovenian Type",
+                      "Lmna-related Cardiocutaneous Progeria Syndrome",
+                      "Cardiomyopathy, Dilated, 1a",
+                      "Emery-dreifuss Muscular Dystrophy 3, Autosomal Recessive",
+                      "Heart-hand Syndrome, Slovenian Type",
+                      "Lipodystrophy, Familial Partial, Type 2",
+                      "Mandibuloacral Dysplasia",
+                      "Autosomal Dominant Emery-dreifuss Muscular Dystrophy",
+                      "Dilated Cardiomyopathy-hypergonadotropic Hypogonadism Syndrome",
+                      "Familial Isolated Dilated Cardiomyopathy",
+                      "Restrictive Dermopathy",
+                      "Hutchinson-gilford Progeria Syndrome",
+                      "Autosomal Semi-dominant Severe Lipodystrophic Laminopathy",
+                      "Hutchinson-gilford Progeria Syndrome",
+                      "Mandibuloacral Dysplasia With Type A Lipodystrophy",
+                      "Malouf Syndrome",
+                      "Familial Partial Lipodystrophy, Dunnigan Type"
+                   ]
+                }
+             ]
+          }
+       ]
     },
     {
-        "hgvs_variant": "NM_170707.3:c.745C>T",
-        "transcripts": [],
-        "annotations": []
+       "hgvs_variant":"NM_170707.3:c.745C>T",
+       "transcripts":[
+          {
+             "transcript_id":"NM_001257374.3",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"probably_damaging"
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":0
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"deleterious"
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":0.999
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "missense_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001282624.2",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"probably_damaging"
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":0
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"deleterious"
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":1
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "missense_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001282625.2",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"probably_damaging"
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":0
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"deleterious"
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":1
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "missense_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001282626.2",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"probably_damaging"
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":0
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"deleterious"
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":1
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "missense_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_005572.4",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"probably_damaging"
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":0
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"deleterious"
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":1
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "missense_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_170707.4",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"probably_damaging"
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":0
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"deleterious"
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":1
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "missense_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_170708.4",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"probably_damaging"
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":0
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"deleterious"
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":0.999
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "missense_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          }
+       ],
+       "annotations":[
+          
+       ]
     },
     {
-        "gene_symbol": "FOXG1",
-        "gene": "FOXG1",
-        "annotations": []
+       "gene_symbol":"FOXG1",
+       "gene":"FOXG1",
+       "annotations":[
+          {
+             "Entrez Gene Id":[
+                {
+                   "data_source":"HPO",
+                   "version":"",
+                   "value":2290
+                }
+             ]
+          },
+          {
+             "HPO":[
+                {
+                   "data_source":"HPO",
+                   "version":"",
+                   "value":[
+                      "Foxg1 Syndrome Due To 14q12 Microdeletion",
+                      "Rett Syndrome, Congenital Variant"
+                   ]
+                }
+             ]
+          }
+       ]
     },
     {
-        "hgvs_variant": "NM_005249.5:c.924G>A",
-        "transcripts": [],
-        "annotations": []
+       "hgvs_variant":"NM_005249.5:c.924G>A",
+       "transcripts":[
+          {
+             "transcript_id":"NM_005249.5",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "stop_gained"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NR_026731.1",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "upstream_gene_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NR_026732.1",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "upstream_gene_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NR_125758.1",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "upstream_gene_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          }
+       ],
+       "annotations":[
+          
+       ]
     },
     {
-        "hgvs_variant": "NM_005249.5:c.256dup",
-        "transcripts": [],
-        "annotations": []
+       "hgvs_variant":"NM_005249.5:c.256dup",
+       "transcripts":[
+          {
+             "transcript_id":"NM_005249.5",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "frameshift_variant"
+                         ]
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NR_125758.1",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "upstream_gene_variant"
+                         ]
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                }
+             ]
+          }
+       ],
+       "annotations":[
+          
+       ]
     },
     {
-        "gene_symbol": "PEX10",
-        "gene": "PEX10",
-        "annotations": []
+       "gene_symbol":"PEX10",
+       "gene":"PEX10",
+       "annotations":[
+          {
+             "Entrez Gene Id":[
+                {
+                   "data_source":"HPO",
+                   "version":"",
+                   "value":5192
+                }
+             ]
+          },
+          {
+             "HPO":[
+                {
+                   "data_source":"HPO",
+                   "version":"",
+                   "value":[
+                      "Infantile Refsum Disease",
+                      "Peroxisome Biogenesis Disorder 6a (zellweger)",
+                      "Neonatal Adrenoleukodystrophy",
+                      "Zellweger Syndrome",
+                      "Autosomal Recessive Ataxia Due To Pex10 Deficiency",
+                      "Peroxisome Biogenesis Disorder 6b"
+                   ]
+                }
+             ]
+          }
+       ]
     },
     {
-        "hgvs_variant": "NM_153818.2:c.28dup",
-        "transcripts": [],
-        "annotations": []
+       "hgvs_variant":"NM_153818.2:c.28dup",
+       "transcripts":[
+          {
+             "transcript_id":"NM_001374425.1",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "frameshift_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001374426.1",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "intron_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001374427.1",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "intron_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_002617.4",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "frameshift_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_153818.2",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "frameshift_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NR_164636.1",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "intron_variant",
+                            "non_coding_transcript_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          }
+       ],
+       "annotations":[
+          
+       ]
     },
     {
-        "hgvs_variant": "NM_153818.2:c.928C>G",
-        "transcripts": [],
-        "annotations": []
+       "hgvs_variant":"NM_153818.2:c.928C>G",
+       "transcripts":[
+          {
+             "transcript_id":"NM_001374425.1",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "missense_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001374426.1",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "missense_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_001374427.1",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "missense_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_002617.4",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":0.999
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"probably_damaging"
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":0
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"deleterious"
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "missense_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_007033.5",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "downstream_gene_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NM_153818.2",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":0.999
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"probably_damaging"
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":0
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":"deleterious"
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "missense_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          },
+          {
+             "transcript_id":"NR_164636.1",
+             "annotations":[
+                {
+                   "transcript_id":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":""
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Polyphen Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Score":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "SIFT Prediction":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":null
+                      }
+                   ]
+                },
+                {
+                   "Consequences":[
+                      {
+                         "data_source":"Ensembl",
+                         "version":"",
+                         "value":[
+                            "non_coding_transcript_exon_variant"
+                         ]
+                      }
+                   ]
+                }
+             ]
+          }
+       ],
+       "annotations":[
+          
+       ]
     }
-]
+ ]
