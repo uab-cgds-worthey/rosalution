@@ -146,5 +146,5 @@ Read <https://pytest-cov.readthedocs.io/en/latest/config.html> to learn more abo
 tool configuration.
 
 ```bash
-pytest --cov=src --cov-fail-under=80 --cov-branch --cov-report=term tests/
+pytest --cov=src --cov-fail-under=80 --cov-branch --cov-report=term tests/unit/
 ```

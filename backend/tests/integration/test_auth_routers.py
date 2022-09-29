@@ -37,7 +37,7 @@ def test_login_existing_session(client):
     assert response.json()["url"] == "http://dev.cgds.uab.edu/rosalution/"
 
 
-def test_login_successful(client, database_collections, monkeypatch):
+def test_login_successful(client, mock_repositories, monkeypatch):
     """Testing the login endpoint when there's a successful login and redirect"""
     # This unused parameter is required for the monkeypatch to successfully use the mock verify function,
     # if no empty paramter is provided then the tests will crash.
@@ -50,7 +50,7 @@ def test_login_successful(client, database_collections, monkeypatch):
 
     monkeypatch.setattr(cas_client, "verify_ticket", mock_verify_return)
 
-    database_collections['user'].collection.find_one.return_value = {
+    mock_repositories['user'].collection.find_one.return_value = {
         "username": "UABProvider",
         "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm"
     }

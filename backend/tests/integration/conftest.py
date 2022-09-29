@@ -25,7 +25,7 @@ def mock_queue():
     return annotation_queue.annotation_queue
 
 
-@pytest.fixture(name="database_collections", scope="class")
+@pytest.fixture(name="mock_repositories", scope="class")
 def mock_database_collections():
     """A mocked database client which overrides the database depedency injected"""
     mock_database_client = Mock()
