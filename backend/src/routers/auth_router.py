@@ -39,7 +39,7 @@ async def login(
     request: Request,
     nexturl: Optional[str] = None,
     ticket: Optional[str] = None,
-    collections=Depends(database)
+    repositories=Depends(database)
 ):
     """rosalution Login Method"""
     if request.session.get("username", None):
@@ -58,7 +58,7 @@ async def login(
         return RedirectResponse("http://dev.cgds.uab.edu/rosalution/auth/login")
 
     # Login was successful, redirect to the 'nexturl' query parameter
-    user = collections["user"].authenticate_user(user, 'secret')
+    user = repositories["user"].authenticate_user(user, 'secret')
 
     if not user:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
@@ -97,12 +97,12 @@ def login_oauth(
     request: Request,
     response: Response,
     form_data: OAuth2PasswordRequestForm = Depends(),
-    collections=Depends(database),
+    repositories=Depends(database),
 ):
     """
     OAuth2 compatible token login, get an access token for future requests.
     """
-    user = collections["user"].authenticate_user(
+    user = repositories["user"].authenticate_user(
         form_data.username, form_data.password)
 
     if not user:
@@ -123,13 +123,13 @@ def login_oauth(
 @router.get("/verify", response_model=User)
 def issue_token(
     request: Request,
-    collections=Depends(database),
+    repositories=Depends(database),
     username: VerifyUser = Security(get_current_user, scopes=["read"]),
 ):
     """This function issues the authentication token for the frontend to make requests"""
     if "username" in request.session:
         print(request.session["username"])
-    user_collection = collections["user"]
+    user_collection = repositories["user"]
     user = user_collection.find_by_username(username)
     current_user = User(**user)
     if current_user.disabled:

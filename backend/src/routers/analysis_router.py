@@ -22,56 +22,56 @@ router = APIRouter(prefix="/analysis",
 
 
 @router.get("/", response_model=List[Analysis])
-def get_all_analyses(rosalution_db=Depends(database)):
+def get_all_analyses(repositories=Depends(database)):
     """Returns every analysis available"""
-    return rosalution_db["analysis"].all()
+    return repositories["analysis"].all()
 
 
 @router.get("/summary", response_model=List[AnalysisSummary])
-def get_all_analyses_summaries(rosalution_db=Depends(database)):
+def get_all_analyses_summaries(repositories=Depends(database)):
     """Returns a summary of every analysis within the application"""
-    return rosalution_db["analysis"].all_summaries()
+    return repositories["analysis"].all_summaries()
 
 
 @router.get("/{name}", response_model=Analysis)
-def get_analysis_by_name(name: str, rosalution_db=Depends(database)):
+def get_analysis_by_name(name: str, repositories=Depends(database)):
     """Returns analysis case data by calling method to find case by it's name"""
-    return rosalution_db["analysis"].find_by_name(name)
+    return repositories["analysis"].find_by_name(name)
 
 
 @router.post("/import", response_model=Analysis)
 async def import_phenotips_json(
     background_tasks: BackgroundTasks,
     phenotips_input: BasePhenotips,
-    rosalution_db=Depends(database),
+    repositories=Depends(database),
     annotation_task_queue=Depends(annotation_queue)
 ):
     """Imports the phenotips.json file into the database"""
     phenotips_importer = PhenotipsImporter(
-        rosalution_db["analysis"], rosalution_db["genomic_unit"])
+        repositories["analysis"], repositories["genomic_unit"])
     try:
         new_analysis = phenotips_importer.import_phenotips_json(phenotips_input)
     except ValueError as exception:
         raise HTTPException(status_code=409) from exception
 
     analysis = Analysis(**new_analysis)
-    annotation_service = AnnotationService(rosalution_db["annotation_config"])
+    annotation_service = AnnotationService(repositories["annotation_config"])
     annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
-    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, rosalution_db['genomic_unit'])
+    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, repositories['genomic_unit'])
 
     return new_analysis
 
 @router.put("/update/{name}")
-def update_analysis(name: str, analysis_data_changes: dict, rosalution_db=Depends(database)):
+def update_analysis(name: str, analysis_data_changes: dict, repositories=Depends(database)):
     """Updates an existing analysis"""
-    return rosalution_db["analysis"].update_analysis(name, analysis_data_changes)
+    return repositories["analysis"].update_analysis(name, analysis_data_changes)
 
 
 @router.post("/import_file", response_model=Analysis)
 async def create_file(
     background_tasks: BackgroundTasks,
     phenotips_file: Union[bytes, None] = File(default=None),
-    rosalution_db=Depends(database),
+    repositories=Depends(database),
     annotation_task_queue=Depends(annotation_queue)
 ):
     """ Imports a .json file for a phenotips case """
@@ -79,27 +79,27 @@ async def create_file(
     phenotips_input = BasePhenotips(**json.loads(phenotips_file))
 
     phenotips_importer = PhenotipsImporter(
-        rosalution_db["analysis"], rosalution_db["genomic_unit"])
+        repositories["analysis"], repositories["genomic_unit"])
     try:
         new_analysis = phenotips_importer.import_phenotips_json(phenotips_input)
     except ValueError as exception:
         raise HTTPException(status_code=409) from exception
 
     analysis = Analysis(**new_analysis)
-    annotation_service = AnnotationService(rosalution_db["annotation_config"])
+    annotation_service = AnnotationService(repositories["annotation_config"])
     annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
-    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, rosalution_db['genomic_unit'])
+    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, repositories['genomic_unit'])
 
     return new_analysis
 
 
 @router.post("/upload/{name}")
-def upload(name: str, upload_file: UploadFile = File(...), comments: str = Form(...), rosalution_db=Depends(database)):
+def upload(name: str, upload_file: UploadFile = File(...), comments: str = Form(...), repositories=Depends(database)):
     """Uploads a file to the server"""
     # The following code is to be used in a future version of the application
-    # new_file_object_id = rosalution_db['bucket'].put(
+    # new_file_object_id = repositories['bucket'].put(
     #     upload_file.file, filename=upload_file.filename)
-    # return rosalution_db["analysis"].add_file(name, new_file_object_id, comments)
+    # return repositories["analysis"].add_file(name, new_file_object_id, comments)
 
     # This code is to be used for the current version of the application
     try:
@@ -111,4 +111,4 @@ def upload(name: str, upload_file: UploadFile = File(...), comments: str = Form(
     finally:
         upload_file.file.close()
 
-    return rosalution_db["analysis"].add_file(name, upload_file.filename, comments)
+    return repositories["analysis"].add_file(name, upload_file.filename, comments)

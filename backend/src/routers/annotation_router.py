@@ -17,7 +17,7 @@ router = APIRouter(
 def annotate_analysis(
     name: str,
     background_tasks: BackgroundTasks,
-    collections=Depends(database),
+    repositories=Depends(database),
     annotation_task_queue=Depends(annotation_queue),
 ):
     """
@@ -25,14 +25,14 @@ def annotate_analysis(
     annotations for a sample will be moved to the analysis creation endpoint
     when it is created in an upcomming update.
     """
-    analysis_json = collections["analysis"].find_by_name(name)
+    analysis_json = repositories["analysis"].find_by_name(name)
     if analysis_json is None:
         raise HTTPException(status_code=404, detail=f"'{name}' Analysis not found.")
 
     analysis = Analysis(**analysis_json)
-    annotation_service = AnnotationService(collections["annotation_config"])
+    annotation_service = AnnotationService(repositories["annotation_config"])
     annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
-    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, collections['genomic_unit'])
+    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, repositories['genomic_unit'])
 
     return {"name": f"{name} annotations queued."}
 
@@ -42,7 +42,7 @@ def heartbeat():
     return "thump-thump"
 
 @router.get("/gene/{gene}")
-def get_annotations_by_gene(gene, rosalution_db=Depends(database)):
+def get_annotations_by_gene(gene, repositories=Depends(database)):
     """Returns annotations data by calling method to find annotations by gene"""
 
     genomic_unit = {
@@ -50,7 +50,7 @@ def get_annotations_by_gene(gene, rosalution_db=Depends(database)):
         'unit': gene,
     }
 
-    queried_genomic_unit = rosalution_db["genomic_unit"].find_genomic_unit(genomic_unit)
+    queried_genomic_unit = repositories["genomic_unit"].find_genomic_unit(genomic_unit)
 
     if queried_genomic_unit is None:
         raise HTTPException(status_code=404, detail="Item not found")
@@ -58,7 +58,7 @@ def get_annotations_by_gene(gene, rosalution_db=Depends(database)):
     return queried_genomic_unit['annotations']
 
 @router.get("/hgvsVariant/{variant}")
-def get_annotations_by_hgvs_variant(variant: str, rosalution_db=Depends(database)):
+def get_annotations_by_hgvs_variant(variant: str, repositories=Depends(database)):
     """Returns annotations data by calling method to find annotations for variant and relevant transcripts
     by HGVS Variant"""
 
@@ -67,7 +67,7 @@ def get_annotations_by_hgvs_variant(variant: str, rosalution_db=Depends(database
         'unit': variant,
     }
 
-    queried_genomic_unit = rosalution_db["genomic_unit"].find_genomic_unit(genomic_unit)
+    queried_genomic_unit = repositories["genomic_unit"].find_genomic_unit(genomic_unit)
 
     if queried_genomic_unit is None:
         raise HTTPException(status_code=404, detail="Item not found")

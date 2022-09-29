@@ -2,4 +2,7 @@
 [run]
 omit = 
        src/main.py
+       src/dependencies.py
+       src/database.py
        src/routers/*
+       src/models/user.py

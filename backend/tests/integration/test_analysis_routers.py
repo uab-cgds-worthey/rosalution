@@ -11,9 +11,9 @@ from src.core.annotation import AnnotationService
 from ..test_utils import read_database_fixture, read_test_fixture
 
 
-def test_get_analyses(client, mock_access_token, database_collections):
+def test_get_analyses(client, mock_access_token, mock_repositories):
     """Testing that the correct number of analyses were returned and in the right order"""
-    database_collections['analysis'].collection.find.return_value = read_database_fixture(
+    mock_repositories['analysis'].collection.find.return_value = read_database_fixture(
         "analyses.json")
 
     response = client.get(
@@ -24,9 +24,9 @@ def test_get_analyses(client, mock_access_token, database_collections):
     assert response.json()[2]["name"] == "CPAM0047"
 
 
-def test_get_analyses_unauthorized(client, database_collections):
+def test_get_analyses_unauthorized(client, mock_repositories):
     """Tries to get the analyses from the endpoint, but is unauthorized. Does not provide valid token"""
-    database_collections['analysis'].collection.find.return_value = read_database_fixture(
+    mock_repositories['analysis'].collection.find.return_value = read_database_fixture(
         "analyses.json")
     response = client.get("/analysis/")
 
@@ -35,9 +35,9 @@ def test_get_analyses_unauthorized(client, database_collections):
     assert response.status_code == 200
 
 
-def test_get_analysis_summary(client, mock_access_token, database_collections):
+def test_get_analysis_summary(client, mock_access_token, mock_repositories):
     """Testing if the analysis summary endpoint returns all of the analyses available"""
-    database_collections['analysis'].collection.find.return_value = read_test_fixture(
+    mock_repositories['analysis'].collection.find.return_value = read_test_fixture(
         "analyses-summary-db-query-result.json")
     response = client.get(
         "/analysis/summary", headers={"Authorization": "Bearer " + mock_access_token})
@@ -47,17 +47,17 @@ def test_get_analysis_summary(client, mock_access_token, database_collections):
 def test_create_analysis(
     client,
     mock_access_token,
-    database_collections,
+    mock_repositories,
     exported_phenotips_to_import_json,
     mock_annotation_queue
 ):
     """Testing if the create analysis endpoint creates a new analysis"""
-    database_collections["analysis"].collection.insert_one.return_value = True
-    database_collections["analysis"].collection.find_one.return_value = None
-    database_collections["genomic_unit"].collection.find_one.return_value = None
-    database_collections['genomic_unit'].collection.find.return_value = read_database_fixture(
+    mock_repositories["analysis"].collection.insert_one.return_value = True
+    mock_repositories["analysis"].collection.find_one.return_value = None
+    mock_repositories["genomic_unit"].collection.find_one.return_value = None
+    mock_repositories['genomic_unit'].collection.find.return_value = read_database_fixture(
         "genomic-units.json")
-    database_collections['annotation_config'].collection.find.return_value = read_database_fixture(
+    mock_repositories['annotation_config'].collection.find.return_value = read_database_fixture(
         "annotations-config.json")
 
     with patch.object(BackgroundTasks, "add_task", return_value=None) as mock_background_add_task:
@@ -73,19 +73,19 @@ def test_create_analysis(
         mock_background_add_task.assert_called_once_with(
             AnnotationService.process_tasks,
             mock_annotation_queue,
-            database_collections['genomic_unit']
+            mock_repositories['genomic_unit']
         )
 
     assert response.status_code == 200
 
-def test_create_analysis_with_file(client, mock_access_token, database_collections, mock_annotation_queue):
+def test_create_analysis_with_file(client, mock_access_token, mock_repositories, mock_annotation_queue):
     """ Testing if the create analysis function works with file upload """
-    database_collections["analysis"].collection.insert_one.return_value = True
-    database_collections["analysis"].collection.find_one.return_value = None
-    database_collections["genomic_unit"].collection.find_one.return_value = None
-    database_collections['annotation_config'].collection.find.return_value = read_database_fixture(
+    mock_repositories["analysis"].collection.insert_one.return_value = True
+    mock_repositories["analysis"].collection.find_one.return_value = None
+    mock_repositories["genomic_unit"].collection.find_one.return_value = None
+    mock_repositories['annotation_config'].collection.find.return_value = read_database_fixture(
         "annotations-config.json")
-    database_collections['genomic_unit'].collection.find.return_value = read_database_fixture(
+    mock_repositories['genomic_unit'].collection.find.return_value = read_database_fixture(
         "genomic-units.json")
 
     # This is used here because the 'read_fixture' returns a json dict rather than raw binary
@@ -113,14 +113,14 @@ def test_create_analysis_with_file(client, mock_access_token, database_collectio
             mock_background_add_task.assert_called_once_with(
                 AnnotationService.process_tasks,
                 mock_annotation_queue,
-                database_collections['genomic_unit']
+                mock_repositories['genomic_unit']
             )
 
     assert response.status_code == 200
 
-def test_update_analysis(client, mock_access_token, database_collections, analysis_updates_json):
+def test_update_analysis(client, mock_access_token, mock_repositories, analysis_updates_json):
     """Testing if the update analysis endpoint updates an existing analysis"""
-    database_collections["analysis"].collection.find_one_and_update.return_value = analysis_updates_json
+    mock_repositories["analysis"].collection.find_one_and_update.return_value = analysis_updates_json
     response = client.put(
         "/analysis/update/CPAM0112",
         headers={"Authorization": "Bearer " + mock_access_token,
@@ -133,11 +133,11 @@ def test_update_analysis(client, mock_access_token, database_collections, analys
     assert response.json()["nominated_by"] == "Dr. Person One"
 
 
-def test_upload_file_to_analysis(client, mock_access_token, mock_file_upload, database_collections):
+def test_upload_file_to_analysis(client, mock_access_token, mock_file_upload, mock_repositories):
     """Testing if the upload file endpoint uploads a file to an analysis"""
     # This test currently writes a file to the backend folder, This will eventually be changed to write
     # the mongo database instead with GridFS. We are currently git-ignoring this file to avoid it being commited.
-    database_collections["analysis"].collection.find_one_and_update.return_value = {
+    mock_repositories["analysis"].collection.find_one_and_update.return_value = {
         'fakevalue': 'fakeyfake'}
     response = client.post(
         "/analysis/upload/CPAM0002",
