@@ -1,42 +1,41 @@
 <template>
-  <div class="modal-screen-area">
-    <div class="modal-background" @click="$emit('close')"></div>
-    <div class="modal-container">
-      <button title="Cancel" class="cancelbutton" @click="$emit('close')" data-test="cancel-button">Cancel</button>
-      <button title="Add" class="addbutton" @click="onAddFile" data-test="add-button">Add</button>
-      <div class="content-item">
-        <br />
-        <div class="tab-container">
-          <div class="tab-buttons">
-              <img class="phenotips-icon" src="@/assets/phenotips-favicon-96x96.png">
-          </div>
-        </div>
-        <form ref="modal">
-          <div class="drop-file-box" @dragover="dragover" @drop="drop">
-            <div v-if="!fileUploaded || !fileUploaded.length">
-              Drag & drop or
-              <input
-                type="file"
-                id="attach-file-button"
-                @change="onFileChange"
-                ref="file"
-                accept=".json"
-                hidden
-              />
-              <label for="attach-file-button" class="browse-file-button"> browse </label>
+    <div class="modal-background">
+      <div class="modal-container modal-phenotips-import-container">
+        <button title="Cancel" class="cancelbutton" @click="$emit('close')" data-test="cancel-button">Cancel</button>
+        <button title="Add" class="addbutton" @click="onAddFile" data-test="add-button">Add</button>
+        <div class="content-item">
+          <br />
+          <div class="tab-container">
+            <div class="tab-buttons">
+                <img class="phenotips-icon" src="@/assets/phenotips-favicon-96x96.png">
             </div>
-            <tbody v-if="this.fileUploaded.length" v-cloak>
-              <tr v-for="file in this.fileUploaded" v-bind:key="file.name" class="file-name">
-                {{ file.name }}
-                <button type="button" @click="remove(fileUploaded)" title="Remove file" class="remove-button">
-                  remove
-                </button>
-              </tr>
-            </tbody>
           </div>
-        </form>
+          <form ref="modal">
+            <div class="drop-file-box" @dragover="dragover" @drop="drop">
+              <div v-if="!fileUploaded || !fileUploaded.length">
+                Drag & drop or
+                <input
+                  type="file"
+                  id="attach-file-button"
+                  @change="onFileChange"
+                  ref="file"
+                  accept=".json"
+                  hidden
+                />
+                <label for="attach-file-button" class="browse-file-button"> browse </label>
+              </div>
+              <tbody v-if="this.fileUploaded.length" v-cloak>
+                <tr v-for="file in this.fileUploaded" v-bind:key="file.name" class="file-name">
+                  {{ file.name }}
+                  <button type="button" @click="remove(fileUploaded)" title="Remove file" class="remove-button">
+                    remove
+                  </button>
+                </tr>
+              </tbody>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
   </div>
 </template>
 
@@ -88,27 +87,8 @@ button {
   height:24px
 }
 
-.modal-screen-area {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
-
-.modal-background {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 10;
-  background-color: rgba(192, 192, 192, 0.45);
-}
-
-.modal-container {
+.modal-phenotips-import-container {
   display: grid;
-  z-index: 999;
   grid-template-columns: 200px 200px 200px;
   grid-template-rows: auto;
   grid-template-areas:
@@ -118,13 +98,7 @@ button {
   background-color: var(--rosalution-white);
   font-weight: 600;
   font-size: 1rem;
-  position: absolute;
-  border-radius: var(--content-border-radius);
   justify-items: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .content-item {
