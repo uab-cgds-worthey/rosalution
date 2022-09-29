@@ -25,6 +25,9 @@ html {
   --secondary-background-color: var(--rosalution-white);
   
   --content-border-radius: 10px;
+
+  --modal-background-z-index: 10;
+  --modal-container-z-index: 999;
   
   --p-0: 0rem;
   --p-1: 0.25rem;
@@ -86,6 +89,8 @@ input {
   font-size: 1.125rem; /* 18px */
 }
 
+
+
 /** || Primary Grid Site Layout **/
 
 #app {
@@ -111,6 +116,28 @@ app-footer {
   grid-column: 1;
   grid-row: 3;
   height: 3rem;
+}
+
+/** Design System **/
+.modal-background {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: var(--modal-background-z-index);
+  background-color: rgba(192, 192, 192, 0.25);
+}
+
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: var(--modal-container-z-index);
+  background-color: var(--rosalution-white);
+  border-radius: var(--content-border-radius);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 /** || Typography **/

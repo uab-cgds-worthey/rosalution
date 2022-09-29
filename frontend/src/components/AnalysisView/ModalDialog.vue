@@ -1,47 +1,46 @@
 <template>
-  <div class="modal-screen-area">
-    <div class="modal-background" @click="$emit('close')"></div>
-    <div class="modal-container">
-      <a title="Cancel" class="cancel-item" @click="$emit('close')" data-test="cancel-button">Cancel</a>
-      <a title="Add" class="addbutton-item" @click="this.addAttachment()" data-test="add-button">Add</a>
-      <div class="content-item">
-        <br>
-        <!-- Leaving here for tabbed in the future -->
-        <div class="tab-container">
-          <div class="tab-buttons">
-            <span class="link-tab-container">
-              <button class="link-tab-button" @click="showSupplementalLoadLink()"
-                v-bind:class="{'link-tab-button_focused': showLink}"
-                data-test="link-tab-button"
-              >
-                <font-awesome-icon icon="link" size="xl"/>
-              </button>
-            </span>
-            <span class="file-tab-container">
-              <button class="file-tab-button" @click="showSupplementalLoadFile()"
-                v-bind:class="{'file-tab-button_focused': showFile}"
-                data-test="file-tab-button"
-              >
-                <font-awesome-icon :icon="['far', 'file']" size="xl"/>
-              </button>
-            </span>
+    <div class="modal-background">
+      <div class="modal-container modal-dialog-container">
+        <a title="Cancel" class="cancel-item" @click="$emit('close')" data-test="cancel-button">Cancel</a>
+        <a title="Add" class="addbutton-item" @click="this.addAttachment()" data-test="add-button">Add</a>
+        <div class="content-item">
+          <br>
+          <!-- Leaving here for tabbed in the future -->
+          <div class="tab-container">
+            <div class="tab-buttons">
+              <span class="link-tab-container">
+                <button class="link-tab-button" @click="showSupplementalLoadLink()"
+                  v-bind:class="{'link-tab-button_focused': showLink}"
+                  data-test="link-tab-button"
+                >
+                  <font-awesome-icon icon="link" size="xl"/>
+                </button>
+              </span>
+              <span class="file-tab-container">
+                <button class="file-tab-button" @click="showSupplementalLoadFile()"
+                  v-bind:class="{'file-tab-button_focused': showFile}"
+                  data-test="file-tab-button"
+                >
+                  <font-awesome-icon :icon="['far', 'file']" size="xl"/>
+                </button>
+              </span>
+            </div>
           </div>
+          <form ref="modal">
+            <SupplementalLoadFile v-if="showFile"
+              v-on:fileadded="this.getFile"
+              v-on:commentadded="this.getComments"
+              data-test="supplemental-load-file"
+            />
+            <SupplementalLoadLink v-if="showLink"
+              v-on:linknameadded="this.getLinkName"
+              v-on:linkadded="this.getLink"
+              v-on:commentadded="this.getComments"
+              data-test="supplemental-load-link"
+            />
+          </form>
         </div>
-        <form ref="modal">
-          <SupplementalLoadFile v-if="showFile"
-            v-on:fileadded="this.getFile"
-            v-on:commentadded="this.getComments"
-            data-test="supplemental-load-file"
-          />
-          <SupplementalLoadLink v-if="showLink"
-            v-on:linknameadded="this.getLinkName"
-            v-on:linkadded="this.getLink"
-            v-on:commentadded="this.getComments"
-            data-test="supplemental-load-link"
-          />
-        </form>
       </div>
-    </div>
   </div>
 </template>
 
@@ -111,41 +110,17 @@ export default {
 </script>
 
 <style scoped>
-.modal-screen-area {
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
-
-.modal-background {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 20;
-  background-color: rgba(192, 192, 192, 0.45);
-}
-
-.modal-container {
+.modal-dialog-container {
   display: grid;
-  z-index: 999;
   grid-template-columns: 200px 200px 200px;
   grid-template-rows: auto;
   grid-template-areas:
     "header header header"
     "main main main"
     "remove cancel addbutton";
-  background-color: var(--rosalution-white);
   font-weight: 600;
   font-size: 1rem;
-  border-radius: var(--content-border-radius);
   justify-items: center;
-  position: absolute;
-  top: 90%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .content-item {

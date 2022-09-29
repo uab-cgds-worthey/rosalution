@@ -1,6 +1,6 @@
 <template>
     <div class="modal-background">
-        <div class="modal-container">
+        <div class="modal-container modal-remove-file-container">
             <h2>Delete Supporting Information?</h2>
             <span>Deleting this item will remove it from the supporting evidence list.</span>
             <div class="cancel-button-column">
@@ -32,32 +32,12 @@ export default {
 </script>
 
 <style scoped>
-  .modal-background {
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    background-color: rgba(192, 192, 192, 0.45);
-  }
-
-  .modal-container {
-    background-color: white;
+  .modal-remove-file-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    background-color: var(--rosalution-white);
     width: 385px;
     height: 170px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     padding: 20px 35px 15px 35px;
-    z-index: 999;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 
   h2 {
