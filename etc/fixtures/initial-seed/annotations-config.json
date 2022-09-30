@@ -8,16 +8,62 @@
     "attribute": ".genes[] | select( .entrezGeneSymbol | contains(\"{gene}\")) |  { entrezGeneId: .entrezGeneId }"
   },
   {
+    "data_set": "Ensembl Gene Id",
+    "data_source": "Ensembl",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "http://grch37.rest.ensembl.org/lookup/symbol/homo_sapiens/{gene}?content-type=application/json",
+    "attribute": "{ \"Ensemble Gene Id\": .id }"
+  },
+  {
+    "data_set": "HGNC_ID",
+    "data_source": "Ensembl",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "http://rest.genenames.org/fetch/symbol/{gene}",
+    "attribute": ".response | .docs[] | select( .symbol | contains(\"{gene}\")) | { HGNC_ID : .\"hgnc_id\"}"
+  },
+  {
    "data_set": "Gene Summary",
    "data_source": "RefSeq",
    "genomic_unit_type": "gene",
    "annotation_source_type": "none"
   },
   {
-    "data_set": "OMIM",
-    "data_source": "OMIM",
+    "data_set": "ClinGen_gene_url",
+    "data_source": "Rosalution",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "none"
+    "annotation_source_type": "forge",
+    "base_string": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term={HGNC_ID}",
+    "attribute": "{ \"ClinGen_gene_url\": .ClinGen_gene_url }",
+    "dependencies": ["HGNC_ID"]
+  },
+  {
+    "data_set": "NCBI_gene_url",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "forge",
+    "base_string": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term={Entrez Gene Id}",
+    "attribute": "{ \"NCBI_gene_url\": .NCBI_gene_url }",
+    "dependencies": ["Entrez Gene Id"]
+  },
+  {
+    "data_set": "gnomAD_gene_url",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "forge",
+    "base_string": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term={Ensembl Gene Id}",
+    "attribute": "{ \"gnomAD_gene_url\": .gnomAD_gene_url }",
+    "dependencies": ["Ensembl Gene Id"]
+  },
+  {
+    "data_set": "OMIM",
+    "data_source": "HPO",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://hpo.jax.org/api/hpo/gene/{Entrez Gene Id}",
+    "attribute": "{ \"diseaseAssoc\": [.diseaseAssoc[].diseaseName]}",
+    "dependencies": ["Entrez Gene Id"]
   },
   {
     "data_set": "HPO",
@@ -25,7 +71,7 @@
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://hpo.jax.org/api/hpo/gene/{Entrez Gene Id}",
-    "attribute": "{ \"diseaseAssoc\": [.diseaseAssoc[].diseaseName]}",
+    "attribute": "{ \"termAssoc\": [.termAssoc[] | .ontologyId + \": \" + .name ]}",
     "dependencies": ["Entrez Gene Id"]
   },
   {

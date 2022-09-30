@@ -21,7 +21,7 @@ def test_queue_annotations_for_sample(client, mock_repositories, mock_annotation
     with patch.object(BackgroundTasks, "add_task", return_value=None) as mock_background_add_task:
         response = client.post("/annotate/CPAM0002")
         assert response.status_code == 202
-        assert mock_annotation_queue.put.call_count == 29
+        assert mock_annotation_queue.put.call_count == 39
         mock_background_add_task.assert_called_once_with(
             AnnotationService.process_tasks,
             mock_annotation_queue,

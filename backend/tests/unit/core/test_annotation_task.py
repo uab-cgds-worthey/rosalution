@@ -1,7 +1,7 @@
 """Tests Annotation Tasks and the creation of them"""
 import pytest
 
-from src.core.annotation_task import AnnotationTaskFactory, HttpAnnotationTask
+from src.core.annotation_task import AnnotationTaskFactory, ForgeAnnotationTask, HttpAnnotationTask
 from src.enums import GenomicUnitType
 
 
@@ -29,6 +29,17 @@ def test_annotation_task_create_http_task(hgvs_variant_genomic_unit, transcript_
     actual_task = AnnotationTaskFactory.create(hgvs_variant_genomic_unit, transcript_id_dataset)
     assert isinstance(actual_task, HttpAnnotationTask)
 
+def test_annotate_forge_gene_linkout_dataset(forge_annotation_task_gene):
+    """Verifies that the NCBI linkout dataset is structed as expected"""
+    actual_annotation = forge_annotation_task_gene.annotate()
+    assert "NCBI_linkout" in actual_annotation
+    assert actual_annotation['NCBI_linkout'] == 'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=45614'
+
+def test_extraction_forge_gene_linkout_dataset(forge_annotation_task_gene):
+    """Verifies that the NCBI linkout dataset is extracted as expected"""
+    annotation = forge_annotation_task_gene.annotate()
+    extracted_annotations = forge_annotation_task_gene.extract(annotation)
+    assert extracted_annotations[0]['value'] == 'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=45614'
 
 def test_annotation_extraction_for_transcript_dataset(http_annotation_transcript_id, transcript_annotation_response):
     """Verifieng genomic unit extraction for a transcript using the the transcript ID dataset"""
@@ -63,6 +74,21 @@ def test_annotation_extraction_for_genomic_unit(http_annotation_task_gene, hpo_a
 
 ## Fixtures ##
 
+@pytest.fixture(name="gene_ncbi_linkout_dataset")
+def fixture_ncbi_linkout_dataset():
+    """
+    Retrusn the the 'forged' dataset configuration that builds the dataset from a genomic unit and its dependencies
+    """
+    return {
+        "data_set": "NCBI_linkout",
+        "data_source": "Rosalution",
+        "genomic_unit_type": "gene",
+        "annotation_source_type": "forge",
+        "base_string": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term={Entrez Gene Id}",
+        "attribute": "{ \"NCBI_linkout\": .NCBI_linkout }",
+        "dependencies": ["Entrez Gene Id"]
+    }
+
 @pytest.fixture(name="gene_hpo_dataset")
 def fixture_gene_hpo_dataset():
     """
@@ -94,6 +120,13 @@ def fixture_http_annotation_empty(gene_genomic_unit, gene_hpo_dataset):
     """Returns an HTTP annotation taskd"""
     task = HttpAnnotationTask(gene_genomic_unit)
     task.set(gene_hpo_dataset)
+    return task
+
+@pytest.fixture(name="forge_annotation_task_gene")
+def fixture_forge_annotation_task_gene_ncbi_linkout(gene_genomic_unit, gene_ncbi_linkout_dataset):
+    """Returns a Forge annotation task for the NCBI linkout for the VMA21 Gene genomic unit"""
+    task = ForgeAnnotationTask(gene_genomic_unit)
+    task.set(gene_ncbi_linkout_dataset)
     return task
 
 

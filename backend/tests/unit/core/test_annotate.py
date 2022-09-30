@@ -3,7 +3,6 @@ from unittest.mock import Mock, patch
 import pytest
 
 from src.core.annotation import AnnotationService
-from src.core.annotation_task import AnnotationTaskInterface, HttpAnnotationTask, NoneAnnotationTask
 from src.enums import GenomicUnitType
 
 
@@ -12,38 +11,41 @@ def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_col
     annotation_service = AnnotationService(annotation_collection)
     mock_queue = Mock()
     annotation_service.queue_annotation_tasks(cpam0046_analysis, mock_queue)
-    assert mock_queue.put.call_count == 19
+    assert mock_queue.put.call_count == 24
 
 # Patching the temporary helper method that is writing to a file, this will be
 # removed once that helper method is no longer needed for the development
 
-# The patch requires that the 'mock' being created must be the first argument
-# so removing it causes the test to not run.  Also is unable to detect
-# the mock overide of the 'annotate' function on DataSetSource is valid either.
-
-
+# The patched method sare done provided in reverse order within the test param arguments.  Was accidently getting
+# logging mock results instead of non task type annotations.  Was causing major failures in verifying values
 @patch("src.core.annotation.log_to_file")
 @patch("src.core.annotation_task.AnnotationTaskInterface.extract")
-def test_processing_cpam0046_annotation_tasks(log_to_file_mock, annotate_extract_mock, cpam0046_annotation_queue):  # pylint: disable=unused-argument
+@patch("src.core.annotation_task.ForgeAnnotationTask.annotate")
+@patch("src.core.annotation_task.HttpAnnotationTask.annotate")
+@patch("src.core.annotation_task.NoneAnnotationTask.annotate")
+def test_processing_cpam0046_annotation_tasks(
+    none_task_annotate,
+    http_task_annotate,
+    forge_task_annotate,
+    annotate_extract_mock,
+    log_to_file_mock,
+    cpam0046_annotation_queue
+):  # pylint: disable=unused-argument
     """Verifies that each item on the annotation queue is read and executed"""
     mock_genomic_unit_collection = Mock()
     mock_genomic_unit_collection.find_genomic_unit_annotation_value = Mock()
-    mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = [
-        None, '123456']
+    mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = [None, '123456', '123456', '123456']
     mock_genomic_unit_collection.annotation_exist.return_value = False
 
     assert not cpam0046_annotation_queue.empty()
-    AnnotationTaskInterface.extract = Mock(return_value=[])
-    HttpAnnotationTask.annotate = Mock(return_value={})
-    NoneAnnotationTask.annotate = Mock()
-    AnnotationService.process_tasks(
-        cpam0046_annotation_queue, mock_genomic_unit_collection)
+    AnnotationService.process_tasks(cpam0046_annotation_queue, mock_genomic_unit_collection)
     assert cpam0046_annotation_queue.empty()
-    assert HttpAnnotationTask.annotate.call_count == 10  # pylint: disable=no-member
-    assert NoneAnnotationTask.annotate.call_count == 9  # pylint: disable=no-member
-    # This result is combining both for HTTP and None tasks
-    assert HttpAnnotationTask.extract.call_count == 19 # pylint: disable=no-member
 
+    assert http_task_annotate.call_count == 13
+    assert none_task_annotate.call_count == 8
+    assert forge_task_annotate.call_count == 3
+
+    assert annotate_extract_mock.call_count == 24
 
 @patch("src.core.annotation.log_to_file")
 @patch("src.core.annotation_task.AnnotationTaskInterface.extract",return_value=[{
@@ -52,7 +54,17 @@ def test_processing_cpam0046_annotation_tasks(log_to_file_mock, annotate_extract
         'version': '0.0',
         'value': '9000'
     }])
-def test_processing_cpam0002_annotations_tasks(log_to_file_mock, annotate_extract_mock, cpam0002_annotation_queue):  # pylint: disable=unused-argument
+@patch("src.core.annotation_task.ForgeAnnotationTask.annotate")
+@patch("src.core.annotation_task.HttpAnnotationTask.annotate")
+@patch("src.core.annotation_task.NoneAnnotationTask.annotate")
+def test_processing_cpam0002_annotations_tasks(
+    none_task_annotate,
+    http_task_annotate,
+    forge_task_annotate,
+    annotate_extract_mock,
+    log_to_file_mock,
+    cpam0002_annotation_queue
+):  # pylint: disable=unused-argument
     """
         Verifies that the annotation collection is being sent the proper amount of extracted annotations for
         CPAM analysis 0002
@@ -61,17 +73,14 @@ def test_processing_cpam0002_annotations_tasks(log_to_file_mock, annotate_extrac
     mock_genomic_unit_collection = Mock()
     mock_genomic_unit_collection.annotation_exist.return_value = False
 
-    HttpAnnotationTask.annotate = Mock()
-    NoneAnnotationTask.annotate = Mock()
+    AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
 
-    AnnotationService.process_tasks(
-        cpam0002_annotation_queue, mock_genomic_unit_collection)
+    assert http_task_annotate.call_count == 18
+    assert forge_task_annotate.call_count == 6
+    assert none_task_annotate.call_count == 15
 
-    assert HttpAnnotationTask.annotate.call_count == 12  # pylint: disable=no-member
-    assert NoneAnnotationTask.annotate.call_count == 17  # pylint: disable=no-member
+    assert annotate_extract_mock.call_count == 39
 
-    # This result is combining both for HTTP and None tasks
-    assert HttpAnnotationTask.extract.call_count == 29 # pylint: disable=no-member
     mock_genomic_unit_collection.annotate_genomic_unit.assert_called()
 
 @pytest.fixture(name="cpam0046_hgvs_variant_json")

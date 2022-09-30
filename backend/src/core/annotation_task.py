@@ -64,7 +64,6 @@ class AnnotationTaskInterface:
             }
 
             replaced_attributes = self.aggregate_string_replacements(self.dataset['attribute'])
-
             jq_results = iter(jq.compile(replaced_attributes).input(json_result).all())
             jq_result = next(jq_results, None)
             while jq_result is not None:
@@ -86,6 +85,23 @@ class AnnotationTaskInterface:
 
         return annotations
 
+class ForgeAnnotationTask(AnnotationTaskInterface):
+    """
+    An annotation task that will construct a dataset string from a series of
+    annotation depedencies and its genomic unit
+    """
+
+    def __init__(self, genomic_unit_json):
+        """Instantiates the force annotation task with the genomic unit's json"""
+        AnnotationTaskInterface.__init__(self, genomic_unit_json)
+
+    def annotate(self):
+        """
+        Annotates the dataset.  Compiles the datasets 'base_string' and does an aggregate string replacement
+        of the genomic unit and its dataset depedencies to generate the new dataset.  Will be returned within
+        an object that has the name of the dataset as the attribute.
+        """
+        return { self.dataset['data_set']: self.aggregate_string_replacements(self.dataset['base_string']) }
 
 class NoneAnnotationTask(AnnotationTaskInterface):
     """An empty annotation task to be a place holder for datasets that do not have an annotation type yet"""
@@ -127,9 +143,7 @@ class HttpAnnotationTask(AnnotationTaskInterface):
     def annotate(self):
         """builds the complete url and fetches the annotation with an http request"""
         url_to_query = self.build_url()
-        # log_to_file(f'No Sleep: {url_to_query} - Real annotation for {self.genomic_unit["unit"]}'
-        #             f' for dataset {s][''elf.dataset["data_set"]} from {self.dataset["data_source"]}\n')
-        result = requests.get(url_to_query, verify=False)
+        result = requests.get(url_to_query, verify=False, headers={"Accept":"application/json"})
         json_result = result.json()
         return json_result
 
@@ -166,6 +180,7 @@ class AnnotationTaskFactory:
         "http": HttpAnnotationTask,
         "csv": CsvAnnotationTask,
         "none": NoneAnnotationTask,
+        "forge": ForgeAnnotationTask,
     }
 
     @classmethod

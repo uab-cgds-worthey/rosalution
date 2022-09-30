@@ -13,6 +13,9 @@ const annotationsTemporary = {
   'Gene Description': `This gene encodes a chaperone for assembly of lysosomal vacuolar ATPase.[provided by RefSeq,
     Jul 2012]`,
   'Entrez Gene Id': 203547,
+  'ClinGen_gene_url': 'https://search.clinicalgenome.org/kb/genes/HGNC:22082',
+  'NCBI_gene_url': 'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=203547',
+  'gnomAD_gene_url': 'https://gnomad.broadinstitute.org/gene/ENSG00000160131?dataset=gnomad_r2_1',
   'OMIM': ['Myopathy, X-linked, With Excessive Autophagy'],
   'HPO': `HP:0001270:Motor delay, HP:0001419:X-linked recessive inheritance
     HP:0001371:Flexion contracture, HP:0003391:Gowers sign, HP:0008994:Proximal
