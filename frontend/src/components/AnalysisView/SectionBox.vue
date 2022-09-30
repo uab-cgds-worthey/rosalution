@@ -1,5 +1,6 @@
 <template>
   <table class="section-box-container">
+    
     <tbody>
       <input type="checkbox" v-bind:id="section_toggle"/>
       <tr class="section-header">
@@ -8,10 +9,12 @@
             {{header}}
           </h2>
         </td>
+        
         <label class="logo-dropdown-edit" v-bind:for="section_toggle">
           <font-awesome-icon icon="chevron-down" size="lg"/>
         </label>
       </tr>
+      
       <div class="seperator"></div>
       <tr class="field-value-row" v-for="content in contentList" :key="content">
         <td>
@@ -125,14 +128,13 @@ input[type="checkbox"] {
   display: none;
 }
 
-.section-box-container input  {
-  color: black;
-}
 
 .section-box-container input[type="checkbox"]:checked ~ .field-value-row {
   display: none;
 }
 
-
+input[type="checkbox"]:checked ~ tr > .logo-dropdown-edit {
+  transform: scaleY(-1);
+}
 
 </style>
