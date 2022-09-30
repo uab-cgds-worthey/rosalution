@@ -113,8 +113,7 @@ class AnnotationService:
                             log_to_file(
                                 f"{genomic_unit['unit']} for {annotation_task.dataset['data_set']} - + \
                                 Saving {annotation['value']}...\n")
-                            genomic_unit_collection.annotate_genomic_unit(
-                                annotation_task.genomic_unit, annotation)
+                            genomic_unit_collection.annotate_genomic_unit(annotation_task.genomic_unit, annotation)
 
                     except FileNotFoundError as error:
                         log_to_file(

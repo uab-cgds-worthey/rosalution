@@ -7,19 +7,30 @@
     <div class="sections">
       <AnnotationSection
         v-for="(section, index) in this.rendering" :key="`${section.type}-${section.anchor}-${index}`"
-        :header="sectionHeader(section.header)"
-        :id="`${section.anchor}`"
+        :header="sectionHeader(section.header)" v-bind="section.props" :id="`${section.anchor}`"
       >
-        <div v-for="(row, index) in section.rows" :key="`${index}`">
+        <template #headerDatasets>
           <component
-              v-for="(datasetConfig, index) in row.datasets"
-              :key="`${datasetConfig.dataset}-${index}`"
-              :is="datasetConfig.type"
-              v-bind="datasetConfig.props"
-              :value="annotations[datasetConfig.dataset]"
-              :data-test="datasetConfig.dataset"
+              v-for="(headerDatasetConfig, index) in section.header_datasets"
+              :key="`${headerDatasetConfig.dataset}-why-${index}`"
+              :is="headerDatasetConfig.type"
+              v-bind="headerDatasetConfig.props"
+              :value="annotations[headerDatasetConfig.dataset]"
+              :data-test="headerDatasetConfig.dataset"
             />
-        </div>
+        </template>
+        <template #default>
+          <div v-for="(row, index) in section.rows" :key="`${index}`">
+            <component
+                v-for="(datasetConfig, index) in row.datasets"
+                :key="`123${datasetConfig.dataset}-${index}`"
+                :is="datasetConfig.type"
+                v-bind="datasetConfig.props"
+                :value="annotations[datasetConfig.dataset]"
+                :data-test="datasetConfig.dataset"
+              />
+          </div>
+        </template>
       </AnnotationSection>
     </div>
     <AnnotationSidebar class="sidebar" :section-anchors="sectionAnchors"></AnnotationSidebar>
@@ -35,6 +46,7 @@ import AnnotationSection from '@/components/AnnotationView/AnnotationSection.vue
 import AnnotationSidebar from '@/components/AnnotationView/AnnotationSidebar.vue';
 import AnnotationViewHeader from '@/components/AnnotationView/AnnotationViewHeader.vue';
 
+import IconLinkoutDataset from '@/components/AnnotationView/IconLinkoutDataset.vue';
 import TextDataset from '@/components/AnnotationView/TextDataset.vue';
 
 export default {
@@ -43,6 +55,7 @@ export default {
     AnnotationSection,
     AnnotationSidebar,
     AnnotationViewHeader,
+    IconLinkoutDataset,
     TextDataset,
   },
   props: ['analysis_name', 'gene', 'variant'],

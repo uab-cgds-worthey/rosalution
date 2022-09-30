@@ -1,5 +1,5 @@
 import {expect, describe, it, beforeAll, afterAll} from 'vitest';
-import {config, shallowMount} from '@vue/test-utils';
+import {config, mount} from '@vue/test-utils';
 import sinon from 'sinon';
 
 import Auth from '@/models/authentication.js';
@@ -39,7 +39,7 @@ describe('AnnotationView', () => {
     mockedUser = sandbox.stub(Auth, 'getUser');
     mockedUser.returns('');
 
-    wrapper = shallowMount(AnnotationView, {
+    wrapper = mount(AnnotationView, {
       props: {...defaultProps},
       global: {
         components: {
@@ -48,6 +48,10 @@ describe('AnnotationView', () => {
         mocks: {
           $route: mockRoute,
           $router: mockRouter,
+        },
+        stubs: {
+          AnnotationViewHeader: true,
+          FontAwesomeIcon: true,
         },
       },
     });
@@ -78,5 +82,44 @@ describe('AnnotationView', () => {
   it('renders text datasets according to configuration', () => {
     const textDatasets = wrapper.findAllComponents(TextDataset);
     expect(textDatasets.length).to.equal(3);
+  });
+
+  describe('Section headers ought to render datasets according to configuration', () => {
+    let geneSection;
+    let geneSectionHeader;
+    let linkoutElements;
+
+    beforeAll(() => {
+      geneSection = wrapper.find('#Gene');
+      geneSectionHeader = geneSection.get('.annotations');
+      linkoutElements = geneSectionHeader.findAll('a');
+    });
+
+    it('should render each header dataset', () => {
+      expect(linkoutElements.length).to.equal(3);
+    });
+
+    it('should not render any linkouts if none provided', () => {
+      const variantSection = wrapper.find('#Variant');
+      const variantSectionHeader = variantSection.get('.annotations');
+      const noLinkouteElements = variantSectionHeader.findAll('a');
+      expect(noLinkouteElements.length).to.equal(0);
+    });
+
+    it('should render each linkout to open in a new tab', () => {
+      linkoutElements.forEach((linkDomElement) => {
+        expect(linkDomElement.attributes('target')).to.equal('_blank');
+      });
+    });
+
+    it('should render each linkout with an href', () => {
+      linkoutElements.forEach((linkDomElement) => {
+        expect(
+            ['https://search.clinicalgenome.org/kb/genes/HGNC:22082',
+              'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=203547',
+              'https://gnomad.broadinstitute.org/gene/ENSG00000160131?dataset=gnomad_r2_1',
+            ]).to.include(linkDomElement.attributes('href'));
+      });
+    });
   });
 });

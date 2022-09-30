@@ -37,9 +37,28 @@ const annotationRenderingTemporary = [
     'class': '',
     'header': 'gene',
     'anchor': 'Gene',
-    'props': {
-      'linkouts': [],
-    },
+    'header_datasets': [{
+      'dataset': 'ClinGen_gene_url',
+      'type': 'icon-linkout-dataset',
+      'props': {
+        'imageFilename': 'logo-clin-gen.svg',
+        'altText': 'Clinical Genomic Resource Gene Linkout',
+      },
+    }, {
+      'dataset': 'NCBI_gene_url',
+      'type': 'icon-linkout-dataset',
+      'props': {
+        'imageFilename': 'ncbi-logo.png',
+        'altText': 'National Center for Biotechnology Information Gene Linkout',
+      },
+    }, {
+      'dataset': 'gnomAD_gene_url',
+      'type': 'icon-linkout-dataset',
+      'props': {
+        'imageFilename': 'gnomad-logo.png',
+        'altText': 'Genome Aggregation Database (gnomAD) from Broad Institute',
+      },
+    }],
     'rows': [
       {
         'class': '',
@@ -84,9 +103,7 @@ const annotationRenderingTemporary = [
     'class': '',
     'header': 'variant',
     'anchor': 'Variant',
-    'props': {
-      'linkouts': [],
-    },
+    'header_datasets': [],
     'rows': [
       {
         'class': '',
@@ -144,45 +161,35 @@ const annotationRenderingTemporary = [
     'class': '',
     'header': 'Gene Homology/Multi-Sequence allignment',
     'anchor': 'Gene_Homology',
-    'props': {
-      'linkouts': [],
-    },
+    'header_datasets': [],
     'rows': [],
   }, {
     'type': 'section',
     'class': '',
     'header': 'Protein Expression',
     'anchor': 'Protein_Expression',
-    'props': {
-      'linkouts': [],
-    },
+    'header_datasets': [],
     'rows': [],
   }, {
     'type': 'section',
     'class': '',
     'header': 'Modelability',
     'anchor': 'Modelability',
-    'props': {
-      'linkouts': [],
-    },
+    'header_datasets': [],
     'rows': [],
   }, {
     'type': 'section',
     'class': '',
     'header': 'Model Systems',
     'anchor': 'Model_Systems',
-    'props': {
-      'linkouts': [],
-    },
+    'header_datasets': [],
     'rows': [],
   }, {
     'type': 'section',
     'class': '',
     'header': 'Druggability',
     'anchor': 'Druggability',
-    'props': {
-      'linkouts': [],
-    },
+    'header_datasets': [],
     'rows': [],
   },
 ];

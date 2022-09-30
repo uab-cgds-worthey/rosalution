@@ -13,15 +13,85 @@
              ]
           },
           {
-             "HPO":[
-                {
-                   "data_source":"HPO",
-                   "version":"",
-                   "value":[
-                      "Myopathy, X-linked, With Excessive Autophagy"
-                   ]
-                }
-             ]
+            "Ensembl Gene Id": [
+              {
+                "data_source": "Ensembl",
+                "version": "",
+                "value": "ENSG00000160131"
+              }
+            ]
+          },
+          {
+            "HGNC_ID": [
+              {
+                "data_source": "Ensembl",
+                "version": "",
+                "value": "HGNC:22082"
+              }
+            ]
+          },
+          {
+            "ClinGen_gene_url": [
+              {
+                "data_source": "Rosalution",
+                "version": "",
+                "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=HGNC:22082"
+              }
+            ]
+          },
+          {
+            "NCBI_gene_url": [
+              {
+                "data_source": "Rosalution",
+                "version": "",
+                "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=203547"
+              }
+            ]
+          },
+          {
+            "gnomAD_gene_url": [
+              {
+                "data_source": "Rosalution",
+                "version": "",
+                "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=ENSG00000160131"
+              }
+            ]
+          },
+          {
+            "OMIM": [
+              {
+                "data_source": "HPO",
+                "version": "",
+                "value": [
+                  "Myopathy, X-linked, With Excessive Autophagy"
+                ]
+              }
+            ]
+          },
+          {
+            "HPO": [
+              {
+                "data_source": "HPO",
+                "version": "",
+                "value": [
+                  "HP:0001270: Motor delay",
+                  "HP:0001419: X-linked recessive inheritance",
+                  "HP:0001371: Flexion contracture",
+                  "HP:0003391: Gowers sign",
+                  "HP:0008994: Proximal muscle weakness in lower limbs",
+                  "HP:0002650: Scoliosis",
+                  "HP:0003551: Difficulty climbing stairs",
+                  "HP:0002093: Respiratory insufficiency",
+                  "HP:0003198: Myopathy",
+                  "HP:0009046: Difficulty running",
+                  "HP:0003202: Skeletal muscle atrophy",
+                  "HP:0001319: Neonatal hypotonia",
+                  "HP:0003236: Elevated circulating creatine kinase concentration",
+                  "HP:0002486: Myotonia",
+                  "HP:0007941: Limited extraocular movements"
+                ]
+              }
+            ]
           }
        ]
     },
@@ -39,7 +109,7 @@
              ]
           },
           {
-             "HPO":[
+             "OMIM":[
                 {
                    "data_source":"HPO",
                    "version":"",
@@ -55,6 +125,157 @@
                    ]
                 }
              ]
+          },
+          {
+            "Ensembl Gene Id": [
+              {
+                "data_source": "Ensembl",
+                "version": "",
+                "value": "ENSG00000198947"
+              }
+            ]
+          },
+          {
+            "HGNC_ID": [
+              {
+                "data_source": "Ensembl",
+                "version": "",
+                "value": "HGNC:2928"
+              }
+            ]
+          },
+          {
+            "ClinGen_gene_url": [
+              {
+                "data_source": "Rosalution",
+                "version": "",
+                "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=HGNC:2928"
+              }
+            ]
+          },
+          {
+            "NCBI_gene_url": [
+              {
+                "data_source": "Rosalution",
+                "version": "",
+                "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=1756"
+              }
+            ]
+          },
+          {
+            "gnomAD_gene_url": [
+              {
+                "data_source": "Rosalution",
+                "version": "",
+                "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=ENSG00000198947"
+              }
+            ]
+          },
+          {
+            "HPO": [
+              {
+                "data_source": "HPO",
+                "version": "",
+                "value": [
+                  "HP:0002527: Falls",
+                  "HP:0002943: Thoracic scoliosis",
+                  "HP:0001419: X-linked recessive inheritance",
+                  "HP:0003560: Muscular dystrophy",
+                  "HP:0003731: Quadriceps muscle weakness",
+                  "HP:0001250: Seizure",
+                  "HP:0001371: Flexion contracture",
+                  "HP:0000455: Broad nasal tip",
+                  "HP:0002791: Hypoventilation",
+                  "HP:0002910: Elevated hepatic transaminase",
+                  "HP:0011800: Midface retrusion",
+                  "HP:0003115: Abnormal EKG",
+                  "HP:0003198: Myopathy",
+                  "HP:0000020: Urinary incontinence",
+                  "HP:0008587: Mild neurosensory hearing impairment",
+                  "HP:0000256: Macrocephaly",
+                  "HP:0000729: Autistic behavior",
+                  "HP:0002515: Waddling gait",
+                  "HP:0002913: Myoglobinuria",
+                  "HP:0000637: Long palpebral fissure",
+                  "HP:0002878: Respiratory failure",
+                  "HP:0000629: Periorbital fullness",
+                  "HP:0003236: Elevated circulating creatine kinase concentration",
+                  "HP:0012086: Abnormal urinary color",
+                  "HP:0003487: Babinski sign",
+                  "HP:0002465: Poor speech",
+                  "HP:0003710: Exercise-induced muscle cramps",
+                  "HP:0000494: Downslanted palpebral fissures",
+                  "HP:0001435: Abnormality of the shoulder girdle musculature",
+                  "HP:0003391: Gowers sign",
+                  "HP:0002187: Intellectual disability, profound",
+                  "HP:0000684: Delayed eruption of teeth",
+                  "HP:0002307: Drooling",
+                  "HP:0002650: Scoliosis",
+                  "HP:0010628: Facial palsy",
+                  "HP:0001712: Left ventricular hypertrophy",
+                  "HP:0001252: Hypotonia",
+                  "HP:0001513: Obesity",
+                  "HP:0002814: Abnormality of the lower limb",
+                  "HP:0001328: Specific learning disability",
+                  "HP:0005824: Clinodactyly of the 2nd toe",
+                  "HP:0012704: Widened subarachnoid space",
+                  "HP:0000407: Sensorineural hearing impairment",
+                  "HP:0100543: Cognitive impairment",
+                  "HP:0010864: Intellectual disability, severe",
+                  "HP:0001763: Pes planus",
+                  "HP:0001874: Abnormality of neutrophils",
+                  "HP:0000219: Thin upper lip vermilion",
+                  "HP:0003546: Exercise intolerance",
+                  "HP:0008981: Calf muscle hypertrophy",
+                  "HP:0001270: Motor delay",
+                  "HP:0001290: Generalized hypotonia",
+                  "HP:0003701: Proximal muscle weakness",
+                  "HP:0100578: Lipoatrophy",
+                  "HP:0000179: Thick lower lip vermilion",
+                  "HP:0012378: Fatigue",
+                  "HP:0002540: Inability to walk",
+                  "HP:0002245: Meckel diverticulum",
+                  "HP:0002942: Thoracic kyphosis",
+                  "HP:0001644: Dilated cardiomyopathy",
+                  "HP:0002021: Pyloric stenosis",
+                  "HP:0003457: EMG abnormality",
+                  "HP:0002987: Elbow flexion contracture",
+                  "HP:0003707: Calf muscle pseudohypertrophy",
+                  "HP:0011675: Arrhythmia",
+                  "HP:0000750: Delayed speech and language development",
+                  "HP:0002355: Difficulty walking",
+                  "HP:0001263: Global developmental delay",
+                  "HP:0030051: Tip-toe gait",
+                  "HP:0003324: Generalized muscle weakness",
+                  "HP:0002121: Generalized non-motor (absence) seizure",
+                  "HP:0003394: Muscle spasm",
+                  "HP:0005280: Depressed nasal bridge",
+                  "HP:0001635: Congestive heart failure",
+                  "HP:0001265: Hyporeflexia",
+                  "HP:0001638: Cardiomyopathy",
+                  "HP:0007018: Attention deficit hyperactivity disorder",
+                  "HP:0001324: Muscle weakness",
+                  "HP:0001417: X-linked inheritance",
+                  "HP:0001518: Small for gestational age",
+                  "HP:0002342: Intellectual disability, moderate",
+                  "HP:0000982: Palmoplantar keratoderma",
+                  "HP:0004691: 2-3 toe syndactyly",
+                  "HP:0003307: Hyperlordosis",
+                  "HP:0003323: Progressive muscle weakness",
+                  "HP:0002069: Bilateral tonic-clonic seizure",
+                  "HP:0030097: Absent muscle dystrophin expression",
+                  "HP:0008504: Moderate sensorineural hearing impairment",
+                  "HP:0003326: Myalgia",
+                  "HP:0003551: Difficulty climbing stairs",
+                  "HP:0002093: Respiratory insufficiency",
+                  "HP:0000343: Long philtrum",
+                  "HP:0003202: Skeletal muscle atrophy",
+                  "HP:0006118: Shortening of all distal phalanges of the fingers",
+                  "HP:0001256: Intellectual disability, mild",
+                  "HP:0002938: Lumbar hyperlordosis"
+                ]
+              }
+            ]
           }
        ]
     },
@@ -213,15 +434,86 @@
              ]
           },
           {
-             "HPO":[
-                {
-                   "data_source":"HPO",
-                   "version":"",
-                   "value":[
-                      "Charcot-marie-tooth Disease, Type 4b3"
-                   ]
-                }
-             ]
+            "Ensembl Gene Id": [
+              {
+                "data_source": "Ensembl",
+                "version": "",
+                "value": "ENSG00000100241"
+              }
+            ]
+          },
+          {
+            "HGNC_ID": [
+              {
+                "data_source": "Ensembl",
+                "version": "",
+                "value": "HGNC:10542"
+              }
+            ]
+          },
+          {
+            "ClinGen_gene_url": [
+              {
+                "data_source": "Rosalution",
+                "version": "",
+                "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=HGNC:10542"
+              }
+            ]
+          },
+          {
+            "NCBI_gene_url": [
+              {
+                "data_source": "Rosalution",
+                "version": "",
+                "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=6305"
+              }
+            ]
+          },
+          {
+            "gnomAD_gene_url": [
+              {
+                "data_source": "Rosalution",
+                "version": "",
+                "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=ENSG00000100241"
+              }
+            ]
+          },
+          {
+            "OMIM": [
+              {
+                "data_source": "HPO",
+                "version": "",
+                "value": [
+                  "Charcot-marie-tooth Disease, Type 4b3"
+                ]
+              }
+            ]
+          },
+          {
+            "HPO": [
+              {
+                "data_source": "HPO",
+                "version": "",
+                "value": [
+                  "HP:0001763: Pes planus",
+                  "HP:0000486: Strabismus",
+                  "HP:0002650: Scoliosis",
+                  "HP:0000602: Ophthalmoplegia",
+                  "HP:0001288: Gait disturbance",
+                  "HP:0000762: Decreased nerve conduction velocity",
+                  "HP:0000020: Urinary incontinence",
+                  "HP:0003383: Onion bulb formation",
+                  "HP:0001284: Areflexia",
+                  "HP:0000252: Microcephaly",
+                  "HP:0002936: Distal sensory impairment",
+                  "HP:0000007: Autosomal recessive inheritance",
+                  "HP:0012444: Brain atrophy",
+                  "HP:0001249: Intellectual disability",
+                  "HP:0001159: Syndactyly",
+                  "HP:0003690: Limb muscle weakness"
+                ]
+              }
+            ]
           }
        ]
     },
@@ -1294,7 +1586,7 @@
              ]
           },
           {
-             "HPO":[
+             "OMIM":[
                 {
                    "data_source":"HPO",
                    "version":"",
@@ -1328,6 +1620,506 @@
                    ]
                 }
              ]
+          },
+          {
+            "Ensembl Gene Id": [
+              {
+                "data_source": "Ensembl",
+                "version": "",
+                "value": "ENSG00000160789"
+              }
+            ]
+          },
+          {
+            "HGNC_ID": [
+              {
+                "data_source": "Ensembl",
+                "version": "",
+                "value": "HGNC:6636"
+              }
+            ]
+          },
+          {
+            "ClinGen_gene_url": [
+              {
+                "data_source": "Rosalution",
+                "version": "",
+                "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=HGNC:6636"
+              }
+            ]
+          },
+          {
+            "NCBI_gene_url": [
+              {
+                "data_source": "Rosalution",
+                "version": "",
+                "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=4000"
+              }
+            ]
+          },
+          {
+            "gnomAD_gene_url": [
+              {
+                "data_source": "Rosalution",
+                "version": "",
+                "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=ENSG00000160789"
+              }
+            ]
+          },
+          {
+            "HPO": [
+              {
+                "data_source": "HPO",
+                "version": "",
+                "value": [
+                  "HP:0011968: Feeding difficulties",
+                  "HP:0004492: Widely patent fontanelles and sutures",
+                  "HP:0003712: Skeletal muscle hypertrophy",
+                  "HP:0007149: Distal upper limb amyotrophy",
+                  "HP:0008993: Increased intraabdominal fat",
+                  "HP:0000233: Thin vermilion border",
+                  "HP:0012084: Abnormality of skeletal muscle fiber size",
+                  "HP:0002232: Patchy alopecia",
+                  "HP:0003805: Rimmed vacuoles",
+                  "HP:0000270: Delayed cranial suture closure",
+                  "HP:0000218: High palate",
+                  "HP:0000962: Hyperkeratosis",
+                  "HP:0003741: Congenital muscular dystrophy",
+                  "HP:0100324: Scleroderma",
+                  "HP:0000494: Downslanted palpebral fissures",
+                  "HP:0001810: Dystrophic toenail",
+                  "HP:0001714: Ventricular hypertrophy",
+                  "HP:0000006: Autosomal dominant inheritance",
+                  "HP:0011706: Second degree atrioventricular block",
+                  "HP:0040266: Proximal upper limb muscle hypertrophy",
+                  "HP:0000200: Short lingual frenulum",
+                  "HP:0001744: Splenomegaly",
+                  "HP:0000320: Bird-like facies",
+                  "HP:0000436: Abnormality of the nasal tip",
+                  "HP:0000685: Hypoplasia of teeth",
+                  "HP:0008968: Muscle hypertrophy of the lower extremities",
+                  "HP:0100649: Neoplasm of the oral cavity",
+                  "HP:0001761: Pes cavus",
+                  "HP:0100013: Neoplasm of the breast",
+                  "HP:0000135: Hypogonadism",
+                  "HP:0000407: Sensorineural hearing impairment",
+                  "HP:0003431: Decreased motor nerve conduction velocity",
+                  "HP:0000467: Neck muscle weakness",
+                  "HP:0001270: Motor delay",
+                  "HP:0005978: Type II diabetes mellitus",
+                  "HP:0001760: Abnormal foot morphology",
+                  "HP:0200042: Skin ulcer",
+                  "HP:0004388: Microcolon",
+                  "HP:0001376: Limitation of joint mobility",
+                  "HP:0005997: Restricted neck movement due to contractures",
+                  "HP:0003758: Reduced subcutaneous adipose tissue",
+                  "HP:0001601: Laryngomalacia",
+                  "HP:0003384: Peripheral axonal atrophy",
+                  "HP:0000287: Increased facial adipose tissue",
+                  "HP:0030051: Tip-toe gait",
+                  "HP:0000815: Hypergonadotropic hypogonadism",
+                  "HP:0008897: Postnatal growth retardation",
+                  "HP:0001597: Abnormality of the nail",
+                  "HP:0008944: Distal lower limb amyotrophy",
+                  "HP:0008985: Increased intramuscular fat",
+                  "HP:0011727: Peroneal muscle weakness",
+                  "HP:0009064: Generalized lipodystrophy",
+                  "HP:0011457: Loss of eyelashes",
+                  "HP:0000934: Chondrocalcinosis",
+                  "HP:0002616: Aortic root aneurysm",
+                  "HP:0002230: Generalized hirsutism",
+                  "HP:0045075: Sparse eyebrow",
+                  "HP:0000855: Insulin resistance",
+                  "HP:0007418: Alopecia totalis",
+                  "HP:0001765: Hammertoe",
+                  "HP:0005177: Premature arteriosclerosis",
+                  "HP:0008647: Pubertal developmental failure in females",
+                  "HP:0000938: Osteopenia",
+                  "HP:0100820: Glomerulopathy",
+                  "HP:0003198: Myopathy",
+                  "HP:0002460: Distal muscle weakness",
+                  "HP:0002671: Basal cell carcinoma",
+                  "HP:0007249: Decreased number of small peripheral myelinated nerve fibers",
+                  "HP:0004308: Ventricular arrhythmia",
+                  "HP:0002515: Waddling gait",
+                  "HP:0003484: Upper limb muscle weakness",
+                  "HP:0005339: Abnormality of complement system",
+                  "HP:0003690: Limb muscle weakness",
+                  "HP:0001561: Polyhydramnios",
+                  "HP:0005253: Increased anterioposterior diameter of thorax",
+                  "HP:0007509: Patchy hypo- and hyperpigmentation",
+                  "HP:0004943: Accelerated atherosclerosis",
+                  "HP:0003378: Axonal degeneration/regeneration",
+                  "HP:0002758: Osteoarthritis",
+                  "HP:0000518: Cataract",
+                  "HP:0001387: Joint stiffness",
+                  "HP:0100601: Eclampsia",
+                  "HP:0011832: Narrow nasal tip",
+                  "HP:0002326: Transient ischemic attack",
+                  "HP:0000050: Hypoplastic male external genitalia",
+                  "HP:0012569: Delayed menarche",
+                  "HP:0012645: Enlarged peripheral nerve",
+                  "HP:0001558: Decreased fetal movement",
+                  "HP:0002936: Distal sensory impairment",
+                  "HP:0003141: Increased LDL cholesterol concentration",
+                  "HP:0004054: Sclerosis of hand bone",
+                  "HP:0030117: Absent muscle fiber emerin",
+                  "HP:0000894: Short clavicles",
+                  "HP:0008887: Adipose tissue loss",
+                  "HP:0200041: Skin erosion",
+                  "HP:0003701: Proximal muscle weakness",
+                  "HP:0000519: Developmental cataract",
+                  "HP:0003693: Distal amyotrophy",
+                  "HP:0030685: Decreased adiponectin level",
+                  "HP:0001799: Short nail",
+                  "HP:0002540: Inability to walk",
+                  "HP:0008994: Proximal muscle weakness in lower limbs",
+                  "HP:0006829: Severe muscular hypotonia",
+                  "HP:0000939: Osteoporosis",
+                  "HP:0001007: Hirsutism",
+                  "HP:0010648: Dermal translucency",
+                  "HP:0000953: Hyperpigmentation of the skin",
+                  "HP:0008065: Aplasia/Hypoplasia of the skin",
+                  "HP:0002858: Meningioma",
+                  "HP:0000506: Telecanthus",
+                  "HP:0003777: Pili torti",
+                  "HP:0003390: Sensory axonal neuropathy",
+                  "HP:0003326: Myalgia",
+                  "HP:0100615: Ovarian neoplasm",
+                  "HP:0001425: Heterogeneous",
+                  "HP:0007957: Corneal opacity",
+                  "HP:0009125: Lipodystrophy",
+                  "HP:0000468: Increased adipose tissue around the neck",
+                  "HP:0000561: Absent eyelashes",
+                  "HP:0000767: Pectus excavatum",
+                  "HP:0005155: Ventricular escape rhythm",
+                  "HP:0100659: Abnormal cerebral vascular morphology",
+                  "HP:0006288: Advanced eruption of teeth",
+                  "HP:0001371: Flexion contracture",
+                  "HP:0040189: Scaling skin",
+                  "HP:0002829: Arthralgia",
+                  "HP:0000912: Sprengel anomaly",
+                  "HP:0011800: Midface retrusion",
+                  "HP:0040270: Impaired glucose tolerance",
+                  "HP:0004416: Precocious atherosclerosis",
+                  "HP:0003482: EMG: axonal abnormality",
+                  "HP:0001669: Transposition of the great arteries",
+                  "HP:0001508: Failure to thrive",
+                  "HP:0001525: Severe failure to thrive",
+                  "HP:0003011: Abnormality of the musculature",
+                  "HP:0003124: Hypercholesterolemia",
+                  "HP:0100031: Neoplasm of the thyroid gland",
+                  "HP:0025169: Left ventricular systolic dysfunction",
+                  "HP:0003376: Steppage gait",
+                  "HP:0001284: Areflexia",
+                  "HP:0001733: Pancreatitis",
+                  "HP:0000822: Hypertension",
+                  "HP:0007543: Epidermal hyperkeratosis",
+                  "HP:0001838: Rocker bottom foot",
+                  "HP:0001763: Pes planus",
+                  "HP:0025354: Abnormal cellular phenotype",
+                  "HP:0008070: Sparse hair",
+                  "HP:0003233: Decreased HDL cholesterol concentration",
+                  "HP:0006467: Limited shoulder movement",
+                  "HP:0000453: Choanal atresia",
+                  "HP:0008244: Congenital adrenal hypoplasia",
+                  "HP:0000842: Hyperinsulinemia",
+                  "HP:0007495: Prematurely aged appearance",
+                  "HP:0004349: Reduced bone mineral density",
+                  "HP:0003457: EMG abnormality",
+                  "HP:0007002: Motor axonal neuropathy",
+                  "HP:0001196: Short umbilical cord",
+                  "HP:0100783: Breast aplasia",
+                  "HP:0000956: Acanthosis nigricans",
+                  "HP:0003380: Decreased number of peripheral myelinated nerve fibers",
+                  "HP:0025168: Left ventricular diastolic dysfunction",
+                  "HP:0001635: Congestive heart failure",
+                  "HP:0004361: Abnormality of circulating leptin level",
+                  "HP:0001324: Muscle weakness",
+                  "HP:0003307: Hyperlordosis",
+                  "HP:0001718: Mitral stenosis",
+                  "HP:0008419: Intervertebral disc degeneration",
+                  "HP:0000765: Abnormal thorax morphology",
+                  "HP:0000546: Retinal degeneration",
+                  "HP:0005110: Atrial fibrillation",
+                  "HP:0004326: Cachexia",
+                  "HP:0000520: Proptosis",
+                  "HP:0005595: Generalized hyperkeratosis",
+                  "HP:0100362: Aplasia of the phalanges of the 3rd toe",
+                  "HP:0001159: Syndactyly",
+                  "HP:0009882: Short distal phalanx of finger",
+                  "HP:0003717: Minimal subcutaneous fat",
+                  "HP:0010219: Structural foot deformity",
+                  "HP:0003738: Exercise-induced myalgia",
+                  "HP:0001709: Third degree atrioventricular block",
+                  "HP:0011040: Abnormality of the intrahepatic bile duct",
+                  "HP:0006480: Premature loss of teeth",
+                  "HP:0000365: Hearing impairment",
+                  "HP:0003635: Loss of subcutaneous adipose tissue in limbs",
+                  "HP:0011807: Type 1 muscle fiber atrophy",
+                  "HP:0001156: Brachydactyly",
+                  "HP:0000961: Cyanosis",
+                  "HP:0000831: Insulin-resistant diabetes mellitus",
+                  "HP:0008064: Ichthyosis",
+                  "HP:0004322: Short stature",
+                  "HP:0000883: Thin ribs",
+                  "HP:0100679: Lack of skin elasticity",
+                  "HP:0000586: Shallow orbits",
+                  "HP:0000826: Precocious puberty",
+                  "HP:0001544: Prominent umbilicus",
+                  "HP:0001659: Aortic regurgitation",
+                  "HP:0009771: Osteolytic defects of the phalanges of the hand",
+                  "HP:0009002: Loss of truncal subcutaneous adipose tissue",
+                  "HP:0000534: Abnormal eyebrow morphology",
+                  "HP:0000405: Conductive hearing impairment",
+                  "HP:0002231: Sparse body hair",
+                  "HP:0100658: Cellulitis",
+                  "HP:0030838: Hip pain",
+                  "HP:0012474: Carotid artery occlusion",
+                  "HP:0012745: Short palpebral fissure",
+                  "HP:0000293: Full cheeks",
+                  "HP:0100578: Lipoatrophy",
+                  "HP:0005115: Supraventricular arrhythmia",
+                  "HP:0000678: Dental crowding",
+                  "HP:0002223: Absent eyebrow",
+                  "HP:0002211: White forelock",
+                  "HP:0011354: Generalized abnormality of skin",
+                  "HP:0003761: Calcinosis",
+                  "HP:0001263: Global developmental delay",
+                  "HP:0001677: Coronary artery atherosclerosis",
+                  "HP:0007126: Proximal amyotrophy",
+                  "HP:0000047: Hypospadias",
+                  "HP:0007592: Aplasia/Hypoplastia of the eccrine sweat glands",
+                  "HP:0003074: Hyperglycemia",
+                  "HP:0000239: Large fontanelles",
+                  "HP:0003691: Scapular winging",
+                  "HP:0010885: Avascular necrosis",
+                  "HP:0009130: Hand muscle atrophy",
+                  "HP:0000869: Secondary amenorrhea",
+                  "HP:0031546: Cardiac conduction abnormality",
+                  "HP:0000272: Malar flattening",
+                  "HP:0010721: Abnormal hair whorl",
+                  "HP:0000621: Entropion",
+                  "HP:0000465: Webbed neck",
+                  "HP:0007618: Subcutaneous calcification",
+                  "HP:0006785: Limb-girdle muscular dystrophy",
+                  "HP:0000668: Hypodontia",
+                  "HP:0003327: Axial muscle weakness",
+                  "HP:0007394: Prominent superficial blood vessels",
+                  "HP:0008391: Dystrophic fingernails",
+                  "HP:0012478: Temporomandibular joint ankylosis",
+                  "HP:0001824: Weight loss",
+                  "HP:0003724: Shoulder girdle muscle atrophy",
+                  "HP:0100585: Telangiectasia of the skin",
+                  "HP:0001634: Mitral valve prolapse",
+                  "HP:0000164: Abnormality of the dentition",
+                  "HP:0003236: Elevated circulating creatine kinase concentration",
+                  "HP:0003325: Limb-girdle muscle weakness",
+                  "HP:0002828: Multiple joint contractures",
+                  "HP:0008959: Distal upper limb muscle weakness",
+                  "HP:0000275: Narrow face",
+                  "HP:0011079: Impacted tooth",
+                  "HP:0004334: Dermal atrophy",
+                  "HP:0001633: Abnormal mitral valve morphology",
+                  "HP:0009904: Prominent ear helix",
+                  "HP:0003306: Spinal rigidity",
+                  "HP:0012397: Aortic atherosclerotic lesion",
+                  "HP:0030053: Stiff skin",
+                  "HP:0000774: Narrow chest",
+                  "HP:0000073: Ureteral duplication",
+                  "HP:0001595: Abnormal hair morphology",
+                  "HP:0006739: Squamous cell carcinoma of the skin",
+                  "HP:0002486: Myotonia",
+                  "HP:0002673: Coxa valga",
+                  "HP:0008981: Calf muscle hypertrophy",
+                  "HP:0012722: Heart block",
+                  "HP:0000369: Low-set ears",
+                  "HP:0008956: Proximal lower limb amyotrophy",
+                  "HP:0000147: Polycystic ovaries",
+                  "HP:0009839: Osteolytic defects of the distal phalanges of the hand",
+                  "HP:0001631: Atrial septal defect",
+                  "HP:0002155: Hypertriglyceridemia",
+                  "HP:0005150: Abnormal atrioventricular conduction",
+                  "HP:0001511: Intrauterine growth retardation",
+                  "HP:0001265: Hyporeflexia",
+                  "HP:0100833: Neoplasm of the small intestine",
+                  "HP:0001688: Sinus bradycardia",
+                  "HP:0004382: Mitral valve calcification",
+                  "HP:0000982: Palmoplantar keratoderma",
+                  "HP:0009027: Foot dorsiflexor weakness",
+                  "HP:0008988: Pelvic girdle muscle atrophy",
+                  "HP:0002645: Wormian bones",
+                  "HP:0002089: Pulmonary hypoplasia",
+                  "HP:0030237: Hand muscle weakness",
+                  "HP:0003202: Skeletal muscle atrophy",
+                  "HP:0009049: Peroneal muscle atrophy",
+                  "HP:0001015: Prominent superficial veins",
+                  "HP:0002092: Pulmonary arterial hypertension",
+                  "HP:0002209: Sparse scalp hair",
+                  "HP:0200021: Down-sloping shoulders",
+                  "HP:0002669: Osteosarcoma",
+                  "HP:0003292: Decreased serum leptin",
+                  "HP:0000695: Natal tooth",
+                  "HP:0100490: Camptodactyly of finger",
+                  "HP:0000347: Micrognathia",
+                  "HP:0030445: Pulmonary carcinoid tumor",
+                  "HP:0000007: Autosomal recessive inheritance",
+                  "HP:0001735: Acute pancreatitis",
+                  "HP:0012723: Sinoatrial block",
+                  "HP:0002289: Alopecia universalis",
+                  "HP:0002808: Kyphosis",
+                  "HP:0005461: Craniofacial disproportion",
+                  "HP:0001605: Vocal cord paralysis",
+                  "HP:0010505: Limitation of movement at ankles",
+                  "HP:0004380: Aortic valve calcification",
+                  "HP:0001070: Mottled pigmentation",
+                  "HP:0001596: Alopecia",
+                  "HP:0001678: Atrioventricular block",
+                  "HP:0040078: Axonal degeneration",
+                  "HP:0000684: Delayed eruption of teeth",
+                  "HP:0002827: Hip dislocation",
+                  "HP:0002650: Scoliosis",
+                  "HP:0001681: Angina pectoris",
+                  "HP:0005659: Thoracic kyphoscoliosis",
+                  "HP:0001513: Obesity",
+                  "HP:0002747: Respiratory insufficiency due to muscle weakness",
+                  "HP:0002170: Intracranial hemorrhage",
+                  "HP:0000444: Convex nasal ridge",
+                  "HP:0009053: Distal lower limb muscle weakness",
+                  "HP:0001644: Dilated cardiomyopathy",
+                  "HP:0001315: Reduced tendon reflexes",
+                  "HP:0003418: Back pain",
+                  "HP:0009726: Renal neoplasm",
+                  "HP:0006267: Large placenta",
+                  "HP:0001658: Myocardial infarction",
+                  "HP:0004331: Decreased skull ossification",
+                  "HP:0001510: Growth delay",
+                  "HP:0008948: Proximal upper limb amyotrophy",
+                  "HP:0007078: Decreased amplitude of sensory action potentials",
+                  "HP:0006266: Small placenta",
+                  "HP:0007703: Abnormality of retinal pigmentation",
+                  "HP:0002797: Osteolysis",
+                  "HP:0006710: Aplasia/Hypoplasia of the clavicles",
+                  "HP:0000144: Decreased fertility",
+                  "HP:0000316: Hypertelorism",
+                  "HP:0001808: Fragile nails",
+                  "HP:0008739: Labial pseudohypertrophy",
+                  "HP:0002093: Respiratory insufficiency",
+                  "HP:0001870: Acroosteolysis of distal phalanges (feet)",
+                  "HP:0001771: Achilles tendon contracture",
+                  "HP:0000819: Diabetes mellitus",
+                  "HP:0012804: Corneal ulceration",
+                  "HP:0005181: Premature coronary artery atherosclerosis",
+                  "HP:0008209: Premature ovarian insufficiency",
+                  "HP:0003387: Decreased number of large peripheral myelinated nerve fibers",
+                  "HP:0004749: Atrial flutter",
+                  "HP:0001646: Abnormal aortic valve morphology",
+                  "HP:0001288: Gait disturbance",
+                  "HP:0004970: Ascending tubular aorta aneurysm",
+                  "HP:0001645: Sudden cardiac death",
+                  "HP:0011705: First degree atrioventricular block",
+                  "HP:0001620: High pitched voice",
+                  "HP:0003076: Glycosuria",
+                  "HP:0003383: Onion bulb formation",
+                  "HP:0006335: Persistence of primary teeth",
+                  "HP:0000508: Ptosis",
+                  "HP:0000963: Thin skin",
+                  "HP:0008283: Fasting hyperinsulinemia",
+                  "HP:0003700: Generalized amyotrophy",
+                  "HP:0011362: Abnormal hair quantity",
+                  "HP:0000823: Delayed puberty",
+                  "HP:0008573: Low-frequency sensorineural hearing impairment",
+                  "HP:0000311: Round face",
+                  "HP:0001034: Hypermelanotic macule",
+                  "HP:0008800: Limited hip movement",
+                  "HP:0002421: Poor head control",
+                  "HP:0009924: Aplasia/Hypoplasia involving the nose",
+                  "HP:0001279: Syncope",
+                  "HP:0000278: Retrognathia",
+                  "HP:0000134: Female hypogonadism",
+                  "HP:0001608: Abnormality of the voice",
+                  "HP:0000991: Xanthomatosis",
+                  "HP:0030084: Clinodactyly",
+                  "HP:0002781: Upper airway obstruction",
+                  "HP:0010766: Ectopic calcification",
+                  "HP:0008180: Mildly elevated creatine kinase",
+                  "HP:0100840: Aplasia/Hypoplasia of the eyebrow",
+                  "HP:0001653: Mitral regurgitation",
+                  "HP:0000160: Narrow mouth",
+                  "HP:0011702: Abnormal electrophysiology of sinoatrial node origin",
+                  "HP:0000905: Progressive clavicular acroosteolysis",
+                  "HP:0000331: Short chin",
+                  "HP:0011001: Increased bone mineral density",
+                  "HP:0002240: Hepatomegaly",
+                  "HP:0001297: Stroke",
+                  "HP:0004414: Abnormality of the pulmonary artery",
+                  "HP:0001637: Abnormal myocardium morphology",
+                  "HP:0005692: Joint hyperflexibility",
+                  "HP:0010296: Ankyloglossia",
+                  "HP:0006824: Cranial nerve paralysis",
+                  "HP:0000035: Abnormal testis morphology",
+                  "HP:0200034: Papule",
+                  "HP:0006248: Limited wrist movement",
+                  "HP:0004325: Decreased body weight",
+                  "HP:0001249: Intellectual disability",
+                  "HP:0004950: Peripheral arterial stenosis",
+                  "HP:0100526: Neoplasm of the lung",
+                  "HP:0002875: Exertional dyspnea",
+                  "HP:0003560: Muscular dystrophy",
+                  "HP:0004755: Supraventricular tachycardia",
+                  "HP:0001622: Premature birth",
+                  "HP:0003077: Hyperlipidemia",
+                  "HP:0200102: Sparse or absent eyelashes",
+                  "HP:0001397: Hepatic steatosis",
+                  "HP:0001883: Talipes",
+                  "HP:0011916: Toe extensor amyotrophy",
+                  "HP:0002097: Emphysema",
+                  "HP:0002621: Atherosclerosis",
+                  "HP:0100678: Premature skin wrinkling",
+                  "HP:0000176: Submucous cleft hard palate",
+                  "HP:0002804: Arthrogryposis multiplex congenita",
+                  "HP:0004482: Relative macrocephaly",
+                  "HP:0001643: Patent ductus arteriosus",
+                  "HP:0005109: Abnormality of the Achilles tendon",
+                  "HP:0005162: Abnormal left ventricular function",
+                  "HP:0001385: Hip dysplasia",
+                  "HP:0001698: Pericardial effusion",
+                  "HP:0004279: Short palm",
+                  "HP:0008997: Proximal muscle weakness in upper limbs",
+                  "HP:0002600: Hyporeflexia of lower limbs",
+                  "HP:0000418: Narrow nasal ridge",
+                  "HP:0001252: Hypotonia",
+                  "HP:0001639: Hypertrophic cardiomyopathy",
+                  "HP:0001874: Abnormality of neutrophils",
+                  "HP:0002362: Shuffling gait",
+                  "HP:0002597: Abnormality of the vasculature",
+                  "HP:0006766: Papillary renal cell carcinoma",
+                  "HP:0004631: Decreased cervical spine flexion due to contractures of posterior cervical muscles",
+                  "HP:0002987: Elbow flexion contracture",
+                  "HP:0003458: EMG: myopathic abnormalities",
+                  "HP:0008069: Neoplasm of the skin",
+                  "HP:0031409: Abnormal lymphocyte physiology",
+                  "HP:0011675: Arrhythmia",
+                  "HP:0006645: Thin clavicles",
+                  "HP:0000431: Wide nasal bridge",
+                  "HP:0001757: High-frequency sensorineural hearing impairment",
+                  "HP:0030880: Raynaud phenomenon",
+                  "HP:0002216: Premature graying of hair",
+                  "HP:0007485: Absence of subcutaneous fat",
+                  "HP:0001651: Dextrocardia",
+                  "HP:0100607: Dysmenorrhea",
+                  "HP:0005328: Progeroid facial appearance",
+                  "HP:0005267: Premature delivery because of cervical insufficiency or membrane fragility",
+                  "HP:0001650: Aortic valve stenosis",
+                  "HP:0010239: Aplasia of the middle phalanx of the hand",
+                  "HP:0003447: Axonal loss",
+                  "HP:0002751: Kyphoscoliosis",
+                  "HP:0030002: Nocturnal lagophthalmos",
+                  "HP:0040019: Finger clinodactyly",
+                  "HP:0040160: Generalized osteoporosis"
+                ]
+              }
+            ]
           }
        ]
     },
@@ -1780,7 +2572,7 @@
              ]
           },
           {
-             "HPO":[
+             "OMIM":[
                 {
                    "data_source":"HPO",
                    "version":"",
@@ -1790,6 +2582,123 @@
                    ]
                 }
              ]
+          },
+          {
+            "Ensembl Gene Id": [
+              {
+                "data_source": "Ensembl",
+                "version": "",
+                "value": "ENSG00000176165"
+              }
+            ]
+          },
+          {
+            "HGNC_ID": [
+              {
+                "data_source": "Ensembl",
+                "version": "",
+                "value": "HGNC:3811"
+              }
+            ]
+          },
+          {
+            "ClinGen_gene_url": [
+              {
+                "data_source": "Rosalution",
+                "version": "",
+                "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=HGNC:3811"
+              }
+            ]
+          },
+          {
+            "NCBI_gene_url": [
+              {
+                "data_source": "Rosalution",
+                "version": "",
+                "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=2290"
+              }
+            ]
+          },
+          {
+            "gnomAD_gene_url": [
+              {
+                "data_source": "Rosalution",
+                "version": "",
+                "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=ENSG00000176165"
+              }
+            ]
+          },
+          {
+            "HPO": [
+              {
+                "data_source": "HPO",
+                "version": "",
+                "value": [
+                  "HP:0002020: Gastroesophageal reflux",
+                  "HP:0003781: Excessive salivation",
+                  "HP:0011968: Feeding difficulties",
+                  "HP:0001250: Seizure",
+                  "HP:0000735: Impaired social interactions",
+                  "HP:0000817: Poor eye contact",
+                  "HP:0005487: Prominent metopic ridge",
+                  "HP:0031936: Delayed ability to walk",
+                  "HP:0011800: Midface retrusion",
+                  "HP:0009879: Simplified gyral pattern",
+                  "HP:0002072: Chorea",
+                  "HP:0000232: Everted lower lip vermilion",
+                  "HP:0000252: Microcephaly",
+                  "HP:0000286: Epicanthus",
+                  "HP:0000581: Blepharophimosis",
+                  "HP:0001319: Neonatal hypotonia",
+                  "HP:0002808: Kyphosis",
+                  "HP:0012448: Delayed myelination",
+                  "HP:0000494: Downslanted palpebral fissures",
+                  "HP:0003196: Short nose",
+                  "HP:0010804: Tented upper lip vermilion",
+                  "HP:0000006: Autosomal dominant inheritance",
+                  "HP:0002307: Drooling",
+                  "HP:0000414: Bulbous nose",
+                  "HP:0002650: Scoliosis",
+                  "HP:0000158: Macroglossia",
+                  "HP:0000253: Progressive microcephaly",
+                  "HP:0000737: Irritability",
+                  "HP:0000411: Protruding ear",
+                  "HP:0000733: Motor stereotypy",
+                  "HP:0001252: Hypotonia",
+                  "HP:0002353: EEG abnormality",
+                  "HP:0030215: Inappropriate crying",
+                  "HP:0100660: Dyskinesia",
+                  "HP:0002835: Aspiration",
+                  "HP:0010864: Intellectual disability, severe",
+                  "HP:0001763: Pes planus",
+                  "HP:0000219: Thin upper lip vermilion",
+                  "HP:0001270: Motor delay",
+                  "HP:0001290: Generalized hypotonia",
+                  "HP:0002305: Athetosis",
+                  "HP:0001302: Pachygyria",
+                  "HP:0002079: Hypoplasia of the corpus callosum",
+                  "HP:0000303: Mandibular prognathia",
+                  "HP:0100540: Palpebral edema",
+                  "HP:0001762: Talipes equinovarus",
+                  "HP:0001274: Agenesis of corpus callosum",
+                  "HP:0001263: Global developmental delay",
+                  "HP:0100703: Tongue thrusting",
+                  "HP:0001510: Growth delay",
+                  "HP:0003763: Bruxism",
+                  "HP:0001257: Spasticity",
+                  "HP:0005280: Depressed nasal bridge",
+                  "HP:0000319: Smooth philtrum",
+                  "HP:0025336: Delayed ability to sit",
+                  "HP:0009738: Abnormal antihelix morphology",
+                  "HP:0002376: Developmental regression",
+                  "HP:0003745: Sporadic",
+                  "HP:0002186: Apraxia",
+                  "HP:0001332: Dystonia",
+                  "HP:0001344: Absent speech",
+                  "HP:0002019: Constipation"
+                ]
+              }
+            ]
           }
        ]
     },
@@ -2198,7 +3107,7 @@
              ]
           },
           {
-             "HPO":[
+             "OMIM":[
                 {
                    "data_source":"HPO",
                    "version":"",
@@ -2212,6 +3121,179 @@
                    ]
                 }
              ]
+          },
+          {
+            "HGNC_ID": [
+              {
+                "data_source": "Ensembl",
+                "version": "",
+                "value": "HGNC:8851"
+              }
+            ]
+          },
+          {
+            "Ensembl Gene Id": [
+              {
+                "data_source": "Ensembl",
+                "version": "",
+                "value": "ENSG00000157911"
+              }
+            ]
+          },
+          {
+            "ClinGen_gene_url": [
+              {
+                "data_source": "Rosalution",
+                "version": "",
+                "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=HGNC:8851"
+              }
+            ]
+          },
+          {
+            "NCBI_gene_url": [
+              {
+                "data_source": "Rosalution",
+                "version": "",
+                "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=5192"
+              }
+            ]
+          },
+          {
+            "gnomAD_gene_url": [
+              {
+                "data_source": "Rosalution",
+                "version": "",
+                "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=ENSG00000157911"
+              }
+            ]
+          },
+          {
+            "HPO": [
+              {
+                "data_source": "HPO",
+                "version": "",
+                "value": [
+                  "HP:0000952: Jaundice",
+                  "HP:0000268: Dolichocephaly",
+                  "HP:0000368: Low-set, posteriorly rotated ears",
+                  "HP:0000028: Cryptorchidism",
+                  "HP:0000256: Macrocephaly",
+                  "HP:0000508: Ptosis",
+                  "HP:0002078: Truncal ataxia",
+                  "HP:0000252: Microcephaly",
+                  "HP:0000286: Epicanthus",
+                  "HP:0001508: Failure to thrive",
+                  "HP:0009891: Underdeveloped supraorbital ridges",
+                  "HP:0008167: Very long chain fatty acid accumulation",
+                  "HP:0000218: High palate",
+                  "HP:0001319: Neonatal hypotonia",
+                  "HP:0002457: Abnormal head movements",
+                  "HP:0011499: Mydriasis",
+                  "HP:0000627: Posterior embryotoxon",
+                  "HP:0001410: Decreased liver function",
+                  "HP:0001939: Abnormality of metabolism/homeostasis",
+                  "HP:0001761: Pes cavus",
+                  "HP:0002652: Skeletal dysplasia",
+                  "HP:0002353: EEG abnormality",
+                  "HP:0000641: Dysmetric saccades",
+                  "HP:0002024: Malabsorption",
+                  "HP:0000407: Sensorineural hearing impairment",
+                  "HP:0100543: Cognitive impairment",
+                  "HP:0005469: Flat occiput",
+                  "HP:0002269: Abnormality of neuronal migration",
+                  "HP:0000369: Low-set ears",
+                  "HP:0001260: Dysarthria",
+                  "HP:0005978: Type II diabetes mellitus",
+                  "HP:0007240: Progressive gait ataxia",
+                  "HP:0007002: Motor axonal neuropathy",
+                  "HP:0011344: Severe global developmental delay",
+                  "HP:0002500: Abnormal cerebral white matter morphology",
+                  "HP:0001257: Spasticity",
+                  "HP:0005280: Depressed nasal bridge",
+                  "HP:0002240: Hepatomegaly",
+                  "HP:0000532: Abnormal chorioretinal morphology",
+                  "HP:0000648: Optic atrophy",
+                  "HP:0001265: Hyporeflexia",
+                  "HP:0002080: Intention tremor",
+                  "HP:0001638: Cardiomyopathy",
+                  "HP:0012368: Flat face",
+                  "HP:0008572: External ear malformation",
+                  "HP:0001399: Hepatic failure",
+                  "HP:0012736: Profound global developmental delay",
+                  "HP:0000582: Upslanted palpebral fissure",
+                  "HP:0000708: Behavioral abnormality",
+                  "HP:0002073: Progressive cerebellar ataxia",
+                  "HP:0000501: Glaucoma",
+                  "HP:0001250: Seizure",
+                  "HP:0001622: Premature birth",
+                  "HP:0010655: Epiphyseal stippling",
+                  "HP:0000556: Retinal dystrophy",
+                  "HP:0000347: Micrognathia",
+                  "HP:0000365: Hearing impairment",
+                  "HP:0000007: Autosomal recessive inheritance",
+                  "HP:0008935: Generalized neonatal hypotonia",
+                  "HP:0000348: High forehead",
+                  "HP:0001088: Brushfield spots",
+                  "HP:0000003: Multicystic kidney dysplasia",
+                  "HP:0008064: Ichthyosis",
+                  "HP:0004322: Short stature",
+                  "HP:0000260: Wide anterior fontanel",
+                  "HP:0005930: Abnormality of epiphysis morphology",
+                  "HP:0000463: Anteverted nares",
+                  "HP:0001251: Ataxia",
+                  "HP:0000639: Nystagmus",
+                  "HP:0000518: Cataract",
+                  "HP:0001272: Cerebellar atrophy",
+                  "HP:0010571: Elevated levels of phytanic acid",
+                  "HP:0008665: Clitoral hypertrophy",
+                  "HP:0000474: Thickened nuchal skin fold",
+                  "HP:0002126: Polymicrogyria",
+                  "HP:0010628: Facial palsy",
+                  "HP:0001252: Hypotonia",
+                  "HP:0010965: Abnormal circulating phytanic acid concentration",
+                  "HP:0002936: Distal sensory impairment",
+                  "HP:0000510: Rod-cone dystrophy",
+                  "HP:0001392: Abnormality of the liver",
+                  "HP:0001290: Generalized hypotonia",
+                  "HP:0003693: Distal amyotrophy",
+                  "HP:0000174: Abnormal palate morphology",
+                  "HP:0002070: Limb ataxia",
+                  "HP:0008872: Feeding difficulties in infancy",
+                  "HP:0007256: Abnormal pyramidal sign",
+                  "HP:0100275: Diffuse cerebellar atrophy",
+                  "HP:0002021: Pyloric stenosis",
+                  "HP:0001302: Pachygyria",
+                  "HP:0001315: Reduced tendon reflexes",
+                  "HP:0011675: Arrhythmia",
+                  "HP:0006829: Severe muscular hypotonia",
+                  "HP:0007772: Impaired smooth pursuit",
+                  "HP:0000107: Renal cyst",
+                  "HP:0000271: Abnormality of the face",
+                  "HP:0001263: Global developmental delay",
+                  "HP:0000431: Wide nasal bridge",
+                  "HP:0007598: Bilateral single transverse palmar creases",
+                  "HP:0001133: Constriction of peripheral visual field",
+                  "HP:0000157: Abnormality of the tongue",
+                  "HP:0007703: Abnormality of retinal pigmentation",
+                  "HP:0001629: Ventricular septal defect",
+                  "HP:0000047: Hypospadias",
+                  "HP:0003323: Progressive muscle weakness",
+                  "HP:0000505: Visual impairment",
+                  "HP:0000126: Hydronephrosis",
+                  "HP:0000486: Strabismus",
+                  "HP:0100022: Abnormality of movement",
+                  "HP:0030048: Colpocephaly",
+                  "HP:0000662: Nyctalopia",
+                  "HP:0002093: Respiratory insufficiency",
+                  "HP:0002376: Developmental regression",
+                  "HP:0007957: Corneal opacity",
+                  "HP:0008207: Primary adrenal insufficiency",
+                  "HP:0001928: Abnormality of coagulation",
+                  "HP:0001256: Intellectual disability, mild",
+                  "HP:0001347: Hyperreflexia"
+                ]
+              }
+            ]
           }
        ]
     },
