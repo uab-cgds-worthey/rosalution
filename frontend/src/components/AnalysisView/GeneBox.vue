@@ -2,9 +2,7 @@
   <table class="gene-box-container">
     <tbody>
       <tr class="gene-box-header">
-        <td class="link-logo">
-          <font-awesome-icon icon="angles-right"/>
-        </td>
+        
         <router-link :to="{
             name: 'annotation',
             params: {
@@ -13,6 +11,9 @@
               variant: variants.length ? variants[0].hgvs_variant : undefined
             }
         }">
+          <td class="link-logo">
+            <font-awesome-icon icon="angles-right"/>
+          </td>
           <td>
             <h2 class="gene-name" data-test="gene-name">
               {{gene}}
@@ -27,9 +28,6 @@
       <div v-for="variant in variants" :key="variant">
         <div v-if="variant.c_dot && variant.c_dot.length > 0 || variant.p_dot && variant.p_dot.length > 0">
           <tr class="gene-box-second-line">
-            <td class="link-logo">
-                <font-awesome-icon icon="angles-right"/>
-              </td>
             <router-link :to="{
               name: 'annotation',
               params: {
@@ -38,6 +36,9 @@
                 variant: variant.hgvs_variant,
               }
             }">
+              <td class="link-logo">
+                <font-awesome-icon icon="angles-right"/>
+              </td>
               <td class="c-dot" data-test="c-dot">
                 {{variant.c_dot}}
               </td>
