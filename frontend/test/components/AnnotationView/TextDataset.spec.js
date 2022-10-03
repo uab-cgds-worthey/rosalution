@@ -30,6 +30,18 @@ describe('TextDataset.vue', () => {
     expect(textWrapper.html()).to.contains('Diseases');
   });
 
+  it('renders the label as expected', () => {
+    wrapper = getMountedComponent({
+      linkout: 'https://sites.uab.edu/cgds/',
+    });
+
+    const labelLinkout = wrapper.find('a');
+
+    expect(labelLinkout.html()).to.contains('Diseases');
+    expect(labelLinkout.attributes('href')).to.equal('https://sites.uab.edu/cgds/');
+    expect(labelLinkout.attributes('target')).to.equal('_blank');
+  });
+
   it('does not render a label when none is provided', () => {
     wrapper = getMountedComponent({label: undefined});
 
