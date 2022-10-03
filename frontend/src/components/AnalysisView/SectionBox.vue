@@ -1,31 +1,31 @@
 <template>
   <table class="section-box-container">
     <tbody>
+      <input type="checkbox" v-bind:id="section_toggle"/>
       <tr class="section-header">
         <td>
           <h2 class="section-name">
             {{header}}
           </h2>
         </td>
-        <td class="logo-dropdown-edit">
+        <label class="logo-dropdown-edit" v-bind:for="section_toggle">
           <font-awesome-icon icon="chevron-down" size="lg"/>
-        </td>
+        </label>
       </tr>
       <div class="seperator"></div>
-      <div class="fields">
-          <tr class="field-value-row" v-for="content in contentList" :key="content">
-            <td>
-              <label class="field">
-                {{content.field}}
-              </label>
-            </td>
-            <td class="value">
-              <tr v-for="value in content.value" :key="value">
-                  {{value}}
-              </tr>
-            </td>
+      <tr class="field-value-row" v-for="content in contentList" :key="content">
+        <td>
+          <label class="field">
+            {{content.field}}
+          </label>
+        </td>
+        <td class="value">
+          <tr v-for="value in content.value" :key="value">
+              {{value}}
           </tr>
-      </div>
+        </td>
+      </tr>
+
     </tbody>
   </table>
 </template>
@@ -45,6 +45,11 @@ export default {
     contentList: {
       type: Array,
     },
+  },
+  data() {
+    return {
+      section_toggle: this.header.toLowerCase() + '_collapse',
+    };
   },
 };
 </script>
@@ -83,6 +88,7 @@ div {
   float: right;
   right: 3%;
   position: absolute;
+  cursor: pointer;
 }
 
 .seperator {
@@ -113,6 +119,19 @@ div {
   font-size: 1.125rem;
   text-align: left;
   color: var(--rosalution-black);
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+
+.section-box-container input[type="checkbox"]:checked ~ .field-value-row {
+  display: none;
+}
+
+input[type="checkbox"]:checked ~ tr > .logo-dropdown-edit {
+  transform: scaleY(-1);
 }
 
 </style>

@@ -1,41 +1,42 @@
 <template>
   <table class="supplemental-container">
+    <input type="checkbox" id="supporting_toggle"/>
     <tbody>
-        <tr class="supplemental-header">
-            <td>
-                <h2 class="supplemental-header-name">Supplemental Attachments</h2>
-            </td>
-            <td>
-                <button class="add-attachment-button" @click="$emit('openModal')" data-test="add-button">
-                    <font-awesome-icon icon="circle-plus" size="xl"/>
-                </button>
-            </td>
-            <td class="collapse-box">
-                <font-awesome-icon icon="chevron-down" size="lg"/>
-            </td>
+      <tr class="supplemental-header">
+        <td>
+          <h2 class="supplemental-header-name">Supplemental Attachments</h2>
+        </td>
+        <td>
+          <button class="add-attachment-button" @click="$emit('openModal')" data-test="add-button">
+              <font-awesome-icon icon="circle-plus" size="xl"/>
+          </button>
+        </td>
+        <label class="collapse-box" for="supporting_toggle">
+          <font-awesome-icon icon="chevron-down" size="lg"/>
+        </label>
+      </tr>
+      <div class="seperator"></div>
+      <div class="attachment-list" v-for="attachment in attachments" v-bind:key="attachment.id">
+        <tr class="attachment-row">
+          <td class="attachment-logo">
+            <font-awesome-icon :icon="['far', 'file']" size="lg" v-if="attachment.type==='file'"/>
+            <font-awesome-icon icon="link" size="lg" v-else-if="attachment.type==='link'"/>
+          </td>
+          <td class="attachment-name">
+              {{ attachment.name }}
+          </td>
+          <td class="edit-button">
+            <button @click="$emit('edit', attachment)" data-test="edit-button">
+                <font-awesome-icon icon="pencil" size="xl"/>
+            </button>
+          </td>
+          <td class="delete-button">
+            <button @click="$emit('delete', attachment)" data-test="delete-button">
+                <font-awesome-icon icon="xmark" size="xl"/>
+            </button>
+          </td>
         </tr>
-        <div class="seperator"></div>
-        <div class="attachment-list" v-for="attachment in attachments" v-bind:key="attachment.id">
-            <tr class="attachment-row">
-                <td class="attachment-logo">
-                    <font-awesome-icon :icon="['far', 'file']" size="lg" v-if="attachment.type==='file'"/>
-                    <font-awesome-icon icon="link" size="lg" v-else-if="attachment.type==='link'"/>
-                </td>
-                <td class="attachment-name">
-                    {{ attachment.name }}
-                </td>
-                <td class="edit-button">
-                    <button @click="$emit('edit', attachment)" data-test="edit-button">
-                        <font-awesome-icon icon="pencil" size="xl"/>
-                    </button>
-                </td>
-                <td class="delete-button">
-                    <button @click="$emit('delete', attachment)" data-test="delete-button">
-                        <font-awesome-icon icon="xmark" size="xl"/>
-                    </button>
-                </td>
-            </tr>
-        </div>
+      </div>
     </tbody>
   </table>
 </template>
@@ -99,6 +100,7 @@ export default {
     float: right;
     right: 3%;
     position: absolute;
+    cursor: pointer;
   }
 
   .seperator {
@@ -169,6 +171,18 @@ export default {
     float: left;
     padding: 0.5rem 0.75rem 0.5rem 0.75rem;
     color: var(--rosalution-black);
+  }
+
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  .supplemental-container input[type="checkbox"]:checked ~ tbody > .attachment-list {
+    display: none;
+  }
+
+  input[type="checkbox"]:checked ~ tbody > tr > .collapse-box {
+    transform: scaleY(-1);
   }
 
 </style>
