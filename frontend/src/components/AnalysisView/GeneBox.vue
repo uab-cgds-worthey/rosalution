@@ -2,7 +2,7 @@
   <table class="gene-box-container">
     <tbody>
       <tr class="gene-box-header">
-        
+
         <router-link :to="{
             name: 'annotation',
             params: {
