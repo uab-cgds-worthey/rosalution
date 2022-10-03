@@ -19,7 +19,7 @@ import {
   faAsterisk, faPause, faCheck, faX, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList, faLayerGroup,
   faBoxArchive, faQuestion, faClock, faClipboardCheck, faMagnifyingGlass, faChevronDown, faChevronRight,
   faUpRightFromSquare, faCirclePlus, faPencil, faEllipsisVertical, faLink, faXmark, faUserDoctor, faPaperclip, faPlus,
-  faAnglesRight
+  faAnglesRight,
 } from '@fortawesome/free-solid-svg-icons';
 import {faCopy, faFile, faComment} from '@fortawesome/free-regular-svg-icons';
 
