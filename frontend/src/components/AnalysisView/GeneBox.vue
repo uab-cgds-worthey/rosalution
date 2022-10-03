@@ -2,6 +2,7 @@
   <table class="gene-box-container">
     <tbody>
       <tr class="gene-box-header">
+
         <router-link :to="{
             name: 'annotation',
             params: {
@@ -10,15 +11,15 @@
               variant: variants.length ? variants[0].hgvs_variant : undefined
             }
         }">
+          <td class="link-logo">
+            <font-awesome-icon icon="angles-right"/>
+          </td>
           <td>
             <h2 class="gene-name" data-test="gene-name">
               {{gene}}
             </h2>
           </td>
         </router-link>
-        <td class="link-logo">
-          <font-awesome-icon icon="up-right-from-square" size="2xs"/>
-        </td>
         <td class="transcript" v-for="transcript in transcripts" :key="transcript">
           {{transcript.transcript}}
         </td>
@@ -35,20 +36,20 @@
                 variant: variant.hgvs_variant,
               }
             }">
+              <td class="link-logo">
+                <font-awesome-icon icon="angles-right"/>
+              </td>
               <td class="c-dot" data-test="c-dot">
                 {{variant.c_dot}}
               </td>
             </router-link>
-              <td class="link-logo">
-                <font-awesome-icon icon="up-right-from-square" size="2xs"/>
+              <td class="p-dot">
+                ({{variant.p_dot}})
               </td>
               <td class="copy">
                 <button class="copy-button" @click="copyToClipboard(variant.hgvs_variant)" data-test="copy-button">
-                  <font-awesome-icon :icon="['far', 'copy']" size="sm"/>
+                  <font-awesome-icon :icon="['far', 'copy']" size="lg"/>
                 </button>
-              </td>
-              <td class="p-dot">
-                ({{variant.p_dot}})
               </td>
               <td class="genomic-build">
                 {{getBuild(variant.build)}}
@@ -157,8 +158,8 @@ div {
   display: flex;
   flex-direction: row;
   line-height: 1.75rem;
-  vertical-align: middle;
-  margin: .125rem .125rem 0 .125rem;
+  align-items: baseline;
+  margin: .125rem .125rem .25rem .125rem;
 }
 
 .gene-name {
@@ -168,7 +169,8 @@ div {
 }
 
 .link-logo {
-  height: 1.75rem;
+  color: var(--rosalution-purple-300);
+  cursor: pointer;
 }
 
 .transcript {
@@ -199,8 +201,8 @@ div {
   display: flex;
   flex-direction: row;
   line-height: 1.75rem;
-  margin: .125rem .125rem 0 .125rem;
-  vertical-align: middle;
+  margin: .125rem;
+  align-items: baseline;
 }
 
 .c-dot {
@@ -258,7 +260,7 @@ a {
   font-size: 1.125rem;
   gap: .625rem;
   color: var(--rosalution-black);
-  margin: .125rem .125rem 0 .125rem;
+  margin: .125rem;
 }
 
 .case-field {
