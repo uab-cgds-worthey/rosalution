@@ -169,6 +169,7 @@ div {
 
 .link-logo {
   color: var(--rosalution-purple-300);
+  cursor: pointer;
 }
 
 .transcript {
