@@ -100,6 +100,7 @@ export default {
     float: right;
     right: 3%;
     position: absolute;
+    cursor: pointer;
   }
 
   .seperator {
