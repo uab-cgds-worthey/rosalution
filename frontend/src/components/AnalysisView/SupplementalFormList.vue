@@ -1,17 +1,17 @@
 <template>
   <table class="supplemental-container">
+    <input type="checkbox" id="supporting_toggle"/>
     <tbody>
-      <input type="checkbox" v-bind:id="section_toggle"/>
       <tr class="supplemental-header">
         <td>
           <h2 class="supplemental-header-name">Supplemental Attachments</h2>
         </td>
         <td>
           <button class="add-attachment-button" @click="$emit('openModal')" data-test="add-button">
-            <font-awesome-icon icon="circle-plus" size="xl"/>
+              <font-awesome-icon icon="circle-plus" size="xl"/>
           </button>
         </td>
-        <label class="collapse-box" v-bind:for="section_toggle">
+        <label class="collapse-box" for="supporting_toggle">
           <font-awesome-icon icon="chevron-down" size="lg"/>
         </label>
       </tr>
@@ -23,16 +23,16 @@
             <font-awesome-icon icon="link" size="lg" v-else-if="attachment.type==='link'"/>
           </td>
           <td class="attachment-name">
-            {{ attachment.name }}
+              {{ attachment.name }}
           </td>
           <td class="edit-button">
             <button @click="$emit('edit', attachment)" data-test="edit-button">
-              <font-awesome-icon icon="pencil" size="xl"/>
+                <font-awesome-icon icon="pencil" size="xl"/>
             </button>
           </td>
           <td class="delete-button">
             <button @click="$emit('delete', attachment)" data-test="delete-button">
-              <font-awesome-icon icon="xmark" size="xl"/>
+                <font-awesome-icon icon="xmark" size="xl"/>
             </button>
           </td>
         </tr>
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'supplemental-form',
   props: {
@@ -55,6 +56,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
   @import url("https://use.typekit.net/rgh1osc.css");
@@ -174,8 +176,12 @@ export default {
     display: none;
   }
 
-  .supplemental-container input[type="checkbox"]:checked ~ .attachment-list {
+  .supplemental-container input[type="checkbox"]:checked ~ tbody > .attachment-list {
     display: none;
+  }
+
+  input[type="checkbox"]:checked ~ tbody > tr > .collapse-box {
+    transform: scaleY(-1);
   }
 
 </style>

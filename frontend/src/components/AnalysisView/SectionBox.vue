@@ -48,9 +48,9 @@ export default {
   },
   data() {
     return {
-      section_toggle: this.header.toLowerCase() + "_collapse",
-    }
-  }
+      section_toggle: this.header.toLowerCase() + '_collapse',
+    };
+  },
 };
 </script>
 
