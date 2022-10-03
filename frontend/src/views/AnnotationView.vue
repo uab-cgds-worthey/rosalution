@@ -7,12 +7,13 @@
     <div class="sections">
       <AnnotationSection
         v-for="(section, index) in this.rendering" :key="`${section.type}-${section.anchor}-${index}`"
-        :header="sectionHeader(section.header)" v-bind="section.props" :id="`${section.anchor}`"
+        :header="sectionHeader(section.header)" :linkout="linkoutUrl(section)" v-bind="section.props"
+        :id="`${section.anchor}`"
       >
         <template #headerDatasets>
           <component
               v-for="(headerDatasetConfig, index) in section.header_datasets"
-              :key="`${headerDatasetConfig.dataset}-why-${index}`"
+              :key="`${headerDatasetConfig.dataset}-${index}`"
               :is="headerDatasetConfig.type"
               v-bind="headerDatasetConfig.props"
               :value="annotations[headerDatasetConfig.dataset]"
@@ -23,9 +24,10 @@
           <div v-for="(row, index) in section.rows" :key="`${index}`">
             <component
                 v-for="(datasetConfig, index) in row.datasets"
-                :key="`123${datasetConfig.dataset}-${index}`"
+                :key="`${datasetConfig.dataset}-${index}`"
                 :is="datasetConfig.type"
                 v-bind="datasetConfig.props"
+                :linkout="linkoutUrl(datasetConfig)"
                 :value="annotations[datasetConfig.dataset]"
                 :data-test="datasetConfig.dataset"
               />
@@ -81,6 +83,9 @@ export default {
   methods: {
     sectionHeader(header) {
       return header in this ? this[header] : header;
+    },
+    linkoutUrl(datasetConfig) {
+      return 'linkout_dataset' in datasetConfig ? this.annotations[datasetConfig['linkout_dataset']] : undefined;
     },
     async getUsername() {
       const fetchUser = await Auth.getUser();

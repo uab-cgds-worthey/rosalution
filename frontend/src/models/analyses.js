@@ -77,9 +77,9 @@ const annotationRenderingTemporary = [
           {
             'dataset': 'OMIM',
             'type': 'text-dataset',
+            'linkout_dataset': 'OMIM_gene_search_url',
             'props': {
               'label': 'OMIM',
-              // 'url': 'https://www.omim.org/entry/{Entrez Gene Id}',
             },
           },
         ],
@@ -89,9 +89,9 @@ const annotationRenderingTemporary = [
           {
             'dataset': 'HPO',
             'type': 'text-dataset',
+            'linkout_dataset': 'HPO_gene_search_url',
             'props': {
               'label': 'HPO',
-              // 'url': 'https://hpo.jax.org/app/browse/search?q={gene}&navFilter=all',
             },
           },
         ],
