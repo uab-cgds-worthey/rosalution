@@ -1,33 +1,43 @@
 <template>
-    <div class="modal-background">
-        <div class="modal-container modal-remove-file-container">
-            <h2>Delete Supporting Information?</h2>
-            <span>Deleting this item will remove it from the supporting evidence list.</span>
-            <div class="cancel-button-column">
-              <a
-                  title="Cancel"
-                  class="cancel-button-item"
-                  @click="$emit('cancel')"
-                  data-test="cancel-modal-button">
-                      Cancel
-              </a>
-            </div>
-            <div class="delete-button-column">
-              <a
-                  title="Delete"
-                  class="delete-button-item"
-                  @click="$emit('delete')"
-                  data-test="delete-item-button">
-                      Delete
-              </a>
-            </div>
-        </div>
-    </div>
-  </template>
+  <div v-if="dialog.state.active" class="modal-background">
+      <div class="modal-container modal-remove-file-container">
+          <h2 v-if="dialog.state.title"> {{ dialog.state.title }}</h2>
+          <span>{{ dialog.state.message }}</span>
+
+          <div class="cancel-button-column">
+            <a
+                v-if="dialog.state.type !== 'alert'"
+                title="Cancel"
+                class="cancel-button-item"
+                @click="dialog.cancel()"
+                data-test="cancel-button">
+                    {{ dialog.state.cancelText }}
+            </a>
+          </div>
+          <div class="confirm-button-column">
+            <a
+                title="Confirm"
+                class="confirm-button-item"
+                @click="dialog.confirmation(userInput)"
+                data-test="confirm-button">
+                {{ dialog.state.confirmText }}
+            </a>
+          </div>
+      </div>
+  </div>
+</template>
 
 <script>
+import dialog from '@/dialog.js';
+
 export default {
-  name: 'remove-file-confirmation-dialog',
+  name: 'the-dialog',
+  data() {
+    return {
+      userInput: '',
+      dialog,
+    };
+  },
 };
 </script>
 
@@ -35,7 +45,7 @@ export default {
   .modal-remove-file-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    width: 385px;
+    width: 400px;
     height: 170px;
     padding: 20px 35px 15px 35px;
   }
@@ -73,20 +83,26 @@ export default {
     cursor: pointer;
   }
 
-  .delete-button-column {
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    cursor: pointer;
-  }
-
   .cancel-button-column {
     display: flex;
     justify-content: left;
     align-items: center;
   }
 
-  .delete-button-item {
+  .confirm-button-column {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .confirm-button-column {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+  }
+
+  .confirm-button-item {
     display: flex;
     grid-row: 3;
     background-color: var(--rosalution-purple-100);

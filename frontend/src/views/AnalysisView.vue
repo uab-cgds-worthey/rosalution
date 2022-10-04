@@ -39,10 +39,7 @@
           @close="this.toggleAttachmentModal()"
           data-test="modal-dialog"
         />
-        <RemoveFileConfirmationDialog
-          v-if="showDeleteFileConfirmation"
-          @cancel="this.onDeleteAttachmentCancel"
-          @delete="this.deleteAttachment"
+        <Dialog
           data-test="confirmation-dialog"
         />
       </app-content>
@@ -55,9 +52,11 @@ import AnalysisViewHeader from '../components/AnalysisView/AnalysisViewHeader.vu
 import SectionBox from '../components/AnalysisView/SectionBox.vue';
 import GeneBox from '../components/AnalysisView/GeneBox.vue';
 import ModalDialog from '@/components/AnalysisView/ModalDialog.vue';
-import RemoveFileConfirmationDialog from '../components/AnalysisView/RemoveFileConfirmationDialog.vue';
+import Dialog from '../components/Dialog.vue';
 import SupplementalFormList from '../components/AnalysisView/SupplementalFormList.vue';
 import Auth from '../models/authentication.js';
+
+import dialog from '@/dialog.js';
 
 export default {
   name: 'analysis-view',
@@ -65,7 +64,7 @@ export default {
     AnalysisViewHeader,
     SectionBox,
     GeneBox,
-    RemoveFileConfirmationDialog,
+    Dialog,
     ModalDialog,
     SupplementalFormList,
   },
@@ -84,7 +83,6 @@ export default {
         {icon: 'paperclip', text: 'Attach', operation: this.toggleAttachmentModal},
       ],
       showAttachmentModal: false,
-      attachmentConfirmingToDelete: null,
     };
   },
   computed: {
@@ -94,9 +92,6 @@ export default {
       });
       sections.push('Supplemental Attachments');
       return sections;
-    },
-    showDeleteFileConfirmation() {
-      return null != this.attachmentConfirmingToDelete;
     },
   },
   created() {
@@ -126,19 +121,21 @@ export default {
       this.attachments.push(attachment);
       this.toggleAttachmentModal();
     },
-    onDeleteAttachmentEvent(attachment) {
-      this.attachmentConfirmingToDelete = attachment;
-    },
-    deleteAttachment() {
-      const attachmentIndex =
-        this.attachments.findIndex((attachment) => {
-          return attachment.name == this.attachmentConfirmingToDelete.name;
-        });
+    async onDeleteAttachmentEvent(attachmentToDelete) {
+      const confirmedDelete = await dialog
+          .title('Delete Supporting Information?')
+          .confirmText('Delete')
+          .cancelText('Cancel')
+          .confirm('Deleting this item will remove it from the supporting evidence list.');
+
+      if (!confirmedDelete) {
+        return;
+      }
+
+      const attachmentIndex = this.attachments.findIndex((attachment) => {
+        return attachment.name == attachmentToDelete.name;
+      });
       this.attachments.splice(attachmentIndex, 1);
-      this.attachmentConfirmingToDelete = null;
-    },
-    onDeleteAttachmentCancel() {
-      this.attachmentConfirmingToDelete = null;
     },
     onEditAttachment(attachment) {
       /* will update the props going into the modal component to edit this attachment */

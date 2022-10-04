@@ -30,7 +30,11 @@
       @upload="this.importPhenotipsAnalysis"
       data-test="phenotips-file-modal"
     />
+    <Dialog
+      data-test="confirmation-dialog"
+    />
     <AnalysisListingLegend/>
+
   </app-footer>
 </div>
 </template>
@@ -44,6 +48,8 @@ import AnalysisListingLegend from '@/components/AnalysisListing/AnalysisListingL
 import PhenotipsImportModal from '@/components/AnalysisListing/PhenotipsImportModal.vue';
 import Auth from '../models/authentication.js';
 
+import Dialog from '@/components/Dialog.vue';
+import dialog from '@/dialog.js';
 
 export default {
   name: 'analysis-listing-view',
@@ -52,6 +58,7 @@ export default {
     AnalysisCreateCard,
     AnalysisListingHeader,
     AnalysisListingLegend,
+    Dialog,
     PhenotipsImportModal,
   },
   data: function() {
@@ -108,9 +115,19 @@ export default {
     toggleImportModal() {
       this.showModal = !this.showModal;
     },
-    importPhenotipsAnalysis(file) {
+    async importPhenotipsAnalysis(file) {
       this.toggleImportModal();
-      Analyses.importPhenotipsAnalysis(file[0]);
+
+      try {
+        await Analyses.importPhenotipsAnalysis(file[0]);
+        await dialog
+            .title('Successful import')
+            .alert('Imported Phenotips Case successfully!');
+      } catch (error) {
+        await dialog
+            .title('Failed to import phenotips analysis')
+            .alert(error);
+      }
     },
     async onLogout() {
       await Auth.logout();
