@@ -4,10 +4,12 @@ import sinon from 'sinon';
 
 import Analyses from '@/models/analyses.js';
 import Auth from '@/models/authentication.js';
+import dialog from '@/dialog.js';
 
 import AnalysisView from '@/views/AnalysisView.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
-import RemoveFileConfirmationDialog from '@/components/AnalysisView/RemoveFileConfirmationDialog.vue';
+import Dialog from '@/components/Dialog.vue';
+
 import ModalDialog from '@/components/AnalysisView/ModalDialog.vue';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
@@ -70,10 +72,10 @@ describe('AnalysisView', () => {
 
   it('contains a header and content', () => {
     const appHeader = wrapper.find('app-header');
-    expect(appHeader.exists()).toBe(true);
+    expect(appHeader.exists()).to.be.true;
 
     const appContent = wrapper.find('app-content');
-    expect(appContent.exists()).toBe(true);
+    expect(appContent.exists()).to.be.true;
   });
 
   it('provides the expected headings of sections to be used as anchors to header', () => {
@@ -125,7 +127,7 @@ describe('AnalysisView', () => {
     supplementalComponent.vm.$emit('delete', fakeAttachment);
     await wrapper.vm.$nextTick();
 
-    const confirmationDialog = wrapper.findComponent(RemoveFileConfirmationDialog);
+    const confirmationDialog = wrapper.findComponent(Dialog);
     expect( confirmationDialog.exists()).to.be.true;
   });
 
@@ -148,8 +150,7 @@ describe('AnalysisView', () => {
     supplementalComponent.vm.$emit('delete', fakeAttachment);
     await wrapper.vm.$nextTick();
 
-    const confirmationDialog = wrapper.findComponent(RemoveFileConfirmationDialog);
-    confirmationDialog.vm.$emit('cancel');
+    dialog.cancel();
     await wrapper.vm.$nextTick();
 
     expect(supplementalComponent.props('attachments').length).to.equal(1);
@@ -174,8 +175,7 @@ describe('AnalysisView', () => {
     supplementalComponent.vm.$emit('delete', fakeAttachment);
     await wrapper.vm.$nextTick();
 
-    const confirmationDialog = wrapper.findComponent(RemoveFileConfirmationDialog);
-    confirmationDialog.vm.$emit('delete');
+    dialog.confirmation();
     await wrapper.vm.$nextTick();
 
     expect(supplementalComponent.props('attachments').length).to.equal(0);

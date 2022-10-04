@@ -9,6 +9,9 @@ import AnalysisCreateCard from '@/components/AnalysisListing/AnalysisCreateCard.
 import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
 import AnalysisListingView from '@/views/AnalysisListingView.vue';
 
+import Dialog from '@/components/Dialog.vue';
+import dialog from '@/dialog.js';
+
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 describe('AnalysisListingView', () => {
@@ -97,6 +100,29 @@ describe('AnalysisListingView', () => {
     expect(mockedImport.called).to.be.true;
     const wrapperPhenotipsImportModalRemoved = wrapper.find('[data-test=phenotips-file-modal]');
     expect(wrapperPhenotipsImportModalRemoved.exists()).to.be.false;
+  });
+
+  it('should render notification with a sucessful upload', async () => {
+    const createCard = wrapper.findComponent(AnalysisCreateCard);
+    await createCard.trigger('click');
+    const phenotipsImportModal = wrapper.get('[data-test=phenotips-file-modal]');
+    await phenotipsImportModal.trigger('upload');
+
+    const dialogComponent = wrapper.findComponent(Dialog);
+    expect(dialogComponent.exists()).to.be.true;
+  });
+
+  it('should render notification for a failed upload', async () => {
+    mockedImport.throws('broken import sad face');
+    const createCard = wrapper.findComponent(AnalysisCreateCard);
+    await createCard.trigger('click');
+    const phenotipsImportModal = wrapper.get('[data-test=phenotips-file-modal]');
+    await phenotipsImportModal.trigger('upload');
+
+    const dialogComponent = wrapper.findComponent(Dialog);
+    expect(dialogComponent.exists()).to.be.true;
+    expect(dialog.state.title).to.equal('Failed to import phenotips analysis');
+    expect(dialog.state.message.toString()).to.equal('broken import sad face');
   });
 
   it('should logout when the analysis listing header emits the logout event', async () => {
