@@ -78,7 +78,7 @@ export default {
       attachments: [],
       menuActions: [
         {icon: 'pencil', text: 'Edit', operation: () => {
-          console.log('Weeeeeee! Placeholder for Editing an analysis');
+          this.edit = !this.edit;
         }, divider: true},
         {icon: 'paperclip', text: 'Attach', operation: this.toggleAttachmentModal},
       ],

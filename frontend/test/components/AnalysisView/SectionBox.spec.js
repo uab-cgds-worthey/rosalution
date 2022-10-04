@@ -38,6 +38,7 @@ function getMountedComponent(props) {
         ],
       },
     ],
+    edit: false,
   };
 
   return shallowMount(SectionBox, {
@@ -75,5 +76,18 @@ describe('SectionBox.vue', () => {
   it('should show values', () => {
     const wrapper = getMountedComponent();
     expect(wrapper.text()).to.contains('Dr. Person Two (Local) - working with Dr. Person Three in Person Four Lab');
+  });
+
+  it('changes value fields to input fields if edit is toggled', () => {
+    const wrapper = getMountedComponent();
+    wrapper.edit = true;
+    const valueInput = wrapper.find('[data-test=editable-value]');
+    expect(valueInput).toBeTruthy();
+  });
+
+  it('only displays values when edit is not toggled', () => {
+    const wrapper = getMountedComponent();
+    const values = wrapper.find('[data-test=value-row]');
+    expect(values).toBeTruthy();
   });
 });

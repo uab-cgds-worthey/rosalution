@@ -13,19 +13,22 @@
         </label>
       </tr>
       <div class="seperator"></div>
-      <tr class="field-value-row" v-for="content in contentList" :key="content">
-        <td>
-          <label class="field">
-            {{content.field}}
-          </label>
-        </td>
-        <td class="value">
-          <tr v-for="value in content.value" :key="value">
+        <tr class="field-value-row" v-for="content in contentList" :key="content">
+          <td>
+            <label class="field">
+              {{content.field}}
+            </label>
+          </td>
+          <td class="values">
+            <span v-if="this.edit" role="textbox" class="editable-textarea" contenteditable
+            data-test="editable-value">
+              {{content.value.join('\r\n')}}
+            </span>
+            <tr v-else v-for="value in content.value" :key="value" class="value-row" data-test="value-row">
               {{value}}
-          </tr>
-        </td>
-      </tr>
-
+            </tr>
+          </td>
+        </tr>
     </tbody>
   </table>
 </template>
