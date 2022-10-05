@@ -60,7 +60,22 @@ export default {
     IconLinkoutDataset,
     TextDataset,
   },
-  props: ['analysis_name', 'gene', 'variant'],
+  props: {
+    analysis_name: {
+      type: String,
+      required: true,
+    },
+    gene: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    variant: {
+      type: String,
+      required: false,
+      default: '',
+    },
+  },
   data: function() {
     return {
       rendering: [],

@@ -2,13 +2,11 @@
   <table class="gene-box-container">
     <tbody>
       <tr class="gene-box-header">
-
         <router-link :to="{
             name: 'annotation',
             params: {
               analysis_name: this.name,
               gene: this.gene,
-              variant: variants.length ? variants[0].hgvs_variant : undefined
             }
         }">
           <td class="link-logo">
