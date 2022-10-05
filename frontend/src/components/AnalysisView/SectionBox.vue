@@ -13,19 +13,22 @@
         </label>
       </tr>
       <div class="seperator"></div>
-      <tr class="field-value-row" v-for="content in contentList" :key="content">
-        <td>
-          <label class="field">
-            {{content.field}}
-          </label>
-        </td>
-        <td class="value">
-          <tr v-for="value in content.value" :key="value">
+        <tr class="field-value-row" v-for="content in contentList" :key="content">
+          <td>
+            <label class="field">
+              {{content.field}}
+            </label>
+          </td>
+          <td class="values">
+            <span v-if="this.edit" role="textbox" class="editable-textarea" contenteditable
+            data-test="editable-value">
+              {{content.value.join('\r\n')}}
+            </span>
+            <tr v-else v-for="value in content.value" :key="value" class="value-row" data-test="value-row">
               {{value}}
-          </tr>
-        </td>
-      </tr>
-
+            </tr>
+          </td>
+        </tr>
     </tbody>
   </table>
 </template>
@@ -44,6 +47,9 @@ export default {
     },
     contentList: {
       type: Array,
+    },
+    edit: {
+      type: Boolean,
     },
   },
   data() {
@@ -115,16 +121,43 @@ div {
   color: var(--rosalution-black);
 }
 
-.value {
+.values {
   font-size: 1.125rem;
   text-align: left;
   color: var(--rosalution-black);
+  width: 100%;
+  display: block;
+}
+
+.value-row {
+  font-size: 1.125rem;
+  color: var(--rosalution-black);
+  display: block;
+  width: 100%;
+}
+
+.editable-textarea {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  resize: both;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 2px solid var(--rosalution-purple-200);
+  font-family: inherit;
+  font-size: inherit;
+}
+
+span:focus {
+  color: var(--rosalution-purple-300);
+  outline: none;
+  box-shadow: 0px 5px 5px var(--rosalution-grey-200);
 }
 
 input[type="checkbox"] {
   display: none;
 }
-
 
 .section-box-container input[type="checkbox"]:checked ~ .field-value-row {
   display: none;

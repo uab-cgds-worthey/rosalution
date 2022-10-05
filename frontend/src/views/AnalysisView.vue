@@ -25,6 +25,7 @@
           :key="section.id"
           :header="section.header"
           :contentList="section.content"
+          :edit = "this.edit"
         />
         <SupplementalFormList
           id="Supplemental_Attachments"
@@ -78,11 +79,12 @@ export default {
       attachments: [],
       menuActions: [
         {icon: 'pencil', text: 'Edit', operation: () => {
-          console.log('Weeeeeee! Placeholder for Editing an analysis');
+          this.edit = !this.edit;
         }, divider: true},
         {icon: 'paperclip', text: 'Attach', operation: this.toggleAttachmentModal},
       ],
       showAttachmentModal: false,
+      edit: false,
     };
   },
   computed: {
