@@ -31,7 +31,7 @@ class GridFSBucketCollection:
             print(type(file_id))
         return self.bucket.get(file_id)
 
-    def find_file_by_name(self, filename):
+    def get_file_by_name(self, filename):
         """Returns the file with the given name"""
         grid_out = self.bucket.find_one({"filename": filename})
         while True:
