@@ -92,23 +92,26 @@ async def create_file(
 
     return new_analysis
 
-
 @router.post("/upload/{name}")
 def upload(name: str, upload_file: UploadFile = File(...), comments: str = Form(...), repositories=Depends(database)):
-    """Uploads a file to the server"""
-    # The following code is to be used in a future version of the application
-    # new_file_object_id = repositories['bucket'].put(
-    #     upload_file.file, filename=upload_file.filename)
-    # return repositories["analysis"].add_file(name, new_file_object_id, comments)
+    """Uploads a file to GridFS and adds it to the analysis"""
+    if repositories['bucket'].check_if_exists(upload_file.filename):
+        raise HTTPException(
+            status_code=409, detail="File already exists in Rosalution")
+    new_file_object_id = repositories['bucket'].save_file(
+        upload_file.file, upload_file.filename)
+    return repositories["analysis"].add_file(name, new_file_object_id, upload_file.filename, comments)
 
-    # This code is to be used for the current version of the application
-    try:
-        contents = upload_file.file.read()
-        with open(upload_file.filename, "wb") as working_file:
-            working_file.write(contents)
-    except Exception as exception:
-        raise HTTPException(status_code=500) from exception
-    finally:
-        upload_file.file.close()
 
-    return repositories["analysis"].add_file(name, upload_file.filename, comments)
+@router.get("/find_text_file/{file_name}")
+def find_text_file(file_name: str, repositories=Depends(database)):
+    """Finds a file in GridFS. ONLY if the file is a plain text file"""
+    file = repositories['bucket'].find_file_by_name(file_name)
+    return file
+
+
+@router.get("/list_text_files")
+def list_text_files(repositories=Depends(database)):
+    """Lists all files in GridFS. will fail if there are any non-text files"""
+    files = repositories['bucket'].list_files()
+    return files

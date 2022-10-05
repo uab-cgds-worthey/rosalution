@@ -139,6 +139,7 @@ def test_upload_file_to_analysis(client, mock_access_token, mock_file_upload, mo
     # the mongo database instead with GridFS. We are currently git-ignoring this file to avoid it being commited.
     mock_repositories["analysis"].collection.find_one_and_update.return_value = {
         'fakevalue': 'fakeyfake'}
+    mock_repositories["bucket"].bucket.exists.return_value = False
     response = client.post(
         "/analysis/upload/CPAM0002",
         headers={"Authorization": "Bearer " + mock_access_token},
@@ -146,6 +147,23 @@ def test_upload_file_to_analysis(client, mock_access_token, mock_file_upload, mo
         files=mock_file_upload
     )
     assert response.status_code == 200
+
+
+def test_upload_file_already_exists_to_analysis(client, mock_access_token, mock_file_upload, mock_repositories):
+    """Testing if the upload file endpoint uploads a file to an analysis"""
+    # This test currently writes a file to the backend folder, This will eventually be changed to write
+    # the mongo database instead with GridFS. We are currently git-ignoring this file to avoid it being commited.
+    mock_repositories["analysis"].collection.find_one_and_update.return_value = {
+        'fakevalue': 'fakeyfake'}
+    mock_repositories["bucket"].bucket.exists.return_value = True
+    response = client.post(
+        "/analysis/upload/CPAM0002",
+        headers={"Authorization": "Bearer " + mock_access_token},
+        data=({"comments": "This is a test comment for file test.txt"}),
+        files=mock_file_upload
+    )
+    assert response.status_code == 409
+
 
 
 @pytest.fixture(name="analysis_updates_json")

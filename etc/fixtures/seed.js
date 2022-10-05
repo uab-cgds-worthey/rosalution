@@ -23,6 +23,10 @@ try {
     db[collectionName].insertMany(collectionFixture);
     print(`Seeding [${collectionName}] with ${db[collectionName].countDocuments()} documents...`);
   }
+
+  print(`Dropping [fs.chunks] & ['fs.files'] collections for GridFS buckets...`);
+  db['fs.chunks'].drop();
+  db['fs.files'].drop();
 } catch (err) {
   console.log(err.stack);
 }
