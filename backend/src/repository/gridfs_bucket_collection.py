@@ -33,4 +33,9 @@ class GridFSBucketCollection:
 
     def find_file_by_name(self, filename):
         """Returns the file with the given name"""
-        return self.bucket.find_one({"filename": filename}).read()
+        grid_out = self.bucket.find_one({"filename": filename})
+        while True:
+            chunk = grid_out.readchunk() 
+            if not chunk:
+                break
+            yield chunk

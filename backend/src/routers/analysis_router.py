@@ -4,6 +4,7 @@ import json
 from typing import List, Union
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, File, UploadFile, Form
+from fastapi.responses import StreamingResponse, FileResponse
 
 from ..core.annotation import AnnotationService
 from ..core.phenotips_importer import PhenotipsImporter
@@ -109,6 +110,12 @@ def find_text_file(file_name: str, repositories=Depends(database)):
     file = repositories['bucket'].find_file_by_name(file_name)
     return file
 
+@router.get("/file_download_test/{file_name}")
+def test_gridfs_download(file_name: str, repositories=Depends(database)):
+
+    # return FileResponse(repositories['bucket'].find_file_by_name(file_name))
+
+    return StreamingResponse(repositories['bucket'].find_file_by_name(file_name), media_type="image/png")
 
 @router.get("/list_text_files")
 def list_text_files(repositories=Depends(database)):
