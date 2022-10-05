@@ -35,7 +35,7 @@ const routes = [
   {path: '/rosalution', component: AnalysisListingView},
   {path: '/rosalution/about', component: AboutView},
   {path: '/rosalution/analysis/:analysis_name', name: 'analysis', component: AnalysisView, props: true},
-  {path: '/rosalution/analysis/:analysis_name/annotation/:gene/:variant', name: 'annotation', component: AnnotationView,
+  {path: '/rosalution/analysis/:analysis_name/annotation/', name: 'annotation', component: AnnotationView,
     props: true},
   {path: '/:pathMatch(.*)', component: NotFoundView},
 ];
