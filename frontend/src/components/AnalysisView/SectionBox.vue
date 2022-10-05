@@ -48,6 +48,9 @@ export default {
     contentList: {
       type: Array,
     },
+    edit: {
+      type: Boolean,
+    },
   },
   data() {
     return {
@@ -118,16 +121,43 @@ div {
   color: var(--rosalution-black);
 }
 
-.value {
+.values {
   font-size: 1.125rem;
   text-align: left;
   color: var(--rosalution-black);
+  width: 100%;
+  display: block;
+}
+
+.value-row {
+  font-size: 1.125rem;
+  color: var(--rosalution-black);
+  display: block;
+  width: 100%;
+}
+
+.editable-textarea {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  resize: both;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 2px solid var(--rosalution-purple-200);
+  font-family: inherit;
+  font-size: inherit;
+}
+
+span:focus {
+  color: var(--rosalution-purple-300);
+  outline: none;
+  box-shadow: 0px 5px 5px var(--rosalution-grey-200);
 }
 
 input[type="checkbox"] {
   display: none;
 }
-
 
 .section-box-container input[type="checkbox"]:checked ~ .field-value-row {
   display: none;

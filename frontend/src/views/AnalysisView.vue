@@ -25,6 +25,7 @@
           :key="section.id"
           :header="section.header"
           :contentList="section.content"
+          :edit = "this.edit"
         />
         <SupplementalFormList
           id="Supplemental_Attachments"
@@ -83,6 +84,7 @@ export default {
         {icon: 'paperclip', text: 'Attach', operation: this.toggleAttachmentModal},
       ],
       showAttachmentModal: false,
+      edit: false,
     };
   },
   computed: {
