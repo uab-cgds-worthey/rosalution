@@ -116,6 +116,7 @@
   "supporting_evidence_files": [
     {
       "filename": "test.txt",
+      "file_id": "633afb87fb250a6ea1569555",
       "comments": "This is a test comment for file test.txt"
     }
   ]

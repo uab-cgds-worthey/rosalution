@@ -34,6 +34,18 @@ def fixture_analysis_collection(analysis_collection_json, updated_analysis_colle
     return AnalysisCollection(mock_collection)
 
 
+@pytest.fixture(name="gridfs_bucket_collection")
+def fixture_gridfs_bucket_collection():
+    """Returns the GridFS bucket collection to be mocked"""
+    mock_collection = mock_mongo_collection()
+    mock_collection.check_if_exists = Mock(return_value=True)
+    mock_collection.save_file = Mock(return_value="633afb87fb250a6ea1569555")
+    mock_collection.list_files = Mock(return_value=["test.txt"])
+    mock_collection.find_file_by_name = Mock(
+        return_value=b"This is a test file")
+    return mock_collection
+
+
 @pytest.fixture(name="genomic_unit_collection_json")
 def fixture_genomic_unit_collection_json():
     """Returns the JSON for the genomic units collection used to seed the MongoDB database"""

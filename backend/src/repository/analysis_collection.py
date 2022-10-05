@@ -75,11 +75,12 @@ class AnalysisCollection:
         updated_document.pop("_id", None)
         return updated_document
 
-    def add_file(self, name: str, filename: str, comments: str):
+    def add_file(self, name: str, file_id: str, filename: str, comments: str):
         """Adds a file to an analysis"""
         updated_document = self.collection.find_one_and_update({"name": name},
                                                                {"$push": {
                                                                 "supporting_evidence_files": {"filename": filename,
+                                                                                              "file_id": str(file_id),
                                                                                               "comments": comments}}},
                                                                return_document=ReturnDocument.AFTER)
         # remove the _id field from the returned document since it is not JSON serializable
