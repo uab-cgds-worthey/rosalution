@@ -103,20 +103,7 @@ def upload(name: str, upload_file: UploadFile = File(...), comments: str = Form(
         upload_file.file, upload_file.filename)
     return repositories["analysis"].add_file(name, new_file_object_id, upload_file.filename, comments)
 
-
-# @router.get("/find_text_file/{file_name}")
-# def find_text_file(file_name: str, repositories=Depends(database)):
-#     """Finds a file in GridFS. ONLY if the file is a plain text file"""
-#     file = repositories['bucket'].get_file_by_name(file_name)
-#     return file
-
-@router.get("/file_download_test/{file_name}")
+@router.get("/download/{file_name}")
 def test_gridfs_download(file_name: str, repositories=Depends(database)):
     """ Returns a file from GridFS by file name """
-    return StreamingResponse(repositories['bucket'].find_file_by_name(file_name))
-
-@router.get("/list_text_files")
-def list_text_files(repositories=Depends(database)):
-    """Lists all files in GridFS. will fail if there are any non-text files"""
-    files = repositories['bucket'].list_files()
-    return files
+    return StreamingResponse(repositories['bucket'].get_file_by_name(file_name))
