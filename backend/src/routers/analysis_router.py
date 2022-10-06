@@ -50,21 +50,31 @@ async def import_phenotips_json(
     phenotips_importer = PhenotipsImporter(
         repositories["analysis"], repositories["genomic_unit"])
     try:
-        new_analysis = phenotips_importer.import_phenotips_json(phenotips_input)
+        new_analysis = phenotips_importer.import_phenotips_json(
+            phenotips_input)
     except ValueError as exception:
         raise HTTPException(status_code=409) from exception
 
     analysis = Analysis(**new_analysis)
     annotation_service = AnnotationService(repositories["annotation_config"])
     annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
-    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, repositories['genomic_unit'])
+    background_tasks.add_task(AnnotationService.process_tasks,
+                              annotation_task_queue, repositories['genomic_unit'])
 
     return new_analysis
+
 
 @router.put("/update/{name}")
 def update_analysis(name: str, analysis_data_changes: dict, repositories=Depends(database)):
     """Updates an existing analysis"""
     return repositories["analysis"].update_analysis(name, analysis_data_changes)
+
+
+@router.put("/update_section/{name}")
+def update_analysis_section(name: str, section_header: str, field_name: str,
+                            updated_value: str, repositories=Depends(database)):
+    """Updates an existing analysis section by name, section header, and field name"""
+    return repositories["analysis"].update_analysis_section(name, section_header, field_name, updated_value)
 
 
 @router.post("/import_file", response_model=Analysis)
@@ -81,16 +91,19 @@ async def create_file(
     phenotips_importer = PhenotipsImporter(
         repositories["analysis"], repositories["genomic_unit"])
     try:
-        new_analysis = phenotips_importer.import_phenotips_json(phenotips_input)
+        new_analysis = phenotips_importer.import_phenotips_json(
+            phenotips_input)
     except ValueError as exception:
         raise HTTPException(status_code=409) from exception
 
     analysis = Analysis(**new_analysis)
     annotation_service = AnnotationService(repositories["annotation_config"])
     annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
-    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, repositories['genomic_unit'])
+    background_tasks.add_task(AnnotationService.process_tasks,
+                              annotation_task_queue, repositories['genomic_unit'])
 
     return new_analysis
+
 
 @router.post("/upload/{name}")
 def upload(name: str, upload_file: UploadFile = File(...), comments: str = Form(...), repositories=Depends(database)):

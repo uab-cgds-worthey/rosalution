@@ -75,13 +75,25 @@ class AnalysisCollection:
         updated_document.pop("_id", None)
         return updated_document
 
+    def update_analysis_section(self, name: str, section_header: str, field_name: str, updated_value: str):
+        """Updates an existing analysis section by name, section header, and field name"""
+        print(self.collection.find_one(
+            {"name": name}, {"header": section_header}))
+        updated_document = self.collection.find_one_and_update({"name": name, "sections.header": section_header},
+                                                               {"$set": {
+                                                                   "value": updated_value}},
+                                                               return_document=ReturnDocument.AFTER)
+        # remove the _id field from the returned document since it is not JSON serializable
+        # updated_document.pop("_id", None)
+        return updated_document
+
     def add_file(self, name: str, file_id: str, filename: str, comments: str):
         """Adds a file to an analysis"""
         updated_document = self.collection.find_one_and_update({"name": name},
                                                                {"$push": {
-                                                                "supporting_evidence_files": {"filename": filename,
-                                                                                              "file_id": str(file_id),
-                                                                                              "comments": comments}}},
+                                                                   "supporting_evidence_files": {"filename": filename,
+                                                                                                 "file_id": str(file_id),
+                                                                                                 "comments": comments}}},
                                                                return_document=ReturnDocument.AFTER)
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
