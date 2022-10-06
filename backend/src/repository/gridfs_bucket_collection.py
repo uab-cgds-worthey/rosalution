@@ -31,9 +31,12 @@ class GridFSBucketCollection:
             print(type(file_id))
         return self.bucket.get(file_id)
 
-    def get_file_by_name(self, filename):
+    def get_analysis_file_by_id(self, file_id):
         """Returns the file with the given name"""
-        grid_out = self.bucket.find_one({"filename": filename})
+        
+        grid_out = self.bucket.find_one({"_id": ObjectId(str(file_id))})
+        print("Hello")
+        
         while True:
             chunk = grid_out.readchunk() 
             if not chunk:

@@ -86,3 +86,20 @@ class AnalysisCollection:
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
         return updated_document
+
+    def find_file_by_name(self, analysis_name: str, file_name: str):
+        """ Returns an attached file metadata attached to an analysis if it exists by name """
+        analysis = self.collection.find_one({"name": analysis_name})
+
+        if not analysis:
+            return None
+
+        if 'supporting_evidence_files' not in analysis:
+            return None
+
+        for file in analysis['supporting_evidence_files']:
+            if file['filename'] == file_name:
+                return file
+        
+        return None
+        

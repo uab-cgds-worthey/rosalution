@@ -4,7 +4,9 @@ import json
 from typing import List, Union
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, File, UploadFile, Form
-from fastapi.responses import StreamingResponse, FileResponse
+from fastapi.responses import StreamingResponse
+
+from bson.errors import InvalidId
 
 from ..core.annotation import AnnotationService
 from ..core.phenotips_importer import PhenotipsImporter
@@ -67,7 +69,6 @@ def update_analysis(name: str, analysis_data_changes: dict, repositories=Depends
     """Updates an existing analysis"""
     return repositories["analysis"].update_analysis(name, analysis_data_changes)
 
-
 @router.post("/import_file", response_model=Analysis)
 async def create_file(
     background_tasks: BackgroundTasks,
@@ -103,7 +104,20 @@ def upload(name: str, upload_file: UploadFile = File(...), comments: str = Form(
         upload_file.file, upload_file.filename)
     return repositories["analysis"].add_file(name, new_file_object_id, upload_file.filename, comments)
 
-@router.get("/download/{file_name}")
-def test_gridfs_download(file_name: str, repositories=Depends(database)):
+@router.get("/download/{file_id}")
+def download_file_by_id(file_id: str, repositories=Depends(database)):
+    gridFSFile = repositories['bucket'].get_analysis_file_by_id(file_id)
+    return StreamingResponse(gridFSFile)
+
+@router.get("/{analysis_name}/download/{file_name}")
+def download(analysis_name: str, file_name: str, repositories=Depends(database)):
     """ Returns a file from GridFS by file name """
-    return StreamingResponse(repositories['bucket'].get_file_by_name(file_name))
+    # Does file exist by name in the given analysis?
+    file = repositories['analysis'].find_file_by_name(analysis_name, file_name)
+
+    if not file:
+        raise HTTPException(status_code=404, detail="File not found.")
+        
+    return StreamingResponse(repositories['bucket'].get_analysis_file_by_id(file['file_id']))
+    
+
