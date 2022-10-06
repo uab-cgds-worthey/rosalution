@@ -79,6 +79,7 @@ class AnalysisCollection:
         """Updates an existing analysis section by name, section header, and field name"""
         print(self.collection.find_one(
             {"name": name}, {"header": section_header}))
+        # I am hoping to be able to somehow filter on what value we want to update.  I am not sure how to do this.
         updated_document = self.collection.find_one_and_update({"name": name, "sections.header": section_header},
                                                                {"$set": {
                                                                    "value": updated_value}},
