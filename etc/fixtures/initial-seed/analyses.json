@@ -279,11 +279,13 @@
           "variants": [{
               "hgvs_variant": "NM_002972.2:c.3493_3494dupTA",
               "c_dot": "c.3493_3494dupTA",
+              "p_dot": "Pro1166ThrfsX5",
               "build": "hg19",
               "case": []
           }, {
               "hgvs_variant": "NM_002972.2:c.5474_5475delTG",
               "c_dot": "c.5474_5475delTG",
+              "p_dot": "Val1825GlyfsX27",
               "build": "hg19",
               "case": []
           }]
@@ -501,11 +503,13 @@
               "variants": [{
                   "hgvs_variant": "NM_005249.5:c.924G>A",
                   "c_dot": "c.924G>A",
+                  "p_dot": "p.Trp308Ter",
                   "build": "hg19",
                   "case": []
               }, {
                   "hgvs_variant": "NM_005249.5:c.256dup",
                   "c_dot": "c.256dup",
+                  "p_dot": "p.Gln86fs",
                   "build": "hg19",
                   "case": []
               }]

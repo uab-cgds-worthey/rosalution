@@ -115,7 +115,6 @@ class PhenotipsImporter:
             }
 
             for phenotips_variant in phenotips_variants:
-                print(phenotips_variant)
                 if phenotips_variant['gene'] == phenotips_gene['gene']:
                     analysis_unit['variants'].append({
                         "hgvs_variant": str(phenotips_variant["transcript"] + ":" + phenotips_variant["cdna"]),

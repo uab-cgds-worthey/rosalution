@@ -39,7 +39,7 @@ class AnalysisCollection:
             flattened_transcripts_list = [
                 transcript for transcript_items in transcripts_list for transcript in transcript_items]
 
-            variant_list = [variant['c_dot'] for genomic_unit in summary['genomic_units']
+            variant_list = [f"{variant['c_dot']} ({variant['p_dot']})"for genomic_unit in summary['genomic_units']
                             for variant in genomic_unit['variants'] if variant['c_dot']]
 
             genomic_units_summary = [{
