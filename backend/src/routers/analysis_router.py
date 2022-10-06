@@ -6,8 +6,6 @@ from typing import List, Union
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, File, UploadFile, Form
 from fastapi.responses import StreamingResponse
 
-from bson.errors import InvalidId
-
 from ..core.annotation import AnnotationService
 from ..core.phenotips_importer import PhenotipsImporter
 from ..dependencies import database, annotation_queue
@@ -106,18 +104,17 @@ def upload(name: str, upload_file: UploadFile = File(...), comments: str = Form(
 
 @router.get("/download/{file_id}")
 def download_file_by_id(file_id: str, repositories=Depends(database)):
-    gridFSFile = repositories['bucket'].get_analysis_file_by_id(file_id)
-    return StreamingResponse(gridFSFile)
+    """ Returns a file from GridFS using the file's id """
+    grid_fs_file = repositories['bucket'].get_analysis_file_by_id(file_id)
+    return StreamingResponse(grid_fs_file)
 
 @router.get("/{analysis_name}/download/{file_name}")
 def download(analysis_name: str, file_name: str, repositories=Depends(database)):
-    """ Returns a file from GridFS by file name """
+    """ Returns a file saved to an analysis from GridFS by file name """
     # Does file exist by name in the given analysis?
     file = repositories['analysis'].find_file_by_name(analysis_name, file_name)
 
     if not file:
         raise HTTPException(status_code=404, detail="File not found.")
-        
-    return StreamingResponse(repositories['bucket'].get_analysis_file_by_id(file['file_id']))
-    
 
+    return StreamingResponse(repositories['bucket'].get_analysis_file_by_id(file['file_id']))

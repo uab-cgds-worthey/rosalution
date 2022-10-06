@@ -100,6 +100,6 @@ class AnalysisCollection:
         for file in analysis['supporting_evidence_files']:
             if file['filename'] == file_name:
                 return file
-        
+
         return None
         
