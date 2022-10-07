@@ -4,6 +4,7 @@ import json
 from typing import List, Union
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, File, UploadFile, Form
+from fastapi.responses import StreamingResponse
 
 from ..core.annotation import AnnotationService
 from ..core.phenotips_importer import PhenotipsImporter
@@ -115,16 +116,19 @@ def upload(name: str, upload_file: UploadFile = File(...), comments: str = Form(
         upload_file.file, upload_file.filename)
     return repositories["analysis"].add_file(name, new_file_object_id, upload_file.filename, comments)
 
+@router.get("/download/{file_id}")
+def download_file_by_id(file_id: str, repositories=Depends(database)):
+    """ Returns a file from GridFS using the file's id """
+    grid_fs_file = repositories['bucket'].get_analysis_file_by_id(file_id)
+    return StreamingResponse(grid_fs_file)
 
-@router.get("/find_text_file/{file_name}")
-def find_text_file(file_name: str, repositories=Depends(database)):
-    """Finds a file in GridFS. ONLY if the file is a plain text file"""
-    file = repositories['bucket'].find_file_by_name(file_name)
-    return file
+@router.get("/{analysis_name}/download/{file_name}")
+def download(analysis_name: str, file_name: str, repositories=Depends(database)):
+    """ Returns a file saved to an analysis from GridFS by file name """
+    # Does file exist by name in the given analysis?
+    file = repositories['analysis'].find_file_by_name(analysis_name, file_name)
 
+    if not file:
+        raise HTTPException(status_code=404, detail="File not found.")
 
-@router.get("/list_text_files")
-def list_text_files(repositories=Depends(database)):
-    """Lists all files in GridFS. will fail if there are any non-text files"""
-    files = repositories['bucket'].list_files()
-    return files
+    return StreamingResponse(repositories['bucket'].get_analysis_file_by_id(file['file_id']))

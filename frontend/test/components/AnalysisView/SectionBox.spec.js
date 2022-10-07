@@ -79,15 +79,30 @@ describe('SectionBox.vue', () => {
   });
 
   it('changes value fields to input fields if edit is toggled', () => {
-    const wrapper = getMountedComponent();
-    wrapper.edit = true;
+    const wrapper = getMountedComponent({
+      edit: true,
+    });
     const valueInput = wrapper.find('[data-test=editable-value]');
-    expect(valueInput).toBeTruthy();
+    expect(valueInput.exists()).to.be.true;
   });
 
   it('only displays values when edit is not toggled', () => {
     const wrapper = getMountedComponent();
     const values = wrapper.find('[data-test=value-row]');
-    expect(values).toBeTruthy();
+    expect(values.exists()).to.be.true;
+  });
+
+  it('shows edit logo when edit mode is toggled', async () => {
+    const wrapper = getMountedComponent({
+      edit: true,
+    });
+    const editLogo = wrapper.find('[data-test=edit-logo]');
+    expect(editLogo.exists()).to.be.true;
+  });
+
+  it('shows collapsable logo when edit mode is not toggled', () => {
+    const wrapper = getMountedComponent();
+    const collapsableLogo = wrapper.find('[data-test=collapsable-logo]');
+    expect(collapsableLogo.exists()).to.be.true;
   });
 });

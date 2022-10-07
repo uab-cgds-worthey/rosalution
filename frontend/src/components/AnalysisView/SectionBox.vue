@@ -1,26 +1,31 @@
 <template>
   <table class="section-box-container">
     <tbody>
-      <input type="checkbox" v-bind:id="section_toggle"/>
+      <input v-if="!this.edit" type="checkbox" v-bind:id="section_toggle"/>
       <tr class="section-header">
         <td>
           <h2 class="section-name">
             {{header}}
           </h2>
         </td>
-        <label class="logo-dropdown-edit" v-bind:for="section_toggle">
+        <label v-if="this.edit" class="edit-logo"  data-test="edit-logo" id="edit-logo">
+          <font-awesome-icon icon="pencil" size="lg"/>
+        </label>
+        <label v-else class="collapsable-logo" v-bind:for="section_toggle" data-test="collapsable-logo">
           <font-awesome-icon icon="chevron-down" size="lg"/>
         </label>
       </tr>
       <div class="seperator"></div>
         <tr class="field-value-row" v-for="content in contentList" :key="content">
           <td>
-            <label class="field">
+            <label class="field"
+            v-bind:style="[content.value.length === 0 && !this.edit ? 'color: var(--rosalution-grey-300);'
+            : 'color: var(--rosalution-black);']">
               {{content.field}}
             </label>
           </td>
           <td class="values">
-            <span v-if="this.edit" role="textbox" class="editable-textarea" contenteditable
+            <span v-if="this.edit" role="textbox" class="editable-values" contenteditable
             data-test="editable-value">
               {{content.value.join('\r\n')}}
             </span>
@@ -89,7 +94,7 @@ div {
   margin: .125rem .125rem 0 .125rem;
 }
 
-.logo-dropdown-edit {
+.collapsable-logo {
   color: var(--rosalution-grey-200);
   float: right;
   right: 3%;
@@ -118,7 +123,6 @@ div {
   font-size: 1.125rem;
   font-weight: 600;
   text-align: left;
-  color: var(--rosalution-black);
 }
 
 .values {
@@ -136,7 +140,14 @@ div {
   width: 100%;
 }
 
-.editable-textarea {
+.edit-logo {
+  color: var(--rosalution-purple-100);
+  float: right;
+  right: 3%;
+  position: absolute;
+}
+
+.editable-values {
   display: block;
   width: 100%;
   overflow: hidden;
@@ -163,7 +174,7 @@ input[type="checkbox"] {
   display: none;
 }
 
-input[type="checkbox"]:checked ~ tr > .logo-dropdown-edit {
+input[type="checkbox"]:checked ~ tr > .collapsable-logo {
   transform: scaleY(-1);
 }
 

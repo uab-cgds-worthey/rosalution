@@ -8,6 +8,7 @@
                     "zygosity": "hemizygous",
                     "interpretation": "variant_u_s",
                     "transcript": "NM_001017980.3",
+                    "protein": "p.Gly55Val",
                     "cdna": "c.164G>T",
                     "reference_genome": "GRCh38"
                 }

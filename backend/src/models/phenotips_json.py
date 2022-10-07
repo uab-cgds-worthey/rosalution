@@ -16,6 +16,7 @@ class PhenotipsVariants(BaseModel):
     zygosity: Optional[str] = None
     interpretation: Optional[str] = None
     transcript: Optional[str] = None
+    protein: Optional[str] = None
     cdna: Optional[str] = None
     reference_genome: str
 
