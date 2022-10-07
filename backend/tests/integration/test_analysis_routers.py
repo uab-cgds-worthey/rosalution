@@ -164,7 +164,23 @@ def test_upload_file_already_exists_to_analysis(client, mock_access_token, mock_
     )
     assert response.status_code == 409
 
+# We will come back to this later:
+# def test_download(client, mock_access_token, mock_repositories):
+#     """ Testing the file download endpoint, does it return a file stream """
 
+#     mock_repositories['bucket'].bucket.find_one.return_value =   {
+#         "filename": '4d4331dc8a3006e068ced8f0057dde50.jpg',
+#         "chunkSize": 261120,
+#     }
+
+#     mock_repositories.['bucket'].bucket.GridOut
+
+#     response = client.get(
+#         "/download/testfile.png",
+#         headers={"Authorization": "Bearer " + mock_access_token}
+#     )
+
+#     assert response
 
 @pytest.fixture(name="analysis_updates_json")
 def fixture_analysis_updates_json():
