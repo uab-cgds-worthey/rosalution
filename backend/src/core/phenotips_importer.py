@@ -3,6 +3,7 @@ Class to support the importing of phenotips data
 """
 import warnings
 
+
 class PhenotipsImporter:
     """imports the incoming phenotips json data"""
 
@@ -33,14 +34,17 @@ class PhenotipsImporter:
             phenotips_variants.append(variant_data)
 
         for gene in phenotips_json_data["genes"]:
-            genomic_unit_data = self.import_genomic_unit_collection_data(gene, "gene")
+            genomic_unit_data = self.import_genomic_unit_collection_data(
+                gene, "gene")
             self.genomic_unit_collection.create_genomic_unit(genomic_unit_data)
 
         for variant in phenotips_variants:
-            genomic_unit_data = self.import_genomic_unit_collection_data(variant, "hgvs")
+            genomic_unit_data = self.import_genomic_unit_collection_data(
+                variant, "hgvs")
             self.genomic_unit_collection.create_genomic_unit(genomic_unit_data)
 
-        analysis_data = self.import_analysis_data(phenotips_json_data, phenotips_variants, phenotips_json_data["genes"])
+        analysis_data = self.import_analysis_data(
+            phenotips_json_data, phenotips_variants, phenotips_json_data["genes"])
         self.analysis_collection.create_analysis(analysis_data)
         return analysis_data
 
@@ -59,7 +63,8 @@ class PhenotipsImporter:
                 "annotations": [],
             }
         elif data_format == "gene":
-            genomic_data = { "gene_symbol": data['gene'], "gene": data['gene'], "annotations": []}
+            genomic_data = {
+                "gene_symbol": data['gene'], "gene": data['gene'], "annotations": []}
         else:
             warnings.warn(
                 "Invalid data format for import_genomic_unit_collection_data method")
@@ -114,14 +119,14 @@ class PhenotipsImporter:
                     analysis_unit['variants'].append({
                         "hgvs_variant": str(phenotips_variant["transcript"] + ":" + phenotips_variant["cdna"]),
                         "c_dot": phenotips_variant["cdna"],
-                        # "p_dot": phenotips_variant["protein"],
-                        "p_dot": "",
+                        "p_dot": phenotips_variant["protein"],
                         "build": str(phenotips_variant['reference_genome']),
                         "case": self.format_case_data(phenotips_variant)
                     })
 
                 if 'transcript' in phenotips_variant:
-                    new_transcript = { 'transcript': phenotips_variant['transcript'] }
+                    new_transcript = {
+                        'transcript': phenotips_variant['transcript']}
                     if new_transcript not in analysis_unit['transcripts']:
                         analysis_unit['transcripts'].append(new_transcript)
 
