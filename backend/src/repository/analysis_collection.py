@@ -75,20 +75,20 @@ class AnalysisCollection:
         updated_document.pop("_id", None)
         return updated_document
 
-    def update_analysis_section(self, name: str, section_header: str, field_name: str, updated_value: str):
+    def update_analysis_section(self, name: str, section_header: str, field_name: str, updated_value: dict):
         """Updates an existing analysis section by name, section header, and field name"""
         query_results_to_update = self.collection.find_one({"name": name})
         for section in query_results_to_update["sections"]:
             if section["header"] == section_header:
                 for content in section["content"]:
                     if content["field"] == field_name:
-                        content["value"] = [updated_value]
+                        content["value"] = updated_value["value"]
         # I am hoping to be able to somehow filter on what value we want to update.  I am not sure how to do this.
         updated_document = self.collection.find_one_and_update({"name": name},
                                                                {"$set": query_results_to_update},
                                                                return_document=ReturnDocument.AFTER)
         # remove the _id field from the returned document since it is not JSON serializable
-        # updated_document.pop("_id", None)
+        updated_document.pop("_id", None)
         return updated_document
 
     def add_file(self, name: str, file_id: str, filename: str, comments: str):
@@ -118,4 +118,3 @@ class AnalysisCollection:
                 return file
 
         return None
-        

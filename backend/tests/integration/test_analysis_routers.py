@@ -64,7 +64,7 @@ def test_create_analysis(
         response = client.post(
             "/analysis/import",
             headers={"Authorization": "Bearer " + mock_access_token,
-                    "Content-Type": "application/json"},
+                     "Content-Type": "application/json"},
             json=exported_phenotips_to_import_json,
         )
 
@@ -77,6 +77,7 @@ def test_create_analysis(
         )
 
     assert response.status_code == 200
+
 
 def test_create_analysis_with_file(client, mock_access_token, mock_repositories, mock_annotation_queue):
     """ Testing if the create analysis function works with file upload """
@@ -118,6 +119,7 @@ def test_create_analysis_with_file(client, mock_access_token, mock_repositories,
 
     assert response.status_code == 200
 
+
 def test_update_analysis(client, mock_access_token, mock_repositories, analysis_updates_json):
     """Testing if the update analysis endpoint updates an existing analysis"""
     mock_repositories["analysis"].collection.find_one_and_update.return_value = analysis_updates_json
@@ -131,6 +133,23 @@ def test_update_analysis(client, mock_access_token, mock_repositories, analysis_
     assert response.status_code == 200
     assert response.json()["name"] == "CPAM0112"
     assert response.json()["nominated_by"] == "Dr. Person One"
+
+
+def test_update_analysis_section(client, mock_access_token, mock_repositories, update_analysis_section_dict,
+                                 update_analysis_section_response_json):
+    """Testing if the update analysis endpoint updates an existing analysis"""
+    mock_repositories["analysis"].collection.find_one_and_update.return_value = update_analysis_section_response_json
+    response = client.put(
+        "/analysis/update/CPAM0047?section_header=Brief&field_name=Reason",
+        headers={"Authorization": "Bearer " + mock_access_token,
+                 "Content-Type": "application/json"},
+        # this is the new analysis data
+        json=update_analysis_section_dict,
+    )
+    assert response.status_code == 200
+    assert response.json()["name"] == "CPAM0047"
+    assert response.json()[
+        "sections"][0]["content"][1]["value"] == ["the quick brown fox jumps over the lazy dog."]
 
 
 def test_upload_file_to_analysis(client, mock_access_token, mock_file_upload, mock_repositories):
@@ -182,6 +201,7 @@ def test_upload_file_already_exists_to_analysis(client, mock_access_token, mock_
 
 #     assert response
 
+
 @pytest.fixture(name="analysis_updates_json")
 def fixture_analysis_updates_json():
     """The JSON that is being sent from a client to the endpoint with updates in it"""
@@ -192,3 +212,15 @@ def fixture_analysis_updates_json():
 def fixture_phenotips_import():
     """Returns a phenotips json fixture"""
     return read_test_fixture("phenotips-import.json")
+
+
+@pytest.fixture(name="update_analysis_section_dict")
+def fixture_update_analysis_section_json():
+    """The JSON that is being sent from a client to the endpoint with updates in it"""
+    return {"value": ["the quick brown fox jumps over the lazy dog."]}
+
+
+@pytest.fixture(name="update_analysis_section_response_json")
+def fixture_update_analysis_section_response_json():
+    """The JSON that is being sent from a client to the endpoint with updates in it"""
+    return read_test_fixture("update_analysis_section.json")

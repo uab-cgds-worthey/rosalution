@@ -73,7 +73,7 @@ def update_analysis(name: str, analysis_data_changes: dict, repositories=Depends
 
 @router.put("/update_section/{name}")
 def update_analysis_section(name: str, section_header: str, field_name: str,
-                            updated_value: str, repositories=Depends(database)):
+                            updated_value: dict, repositories=Depends(database)):
     """Updates an existing analysis section by name, section header, and field name"""
     return repositories["analysis"].update_analysis_section(name, section_header, field_name, updated_value)
 
@@ -116,11 +116,13 @@ def upload(name: str, upload_file: UploadFile = File(...), comments: str = Form(
         upload_file.file, upload_file.filename)
     return repositories["analysis"].add_file(name, new_file_object_id, upload_file.filename, comments)
 
+
 @router.get("/download/{file_id}")
 def download_file_by_id(file_id: str, repositories=Depends(database)):
     """ Returns a file from GridFS using the file's id """
     grid_fs_file = repositories['bucket'].get_analysis_file_by_id(file_id)
     return StreamingResponse(grid_fs_file)
+
 
 @router.get("/{analysis_name}/download/{file_name}")
 def download(analysis_name: str, file_name: str, repositories=Depends(database)):
