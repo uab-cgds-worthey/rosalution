@@ -26,9 +26,9 @@ describe('ModalDialog.vue', () => {
     expect(wrapper.emitted().close).to.not.be.undefined;
   });
 
-  it('Should emit "addfile" when clicking on the add button', async () => {
+  it('Should emit "save" when clicking on the add button', async () => {
     wrapper.find('[data-test=add-button]').trigger('click');
-    expect(wrapper.emitted().add).to.not.be.undefined;
+    expect(wrapper.emitted().save).to.not.be.undefined;
   });
 
   it('Should show the supplemental load link when clicking on the link tab', async () => {

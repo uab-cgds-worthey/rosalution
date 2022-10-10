@@ -47,6 +47,7 @@ class Analysis(BaseAnalysis):
 
     genomic_units: List[GenomicUnit] = []
     sections: List[Section] = []
+    supporting_evidence_files: List = []
 
     def units_to_annotate(self):
         """Returns the types of genomic units within the analysis"""

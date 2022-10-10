@@ -28,8 +28,34 @@ export default {
 
     return Requests.postForm(url, fileUploadFormData);
   },
-};
 
+  async attachSupportingEvidence(analysisName, evidence) {
+    let attachmentForm = null;
+    let url = `/rosalution/api/analysis/${analysisName}/attach`;
+
+    if (evidence.type == 'file') {
+      attachmentForm = {
+        'upload_file': evidence.data,
+        'comments': evidence.comment ? evidence : '  ', /** Required for now, inserting empty string */
+      };
+      url += '/file';
+    } else if ( evidence.type == 'link') {
+      attachmentForm = {
+        'link_name': evidence.name,
+        'link': evidence.data,
+        'comments': evidence.comment ? evidence : '  ', /** Required for now, inserting empty string */
+      };
+      url += '/link';
+    }
+
+    if (null == attachmentForm) {
+      throw new Error(`Evidence attachment ${evidence} type is invalid.`);
+    }
+
+    return await Requests.postForm(url, attachmentForm);
+  },
+
+};
 
 const annotationRenderingTemporary = [
   {

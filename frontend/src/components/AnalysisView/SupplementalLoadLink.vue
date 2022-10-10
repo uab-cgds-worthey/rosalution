@@ -1,16 +1,15 @@
 <template>
     <div>
         <div>
-            <input placeholder="Text to display" id="textBox" @change="onTextChange"
-            v-model="linkNameUploaded"
+            <input placeholder="Text to display" id="textBox" @change="onChanged" v-model="linkNameUploaded"
             data-test="link-name-input"/>
         </div>
         <div>
-            <input placeholder="Paste a link" id="linkBox" @change="onLinkChange" v-model="linkUploaded"
+            <input placeholder="Paste a link" id="linkBox" @change="onChanged" v-model="linkUploaded"
             data-test="link-input"/>
         </div>
         <div>
-            <textarea placeholder="Comments" id="commentsBox" @change="onCommentChange" v-model="comments"
+            <textarea placeholder="Comments" id="commentsBox" @change="onChanged" v-model="comments"
             data-test="comments-text-area">
             </textarea>
         </div>
@@ -19,7 +18,7 @@
 
 <script>
 export default {
-  name: 'supplemental-load-file',
+  name: 'supplemental-load-link',
   data() {
     return {
       linkNameUploaded: '',
@@ -28,38 +27,19 @@ export default {
     };
   },
   methods: {
-    onTextChange() {
-      this.$emit('linknameadded', this.linkNameUploaded);
-    },
-    onLinkChange() {
-      this.$emit('linkadded', this.linkUploaded);
-    },
-    onCommentChange() {
-      this.$emit('commentadded', this.comments);
-    },
-    remove(i) {
-      this.linkUploaded = '';
+    onChanged() {
+      const changedLink = {
+        name: this.linkNameUploaded,
+        link: this.linkUploaded,
+        comment: this.comments,
+      };
+      this.$emit('changed', changedLink);
     },
   },
 };
 </script>
 
 <style scoped>
-
-@import url("https://use.typekit.net/rgh1osc.css");
-
-div {
-    font-family: "Proxima Nova", sans-serif;
-    padding: 0%;
-}
-
-h2 {
-    float: left;
-    margin: 0%;
-    text-align: left;
-    display: block;
-}
-
 #textBox {
     display: inline-block;
     padding: 1rem;
@@ -110,16 +90,6 @@ h2 {
   font-size: 1.125rem;
 }
 
-span {
-  display: block;
-  overflow: hidden;
-  padding: 0px 4px 0px 6px;
-}
-
-input[type=file]::file-selector-button {
-  border: none;
-}
-
 input::placeholder {
   color: var(--rosalution-grey-200);
 }
@@ -127,37 +97,4 @@ input::placeholder {
 textarea::placeholder {
   color: var(--rosalution-grey-200);
 }
-
-#browseBtn {
-  display: inline-block;
-  background-color: white;
-  color: #19A3CF;
-  border-bottom: 2px solid #19A3CF;
-  font-family: sans-serif;
-  cursor: pointer;
-  margin-top: 1rem;
-}
-
-[v-cloak] {
-  display: none;
-}
-
-#fileName {
-  display: inline-block;
-  text-align: center;
-  vertical-align: middle;
-  padding: 1rem;
-  margin: 0%;
-}
-
-#removeBtn {
-  border-radius: 9999px;
-  border-color: black;
-  border-width: thin;
-  background-color: #e7e7e7;
-  display: inline-block;
-  font-weight: 500;
-  text-align: center;
-}
-
 </style>

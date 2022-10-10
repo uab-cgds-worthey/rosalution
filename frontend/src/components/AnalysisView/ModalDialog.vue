@@ -2,7 +2,7 @@
     <div class="modal-background">
       <div class="modal-container modal-dialog-container">
         <a title="Cancel" class="cancel-item" @click="$emit('close')" data-test="cancel-button">Cancel</a>
-        <a title="Add" class="addbutton-item" @click="this.addAttachment()" data-test="add-button">Add</a>
+        <a title="Add" class="addbutton-item" @click="this.saveAttachment()" data-test="add-button">Add</a>
         <div class="content-item">
           <br>
           <!-- Leaving here for tabbed in the future -->
@@ -28,14 +28,11 @@
           </div>
           <form ref="modal">
             <SupplementalLoadFile v-if="showFile"
-              v-on:fileadded="this.getFile"
-              v-on:commentadded="this.getComments"
+              v-on:changed="this.onFileChanged"
               data-test="supplemental-load-file"
             />
             <SupplementalLoadLink v-if="showLink"
-              v-on:linknameadded="this.getLinkName"
-              v-on:linkadded="this.getLink"
-              v-on:commentadded="this.getComments"
+              v-on:changed="this.onLinkChanged"
               data-test="supplemental-load-link"
             />
           </form>
@@ -57,53 +54,42 @@ export default {
   data: function() {
     return {
       name: '',
-      type: '',
+      type: 'file',
       data: null,
       comments: '',
       showFile: true,
       showLink: false,
     };
   },
-  created() {
-  },
   methods: {
     showSupplementalLoadFile() {
       this.showFile = true;
       this.showLink = false;
+      this.type = 'file';
     },
     showSupplementalLoadLink() {
       this.showLink = true;
       this.showFile = false;
+      this.type = 'link';
     },
-    addAttachment() {
+    saveAttachment() {
       const attachment = {
         name: this.name,
         type: this.type,
         data: this.data,
         comment: this.comments,
       };
-      this.$emit('add', attachment);
+      this.$emit('save', attachment);
     },
-    getFile(fileUploaded) {
-      this.data = fileUploaded[0];
-      this.name = fileUploaded[0].name;
-      this.type = 'file';
-    },
-    getLink(link) {
-      this.data = link;
-      this.type = 'link';
-    },
-    getLinkName(name) {
-      this.name = name;
-      this.type = 'link';
-    },
-    getComments(comments) {
+    onFileChanged(fileUploaded, comments) {
+      this.data = fileUploaded;
+      this.name = fileUploaded.name;
       this.comments = comments;
-      if (this.showFile) {
-        this.type = 'file';
-      } else if (this.showLink) {
-        this.type = 'link';
-      }
+    },
+    onLinkChanged(linkData) {
+      this.name = linkData.name;
+      this.data = linkData.link;
+      this.comments = linkData.comments;
     },
   },
 };

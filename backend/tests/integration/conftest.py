@@ -9,7 +9,7 @@ from src.database import Database
 from src.dependencies import database, annotation_queue
 from src.security.jwt import create_access_token
 
-from ..test_utils import mock_mongo_collection, mock_gridfs_bucket
+from ..test_utils import mock_mongo_collection, mock_gridfs_bucket, read_database_fixture
 
 
 @pytest.fixture(name="client", scope="class")
@@ -63,3 +63,10 @@ def mock_file_upload():
     path_to_file = os.path.join(
         current_directory, '../fixtures/' + 'example_file_to_upload.txt')
     return {"upload_file": ('example_file_to_upload.txt', open(path_to_file, 'rb'))}
+
+@pytest.fixture(name="cpam0002_analysis_json")
+def fixture_cpam0002_analysis_json():
+    """The JSON for the CPAM 0002 Analysis"""
+    collection = read_database_fixture("analyses.json")
+    return next(
+        (analysis for analysis in collection if analysis['name'] == "CPAM0002"), None)

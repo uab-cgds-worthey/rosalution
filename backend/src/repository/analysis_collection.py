@@ -1,6 +1,7 @@
 """
 Collection with retrieves, creates, and modify analyses.
 """
+from uuid import uuid4
 from pymongo import ReturnDocument
 
 
@@ -102,4 +103,36 @@ class AnalysisCollection:
                 return file
 
         return None
-        
+
+    def attach_supporting_evidence_file(self, analysis_name: str, file_id: str, filename: str, comments: str):
+        """Attachs supporting evidence documents and comments for an analysis"""
+        new_uuid = str(file_id)
+        new_evidence = {
+            "name": filename,
+            "attachment_id": new_uuid,
+            "type": "file",
+            "comments": comments
+        }
+        updated_document = self.collection.find_one_and_update({"name": analysis_name},
+                                                               {"$push": {"supporting_evidence_files": new_evidence}},
+                                                               return_document=ReturnDocument.AFTER)
+        # remove the _id field from the returned document since it is not JSON serializable
+        updated_document.pop("_id", None)
+        return updated_document
+
+    def attach_supporting_evidence_link(self, analysis_name: str, link_name: str, link: str, comments: str):
+        """Attachs supporting evidence URL and comments to an analysis"""
+        new_uuid = str(uuid4())
+        new_evidence = {
+            "name": link_name,
+            "data": link,
+            "attachment_id": new_uuid,
+            "type": "link",
+            "comments": comments
+        }
+        updated_document = self.collection.find_one_and_update({"name": analysis_name},
+                                                               {"$push": {"supporting_evidence_files": new_evidence}},
+                                                               return_document=ReturnDocument.AFTER)
+        # remove the _id field from the returned document since it is not JSON serializable
+        updated_document.pop("_id", None)
+        return updated_document

@@ -118,3 +118,36 @@ def download(analysis_name: str, file_name: str, repositories=Depends(database))
         raise HTTPException(status_code=404, detail="File not found.")
 
     return StreamingResponse(repositories['bucket'].get_analysis_file_by_id(file['file_id']))
+
+@router.get("/list_text_files")
+def list_text_files(repositories=Depends(database)):
+    """Lists all files in GridFS. will fail if there are any non-text files"""
+    files = repositories['bucket'].list_files()
+    return files
+
+@router.post("/{analysis_name}/attach/file")
+def attach_supporting_evidence_file(
+    analysis_name: str,
+    upload_file: UploadFile = File(...),
+    comments: str = Form(...),
+    repositories=Depends(database)
+):
+    """Uploads a file to GridFS and adds it to the analysis"""
+    if repositories['bucket'].check_if_exists(upload_file.filename):
+        raise HTTPException(status_code=409, detail="File already exists in Rosalution")
+    new_file_object_id = repositories['bucket'].save_file(
+        upload_file.file, upload_file.filename)
+    return repositories["analysis"].attach_supporting_evidence_file(
+        analysis_name, new_file_object_id, upload_file.filename, comments
+    )
+
+@router.post("/{analysis_name}/attach/link")
+def attach_supporting_evidence_link(
+    analysis_name: str,
+    link_name: str = Form(...),
+    link: str = Form(...),
+    comments: str = Form(...),
+    repositories=Depends(database)
+):
+    """Uploads a file to GridFS and adds it to the analysis"""
+    return repositories["analysis"].attach_supporting_evidence_link(analysis_name, link_name, link, comments)

@@ -1,5 +1,6 @@
 """Analysis Routes Integration test"""
 
+import json
 import os
 from unittest.mock import patch
 
@@ -167,7 +168,6 @@ def test_upload_file_already_exists_to_analysis(client, mock_access_token, mock_
 # We will come back to this later:
 # def test_download(client, mock_access_token, mock_repositories):
 #     """ Testing the file download endpoint, does it return a file stream """
-
 #     mock_repositories['bucket'].bucket.find_one.return_value =   {
 #         "filename": '4d4331dc8a3006e068ced8f0057dde50.jpg',
 #         "chunkSize": 261120,
@@ -181,6 +181,37 @@ def test_upload_file_already_exists_to_analysis(client, mock_access_token, mock_
 #     )
 
 #     assert response
+
+def test_attaching_supporting_evidence_link_to_analysis(
+    client,
+    mock_access_token,
+    mock_repositories,
+    cpam0002_analysis_json
+):
+    """Testing if the supporting evidence gets added to the analysis"""
+    def valid_query_side_effect(*args, **kwargs): # pylint: disable=unused-argument
+        find, query = args # pylint: disable=unused-variable
+        analysis = cpam0002_analysis_json
+        analysis['supporting_evidence_files'].append(query['$push']['supporting_evidence_files'])
+        analysis['_id'] = 'fake-mongo-object-id'
+        return analysis
+
+    mock_repositories["analysis"].collection.find_one_and_update.side_effect = valid_query_side_effect
+
+    response = client.post(
+        "/analysis/CPAM0002/attach/link",
+        headers={"Authorization": "Bearer " + mock_access_token},
+        data=({
+            "link_name": "Interesting Article",
+            "link": "http://sites.uab.edu/cgds/",
+            "comments": "Serious Things in here",
+        })
+    )
+
+    result = json.loads(response.text)
+    assert len(result['supporting_evidence_files']) == 1
+    assert response.status_code == 200
+
 
 @pytest.fixture(name="analysis_updates_json")
 def fixture_analysis_updates_json():
