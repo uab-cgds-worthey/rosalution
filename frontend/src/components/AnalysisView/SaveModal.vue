@@ -3,12 +3,12 @@
     <tbody>
       <tr class="save-modal-btn-row">
         <td class="cancel-btn-container">
-          <button class="cancel-btn" @click="$emit('cancelEdit')">
+          <button class="cancel-btn" @click="$emit('canceledit')" data-test="cancel-edit-button">
             Cancel
           </button>
         </td>
         <td class="save-btn-container">
-          <button class="save-btn" @click="this.saveAnalysis()">
+          <button class="save-btn" @click="this.saveAnalysis()" data-test="save-edit-button">
             Save
           </button>
         </td>
@@ -24,6 +24,8 @@ export default {
   },
   methods: {
     saveAnalysis() {
+      // Currently a placeholder
+      // This method will be modified when saving edit/analysis is implemented
       console.log('Analysis is Saved!');
     },
   },

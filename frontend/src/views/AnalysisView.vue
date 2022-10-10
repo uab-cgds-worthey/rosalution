@@ -46,7 +46,7 @@
         />
         <SaveModal
         v-if="this.edit"
-        @cancelEdit="this.edit=false"
+        @canceledit="this.edit=false"
         />
       </app-content>
   </div>
