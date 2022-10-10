@@ -45,6 +45,7 @@
           data-test="confirmation-dialog"
         />
         <SaveModal
+        class="save-modal"
         v-if="this.edit"
         @canceledit="this.edit=false"
         />
@@ -185,6 +186,11 @@ app-header {
   position: sticky;
   top:0px;
   z-index: 10;
+}
+
+.save-modal {
+  position:sticky;
+  bottom: 0;
 }
 
 </style>
