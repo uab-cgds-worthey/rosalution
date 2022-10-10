@@ -1,6 +1,6 @@
 """Tests analysis collection"""
 
-from ...test_utils import read_test_fixture
+from ...test_utils import read_test_fixture  # pylint: disable=unused-import
 
 
 def test_all(analysis_collection):
