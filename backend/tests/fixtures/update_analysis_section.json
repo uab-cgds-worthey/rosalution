@@ -1,69 +1,57 @@
 {
-  "name": "CPAM0112",
-  "description": "",
-  "nominated_by": "",
-  "latest_status": "Annotation",
-  "created_date": "2021-02-18",
-  "last_modified_date": "2021-02-22",
+  "name": "CPAM0047",
+  "description": "Congenital variant of Rett syndrome",
   "genomic_units": [
     {
-      "gene": "VMA21",
+      "gene": "SBF1",
       "transcripts": [
         {
-          "transcript": "NM_001017980.3"
+          "transcript": "NM_002972.2"
         }
       ],
       "variants": [
         {
-          "hgvs_variant": "NM_001017980.3:c.164G>T",
-          "c_dot": "c.164G>T",
-          "p_dot": "p.Gly55Val",
-          "build": "GRCh38",
-          "case": [
-            {
-              "field": "Interpretation",
-              "value": [
-                "variant_u_s"
-              ]
-            },
-            {
-              "field": "Zygosity",
-              "value": [
-                "hemizygous"
-              ]
-            },
-            {
-              "field": "Inheritance",
-              "value": [
-                "maternal"
-              ]
-            }
-          ]
+          "hgvs_variant": "NM_002972.2:c.3493_3494dupTA",
+          "c_dot": "c.3493_3494dupTA",
+          "p_dot": "Pro1166ThrfsX5",
+          "build": "hg19",
+          "case": []
+        },
+        {
+          "hgvs_variant": "NM_002972.2:c.5474_5475delTG",
+          "c_dot": "c.5474_5475delTG",
+          "p_dot": "Val1825GlyfsX27",
+          "build": "hg19",
+          "case": []
         }
       ]
     }
   ],
+  "nominated_by": "CMT4B3 Foundation",
+  "latest_status": "Declined",
+  "created_date": "2020-12-03",
+  "last_modified_date": "2021-12-12",
   "sections": [
     {
       "header": "Brief",
       "content": [
         {
           "field": "Nominated",
-          "value": []
+          "value": [
+            "CMT4B3 Foundation"
+          ]
         },
         {
           "field": "Reason",
-          "value": ["the quick brown fox jumps over the lazy dog."]
+          "value": [
+            "the quick brown fox jumps over the lazy dog."
+          ]
         },
         {
           "field": "Desired Outcomes",
           "value": []
         }
       ]
-    },
-    {
-      "header": "Pedigree",
-      "content": []
     },
     {
       "header": "Medical Summary",

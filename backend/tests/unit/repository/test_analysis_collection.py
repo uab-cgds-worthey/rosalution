@@ -1,5 +1,7 @@
 """Tests analysis collection"""
 
+from ...test_utils import read_test_fixture  # pylint: disable=unused-import
+
 
 def test_all(analysis_collection):
     """Tests the all function"""
@@ -16,6 +18,17 @@ def test_update_analysis(analysis_collection):
     assert actual["nominated_by"] == "Dr. Person One"
 
 
+# this test is disabled for now, it will be re-enabled after we add in this functionality to the main branch
+# def test_update_analysis_section(analysis_collection):
+#     """Tests the update_analysis_section function"""
+#     analysis_collection.collection.find_one.return_value = read_test_fixture(
+#         "analysis-CPAM0112.json")
+#     actual = analysis_collection.update_analysis_section(
+#         "CPAM0112", "Brief", "Reason", {"value": ["the quick brown fox jumps over the lazy dog."]})
+#     assert actual["sections"][0]["content"][1]["value"] == [
+#         "the quick brown fox jumps over the lazy dog."]
+
+
 def test_add_file(analysis_collection):
     """Tests the update_analysis function"""
     actual = analysis_collection.add_file(
@@ -24,12 +37,14 @@ def test_add_file(analysis_collection):
     assert actual["supporting_evidence_files"][0]["file_id"] == "633afb87fb250a6ea1569555"
     assert actual["supporting_evidence_files"][0]["comments"] == "This is a test comment for file test.txt"
 
+
 def test_attach_link_supporting_evidence(analysis_collection, cpam0002_analysis_json):
     """Tests adding supporting evidence link to an analysis and return an updated analysis"""
-    def valid_query_side_effect(*args, **kwargs): # pylint: disable=unused-argument
-        find, query = args # pylint: disable=unused-variable
+    def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
+        find, query = args  # pylint: disable=unused-variable
         updated_analysis = cpam0002_analysis_json
-        updated_analysis['supporting_evidence_files'].append(query['$push']['supporting_evidence_files'])
+        updated_analysis['supporting_evidence_files'].append(
+            query['$push']['supporting_evidence_files'])
         updated_analysis['_id'] = 'fake-mongo-object-id'
         return updated_analysis
 
@@ -47,12 +62,14 @@ def test_attach_link_supporting_evidence(analysis_collection, cpam0002_analysis_
     assert 'attachment_id' in new_evidence
     assert new_evidence['data'] == 'http://sites.uab.edu/cgds/'
 
+
 def test_attach_file_supporting_evidence(analysis_collection, cpam0002_analysis_json):
     """Tests adding supporting evidence link to an analysis and return an updated analysis"""
-    def valid_query_side_effect(*args, **kwargs): # pylint: disable=unused-argument
-        find, query = args # pylint: disable=unused-variable
+    def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
+        find, query = args  # pylint: disable=unused-variable
         updated_analysis = cpam0002_analysis_json
-        updated_analysis['supporting_evidence_files'].append(query['$push']['supporting_evidence_files'])
+        updated_analysis['supporting_evidence_files'].append(
+            query['$push']['supporting_evidence_files'])
         updated_analysis['_id'] = 'fake-mongo-object-id'
         return updated_analysis
 

@@ -29,6 +29,7 @@ def fixture_analysis_collection(analysis_collection_json, updated_analysis_colle
     """Returns the analysis collection to be mocked"""
     mock_collection = mock_mongo_collection()
     mock_collection.find = Mock(return_value=analysis_collection_json)
+    mock_collection.find_one = Mock(return_value=analysis_collection_json)
     mock_collection.find_one_and_update = Mock(
         return_value=updated_analysis_collection_json)
     return AnalysisCollection(mock_collection)

@@ -9,6 +9,7 @@ from pymongo import ReturnDocument
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 from bson import ObjectId
 
+
 class AnalysisCollection:
     """Repository to access analyses for projects"""
 
@@ -80,13 +81,30 @@ class AnalysisCollection:
         updated_document.pop("_id", None)
         return updated_document
 
+    def update_analysis_section(self, name: str, section_header: str, field_name: str, updated_value: dict):
+        """Updates an existing analysis section by name, section header, and field name"""
+        query_results_to_update = self.collection.find_one({"name": name})
+        for section in query_results_to_update["sections"]:
+            if section["header"] == section_header:
+                for content in section["content"]:
+                    if content["field"] == field_name:
+                        content["value"] = updated_value["value"]
+        # I am hoping to be able to somehow filter on what value we want to update.  I am not sure how to do this.
+        updated_document = self.collection.find_one_and_update({"name": name},
+                                                               {"$set": query_results_to_update},
+                                                               return_document=ReturnDocument.AFTER)
+        # remove the _id field from the returned document since it is not JSON serializable
+        updated_document.pop("_id", None)
+        return updated_document
+
     def add_file(self, name: str, file_id: str, filename: str, comments: str):
         """Adds a file to an analysis"""
         updated_document = self.collection.find_one_and_update({"name": name},
                                                                {"$push": {
-                                                                "supporting_evidence_files": {"filename": filename,
-                                                                                              "file_id": str(file_id),
-                                                                                              "comments": comments}}},
+                                                                   "supporting_evidence_files": {
+                                                                       "filename": filename,
+                                                                       "file_id": str(file_id),
+                                                                       "comments": comments}}},
                                                                return_document=ReturnDocument.AFTER)
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
@@ -118,7 +136,8 @@ class AnalysisCollection:
             "comments": comments
         }
         updated_document = self.collection.find_one_and_update({"name": analysis_name},
-                                                               {"$push": {"supporting_evidence_files": new_evidence}},
+                                                               {"$push": {
+                                                                   "supporting_evidence_files": new_evidence}},
                                                                return_document=ReturnDocument.AFTER)
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
@@ -135,13 +154,13 @@ class AnalysisCollection:
             "comments": comments
         }
         updated_document = self.collection.find_one_and_update({"name": analysis_name},
-                                                               {"$push": {"supporting_evidence_files": new_evidence}},
+                                                               {"$push": {
+                                                                   "supporting_evidence_files": new_evidence}},
                                                                return_document=ReturnDocument.AFTER)
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
 
         return updated_document
-
 
     def add_pedigree_file(self, analysis_name: str, file_id: str):
         """ Adds a pedigree file to an analysis """
@@ -159,6 +178,7 @@ class AnalysisCollection:
                 else:
                     section['content'][0]['value'] = [str(file_id)]
 
-        self.collection.update_one({'_id': ObjectId(str(document_id))}, {'$set': updated_document})
+        self.collection.update_one({'_id': ObjectId(str(document_id))}, {
+                                   '$set': updated_document})
 
         return updated_document
