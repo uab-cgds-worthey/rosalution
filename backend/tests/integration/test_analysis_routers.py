@@ -2,10 +2,12 @@
 
 import json
 import os
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 
 import pytest
 from fastapi import BackgroundTasks
+
+from bson import ObjectId
 
 from src.core.annotation import AnnotationService
 
@@ -212,6 +214,51 @@ def test_attaching_supporting_evidence_link_to_analysis(
     assert len(result['supporting_evidence_files']) == 1
     assert response.status_code == 200
 
+
+def test_attach_pedigree_image(client, mock_access_token, mock_repositories):
+    """ Testing if the create analysis function works with file upload """
+    mock_repositories['analysis'].collection.update_one = Mock()
+    mock_repositories['bucket'].bucket.put.return_value = "633afb87fb250a6ea1569555"
+    mock_repositories["analysis"].collection.find_one.return_value = {
+        "_id": ObjectId(str('63430e4f076646300d18bd8d')),
+        "sections": [
+            { "header": 'Pedigree', "content": [] },
+        ]
+    }
+
+    # This is used here because the 'read_fixture' returns a json dict rather than raw binary
+    # We actually want to send a binary file through the endpoint to simulate a file being sent
+    # then json.loads is used on the other end in the repository.
+    # This'll get updated and broken out in the test_utils in the future
+    path_to_current_file = os.path.realpath(__file__)
+    current_directory = os.path.split(path_to_current_file)[0]
+    path_to_file = os.path.join(
+        current_directory, '../fixtures/' + 'pedigree-fake.jpg')
+
+    with open(path_to_file, "rb") as phenotips_file:
+        pedigree_image = phenotips_file.read()
+        pedigree_bytes = bytearray(pedigree_image)
+        response = client.post(
+            "/analysis/CPAM0112/attach/pedigree",
+            headers={"Authorization": "Bearer " + mock_access_token},
+            files={"upload_file": (
+                "pedigree-fake.jpg", pedigree_bytes)}
+        )
+
+        phenotips_file.close()
+
+    mock_repositories['analysis'].collection.update_one.assert_called_with(
+        {'_id': ObjectId('63430e4f076646300d18bd8d')},
+        {'$set': {'sections':
+            [{'header': 'Pedigree', 'content': [
+                {
+                    'field': 'image', 'value': ["633afb87fb250a6ea1569555"]
+                }]
+            }]
+        }}
+    )
+
+    assert response.status_code == 200
 
 @pytest.fixture(name="analysis_updates_json")
 def fixture_analysis_updates_json():

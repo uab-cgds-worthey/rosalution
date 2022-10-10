@@ -8,7 +8,10 @@
             {{header}}
           </h2>
         </td>
-        <label v-if="this.edit" class="edit-logo"  data-test="edit-logo" id="edit-logo">
+        <button v-if="attachSection" class="attach-logo" @click="toggleAttachModal" data-test="attach-logo">
+          <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
+        </button>
+        <label v-else-if="this.edit" class="edit-logo"  data-test="edit-logo" id="edit-logo">
           <font-awesome-icon icon="pencil" size="lg"/>
         </label>
         <label v-else class="collapsable-logo" v-bind:for="section_toggle" data-test="collapsable-logo">
@@ -17,14 +20,14 @@
       </tr>
       <div class="seperator"></div>
         <tr class="field-value-row" v-for="content in contentList" :key="content">
-          <td>
+          <td v-if="!displaySectionImage">
             <label class="field"
             v-bind:style="[content.value.length === 0 && !this.edit ? 'color: var(--rosalution-grey-300);'
             : 'color: var(--rosalution-black);']">
               {{content.field}}
             </label>
           </td>
-          <td class="values">
+          <td class="values" v-if="!displaySectionImage">
             <span v-if="this.edit" role="textbox" class="editable-values" contenteditable
             data-test="editable-value">
               {{content.value.join('\r\n')}}
@@ -34,14 +37,24 @@
             </tr>
           </td>
         </tr>
+        <img class="section-image" :src="sectionImage"/>
     </tbody>
+    <SectionImportModal
+      v-if="showModal"
+      @add="this.addSectionFile"
+      @close="this.toggleAttachModal"
+    />
   </table>
 </template>
 
 <script>
+import SectionImportModal from '@/components/AnalysisView/SectionImportModal.vue';
+import Analyses from '@/models/analyses.js';
+
 export default {
   name: 'section-box',
   components: {
+    SectionImportModal,
   },
   props: {
     analysis_name: {
@@ -50,7 +63,7 @@ export default {
     header: {
       type: String,
     },
-    contentList: {
+    content: {
       type: Array,
     },
     edit: {
@@ -59,14 +72,51 @@ export default {
   },
   data() {
     return {
+      contentList: this.content,
       section_toggle: this.header.toLowerCase() + '_collapse',
+      showModal: false,
     };
+  },
+  computed: {
+    attachSection() {
+      if (this.header == 'Pedigree' && this.contentList.length == 0) {
+        return true;
+      }
+
+      return false;
+    },
+    displaySectionImage() {
+      if (this.header == 'Pedigree' && this.contentList.length > 0) {
+        return true;
+      }
+      return false;
+    },
+    sectionImage() {
+      if (this.header == 'Pedigree' && this.contentList.length > 0) {
+        return '/rosalution/api/analysis/download/' + this.contentList[0].value[0];
+      }
+
+      return '';
+    },
+  },
+  methods: {
+    toggleAttachModal() {
+      this.showModal = !this.showModal;
+    },
+    async addSectionFile(attachment) {
+      const updatedAnalysis = await Analyses.attachSectionBoxImage(this.analysis_name, attachment[0]);
+      for (const section in updatedAnalysis['sections']) {
+        if (updatedAnalysis['sections'][section]['header'] == 'Pedigree') {
+          this.contentList = updatedAnalysis['sections'][section]['content'];
+        }
+      }
+      this.toggleAttachModal();
+    },
   },
 };
 </script>
 
 <style scoped>
-
 div {
   font-family: "Proxima Nova", sans-serif;
   padding: var(--p-0);
@@ -98,6 +148,16 @@ div {
   color: var(--rosalution-grey-200);
   float: right;
   right: 3%;
+  position: absolute;
+  cursor: pointer;
+}
+
+.logo-attach-edit {
+  color: var(--rosalution-purple-300);
+  background: none;
+  border: none;
+  float: right;
+  right: 2.5%;
   position: absolute;
   cursor: pointer;
 }
@@ -160,6 +220,17 @@ div {
   font-size: inherit;
 }
 
+.attach-logo {
+  color: var(--rosalution-purple-300);
+  background: none;
+  border: none;
+  float: right;
+  right: 2.5%;
+  position: absolute;
+  cursor: pointer;
+}
+
+
 span:focus {
   color: var(--rosalution-purple-300);
   outline: none;
@@ -174,8 +245,13 @@ input[type="checkbox"] {
   display: none;
 }
 
+.section-box-container input[type="checkbox"]:checked ~ img {
+  display: none;
+}
+
 input[type="checkbox"]:checked ~ tr > .collapsable-logo {
   transform: scaleY(-1);
 }
+
 
 </style>
