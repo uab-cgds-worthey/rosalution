@@ -44,6 +44,11 @@
         <Dialog
           data-test="confirmation-dialog"
         />
+        <SaveModal
+        class="save-modal"
+        v-if="this.edit"
+        @canceledit="this.edit=false"
+        />
       </app-content>
   </div>
 </template>
@@ -57,6 +62,7 @@ import ModalDialog from '@/components/AnalysisView/ModalDialog.vue';
 import Dialog from '../components/Dialog.vue';
 import SupplementalFormList from '../components/AnalysisView/SupplementalFormList.vue';
 import Auth from '../models/authentication.js';
+import SaveModal from '../components/AnalysisView/SaveModal.vue';
 
 import dialog from '@/dialog.js';
 
@@ -69,6 +75,7 @@ export default {
     Dialog,
     ModalDialog,
     SupplementalFormList,
+    SaveModal,
   },
   props: ['analysis_name'],
   data: function() {
@@ -179,6 +186,11 @@ app-header {
   position: sticky;
   top:0px;
   z-index: 10;
+}
+
+.save-modal {
+  position:sticky;
+  bottom: 0;
 }
 
 </style>
