@@ -23,8 +23,9 @@
           v-for="section in sectionsList"
           :id="section.header.replace(' ', '_')"
           :key="section.id"
+          :analysis_name="this.analysis_name"
           :header="section.header"
-          :contentList="section.content"
+          :content="section.content"
           :edit = "this.edit"
         />
         <SupplementalFormList
@@ -36,7 +37,7 @@
         />
         <ModalDialog
           v-if="showAttachmentModal"
-          @add="this.onAddAttachment"
+          @save="this.onAddAttachment"
           @close="this.toggleAttachmentModal()"
           data-test="modal-dialog"
         />
@@ -109,6 +110,7 @@ export default {
       this.analysis = {...await Analyses.getAnalysis(this.analysis_name)};
       this.getSections();
       this.getGenomicUnits();
+      this.getAttachments();
     },
     getSections() {
       this.sectionsList=this.analysis.sections;
@@ -116,11 +118,21 @@ export default {
     getGenomicUnits() {
       this.genomicUnitsList=this.analysis.genomic_units;
     },
+    getAttachments() {
+      this.attachments = this.analysis.supporting_evidence_files;
+    },
     toggleAttachmentModal() {
       this.showAttachmentModal = !this.showAttachmentModal;
     },
-    onAddAttachment(attachment) {
-      this.attachments.push(attachment);
+    async onAddAttachment(attachment) {
+      try {
+        const updatedAnalysis = await Analyses.attachSupportingEvidence(this.analysis_name, attachment);
+        this.attachments.splice(0);
+        this.attachments.push(...updatedAnalysis.supporting_evidence_files);
+      } catch (error) {
+        console.error('Updating the anlayis did not work');
+      }
+
       this.toggleAttachmentModal();
     },
     async onDeleteAttachmentEvent(attachmentToDelete) {

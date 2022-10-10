@@ -8,7 +8,7 @@
         </td>
         <td>
           <button class="add-attachment-button" @click="$emit('openModal')" data-test="add-button">
-              <font-awesome-icon icon="circle-plus" size="xl"/>
+            <font-awesome-icon icon="circle-plus" size="xl"/>
           </button>
         </td>
         <label class="collapse-box" for="supporting_toggle">
@@ -16,23 +16,23 @@
         </label>
       </tr>
       <div class="seperator"></div>
-      <div class="attachment-list" v-for="attachment in attachments" v-bind:key="attachment.id">
+      <div class="attachment-list" v-for="attachment in attachments" v-bind:key="attachment.attachment_id">
         <tr class="attachment-row">
           <td class="attachment-logo">
             <font-awesome-icon :icon="['far', 'file']" size="lg" v-if="attachment.type==='file'"/>
             <font-awesome-icon icon="link" size="lg" v-else-if="attachment.type==='link'"/>
           </td>
           <td class="attachment-name">
-              {{ attachment.name }}
+            {{ attachment.name }}
           </td>
           <td class="edit-button">
             <button @click="$emit('edit', attachment)" data-test="edit-button">
-                <font-awesome-icon icon="pencil" size="xl"/>
+              <font-awesome-icon icon="pencil" size="xl"/>
             </button>
           </td>
           <td class="delete-button">
             <button @click="$emit('delete', attachment)" data-test="delete-button">
-                <font-awesome-icon icon="xmark" size="xl"/>
+              <font-awesome-icon icon="xmark" size="xl"/>
             </button>
           </td>
         </tr>
@@ -52,11 +52,9 @@ export default {
         return [];
       },
     },
-
   },
 };
 </script>
-
 
 <style scoped>
   @import url("https://use.typekit.net/rgh1osc.css");

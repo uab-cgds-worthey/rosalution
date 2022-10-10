@@ -62,13 +62,16 @@ def fixture_genomic_unit_collection(genomic_unit_collection_json):
 
     return GenomicUnitCollection(mock_collection)
 
+@pytest.fixture(name="cpam0002_analysis_json")
+def fixture_cpam0002_analysis_json(analysis_collection_json):
+    """JSON for the CPAM0002 Analysis"""
+    return next(
+        (analysis for analysis in analysis_collection_json if analysis['name'] == "CPAM0002"), None)
 
 @pytest.fixture(name="cpam0002_analysis")
-def fixture_analysis(analysis_collection_json):
+def fixture_analysis(cpam0002_analysis_json):
     """Fixture for the CPAM0002 Analysis"""
-    analysis_json = next(
-        (analysis for analysis in analysis_collection_json if analysis['name'] == "CPAM0002"), None)
-    return Analysis(**analysis_json)
+    return Analysis(**cpam0002_analysis_json)
 
 
 @pytest.fixture(name="cpam0046_analysis")

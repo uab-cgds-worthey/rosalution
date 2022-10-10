@@ -68,6 +68,6 @@ export default {
       throw new Error('Status Code: ' +response.status +' '+response.statusText);
     }
 
-    return await response.text();
+    return await response.json();
   },
 };

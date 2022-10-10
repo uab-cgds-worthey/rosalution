@@ -104,6 +104,10 @@
               ]
           },
           {
+            "header": "Pedigree",
+            "content": []
+          },
+          {
               "header": "Case Information",
               "content": [
                   {
@@ -142,7 +146,8 @@
                   }
               ]
           }
-      ]
+      ],
+      "supporting_evidence_files": []
   },
   {
       "name": "CPAM0046",
@@ -226,6 +231,10 @@
                       ]
                   }
               ]
+          },
+          {
+            "header": "Pedigree",
+            "content": []
           },
           {
               "header": "Case Information",
@@ -458,6 +467,10 @@
               ]
           },
           {
+            "header": "Pedigree",
+            "content": []
+          },
+          {
               "header": "Case Information",
               "content": [
                   {
@@ -549,6 +562,10 @@
                       "value": [ ]
                   }
               ]
+          },
+          {
+            "header": "Pedigree",
+            "content": []
           },
           {
               "header": "Case Information",
