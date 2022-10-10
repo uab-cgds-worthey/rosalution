@@ -46,6 +46,7 @@ function getMountedComponent(props) {
 
 describe('AnalysisView', () => {
   let mockedData;
+  let mockedAttachmentSavedReturned;
   let mockedUser;
   let mockedLogout;
   let wrapper;
@@ -55,6 +56,17 @@ describe('AnalysisView', () => {
     sandbox = sinon.createSandbox();
     mockedData = sandbox.stub(Analyses, 'getAnalysis');
     mockedData.returns(fixtureData());
+
+    mockedAttachmentSavedReturned = sandbox.stub(Analyses, 'attachSupportingEvidence');
+
+    const analysiWithNewEvidence = fixtureData();
+    analysiWithNewEvidence.supporting_evidence_files.push({
+      type: 'link',
+      name: 'new-link',
+      data: 'http:linky link',
+      comments: 'it is here',
+    });
+    mockedAttachmentSavedReturned.returns(analysiWithNewEvidence);
 
     mockedUser = sandbox.stub(Auth, 'getUser');
     mockedUser.returns('');
@@ -94,6 +106,42 @@ describe('AnalysisView', () => {
     expect(attachmentDialog.exists()).to.be.true;
   });
 
+  it('prompts a confirmation when an attachment is to be deleted', async () => {
+    const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+    expect(supplementalComponent.props('attachments').length).to.equal(1);
+
+    const fakeAttachment = {name: 'fake.txt'};
+    supplementalComponent.vm.$emit('delete', fakeAttachment);
+
+    const confirmationDialog = wrapper.findComponent(Dialog);
+    expect(confirmationDialog.exists()).to.be.true;
+  });
+
+  it('can cancel deleting the attachment via the confirmation and not delete the attachment', async () => {
+    const fakeAttachment = {name: 'fake.txt'};
+    const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+    expect(supplementalComponent.props('attachments').length).to.equal(1);
+
+    supplementalComponent.vm.$emit('delete', fakeAttachment);
+    dialog.cancel();
+
+    expect(supplementalComponent.props('attachments').length).to.equal(1);
+  });
+
+  it('confirmation removes the attachment to the analysis', async () => {
+    const fakeAttachment = {name: 'fake.txt'};
+    const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+
+    expect(supplementalComponent.props('attachments').length).to.equal(1);
+
+    supplementalComponent.vm.$emit('delete', fakeAttachment);
+
+    dialog.confirmation();
+    await wrapper.vm.$nextTick();
+
+    expect(supplementalComponent.props('attachments').length).to.equal(0);
+  });
+
   it('attachment dialog adds a new attachment to the analysis', async () => {
     const supplementalComponent = wrapper.getComponent(SupplementalFormList);
     expect(supplementalComponent.props('attachments').length).to.equal(0);
@@ -102,83 +150,10 @@ describe('AnalysisView', () => {
     await wrapper.vm.$nextTick();
 
     const attachmentDialog = wrapper.findComponent(ModalDialog);
-    attachmentDialog.vm.$emit('add', {file: 'fake'});
+    attachmentDialog.vm.$emit('save', {file: 'fake'});
     await wrapper.vm.$nextTick();
 
-    expect(supplementalComponent.props('attachments').length).to.equal(1);
-  });
-
-  it('prompts a confirmation when an attachment is to be deleted', async () => {
-    const fakeAttachment = {file: 'fake'};
-    const supplementalComponent = wrapper.getComponent(SupplementalFormList);
-    expect(supplementalComponent.props('attachments').length).to.equal(0);
-
-    // Manually adding to the modal needs to be done at this time due to not
-    // querying existing attachments for the analaysis being viewed yet yet
-    supplementalComponent.vm.$emit('open-modal');
-    await wrapper.vm.$nextTick();
-
-    const attachmentDialog = wrapper.findComponent(ModalDialog);
-    attachmentDialog.vm.$emit('add', fakeAttachment);
-    await wrapper.vm.$nextTick();
-
-    expect(supplementalComponent.props('attachments').length).to.equal(1);
-
-    supplementalComponent.vm.$emit('delete', fakeAttachment);
-    await wrapper.vm.$nextTick();
-
-    const confirmationDialog = wrapper.findComponent(Dialog);
-    expect( confirmationDialog.exists()).to.be.true;
-  });
-
-  it('can cancel deleting the attachment via the confirmation and not delete the attachment', async () => {
-    const fakeAttachment = {file: 'fake'};
-    const supplementalComponent = wrapper.getComponent(SupplementalFormList);
-    expect(supplementalComponent.props('attachments').length).to.equal(0);
-
-    // Manually adding to the modal needs to be done at this time due to not
-    // querying existing attachments for the analaysis being viewed yet yet
-    supplementalComponent.vm.$emit('open-modal');
-    await wrapper.vm.$nextTick();
-
-    const attachmentDialog = wrapper.findComponent(ModalDialog);
-    attachmentDialog.vm.$emit('add', fakeAttachment);
-    await wrapper.vm.$nextTick();
-
-    expect(supplementalComponent.props('attachments').length).to.equal(1);
-
-    supplementalComponent.vm.$emit('delete', fakeAttachment);
-    await wrapper.vm.$nextTick();
-
-    dialog.cancel();
-    await wrapper.vm.$nextTick();
-
-    expect(supplementalComponent.props('attachments').length).to.equal(1);
-  });
-
-  it('confirmation removes the attachment to the analysis', async () => {
-    const fakeAttachment = {file: 'fake'};
-    const supplementalComponent = wrapper.getComponent(SupplementalFormList);
-    expect(supplementalComponent.props('attachments').length).to.equal(0);
-
-    // Manually adding to the modal needs to be done at this time due to not
-    // querying existing attachments for the analaysis being viewed yet yet
-    supplementalComponent.vm.$emit('open-modal');
-    await wrapper.vm.$nextTick();
-
-    const attachmentDialog = wrapper.findComponent(ModalDialog);
-    attachmentDialog.vm.$emit('add', fakeAttachment);
-    await wrapper.vm.$nextTick();
-
-    expect(supplementalComponent.props('attachments').length).to.equal(1);
-
-    supplementalComponent.vm.$emit('delete', fakeAttachment);
-    await wrapper.vm.$nextTick();
-
-    dialog.confirmation();
-    await wrapper.vm.$nextTick();
-
-    expect(supplementalComponent.props('attachments').length).to.equal(0);
+    expect(supplementalComponent.props('attachments').length).to.equal(2);
   });
 
   it('should logout when the analysis listing header emits the logout event', async () => {
@@ -284,5 +259,20 @@ function fixtureData() {
         value: ['WES - February  2020;'],
       }],
     }],
+    supporting_evidence_files: [{
+      'name': 'fake.txt',
+      'attachment_id': 'fake-attachment-id',
+      'type': 'file',
+      'comments': '  ',
+    }],
   };
 }
+
+// /**
+//  * Returns fixture data of an analyses and with a newly attached supporting evidence.
+//  * @param {Object} additionalEvidence
+//  * @return {Object} analysis with supporting evidence
+//  */
+// function fixtureDataWithAdditionalEvidence(additionalEvidence) {
+//   return fixtureData().supporting_evidence_files.push(additionalEvidence);
+// }

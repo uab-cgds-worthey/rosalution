@@ -8,7 +8,7 @@
               analysis_name: this.name,
               gene: this.gene,
             }
-        }">
+        }" data-test="gene-route">
           <td class="link-logo">
             <font-awesome-icon icon="angles-right"/>
           </td>
@@ -33,7 +33,7 @@
                 gene: this.gene,
                 variant: variant.hgvs_variant,
               }
-            }">
+            }"  data-test="variant-route">
               <td class="link-logo">
                 <font-awesome-icon icon="angles-right"/>
               </td>

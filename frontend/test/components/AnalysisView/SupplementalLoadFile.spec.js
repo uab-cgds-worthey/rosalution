@@ -21,18 +21,18 @@ describe('SupplementalLoadFile.vue', () => {
     expect(typeof wrapper).toBe('object');
   });
 
-  it('should emit "fileadded" when file is inputted', async () => {
+  it('should emit "changed" when file is input', async () => {
     const actualFile = 'fakeFile.ext';
-    wrapper.vm.$refs.file.files = actualFile;
+    wrapper.vm.$refs.file.files = [actualFile];
 
     const input = wrapper.find('[data-test=attach-file-button]');
     await input.trigger('change');
 
-    expect(wrapper.emitted().fileadded).to.not.be.undefined;
-    expect(wrapper.emitted().fileadded[0]).deep.to.equal([actualFile]);
+    expect(wrapper.emitted().changed).to.not.be.undefined;
+    expect(wrapper.emitted().changed[0][0]).to.equal(actualFile);
   });
 
-  it('should emit "commentadded" when comment is inputted', async () => {
+  it('should emit "changed" when comment is input', async () => {
     const actualComments = 'it-is-a-comment';
 
     const input = wrapper.find('[data-test=comments-text-area]');
@@ -40,8 +40,8 @@ describe('SupplementalLoadFile.vue', () => {
 
     await input.trigger('change');
 
-    expect(wrapper.emitted().commentadded).to.not.be.undefined;
-    expect(wrapper.emitted().commentadded[0]).deep.to.equal([actualComments]);
+    expect(wrapper.emitted().changed).to.not.be.undefined;
+    expect(wrapper.emitted().changed[0][1]).to.equal(actualComments);
   });
 
   it('should display the file dropped in the component', async () => {

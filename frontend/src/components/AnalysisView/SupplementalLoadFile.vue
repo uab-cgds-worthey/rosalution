@@ -1,18 +1,18 @@
 <template>
   <div class="supplemental-load-file-container">
     <div class="drop-file-box" @dragover="dragover"  @drop="drop">
-      <div v-if="!fileUploaded || !fileUploaded.length">
+      <div v-if="!fileUploaded">
         Drag & drop or
-        <input type="file" id="attachFileBtn" @change="onFileChange" ref="file" accept=".pdf, .jpg, .jpeg, .png"
+        <input type="file" id="attachFileBtn" @change="onChanged" ref="file" accept=".pdf, .jpg, .jpeg, .png"
         data-test="attach-file-button" hidden/>
         <label for="attachFileBtn" id="browseBtn">
           browse
         </label>
       </div>
       <div>
-        <tbody v-if="this.fileUploaded.length" v-cloak>
-          <tr v-for="file in fileUploaded" v-bind:key="file.name" id="fileName">
-            {{ file.name }}
+        <tbody v-if="this.fileUploaded" v-cloak>
+          <tr id="fileName">
+            {{ fileUploaded.name }}
             <button type="button" @click="remove(fileUploaded)" title="Remove file" id="removeBtn">
               remove
             </button>
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div>
-      <textarea placeholder="Comments" id="commentsBox" @change="onCommentChange" v-model="comments"
+      <textarea placeholder="Comments" id="commentsBox" @change="onChanged" v-model="comments"
       data-test="comments-text-area">
       </textarea>
     </div>
@@ -33,20 +33,17 @@ export default {
   name: 'supplemental-load-file',
   data() {
     return {
-      fileUploaded: '',
+      fileUploaded: null,
       comments: '',
     };
   },
   methods: {
-    onFileChange() {
-      this.fileUploaded = this.$refs.file.files;
-      this.$emit('fileadded', this.fileUploaded);
-    },
-    onCommentChange() {
-      this.$emit('commentadded', this.comments);
+    onChanged() {
+      this.fileUploaded = this.$refs.file.files[0];
+      this.$emit('changed', this.fileUploaded, this.comments);
     },
     remove(i) {
-      this.fileUploaded = '';
+      this.fileUploaded = null;
     },
     dragover(event) {
       event.preventDefault();
@@ -58,7 +55,7 @@ export default {
       event.preventDefault();
       if (!this.fileUploaded) {
         this.$refs.file.files = event.dataTransfer.files;
-        this.onFileChange();
+        this.onChanged();
       }
     },
   },
@@ -66,14 +63,6 @@ export default {
 </script>
 
 <style scoped>
-
-@import url("https://use.typekit.net/rgh1osc.css");
-
-div {
-    font-family: "Proxima Nova", sans-serif;
-    padding: 0%;
-}
-
 .supplemental-load-file-container {
   width: fit-content;
   height: fit-content;

@@ -118,25 +118,22 @@ describe('GeneBox.vue', () => {
     expect(console.log).toHaveBeenCalled();
   });
 
-  // These two tests need to mock a router in order to be tested
-  it.skip('should show annotations view when Gene is clicked', async () => {
+  it('should route to annotations for a gene', async () => {
     const wrapper = getMountedComponent();
-    const gene = wrapper.find('[data-test=gene-name]');
+    const gene = wrapper.findComponent('[data-test=gene-route]');
 
-    await gene.trigger('click');
-    const annotations = wrapper.find('[data-test=annotations]');
-    console.log(annotations);
-
-    expect(annotations.exists()).toBe(true);
+    expect(gene.props('to').name).to.equal('annotation');
+    expect(gene.props('to').params.analysis_name).to.equal('CPAM0046');
+    expect(gene.props('to').params.gene).to.equal('LMNA');
   });
 
-  it.skip('should show annotations view when c-dot notation is clicked', async () => {
+  it('should route to annotations for a variant in the anlaysis', async () => {
     const wrapper = getMountedComponent();
-    const cDot = wrapper.find('[data-test=c-dot]');
+    const variant = wrapper.findComponent('[data-test=variant-route]');
 
-    await cDot.trigger('click');
-    const annotations = wrapper.find('[data-test=annotations]');
-
-    expect(annotations.exists()).toBe(true);
+    expect(variant.props('to').name).to.equal('annotation');
+    expect(variant.props('to').params.analysis_name).to.equal('CPAM0046');
+    expect(variant.props('to').params.gene).to.equal('LMNA');
+    expect(variant.props('to').params.variant).to.equal('NM_170707.3:c.745C>T');
   });
 });

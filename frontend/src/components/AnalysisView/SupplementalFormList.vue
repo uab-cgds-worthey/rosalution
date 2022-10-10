@@ -16,7 +16,7 @@
         </label>
       </tr>
       <div class="seperator"></div>
-      <div class="attachment-list" v-for="attachment in attachments" v-bind:key="attachment.id">
+      <div class="attachment-list" v-for="attachment in attachments" v-bind:key="attachment.attachment_id">
         <tr class="attachment-row">
           <td class="attachment-logo">
             <font-awesome-icon :icon="['far', 'file']" size="lg" v-if="attachment.type==='file'"/>
