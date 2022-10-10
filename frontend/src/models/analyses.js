@@ -29,6 +29,21 @@ export default {
     return Requests.postForm(url, fileUploadFormData);
   },
 
+  async attachSectionBoxImage(analysisName, image) {
+    let attachmentForm = null;
+    const url = `/rosalution/api/analysis/${analysisName}/attach/pedigree`;
+
+    attachmentForm = {
+      'upload_file': image,
+    };
+
+    if (null == attachmentForm) {
+      throw new Error(`Evidence attachment ${image} type is invalid.`);
+    }
+
+    return await Requests.postForm(url, attachmentForm);
+  },
+
   async attachSupportingEvidence(analysisName, evidence) {
     let attachmentForm = null;
     let url = `/rosalution/api/analysis/${analysisName}/attach`;
@@ -54,7 +69,6 @@ export default {
 
     return await Requests.postForm(url, attachmentForm);
   },
-
 };
 
 const annotationRenderingTemporary = [

@@ -2,8 +2,12 @@
 Collection with retrieves, creates, and modify analyses.
 """
 from uuid import uuid4
+
 from pymongo import ReturnDocument
 
+# pylint: disable=too-few-public-methods
+# Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
+from bson import ObjectId
 
 class AnalysisCollection:
     """Repository to access analyses for projects"""
@@ -135,4 +139,26 @@ class AnalysisCollection:
                                                                return_document=ReturnDocument.AFTER)
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
+
+        return updated_document
+
+
+    def add_pedigree_file(self, analysis_name: str, file_id: str):
+        """ Adds a pedigree file to an analysis """
+        updated_document = self.collection.find_one({"name": analysis_name})
+        document_id = updated_document['_id']
+        updated_document.pop("_id", None)
+
+        for section in updated_document['sections']:
+            if section["header"] == "Pedigree":
+                if len(section["content"]) == 0:
+                    section["content"].append({
+                        "field": "image",
+                        "value": [str(file_id)]
+                    })
+                else:
+                    section['content'][0]['value'] = [str(file_id)]
+
+        self.collection.update_one({'_id': ObjectId(str(document_id))}, {'$set': updated_document})
+
         return updated_document

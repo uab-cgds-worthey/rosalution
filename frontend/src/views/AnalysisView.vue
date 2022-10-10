@@ -23,8 +23,9 @@
           v-for="section in sectionsList"
           :id="section.header.replace(' ', '_')"
           :key="section.id"
+          :analysis_name="this.analysis_name"
           :header="section.header"
-          :contentList="section.content"
+          :content="section.content"
           :edit = "this.edit"
         />
         <SupplementalFormList

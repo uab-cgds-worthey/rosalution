@@ -119,11 +119,12 @@ def download(analysis_name: str, file_name: str, repositories=Depends(database))
 
     return StreamingResponse(repositories['bucket'].get_analysis_file_by_id(file['file_id']))
 
-@router.get("/list_text_files")
-def list_text_files(repositories=Depends(database)):
-    """Lists all files in GridFS. will fail if there are any non-text files"""
-    files = repositories['bucket'].list_files()
-    return files
+@router.post("/{analysis_name}/attach/pedigree")
+def upload_pedigree(analysis_name: str, upload_file: UploadFile = File(...), repositories=Depends(database)):
+    """ Specifically accepts a file to save a pedigree image file to mongo """
+    new_file_object_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename)
+
+    return repositories["analysis"].add_pedigree_file(analysis_name, new_file_object_id)
 
 @router.post("/{analysis_name}/attach/file")
 def attach_supporting_evidence_file(

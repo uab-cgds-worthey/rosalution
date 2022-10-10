@@ -104,6 +104,10 @@
               ]
           },
           {
+            "header": "Pedigree",
+            "content": []
+          },
+          {
               "header": "Case Information",
               "content": [
                   {
@@ -227,6 +231,10 @@
                       ]
                   }
               ]
+          },
+          {
+            "header": "Pedigree",
+            "content": []
           },
           {
               "header": "Case Information",
@@ -459,6 +467,10 @@
               ]
           },
           {
+            "header": "Pedigree",
+            "content": []
+          },
+          {
               "header": "Case Information",
               "content": [
                   {
@@ -550,6 +562,10 @@
                       "value": [ ]
                   }
               ]
+          },
+          {
+            "header": "Pedigree",
+            "content": []
           },
           {
               "header": "Case Information",
