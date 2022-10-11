@@ -18,6 +18,10 @@ class UserCollection:
     def find_by_username(self, username: str):
         """Returns user by searching for user's name"""
         user = self.collection.find_one({ "username": username })
+        
+        if user is None:
+            return None
+        
         user.pop("_id", None)
         return user
 

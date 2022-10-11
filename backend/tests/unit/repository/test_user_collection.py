@@ -3,13 +3,13 @@ import pytest
 
 from src.repository.user_collection import UserCollection
 
-from ...test_utils import mock_mongo_collection, read_database_fixture
+from ...test_utils import mock_mongo_collection, read_test_fixture
 
 
 def test_find_all_users(user_collection):
     """Get all the users from the user collection"""
     all_users = user_collection.all()
-    assert len(all_users) == 14
+    assert len(all_users) == 1
 
 
 def test_find_specific_user_successful(user_collection):
@@ -72,4 +72,4 @@ def fixture_user_john_doe(users_json):
 @pytest.fixture(name="users_json")
 def fixture_users_json():
     """Returns the JSON for the users collection used to seed the MongoDB database"""
-    return read_database_fixture("users.json")
+    return read_test_fixture("users-test-fixture.json")
