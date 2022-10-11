@@ -58,20 +58,23 @@ h2 {
   color: var(--rosalution-black);
 }
 
-a:link { 
-  text-decoration: none; }
+a:link {
+  text-decoration: none;
+}
 
+a:visited {
+  text-decoration: none;
+}
 
-a:visited { text-decoration: none; }
-
-
-a:hover { text-decoration: none; }
-
+a:hover {
+  text-decoration: none;
+}
 
 a:active { 
   text-decoration: none;
   color: var(--rosalution-purple-200)
 }
+
 /* 
 a {
   color: var(--rosalution-purple-300);
@@ -88,8 +91,6 @@ a:active {
 input {
   font-size: 1.125rem; /* 18px */
 }
-
-
 
 /** || Primary Grid Site Layout **/
 
@@ -153,4 +154,3 @@ app-footer {
   line-height: 2rem;
   font-weight: 700;
 }
-
