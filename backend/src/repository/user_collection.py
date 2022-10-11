@@ -17,7 +17,9 @@ class UserCollection:
 
     def find_by_username(self, username: str):
         """Returns user by searching for user's name"""
-        return self.collection.find_one({ "username": username })
+        user = self.collection.find_one({ "username": username })
+        user.pop("_id", None)
+        return user
 
     def authenticate_user(self, username: str, password: str):
         """Takes a username string and a password string, finds the user, verfies the password and returns a user"""
