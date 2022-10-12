@@ -62,7 +62,7 @@ export default {
       /* The divider line between local and UAB login */
       const loginDivider = document.createElement('hr');
       loginDivider.setAttribute('style',
-        `margin-top: 1.25rem;
+          `margin-top: 1.25rem;
         width: 23.75rem;
         height: 0.063rem;
         background-color: var(--rosalution-grey-200);
