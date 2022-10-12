@@ -1,28 +1,24 @@
-<template class="dataset-container">
+<template>
   <div class="dataset-container">
-    <span v-if="label && !linkout" class="dataset-label" data-test="text-label">{{ label }}</span>
+    <div v-for="transcript in value" :key="transcript.transcript_id" class="transcript-container">
+      {{ transcript }}
+    </div>
+    <!-- <span v-if="label && !linkout" class="dataset-label" data-test="text-label">{{ label }}</span>
     <a v-else-if="label && linkout" :href="linkout" class="dataset-label" data-test="text-label"
        target="_blank" ref="noreferrer noopener">
       {{ label }}
       <font-awesome-icon icon="up-right-from-square" size="2xs"/>
     </a>
-    <span v-if="!isDataUnavailable" data-test="text-value" >{{ value }}</span>
+    <span v-if="!isDataUnavailable" data-test="text-value" >{{ value }}</span> -->
   </div>
 </template>
 
 <script>
 export default {
-  name: 'text-dataset',
+  name: 'transcript-datasets',
   props: {
-    label: {
-      type: String,
-    },
-    linkout: {
-      type: String,
-      required: false,
-    },
     value: {
-      type: [String, Array],
+      type: [Array],
     },
   },
   computed: {
@@ -42,9 +38,11 @@ export default {
 <style scoped>
 
 .dataset-container {
-  display: flex;
   padding: var(--p-1);
-  line-height: 24px; /**temproary until I see how things look */
+}
+
+.transcript-container {
+  display: flex;
 }
 
 .dataset-label {

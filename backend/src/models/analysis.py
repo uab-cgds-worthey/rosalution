@@ -4,6 +4,7 @@ of identifiers, case notes, and the genomic units being analyzed.
 """
 # pylint: disable=too-few-public-methods
 from datetime import date
+import re
 from typing import List, Optional
 from pydantic import BaseModel
 
@@ -64,12 +65,14 @@ class Analysis(BaseAnalysis):
                 )
             for variant in unit.variants:
                 if "hgvs_variant" in variant and variant["hgvs_variant"]:
+                    transcript = variant["hgvs_variant"].split(':')[0]
+                    transcript_without_version = re.sub(r'\..*', '', transcript )
                     units.append(
                         {
                             "unit": variant["hgvs_variant"],
                             "type": GenomicUnitType.HGVS_VARIANT,
                             "genomic_build": variant["build"],
-                            "transcript": variant["hgvs_variant"].split(':')[0]
+                            "transcript": transcript_without_version
                         }
                     )
 

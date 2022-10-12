@@ -48,14 +48,16 @@ def test_annotation_extraction_for_transcript_dataset(http_annotation_transcript
     assert {
         'data_set': 'transcript_id',
         'data_source': 'Ensembl',
-        'version': '', 'value': '',
+        'version': '',
+        'value': 'NM_001017980.4',
         'transcript_id': 'NM_001017980.4'
     } in actual_extractions
 
     assert {
         'data_set': 'transcript_id',
         'data_source': 'Ensembl',
-        'version': '', 'value': '',
+        'version': '',
+        'value': 'NM_001363810.1',
         'transcript_id': 'NM_001363810.1'
     } in actual_extractions
 

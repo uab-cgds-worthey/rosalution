@@ -10,7 +10,7 @@
             {
               "data_source": "Ensembl",
               "version": "",
-              "value": ""
+              "value": "NM_001017980.4"
             }
           ]
         },
@@ -72,7 +72,7 @@
             {
               "data_source": "Ensembl",
               "version": "",
-              "value": ""
+              "value": "NM_001363810.1"
             }
           ]
         },
@@ -127,5 +127,18 @@
       ]
     }
   ],
-  "annotations": []
+  "annotations": [
+    {
+      "ClinVar_Variantion_Id": [ { "data_source": "Rosalution", "version": "", "value": "581244" } ]
+    },
+    {
+      "ClinVar_variant_url": [
+        {
+          "data_source": "Rosalution",
+          "version": "",
+          "value": "https://www.ncbi.nlm.nih.gov/clinvar/variation/581244"
+        }
+      ]
+    }
+  ]
 }

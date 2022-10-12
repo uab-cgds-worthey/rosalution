@@ -1,5 +1,9 @@
 <template>
-  <Header :username="this.username" :titleText="this.titleText">
+  <Header
+    :username="this.username"
+    :titleText="this.analysisName"
+    :titleToRoute="{ name: 'analysis', params: { analysis_name: this.analysisName } }"
+  >
     <div>
       <h2>
         {{ genes[0] }}
@@ -26,7 +30,7 @@ export default {
       default: undefined,
       required: false,
     },
-    titleText: {
+    analysisName: {
       type: String,
       required: true,
     },

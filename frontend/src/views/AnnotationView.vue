@@ -1,13 +1,13 @@
 <template>
   <app-header>
-    <AnnotationViewHeader :titleText="this.analysis_name" :genes="[this.gene]" :variants="[this.variant]">
+    <AnnotationViewHeader :analysisName="this.analysis_name" :genes="[this.gene]" :variants="[this.variant]">
     </AnnotationViewHeader>
   </app-header>
   <app-content>
     <div class="sections">
       <AnnotationSection
         v-for="(section, index) in this.rendering" :key="`${section.type}-${section.anchor}-${index}`"
-        :header="sectionHeader(section.header)" :linkout="linkoutUrl(section)" v-bind="section.props"
+        :header="sectionHeader(section.header)" v-bind="section.props"
         :id="`${section.anchor}`"
       >
         <template #headerDatasets>
@@ -21,7 +21,7 @@
             />
         </template>
         <template #default>
-          <div v-for="(row, index) in section.rows" :key="`${index}`">
+          <div v-for="(row, index) in section.rows" :key="`row-${index}`">
             <component
                 v-for="(datasetConfig, index) in row.datasets"
                 :key="`${datasetConfig.dataset}-${index}`"
@@ -48,8 +48,11 @@ import AnnotationSection from '@/components/AnnotationView/AnnotationSection.vue
 import AnnotationSidebar from '@/components/AnnotationView/AnnotationSidebar.vue';
 import AnnotationViewHeader from '@/components/AnnotationView/AnnotationViewHeader.vue';
 
+import ClinvarDataset from '@/components/AnnotationView/ClinvarDataset.vue';
 import IconLinkoutDataset from '@/components/AnnotationView/IconLinkoutDataset.vue';
+import ScoreDataset from '@/components/AnnotationView/ScoreDataset.vue';
 import TextDataset from '@/components/AnnotationView/TextDataset.vue';
+import TranscriptDatasets from '@/components/AnnotationView/TranscriptDatasets.vue';
 
 export default {
   name: 'annotation-view',
@@ -57,8 +60,11 @@ export default {
     AnnotationSection,
     AnnotationSidebar,
     AnnotationViewHeader,
+    ClinvarDataset,
     IconLinkoutDataset,
+    ScoreDataset,
     TextDataset,
+    TranscriptDatasets,
   },
   props: {
     analysis_name: {

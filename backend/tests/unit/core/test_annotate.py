@@ -11,7 +11,7 @@ def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_col
     annotation_service = AnnotationService(annotation_collection)
     mock_queue = Mock()
     annotation_service.queue_annotation_tasks(cpam0046_analysis, mock_queue)
-    assert mock_queue.put.call_count == 24
+    assert mock_queue.put.call_count == 28
 
 # Patching the temporary helper method that is writing to a file, this will be
 # removed once that helper method is no longer needed for the development
@@ -32,20 +32,32 @@ def test_processing_cpam0046_annotation_tasks(
     cpam0046_annotation_queue
 ):  # pylint: disable=unused-argument
     """Verifies that each item on the annotation queue is read and executed"""
+    flag = {'dependency_flag_passed': False}
+    def dependency_mock_side_effect(*args, **kwargs): # pylint: disable=unused-argument
+        query, value = args  # pylint: disable=unused-variable
+        if value != 'HGNC_ID':
+            return 'kfldjsfds'
+
+        if flag['dependency_flag_passed']:
+            return 'klfjdsfdsfa'
+
+        flag['dependency_flag_passed'] = True
+        return None
+
     mock_genomic_unit_collection = Mock()
     mock_genomic_unit_collection.find_genomic_unit_annotation_value = Mock()
-    mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = [None, '123456', '123456', '123456']
+    mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = dependency_mock_side_effect
     mock_genomic_unit_collection.annotation_exist.return_value = False
 
     assert not cpam0046_annotation_queue.empty()
     AnnotationService.process_tasks(cpam0046_annotation_queue, mock_genomic_unit_collection)
     assert cpam0046_annotation_queue.empty()
 
-    assert http_task_annotate.call_count == 13
-    assert none_task_annotate.call_count == 8
-    assert forge_task_annotate.call_count == 3
+    assert http_task_annotate.call_count == 22
+    assert none_task_annotate.call_count == 0
+    assert forge_task_annotate.call_count == 6
 
-    assert annotate_extract_mock.call_count == 24
+    assert annotate_extract_mock.call_count == 28
 
 @patch("src.core.annotation.log_to_file")
 @patch("src.core.annotation_task.AnnotationTaskInterface.extract",return_value=[{
@@ -75,11 +87,11 @@ def test_processing_cpam0002_annotations_tasks(
 
     AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
 
-    assert http_task_annotate.call_count == 18
-    assert forge_task_annotate.call_count == 6
-    assert none_task_annotate.call_count == 15
+    assert http_task_annotate.call_count == 36
+    assert forge_task_annotate.call_count == 11
+    assert none_task_annotate.call_count == 0
 
-    assert annotate_extract_mock.call_count == 39
+    assert annotate_extract_mock.call_count == 47
 
     mock_genomic_unit_collection.annotate_genomic_unit.assert_called()
 

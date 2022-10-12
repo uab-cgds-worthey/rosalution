@@ -4,7 +4,10 @@
       <img src="@/assets/rosalution-logo.svg" class="rosalution-logo">
     </router-link>
     <div data-test="primary-content" class="content">
-      <a class="title left-content" href="#top" data-test="header-title-text">{{ titleText }}</a>
+      <router-link v-if="doTitleToRoute" :to="titleToRoute" class="title left-content">
+        {{ titleText }}
+      </router-link>
+      <a v-else class="title left-content" href="#top" data-test="header-title-text">{{ titleText }}</a>
       <slot></slot>
       <ul class="actions-menu">
         <drop-down-menu :actions="this.userAuthActions" data-test="auth-menu">
@@ -45,6 +48,12 @@ export default {
       type: String,
       default: 'rosalution',
     },
+    titleToRoute: {
+      type: Object,
+      default: () => {
+        return undefined;
+      },
+    },
     username: String,
     actions: {
       type: Array,
@@ -56,6 +65,9 @@ export default {
   computed: {
     actionsExist: function() {
       return this.actions.length !== 0;
+    },
+    doTitleToRoute: function() {
+      return typeof(this.titleToRoute) !== 'undefined';
     },
   },
 };
