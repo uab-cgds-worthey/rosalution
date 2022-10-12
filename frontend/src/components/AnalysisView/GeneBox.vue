@@ -7,6 +7,7 @@
             params: {
               analysis_name: this.name,
               gene: this.gene,
+              variant: variants.length > 0 ? variants[0].hgvs_variant : undefined,
             }
         }" data-test="gene-route">
           <td class="link-logo">

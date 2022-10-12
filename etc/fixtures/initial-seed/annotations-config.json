@@ -25,18 +25,38 @@
   },
   {
    "data_set": "Gene Summary",
-   "data_source": "RefSeq",
+   "data_source": "Alliance Genome",
    "genomic_unit_type": "gene",
-   "annotation_source_type": "none"
+   "annotation_source_type": "http",
+   "url": "https://www.alliancegenome.org/api/gene/{HGNC_ID}",
+   "attribute": "{ \"Gene Summary\": .geneSynopsis}",
+   "dependencies": ["HGNC_ID"]
   },
   {
     "data_set": "ClinGen_gene_url",
     "data_source": "Rosalution",
     "genomic_unit_type": "gene",
     "annotation_source_type": "forge",
-    "base_string": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term={HGNC_ID}",
+    "base_string": "https://search.clinicalgenome.org/kb/genes/{HGNC_ID}",
     "attribute": "{ \"ClinGen_gene_url\": .ClinGen_gene_url }",
     "dependencies": ["HGNC_ID"]
+  },
+  {
+    "data_set": "ClinVar_variant_url",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "forge",
+    "base_string": "https://www.ncbi.nlm.nih.gov/clinvar/variation/{ClinVar_Variantion_Id}",
+    "attribute": "{ \"ClinVar_variant_url\": .ClinVar_variant_url }",
+    "dependencies": ["ClinVar_Variantion_Id"]
+  },
+  {
+    "data_set": "ClinVar_Variantion_Id",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "http",
+    "attribute": ".[] | select(.colocated_variants != null) | .colocated_variants[] | select(.var_synonyms != null) | .var_synonyms | select( .ClinVar != null ) | select(.ClinVar != []) | .ClinVar[] | select(contains(\"VCV\")) | sub(\"VCV0+\"; \"\") | {\"ClinVar_Variantion_Id\": . } ",
+    "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;clinvar=1;"
   },
   {
     "data_set": "NCBI_gene_url",
@@ -52,7 +72,7 @@
     "data_source": "Rosalution",
     "genomic_unit_type": "gene",
     "annotation_source_type": "forge",
-    "base_string": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term={Ensembl Gene Id}",
+    "base_string": "https://gnomad.broadinstitute.org/gene/{Ensembl Gene Id}?dataset=gnomad_r2_1",
     "attribute": "{ \"gnomAD_gene_url\": .gnomAD_gene_url }",
     "dependencies": ["Ensembl Gene Id"]
   },
@@ -66,6 +86,14 @@
     "dependencies": ["Entrez Gene Id"]
   },
   {
+    "data_set": "OMIM_gene_search_url",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "forge",
+    "base_string": "https://www.omim.org/search?index=entry&start=1&sort=score+desc%2C+prefix_sort+desc&search={gene}",
+    "attribute": "{ \"OMIM_gene_search_url\": .OMIM_gene_search_url }"
+  },
+  {
     "data_set": "HPO",
     "data_source": "HPO",
     "genomic_unit_type": "gene",
@@ -75,40 +103,80 @@
     "dependencies": ["Entrez Gene Id"]
   },
   {
-    "data_set": "Protein Expression Overview",
-    "data_source": "Aliance Genome",
+    "data_set": "HPO_gene_search_url",
+    "data_source": "Rosalution",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "none"
+    "annotation_source_type": "forge",
+    "base_string": "https://hpo.jax.org/app/browse/search?q={gene}&navFilter=all",
+    "attribute": "{ \"HPO_gene_search_url\": .HPO_gene_search_url }"
   },
   {
     "data_set": "Model Systems - Rat",
     "data_source": "Aliance Genome",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "none"
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}",
+    "attribute": "{ \"Model Systems - Rat\": .geneSynopsis}",
+    "dependencies": ["Rat Gene Identifier"]
   },
   {
-    "data_set": "Model Systems - Mouse",
+    "data_set": "Rat Gene Identifier",
+    "data_source": "Alliance Genome",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
+    "attribute": ".results[] | select( .primaryKey | contains(\"RGD\")) | { \"Rat Gene Identifier\": .primaryKey }"
+  },
+  {
+    "data_set": "Mouse Gene Identifier",
+    "data_source": "Alliance Genome",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
+    "attribute": ".results[] | select( .primaryKey | contains(\"MGI\")) | select( .name | contains(\"-\") | not ) |{ \"Mouse Gene Identifier\": .primaryKey }"
+  },
+  {
+    "data_set": "Model Systems - Mouse - Automated",
     "data_source": "Aliance Genome",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "none"
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/gene/{Mouse Gene Identifier}",
+    "attribute": "{ \"Model Systems - Mouse\": .automatedGeneSynopsis}",
+    "dependencies": ["Mouse Gene Identifier"]
   },
   {
-    "data_set": "Modelability",
-    "data_source": "Aliance Genome",
+    "data_set": "Zebrafish Gene Identifier",
+    "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "none"
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
+    "attribute": ".results[] | select( .primaryKey | contains(\"ZFIN\")) | select( .name | contains(\"-\") | not ) |{ \"Zebrafish Gene Identifier\": .primaryKey }"
   },
   {
-    "data_set": "Human Gene Expression Profile",
-    "data_source": "gTex",
+    "data_set": "Model Systems - Zebrafish - Automated",
+    "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "none"
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/gene/{Zebrafish Gene Identifier}",
+    "attribute": "{ \"Model Systems - Zebrafish\": .automatedGeneSynopsis}",
+    "dependencies": ["Zebrafish Gene Identifier"]
   },
   {
-    "data_set": "Druggability",
-    "data_source": "Pharos",
+    "data_set": "C-Elegens Gene Identifier",
+    "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "none"
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
+    "attribute": ".results[] | select( .primaryKey | contains(\"WB\")) | select( .name | contains(\"-\") | not ) |{ \"C-Elegens Gene Identifier\": .primaryKey }"
+  },
+  {
+    "data_set": "Model Systems - C-Elegens - Automated",
+    "data_source": "Alliance Genome",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/gene/{C-Elegens Gene Identifier}",
+    "attribute": "{ \"Model Systems - C-Elegens\": .automatedGeneSynopsis}",
+    "dependencies": ["C-Elegens Gene Identifier"]
   },
   {
     "data_set": "transcript_id",
@@ -156,21 +224,6 @@
      "attribute": ".[].transcript_consequences[] | { sift_score: .sift_score, transcript_id: .transcript_id }"
    },
    {
-     "data_set": "cDNA Change",
-     "data_source": "Ensembl",
-     "genomic_unit_type": "hgvs_variant",
-     "transcript": true,
-     "annotation_source_type": "http",
-     "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;refseq=1;",
-     "attributes": "transcript_consequences[].{cds_start}{used_ref}>{variant_allele}"
-   },
-   {
-     "data_set": "AA Change",
-     "data_source": "Ensembl",
-     "genomic_unit_type": "hgvs_variant",
-     "annotation_source_type": "none"
-   },
-   {
      "data_set": "Consequences",
      "data_source": "Ensembl",
      "genomic_unit_type": "hgvs_variant",
@@ -180,36 +233,12 @@
      "attribute": ".[].transcript_consequences[] | { consequence_terms: .consequence_terms, transcript_id: .transcript_id }"
    },
    {
-    "data_set": "ClinVar",
-    "data_source": "ClinVar",
-    "genomic_unit_type": "variant",
-    "annotation_source_type": "none"
-  },
-  {
-    "data_set": "GERP",
-    "data_source": "GERP",
-    "genomic_unit_type": "variant",
-    "annotation_source_type": "none"
-  },
-  {
-    "data_set": "Phylop100",
-    "data_source": "Phylop100",
-    "genomic_unit_type": "variant",
-    "annotation_source_type": "none"
-  },
-  {
-    "data_set": "Mappability",
-    "data_source": "???",
-    "genomic_unit_type": "variant",
-    "annotation_source_type": "none"
-  },
-  {
-    "data_set": "RS ID",
+    "data_set": "CADD",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
     "annotation_source_type": "http",
-    "url": "http://grch37.rest.ensembl.org/variant_recoder/human/{hgvs_variant}?content-type=application/json;",
-
-    "attribute-tmp": "{alt_allele}.id - Want to keep this here, but this data source isn't supported yet"
+    "url": "https://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;CADD=1;refseq=1;",
+    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { CADD: .cadd_phred }",
+    "dependencies": ["transcript"]
   }
 ]

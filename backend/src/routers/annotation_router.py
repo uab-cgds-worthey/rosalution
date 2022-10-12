@@ -36,11 +36,6 @@ def annotate_analysis(
 
     return {"name": f"{name} annotations queued."}
 
-@router.get("/annotate-beat")
-def heartbeat():
-    """Returns a heart-beat that orchestration services can use to determine if the application is running"""
-    return "thump-thump"
-
 @router.get("/gene/{gene}")
 def get_annotations_by_gene(gene, repositories=Depends(database)):
     """Returns annotations data by calling method to find annotations by gene"""
@@ -55,7 +50,13 @@ def get_annotations_by_gene(gene, repositories=Depends(database)):
     if queried_genomic_unit is None:
         raise HTTPException(status_code=404, detail="Item not found")
 
-    return queried_genomic_unit['annotations']
+    annotations = {}
+    for annotation in queried_genomic_unit['annotations']:
+        for dataset in annotation:
+            if len(annotation[dataset]) > 0:
+                annotations[dataset] = annotation[dataset][0]['value']
+
+    return annotations
 
 @router.get("/hgvsVariant/{variant}")
 def get_annotations_by_hgvs_variant(variant: str, repositories=Depends(database)):
@@ -72,4 +73,19 @@ def get_annotations_by_hgvs_variant(variant: str, repositories=Depends(database)
     if queried_genomic_unit is None:
         raise HTTPException(status_code=404, detail="Item not found")
 
-    return queried_genomic_unit['annotations'] + queried_genomic_unit['transcripts']
+    annotations = {}
+    for annotation in queried_genomic_unit['annotations']:
+        for dataset in annotation:
+            if len(annotation[dataset]) > 0:
+                annotations[dataset] = annotation[dataset][0]['value']
+
+    transcript_annotation_list = []
+    for transcript_annotation in queried_genomic_unit['transcripts']:
+        queried_transcript_annotation = {}
+        for annotation in transcript_annotation['annotations']:
+            for dataset in annotation:
+                if len(annotation[dataset]) > 0:
+                    queried_transcript_annotation[dataset] = annotation[dataset][0]['value']
+        transcript_annotation_list.append(queried_transcript_annotation)
+
+    return { **annotations, "transcripts": transcript_annotation_list}

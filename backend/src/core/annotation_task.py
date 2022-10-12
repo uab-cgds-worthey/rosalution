@@ -73,7 +73,9 @@ class AnnotationTaskInterface:
                     transcript_annotation_unit = annotation_unit.copy()
                     for key in result_keys:
                         if key == 'transcript_id':
-                            transcript_annotation_unit['transcript_id'] = jq_result['transcript_id']
+                            transcript_identifier = jq_result['transcript_id']
+                            transcript_annotation_unit['transcript_id'] = transcript_identifier
+                            transcript_annotation_unit['value']  = transcript_identifier
                         else:
                             transcript_annotation_unit['value'] = jq_result[key]
                     annotations.append(transcript_annotation_unit)

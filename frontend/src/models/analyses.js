@@ -37,10 +37,6 @@ export default {
       'upload_file': image,
     };
 
-    if (null == attachmentForm) {
-      throw new Error(`Evidence attachment ${image} type is invalid.`);
-    }
-
     return await Requests.postForm(url, attachmentForm);
   },
 
@@ -148,20 +144,20 @@ const annotationRenderingTemporary = [
       {
         'class': '',
         'datasets': [
-          // {
-          //   'dataset': 'CADD',
-          //   'type': 'score-dataset',
-          //   'props': {
-          //     'label': 'CADD Indel Raw',
-          //     'minimum': -10,
-          //     'maximum': 99,
-          //     'bounds': {
-          //       'lowerBounds': 0.9,
-          //       'upperBounds': 1.33,
-          //     },
-          //     'cutoff': 15,
-          //   },
-          // },
+          {
+            'dataset': 'CADD',
+            'type': 'score-dataset',
+            'props': {
+              'label': 'CADD',
+              'minimum': -10,
+              'maximum': 99,
+              'bounds': {
+                'lowerBounds': 0.9,
+                'upperBounds': 1.33,
+              },
+              'cutoff': 15,
+            },
+          },
           // {
           //   'dataset': 'Phylop100',
           //   'type': 'score-dataset',
@@ -194,6 +190,26 @@ const annotationRenderingTemporary = [
           // },
         ],
       },
+      {
+        'datasets': [
+          {
+            'dataset': 'ClinVar',
+            'type': 'clinvar-dataset',
+            'linkout_dataset': 'ClinVar_variant_url',
+            'props': {
+              'label': 'ClinVar',
+            },
+          },
+        ],
+      },
+      {
+        'datasets': [
+          {
+            'dataset': 'transcripts',
+            'type': 'transcript-datasets',
+          },
+        ],
+      },
     ],
   },
   {
@@ -223,7 +239,52 @@ const annotationRenderingTemporary = [
     'header': 'Model Systems',
     'anchor': 'Model_Systems',
     'header_datasets': [],
-    'rows': [],
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Model Systems - Rat',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'Rat',
+          },
+        },
+      ],
+    },
+    {
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Model Systems - Mouse - Automated',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'Mouse - Automated',
+          },
+        },
+      ],
+    }, {
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Model Systems - Zebrafish - Automated',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'Zebrafish - Automated',
+          },
+        },
+      ],
+    }, {
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Model Systems - C-Elegens - Automated',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'C-Elegens - Automated',
+          },
+        },
+      ],
+    }],
   }, {
     'type': 'section',
     'class': '',

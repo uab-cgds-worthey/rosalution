@@ -49,4 +49,16 @@ describe('TextDataset.vue', () => {
 
     expect(textWrapper.exists()).to.not.be.true;
   });
+
+  it('renders as unavailable if data not provided', () => {
+    const localThis = {isDataUnavailable: true};
+
+    expect(TextDataset.computed.dataAvailabilityColour.call(localThis)).to.equal('var(--rosalution-grey-300)');
+  });
+
+  it('renders as a linkout if its provided', () => {
+    const localThis = {isDataUnavailable: false, linkout: 'http://sites.uab.edu/cgds'};
+
+    expect(TextDataset.computed.dataAvailabilityColour.call(localThis)).to.equal('var(--rosalution-purple-300)');
+  });
 });

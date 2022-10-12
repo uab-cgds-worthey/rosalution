@@ -90,9 +90,18 @@ class AnnotationService:
                             ready = False
 
                 if not ready:
-                    log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} + \
-                        - Delaying Annotation, Missing Dependency...\n")
-                    annotation_queue.put((genomic_unit, dataset_json))
+                    delay_count = dataset_json['delay_count'] + 1 if 'delay_count' in dataset_json else 0
+                    dataset_json['delay_count'] = delay_count
+
+                    if dataset_json['delay_count'] < 10:
+                        log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} \
+                            - Delaying Annotation, Missing Dependency...\n")
+                        annotation_queue.put((genomic_unit, dataset_json))
+                    else:
+                        missing_dependencies = [
+                          dependency for dependency in dataset_json['dependencies'] if dependency not in genomic_unit]
+                        log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} \
+                            - Canceling Annotation, Missing {missing_dependencies} ...\n")
                     continue
 
                 task = AnnotationTaskFactory.create(genomic_unit, dataset_json)
@@ -105,13 +114,13 @@ class AnnotationService:
 
                 for future in concurrent.futures.as_completed(annotation_task_futures):
                     genomic_unit, annotation_task = annotation_task_futures[future]
-                    log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} - futureQuery completed...\n")
+                    log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} - Query completed...\n")
                     try:
                         result_temp = future.result()
 
                         for annotation in annotation_task.extract(result_temp):
                             log_to_file(
-                                f"{genomic_unit['unit']} for {annotation_task.dataset['data_set']} - + \
+                                f"{genomic_unit['unit']} for {annotation_task.dataset['data_set']} - \
                                 Saving {annotation['value']}...\n")
                             genomic_unit_collection.annotate_genomic_unit(annotation_task.genomic_unit, annotation)
 
@@ -122,5 +131,4 @@ class AnnotationService:
                     log_to_file("\n")
                     del annotation_task_futures[future]
 
-            log_to_file(
-                "after for loop for waiting for all of the futures to finish\n\n")
+            log_to_file("after for loop for waiting for all of the futures to finish\n\n")

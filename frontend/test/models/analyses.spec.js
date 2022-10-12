@@ -38,6 +38,55 @@ describe('analyses.js', () => {
     await Analyses.importPhenotipsAnalysis(incomingCreateAnalysisFormFixture);
     expect(mockPostFormResponse.called).to.be.true;
   });
+
+  it('attaches supporting evidence of a file', async () => {
+    mockPostFormResponse.returns({sucess: 'yay'});
+    await Analyses.attachSupportingEvidence('CPAM0002', {
+      data: 'jfkldjafkdjafda',
+      comment: 'Serious Things',
+      type: 'file',
+    });
+    expect(mockPostFormResponse.called).to.be.true;
+  });
+
+  it('attaches supporting evidence of a file substitutes empty comments in', async () => {
+    mockPostFormResponse.returns({sucess: 'yay'});
+    await Analyses.attachSupportingEvidence('CPAM0002', {
+      data: 'jfkldjafkdjafda',
+      type: 'file',
+    });
+    expect(mockPostFormResponse.called).to.be.true;
+  });
+
+  it('attaches supporting evidence of a link', async () => {
+    mockPostFormResponse.returns({sucess: 'yay'});
+    await Analyses.attachSupportingEvidence('CPAM0002', {
+      name: 'Best Website Ever',
+      type: 'link',
+      data: 'http://sites.uab.edu/cgds',
+      comment: 'Serious Things',
+    });
+    expect(mockPostFormResponse.called).to.be.true;
+  });
+
+  it('attaches supporting evidence of a link substitutes empty comments in', async () => {
+    mockPostFormResponse.returns({sucess: 'yay'});
+    await Analyses.attachSupportingEvidence('CPAM0002', {
+      name: 'Best Website Ever',
+      type: 'link',
+      data: 'http://sites.uab.edu/cgds',
+    });
+    expect(mockPostFormResponse.called).to.be.true;
+  });
+
+
+  it('attaches a section box image for analysis', async () => {
+    mockPostFormResponse.returns({sucess: 'yay'});
+    await Analyses.attachSectionBoxImage('CPAM0002', {
+      'picture': 'this is three pictures in a trenchcoat',
+    });
+    expect(mockPostFormResponse.called).to.be.true;
+  });
 });
 
 const allSummaries = [
