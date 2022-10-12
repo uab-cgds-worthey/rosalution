@@ -63,7 +63,7 @@ async def login(
     if not user:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
 
-    request.session["username"] = user
+    request.session["username"] = user['username']
     request.session["attributes"] = attributes
     request.session["pgtiou"] = pgtiou
     base_url = "http://dev.cgds.uab.edu"
