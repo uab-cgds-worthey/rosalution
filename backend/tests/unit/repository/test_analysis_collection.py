@@ -1,6 +1,6 @@
 """Tests analysis collection"""
 
-from ...test_utils import read_test_fixture  # pylint: disable=unused-import
+from ...test_utils import read_test_fixture
 
 
 def test_all(analysis_collection):
@@ -18,15 +18,16 @@ def test_update_analysis(analysis_collection):
     assert actual["nominated_by"] == "Dr. Person One"
 
 
-# this test is disabled for now, it will be re-enabled after we add in this functionality to the main branch
-# def test_update_analysis_section(analysis_collection):
-#     """Tests the update_analysis_section function"""
-#     analysis_collection.collection.find_one.return_value = read_test_fixture(
-#         "analysis-CPAM0112.json")
-#     actual = analysis_collection.update_analysis_section(
-#         "CPAM0112", "Brief", "Reason", {"value": ["the quick brown fox jumps over the lazy dog."]})
-#     assert actual["sections"][0]["content"][1]["value"] == [
-#         "the quick brown fox jumps over the lazy dog."]
+def test_update_analysis_section(analysis_collection):
+    """Tests the update_analysis_section function"""
+    analysis_collection.collection.find_one.return_value = read_test_fixture(
+        "analysis-CPAM0112.json")
+    analysis_collection.collection.find_one_and_update.return_value = read_test_fixture(
+        "update_analysis_section.json")
+    actual = analysis_collection.update_analysis_section(
+        "CPAM0112", "Brief", "Reason", {"value": ["the quick brown fox jumps over the lazy dog."]})
+    assert actual["sections"][0]["content"][1]["value"] == [
+        "the quick brown fox jumps over the lazy dog."]
 
 
 def test_add_file(analysis_collection):
