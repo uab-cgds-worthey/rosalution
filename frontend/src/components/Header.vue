@@ -113,13 +113,15 @@ header .left-content {
   flex: 0;
 }
 
-/** todo: need to figure out what this style ought to be */
 .login {
   border: none;
   background-color: white;
   font-size: 1.125rem;
   line-height: 2rem;
   cursor: pointer;
+  color: var(--rosalution-purple-300);
+  font-weight: 600;
+  vertical-align: super;
 }
 
 .header-icon {
