@@ -182,3 +182,33 @@ class AnalysisCollection:
                                    '$set': updated_document})
 
         return updated_document
+
+    def get_genomic_units(self, analysis_name: str):
+        """ Returns the genomic units for an analysis with variants displayed in the HGVS Nomenclature """
+        genomic_units_return = {
+            "genes": {},
+            "variants": []
+        }
+
+        analysis = self.collection.find_one({"name": analysis_name})
+        if not analysis:
+            raise ValueError(
+                f"Analysis with name {analysis_name} does not exist")
+
+        if 'genomic_units' not in analysis:
+            raise ValueError(
+                f"Analysis {analysis_name} does not have genomic units")
+
+        for gene in analysis['genomic_units']:
+            variants = []
+            for variant in gene['variants']:
+                hgvs_variant = variant["hgvs_variant"]
+                p_dot = variant["p_dot"]
+                if all(value != "" for value in [p_dot, hgvs_variant]):
+                    variants.append(f"{hgvs_variant}({p_dot})")
+                elif hgvs_variant != "":
+                    variants.append(hgvs_variant)
+            genomic_units_return["genes"].update({gene["gene"]: variants})
+            genomic_units_return["variants"].extend(variants)
+
+        return genomic_units_return
