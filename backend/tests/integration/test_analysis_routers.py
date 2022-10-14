@@ -203,6 +203,7 @@ def test_upload_file_already_exists_to_analysis(client, mock_access_token, mock_
 
 #     assert response
 
+
 def test_attaching_supporting_evidence_link_to_analysis(
     client,
     mock_access_token,
@@ -210,10 +211,11 @@ def test_attaching_supporting_evidence_link_to_analysis(
     cpam0002_analysis_json
 ):
     """Testing if the supporting evidence gets added to the analysis"""
-    def valid_query_side_effect(*args, **kwargs): # pylint: disable=unused-argument
-        find, query = args # pylint: disable=unused-variable
+    def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
+        find, query = args  # pylint: disable=unused-variable
         analysis = cpam0002_analysis_json
-        analysis['supporting_evidence_files'].append(query['$push']['supporting_evidence_files'])
+        analysis['supporting_evidence_files'].append(
+            query['$push']['supporting_evidence_files'])
         analysis['_id'] = 'fake-mongo-object-id'
         return analysis
 
@@ -241,7 +243,7 @@ def test_attach_pedigree_image(client, mock_access_token, mock_repositories):
     mock_repositories["analysis"].collection.find_one.return_value = {
         "_id": ObjectId(str('63430e4f076646300d18bd8d')),
         "sections": [
-            { "header": 'Pedigree', "content": [] },
+            {"header": 'Pedigree', "content": []},
         ]
     }
 
@@ -269,15 +271,49 @@ def test_attach_pedigree_image(client, mock_access_token, mock_repositories):
     mock_repositories['analysis'].collection.update_one.assert_called_with(
         {'_id': ObjectId('63430e4f076646300d18bd8d')},
         {'$set': {'sections':
-            [{'header': 'Pedigree', 'content': [
-                {
-                    'field': 'image', 'value': ["633afb87fb250a6ea1569555"]
-                }]
-            }]
-        }}
+                  [{'header': 'Pedigree', 'content': [
+                      {
+                          'field': 'image', 'value': ["633afb87fb250a6ea1569555"]
+                      }]
+                    }]
+                  }}
     )
 
     assert response.status_code == 200
+
+
+def test_get_genomic_units_success(client, mock_access_token, mock_repositories, genomic_unit_success_response):
+    """ Testing the get genomic units endpoint """
+    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture(
+        "analysis-CPAM0002.json")
+
+    response = client.get("/analysis/CPAM0002/genomic_units",
+                          headers={"Authorization": "Bearer " + mock_access_token})
+
+    assert response.status_code == 200
+    assert response.json() == genomic_unit_success_response
+
+
+def test_get_genomic_units_analysis_does_not_exist(client, mock_access_token, mock_repositories):
+    """ Testing the get genomic units endpoint """
+    mock_repositories["analysis"].collection.find_one.return_value = None
+
+    response = client.get("/analysis/CPAM0002/genomic_units",
+                          headers={"Authorization": "Bearer " + mock_access_token})
+
+    assert response.status_code == 404
+
+
+def test_get_genomic_units_does_not_exist(client, mock_access_token, mock_repositories):
+    """ Testing the get genomic units endpoint """
+    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture(
+        "analysis-CPAM0002.json").pop("genomic_units")
+
+    response = client.get("/analysis/CPAM0002/genomic_units",
+                          headers={"Authorization": "Bearer " + mock_access_token})
+
+    assert response.status_code == 404
+
 
 @pytest.fixture(name="analysis_updates_json")
 def fixture_analysis_updates_json():
@@ -301,3 +337,19 @@ def fixture_update_analysis_section_json():
 def fixture_update_analysis_section_response_json():
     """The JSON that is being sent from a client to the endpoint with updates in it"""
     return read_test_fixture("update_analysis_section.json")
+
+
+@pytest.fixture(name="genomic_unit_success_response")
+def fixture_genomic_unit_success_response():
+    """The JSON that is being sent from a client to the endpoint with updates in it"""
+    return {
+        "genes": {
+            "VMA21": [
+                "NM_001017980.3:c.164G>T(p.Gly55Val)"
+            ],
+            "DMD": []
+        },
+        "variants": [
+            "NM_001017980.3:c.164G>T(p.Gly55Val)"
+        ]
+    }

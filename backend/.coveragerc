@@ -6,3 +6,4 @@ omit =
        src/database.py
        src/routers/*
        src/models/user.py
+       src/models/phenotips_json.py

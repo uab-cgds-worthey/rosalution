@@ -1,4 +1,5 @@
 """Tests analysis collection"""
+import pytest
 
 from ...test_utils import read_test_fixture
 
@@ -87,3 +88,68 @@ def test_attach_file_supporting_evidence(analysis_collection, cpam0002_analysis_
     assert new_evidence['type'] == 'file'
     assert 'attachment_id' in new_evidence
     assert new_evidence['attachment_id'] == 'Fake-Mongo-Object-ID-2'
+
+
+def test_get_genomic_units(analysis_collection):
+    """Tests the get_genomic_units function"""
+    analysis_collection.collection.find_one.return_value = read_test_fixture(
+        "analysis-CPAM0002.json")
+    actual = analysis_collection.get_genomic_units("CPAM0002")
+    assert len(actual) == 2
+
+
+def test_get_genomic_units_analysis_does_not_exist(analysis_collection):
+    """Tests the get_genomic_units function"""
+    analysis_collection.collection.find_one.return_value = None
+    try:
+        analysis_collection.get_genomic_units("CPAM2222")
+    except ValueError as error:
+        assert isinstance(error, ValueError)
+        assert str(error) == "Analysis with name CPAM2222 does not exist"
+
+
+def test_get_genomic_units_analysis_has_no_genomic_units(analysis_collection):
+    """Tests the get_genomic_units function"""
+    analysis_collection.collection.find_one.return_value = read_test_fixture(
+        "analysis-CPAM0002.json").pop("genomic_units")
+
+    try:
+        analysis_collection.get_genomic_units("CPAM0002")
+    except ValueError as error:
+        assert isinstance(error, ValueError)
+        assert str(error) == "Analysis CPAM0002 does not have genomic units"
+
+
+def test_get_genomic_units_with_no_p_dot(analysis_collection, analysis_with_no_p_dot):
+    """Tests the get_genomic_units function"""
+    analysis_collection.collection.find_one.return_value = analysis_with_no_p_dot
+    actual = analysis_collection.get_genomic_units("CPAM1111")
+    assert len(actual) == 2
+    assert actual == {'genes': {'VMA21': ['NM_001017980.3:c.164G>T']}, 'variants': [
+        'NM_001017980.3:c.164G>T']}
+
+
+@pytest.fixture(name="analysis_with_no_p_dot")
+def fixture_analysis_with_no_p_dot():
+    """Returns an analysis with no p. in the genomic unit"""
+    return {
+        "name": "CPAM1111",
+        "genomic_units": [
+            {
+                "gene": "VMA21",
+                "transcripts": [
+                    {
+                        "transcript": "NM_001017980.3"
+                    }
+                ],
+                "variants": [
+                    {
+                        "hgvs_variant": "NM_001017980.3:c.164G>T",
+                        "c_dot": "c.164G>T",
+                        "p_dot": "",
+                        "build": "GRCh38"
+                    }
+                ]
+            }
+        ]
+    }
