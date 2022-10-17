@@ -81,6 +81,8 @@ def test_create_analysis(
 
     assert response.status_code == 200
 
+    response_data = json.loads(response.text)
+    assert response_data['latest_status'] == "Annotation"
 
 def test_create_analysis_with_file(client, mock_access_token, mock_repositories, mock_annotation_queue):
     """ Testing if the create analysis function works with file upload """
@@ -121,7 +123,8 @@ def test_create_analysis_with_file(client, mock_access_token, mock_repositories,
             )
 
     assert response.status_code == 200
-
+    response_data = json.loads(response.text)
+    assert response_data['latest_status'] == "Annotation"
 
 def test_update_analysis(client, mock_access_token, mock_repositories, analysis_updates_json):
     """Testing if the update analysis endpoint updates an existing analysis"""

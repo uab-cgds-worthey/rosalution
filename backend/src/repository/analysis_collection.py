@@ -29,9 +29,7 @@ class AnalysisCollection:
             "description": 1,
             "genomic_units": 1,
             "nominated_by": 1,
-            "latest_status": 1,
-            "created_date": 1,
-            "last_modified_date": 1,
+            "timeline": 1,
         })
 
         summaries = []

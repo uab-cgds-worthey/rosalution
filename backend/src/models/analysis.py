@@ -4,11 +4,14 @@ of identifiers, case notes, and the genomic units being analyzed.
 """
 # pylint: disable=too-few-public-methods
 from datetime import date
+from multiprocessing import Event
 import re
 from typing import List, Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, root_validator
 
-from ..enums import GenomicUnitType
+from .event import Event
+
+from ..enums import EventType, StatusType, GenomicUnitType
 
 
 class GenomicUnit(BaseModel):
@@ -32,16 +35,33 @@ class BaseAnalysis(BaseModel):
     name: str
     description: Optional[str]
     nominated_by: str
-    latest_status: str
-    created_date: date
-    last_modified_date: date
+    latest_status: Optional[StatusType]
+    created_date: Optional[date]
+    last_modified_date: Optional[date]
+    timeline: List[Event] = []
+
+    # The structure of the root_validator from pydantic requires the method to be setup this way even if there is no
+    # self being used and no self argument
+    @root_validator
+    def compute_dates_and_status(cls, values): #pylint: disable=no-self-argument,no-self-use
+        """Computes the dates and status of an analysis from a timeline"""
+        if len(values['timeline']) == 0:
+            return values
+
+        last_event = sorted(values['timeline'], key=lambda event: event.timestamp, reverse=True)[0]
+        values['last_modified_date'] = last_event.timestamp.date()
+        values['created_date'] = next(
+            (event.timestamp.date() for event in values['timeline'] if event.event == EventType.CREATE),
+            None
+        )
+        values['latest_status'] = StatusType.from_event(last_event.event)
+        return values
 
 
 class AnalysisSummary(BaseAnalysis):
     """Models the summary of an analysis"""
 
     genomic_units: List = []
-
 
 class Analysis(BaseAnalysis):
     """Models a detailed analysis"""
