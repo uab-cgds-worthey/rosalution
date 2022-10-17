@@ -57,6 +57,8 @@ export default {
   border:none;
   outline:none;
   flex: 1;
+  padding: 0;
+  box-shadow: none;
 }
 
 .search input:hover,

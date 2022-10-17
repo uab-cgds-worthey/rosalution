@@ -47,14 +47,14 @@ export default {
     if (evidence.type == 'file') {
       attachmentForm = {
         'upload_file': evidence.data,
-        'comments': evidence.comment ? evidence : '  ', /** Required for now, inserting empty string */
+        'comments': evidence.comments ? evidence.comments : '  ', /** Required for now, inserting empty string */
       };
       url += '/file';
     } else if ( evidence.type == 'link') {
       attachmentForm = {
         'link_name': evidence.name,
         'link': evidence.data,
-        'comments': evidence.comment ? evidence : '  ', /** Required for now, inserting empty string */
+        'comments': evidence.comments ? evidence.comments : '  ', /** Required for now, inserting empty string */
       };
       url += '/link';
     }

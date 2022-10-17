@@ -31,6 +31,8 @@ html {
   --secondary-background-color: var(--rosalution-white);
   
   --content-border-radius: 10px;
+  --input-border-radius: 15px;
+  --button-border-radius: 25px;
 
   --modal-background-z-index: 10;
   --modal-container-z-index: 999;
@@ -40,6 +42,7 @@ html {
   --p-5: 0.313rem;
   --p-8: 0.5rem;
   --p-10: 0.625rem;
+  --p-16: 1rem;
 
   scroll-padding-top: 4rem;
 }
@@ -94,8 +97,28 @@ a:active {
   color: var(--rosalution-purple-100);
 } */
 
-input {
+input,
+textarea {
+  font-family: "Proxima Nova", sans-serif;
   font-size: 1.125rem; /* 18px */
+  border-radius: var(--input-border-radius);
+  padding: var(--p-10);
+  border: 2px solid var(--rosalution-grey-100);
+  background-color: var(--secondary-background-color);
+  outline: none;
+}
+
+input:placeholder,
+textarea::placeholder {
+  color: var(--rosalution-grey-100);
+}
+
+input:hover,
+input:focus,
+textarea:hover,
+textarea:focus {
+  border: 2px solid var(--rosalution-purple-300);
+  box-shadow:  0px 0 0 4px rgba(69, 28, 137, 0.10);
 }
 
 /** || Primary Grid Site Layout **/

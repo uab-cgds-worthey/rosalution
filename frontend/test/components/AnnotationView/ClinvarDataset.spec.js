@@ -3,6 +3,8 @@ import {shallowMount} from '@vue/test-utils';
 
 import ClinvarDataset from '@/components/AnnotationView/ClinvarDataset.vue';
 
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+
 /**
    * Creates a shallow mount for the vue component.
    * @param {Object} propsData Mocked props data
@@ -16,6 +18,11 @@ function getMountedComponent(propsData) {
 
   return shallowMount(ClinvarDataset, {
     propsData: {...defaultPropsData, ...propsData},
+    global: {
+      components: {
+        'font-awesome-icon': FontAwesomeIcon,
+      },
+    },
   });
 }
 

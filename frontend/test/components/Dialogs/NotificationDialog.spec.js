@@ -2,8 +2,8 @@ import {it, expect, describe, beforeEach, beforeAll, afterEach} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 import sinon from 'sinon';
 
-import Dialog from '@/components/Dialog.vue';
-import dialog from '@/dialog.js';
+import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
+import notificationDialog from '@/notificationDialog.js';
 
 describe('Dialog.vue', () => {
   let wrapper;
@@ -14,7 +14,7 @@ describe('Dialog.vue', () => {
   });
 
   beforeEach(() => {
-    wrapper = shallowMount(Dialog);
+    wrapper = shallowMount(NotificationDialog);
   });
 
   afterEach(() => {
@@ -22,7 +22,7 @@ describe('Dialog.vue', () => {
   });
 
   it('should render the title', async () => {
-    dialog
+    notificationDialog
         .title('heya!')
         .alert('hello world');
     await wrapper.vm.$nextTick();
@@ -33,14 +33,14 @@ describe('Dialog.vue', () => {
 
   describe('the alert', async () => {
     it('should display alert message', async () => {
-      dialog.alert('hello world');
+      notificationDialog.alert('hello world');
       await wrapper.vm.$nextTick();
 
       expect(wrapper.html()).to.include('hello world');
     });
 
     it('should render ok button', async () => {
-      dialog.alert('hello world');
+      notificationDialog.alert('hello world');
       await wrapper.vm.$nextTick();
       const okButton = wrapper.get('[data-test=confirm-button]');
       expect(okButton.text()).to.equal('Ok');
@@ -49,7 +49,7 @@ describe('Dialog.vue', () => {
 
   describe(('the notification'), () => {
     it('can be canceled', async () => {
-      dialog.confirm('are you really sure?').then((confirmed) => {
+      notificationDialog.confirm('are you really sure?').then((confirmed) => {
         expect(confirmed).to.be.false;
       });
       await wrapper.vm.$nextTick();
@@ -60,7 +60,7 @@ describe('Dialog.vue', () => {
     });
 
     it('can be confirmed', async () => {
-      dialog.confirm('are you sure for real for real?').then((confirmed) => {
+      notificationDialog.confirm('are you sure for real for real?').then((confirmed) => {
         expect(confirmed).to.be.true;
       });
       await wrapper.vm.$nextTick();

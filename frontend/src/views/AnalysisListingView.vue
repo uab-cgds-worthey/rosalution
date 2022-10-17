@@ -9,7 +9,7 @@
   </app-header>
   <app-content>
     <AnalysisCreateCard
-      @click="this.toggleImportModal"
+      @click="this.importPhenotipsAnalysis"
     />
     <AnalysisCard
       v-for="analysis in searchedAnalysisListing"
@@ -24,15 +24,8 @@
     />
   </app-content>
   <app-footer>
-    <PhenotipsImportModal
-      v-if="showModal"
-      @close="this.toggleImportModal"
-      @upload="this.importPhenotipsAnalysis"
-      data-test="phenotips-file-modal"
-    />
-    <Dialog
-      data-test="confirmation-dialog"
-    />
+    <InputDialog data-test="phenotips-import-dialog"/>
+    <NotificationDialog data-test="notification-dialog" />
     <AnalysisListingLegend/>
 
   </app-footer>
@@ -45,11 +38,13 @@ import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
 import AnalysisCreateCard from '@/components/AnalysisListing/AnalysisCreateCard.vue';
 import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
 import AnalysisListingLegend from '@/components/AnalysisListing/AnalysisListingLegend.vue';
-import PhenotipsImportModal from '@/components/AnalysisListing/PhenotipsImportModal.vue';
 import Auth from '../models/authentication.js';
 
-import Dialog from '@/components/Dialog.vue';
-import dialog from '@/dialog.js';
+import InputDialog from '../components/Dialogs/InputDialog.vue';
+import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
+
+import inputDialog from '@/inputDialog.js';
+import notificationDialog from '@/notificationDialog.js';
 
 export default {
   name: 'analysis-listing-view',
@@ -58,15 +53,14 @@ export default {
     AnalysisCreateCard,
     AnalysisListingHeader,
     AnalysisListingLegend,
-    Dialog,
-    PhenotipsImportModal,
+    InputDialog,
+    NotificationDialog,
   },
   data: function() {
     return {
       searchQuery: '',
       analysisList: [],
       username: '',
-      showModal: false,
     };
   },
   computed: {
@@ -112,19 +106,27 @@ export default {
     onSearch(query) {
       this.searchQuery = query;
     },
-    toggleImportModal() {
-      this.showModal = !this.showModal;
-    },
-    async importPhenotipsAnalysis(file) {
-      this.toggleImportModal();
+    async importPhenotipsAnalysis() {
+      const includeComments = false;
+      const includeIcon = 'phenotips';
+
+      const importFile = await inputDialog
+          .confirmText('Upload')
+          .cancelText('Cancel')
+          .file(includeComments, includeIcon)
+          .prompt('Temp for file upload');
+
+      if (!importFile) {
+        return;
+      }
 
       try {
-        await Analyses.importPhenotipsAnalysis(file[0]);
-        await dialog
+        await Analyses.importPhenotipsAnalysis(importFile.data);
+        await notificationDialog
             .title('Successful import')
             .alert('Imported Phenotips Case successfully!');
       } catch (error) {
-        await dialog
+        await notificationDialog
             .title('Failed to import phenotips analysis')
             .alert(error);
       }

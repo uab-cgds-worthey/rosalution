@@ -20,29 +20,25 @@
           :variants="genomicUnit.variants"
         />
         <SectionBox
-          v-for="section in sectionsList"
+          v-for="(section, index) in sectionsList"
           :id="section.header.replace(' ', '_')"
-          :key="section.id"
+          :key="`${section.header}-${index}-${forceRenderComponentKey}`"
           :analysis_name="this.analysis_name"
           :header="section.header"
           :content="section.content"
           :edit = "this.edit"
+          @attach-image="this.attachSectionImage"
         />
         <SupplementalFormList
-          id="Supplemental_Attachments"
+          id="Supporting_Evidence"
           :attachments="this.attachments"
-          @open-modal="this.toggleAttachmentModal"
+          @open-modal="this.addSupportingEvidence"
           @delete="this.onDeleteAttachmentEvent"
           @edit="this.onEditAttachment"
         />
-        <ModalDialog
-          v-if="showAttachmentModal"
-          @save="this.onAddAttachment"
-          @close="this.toggleAttachmentModal()"
-          data-test="modal-dialog"
-        />
-        <Dialog
-          data-test="confirmation-dialog"
+        <InputDialog />
+        <NotificationDialog
+          data-test="notification-dialog"
         />
         <SaveModal
         class="save-modal"
@@ -58,13 +54,14 @@ import Analyses from '@/models/analyses.js';
 import AnalysisViewHeader from '../components/AnalysisView/AnalysisViewHeader.vue';
 import SectionBox from '../components/AnalysisView/SectionBox.vue';
 import GeneBox from '../components/AnalysisView/GeneBox.vue';
-import ModalDialog from '@/components/AnalysisView/ModalDialog.vue';
-import Dialog from '../components/Dialog.vue';
-import SupplementalFormList from '../components/AnalysisView/SupplementalFormList.vue';
+import InputDialog from '../components/Dialogs/InputDialog.vue';
+import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
+import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
 import Auth from '../models/authentication.js';
 import SaveModal from '../components/AnalysisView/SaveModal.vue';
 
-import dialog from '@/dialog.js';
+import inputDialog from '@/inputDialog.js';
+import notificationDialog from '@/notificationDialog.js';
 
 export default {
   name: 'analysis-view',
@@ -72,8 +69,8 @@ export default {
     AnalysisViewHeader,
     SectionBox,
     GeneBox,
-    Dialog,
-    ModalDialog,
+    InputDialog,
+    NotificationDialog,
     SupplementalFormList,
     SaveModal,
   },
@@ -89,10 +86,10 @@ export default {
         {icon: 'pencil', text: 'Edit', operation: () => {
           this.edit = !this.edit;
         }, divider: true},
-        {icon: 'paperclip', text: 'Attach', operation: this.toggleAttachmentModal},
+        {icon: 'paperclip', text: 'Attach', operation: this.addSupportingEvidence},
       ],
-      showAttachmentModal: false,
       edit: false,
+      forceRenderComponentKey: 0,
     };
   },
   computed: {
@@ -100,7 +97,7 @@ export default {
       const sections = this.sectionsList.map((section) => {
         return section.header;
       });
-      sections.push('Supplemental Attachments');
+      sections.push('Supporting Evidence');
       return sections;
     },
   },
@@ -126,12 +123,43 @@ export default {
       this.genomicUnitsList=this.analysis.genomic_units;
     },
     getAttachments() {
-      this.attachments = this.analysis.supporting_evidence_files;
+      this.attachments.splice(0);
+      this.attachments.push(...this.analysis.supporting_evidence_files);
     },
-    toggleAttachmentModal() {
-      this.showAttachmentModal = !this.showAttachmentModal;
+    async attachSectionImage(updatedSectionName) {
+      const includeComments = false;
+      const attachment = await inputDialog
+          .confirmText('Attach')
+          .cancelText('Cancel')
+          .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp')
+          .prompt();
+
+      if (!attachment) {
+        return;
+      }
+
+      const updatedAnalysis = await Analyses.attachSectionBoxImage(this.analysis_name, attachment.data);
+      const updatedSection = updatedAnalysis['sections'].find((section) => section.header == updatedSectionName);
+      const editedSectionIndex = this.sectionsList.findIndex((section) => section.header == updatedSectionName);
+      this.sectionsList.splice(editedSectionIndex, 1, updatedSection);
+      // Needed to create this uptick because the replaced element wasn't getting detected to
+      // cause it to update this still make cause issue with the edit mode and will need to re-evaluate
+      this.uptickForceRenderKey();
     },
-    async onAddAttachment(attachment) {
+    async addSupportingEvidence() {
+      const includeComments = true;
+      const includeName = true;
+      const attachment = await inputDialog
+          .confirmText('Add')
+          .cancelText('Cancel')
+          .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png')
+          .url(includeComments, includeName)
+          .prompt();
+
+      if (!attachment) {
+        return;
+      }
+
       try {
         const updatedAnalysis = await Analyses.attachSupportingEvidence(this.analysis_name, attachment);
         this.attachments.splice(0);
@@ -139,11 +167,9 @@ export default {
       } catch (error) {
         console.error('Updating the anlayis did not work');
       }
-
-      this.toggleAttachmentModal();
     },
     async onDeleteAttachmentEvent(attachmentToDelete) {
-      const confirmedDelete = await dialog
+      const confirmedDelete = await notificationDialog
           .title('Delete Supporting Information?')
           .confirmText('Delete')
           .cancelText('Cancel')
@@ -158,12 +184,23 @@ export default {
       });
       this.attachments.splice(attachmentIndex, 1);
     },
-    onEditAttachment(attachment) {
-      /* will update the props going into the modal component to edit this attachment */
+    async onEditAttachment(attachment) {
+      const updatedAttachment = await inputDialog
+          .confirmText('Update')
+          .cancelText('Cancel')
+          .edit(attachment)
+          .prompt('Temp for file upload');
+
+      if (!updatedAttachment) {
+        return;
+      }
     },
     async onLogout() {
       await Auth.logout();
       this.$router.push({path: '/rosalution/login'});
+    },
+    uptickForceRenderKey() {
+      this.forceRenderComponentKey += 1;
     },
   },
 };
