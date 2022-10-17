@@ -13,18 +13,15 @@ from ..models.token import TokenData
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=constants.TOKEN_URL, scopes=constants.SECURITY_SCOPES)
-
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=constants.TOKEN_URL)
 
 def verify_password(plain_password, hashed_password):
     """This will use the CryptContext to hash the plain password and check against the stored pass hash to verify"""
     return pwd_context.verify(plain_password, hashed_password)
 
-
 def get_password_hash(password):
     """This function takes the plain password and makes a hash from it using CryptContext"""
     return pwd_context.hash(password)
-
 
 def get_authorization(security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme)):
     """
@@ -58,12 +55,11 @@ def get_authorization(security_scopes: SecurityScopes, token: str = Depends(oaut
                 detail="Not enough permissions",
                 headers={"WWW-Authenticate": authenticate_value},
             )
-    return True
 
+    return True
 
 ## Verify User
 ## We get the user from the token provided by the user to ensure it's the correct user
-
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
     """Extracts the username from the token, this is useful to ensure the user is who they say they are"""
