@@ -8,7 +8,7 @@
             {{header}}
           </h2>
         </td>
-        <button v-if="attachSection" class="attach-logo" @click="toggleAttachModal" data-test="attach-logo">
+        <button v-if="attachSection" class="attach-logo" @click="$emit('attach-image', header)" data-test="attach-logo">
           <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
         </button>
         <label v-else-if="this.edit" class="edit-logo"  data-test="edit-logo" id="edit-logo">
@@ -39,23 +39,12 @@
         </tr>
         <img class="section-image" :src="sectionImage"/>
     </tbody>
-    <SectionImportModal
-      v-if="showModal"
-      @add="this.addSectionFile"
-      @close="this.toggleAttachModal"
-    />
   </table>
 </template>
 
 <script>
-import SectionImportModal from '@/components/AnalysisView/SectionImportModal.vue';
-import Analyses from '@/models/analyses.js';
-
 export default {
   name: 'section-box',
-  components: {
-    SectionImportModal,
-  },
   props: {
     analysis_name: {
       type: String,
@@ -74,7 +63,6 @@ export default {
     return {
       contentList: this.content,
       section_toggle: this.header.toLowerCase() + '_collapse',
-      showModal: false,
     };
   },
   computed: {
@@ -97,20 +85,6 @@ export default {
       }
 
       return '';
-    },
-  },
-  methods: {
-    toggleAttachModal() {
-      this.showModal = !this.showModal;
-    },
-    async addSectionFile(attachment) {
-      const updatedAnalysis = await Analyses.attachSectionBoxImage(this.analysis_name, attachment[0]);
-      for (const section in updatedAnalysis['sections']) {
-        if (updatedAnalysis['sections'][section]['header'] == 'Pedigree') {
-          this.contentList = updatedAnalysis['sections'][section]['content'];
-        }
-      }
-      this.toggleAttachModal();
     },
   },
 };
@@ -230,7 +204,6 @@ div {
   cursor: pointer;
 }
 
-
 span:focus {
   color: var(--rosalution-purple-300);
   outline: none;
@@ -252,6 +225,4 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked ~ tr > .collapsable-logo {
   transform: scaleY(-1);
 }
-
-
 </style>

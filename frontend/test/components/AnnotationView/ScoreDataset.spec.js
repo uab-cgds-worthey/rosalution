@@ -1,8 +1,9 @@
 import {expect, describe, it} from 'vitest';
-
 import {shallowMount} from '@vue/test-utils';
 
 import ScoreDataset from '@/components/AnnotationView/ScoreDataset.vue';
+
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 /**
    * Creates a shallow mount for Score Dataset component.
@@ -24,6 +25,11 @@ function getMountedComponent(propsData) {
 
   return shallowMount(ScoreDataset, {
     propsData: {...defaultPropsData, ...propsData},
+    global: {
+      components: {
+        'font-awesome-icon': FontAwesomeIcon,
+      },
+    },
   });
 }
 

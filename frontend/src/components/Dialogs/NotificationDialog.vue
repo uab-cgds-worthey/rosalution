@@ -28,10 +28,10 @@
 </template>
 
 <script>
-import dialog from '@/dialog.js';
+import dialog from '@/notificationDialog.js';
 
 export default {
-  name: 'the-dialog',
+  name: 'notification-dialog',
   data() {
     return {
       userInput: '',

@@ -112,7 +112,7 @@ export default {
       return this.nominalColours;
     },
     dataAvailabilityColour: function() {
-      return this.isDataUnavailable ?
+      return this.unavailableData ?
         'var(--rosalution-grey-300)' :
         'var(--rosalution-black)';
     },

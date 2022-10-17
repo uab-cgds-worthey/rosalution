@@ -4,13 +4,16 @@ import sinon from 'sinon';
 
 import Analyses from '@/models/analyses.js';
 import Auth from '@/models/authentication.js';
-import dialog from '@/dialog.js';
+
+import InputDialog from '@/components/Dialogs/InputDialog.vue';
+import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
+import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
+
+import inputDialog from '@/inputDialog.js';
+import notificationDialog from '@/notificationDialog.js';
 
 import AnalysisView from '@/views/AnalysisView.vue';
-import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
-import Dialog from '@/components/Dialog.vue';
 
-import ModalDialog from '@/components/AnalysisView/ModalDialog.vue';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {RouterLink} from 'vue-router';
@@ -46,6 +49,7 @@ function getMountedComponent(props) {
 
 describe('AnalysisView', () => {
   let mockedData;
+  let pedigreeAttachMock;
   let mockedAttachmentSavedReturned;
   let mockedUser;
   let mockedLogout;
@@ -57,16 +61,8 @@ describe('AnalysisView', () => {
     mockedData = sandbox.stub(Analyses, 'getAnalysis');
     mockedData.returns(fixtureData());
 
+    pedigreeAttachMock = sandbox.stub(Analyses, 'attachSectionBoxImage');
     mockedAttachmentSavedReturned = sandbox.stub(Analyses, 'attachSupportingEvidence');
-
-    const analysiWithNewEvidence = fixtureData();
-    analysiWithNewEvidence.supporting_evidence_files.push({
-      type: 'link',
-      name: 'new-link',
-      data: 'http:linky link',
-      comments: 'it is here',
-    });
-    mockedAttachmentSavedReturned.returns(analysiWithNewEvidence);
 
     mockedUser = sandbox.stub(Auth, 'getUser');
     mockedUser.returns('');
@@ -93,7 +89,37 @@ describe('AnalysisView', () => {
   it('provides the expected headings of sections to be used as anchors to header', () => {
     const headerComponent = wrapper.get('[data-test="analysis-view-header"]');
     expect(headerComponent.attributes('sectionanchors'))
-        .to.equal('Brief,Medical Summary,Case Information,Supplemental Attachments');
+        .to.equal('Brief,Medical Summary,Pedigree,Case Information,Supporting Evidence');
+  });
+
+  it('accepts an image for a section to render as content', async () => {
+    const returnData = fixtureData();
+    const pedigreeSectionIndex = returnData.sections.findIndex((section) => section.header == 'Pedigree');
+    const newPedigreeSection = {
+      'header': 'Pedigree',
+      'content': [{
+        field: 'image',
+        value: ['fakeimagefileid'],
+      }],
+    };
+    returnData.sections.splice(pedigreeSectionIndex, 1, newPedigreeSection);
+    pedigreeAttachMock.returns(returnData);
+
+    const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
+    pedigreeSection.vm.$emit('attach-image', 'Pedigree');
+    await wrapper.vm.$nextTick();
+
+    const fakeImage = {data: 'fakeImage.png'};
+    inputDialog.confirmation(fakeImage);
+
+    // Needs to cycle through updating the props in the view and then additional
+    // ticks for vuejs to reactively update the supplemental component
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+    const reRenderedPedigreeSection = wrapper.findComponent('[id=Pedigree]');
+
+    expect(reRenderedPedigreeSection.props('content').length).to.equal(1);
   });
 
   it('displays the attachment modal when the supplemental form list requests dialog', async () => {
@@ -102,7 +128,7 @@ describe('AnalysisView', () => {
 
     await wrapper.vm.$nextTick();
 
-    const attachmentDialog = wrapper.findComponent(ModalDialog);
+    const attachmentDialog = wrapper.findComponent(InputDialog);
     expect(attachmentDialog.exists()).to.be.true;
   });
 
@@ -113,7 +139,7 @@ describe('AnalysisView', () => {
     const fakeAttachment = {name: 'fake.txt'};
     supplementalComponent.vm.$emit('delete', fakeAttachment);
 
-    const confirmationDialog = wrapper.findComponent(Dialog);
+    const confirmationDialog = wrapper.findComponent(NotificationDialog);
     expect(confirmationDialog.exists()).to.be.true;
   });
 
@@ -123,7 +149,7 @@ describe('AnalysisView', () => {
     expect(supplementalComponent.props('attachments').length).to.equal(1);
 
     supplementalComponent.vm.$emit('delete', fakeAttachment);
-    dialog.cancel();
+    notificationDialog.cancel();
 
     expect(supplementalComponent.props('attachments').length).to.equal(1);
   });
@@ -136,23 +162,36 @@ describe('AnalysisView', () => {
 
     supplementalComponent.vm.$emit('delete', fakeAttachment);
 
-    dialog.confirmation();
+    notificationDialog.confirmation();
     await wrapper.vm.$nextTick();
 
     expect(supplementalComponent.props('attachments').length).to.equal(0);
   });
 
   it('attachment dialog adds a new attachment to the analysis', async () => {
+    const newAttachmentData = {
+      name: 'fake-attachment-evidence-name',
+      data: 'http://sites.uab.edu/cgds',
+      type: 'link',
+      comments: '',
+    };
+    const analysiWithNewEvidence = fixtureData();
+    analysiWithNewEvidence.supporting_evidence_files.push(newAttachmentData);
+    mockedAttachmentSavedReturned.returns(analysiWithNewEvidence);
+
     const supplementalComponent = wrapper.getComponent(SupplementalFormList);
-    expect(supplementalComponent.props('attachments').length).to.equal(0);
+
+    expect(supplementalComponent.props('attachments').length).to.equal(1);
 
     supplementalComponent.vm.$emit('open-modal');
     await wrapper.vm.$nextTick();
 
-    const attachmentDialog = wrapper.findComponent(ModalDialog);
-    attachmentDialog.vm.$emit('save', {file: 'fake'});
-    await wrapper.vm.$nextTick();
+    inputDialog.confirmation(newAttachmentData);
 
+    // Needs to cycle through updating the prop in the view and then another
+    // tick for vuejs to reactively update the supplemental component
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
     expect(supplementalComponent.props('attachments').length).to.equal(2);
   });
 
@@ -235,6 +274,9 @@ function fixtureData() {
           value: ['Male, YOB: 2019'],
         },
       ],
+    }, {
+      header: 'Pedigree',
+      content: [],
     }, {
       header: 'Case Information',
       content: [{

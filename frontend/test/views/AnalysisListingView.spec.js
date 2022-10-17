@@ -9,8 +9,10 @@ import AnalysisCreateCard from '@/components/AnalysisListing/AnalysisCreateCard.
 import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
 import AnalysisListingView from '@/views/AnalysisListingView.vue';
 
-import Dialog from '@/components/Dialog.vue';
-import dialog from '@/dialog.js';
+import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
+
+import inputDialog from '@/inputDialog.js';
+import notificationDialog from '@/notificationDialog.js';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
@@ -87,28 +89,34 @@ describe('AnalysisListingView', () => {
     expect(cards).to.have.lengthOf(2);
   });
 
-  // Combined these three tests in one due to the way the test structure is set up
-  // and using the same wrapper, so the other tests were changing the state of the
-  // wrapper.
   it('should allow file upload to import a phenotips json on prompt', async ()=> {
     const createCard = wrapper.findComponent(AnalysisCreateCard);
     await createCard.trigger('click');
 
-    const phenotipsImportModal = wrapper.get('[data-test=phenotips-file-modal]');
-    expect(phenotipsImportModal.isVisible()).to.be.true;
-    await phenotipsImportModal.trigger('upload');
+    const attachmentData = {
+      data: {
+        name: 'fake-import-phenotips.json',
+      },
+    };
+    inputDialog.confirmation(attachmentData);
+    await wrapper.vm.$nextTick();
+
     expect(mockedImport.called).to.be.true;
-    const wrapperPhenotipsImportModalRemoved = wrapper.find('[data-test=phenotips-file-modal]');
-    expect(wrapperPhenotipsImportModalRemoved.exists()).to.be.false;
   });
 
   it('should render notification with a sucessful upload', async () => {
     const createCard = wrapper.findComponent(AnalysisCreateCard);
     await createCard.trigger('click');
-    const phenotipsImportModal = wrapper.get('[data-test=phenotips-file-modal]');
-    await phenotipsImportModal.trigger('upload');
 
-    const dialogComponent = wrapper.findComponent(Dialog);
+    const attachmentData = {
+      data: {
+        name: 'fake-import-phenotips.json',
+      },
+    };
+    inputDialog.confirmation(attachmentData);
+    await wrapper.vm.$nextTick();
+
+    const dialogComponent = wrapper.findComponent(NotificationDialog);
     expect(dialogComponent.exists()).to.be.true;
   });
 
@@ -116,13 +124,19 @@ describe('AnalysisListingView', () => {
     mockedImport.throws('broken import sad face');
     const createCard = wrapper.findComponent(AnalysisCreateCard);
     await createCard.trigger('click');
-    const phenotipsImportModal = wrapper.get('[data-test=phenotips-file-modal]');
-    await phenotipsImportModal.trigger('upload');
 
-    const dialogComponent = wrapper.findComponent(Dialog);
+    const attachmentData = {
+      data: {
+        name: 'fake-import-phenotips.json',
+      },
+    };
+    inputDialog.confirmation(attachmentData);
+    await wrapper.vm.$nextTick();
+
+    const dialogComponent = wrapper.findComponent(NotificationDialog);
     expect(dialogComponent.exists()).to.be.true;
-    expect(dialog.state.title).to.equal('Failed to import phenotips analysis');
-    expect(dialog.state.message.toString()).to.equal('broken import sad face');
+    expect(notificationDialog.state.title).to.equal('Failed to import phenotips analysis');
+    expect(notificationDialog.state.message.toString()).to.equal('broken import sad face');
   });
 
   it('should logout when the analysis listing header emits the logout event', async () => {
