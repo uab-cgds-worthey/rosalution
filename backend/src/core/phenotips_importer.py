@@ -3,6 +3,7 @@ Class to support the importing of phenotips data
 """
 import warnings
 
+from ..models.event import Event
 
 class PhenotipsImporter:
     """imports the incoming phenotips json data"""
@@ -45,6 +46,8 @@ class PhenotipsImporter:
 
         analysis_data = self.import_analysis_data(
             phenotips_json_data, phenotips_variants, phenotips_json_data["genes"])
+
+        analysis_data['timeline'] = [Event.timestamp_create_event('user06').dict()]
         self.analysis_collection.create_analysis(analysis_data)
         return analysis_data
 

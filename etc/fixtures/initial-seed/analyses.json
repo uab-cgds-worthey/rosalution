@@ -3,9 +3,6 @@
       "name": "CPAM0002",
       "description": "Vacuolar myopathy with autophagy, X-linked vacuolar myopathy with autophagy",
       "nominated_by": "Dr. Person One",
-      "latest_status": "Approved",
-      "created_date": "2020-11-09",
-      "last_modified_date": "2021-03-16",
       "genomic_units": [
           {
               "gene": "VMA21",
@@ -147,15 +144,32 @@
               ]
           }
       ],
-      "supporting_evidence_files": []
+      "supporting_evidence_files": [],
+      "timeline": [
+        {
+            "event": "create",
+            "timestamp": 1604945200,
+            "username": "user06"
+        },
+        {
+            "event": "ready",
+            "timestamp": 1607537200,
+            "username": "user06"  
+        }, {
+            "event": "opened",
+            "timestamp": 1612883200,
+            "username": "user06"  
+        }, {
+            "event": "approve",
+            "timestamp": 1615903600,
+            "username": "user06"  
+        }
+      ]
   },
   {
       "name": "CPAM0046",
       "description": ": LMNA-related congenital muscular dystropy",
       "nominated_by": "Dr. Person Two",
-      "latest_status": "Approved",
-      "created_date": "2021-09-30",
-      "last_modified_date": "2021-10-01",
       "genomic_units": [
           {
               "gene": "LMNA",
@@ -272,6 +286,25 @@
                   }
               ]
           }
+      ],
+      "timeline": [
+        {
+            "event": "create",
+            "timestamp": 1633010800,
+            "username": "user06"
+        }, {
+            "event": "ready",
+            "timestamp": 1633021600,
+            "username": "user06"  
+        }, {
+            "event": "opened",
+            "timestamp": 1633093600,
+            "username": "user06"  
+        }, {
+            "event": "approve",
+            "timestamp": 1633097200,
+            "username": "user06"  
+        }
       ]
   },
   {
@@ -301,9 +334,6 @@
         }
       ],
       "nominated_by": "CMT4B3 Foundation",
-      "latest_status": "Declined",
-      "created_date": "2020-12-03",
-      "last_modified_date": "2021-12-12",
       "sections": [
           {
               "header": "Brief",
@@ -360,15 +390,31 @@
                   }
               ]
           }
+      ],
+      "timeline": [
+        {
+            "event": "create",
+            "timestamp": 1607018800,
+            "username": "user06"
+        }, {
+            "event": "ready",
+            "timestamp": 1607029600,
+            "username": "user06"  
+        }, {
+            "event": "opened",
+            "timestamp": 1638392800,
+            "username": "user06"  
+        }, {
+            "event": "decline",
+            "timestamp": 1639343200,
+            "username": "user06"  
+        }
       ]
   },
   {
       "name": "CPAM0053",
       "description": "Mild Zellweger Spectrum Disorder, a Peroxisome Biogenesis Disorder",
       "nominated_by": "N/A",
-      "latest_status": "Ready",
-      "created_date": "2021-11-02",
-      "last_modified_date": "2021-11-23",
       "genomic_units": [
           {
               "gene": "PEX10", 
@@ -500,6 +546,17 @@
                   }
               ]
           }
+      ],
+      "timeline": [
+        {
+            "event": "create",
+            "timestamp": 1635883600,
+            "username": "user06"
+        }, {
+            "event": "ready",
+            "timestamp": 1637701600,
+            "username": "user06"  
+        }
       ]
   },
   {
@@ -529,9 +586,6 @@
             }
       ],
       "nominated_by": "Believe in a Cure Foundation",
-      "latest_status": "Declined",
-      "created_date": "2020-12-03",
-      "last_modified_date": "2021-12-12",
       "sections": [
           {
               "header": "Brief",
@@ -592,6 +646,25 @@
                   }
               ]
           }
+      ],
+      "timeline": [
+        {
+            "event": "create",
+            "timestamp": 1607029600,
+            "username": "user06"
+        }, {
+            "event": "ready",
+            "timestamp": 1607202400,
+            "username": "user06"  
+        }, {
+            "event": "opened",
+            "timestamp": 1607375200,
+            "username": "user06"  
+        }, {
+            "event": "decline",
+            "timestamp": 1607807200,
+            "username": "user06"  
+        }
       ]
     }
 ]

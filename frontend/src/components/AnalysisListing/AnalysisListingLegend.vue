@@ -6,9 +6,9 @@
     <p>Ready</p>
     <font-awesome-icon icon="book-open" size="lg" style="color: var(--rosalution-status-active)"/>
     <p>Active</p>
-    <font-awesome-icon icon="pause" size="lg" style="color: var(--rosalution-status-approved)"/>
+    <font-awesome-icon icon="pause" size="lg" style="color: var(--rosalution-status-on-hold)"/>
     <p>On Hold</p>
-    <font-awesome-icon icon="check" size="lg" style="color: var(--rosalution-status-on-hold)"/>
+    <font-awesome-icon icon="check" size="lg" style="color: var(--rosalution-status-approved)"/>
     <p>Approved</p>
     <font-awesome-icon icon="x" size="lg" style="color: var(--rosalution-status-declined)"/>
     <p>Declined</p>
