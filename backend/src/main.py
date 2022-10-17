@@ -32,7 +32,10 @@ tags_metadata = [
         "name": "lifecycle",
         "description": "Heart-beat that external services use to verify if the application is running.",
     },
-    {"name": "auth", "description": "Handles user authentication"},
+    {
+        "name": "auth",
+        "description": "Handles user authentication"
+    },
 ]
 
 ## CORS Policy ##
@@ -58,7 +61,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 @app.get("/heart-beat", tags=["lifecycle"])
 def heartbeat():

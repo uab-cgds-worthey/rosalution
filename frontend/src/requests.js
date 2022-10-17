@@ -44,7 +44,7 @@ export default {
       },
       mode: 'cors',
       cache: 'no-cache',
-      body: 'grant_type=password&scope=read+write&username=' + data.username + '&password=' + data.password,
+      body: 'grant_type=password&username=' + data.username + '&password=' + data.password,
     });
 
     return await response.json();

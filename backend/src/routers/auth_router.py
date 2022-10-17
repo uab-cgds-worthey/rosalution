@@ -12,7 +12,7 @@ from src import constants
 
 from ..models.user import User, VerifyUser
 from ..security.jwt import create_access_token
-from ..security.security import get_current_user
+from ..security.security import get_authorization, get_current_user
 
 from ..dependencies import database
 
@@ -28,6 +28,15 @@ cas_client = CASClient(
     service_url="http://dev.cgds.uab.edu/rosalution/api/auth/login?nexturl=%2Frosalution",
     server_url="https://padlockdev.idm.uab.edu/cas/",
 )
+
+## Test Route ##
+@router.get("/dev_only_test")
+def test(authorized=Security(get_authorization, scopes=["developer"])):
+    """ Only developers can hit this endpoint """
+    print(authorized)
+    return {
+        "Ka": ["Boom", "Blammo", "Pow"],
+    }
 
 ## CAS Login ##
 
@@ -69,7 +78,6 @@ async def login(
     base_url = "http://dev.cgds.uab.edu"
     return RedirectResponse(base_url + nexturl)
 
-
 @router.get("/get_user")
 def get_user(request: Request):
     """Returns active user in session"""
@@ -77,7 +85,6 @@ def get_user(request: Request):
         return {"username": request.session["username"]}
 
     return {"username": ""}
-
 
 @router.get("/logoutCas")
 def logout(request: Request):
@@ -111,7 +118,7 @@ def login_oauth(
     access_token_expires = timedelta(
         minutes=constants.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user['username'], "scopes": form_data.scopes},
+        data={"sub": user['username'], "scopes": [user['scope']]},
         expires_delta=access_token_expires,
     )
     content = {"access_token": access_token, "token_type": "bearer"}
