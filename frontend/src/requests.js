@@ -2,6 +2,7 @@ import {cookie} from './cookie.js';
 export default {
   async get(url) {
     const authToken = cookie.getCookie();
+    console.log(cookie.getCookie());
     const response = await fetch(url, {
       method: 'GET',
       headers: {

@@ -27,7 +27,6 @@
     <InputDialog data-test="phenotips-import-dialog"/>
     <NotificationDialog data-test="notification-dialog" />
     <AnalysisListingLegend/>
-
   </app-footer>
 </div>
 </template>
@@ -46,6 +45,8 @@ import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
 
+import { userStore } from '@/stores/authStore.js';
+
 export default {
   name: 'analysis-listing-view',
   components: {
@@ -58,6 +59,7 @@ export default {
   },
   data: function() {
     return {
+      store: userStore,
       searchQuery: '',
       analysisList: [],
       username: '',
@@ -73,21 +75,20 @@ export default {
             } else if ( unit.transcript !== undefined ) {
               return unit.transcript.includes(this.searchQuery);
             }
-
             return false;
           });
       });
     },
   },
   created() {
-    this.getUsername();
     this.getListing();
   },
+  computed: {
+    username() {
+      return this.store.state.name;
+    }
+  },
   methods: {
-    async getUsername() {
-      const fetchUser = await Auth.getUser();
-      this.username = fetchUser['username'];
-    },
     async getListing() {
       this.analysisList.length = 0;
       const analyses = await Analyses.all();

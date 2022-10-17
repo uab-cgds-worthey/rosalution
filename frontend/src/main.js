@@ -1,4 +1,4 @@
-import {createApp} from 'vue';
+import {createApp, nextTick} from 'vue';
 import {createRouter, createWebHistory} from 'vue-router';
 
 import App from './App.vue';
@@ -22,6 +22,7 @@ import {
   faAnglesRight,
 } from '@fortawesome/free-solid-svg-icons';
 import {faCopy, faFile, faComment} from '@fortawesome/free-regular-svg-icons';
+import {userStore} from '@/stores/authStore.js';
 
 library.add(
     faAsterisk, faPause, faCheck, faX, faMagnifyingGlass, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList,
@@ -31,7 +32,7 @@ library.add(
 
 // The NotFoundView should always be last because it's an ordered array.
 const routes = [
-  {path: '/rosalution/login', component: LoginView},
+  {path: '/rosalution/login', name: 'login', component: LoginView},
   {path: '/rosalution', component: AnalysisListingView},
   {path: '/rosalution/about', component: AboutView},
   {path: '/rosalution/analysis/:analysis_name', name: 'analysis', component: AnalysisView, props: true},
@@ -45,7 +46,18 @@ const router = createRouter({
   routes,
 });
 
-const app = createApp(App);
+router.beforeEach(async (to, from) => {
+  const token = userStore.getToken();
+
+  if(!token && to.name !== 'login'){
+    console.log("What is happening?")
+    return { name: 'login' };
+  }
+});
+
+const app = createApp(App, {
+  data: userStore
+});
 
 app.use(router);
 app.component('font-awesome-icon', FontAwesomeIcon);

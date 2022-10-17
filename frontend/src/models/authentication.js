@@ -67,7 +67,7 @@ export default {
 
   /* User specific endpoints */
 
-  async getUser() {
+  async fetchUser() {
     const baseUrl = '/rosalution/api/';
     const urlQuery = 'auth/get_user';
 
