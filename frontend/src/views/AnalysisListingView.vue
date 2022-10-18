@@ -37,7 +37,6 @@ import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
 import AnalysisCreateCard from '@/components/AnalysisListing/AnalysisCreateCard.vue';
 import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
 import AnalysisListingLegend from '@/components/AnalysisListing/AnalysisListingLegend.vue';
-import Auth from '../models/authentication.js';
 
 import InputDialog from '../components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
@@ -62,12 +61,10 @@ export default {
       store: authStore,
       searchQuery: '',
       analysisList: [],
-      username: '',
     };
   },
   computed: {
     username() {
-      console.log(this.store.state);
       return this.store.state.username;
     },
     searchedAnalysisListing() {

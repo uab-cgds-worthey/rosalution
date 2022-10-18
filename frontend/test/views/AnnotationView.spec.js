@@ -2,7 +2,6 @@ import {expect, describe, it, beforeAll, afterAll} from 'vitest';
 import {config, mount} from '@vue/test-utils';
 import sinon from 'sinon';
 
-import Auth from '@/models/authentication.js';
 import Annotations from '@/models/annotations.js';
 
 import AnnotationView from '@/views/AnnotationView.vue';
@@ -10,6 +9,7 @@ import AnnotationSection from '@/components/AnnotationView/AnnotationSection.vue
 import AnnotationViewHeader from '@/components/AnnotationView/AnnotationViewHeader.vue';
 import TextDataset from '@/components/AnnotationView/TextDataset.vue';
 
+import {authStore} from '../../src/stores/authStore';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 describe('AnnotationView', () => {
@@ -38,7 +38,7 @@ describe('AnnotationView', () => {
       analysis_name: 'CPAM0046',
     };
 
-    mockedUser = sandbox.stub(Auth, 'getUser');
+    mockedUser = sandbox.stub(authStore, 'fetchUser');
     mockedUser.returns('');
     mockAnnotations = sandbox.stub(Annotations, 'getAnnotations');
     mockAnnotations.returns(mockAnnotationsForCPAM0002);

@@ -1,11 +1,11 @@
 import {expect, afterEach, beforeEach, describe, it} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 
-import Auth from '@/models/authentication.js';
 import sinon from 'sinon';
 
 import LoginView from '@/views/LoginView.vue';
 
+import {authStore} from '@/stores/authStore.js';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 /**
@@ -43,8 +43,8 @@ describe('LoginView.vue', () => {
   let mockUABCASLogin;
 
   beforeEach(() => {
-    mockOAuthLogin = sandbox.stub(Auth, 'loginOAuth');
-    mockUABCASLogin = sandbox.stub(Auth, 'loginCas');
+    mockOAuthLogin = sandbox.stub(authStore, 'loginOAuth');
+    mockUABCASLogin = sandbox.stub(authStore, 'loginCas');
   });
 
   afterEach(() => {

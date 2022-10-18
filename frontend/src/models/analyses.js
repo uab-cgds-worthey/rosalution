@@ -4,7 +4,6 @@ export default {
     const baseUrl = '/rosalution/api/';
     const urlQuery = 'analysis/summary';
     const analysesSummary = await Requests.get(baseUrl + urlQuery);
-    console.log(analysesSummary);
     return analysesSummary;
   },
 

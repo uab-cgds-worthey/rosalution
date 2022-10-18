@@ -57,7 +57,6 @@ import GeneBox from '../components/AnalysisView/GeneBox.vue';
 import InputDialog from '../components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
-import Auth from '../models/authentication.js';
 import SaveModal from '../components/AnalysisView/SaveModal.vue';
 
 import inputDialog from '@/inputDialog.js';
@@ -166,7 +165,7 @@ export default {
         this.attachments.splice(0);
         this.attachments.push(...updatedAnalysis.supporting_evidence_files);
       } catch (error) {
-        console.error('Updating the anlayis did not work');
+        console.error('Updating the analysis did not work');
       }
     },
     async onDeleteAttachmentEvent(attachmentToDelete) {
