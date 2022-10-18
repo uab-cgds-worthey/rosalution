@@ -1,6 +1,6 @@
 import Requests from '@/requests.js';
 
-let authStore = {
+const authStore = {
   state: {
     full_name: '',
     username: '',
@@ -61,7 +61,7 @@ let authStore = {
       throw new Error('Failed to login: ' + errorString);
     }
 
-    this.saveState(body)
+    this.saveState(body);
   },
   async verifyUser() {
     const baseUrl = '/rosalution/api/';

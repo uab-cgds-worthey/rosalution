@@ -1,6 +1,11 @@
 <template>
   <app-header>
-    <AnnotationViewHeader :analysisName="this.analysis_name" :genes="[this.gene]" :variants="[this.variant]">
+    <AnnotationViewHeader
+      :username="username"
+      :analysisName="this.analysis_name"
+      :genes="[this.gene]"
+      :variants="[this.variant]"
+    >
     </AnnotationViewHeader>
   </app-header>
   <app-content>
@@ -110,10 +115,6 @@ export default {
     },
     linkoutUrl(datasetConfig) {
       return 'linkout_dataset' in datasetConfig ? this.annotations[datasetConfig['linkout_dataset']] : undefined;
-    },
-    async getUsername() {
-      const fetchUser = await Auth.getUser();
-      this.username = fetchUser['username'];
     },
     async getRenderingConfiguration() {
       this.rendering.push(...await Analyses.getAnnotationConfiguration(this.analysis_name));

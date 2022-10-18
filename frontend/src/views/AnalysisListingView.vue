@@ -67,7 +67,7 @@ export default {
   },
   computed: {
     username() {
-      console.log(this.store.state)
+      console.log(this.store.state);
       return this.store.state.username;
     },
     searchedAnalysisListing() {

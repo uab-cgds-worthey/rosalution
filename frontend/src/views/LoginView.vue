@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { authStore } from '../stores/authStore';
+import {authStore} from '../stores/authStore';
 
 export default {
   data() {

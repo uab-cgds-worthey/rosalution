@@ -12,7 +12,7 @@ export default {
     const baseUrl = '/rosalution/api/';
     const urlQuery = 'analysis/' + analysisName;
     const body = await Requests.get(baseUrl + urlQuery);
-    return body
+    return body;
   },
 
   async getAnnotationConfiguration(analysisName) {
