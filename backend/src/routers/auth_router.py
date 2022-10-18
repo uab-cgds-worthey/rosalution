@@ -125,7 +125,7 @@ def login_oauth(
     # response = JSONResponse(content=temp_response)
     response.set_cookie(key="rosalution_TOKEN", value=access_token)
     request.session["username"] = authenticate_user['username']
-    
+
     user = repositories["user"].find_by_username(authenticate_user['username'])
 
     return User(**user)
