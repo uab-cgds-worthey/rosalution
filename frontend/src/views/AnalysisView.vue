@@ -63,7 +63,7 @@ import SaveModal from '../components/AnalysisView/SaveModal.vue';
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
 
-import {userStore} from '@/stores/authStore.js';
+import {authStore} from '@/stores/authStore.js';
 
 export default {
   name: 'analysis-view',
@@ -79,7 +79,7 @@ export default {
   props: ['analysis_name'],
   data: function() {
     return {
-      store: userStore,
+      store: authStore,
       analysis: {},
       sectionsList: [],
       genomicUnitsList: [],
@@ -96,11 +96,7 @@ export default {
   },
   computed: {
     username() {
-      // const fetchUser = await Auth.getUser();
-      // this.username = fetchUser['username'];
-      console.log("Is this happening?")
-      return this.store.state.name;
-      // return "???";
+      return this.store.state.username;
     },
     sectionsHeaders() {
       const sections = this.sectionsList.map((section) => {
@@ -201,7 +197,7 @@ export default {
       }
     },
     async onLogout() {
-      await Auth.logout();
+      await this.store.logout();
       this.$router.push({path: '/rosalution/login'});
     },
     uptickForceRenderKey() {

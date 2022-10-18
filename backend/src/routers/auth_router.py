@@ -99,7 +99,7 @@ def logout(request: Request):
 
 ## OAuth2 Login ##
 
-@router.post("/token")
+@router.post("/token", response_model=User)
 def login_oauth(
     request: Request,
     response: Response,
@@ -109,23 +109,26 @@ def login_oauth(
     """
     OAuth2 compatible token login, get an access token for future requests.
     """
-    user = repositories["user"].authenticate_user(
+    authenticate_user = repositories["user"].authenticate_user(
         form_data.username, form_data.password)
 
-    if not user:
+    if not authenticate_user:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
 
     access_token_expires = timedelta(
         minutes=constants.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user['username'], "scopes": [user['scope']]},
+        data={"sub": authenticate_user['username'], "scopes": [authenticate_user['scope']]},
         expires_delta=access_token_expires,
     )
-    content = {"access_token": access_token, "token_type": "bearer"}
-    response = JSONResponse(content=content)
+
+    # response = JSONResponse(content=temp_response)
     response.set_cookie(key="rosalution_TOKEN", value=access_token)
-    request.session["username"] = user['username']
-    return response
+    request.session["username"] = authenticate_user['username']
+    
+    user = repositories["user"].find_by_username(authenticate_user['username'])
+
+    return User(**user)
 
 @router.get("/verify", response_model=User)
 def issue_token(

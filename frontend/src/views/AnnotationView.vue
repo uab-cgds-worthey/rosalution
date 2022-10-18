@@ -42,7 +42,6 @@
 <script>
 import Analyses from '@/models/analyses.js';
 import Annotations from '@/models/annotations.js';
-import Auth from '@/models/authentication.js';
 
 import AnnotationSection from '@/components/AnnotationView/AnnotationSection.vue';
 import AnnotationSidebar from '@/components/AnnotationView/AnnotationSidebar.vue';
@@ -53,6 +52,8 @@ import IconLinkoutDataset from '@/components/AnnotationView/IconLinkoutDataset.v
 import ScoreDataset from '@/components/AnnotationView/ScoreDataset.vue';
 import TextDataset from '@/components/AnnotationView/TextDataset.vue';
 import TranscriptDatasets from '@/components/AnnotationView/TranscriptDatasets.vue';
+
+import {authStore} from '@/stores/authStore.js';
 
 export default {
   name: 'annotation-view',
@@ -84,12 +85,15 @@ export default {
   },
   data: function() {
     return {
+      store: authStore,
       rendering: [],
-      username: '',
       annotations: {},
     };
   },
   computed: {
+    username() {
+      return this.store.state.username;
+    },
     sectionAnchors() {
       return this.rendering.map((section) => {
         return section.anchor;
@@ -97,7 +101,6 @@ export default {
     },
   },
   created() {
-    this.getUsername();
     this.getRenderingConfiguration();
     this.getAnnotations();
   },

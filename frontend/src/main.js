@@ -1,4 +1,4 @@
-import {createApp, nextTick} from 'vue';
+import {createApp} from 'vue';
 import {createRouter, createWebHistory} from 'vue-router';
 
 import App from './App.vue';
@@ -13,6 +13,7 @@ import './styles/main.css';
 import './styles/rosalution.css';
 // import './styles/proxima-nova-font.css'
 
+import {authStore} from '@/stores/authStore.js';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {
@@ -22,7 +23,6 @@ import {
   faAnglesRight,
 } from '@fortawesome/free-solid-svg-icons';
 import {faCopy, faFile, faComment} from '@fortawesome/free-regular-svg-icons';
-import {userStore} from '@/stores/authStore.js';
 
 library.add(
     faAsterisk, faPause, faCheck, faX, faMagnifyingGlass, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList,
@@ -46,18 +46,17 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(async (to, from) => {
-  const token = userStore.getToken();
+router.beforeEach(async (to) => {
+  const token = authStore.getToken();
 
-  if(!token && to.name !== 'login'){
-    console.log("What is happening?")
-    return { name: 'login' };
+  if (!token && to.name !== 'login') {
+    return {name: 'login'};
+  } else {
+    authStore.saveState(await authStore.fetchUser());
   }
 });
 
-const app = createApp(App, {
-  data: userStore
-});
+const app = createApp(App);
 
 app.use(router);
 app.component('font-awesome-icon', FontAwesomeIcon);

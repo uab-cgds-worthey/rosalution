@@ -16,11 +16,12 @@
 </template>
 
 <script>
-import Auth from '../models/authentication.js';
+import { authStore } from '../stores/authStore';
 
 export default {
   data() {
     return {
+      store: authStore,
       username: '',
       password: '',
     };
@@ -82,12 +83,12 @@ export default {
       // Password is hard coded. Taking it out would require a rewrite of the backend as of now.
       if (this.username != '') {
         const userData = {'username': this.username, 'password': 'secret'};
-        await Auth.loginOAuth(userData);
+        await this.store.loginOAuth(userData);
         this.$router.push('/rosalution/');
       }
     },
     async productionLogin() {
-      const response = await Auth.loginCas();
+      const response = await this.store.loginCas();
 
       /*
       The CAS login sends a URL as a response. The URL can change depending on whether or not you have a valid

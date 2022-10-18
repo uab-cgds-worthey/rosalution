@@ -1,8 +1,8 @@
-import {cookie} from './cookie.js';
-export default {
+import {authStore} from '@/stores/authStore.js';
+
+export default {  
   async get(url) {
-    const authToken = cookie.getCookie();
-    console.log(cookie.getCookie());
+    const authToken = authStore.getToken();
     const response = await fetch(url, {
       method: 'GET',
       headers: {

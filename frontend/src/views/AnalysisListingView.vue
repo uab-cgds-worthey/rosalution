@@ -45,7 +45,7 @@ import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
 
-import { userStore } from '@/stores/authStore.js';
+import {authStore} from '@/stores/authStore.js';
 
 export default {
   name: 'analysis-listing-view',
@@ -59,13 +59,17 @@ export default {
   },
   data: function() {
     return {
-      store: userStore,
+      store: authStore,
       searchQuery: '',
       analysisList: [],
       username: '',
     };
   },
   computed: {
+    username() {
+      console.log(this.store.state)
+      return this.store.state.username;
+    },
     searchedAnalysisListing() {
       return this.searchQuery === '' ? this.analysisList : this.analysisList.filter( (analysis) => {
         return analysis.name.includes(this.searchQuery) ||
@@ -82,11 +86,6 @@ export default {
   },
   created() {
     this.getListing();
-  },
-  computed: {
-    username() {
-      return this.store.state.name;
-    }
   },
   methods: {
     async getListing() {
@@ -133,7 +132,7 @@ export default {
       }
     },
     async onLogout() {
-      await Auth.logout();
+      await this.store.logout();
       this.$router.push({path: '/rosalution/login'});
     },
   },
