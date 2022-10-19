@@ -110,7 +110,7 @@ async def create_file(
 def upload(analysis_name: str, upload_file: UploadFile = File(...), comments: str = Form(...),
            repositories=Depends(database)):
     """Uploads a file to GridFS and adds it to the analysis"""
-    if repositories['bucket'].check_if_exists(upload_file.filename):
+    if repositories['bucket'].filename_exists(upload_file.filename):
         raise HTTPException(
             status_code=409, detail="File already exists in Rosalution")
     new_file_object_id = repositories['bucket'].save_file(
@@ -154,7 +154,7 @@ def attach_supporting_evidence_file(
     repositories=Depends(database)
 ):
     """Uploads a file to GridFS and adds it to the analysis"""
-    if repositories['bucket'].check_if_exists(upload_file.filename):
+    if repositories['bucket'].filename_exists(upload_file.filename):
         raise HTTPException(
             status_code=409, detail="File already exists in Rosalution")
     new_file_object_id = repositories['bucket'].save_file(
@@ -184,3 +184,11 @@ def get_genomic_units(analysis_name: str, repositories=Depends(database)):
     except ValueError as exception:
         raise HTTPException(
             status_code=404, detail=str(exception)) from exception
+
+
+@router.delete("/{analysis_name}/attachment/{attachment_id}/remove")
+def remove_supporting_evidence(analysis_name: str, attachment_id: str, repositories=Depends(database)):
+    """ Removes a supporting evidence file from an analysis """
+    if repositories["bucket"].id_exists(attachment_id):
+        repositories["bucket"].delete_file(attachment_id)
+    return repositories["analysis"].remove_supporting_evidence(analysis_name, attachment_id)

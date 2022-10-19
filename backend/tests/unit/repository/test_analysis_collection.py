@@ -129,6 +129,18 @@ def test_get_genomic_units_with_no_p_dot(analysis_collection, analysis_with_no_p
         'NM_001017980.3:c.164G>T']}
 
 
+def test_remove_supporting_evidence(analysis_collection):
+    """Tests the remove_supporting_evidence function"""
+    analysis_collection.collection.find_one.return_value = read_test_fixture(
+        "analysis-CPAM0002.json")
+    expected = read_test_fixture("analysis-CPAM0002.json")
+    expected["supporting_evidence_files"] = []
+    analysis_collection.collection.find_one_and_update.return_value = expected
+    actual = analysis_collection.remove_supporting_evidence(
+        "CPAM0002", "633afb87fb250a6ea1569555")
+    assert actual == expected
+
+
 @pytest.fixture(name="analysis_with_no_p_dot")
 def fixture_analysis_with_no_p_dot():
     """Returns an analysis with no p. in the genomic unit"""

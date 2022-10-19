@@ -210,3 +210,19 @@ class AnalysisCollection:
             genomic_units_return["variants"].extend(variants)
 
         return genomic_units_return
+
+    def remove_supporting_evidence(self, analysis_name: str, attachment_id: str):
+        """ Removes a supporting evidence file from an analysis """
+        supporting_evidence_files = self.collection.find_one({"name": analysis_name})[
+            "supporting_evidence_files"]
+        index_to_remove = supporting_evidence_files.index(next(filter(
+            lambda x: x["attachment_id"] == attachment_id, supporting_evidence_files), None))
+        del supporting_evidence_files[index_to_remove]
+        updated_document = self.collection.find_one_and_update({"name": analysis_name},
+                                                               {"$set": {
+                                                                   "supporting_evidence_files":
+                                                                   supporting_evidence_files}},
+                                                               return_document=ReturnDocument.AFTER)
+        # remove the _id field from the returned document since it is not JSON serializable
+        updated_document.pop("_id", None)
+        return updated_document

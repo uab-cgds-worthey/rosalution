@@ -39,11 +39,13 @@ def fixture_analysis_collection(analysis_collection_json, updated_analysis_colle
 def fixture_gridfs_bucket_collection():
     """Returns the GridFS bucket collection to be mocked"""
     mock_collection = mock_mongo_collection()
-    mock_collection.check_if_exists = Mock(return_value=True)
+    mock_collection.filename_exists = Mock(return_value=True)
+    mock_collection.check_if_id_exists = Mock(return_value=True)
     mock_collection.save_file = Mock(return_value="633afb87fb250a6ea1569555")
     mock_collection.list_files = Mock(return_value=["test.txt"])
     mock_collection.find_file_by_name = Mock(
         return_value=b"This is a test file")
+    mock_collection.delete = Mock(return_value=None)
     return mock_collection
 
 
@@ -62,11 +64,13 @@ def fixture_genomic_unit_collection(genomic_unit_collection_json):
 
     return GenomicUnitCollection(mock_collection)
 
+
 @pytest.fixture(name="cpam0002_analysis_json")
 def fixture_cpam0002_analysis_json(analysis_collection_json):
     """JSON for the CPAM0002 Analysis"""
     return next(
         (analysis for analysis in analysis_collection_json if analysis['name'] == "CPAM0002"), None)
+
 
 @pytest.fixture(name="cpam0002_analysis")
 def fixture_analysis(cpam0002_analysis_json):
