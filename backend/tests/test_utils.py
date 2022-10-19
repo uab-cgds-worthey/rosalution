@@ -67,6 +67,8 @@ def mock_gridfs_bucket():
     mock_bucket.put = Mock()
     mock_bucket.get = Mock()
     mock_bucket.list = Mock()
+    mock_bucket.exists = Mock()
+    mock_bucket.delete = Mock()
     return mock_bucket
 
 
@@ -78,4 +80,6 @@ def magic_mock_gridfs_bucket():
     mock_bucket.put = MagicMock()
     mock_bucket.get = MagicMock()
     mock_bucket.list = MagicMock()
+    mock_bucket.exists = MagicMock()
+    mock_bucket.delete = MagicMock()
     return mock_bucket
