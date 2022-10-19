@@ -9,7 +9,6 @@ import AnnotationSection from '@/components/AnnotationView/AnnotationSection.vue
 import AnnotationViewHeader from '@/components/AnnotationView/AnnotationViewHeader.vue';
 import TextDataset from '@/components/AnnotationView/TextDataset.vue';
 
-import {authStore} from '../../src/stores/authStore';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 describe('AnnotationView', () => {
@@ -17,7 +16,6 @@ describe('AnnotationView', () => {
   let mockAnnotations;
   // Future Mock Analyis Annotation Rendering Configuration
   // Future Mock Annotations for Active Gene and Variant being analyzed
-  let mockedUser;
 
   const mockRoute = {
     params: {
@@ -38,8 +36,6 @@ describe('AnnotationView', () => {
       analysis_name: 'CPAM0046',
     };
 
-    mockedUser = sandbox.stub(authStore, 'fetchUser');
-    mockedUser.returns('');
     mockAnnotations = sandbox.stub(Annotations, 'getAnnotations');
     mockAnnotations.returns(mockAnnotationsForCPAM0002);
 

@@ -28,8 +28,7 @@ const authStore = {
   hasRole(role) {
     return this.state.roles.includes(role);
   },
-  /* CAS Login Functions */
-  async loginCas() {
+  async loginUAB() {
     const baseUrl = '/rosalution/api/';
     const urlQuery = 'auth/login';
     const body = await Requests.get(baseUrl + urlQuery);
@@ -40,10 +39,10 @@ const authStore = {
 
     return body;
   },
-  async logoutCas() {
+  async loginDevelopment(data) {
     const baseUrl = '/rosalution/api/';
-    const urlQuery = 'auth/logoutCas';
-    const body = await Requests.get(baseUrl + urlQuery);
+    const urlQuery = 'auth/login_dev';
+    const body = await Requests.postLogin(baseUrl + urlQuery, data);
     if ('errors' in body) {
       const errorString = body.data.errors.map((error) => error.message).join('; ');
       throw new Error('Failed to login: ' + errorString);
@@ -51,21 +50,9 @@ const authStore = {
 
     return body;
   },
-  /* OAuth2 Login Functions */
-  async loginOAuth(data) {
+  async verifyToken() {
     const baseUrl = '/rosalution/api/';
-    const urlQuery = 'auth/token';
-    const body = await Requests.postLogin(baseUrl + urlQuery, data);
-    if ('errors' in body) {
-      const errorString = body.data.errors.map((error) => error.message).join('; ');
-      throw new Error('Failed to login: ' + errorString);
-    }
-
-    this.saveState(body);
-  },
-  async verifyUser() {
-    const baseUrl = '/rosalution/api/';
-    const urlQuery = 'auth/verify';
+    const urlQuery = 'auth/verify_token';
 
     const body = await Requests.get(baseUrl + urlQuery);
     if ('errors' in body) {
@@ -84,20 +71,6 @@ const authStore = {
     if ('errors' in body) {
       const errorString = body.data.errors.map((error) => error.message).join('; ');
       throw new Error('Failed to logout: ' + errorString);
-    }
-
-    return body;
-  },
-  /* User specific endpoints */
-  async fetchUser() {
-    const baseUrl = '/rosalution/api/';
-    const urlQuery = 'auth/get_user';
-
-    const body = await Requests.get(baseUrl + urlQuery);
-
-    if ('errors' in body) {
-      const errorString = body.data.errors.map((error) => error.message).join('; ');
-      throw new Error('Failed to fetch user: ' + errorString);
     }
 
     return body;

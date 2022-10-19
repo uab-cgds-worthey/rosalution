@@ -51,8 +51,9 @@ router.beforeEach(async (to) => {
 
   if (!token && to.name !== 'login') {
     return {name: 'login'};
-  } else {
-    authStore.saveState(await authStore.fetchUser());
+  } else if (token) {
+    const response = await authStore.verifyToken();
+    authStore.saveState(response);
   }
 });
 

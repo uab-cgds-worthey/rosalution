@@ -48,7 +48,6 @@ describe('AnalysisView', () => {
   let mockedData;
   let pedigreeAttachMock;
   let mockedAttachmentSavedReturned;
-  let mockedUser;
   let mockedLogout;
   let wrapper;
   let sandbox;
@@ -60,9 +59,6 @@ describe('AnalysisView', () => {
 
     pedigreeAttachMock = sandbox.stub(Analyses, 'attachSectionBoxImage');
     mockedAttachmentSavedReturned = sandbox.stub(Analyses, 'attachSupportingEvidence');
-
-    mockedUser = sandbox.stub(authStore, 'fetchUser');
-    mockedUser.returns('');
 
     mockedLogout = sandbox.stub(authStore, 'logout');
   });

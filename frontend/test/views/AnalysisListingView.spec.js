@@ -19,7 +19,6 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 describe('AnalysisListingView', () => {
   let mockedData;
   let mockedImport;
-  let mockedUser;
   let mockedLogout;
   let wrapper;
   let sandbox;
@@ -30,9 +29,6 @@ describe('AnalysisListingView', () => {
     mockedData.returns(fixtureData());
 
     mockedImport = sandbox.stub(Analyses, 'importPhenotipsAnalysis');
-
-    mockedUser = sandbox.stub(authStore, 'fetchUser');
-    mockedUser.returns('');
 
     mockedLogout = sandbox.stub(authStore, 'logout');
 

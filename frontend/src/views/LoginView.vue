@@ -6,7 +6,7 @@
       </h2>
       <button
         class="rosalution-button login-uab-button"
-        @click="productionLogin"
+        @click="loginUAB"
         type="submit"
         data-test="prod-login-button"
       >
@@ -57,7 +57,7 @@ export default {
       localLoginButton.classList.add('rosalution-button');
       localLoginButton.setAttribute('style', 'margin-top: 0.625rem;');
       localLoginButton.setAttribute('data-test', 'local-login-button');
-      localLoginButton.addEventListener('click', this.developmentLogin);
+      localLoginButton.addEventListener('click', this.loginDevelopment);
       localLoginButton.innerText = 'Login';
 
       /* The divider line between local and UAB login */
@@ -79,16 +79,16 @@ export default {
     }
   },
   methods: {
-    async developmentLogin() {
+    async loginDevelopment() {
       // Password is hard coded. Taking it out would require a rewrite of the backend as of now.
       if (this.username != '') {
-        const userData = {'username': this.username, 'password': 'secret'};
-        await this.store.loginOAuth(userData);
+        const userData = {'username': this.username, 'password': ''};
+        await this.store.loginDevelopment(userData);
         this.$router.push('/rosalution/');
       }
     },
-    async productionLogin() {
-      const response = await this.store.loginCas();
+    async loginUAB() {
+      const response = await this.store.loginUAB();
 
       /*
       The CAS login sends a URL as a response. The URL can change depending on whether or not you have a valid

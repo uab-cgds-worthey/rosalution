@@ -39,19 +39,19 @@ function getMountedComponent(props) {
 
 describe('LoginView.vue', () => {
   const sandbox = sinon.createSandbox();
-  let mockOAuthLogin;
-  let mockUABCASLogin;
+  let mockLoginDevelopment;
+  let mockLoginUAB;
 
   beforeEach(() => {
-    mockOAuthLogin = sandbox.stub(authStore, 'loginOAuth');
-    mockUABCASLogin = sandbox.stub(authStore, 'loginCas');
+    mockLoginDevelopment = sandbox.stub(authStore, 'loginDevelopment');
+    mockLoginUAB = sandbox.stub(authStore, 'loginUAB');
   });
 
   afterEach(() => {
     sandbox.restore();
   });
 
-  it('When login button pressed, does it call the oauth2 function with the correct parameters', async () => {
+  it('When login button pressed, does it call the Development Login with the correct parameters', async () => {
     const wrapper = getMountedComponent();
 
     const userInput = wrapper.find('[data-test=username-input]');
@@ -63,10 +63,10 @@ describe('LoginView.vue', () => {
     localLoginButton.trigger('click');
     await wrapper.vm.$nextTick();
 
-    expect(mockOAuthLogin.calledWith(fakeUserData)).toBe(true);
+    expect(mockLoginDevelopment.calledWith(fakeUserData)).toBe(true);
   });
 
-  it('When the UAB login button is pressed, does it call the CAS login function', async () => {
+  it('When the UAB login button is pressed, does it call the UAB Login function', async () => {
     const wrapper = getMountedComponent();
 
     const prodLoginButton = wrapper.find('[data-test=prod-login-button]');
@@ -74,8 +74,8 @@ describe('LoginView.vue', () => {
     prodLoginButton.trigger('click');
     await wrapper.vm.$nextTick();
 
-    expect(mockUABCASLogin.called).toBe(true);
+    expect(mockLoginUAB.called).toBe(true);
   });
 });
 
-const fakeUserData = {'username': 'UABProvider', 'password': 'secret'};
+const fakeUserData = {'username': 'UABProvider', 'password': ''};

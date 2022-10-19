@@ -22,23 +22,19 @@ describe('user.js', () => {
   it('Initiates a development login and recieves a bearer token', async () => {
     mockPostLoginRequest.returns(userResponse);
 
-    const userData = {'username': 'fakeUser', 'password': 'secret'};
-    await authStore.loginOAuth(userData);
-
-    expect(authStore.state['username']).to.equal('fakename');
-    expect(authStore.state['full_name']).to.equal('Fake Name');
-    expect(authStore.state['email']).to.equal('fakemail@fake.com');
+    const userData = {'username': 'fakeUser', 'password': ''};
+    await authStore.loginDevelopment(userData);
   });
 
   it('Queries the user from the backend session, user is NOT logged in', async () => {
     mockGetRequest.returns({'username': ''});
-    const username = await authStore.fetchUser();
+    const username = await authStore.verifyToken();
     expect(username['username']).to.equal('');
   });
 
   it('Queries the user from the backend session, user is logged in', async () => {
     mockGetRequest.returns({'username': 'UABProvider'});
-    const username = await authStore.fetchUser();
+    const username = await authStore.verifyToken();
     expect(username['username']).to.equal('UABProvider');
   });
 });
