@@ -49,7 +49,7 @@ def test_login_successful(client, mock_repositories, monkeypatch):
 
     mock_repositories['user'].collection.find_one.return_value = {
         "username": "UABProvider",
-        "scopes": ['fakescope'],
+        "scope": ['fakescope'],
         "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm"
     }
 

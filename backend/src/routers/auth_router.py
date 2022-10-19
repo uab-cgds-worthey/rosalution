@@ -70,7 +70,7 @@ async def login(
     access_token = create_access_token(
         data={
             "sub": authenticate_user['username'],
-            "scopes": [authenticate_user['scopes']]
+            "scopes": [authenticate_user['scope']]
         }
     )
 
