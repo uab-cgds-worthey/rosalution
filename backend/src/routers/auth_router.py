@@ -50,7 +50,7 @@ async def login(
     ticket: Optional[str] = None,
     repositories=Depends(database)
 ):
-    """rosalution Login Method"""
+    """Rosalution Login Method"""
     if request.session.get("username", None):
         # We're already logged in, don't need to do the login process
         return {"url": "http://dev.cgds.uab.edu/rosalution/"}
@@ -73,8 +73,7 @@ async def login(
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
 
     request.session["username"] = user['username']
-    request.session["attributes"] = attributes
-    request.session["pgtiou"] = pgtiou
+
     base_url = "http://dev.cgds.uab.edu"
     return RedirectResponse(base_url + nexturl)
 
@@ -85,17 +84,6 @@ def get_user(request: Request):
         return {"username": request.session["username"]}
 
     return {"username": ""}
-
-@router.get("/logoutCas")
-def logout(request: Request):
-    """Test Logout Method"""
-    redirect_url = request.url_for("login")
-    cas_logout_url = cas_client.get_logout_url(redirect_url)
-    request.session.pop("username", None)
-    request.session.pop("attributes", None)
-    request.session.pop("pgtiou", None)
-
-    return {"url": cas_logout_url}
 
 ## OAuth2 Login ##
 
@@ -146,6 +134,17 @@ def issue_token(
         raise HTTPException(status_code=400, detail="Inactive User")
 
     return current_user
+
+@router.get("/logoutCas")
+def logout(request: Request):
+    """Test Logout Method"""
+    # redirect_url = request.url_for("login")
+    # cas_logout_url = cas_client.get_logout_url(redirect_url)
+    # request.session.pop("username", None)
+    # request.session.pop("attributes", None)
+    # request.session.pop("pgtiou", None)
+
+    # return {"url": cas_logout_url}
 
 @router.get("/logout")
 def logout_oauth(request: Request):
