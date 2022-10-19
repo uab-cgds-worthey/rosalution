@@ -62,10 +62,12 @@ async def login(
         return RedirectResponse("http://dev.cgds.uab.edu/rosalution/auth/login")
 
     # Login was successful, redirect to the 'nexturl' query parameter
-    authenticate_user = repositories["user"].authenticate_user(user, 'secret')
+    print(user)
 
     if not user:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
+
+    authenticate_user = repositories["user"].authenticate_user(user, 'secret')
 
     access_token = create_access_token(
         data={
@@ -74,15 +76,19 @@ async def login(
         }
     )
 
-    response.set_cookie(key="rosalution_TOKEN", value=access_token)
     request.session["username"] = authenticate_user['username']
     request.session["attributes"] = attributes
     request.session["pgtiou"] = pgtiou
 
     base_url = "http://dev.cgds.uab.edu"
-    return RedirectResponse(base_url + nexturl)
 
-@router.post("/login_dev", response_model=User)
+    response = RedirectResponse(url=base_url+nexturl)
+    response.set_cookie(key="rosalution_TOKEN", value=access_token)
+
+    return response
+
+# This needs to be /token for the api/docs to work in issuing and recognizing a bearer
+@router.post("/token", response_model=User)
 def login_local_developer(
     request: Request,
     response: Response,
@@ -95,6 +101,7 @@ def login_local_developer(
     authenticate_user = repositories["user"].authenticate_user(
         form_data.username, form_data.password)
 
+    print(authenticate_user)
     if not authenticate_user:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
 
@@ -105,12 +112,12 @@ def login_local_developer(
         }
     )
 
+    content = {"access_token": access_token, "token_type": "bearer"}
+    response = JSONResponse(content=content)
     response.set_cookie(key="rosalution_TOKEN", value=access_token)
     request.session["username"] = authenticate_user['username']
 
-    user = repositories["user"].find_by_username(authenticate_user['username'])
-
-    return User(**user)
+    return response
 
 @router.get("/verify_token", response_model=User)
 def verify_token(
