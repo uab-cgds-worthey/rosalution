@@ -22,8 +22,9 @@
             <font-awesome-icon :icon="['far', 'file']" size="lg" v-if="attachment.type==='file'"/>
             <font-awesome-icon icon="link" size="lg" v-else-if="attachment.type==='link'"/>
           </td>
-          <td class="attachment-name">
-            {{ attachment.name }}
+          <td class="attachment-data" rowspan="2">
+            <div class="attachment-name">{{ attachment.name }}</div>
+            <div class="attachment-comments">{{ attachment.comments }}</div>
           </td>
           <td class="edit-button">
             <button @click="$emit('edit', attachment)" data-test="edit-button">
@@ -129,11 +130,23 @@ export default {
     line-height: 1.75rem;
   }
 
-  .attachment-name {
+  .attachment-data {
     padding-left: 1rem;
-    color: var(--rosalution-purple-300);
     vertical-align: middle;
+  }
+
+  .attachment-name {
+    color: var(--rosalution-purple-300);
     font-weight: bold;
+  }
+  .attachment-comments {
+    color: var(--rosalution-black);
+    font-weight: normal;
+    font-size: .875rem;
+    max-width: 120ch;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   .edit-button {
