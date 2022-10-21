@@ -5,7 +5,7 @@
           :actions="this.menuActions"
           :titleText="this.analysis_name"
           :sectionAnchors="this.sectionsHeaders"
-          :username="this.username"
+          :username="username"
           @logout="this.onLogout"
           data-test="analysis-view-header">
         </AnalysisViewHeader>
@@ -57,11 +57,12 @@ import GeneBox from '../components/AnalysisView/GeneBox.vue';
 import InputDialog from '../components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
-import Auth from '../models/authentication.js';
 import SaveModal from '../components/AnalysisView/SaveModal.vue';
 
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
+
+import {authStore} from '@/stores/authStore.js';
 
 export default {
   name: 'analysis-view',
@@ -77,7 +78,7 @@ export default {
   props: ['analysis_name'],
   data: function() {
     return {
-      username: '',
+      store: authStore,
       analysis: {},
       sectionsList: [],
       genomicUnitsList: [],
@@ -93,6 +94,9 @@ export default {
     };
   },
   computed: {
+    username() {
+      return this.store.state.username;
+    },
     sectionsHeaders() {
       const sections = this.sectionsList.map((section) => {
         return section.header;
@@ -102,14 +106,10 @@ export default {
     },
   },
   created() {
-    this.getUsername();
     this.getAnalysis();
   },
   methods: {
-    async getUsername() {
-      const fetchUser = await Auth.getUser();
-      this.username = fetchUser['username'];
-    },
+
     async getAnalysis() {
       this.analysis = {...await Analyses.getAnalysis(this.analysis_name)};
       this.getSections();
@@ -165,7 +165,7 @@ export default {
         this.attachments.splice(0);
         this.attachments.push(...updatedAnalysis.supporting_evidence_files);
       } catch (error) {
-        console.error('Updating the anlayis did not work');
+        console.error('Updating the analysis did not work');
       }
     },
     async onDeleteAttachmentEvent(attachmentToDelete) {
@@ -196,7 +196,7 @@ export default {
       }
     },
     async onLogout() {
-      await Auth.logout();
+      await this.store.logout();
       this.$router.push({path: '/rosalution/login'});
     },
     uptickForceRenderKey() {

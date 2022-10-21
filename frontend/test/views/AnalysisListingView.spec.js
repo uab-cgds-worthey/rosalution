@@ -3,7 +3,6 @@ import {shallowMount} from '@vue/test-utils';
 import sinon from 'sinon';
 
 import Analyses from '@/models/analyses.js';
-import Auth from '@/models/authentication.js';
 import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
 import AnalysisCreateCard from '@/components/AnalysisListing/AnalysisCreateCard.vue';
 import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
@@ -14,12 +13,12 @@ import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
 
+import {authStore} from '@/stores/authStore.js';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 describe('AnalysisListingView', () => {
   let mockedData;
   let mockedImport;
-  let mockedUser;
   let mockedLogout;
   let wrapper;
   let sandbox;
@@ -31,10 +30,7 @@ describe('AnalysisListingView', () => {
 
     mockedImport = sandbox.stub(Analyses, 'importPhenotipsAnalysis');
 
-    mockedUser = sandbox.stub(Auth, 'getUser');
-    mockedUser.returns('');
-
-    mockedLogout = sandbox.stub(Auth, 'logout');
+    mockedLogout = sandbox.stub(authStore, 'logout');
 
     wrapper = shallowMount(AnalysisListingView, {
       global: {

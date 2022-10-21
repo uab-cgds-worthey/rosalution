@@ -13,6 +13,7 @@ import './styles/main.css';
 import './styles/rosalution.css';
 // import './styles/proxima-nova-font.css'
 
+import {authStore} from '@/stores/authStore.js';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {
@@ -31,7 +32,7 @@ library.add(
 
 // The NotFoundView should always be last because it's an ordered array.
 const routes = [
-  {path: '/rosalution/login', component: LoginView},
+  {path: '/rosalution/login', name: 'login', component: LoginView},
   {path: '/rosalution', component: AnalysisListingView},
   {path: '/rosalution/about', component: AboutView},
   {path: '/rosalution/analysis/:analysis_name', name: 'analysis', component: AnalysisView, props: true},
@@ -43,6 +44,17 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach(async (to) => {
+  const token = authStore.getToken();
+
+  if (!token && to.name !== 'login') {
+    return {name: 'login'};
+  } else if (token) {
+    const response = await authStore.verifyToken();
+    authStore.saveState(response);
+  }
 });
 
 const app = createApp(App);

@@ -1,5 +1,4 @@
 """ FastAPI Authentication router file that handles the auth lifecycle of the application """
-from datetime import timedelta
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Security, Response
@@ -8,11 +7,9 @@ from fastapi.security import OAuth2PasswordRequestForm
 from starlette.requests import Request
 
 from cas import CASClient
-from src import constants
 
 from ..models.user import User, VerifyUser
-from ..security.jwt import create_access_token
-from ..security.security import get_authorization, get_current_user
+from ..security.security import get_authorization, get_current_user, create_access_token
 
 from ..dependencies import database
 
@@ -38,19 +35,17 @@ def test(authorized=Security(get_authorization, scopes=["developer"])):
         "Ka": ["Boom", "Blammo", "Pow"],
     }
 
-## CAS Login ##
-
 # pylint: disable=no-member
 # This is done because pylint doesn't appear to be recognizing python-cas's functions saying they have no member
-
 @router.get("/login")
 async def login(
     request: Request,
+    response: Response,
     nexturl: Optional[str] = None,
     ticket: Optional[str] = None,
     repositories=Depends(database)
 ):
-    """rosalution Login Method"""
+    """Rosalution Login Method"""
     if request.session.get("username", None):
         # We're already logged in, don't need to do the login process
         return {"url": "http://dev.cgds.uab.edu/rosalution/"}
@@ -67,40 +62,34 @@ async def login(
         return RedirectResponse("http://dev.cgds.uab.edu/rosalution/auth/login")
 
     # Login was successful, redirect to the 'nexturl' query parameter
-    user = repositories["user"].authenticate_user(user, 'secret')
+    print(user)
 
     if not user:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
 
-    request.session["username"] = user['username']
+    authenticate_user = repositories["user"].authenticate_user(user, 'secret')
+
+    access_token = create_access_token(
+        data={
+            "sub": authenticate_user['username'],
+            "scopes": [authenticate_user['scope']]
+        }
+    )
+
+    request.session["username"] = authenticate_user['username']
     request.session["attributes"] = attributes
     request.session["pgtiou"] = pgtiou
+
     base_url = "http://dev.cgds.uab.edu"
-    return RedirectResponse(base_url + nexturl)
 
-@router.get("/get_user")
-def get_user(request: Request):
-    """Returns active user in session"""
-    if "username" in request.session:
-        return {"username": request.session["username"]}
+    response = RedirectResponse(url=base_url+nexturl)
+    response.set_cookie(key="rosalution_TOKEN", value=access_token)
 
-    return {"username": ""}
+    return response
 
-@router.get("/logoutCas")
-def logout(request: Request):
-    """Test Logout Method"""
-    redirect_url = request.url_for("login")
-    cas_logout_url = cas_client.get_logout_url(redirect_url)
-    request.session.pop("username", None)
-    request.session.pop("attributes", None)
-    request.session.pop("pgtiou", None)
-
-    return {"url": cas_logout_url}
-
-## OAuth2 Login ##
-
-@router.post("/token")
-def login_oauth(
+# This needs to be /token for the api/docs to work in issuing and recognizing a bearer
+@router.post("/token", response_model=User)
+def login_local_developer(
     request: Request,
     response: Response,
     form_data: OAuth2PasswordRequestForm = Depends(),
@@ -109,35 +98,34 @@ def login_oauth(
     """
     OAuth2 compatible token login, get an access token for future requests.
     """
-    user = repositories["user"].authenticate_user(
+    authenticate_user = repositories["user"].authenticate_user(
         form_data.username, form_data.password)
 
-    if not user:
+    print(authenticate_user)
+    if not authenticate_user:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
 
-    access_token_expires = timedelta(
-        minutes=constants.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user['username'], "scopes": [user['scope']]},
-        expires_delta=access_token_expires,
+        data={
+            "sub": authenticate_user['username'],
+            "scopes": [authenticate_user['scope']]
+        }
     )
+
     content = {"access_token": access_token, "token_type": "bearer"}
     response = JSONResponse(content=content)
     response.set_cookie(key="rosalution_TOKEN", value=access_token)
-    request.session["username"] = user['username']
+    request.session["username"] = authenticate_user['username']
+
     return response
 
-@router.get("/verify", response_model=User)
-def issue_token(
-    request: Request,
+@router.get("/verify_token", response_model=User)
+def verify_token(
     repositories=Depends(database),
-    username: VerifyUser = Security(get_current_user, scopes=["read"]),
+    username: VerifyUser = Security(get_current_user),
 ):
     """This function issues the authentication token for the frontend to make requests"""
-    if "username" in request.session:
-        print(request.session["username"])
-    user_collection = repositories["user"]
-    user = user_collection.find_by_username(username)
+    user = repositories["user"].find_by_username(username)
     current_user = User(**user)
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive User")
@@ -150,6 +138,8 @@ def logout_oauth(request: Request):
     content = {"access_token": ""}
     response = JSONResponse(content=content)
     response.delete_cookie(key="rosalution_TOKEN")
+    request.session.pop("attributes", None)
+    request.session.pop("pgtiou", None)
     if "username" in request.session:
         request.session.pop("username", None)
     return response

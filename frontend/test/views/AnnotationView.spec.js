@@ -2,7 +2,6 @@ import {expect, describe, it, beforeAll, afterAll} from 'vitest';
 import {config, mount} from '@vue/test-utils';
 import sinon from 'sinon';
 
-import Auth from '@/models/authentication.js';
 import Annotations from '@/models/annotations.js';
 
 import AnnotationView from '@/views/AnnotationView.vue';
@@ -17,7 +16,6 @@ describe('AnnotationView', () => {
   let mockAnnotations;
   // Future Mock Analyis Annotation Rendering Configuration
   // Future Mock Annotations for Active Gene and Variant being analyzed
-  let mockedUser;
 
   const mockRoute = {
     params: {
@@ -38,8 +36,6 @@ describe('AnnotationView', () => {
       analysis_name: 'CPAM0046',
     };
 
-    mockedUser = sandbox.stub(Auth, 'getUser');
-    mockedUser.returns('');
     mockAnnotations = sandbox.stub(Annotations, 'getAnnotations');
     mockAnnotations.returns(mockAnnotationsForCPAM0002);
 

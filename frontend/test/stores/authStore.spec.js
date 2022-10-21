@@ -1,7 +1,8 @@
 import {describe, it, expect, beforeEach, afterEach} from 'vitest';
 
-import Auth from '@/models/authentication.js';
 import Requests from '@/requests.js';
+
+import {authStore} from '@/stores/authStore.js';
 import sinon from 'sinon';
 
 describe('user.js', () => {
@@ -19,27 +20,27 @@ describe('user.js', () => {
   });
 
   it('Initiates a development login and recieves a bearer token', async () => {
-    mockPostLoginRequest.returns(testToken);
+    mockPostLoginRequest.returns(userResponse);
 
-    const userData = {'username': 'fakeUser', 'password': 'secret'};
-    const token = await Auth.loginOAuth(userData);
-    expect(token.access_token).to.equal('fake-token');
+    const userData = {'username': 'fakeUser', 'password': ''};
+    await authStore.loginDevelopment(userData);
   });
 
   it('Queries the user from the backend session, user is NOT logged in', async () => {
     mockGetRequest.returns({'username': ''});
-    const username = await Auth.getUser();
+    const username = await authStore.verifyToken();
     expect(username['username']).to.equal('');
   });
 
   it('Queries the user from the backend session, user is logged in', async () => {
     mockGetRequest.returns({'username': 'UABProvider'});
-    const username = await Auth.getUser();
+    const username = await authStore.verifyToken();
     expect(username['username']).to.equal('UABProvider');
   });
 });
 
-const testToken = {
-  'access_token': 'fake-token',
-  'token_type': 'bearer',
+const userResponse = {
+  'username': 'fakename',
+  'full_name': 'Fake Name',
+  'email': 'fakemail@fake.com',
 };

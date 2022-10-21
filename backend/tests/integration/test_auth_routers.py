@@ -15,7 +15,6 @@ def create_session_cookie(data) -> str:
         b64encode(json.dumps(data).encode("utf-8")),
     ).decode("utf-8")
 
-
 # # Authentication Tests #
 
 def test_login_no_session(client):
@@ -27,7 +26,6 @@ def test_login_no_session(client):
         + "%2F%2Fdev.cgds.uab.edu%2Frosalution%2Fapi%2Fauth%2Flogin%3Fnexturl%3D%252Frosalution"
     )
 
-
 def test_login_existing_session(client):
     """Testing the login endpoint when there is an existing login session"""
     response = client.get(
@@ -35,7 +33,6 @@ def test_login_existing_session(client):
         cookies={"session": create_session_cookie({"username": "UABProvider"})},
     )
     assert response.json()["url"] == "http://dev.cgds.uab.edu/rosalution/"
-
 
 def test_login_successful(client, mock_repositories, monkeypatch):
     """Testing the login endpoint when there's a successful login and redirect"""
@@ -52,6 +49,7 @@ def test_login_successful(client, mock_repositories, monkeypatch):
 
     mock_repositories['user'].collection.find_one.return_value = {
         "username": "UABProvider",
+        "scope": ['fakescope'],
         "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm"
     }
 
@@ -59,26 +57,7 @@ def test_login_successful(client, mock_repositories, monkeypatch):
 
     assert response.url == "http://dev.cgds.uab.edu/rosalution"
 
-
-def test_get_user_not_logged_in(client):
-    """Testing the get_user endpoint when there is no user saved in the session"""
-    response = client.get("/auth/get_user")
-    assert response.json()["username"] == ""
-
-
-def test_get_user_logged_in(client):
-    """Testing if the logged in user returns the proper username"""
-    response = client.get(
-        "/auth/get_user",
-        cookies={"session": create_session_cookie({"username": "UABProvider"})},
-    )
-    assert response.json()["username"] == "UABProvider"
-
-
 def test_logout(client):
     """Testing the log out functionality"""
-    response = client.get("/auth/logoutCas")
-    assert (
-        response.json()["url"]
-        == "https://padlockdev.idm.uab.edu/cas/logout?service=http%3A%2F%2Ftestserver%2Frosalution%2Fapi%2Fauth%2Flogin"
-    )
+    response = client.get("/auth/logout")
+    assert response.json() == {"access_token": ""}

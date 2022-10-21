@@ -7,7 +7,7 @@ from fastapi.testclient import TestClient
 from src.main import app
 from src.database import Database
 from src.dependencies import database, annotation_queue
-from src.security.jwt import create_access_token
+from src.security.security import create_access_token
 
 from ..test_utils import mock_mongo_collection, mock_gridfs_bucket, read_database_fixture
 
@@ -48,12 +48,10 @@ def test_auth_user():
     """A mocked user that can be used to generate an OAuth2 access token"""
     return {"sub": "johndoe", "scopes": ["read", "write"]}
 
-
 @pytest.fixture(name="mock_access_token")
 def mock_access_token(mock_user):
     """Mocks a valid access token for the tests to properly execute"""
-    return create_access_token(data=mock_user, expires_delta=None)
-
+    return create_access_token(data=mock_user)
 
 @pytest.fixture(name="mock_file_upload")
 def mock_file_upload():

@@ -27,7 +27,6 @@
     <InputDialog data-test="phenotips-import-dialog"/>
     <NotificationDialog data-test="notification-dialog" />
     <AnalysisListingLegend/>
-
   </app-footer>
 </div>
 </template>
@@ -38,13 +37,14 @@ import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
 import AnalysisCreateCard from '@/components/AnalysisListing/AnalysisCreateCard.vue';
 import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
 import AnalysisListingLegend from '@/components/AnalysisListing/AnalysisListingLegend.vue';
-import Auth from '../models/authentication.js';
 
 import InputDialog from '../components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
+
+import {authStore} from '@/stores/authStore.js';
 
 export default {
   name: 'analysis-listing-view',
@@ -58,12 +58,15 @@ export default {
   },
   data: function() {
     return {
+      store: authStore,
       searchQuery: '',
       analysisList: [],
-      username: '',
     };
   },
   computed: {
+    username() {
+      return this.store.state.username;
+    },
     searchedAnalysisListing() {
       return this.searchQuery === '' ? this.analysisList : this.analysisList.filter( (analysis) => {
         return analysis.name.includes(this.searchQuery) ||
@@ -73,21 +76,15 @@ export default {
             } else if ( unit.transcript !== undefined ) {
               return unit.transcript.includes(this.searchQuery);
             }
-
             return false;
           });
       });
     },
   },
   created() {
-    this.getUsername();
     this.getListing();
   },
   methods: {
-    async getUsername() {
-      const fetchUser = await Auth.getUser();
-      this.username = fetchUser['username'];
-    },
     async getListing() {
       this.analysisList.length = 0;
       const analyses = await Analyses.all();
@@ -132,7 +129,7 @@ export default {
       }
     },
     async onLogout() {
-      await Auth.logout();
+      await this.store.logout();
       this.$router.push({path: '/rosalution/login'});
     },
   },

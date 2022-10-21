@@ -3,13 +3,15 @@ export default {
   async all() {
     const baseUrl = '/rosalution/api/';
     const urlQuery = 'analysis/summary';
-    return await Requests.get(baseUrl + urlQuery);
+    const analysesSummary = await Requests.get(baseUrl + urlQuery);
+    return analysesSummary;
   },
 
   async getAnalysis(analysisName) {
     const baseUrl = '/rosalution/api/';
     const urlQuery = 'analysis/' + analysisName;
-    return await Requests.get(baseUrl + urlQuery);
+    const body = await Requests.get(baseUrl + urlQuery);
+    return body;
   },
 
   async getAnnotationConfiguration(analysisName) {

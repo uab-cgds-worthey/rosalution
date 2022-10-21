@@ -1,6 +1,11 @@
 <template>
   <app-header>
-    <AnnotationViewHeader :analysisName="this.analysis_name" :genes="[this.gene]" :variants="[this.variant]">
+    <AnnotationViewHeader
+      :username="username"
+      :analysisName="this.analysis_name"
+      :genes="[this.gene]"
+      :variants="[this.variant]"
+    >
     </AnnotationViewHeader>
   </app-header>
   <app-content>
@@ -42,7 +47,6 @@
 <script>
 import Analyses from '@/models/analyses.js';
 import Annotations from '@/models/annotations.js';
-import Auth from '@/models/authentication.js';
 
 import AnnotationSection from '@/components/AnnotationView/AnnotationSection.vue';
 import AnnotationSidebar from '@/components/AnnotationView/AnnotationSidebar.vue';
@@ -53,6 +57,8 @@ import IconLinkoutDataset from '@/components/AnnotationView/IconLinkoutDataset.v
 import ScoreDataset from '@/components/AnnotationView/ScoreDataset.vue';
 import TextDataset from '@/components/AnnotationView/TextDataset.vue';
 import TranscriptDatasets from '@/components/AnnotationView/TranscriptDatasets.vue';
+
+import {authStore} from '@/stores/authStore.js';
 
 export default {
   name: 'annotation-view',
@@ -84,12 +90,15 @@ export default {
   },
   data: function() {
     return {
+      store: authStore,
       rendering: [],
-      username: '',
       annotations: {},
     };
   },
   computed: {
+    username() {
+      return this.store.state.username;
+    },
     sectionAnchors() {
       return this.rendering.map((section) => {
         return section.anchor;
@@ -97,7 +106,6 @@ export default {
     },
   },
   created() {
-    this.getUsername();
     this.getRenderingConfiguration();
     this.getAnnotations();
   },
@@ -107,10 +115,6 @@ export default {
     },
     linkoutUrl(datasetConfig) {
       return 'linkout_dataset' in datasetConfig ? this.annotations[datasetConfig['linkout_dataset']] : undefined;
-    },
-    async getUsername() {
-      const fetchUser = await Auth.getUser();
-      this.username = fetchUser['username'];
     },
     async getRenderingConfiguration() {
       this.rendering.push(...await Analyses.getAnnotationConfiguration(this.analysis_name));

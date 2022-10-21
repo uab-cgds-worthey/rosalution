@@ -1,7 +1,8 @@
-import {cookie} from './cookie.js';
+import {authStore} from '@/stores/authStore.js';
+
 export default {
   async get(url) {
-    const authToken = cookie.getCookie();
+    const authToken = authStore.getToken();
     const response = await fetch(url, {
       method: 'GET',
       headers: {
@@ -33,8 +34,6 @@ export default {
     }
     return content;
   },
-  // TODO: Need to find a way to craft the body of the request more elegantly
-  // Needs to allow for granting specific scope types dynamically?
   async postLogin(url, data) {
     const response = await fetch(url, {
       method: 'POST',
@@ -44,30 +43,26 @@ export default {
       },
       mode: 'cors',
       cache: 'no-cache',
-      body: 'grant_type=password&username=' + data.username + '&password=' + data.password,
+      body: 'grant_type=password&username=' + data.username + '&password=secret',
     });
 
     return await response.json();
   },
   async postForm(url, data) {
     const formData = new FormData();
-
     const fieldEntries = Object.entries(data);
     for (const [field, fieldContent] of fieldEntries) {
       formData.append(field, fieldContent);
     }
-
     const response = await fetch(url, {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',
       body: formData,
     });
-
     if ( response.ok != true ) {
       throw new Error('Status Code: ' +response.status +' '+response.statusText);
     }
-
     return await response.json();
   },
 };

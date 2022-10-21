@@ -3,7 +3,6 @@ import {shallowMount} from '@vue/test-utils';
 import sinon from 'sinon';
 
 import Analyses from '@/models/analyses.js';
-import Auth from '@/models/authentication.js';
 
 import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
@@ -14,10 +13,9 @@ import notificationDialog from '@/notificationDialog.js';
 
 import AnalysisView from '@/views/AnalysisView.vue';
 
-
+import {authStore} from '../../src/stores/authStore';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {RouterLink} from 'vue-router';
-
 
 /**
  * Helper mounts and returns the rendered component
@@ -46,12 +44,10 @@ function getMountedComponent(props) {
   });
 }
 
-
 describe('AnalysisView', () => {
   let mockedData;
   let pedigreeAttachMock;
   let mockedAttachmentSavedReturned;
-  let mockedUser;
   let mockedLogout;
   let wrapper;
   let sandbox;
@@ -64,10 +60,7 @@ describe('AnalysisView', () => {
     pedigreeAttachMock = sandbox.stub(Analyses, 'attachSectionBoxImage');
     mockedAttachmentSavedReturned = sandbox.stub(Analyses, 'attachSupportingEvidence');
 
-    mockedUser = sandbox.stub(Auth, 'getUser');
-    mockedUser.returns('');
-
-    mockedLogout = sandbox.stub(Auth, 'logout');
+    mockedLogout = sandbox.stub(authStore, 'logout');
   });
 
   beforeEach(() => {
