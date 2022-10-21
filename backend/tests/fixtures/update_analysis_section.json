@@ -38,7 +38,7 @@
         {
           "field": "Nominated",
           "value": [
-            "CMT4B3 Foundation"
+            "Lorem ipsum dolor"
           ]
         },
         {
@@ -58,7 +58,7 @@
       "content": [
         {
           "field": "Clinical Diagnosis",
-          "value": []
+          "value": ["Sed odio morbi quis commodo odio aenean sed. Hendrerit dolor magna eget lorem."]
         },
         {
           "field": "Affected Individuals Identified",

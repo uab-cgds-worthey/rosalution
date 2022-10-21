@@ -70,15 +70,6 @@ class AnalysisCollection:
         # returns an instance of InsertOneResult.
         return self.collection.insert_one(analysis_data)
 
-    def update_analysis(self, name: str, updated_analysis_data: dict):
-        """Updates an existing analysis"""
-        updated_document = self.collection.find_one_and_update({"name": name},
-                                                               {"$set": updated_analysis_data},
-                                                               return_document=ReturnDocument.AFTER)
-        # remove the _id field from the returned document since it is not JSON serializable
-        updated_document.pop("_id", None)
-        return updated_document
-
     def update_analysis_section(self, name: str, section_header: str, field_name: str, updated_value: dict):
         """Updates an existing analysis section by name, section header, and field name"""
         query_results_to_update = self.collection.find_one({"name": name})
@@ -87,22 +78,8 @@ class AnalysisCollection:
                 for content in section["content"]:
                     if content["field"] == field_name:
                         content["value"] = updated_value["value"]
-        # I am hoping to be able to somehow filter on what value we want to update.  I am not sure how to do this.
         updated_document = self.collection.find_one_and_update({"name": name},
                                                                {"$set": query_results_to_update},
-                                                               return_document=ReturnDocument.AFTER)
-        # remove the _id field from the returned document since it is not JSON serializable
-        updated_document.pop("_id", None)
-        return updated_document
-
-    def add_file(self, name: str, file_id: str, filename: str, comments: str):
-        """Adds a file to an analysis"""
-        updated_document = self.collection.find_one_and_update({"name": name},
-                                                               {"$push": {
-                                                                   "supporting_evidence_files": {
-                                                                       "filename": filename,
-                                                                       "file_id": str(file_id),
-                                                                       "comments": comments}}},
                                                                return_document=ReturnDocument.AFTER)
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)

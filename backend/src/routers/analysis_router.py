@@ -65,19 +65,6 @@ async def import_phenotips_json(
     return new_analysis
 
 
-@router.put("/update/{analysis_name}")
-def update_analysis(analysis_name: str, analysis_data_changes: dict, repositories=Depends(database)):
-    """Updates an existing analysis"""
-    return repositories["analysis"].update_analysis(analysis_name, analysis_data_changes)
-
-
-@router.put("/update_section/{analysis_name}")
-def update_analysis_section(analysis_name: str, section_header: str, field_name: str,
-                            updated_value: dict, repositories=Depends(database)):
-    """Updates an existing analysis section by name, section header, and field name"""
-    return repositories["analysis"].update_analysis_section(analysis_name, section_header, field_name, updated_value)
-
-
 @router.post("/import_file", response_model=Analysis)
 async def create_file(
     background_tasks: BackgroundTasks,
@@ -106,16 +93,14 @@ async def create_file(
     return new_analysis
 
 
-@router.post("/upload/{analysis_name}")
-def upload(analysis_name: str, upload_file: UploadFile = File(...), comments: str = Form(...),
-           repositories=Depends(database)):
-    """Uploads a file to GridFS and adds it to the analysis"""
-    if repositories['bucket'].filename_exists(upload_file.filename):
-        raise HTTPException(
-            status_code=409, detail="File already exists in Rosalution")
-    new_file_object_id = repositories['bucket'].save_file(
-        upload_file.file, upload_file.filename)
-    return repositories["analysis"].add_file(analysis_name, new_file_object_id, upload_file.filename, comments)
+@router.put("/{analysis_name}/update/sections", response_model=Analysis)
+def update_analysis_sections(analysis_name: str, updated_sections: dict, repositories=Depends(database)):
+    """Updates the sections that have changes"""
+    for (header, field) in updated_sections.items():
+        for(updated_field, value) in field.items():
+            repositories["analysis"].update_analysis_section(analysis_name, header, updated_field, {"value": value})
+
+    return repositories["analysis"].find_by_name(analysis_name)
 
 
 @router.get("/download/{file_id}")

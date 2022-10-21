@@ -47,7 +47,7 @@ function getMountedComponent(props) {
 describe('AnalysisView', () => {
   let mockedData;
   let pedigreeAttachMock;
-  let mockedAttachmentSavedReturned;
+  let mockedAttachSupportingEvidence;
   let mockedLogout;
   let wrapper;
   let sandbox;
@@ -58,7 +58,7 @@ describe('AnalysisView', () => {
     mockedData.returns(fixtureData());
 
     pedigreeAttachMock = sandbox.stub(Analyses, 'attachSectionBoxImage');
-    mockedAttachmentSavedReturned = sandbox.stub(Analyses, 'attachSupportingEvidence');
+    mockedAttachSupportingEvidence = sandbox.stub(Analyses, 'attachSupportingEvidence');
 
     mockedLogout = sandbox.stub(authStore, 'logout');
   });
@@ -168,13 +168,13 @@ describe('AnalysisView', () => {
       type: 'link',
       comments: '',
     };
-    const analysiWithNewEvidence = fixtureData();
-    analysiWithNewEvidence.supporting_evidence_files.push(newAttachmentData);
-    mockedAttachmentSavedReturned.returns(analysiWithNewEvidence);
+    const analysisWithNewEvidence = fixtureData();
+    analysisWithNewEvidence.supporting_evidence_files.push(newAttachmentData);
+    mockedAttachSupportingEvidence.returns(analysisWithNewEvidence);
 
     const supplementalComponent = wrapper.getComponent(SupplementalFormList);
 
-    expect(supplementalComponent.props('attachments').length).to.equal(1);
+    expect(supplementalComponent.props('attachments').length).to.equal(0);
 
     supplementalComponent.vm.$emit('open-modal');
     await wrapper.vm.$nextTick();
@@ -302,12 +302,3 @@ function fixtureData() {
     }],
   };
 }
-
-// /**
-//  * Returns fixture data of an analyses and with a newly attached supporting evidence.
-//  * @param {Object} additionalEvidence
-//  * @return {Object} analysis with supporting evidence
-//  */
-// function fixtureDataWithAdditionalEvidence(additionalEvidence) {
-//   return fixtureData().supporting_evidence_files.push(additionalEvidence);
-// }
