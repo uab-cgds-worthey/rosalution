@@ -21,9 +21,31 @@ export default {
     return await response.json();
   },
   async post(url, data) {
+    const authToken = authStore.getToken();
     const response = await fetch(url, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + authToken,
+      },
+      mode: 'cors',
+      cache: 'no-cache',
+      body: JSON.stringify(data),
+    });
+    const content = await response.json();
+    if ( response.ok != true ) {
+      throw new Error('Status Code: ' +response.status +' '+response.statusText + '\n' + JSON.stringify(content));
+    }
+    return content;
+  },
+  async put(url, data) {
+    const authToken = authStore.getToken();
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + authToken,
+      },
       mode: 'cors',
       cache: 'no-cache',
       body: JSON.stringify(data),
@@ -49,6 +71,8 @@ export default {
     return await response.json();
   },
   async postForm(url, data) {
+    const authToken = authStore.getToken();
+
     const formData = new FormData();
     const fieldEntries = Object.entries(data);
     for (const [field, fieldContent] of fieldEntries) {
@@ -57,6 +81,9 @@ export default {
     const response = await fetch(url, {
       method: 'POST',
       mode: 'cors',
+      headers: {
+        'Authorization': 'Bearer ' + authToken,
+      },
       cache: 'no-cache',
       body: formData,
     });

@@ -8,7 +8,7 @@
           </button>
         </td>
         <td class="save-btn-container">
-          <button class="save-btn" @click="this.saveAnalysis()" data-test="save-edit-button">
+          <button class="save-btn" @click="$emit('save')" data-test="save-edit-button">
             Save
           </button>
         </td>
@@ -20,15 +20,6 @@
 <script>
 export default {
   name: 'save-modal',
-  components: {
-  },
-  methods: {
-    saveAnalysis() {
-      // Currently a placeholder
-      // This method will be modified when saving edit/analysis is implemented
-      console.log('Analysis is Saved!');
-    },
-  },
 };
 </script>
 

@@ -29,7 +29,7 @@
           </td>
           <td class="values" v-if="!displaySectionImage">
             <span v-if="this.edit" role="textbox" class="editable-values" contenteditable
-            data-test="editable-value">
+            data-test="editable-value" @input="onContentChanged(header, content.field, $event)">
               {{content.value.join('\r\n')}}
             </span>
             <tr v-else v-for="value in content.value" :key="value" class="value-row" data-test="value-row">
@@ -45,6 +45,7 @@
 <script>
 export default {
   name: 'section-box',
+  emits: ['update:contentRow'],
   props: {
     analysis_name: {
       type: String,
@@ -85,6 +86,16 @@ export default {
       }
 
       return '';
+    },
+  },
+  methods: {
+    onContentChanged(header, contentField, event) {
+      const contentRow = {
+        header: header,
+        field: contentField,
+        value: event.target.innerText.split('\n'),
+      };
+      this.$emit('update:contentRow', contentRow);
     },
   },
 };

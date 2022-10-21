@@ -28,6 +28,7 @@
           :content="section.content"
           :edit = "this.edit"
           @attach-image="this.attachSectionImage"
+          @update:content-row="this.onAnalysisContentUpdated"
         />
         <SupplementalFormList
           id="Supporting_Evidence"
@@ -43,7 +44,8 @@
         <SaveModal
         class="save-modal"
         v-if="this.edit"
-        @canceledit="this.edit=false"
+        @canceledit="this.onAnalysisSaveCancel"
+        @save="this.onAnalysisSave"
         />
       </app-content>
   </div>
@@ -79,10 +81,8 @@ export default {
   data: function() {
     return {
       store: authStore,
-      analysis: {},
-      sectionsList: [],
-      genomicUnitsList: [],
-      attachments: [],
+      analysis: {sections: []},
+      updatedContent: {},
       menuActions: [
         {icon: 'pencil', text: 'Edit', operation: () => {
           this.edit = !this.edit;
@@ -98,11 +98,20 @@ export default {
       return this.store.state.username;
     },
     sectionsHeaders() {
-      const sections = this.sectionsList.map((section) => {
+      const sections = this.analysis.sections.map((section) => {
         return section.header;
       });
       sections.push('Supporting Evidence');
       return sections;
+    },
+    sectionsList() {
+      return this.analysis.sections;
+    },
+    attachments() {
+      return this.analysis.supporting_evidence_files;
+    },
+    genomicUnitsList() {
+      return this.analysis.genomic_units;
     },
   },
   created() {
@@ -112,19 +121,6 @@ export default {
 
     async getAnalysis() {
       this.analysis = {...await Analyses.getAnalysis(this.analysis_name)};
-      this.getSections();
-      this.getGenomicUnits();
-      this.getAttachments();
-    },
-    getSections() {
-      this.sectionsList=this.analysis.sections;
-    },
-    getGenomicUnits() {
-      this.genomicUnitsList=this.analysis.genomic_units;
-    },
-    getAttachments() {
-      this.attachments.splice(0);
-      this.attachments.push(...this.analysis.supporting_evidence_files);
     },
     async attachSectionImage(updatedSectionName) {
       const includeComments = false;
@@ -141,7 +137,7 @@ export default {
       const updatedAnalysis = await Analyses.attachSectionBoxImage(this.analysis_name, attachment.data);
       const updatedSection = updatedAnalysis['sections'].find((section) => section.header == updatedSectionName);
       const editedSectionIndex = this.sectionsList.findIndex((section) => section.header == updatedSectionName);
-      this.sectionsList.splice(editedSectionIndex, 1, updatedSection);
+      this.analysis.sections.splice(editedSectionIndex, 1, updatedSection);
       // Needed to create this uptick because the replaced element wasn't getting detected to
       // cause it to update this still make cause issue with the edit mode and will need to re-evaluate
       this.uptickForceRenderKey();
@@ -155,17 +151,16 @@ export default {
           .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png')
           .url(includeComments, includeName)
           .prompt();
-
       if (!attachment) {
         return;
       }
 
       try {
         const updatedAnalysis = await Analyses.attachSupportingEvidence(this.analysis_name, attachment);
-        this.attachments.splice(0);
-        this.attachments.push(...updatedAnalysis.supporting_evidence_files);
+        this.analysis.supporting_evidence_files.splice(0);
+        this.analysis.supporting_evidence_files.push(...updatedAnalysis.supporting_evidence_files);
       } catch (error) {
-        console.error('Updating the analysis did not work');
+        console.error('Updating the analysis failed.');
       }
     },
     async onDeleteAttachmentEvent(attachmentToDelete) {
@@ -182,7 +177,7 @@ export default {
       const attachmentIndex = this.attachments.findIndex((attachment) => {
         return attachment.name == attachmentToDelete.name;
       });
-      this.attachments.splice(attachmentIndex, 1);
+      this.analysis.supporting_evidence_files.splice(attachmentIndex, 1);
     },
     async onEditAttachment(attachment) {
       const updatedAttachment = await inputDialog
@@ -201,6 +196,25 @@ export default {
     },
     uptickForceRenderKey() {
       this.forceRenderComponentKey += 1;
+    },
+    onAnalysisContentUpdated(contentRow) {
+      if ( !(contentRow.header in this.updatedContent) ) {
+        this.updatedContent[contentRow.header] = {};
+      }
+
+      this.updatedContent[contentRow.header][contentRow.field] = contentRow.value;
+    },
+    async onAnalysisSave() {
+      const updatedAnalysis = await Analyses.updateAnalysisSections(this.analysis_name, this.updatedContent);
+      this.analysis.sections.splice(0);
+      this.analysis.sections.push(...updatedAnalysis.sections);
+      this.updatedContent = {};
+      this.edit=false;
+      this.uptickForceRenderKey();
+    },
+    onAnalysisSaveCancel() {
+      this.edit=false;
+      this.updatedContent = {};
     },
   },
 };

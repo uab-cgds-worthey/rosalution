@@ -14,6 +14,11 @@ export default {
     return body;
   },
 
+  async updateAnalysisSections(analysisName, updatedSections) {
+    const url = `/rosalution/api/analysis/${analysisName}/update/sections`;
+    return await Requests.put(url, updatedSections);
+  },
+
   async getAnnotationConfiguration(analysisName) {
     // const baseUrl = '/rosalution/api/';
     // const urlQuery = `analysis/{analysisName}`;

@@ -47,7 +47,7 @@ def test_get_analysis_summary(client, mock_access_token, mock_repositories):
     assert len(response.json()) == 5
 
 
-def test_create_analysis(
+def test_import_analysis_from_phenotips_json(
     client,
     mock_access_token,
     mock_repositories,
@@ -84,7 +84,8 @@ def test_create_analysis(
     response_data = json.loads(response.text)
     assert response_data['latest_status'] == "Annotation"
 
-def test_create_analysis_with_file(client, mock_access_token, mock_repositories, mock_annotation_queue):
+
+def test_import_analysis_with_phenotips_json(client, mock_access_token, mock_repositories, mock_annotation_queue):
     """ Testing if the create analysis function works with file upload """
     mock_repositories["analysis"].collection.insert_one.return_value = True
     mock_repositories["analysis"].collection.find_one.return_value = None
@@ -126,68 +127,31 @@ def test_create_analysis_with_file(client, mock_access_token, mock_repositories,
     response_data = json.loads(response.text)
     assert response_data['latest_status'] == "Annotation"
 
-def test_update_analysis(client, mock_access_token, mock_repositories, analysis_updates_json):
+
+def test_update_analysis_section(client, mock_access_token, mock_repositories, update_analysis_section_response_json):
     """Testing if the update analysis endpoint updates an existing analysis"""
-    mock_repositories["analysis"].collection.find_one_and_update.return_value = analysis_updates_json
+
+    updated_sections = {
+        "Brief": {
+            "Reason": ["the quick brown fox jumps over the lazy dog."],
+            "Nominated": ["Lorem ipsum dolor"]
+        },
+        "Medical Summary": {
+            "Clinical Diagnosis": ["Sed odio morbi quis commodo odio aenean sed. Hendrerit dolor magna eget lorem."]
+        },
+    }
+    mock_repositories["analysis"].collection.find_one.return_value = update_analysis_section_response_json
     response = client.put(
-        "/analysis/update/CPAM0112",
+        "/analysis/CPAM0047/update/sections",
         headers={"Authorization": "Bearer " + mock_access_token,
                  "Content-Type": "application/json"},
-        # this is the new analysis data
-        json=analysis_updates_json,
+        json=updated_sections,
     )
     assert response.status_code == 200
-    assert response.json()["name"] == "CPAM0112"
-    assert response.json()["nominated_by"] == "Dr. Person One"
-
-
-def test_update_analysis_section(client, mock_access_token, mock_repositories, update_analysis_section_dict,
-                                 update_analysis_section_response_json):
-    """Testing if the update analysis endpoint updates an existing analysis"""
-    mock_repositories["analysis"].collection.find_one_and_update.return_value = update_analysis_section_response_json
-    response = client.put(
-        "/analysis/update/CPAM0047?section_header=Brief&field_name=Reason",
-        headers={"Authorization": "Bearer " + mock_access_token,
-                 "Content-Type": "application/json"},
-        # this is the new analysis data
-        json=update_analysis_section_dict,
-    )
-    assert response.status_code == 200
+    mock_repositories["analysis"].collection.find_one_and_update.assert_called()
     assert response.json()["name"] == "CPAM0047"
-    assert response.json()[
-        "sections"][0]["content"][1]["value"] == ["the quick brown fox jumps over the lazy dog."]
+    assert response.json()["sections"][0]["content"][1]["value"] == ["the quick brown fox jumps over the lazy dog."]
 
-
-def test_upload_file_to_analysis(client, mock_access_token, mock_file_upload, mock_repositories):
-    """Testing if the upload file endpoint uploads a file to an analysis"""
-    # This test currently writes a file to the backend folder, This will eventually be changed to write
-    # the mongo database instead with GridFS. We are currently git-ignoring this file to avoid it being commited.
-    mock_repositories["analysis"].collection.find_one_and_update.return_value = {
-        'fakevalue': 'fakeyfake'}
-    mock_repositories["bucket"].bucket.exists.return_value = False
-    response = client.post(
-        "/analysis/upload/CPAM0002",
-        headers={"Authorization": "Bearer " + mock_access_token},
-        data=({"comments": "This is a test comment for file test.txt"}),
-        files=mock_file_upload
-    )
-    assert response.status_code == 200
-
-
-def test_upload_file_already_exists_to_analysis(client, mock_access_token, mock_file_upload, mock_repositories):
-    """Testing if the upload file endpoint uploads a file to an analysis"""
-    # This test currently writes a file to the backend folder, This will eventually be changed to write
-    # the mongo database instead with GridFS. We are currently git-ignoring this file to avoid it being commited.
-    mock_repositories["analysis"].collection.find_one_and_update.return_value = {
-        'fakevalue': 'fakeyfake'}
-    mock_repositories["bucket"].bucket.exists.return_value = True
-    response = client.post(
-        "/analysis/upload/CPAM0002",
-        headers={"Authorization": "Bearer " + mock_access_token},
-        data=({"comments": "This is a test comment for file test.txt"}),
-        files=mock_file_upload
-    )
-    assert response.status_code == 409
 
 # We will come back to this later:
 # def test_download(client, mock_access_token, mock_repositories):
@@ -205,38 +169,6 @@ def test_upload_file_already_exists_to_analysis(client, mock_access_token, mock_
 #     )
 
 #     assert response
-
-
-def test_attaching_supporting_evidence_link_to_analysis(
-    client,
-    mock_access_token,
-    mock_repositories,
-    cpam0002_analysis_json
-):
-    """Testing if the supporting evidence gets added to the analysis"""
-    def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
-        find, query = args  # pylint: disable=unused-variable
-        analysis = cpam0002_analysis_json
-        analysis['supporting_evidence_files'].append(
-            query['$push']['supporting_evidence_files'])
-        analysis['_id'] = 'fake-mongo-object-id'
-        return analysis
-
-    mock_repositories["analysis"].collection.find_one_and_update.side_effect = valid_query_side_effect
-
-    response = client.post(
-        "/analysis/CPAM0002/attach/link",
-        headers={"Authorization": "Bearer " + mock_access_token},
-        data=({
-            "link_name": "Interesting Article",
-            "link": "http://sites.uab.edu/cgds/",
-            "comments": "Serious Things in here",
-        })
-    )
-
-    result = json.loads(response.text)
-    assert len(result['supporting_evidence_files']) == 1
-    assert response.status_code == 200
 
 
 def test_attach_pedigree_image(client, mock_access_token, mock_repositories):
@@ -282,6 +214,38 @@ def test_attach_pedigree_image(client, mock_access_token, mock_repositories):
                   }}
     )
 
+    assert response.status_code == 200
+
+
+def test_attaching_supporting_evidence_link_to_analysis(
+    client,
+    mock_access_token,
+    mock_repositories,
+    cpam0002_analysis_json
+):
+    """Testing if the supporting evidence gets added to the analysis"""
+    def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
+        find, query = args  # pylint: disable=unused-variable
+        analysis = cpam0002_analysis_json
+        analysis['supporting_evidence_files'].append(
+            query['$push']['supporting_evidence_files'])
+        analysis['_id'] = 'fake-mongo-object-id'
+        return analysis
+
+    mock_repositories["analysis"].collection.find_one_and_update.side_effect = valid_query_side_effect
+
+    response = client.post(
+        "/analysis/CPAM0002/attach/link",
+        headers={"Authorization": "Bearer " + mock_access_token},
+        data=({
+            "link_name": "Interesting Article",
+            "link": "http://sites.uab.edu/cgds/",
+            "comments": "Serious Things in here",
+        })
+    )
+
+    result = json.loads(response.text)
+    assert len(result['supporting_evidence_files']) == 1
     assert response.status_code == 200
 
 
@@ -362,12 +326,6 @@ def fixture_analysis_updates_json():
 def fixture_phenotips_import():
     """Returns a phenotips json fixture"""
     return read_test_fixture("phenotips-import.json")
-
-
-@pytest.fixture(name="update_analysis_section_dict")
-def fixture_update_analysis_section_json():
-    """The JSON that is being sent from a client to the endpoint with updates in it"""
-    return {"value": ["the quick brown fox jumps over the lazy dog."]}
 
 
 @pytest.fixture(name="update_analysis_section_response_json")
