@@ -32,10 +32,6 @@ const authStore = {
     const baseUrl = '/rosalution/api/';
     const urlQuery = 'auth/login';
     const body = await Requests.get(baseUrl + urlQuery);
-    if ('errors' in body) {
-      const errorString = body.data.errors.map((error) => error.message).join('; ');
-      throw new Error('Failed to login: ' + errorString);
-    }
 
     return body;
   },
@@ -43,10 +39,6 @@ const authStore = {
     const baseUrl = '/rosalution/api/';
     const urlQuery = 'auth/token';
     const body = await Requests.postLogin(baseUrl + urlQuery, data);
-    if ('errors' in body) {
-      const errorString = body.data.errors.map((error) => error.message).join('; ');
-      throw new Error('Failed to login: ' + errorString);
-    }
 
     return body;
   },
@@ -68,10 +60,6 @@ const authStore = {
     const urlQuery = 'auth/logout';
 
     const body = await Requests.get(baseUrl + urlQuery);
-    if ('errors' in body) {
-      const errorString = body.data.errors.map((error) => error.message).join('; ');
-      throw new Error('Failed to logout: ' + errorString);
-    }
 
     return body;
   },
