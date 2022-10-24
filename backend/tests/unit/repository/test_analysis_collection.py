@@ -124,6 +124,57 @@ def test_remove_supporting_evidence(analysis_collection):
     assert actual == expected
 
 
+def test_get_pedigree_file_id(analysis_collection):
+    """Tests the get_pedigree_file_id function"""
+    analysis_collection.collection.find_one.return_value = read_test_fixture(
+        "analysis-CPAM0002.json")
+    actual = analysis_collection.get_pedigree_file_id("CPAM0002")
+    assert actual == "63505be22888347cf1c275db"
+
+
+def test_get_pedigree_file_id_pedigree_empty(analysis_collection, empty_pedigree):
+    """Tests the get_pedigree_file_id function"""
+    analysis_collection.collection.find_one.return_value = empty_pedigree
+    try:
+        analysis_collection.get_pedigree_file_id("CPAM0002")
+    except ValueError as error:
+        assert isinstance(error, ValueError)
+        assert str(error) == "Analysis CPAM0002 does not have a pedigree file"
+
+
+def test_get_pedigree_file_id_analysis_does_not_exist(analysis_collection):
+    """Tests the get_pedigree_file_id function"""
+    analysis_collection.collection.find_one.return_value = None
+    try:
+        analysis_collection.get_pedigree_file_id("CPAM2222")
+    except ValueError as error:
+        assert isinstance(error, ValueError)
+        assert str(error) == "Analysis with name CPAM2222 does not exist"
+
+
+def test_get_pedigree_file_id_pedigree_section_does_not_exist(analysis_collection):
+    """Tests the get_pedigree_file_id function"""
+    missing_pedigree_section = read_test_fixture("analysis-CPAM0002.json")
+    del missing_pedigree_section["sections"][2]
+    analysis_collection.collection.find_one.return_value = missing_pedigree_section
+    try:
+        analysis_collection.get_pedigree_file_id("CPAM0002")
+    except ValueError as error:
+        assert isinstance(error, ValueError)
+        assert str(error) == "Analysis CPAM0002 does not have a pedigree section"
+
+
+def test_remove_pedigree_file_id(analysis_collection):
+    """Tests the remove_pedigree_file_id function"""
+    analysis_collection.collection.find_one.return_value = read_test_fixture(
+        "analysis-CPAM0002.json")
+    expected = read_test_fixture("analysis-CPAM0002.json")
+    expected["sections"][2]["content"] = []
+    analysis_collection.collection.find_one_and_update.return_value = expected
+    actual = analysis_collection.remove_pedigree_file("CPAM0002")
+    assert actual == expected
+
+
 @pytest.fixture(name="analysis_with_no_p_dot")
 def fixture_analysis_with_no_p_dot():
     """Returns an analysis with no p. in the genomic unit"""
@@ -148,3 +199,11 @@ def fixture_analysis_with_no_p_dot():
             }
         ]
     }
+
+
+@pytest.fixture(name="empty_pedigree")
+def fixture_empty_pedigree():
+    """Returns an empty pedigree in the analysis"""
+    empty_pedigree = read_test_fixture("analysis-CPAM0002.json")
+    empty_pedigree["sections"][2]["content"] = []
+    return empty_pedigree

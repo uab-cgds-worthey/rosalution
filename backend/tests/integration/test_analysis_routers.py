@@ -1,5 +1,6 @@
 """Analysis Routes Integration test"""
 
+import warnings
 import json
 import os
 from unittest.mock import patch, Mock
@@ -150,7 +151,8 @@ def test_update_analysis_section(client, mock_access_token, mock_repositories, u
     assert response.status_code == 200
     mock_repositories["analysis"].collection.find_one_and_update.assert_called()
     assert response.json()["name"] == "CPAM0047"
-    assert response.json()["sections"][0]["content"][1]["value"] == ["the quick brown fox jumps over the lazy dog."]
+    assert response.json()["sections"][0]["content"][1]["value"] == [
+        "the quick brown fox jumps over the lazy dog."]
 
 
 # We will come back to this later:
@@ -303,7 +305,6 @@ def test_remove_supporting_evidence_file(client, mock_access_token, mock_reposit
 def test_remove_supporting_evidence_link(client, mock_access_token, mock_repositories, supporting_evidence_link_json):
     """ Testing the remove attachment endpoint """
     mock_repositories["bucket"].bucket.exists.return_value = False
-    # print(supporting_evidence_link_json)
     mock_repositories["analysis"].collection.find_one.return_value = supporting_evidence_link_json
     expected = read_test_fixture("analysis-CPAM0002.json")
     expected["supporting_evidence_files"] = []
@@ -314,6 +315,41 @@ def test_remove_supporting_evidence_link(client, mock_access_token, mock_reposit
 
     assert response.status_code == 200
     assert response.json() == expected
+
+
+def test_remove_pedigree(client, mock_access_token, mock_repositories):
+    """ Testing the remove pedigree attachment endpoint """
+    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture(
+        "analysis-CPAM0002.json")
+    expected = read_test_fixture("analysis-CPAM0002.json")
+    expected["sections"] = [
+        {"header": "Pedigree", "content": []}
+    ]
+    mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
+
+    response = client.delete("/analysis/CPAM0002/remove/pedigree",
+                             headers={"Authorization": "Bearer " + mock_access_token})
+
+    assert response.status_code == 200
+    assert response.json() == expected
+
+
+def test_remove_pedigree_empty_pedigree(client, mock_access_token, mock_repositories, empty_pedigree):
+    """ Testing the remove pedigree attachment endpoint """
+    mock_repositories["analysis"].collection.find_one.return_value = empty_pedigree
+    expected = read_test_fixture("analysis-CPAM0002.json")
+    expected["sections"] = [
+        {"header": "Pedigree", "content": []}
+    ]
+    mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
+
+    with warnings.catch_warnings(record=True) as warning:
+        response = client.delete("/analysis/CPAM0002/remove/pedigree",
+                                 headers={"Authorization": "Bearer " + mock_access_token})
+        assert len(warning) == 1
+        assert issubclass(warning[-1].category, UserWarning)
+        assert "does not have a pedigree file" in str(warning[-1].message)
+        assert response.status_code == 200
 
 
 @pytest.fixture(name="analysis_updates_json")
@@ -362,3 +398,11 @@ def fixture_supporting_evidence_link_json():
         "comments": "hello link world"
     }]
     return setup_return_value
+
+
+@ pytest.fixture(name="empty_pedigree")
+def fixture_empty_pedigree():
+    """Returns an empty pedigree in the analysis"""
+    empty_pedigree = read_test_fixture("analysis-CPAM0002.json")
+    empty_pedigree["sections"][2]["content"] = []
+    return empty_pedigree

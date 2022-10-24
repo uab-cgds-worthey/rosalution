@@ -114,7 +114,14 @@
     },
     {
       "header": "Pedigree",
-      "content": []
+      "content": [
+        {
+          "field": "image",
+          "value": [
+            "63505be22888347cf1c275db"
+          ]
+        }
+      ]
     },
     {
       "header": "Case Information",
