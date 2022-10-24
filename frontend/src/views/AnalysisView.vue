@@ -118,7 +118,6 @@ export default {
     this.getAnalysis();
   },
   methods: {
-
     async getAnalysis() {
       this.analysis = {...await Analyses.getAnalysis(this.analysis_name)};
     },

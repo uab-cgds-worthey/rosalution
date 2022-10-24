@@ -10,12 +10,16 @@
         <td class="annotations">
           <slot name="headerDatasets"></slot>
         </td>
-        <td class="collapsable-icon">
+        <button v-if="attachSection" class="attach-logo" @click="$emit('attach-image', header)" data-test="attach-logo">
+          <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
+        </button>
+        <label v-else class="collapsable-icon">
           <font-awesome-icon icon="chevron-down" size="lg"/>
-        </td>
+        </label>
       </tr>
       <div class="seperator"></div>
       <slot></slot>
+      <img v-if="displaySectionImage" class="annotation-image" :src="annotationImage"/>
     </tbody>
   </table>
 </template>
@@ -23,11 +27,37 @@
 <script>
 export default {
   name: 'annotation-section',
-  components: {
-  },
   props: {
     header: {
       type: String,
+    },
+    imageId: {
+      type: String,
+    },
+  },
+  data() {
+    return {
+      imageHeaders: [
+        'Gene Homology/Multi-Sequence allignment',
+        'Protein Expression',
+        'Modelability',
+        'Druggability',
+      ],
+    };
+  },
+  computed: {
+    attachSection() {
+      return this.imageHeaders.includes(this.header);
+    },
+    displaySectionImage() {
+      return this.imageHeaders.includes(this.header);
+    },
+    annotationImage() {
+      if (this.imageId != '') {
+        return '/rosalution/api/analysis/download/' + this.imageId;
+      }
+
+      return '';
     },
   },
 };
@@ -64,6 +94,15 @@ table {
 
 .collapsable-icon {
   color: var(--rosalution-grey-200);
+  cursor: pointer;
+}
+
+.attach-logo {
+  color: var(--rosalution-purple-300);
+  background: none;
+  border: none;
+  float: right;
+  cursor: pointer;
 }
 
 .seperator {
@@ -72,5 +111,8 @@ table {
   border: solid .0469rem var(--rosalution-grey-100);
 }
 
+.annotation-image {
+  max-height: 31.25rem;
+}
 
 </style>

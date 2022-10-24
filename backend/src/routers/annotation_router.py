@@ -1,8 +1,10 @@
 """ Annotation endpoint routes that handle all things annotation within the application """
 
-from fastapi import APIRouter, Depends, BackgroundTasks, HTTPException, status
-from ..enums import GenomicUnitType
+from datetime import date
 
+from fastapi import APIRouter, Depends, BackgroundTasks, HTTPException, status, UploadFile, File, Form, Response
+
+from ..enums import GenomicUnitType
 from ..core.annotation import AnnotationService
 from ..dependencies import database, annotation_queue
 from ..models.analysis import Analysis
@@ -89,3 +91,34 @@ def get_annotations_by_hgvs_variant(variant: str, repositories=Depends(database)
         transcript_annotation_list.append(queried_transcript_annotation)
 
     return { **annotations, "transcripts": transcript_annotation_list}
+
+@router.post("/{genomic_unit}/attach/image")
+def upload_annotation_section(
+    response: Response,
+    genomic_unit: str,
+    section_name: str = Form(...),
+    upload_file: UploadFile = File(...),
+    repositories=Depends(database)
+):
+    """ This endpoint specifically handles annotation section image uploads """
+    new_file_object_id = repositories["bucket"].save_file(
+        upload_file.file, upload_file.filename
+    )
+
+    genomic_unit = {
+        'unit': genomic_unit,
+        'type': GenomicUnitType.GENE
+    }
+
+    annotation_unit = {
+        "data_set": section_name,
+        "data_source": "rosalution-manual",
+        "version": str(date.today()),
+        "value": str(new_file_object_id)
+    }
+
+    repositories['genomic_unit'].annotate_genomic_unit_with_file(genomic_unit, annotation_unit)
+
+    response.status_code = status.HTTP_201_CREATED
+
+    return {'section': section_name, 'image_id': str(new_file_object_id)}

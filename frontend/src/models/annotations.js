@@ -10,4 +10,16 @@ export default {
     ]);
     return {...geneAnnotations, ...variantAnnotations};
   },
+  async attachAnnotationImage(annotation, image) {
+    const baseUrl = '/rosalution/api/annotate';
+
+    console.log(`${baseUrl}/${annotation.genomic_unit}/attach/image`);
+
+    const attachmentForm = {
+      'upload_file': image,
+      'section_name': annotation.section,
+    };
+
+    return await Requests.postForm(`${baseUrl}/${annotation.genomic_unit}/attach/image`, attachmentForm);
+  },
 };

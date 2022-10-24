@@ -68,23 +68,15 @@ export default {
   },
   computed: {
     attachSection() {
-      if (this.header == 'Pedigree' && this.contentList.length == 0) {
-        return true;
-      }
-
-      return false;
+      return this.header == 'Pedigree' && this.contentList.length == 0;
     },
     displaySectionImage() {
-      if (this.header == 'Pedigree' && this.contentList.length > 0) {
-        return true;
-      }
-      return false;
+      return this.header == 'Pedigree' && this.contentList.length > 0;
     },
     sectionImage() {
       if (this.header == 'Pedigree' && this.contentList.length > 0) {
         return '/rosalution/api/analysis/download/' + this.contentList[0].value[0];
       }
-
       return '';
     },
   },
@@ -127,6 +119,10 @@ div {
 .section-name {
   height: 1.75rem;
   margin: .125rem .125rem 0 .125rem;
+}
+
+.section-image {
+  max-height: 31.25rem;
 }
 
 .collapsable-logo {
