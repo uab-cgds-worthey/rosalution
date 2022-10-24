@@ -98,9 +98,10 @@ async def create_file(
 def update_analysis_sections(analysis_name: str, updated_sections: dict, repositories=Depends(database)):
     """Updates the sections that have changes"""
     for (header, field) in updated_sections.items():
-        for (updated_field, value) in field.items():
-            repositories["analysis"].update_analysis_section(
-                analysis_name, header, updated_field, {"value": value})
+        for(updated_field, value) in field.items():
+            if "Nominator" == updated_field:
+                repositories["analysis"].update_analysis_nominator(analysis_name, '; '.join(value))
+            repositories["analysis"].update_analysis_section(analysis_name, header, updated_field, {"value": value})
 
     return repositories["analysis"].find_by_name(analysis_name)
 

@@ -196,6 +196,25 @@ export default {
     uptickForceRenderKey() {
       this.forceRenderComponentKey += 1;
     },
+    onAnalysisContentUpdated(contentRow) {
+      if ( !(contentRow.header in this.updatedContent) ) {
+        this.updatedContent[contentRow.header] = {};
+      }
+
+      this.updatedContent[contentRow.header][contentRow.field] = contentRow.value;
+    },
+    async onAnalysisSave() {
+      const updatedAnalysis = await Analyses.updateAnalysisSections(this.analysis_name, this.updatedContent);
+      this.analysis.sections.splice(0);
+      this.analysis.sections.push(...updatedAnalysis.sections);
+      this.updatedContent = {};
+      this.edit=false;
+      this.uptickForceRenderKey();
+    },
+    onAnalysisSaveCancel() {
+      this.edit=false;
+      this.updatedContent = {};
+    },
   },
 };
 </script>
