@@ -23,8 +23,18 @@
             <font-awesome-icon icon="link" size="lg" v-else-if="attachment.type==='link'"/>
           </td>
           <td class="attachment-data" rowspan="2">
-            <div class="attachment-name">{{ attachment.name }}</div>
-            <div class="attachment-comments">{{ attachment.comments }}</div>
+            <div class="attachment-name">
+              <a v-if="attachment.type=='file'" :href="`/rosalution/api/analysis/download/${attachment.attachment_id}`"
+              target="_blank" ref="noreferrer noopener">
+                {{ attachment.name }}
+              </a>
+              <a v-if="attachment.type=='link'" :href="attachment.data" target="_blank" ref="noreferrer noopener">
+                {{ attachment.name }}
+              </a>
+            </div>
+            <div class="attachment-comments">
+              {{ attachment.comments }}
+            </div>
           </td>
           <td class="edit-button">
             <button @click="$emit('edit', attachment)" data-test="edit-button">
@@ -138,6 +148,7 @@ export default {
   .attachment-name {
     color: var(--rosalution-purple-300);
     font-weight: bold;
+    cursor: pointer;
   }
   .attachment-comments {
     color: var(--rosalution-black);
@@ -194,6 +205,10 @@ export default {
 
   input[type="checkbox"]:checked ~ tbody > tr > .collapse-box {
     transform: scaleY(-1);
+  }
+
+  a {
+    color: inherit;
   }
 
 </style>
