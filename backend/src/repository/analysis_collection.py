@@ -203,3 +203,33 @@ class AnalysisCollection:
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
         return updated_document
+
+    def get_pedigree_file_id(self, analysis_name: str):
+        """ Returns the pedigree file id for an analysis """
+        analysis = self.collection.find_one({"name": analysis_name})
+        if not analysis:
+            raise ValueError(
+                f"Analysis with name {analysis_name} does not exist")
+
+        for section in analysis['sections']:
+            if section["header"] == "Pedigree":
+                if len(section["content"]) == 0:
+                    raise ValueError(
+                        f"Analysis {analysis_name} does not have a pedigree file")
+                return section['content'][0]['value'][0]
+        raise ValueError(
+            f"Analysis {analysis_name} does not have a pedigree section")
+
+    def remove_pedigree_file(self, analysis_name: str):
+        """ Removes a pedigree file from an analysis """
+        analysis = self.collection.find_one({"name": analysis_name})
+        for section in analysis["sections"]:
+            if section["header"] == "Pedigree":
+                section["content"] = []
+        updated_document = self.collection.find_one_and_update({"name": analysis_name},
+                                                               {"$set": {
+                                                                   "sections": analysis["sections"]}},
+                                                               return_document=ReturnDocument.AFTER)
+        # remove the _id field from the returned document since it is not JSON serializable
+        updated_document.pop("_id", None)
+        return updated_document

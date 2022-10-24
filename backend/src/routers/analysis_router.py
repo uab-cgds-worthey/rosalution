@@ -1,4 +1,5 @@
 """ Analysis endpoint routes that serve up information regarding anaysis cases for rosalution """
+import warnings
 import json
 
 from typing import List, Union
@@ -97,8 +98,9 @@ async def create_file(
 def update_analysis_sections(analysis_name: str, updated_sections: dict, repositories=Depends(database)):
     """Updates the sections that have changes"""
     for (header, field) in updated_sections.items():
-        for(updated_field, value) in field.items():
-            repositories["analysis"].update_analysis_section(analysis_name, header, updated_field, {"value": value})
+        for (updated_field, value) in field.items():
+            repositories["analysis"].update_analysis_section(
+                analysis_name, header, updated_field, {"value": value})
 
     return repositories["analysis"].find_by_name(analysis_name)
 
@@ -177,3 +179,21 @@ def remove_supporting_evidence(analysis_name: str, attachment_id: str, repositor
     if repositories["bucket"].id_exists(attachment_id):
         repositories["bucket"].delete_file(attachment_id)
     return repositories["analysis"].remove_supporting_evidence(analysis_name, attachment_id)
+
+
+@router.delete("/{analysis_name}/remove/pedigree")
+def remove_pedigree(analysis_name: str, repositories=Depends(database)):
+    """ Removes a pedigree file from an analysis """
+    try:
+        pedigree_file_id = repositories["analysis"].get_pedigree_file_id(
+            analysis_name)
+    except ValueError as exception:
+        warnings.warn(str(exception))
+        pedigree_file_id = None
+
+    try:
+        repositories["bucket"].delete_file(pedigree_file_id)
+        return repositories["analysis"].remove_pedigree_file(analysis_name)
+    except ValueError as exception:
+        raise HTTPException(
+            status_code=404, detail=str(exception)) from exception
