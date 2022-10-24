@@ -43,7 +43,6 @@ def test_import_analysis_data(phenotips_importer, exported_phenotips_to_import_j
     actual = phenotips_importer.import_analysis_data(
         exported_phenotips_to_import_json, variant_data, exported_phenotips_to_import_json["genes"])
     assert actual["name"] == "CPAM0112"
-    assert actual["latest_status"] == "Annotation"
     assert actual["genomic_units"] == [
         {
             "gene": "VMA21",
@@ -84,6 +83,17 @@ def test_format_case_data(phenotips_importer):
         {"field": "Inheritance", "value": ["maternal"]},
     ]
 
+def test_extracting_hpo_terms(exported_phenotips_to_import_json):
+    """Tests if the importer extracts the Phenotips HPO terms into the expected string format"""
+    actual_extraction_string = PhenotipsImporter.extract_hpo_terms(exported_phenotips_to_import_json["features"])
+    expected_extraction_string = (
+        "HP:0000175: Cleft palate; HP:0000252: Microcephaly; "
+        "HP:0000708: Behavioral abnormality; HP:0000750: Delayed speech and language development; "
+        "HP:0001263: Global developmental delay; HP:0002719: Recurrent infections; HP:0004322: Short stature; "
+        "HP:0008872: Feeding difficulties in infancy; HP:0410030: Cleft lip"
+    )
+
+    assert actual_extraction_string == expected_extraction_string
 
 @pytest.fixture(name="phenotips_importer")
 def fixture_phenotips_importer(analysis_collection, genomic_unit_collection):

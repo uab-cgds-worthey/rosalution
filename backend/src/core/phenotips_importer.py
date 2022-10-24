@@ -81,32 +81,31 @@ class PhenotipsImporter:
             "name": str(phenotips_json_data["external_id"]).replace("-", ""),
             "description": "",
             "nominated_by": "",
-            "latest_status": "Annotation",  # set as Annotation as default for now
-            "created_date": str(phenotips_json_data["date"]).split(" ", maxsplit=1)[0],
-            "last_modified_date": str(phenotips_json_data["last_modification_date"]).split(" ", maxsplit=1)[0],
             "genomic_units": [],
             "sections": [{
                 "header": 'Brief',
                 "content": [
-                    {"field": 'Nominated', "value": []},
-                    {"field": 'Reason', "value": []},
-                    {"field": 'Desired Outcomes', "value": []}
+                    {"field": 'Nominator', "value": []},
+                    {"field": 'Participant', "value": []},
+                    {"field": 'Phenotype', "value": []},
+                    {"field": 'Model of Interest', "value": []},
+                    {"field": 'Goals', "value": []},
+                    {"field": 'Proposed Model/Project', "value": []}
                 ]
             }, {
-                "header": 'Medical Summary',
+                "header": 'Clinical History',
                 "content": [
                     {"field": 'Clinical Diagnosis', "value": []},
-                    {"field": 'Affected Individuals Identified', "value": []}
+                    {"field": 'Affected Individuals Identified', "value": []},
+                    {"field": 'Sequencing', "value": []},
+                    {"field": 'Testing', "value": []},
+                    {"field": 'Systems', "value": []},
+                    {"field": 'HPO Terms', "value": [self.extract_hpo_terms(phenotips_json_data["features"])]},
+                    {"field": 'Additional Details', "value": []},
                 ]
             }, {
-                "header": 'Case Information',
-                "content": [
-                    {"field": 'Systems', "value": []},
-                    {"field": 'HPO Terms', "value": []},
-                    {"field": 'Additional Details', "value": []},
-                    {"field": 'Experimental Design', "value": []},
-                    {"field": 'Prior Testing', "value": []}
-                ]
+                "header": 'Pedigree',
+                "content": []
             }]
         }
 
@@ -137,7 +136,7 @@ class PhenotipsImporter:
 
         return analysis_data
 
-    @ staticmethod
+    @staticmethod
     def format_case_data(variant_data):
         """Formats the case data from the phenotips.json file using the variant data"""
         case_data = []
@@ -159,3 +158,8 @@ class PhenotipsImporter:
                     }
                 )
         return case_data
+
+    @staticmethod
+    def extract_hpo_terms(phenotips_json_features):
+        """Extracts the HPO terms from the Phenotips JSON 'features' list and returns it as a string"""
+        return '; '.join([f"{term['id']}: {term['label']}" for term in phenotips_json_features]).replace('\n','')

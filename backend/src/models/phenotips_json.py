@@ -42,6 +42,18 @@ class PhenotipsGene(BaseModel):
         extra = Extra.allow
 
 
+class PhenotipsHpoTerm(BaseModel):
+    """Models a gene within a Phenotips json genes"""
+
+    id: str
+    label: str = ""
+
+    class config:  # pylint: disable=invalid-name
+        """Configures the pydantic model"""
+
+        extra = Extra.allow
+
+
 class BasePhenotips(BaseModel):
     """The share parts of a phenotips and it's summary"""
 
@@ -49,7 +61,7 @@ class BasePhenotips(BaseModel):
     external_id: str
     variants: List[PhenotipsVariants] = []
     genes: List[PhenotipsGene] = []
-    last_modification_date: datetime
+    features: List[PhenotipsHpoTerm] = []
 
     class config:  # pylint: disable=invalid-name
         """Configures the pydantic model"""

@@ -70,6 +70,16 @@ class AnalysisCollection:
         # returns an instance of InsertOneResult.
         return self.collection.insert_one(analysis_data)
 
+    def update_analysis_nominator(self, analysis_name: str, nominator: str):
+        """Updates the Nominator field within an analysis"""
+        updated_analysis_document = self.collection.find_one_and_update({"name": analysis_name},
+                                                        {"$set": {
+                                                            "nominated_by": nominator,
+                                                        }},
+                                                        return_document=ReturnDocument.AFTER)
+        updated_analysis_document.pop("_id", None)
+        return updated_analysis_document
+
     def update_analysis_section(self, name: str, section_header: str, field_name: str, updated_value: dict):
         """Updates an existing analysis section by name, section header, and field name"""
         query_results_to_update = self.collection.find_one({"name": name})

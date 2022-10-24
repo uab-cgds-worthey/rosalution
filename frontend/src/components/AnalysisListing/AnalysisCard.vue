@@ -158,6 +158,10 @@ div {
 
 .subection-text {
   font-size: 0.563rem; /* 9px */
+  max-width: 22ch;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .case-status-section {

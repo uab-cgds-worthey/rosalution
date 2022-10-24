@@ -1,26 +1,88 @@
 {
-            "date": "2021-02-18 16:55:17+00:00",
-            "external_id": "C-PAM0112",
-            "variants": [
-                {
-                    "gene": "ENSG00000160131",
-                    "inheritance": "maternal",
-                    "zygosity": "hemizygous",
-                    "interpretation": "variant_u_s",
-                    "transcript": "NM_001017980.3",
-                    "protein": "p.Gly55Val",
-                    "cdna": "c.164G>T",
-                    "reference_genome": "GRCh38"
-                }
-            ],
-            "genes": [
-                {
-                    "gene": "VMA21",
-                    "id": "ENSG00000160131",
-                    "strategy": ["sequencing"],
-                    "status": "candidate"
-                }
-            ],
-            "last_modification_date": "2021-02-22 21:16:09+00:00",
-            "contact": [{"name": "Brandon Wilk", "id": "xwiki:XWiki.bwilk777_uab=edu", "email": "bwilk777@uab.edu"}]
-        }
+  "date": "2021-02-18 16:55:17+00:00",
+  "external_id": "C-PAM0112",
+  "variants": [
+    {
+      "gene": "ENSG00000160131",
+      "inheritance": "maternal",
+      "zygosity": "hemizygous",
+      "interpretation": "variant_u_s",
+      "transcript": "NM_001017980.3",
+      "protein": "p.Gly55Val",
+      "cdna": "c.164G>T",
+      "reference_genome": "GRCh38"
+    }
+  ],
+  "genes": [
+    {
+      "gene": "VMA21",
+      "id": "ENSG00000160131",
+      "strategy": ["sequencing"],
+      "status": "candidate"
+    }
+  ],
+  "features": [
+    {
+      "id": "HP:0000175",
+      "label": "Cleft palate",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0000252",
+      "label": "Microcephaly",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0000708",
+      "label": "Behavioral abnormality",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0000750",
+      "label": "Delayed speech and language development",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001263",
+      "label": "Global developmental delay",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0002719",
+      "label": "Recurrent infections",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0004322",
+      "label": "Short stature",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0008872",
+      "label": "Feeding difficulties in infancy",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0410030",
+      "label": "Cleft lip",
+      "type": "phenotype",
+      "observed": "yes"
+    }
+  ],
+  "last_modification_date": "2021-02-22 21:16:09+00:00",
+  "contact": [
+    {
+      "name": "Brandon Wilk",
+      "id": "xwiki:XWiki.bwilk777_uab=edu",
+      "email": "bwilk777@uab.edu"
+    }
+  ]
+}
