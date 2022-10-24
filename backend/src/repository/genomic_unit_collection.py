@@ -128,6 +128,36 @@ class GenomicUnitCollection:
         return
 
 
+    # Annotate Genomic Unit should be updated to support doing this, but there are some implications
+    # here that need to be approached at another time.
+    # Specifically here, if the section image exists as an annotation and we upload a different one,
+    # We're overwriting it.
+
+    def annotate_genomic_unit_with_file(self, genomic_unit, genomic_annotation):
+        """ Ensures that an annotation is created for the annotation image upload and only one image is allowed """
+        annotation_data_set = {
+                    genomic_annotation['data_set']: [{
+                        'data_source': genomic_annotation['data_source'],
+                        'version': genomic_annotation['version'],
+                        'value': genomic_annotation['value'],
+                    }]
+                }
+
+        data_set = genomic_annotation['data_set']
+
+        genomic_unit_document = self.find_genomic_unit(genomic_unit)
+
+        for annotation in genomic_unit_document['annotations']:
+            if data_set in annotation:
+                annotation[data_set] = annotation_data_set[data_set]
+                self.update_genomic_unit_with_mongo_id(genomic_unit_document)
+                return
+
+        genomic_unit_document['annotations'].append(annotation_data_set)
+        self.update_genomic_unit_with_mongo_id(genomic_unit_document)
+
+        return
+
     def create_genomic_unit(self, genomic_unit):
         """
         Takes a genomic_unit and adds it to the collection if it doesn't already exist (exact match).

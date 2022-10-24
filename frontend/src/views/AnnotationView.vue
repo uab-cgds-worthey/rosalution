@@ -13,7 +13,8 @@
       <AnnotationSection
         v-for="(section, index) in this.rendering" :key="`${section.type}-${section.anchor}-${index}`"
         :header="sectionHeader(section.header)" v-bind="section.props"
-        :id="`${section.anchor}`"
+        :id="`${section.anchor}`" @attach-image="this.attachSectionImage"
+        :imageId="imageId(section.header)"
       >
         <template #headerDatasets>
           <component
@@ -39,6 +40,7 @@
           </div>
         </template>
       </AnnotationSection>
+      <InputDialog />
     </div>
     <AnnotationSidebar class="sidebar" :section-anchors="sectionAnchors"></AnnotationSidebar>
   </app-content>
@@ -57,6 +59,9 @@ import IconLinkoutDataset from '@/components/AnnotationView/IconLinkoutDataset.v
 import ScoreDataset from '@/components/AnnotationView/ScoreDataset.vue';
 import TextDataset from '@/components/AnnotationView/TextDataset.vue';
 import TranscriptDatasets from '@/components/AnnotationView/TranscriptDatasets.vue';
+import InputDialog from '../components/Dialogs/InputDialog.vue';
+
+import inputDialog from '@/inputDialog.js';
 
 import {authStore} from '@/stores/authStore.js';
 
@@ -71,6 +76,7 @@ export default {
     ScoreDataset,
     TextDataset,
     TranscriptDatasets,
+    InputDialog,
   },
   props: {
     analysis_name: {
@@ -113,6 +119,13 @@ export default {
     sectionHeader(header) {
       return header in this ? this[header] : header;
     },
+    imageId(header) {
+      if (this.annotations[header] != undefined) {
+        return this.annotations[header];
+      }
+
+      return '';
+    },
     linkoutUrl(datasetConfig) {
       return 'linkout_dataset' in datasetConfig ? this.annotations[datasetConfig['linkout_dataset']] : undefined;
     },
@@ -121,6 +134,26 @@ export default {
     },
     async getAnnotations() {
       this.annotations = {...await Annotations.getAnnotations(this.analysis_name, this.gene, this.variant)};
+    },
+    async attachSectionImage(updatedSectionName) {
+      const includeComments = false;
+      const attachment = await inputDialog
+          .confirmText('Attach')
+          .cancelText('Cancel')
+          .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp')
+          .prompt();
+
+      if (!attachment) {
+        return;
+      }
+
+      const annotation = {
+        genomic_unit: this.gene,
+        section: updatedSectionName,
+      };
+
+      const updatedAnalysis = await Annotations.attachAnnotationImage(annotation, attachment.data);
+      this.annotations[updatedSectionName] = updatedAnalysis['image_id'];
     },
   },
 };
