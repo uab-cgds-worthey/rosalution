@@ -72,7 +72,7 @@ def test_import_analysis_from_phenotips_json(
             json=exported_phenotips_to_import_json,
         )
 
-        assert mock_annotation_queue.put.call_count == 28
+        assert mock_annotation_queue.put.call_count == 29
 
         mock_background_add_task.assert_called_once_with(
             AnnotationService.process_tasks,
@@ -116,7 +116,7 @@ def test_import_analysis_with_phenotips_json(client, mock_access_token, mock_rep
 
             phenotips_file.close()
 
-            assert mock_annotation_queue.put.call_count == 28
+            assert mock_annotation_queue.put.call_count == 29
 
             mock_background_add_task.assert_called_once_with(
                 AnnotationService.process_tasks,

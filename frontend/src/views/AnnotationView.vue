@@ -3,8 +3,10 @@
     <AnnotationViewHeader
       :username="username"
       :analysisName="this.analysis_name"
-      :genes="[this.gene]"
-      :variants="[this.variant]"
+      :genes="this.genomicUnits['genes']"
+      :variants="this.genomicUnits['variants']"
+      :activeGenomicUnits="this.active"
+      @changed="this.onActiveGenomicUnitsChanged"
     >
     </AnnotationViewHeader>
   </app-header>
@@ -32,8 +34,7 @@
                 v-for="(datasetConfig, index) in row.datasets"
                 :key="`${datasetConfig.dataset}-${index}`"
                 :is="datasetConfig.type"
-                v-bind="datasetConfig.props"
-                :linkout="linkoutUrl(datasetConfig)"
+                v-bind="buildProps(datasetConfig)"
                 :value="annotations[datasetConfig.dataset]"
                 :data-test="datasetConfig.dataset"
               />
@@ -99,6 +100,14 @@ export default {
       store: authStore,
       rendering: [],
       annotations: {},
+      active: {
+        'gene': this.gene,
+        'variant': this.variant,
+      },
+      genomicUnits: {
+        'genes': {},
+        'variants': [],
+      },
     };
   },
   computed: {
@@ -111,13 +120,14 @@ export default {
       });
     },
   },
-  created() {
+  async created() {
+    await this.getGenomicUnits();
     this.getRenderingConfiguration();
     this.getAnnotations();
   },
   methods: {
     sectionHeader(header) {
-      return header in this ? this[header] : header;
+      return header in this ? this.active[header] : header;
     },
     imageId(header) {
       if (this.annotations[header] != undefined) {
@@ -126,14 +136,34 @@ export default {
 
       return '';
     },
-    linkoutUrl(datasetConfig) {
-      return 'linkout_dataset' in datasetConfig ? this.annotations[datasetConfig['linkout_dataset']] : undefined;
+    buildProps(datasetConfig) {
+      return {
+        ...datasetConfig.props,
+        ...('linkout_dataset' in datasetConfig) && {linkout: this.annotations[datasetConfig['linkout_dataset']]},
+      };
+    },
+    async getGenomicUnits() {
+      this.genomicUnits = {...await Analyses.getGenomicUnits(this.analysis_name)};
+      if (this.active.gene === '') {
+        const genes = Object.keys(this.genomicUnits['genes']);
+        this.active.gene = genes[0];
+        if (this.genomicUnits['genes'][this.active.gene].length !== 0) {
+          this.active.variant = this.genomicUnits['genes'][this.active.gene][0];
+        }
+      }
     },
     async getRenderingConfiguration() {
       this.rendering.push(...await Analyses.getAnnotationConfiguration(this.analysis_name));
     },
     async getAnnotations() {
-      this.annotations = {...await Annotations.getAnnotations(this.analysis_name, this.gene, this.variant)};
+      this.annotations =
+        {...await Annotations.getAnnotations(this.analysis_name, this.active.gene, this.active.variant)};
+    },
+    async onActiveGenomicUnitsChanged(genomicUnitsChanged) {
+      this.active.gene = genomicUnitsChanged.gene;
+      this.active.variant = genomicUnitsChanged.variant;
+      this.annotations = {};
+      await(this.getAnnotations());
     },
     async attachSectionImage(updatedSectionName) {
       const includeComments = false;

@@ -30,25 +30,7 @@
                 "field": "Interpretation",
                 "value": ["Likely Pathogenic"]
               }
-            ]
-          }
-        ]
-      },
-      {
-        "gene": "DMD",
-        "transcripts": [],
-        "variants": [
-          {
-            "hgvs_variant": "",
-            "c_dot": "",
-            "p_dot": "",
-            "build": "",
-            "case": [
-              {
-                "field": "Interpretation",
-                "value": ["Variant of Uncertain Significance"]
-              }
-            ]
+              ]
           }
         ]
       }

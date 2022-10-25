@@ -14,6 +14,12 @@ export default {
     return body;
   },
 
+  async getGenomicUnits(analysisName) {
+    const url = `/rosalution/api/analysis/${analysisName}/genomic_units`;
+    const genomicUnits = await Requests.get(url);
+    return genomicUnits;
+  },
+
   async updateAnalysisSections(analysisName, updatedSections) {
     const url = `/rosalution/api/analysis/${analysisName}/update/sections`;
     return await Requests.put(url, updatedSections);
@@ -107,7 +113,7 @@ const annotationRenderingTemporary = [
         'class': '',
         'datasets': [
           {
-            'dataset': 'Gene Description',
+            'dataset': 'Gene Summary',
             'type': 'text-dataset',
             'props': {
             },

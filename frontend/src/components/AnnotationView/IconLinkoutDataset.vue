@@ -1,6 +1,6 @@
 <template>
-  <a :href="value" target="_blank" ref="noreferrer noopener">
-    <img :src="linkoutImageSrc(imageFilename)" :alt="altText" />
+  <a :href="value" target="_blank" ref="noreferrer noopener" class="linkout">
+    <img :src="linkoutImageSrc(imageFilename)" :alt="altText" :style="linkoutStyle" />
   </a>
 </template>
 
@@ -10,7 +10,6 @@ export default {
   props: {
     value: {
       type: String,
-      required: true,
     },
     altText: {
       type: String,
@@ -19,6 +18,18 @@ export default {
     imageFilename: {
       type: String,
       required: true,
+    },
+  },
+  computed: {
+    linkoutStyle: function() {
+      if (typeof(this.value) == 'undefined') {
+        return {
+          opacity: 0.25,
+        };
+      }
+      return {
+        opacity: 1,
+      };
     },
   },
   methods: {
@@ -31,7 +42,12 @@ export default {
 
 <style scoped>
 
-a img {
+.linkout {
+  background-color: var(--rosalution-white);
+  overflow:hidden;
+}
+
+.linkout img {
   height:100%;
   margin-right: var(--p-10)
 }

@@ -41,7 +41,7 @@ def test_extraction_forge_gene_linkout_dataset(forge_annotation_task_gene):
     extracted_annotations = forge_annotation_task_gene.extract(annotation)
     assert extracted_annotations[0]['value'] == 'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=45614'
 
-def test_annotation_extraction_for_transcript_dataset(http_annotation_transcript_id, transcript_annotation_response):
+def test_annotation_extraction_for_transcript_id_dataset(http_annotation_transcript_id, transcript_annotation_response):
     """Verifieng genomic unit extraction for a transcript using the the transcript ID dataset"""
     actual_extractions = http_annotation_transcript_id.extract(transcript_annotation_response)
     assert len(actual_extractions) == 2
@@ -60,6 +60,27 @@ def test_annotation_extraction_for_transcript_dataset(http_annotation_transcript
         'value': 'NM_001363810.1',
         'transcript_id': 'NM_001363810.1'
     } in actual_extractions
+
+def test_annotation_extraction_for_polyphen_prediction_transcript_dataset(
+    http_annotation_polyphen_prediction,
+    transcript_annotation_response
+):
+    """Verifieng genomic unit extraction for a transcript using the the transcript ID dataset"""
+    actual_extractions = http_annotation_polyphen_prediction.extract(transcript_annotation_response)
+    assert len(actual_extractions) == 2
+
+    actual_nm_001017980_extraction = next(
+        (annotation for annotation in actual_extractions if annotation['transcript_id'] == 'NM_001017980.4'),
+        None
+    )
+
+    actual_nm_001363810_extraction = next(
+        (annotation for annotation in actual_extractions if annotation['transcript_id'] == 'NM_001363810.1'),
+        None
+    )
+
+    assert actual_nm_001017980_extraction['value'] == 'possibly_damaging'
+    assert actual_nm_001363810_extraction['value'] == 'probably_damaging'
 
 
 def test_annotation_extraction_for_genomic_unit(http_annotation_task_gene, hpo_annotation_response):
@@ -164,6 +185,31 @@ def fixture_http_annotation_transcript_id(hgvs_variant_genomic_unit, transcript_
     task.set(transcript_id_dataset)
     return task
 
+@pytest.fixture(name="polyphen_prediction_dataset")
+def fixture_polyphen_prediction_dataset():
+    """
+    Returns the dict of the polyphen_prediction dataset
+    """
+    return {
+        "data_set": "Polyphen Prediction",
+        "data_source": "Ensembl",
+        "genomic_unit_type": "hgvs_variant",
+        "transcript": True,
+        "annotation_source_type": "http",
+        "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;refseq=1;",
+        "attribute":
+            ".[].transcript_consequences[] | \
+            { polyphen_prediction: .polyphen_prediction,transcript_id: .transcript_id }"
+    }
+
+
+@pytest.fixture(name="http_annotation_polyphen_prediction")
+def fixture_http_annotation_polyphen_prediction(hgvs_variant_genomic_unit, polyphen_prediction_dataset):
+    """An HTTP annotation task with a single dataset"""
+    task = HttpAnnotationTask(hgvs_variant_genomic_unit)
+    task.set(polyphen_prediction_dataset)
+    return task
+
 
 @pytest.fixture(name="transcript_datasets_json")
 def fixture_transcript_related_datasets(annotation_collection):
@@ -184,7 +230,8 @@ def fixture_transcript_related_datasets(annotation_collection):
 @pytest.fixture(name="hpo_annotation_response")
 def fixture_hpo_annotation_response():
     """
-    Returns an object that contains the actual return aoutput for GENE VMA21 for HPO terms"""
+    Returns an object that contains the actual return aoutput for GENE VMA21 for HPO terms
+    """
     return {
         "gene": {"entrezGeneId": 203547, "entrezGeneSymbol": "VMA21"},
         "termAssoc": [
@@ -226,3 +273,10 @@ def fixture_hpo_annotation_response():
             "db": "OMIM"
         }]
     }
+
+@pytest.fixture(name="rest_genenames_response")
+def fixture_genenames_annotation_response():
+    """
+    Returns an object that contains the actual return aoutput for GENE VMA21
+    """
+    return {}

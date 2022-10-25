@@ -1,6 +1,6 @@
 <template>
   <div class="dataset-container">
-    <span class="dataset-label dataset-label-position" :style="{'color': dataAvailabilityColour}">
+    <span class="dataset-label dataset-label-position" :style="{ color: dataAvailabilityColour }">
       {{ label }}
     </span>
     <span
@@ -11,17 +11,18 @@
       }"
       data-test="score-background"
     >
-      <span v-if="value"
+      <span
+        v-if="value"
         class="score-fill"
         :style="{
           'background-color': scoreStyling.fillColour,
-          'width': scoreFillWidthPercentage,
+          width: scoreFillWidthPercentage,
         }"
         data-test="score-fill"
       >
       </span>
     </span>
-    <span class="score-text" :style="{'color': scoreStyling.textColour}" data-test="score-text">
+    <span class="score-text" :style="{ color: scoreStyling.textColour }" data-test="score-text">
       {{ value }}
     </span>
   </div>
@@ -54,7 +55,7 @@ export default {
     return {
       unavailableColours: {
         fillColour: '',
-        backgroundColour: 'var(--rosalution-grey-300)',
+        backgroundColour: 'var(--rosalution-grey-100)',
         borderColour: '',
         textColour: 'var(--rosalution-grey-300)',
       },
@@ -131,8 +132,8 @@ export default {
 <style scoped>
 .dataset-container {
   display: flex;
-  position: relative;
-  padding: var(--p-1)
+  padding: var(--p-1);
+  align-items: center;
 }
 
 .dataset-label {
@@ -142,7 +143,8 @@ export default {
 
 .score-background {
   overflow: hidden;
-  width: 10rem;
+  width: 10.75rem;
+  height: 1rem;
   border-radius: 9999px;
   display: flex;
 }
@@ -154,6 +156,7 @@ export default {
 
 .score-text {
   padding-left: var(--p-1);
+  font-size: 1rem;
+  /* margin:auto; */
 }
-
 </style>

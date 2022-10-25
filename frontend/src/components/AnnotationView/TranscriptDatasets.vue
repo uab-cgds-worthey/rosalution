@@ -1,25 +1,73 @@
 <template>
+  <div>
+  <hr>
   <div class="dataset-container">
     <div v-for="transcript in value" :key="transcript.transcript_id" class="transcript-container">
-      {{ transcript }}
+      <div class="transcript-header">
+        <h2 class="transcript-header-text"> {{transcript['transcript_id'] || 'RefSeq Transcript ID Unavailable'}} </h2>
+        <TextHighlightDataset
+          label="Impact"
+          :value="transcript['Impact']"
+          :highlight="this.impactConfiguration"
+        >
+        </TextHighlightDataset>
+      </div>
+      <div><TextDataset label="Consequences" :value="transcript['Consequences']" :delimeter="`\n`"></TextDataset></div>
+      <div class="transcript-scores">
+        <SetDataset
+          label="SIFT"
+          :value="transcript['SIFT Prediction']"
+          :set="this.siftSetConfiguration"
+        >
+        </SetDataset>
+        <SetDataset
+          label="Polyphen"
+          :value="transcript['Polyphen Prediction']"
+          :set="this.polyphenSetConfiguration"
+        >
+        </SetDataset>
+        <div class="blank-transcript-score-spot"></div>
+      </div>
     </div>
-    <!-- <span v-if="label && !linkout" class="dataset-label" data-test="text-label">{{ label }}</span>
-    <a v-else-if="label && linkout" :href="linkout" class="dataset-label" data-test="text-label"
-       target="_blank" ref="noreferrer noopener">
-      {{ label }}
-      <font-awesome-icon icon="up-right-from-square" size="2xs"/>
-    </a>
-    <span v-if="!isDataUnavailable" data-test="text-value" >{{ value }}</span> -->
   </div>
+</div>
 </template>
 
 <script>
+import SetDataset from '@/components/AnnotationView/SetDataset.vue';
+import TextDataset from '@/components/AnnotationView/TextDataset.vue';
+import TextHighlightDataset from '@/components/AnnotationView/TextHighlightDataset.vue';
+
 export default {
   name: 'transcript-datasets',
+  components: {
+    TextDataset,
+    SetDataset,
+    TextHighlightDataset,
+  },
   props: {
     value: {
       type: [Array],
     },
+  },
+  data: function() {
+    return {
+      impactConfiguration: {
+        'MODERATE': 'Yellow',
+        'MODIFIER': 'Green',
+        'HIGH': 'Red',
+      },
+      polyphenSetConfiguration: [
+        {value: 'probably_damaging', classification: 'Probably Damaging', colour: 'Red'},
+        {value: 'possibly_damaging', classification: 'Possibly Damaging', colour: 'Yellow'},
+        {value: 'benign', classification: 'Benign', colour: 'Blue'},
+      ],
+      siftSetConfiguration: [
+        {value: 'deleterious_low_confidence', classification: 'Deleterious Low Confidence', colour: 'Red'},
+        {value: 'deleterious', classification: 'Deleterious', colour: 'Red'},
+        {value: 'tolerated', classification: 'Tolerated', colour: 'Blue'},
+      ],
+    };
   },
   computed: {
     isDataUnavailable: function() {
@@ -27,9 +75,9 @@ export default {
     },
     dataAvailabilityColour: function() {
       return this.isDataUnavailable ?
-        'var(--rosalution-grey-300)' :
-          this.linkout ? 'var(--rosalution-purple-300)' :
-          'var(--rosalution-black)';
+            'var(--rosalution-grey-300)' :
+            this.linkout ? 'var(--rosalution-purple-300)' :
+                'var(--rosalution-black)';
     },
   },
 };
@@ -38,21 +86,36 @@ export default {
 <style scoped>
 
 .dataset-container {
-  padding: var(--p-1);
+  padding: var(--p-0);
 }
 
 .transcript-container {
+  padding: var(--p-10) 0 var(--p-10) 0;
   display: flex;
+  flex-direction: column;
+  gap: var(--p-8)
 }
 
-.dataset-label {
-  flex: 0 0 125px;
-  font-weight: 600;
-  color: v-bind(dataAvailabilityColour)
-};
+.transcript-container:hover {
+  background-color: var(--rosalution-grey-50);
+}
 
-a:hover .dataset-label {
-  color: var(--rosalution-purple-100);
+.transcript-header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--p-8)
+}
+
+.transcript-header-text {
+  margin: 0px
+}
+
+.transcript-scores {
+  display:flex;
+}
+
+.blank-transcript-score-spot {
+  flex: 3 0 auto;
 }
 
 </style>
