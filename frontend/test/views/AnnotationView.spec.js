@@ -2,6 +2,7 @@ import {expect, describe, it, beforeAll, afterAll} from 'vitest';
 import {config, mount} from '@vue/test-utils';
 import sinon from 'sinon';
 
+import Analyses from '@/models/analyses.js';
 import Annotations from '@/models/annotations.js';
 
 import AnnotationView from '@/views/AnnotationView.vue';
@@ -14,8 +15,8 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 describe('AnnotationView', () => {
   let wrapper;
   let mockAnnotations;
+  let mockGenomicUnits;
   // Future Mock Analyis Annotation Rendering Configuration
-  // Future Mock Annotations for Active Gene and Variant being analyzed
 
   const mockRoute = {
     params: {
@@ -38,6 +39,9 @@ describe('AnnotationView', () => {
 
     mockAnnotations = sandbox.stub(Annotations, 'getAnnotations');
     mockAnnotations.returns(mockAnnotationsForCPAM0002);
+
+    mockGenomicUnits = sandbox.stub(Analyses, 'getGenomicUnits');
+    mockGenomicUnits.returns(mockGenomicUnitsForCPAM0002);
 
     wrapper = mount(AnnotationView, {
       props: {...defaultProps},
@@ -81,7 +85,15 @@ describe('AnnotationView', () => {
 
   it('renders text datasets according to configuration', () => {
     const textDatasets = wrapper.findAllComponents(TextDataset);
-    expect(textDatasets.length).to.equal(7);
+    expect(textDatasets.length).to.equal(9);
+  });
+
+  it('should update the active genomic units to render annotations for', () => {
+    const headerComponent = wrapper.findComponent(AnnotationViewHeader);
+    const previousCallCount = mockAnnotations.callCount;
+    headerComponent.vm.$emit('changed', {gene: 'LMNA', variant: 'the-best-variant'});
+    expect(mockAnnotations.callCount).to.equal(previousCallCount + 1);
+    expect(mockAnnotations.calledWith('CPAM0002', 'LMNA', 'the-best-variant'));
   });
 
   describe('Section headers ought to render datasets according to configuration', () => {
@@ -123,6 +135,17 @@ describe('AnnotationView', () => {
     });
   });
 });
+
+const mockGenomicUnitsForCPAM0002 = {
+  'genes': {
+    'FOXG1': [
+      'NM_005249.5:c.924G>A(p.Trp308Ter)',
+      'NM_005249.5:c.256dup(p.Gln86fs)'],
+  }, 'variants': [
+    'NM_005249.5:c.924G>A(p.Trp308Ter)',
+    'NM_005249.5:c.256dup(p.Gln86fs)',
+  ],
+};
 
 const mockAnnotationsForCPAM0002 = {
   'Entrez Gene Id': 203547,
@@ -188,13 +211,15 @@ const mockAnnotationsForCPAM0002 = {
   'ClinVar_variant_url': 'https://www.ncbi.nlm.nih.gov/clinvar/variation/581244',
   'transcripts': [{
     'Polyphen Prediction': 'possibly_damaging',
-    'transcript_id': '',
+    'Impact': 'MODERATE',
+    'transcript_id': 'NM_001017980.4',
     'SIFT Prediction': 'deleterious',
     'Polyphen Score': 0.597,
     'SIFT Score': 0.02,
     'Consequences': ['missense_variant', 'splice_region_variant'],
   }, {
-    'transcript_id': '',
+    'transcript_id': 'NM_001363810.1',
+    'Impact': 'MODERATE',
     'SIFT Prediction': 'deleterious',
     'Polyphen Score': 0.998,
     'SIFT Score': 0.01,

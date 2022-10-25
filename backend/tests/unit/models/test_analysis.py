@@ -6,7 +6,7 @@ from src.enums import GenomicUnitType
 
 def test_get_units_to_annotate(units_to_annotate):
     """tests the number of units to annotate"""
-    assert len(units_to_annotate) == 4
+    assert len(units_to_annotate) == 3
 
 
 def test_get_genes_in_units_to_annotate(units_to_annotate):
@@ -14,9 +14,8 @@ def test_get_genes_in_units_to_annotate(units_to_annotate):
     genes = list(filter(lambda x: GenomicUnitType.GENE ==
                  x["type"], units_to_annotate))
     gene_names = list(map(lambda x: x["unit"], genes))
-    assert len(gene_names) == 2
+    assert len(gene_names) == 1
     assert "VMA21" in gene_names
-    assert "DMD" in gene_names
 
 
 def test_get_variants_in_units_to_annotate(units_to_annotate):

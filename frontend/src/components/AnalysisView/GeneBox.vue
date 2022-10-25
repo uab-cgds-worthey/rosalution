@@ -7,7 +7,7 @@
             params: {
               analysis_name: this.name,
               gene: this.gene,
-              variant: variants.length > 0 ? variants[0].hgvs_variant : undefined,
+              ...(variants.length > 0 ? {variant: getCompleteHgvsVariantName(variants[0])} : {}),
             }
         }" data-test="gene-route">
           <td class="link-logo">
@@ -32,19 +32,16 @@
               params: {
                 analysis_name: this.name,
                 gene: this.gene,
-                variant: variant.hgvs_variant,
+                variant: getCompleteHgvsVariantName(variant),
               }
             }"  data-test="variant-route">
               <td class="link-logo">
                 <font-awesome-icon icon="angles-right"/>
               </td>
               <td class="c-dot" data-test="c-dot">
-                {{variant.c_dot}}
+                {{variant.c_dot}}({{variant.p_dot}})
               </td>
             </router-link>
-              <td class="p-dot">
-                ({{variant.p_dot}})
-              </td>
               <td class="copy">
                 <button class="copy-button" @click="copyToClipboard(variant.hgvs_variant)" data-test="copy-button">
                   <font-awesome-icon :icon="['far', 'copy']" size="lg"/>
@@ -130,6 +127,9 @@ export default {
       // tmpTextField.setSelectionRange(0, 99999);
       // document.execCommand('copy');
       // tmpTextField.remove();
+    },
+    getCompleteHgvsVariantName(variant) {
+      return `${variant.hgvs_variant}(${variant.p_dot})`;
     },
   },
 };

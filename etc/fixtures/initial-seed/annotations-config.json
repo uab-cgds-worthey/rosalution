@@ -240,5 +240,14 @@
     "url": "https://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;CADD=1;refseq=1;",
     "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { CADD: .cadd_phred }",
     "dependencies": ["transcript"]
+  },
+  {
+    "data_set": "Impact",
+    "data_source": "Ensembl",
+    "genomic_unit_type": "hgvs_variant",
+    "transcript": true,
+    "annotation_source_type": "http",
+    "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;refseq=1;",
+    "attribute": ".[].transcript_consequences[] | { impact: .impact, transcript_id: .transcript_id }"
   }
 ]

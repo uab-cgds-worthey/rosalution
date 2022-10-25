@@ -7,16 +7,18 @@ import sinon from 'sinon';
 describe('analyses.js', () => {
   const sandbox = sinon.createSandbox();
   let mockGetRequest;
+  let mockPostFormRequest;
 
   beforeEach(() => {
     mockGetRequest = sandbox.stub(Requests, 'get');
+    mockPostFormRequest = sandbox.stub(Requests, 'postForm');
   });
 
   afterEach(() => {
     sandbox.restore();
   });
 
-  it('Querie a gene and variants annotations', async () => {
+  it('Queries a gene and variants annotations', async () => {
     mockGetRequest.callsFake((url) => {
       if (url.includes('gene')) {
         return {
@@ -36,5 +38,23 @@ describe('analyses.js', () => {
     expect(annotations['ClinGen_gene_url']).to.equal('https://search.clinicalgenome.org/kb/genes/HGNC:22082');
     expect(annotations['CADD']).to.equal(33);
     expect(annotations['ClinVar_variant_url']).to.equal('https://www.ncbi.nlm.nih.gov/clinvar/variation/581244');
+  });
+
+  it('saves an image with its corresponding section name as expected', async () => {
+    const expectedUrl = '/rosalution/api/annotate/SBFP1/attach/image';
+    const expectedFormData = {
+      'upload_file': 'file here',
+      'section_name': 'Gene Homology',
+    };
+    const expectedReturn = 'it worked';
+
+    mockPostFormRequest.returns(expectedReturn);
+
+    const actualReturned = await Annotations.attachAnnotationImage({
+      genomic_unit: 'SBFP1',
+      section: 'Gene Homology',
+    }, 'file here');
+    expect(actualReturned).to.equal(expectedReturn);
+    expect(mockPostFormRequest.calledWith(expectedUrl, expectedFormData)).to.be.true;
   });
 });

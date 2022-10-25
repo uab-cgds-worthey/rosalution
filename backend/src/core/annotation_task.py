@@ -55,7 +55,9 @@ class AnnotationTaskInterface:
         """ Interface extraction method for annotation tasks """
         annotations = []
 
-        if 'attribute' in self.dataset:
+        # The following if statement has grown too large, however it would needs
+        # to be refactored at a later time
+        if 'attribute' in self.dataset: #pylint: disable=too-many-nested-blocks
             annotation_unit = {
                 "data_set": self.dataset['data_set'],
                 "data_source": self.dataset['data_source'],
@@ -75,7 +77,8 @@ class AnnotationTaskInterface:
                         if key == 'transcript_id':
                             transcript_identifier = jq_result['transcript_id']
                             transcript_annotation_unit['transcript_id'] = transcript_identifier
-                            transcript_annotation_unit['value']  = transcript_identifier
+                            if transcript_annotation_unit['value'] == '':
+                                transcript_annotation_unit['value']  = transcript_identifier
                         else:
                             transcript_annotation_unit['value'] = jq_result[key]
                     annotations.append(transcript_annotation_unit)

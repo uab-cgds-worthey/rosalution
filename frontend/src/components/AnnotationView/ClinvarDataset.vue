@@ -1,9 +1,13 @@
 <template>
   <div class="dataset-container">
-    <a :href="linkout" class="dataset-label" data-test="text-label"
-       target="_blank" ref="noreferrer noopener">
+    <a :href="linkout"
+      class="dataset-label"
+      :class="isLinkoutAvailable ? 'dataset-label-available' : 'dataset-label-unavailable'"
+      data-test="text-label"
+      target="_blank" ref="noreferrer noopener"
+    >
       {{ label }}
-      <font-awesome-icon icon="up-right-from-square" size="2xs"/>
+      <font-awesome-icon v-if="isLinkoutAvailable" icon="up-right-from-square" size="2xs"/>
     </a>
   </div>
 </template>
@@ -21,6 +25,17 @@ export default {
     },
     value: {
       type: [String, Array],
+      default: () => {
+        return [];
+      },
+    },
+  },
+  computed: {
+    isDataAvailable: function() {
+      return !(this.value == '.' || this.value == 'null' || this.value == null || typeof(this.value) != 'undefined');
+    },
+    isLinkoutAvailable() {
+      return typeof(this.linkout) !== 'undefined';
     },
   },
 };
@@ -38,9 +53,16 @@ export default {
 .dataset-label {
   flex: 0 0 125px;
   font-weight: 600;
-  color: var(--rosalution-purple-300);
   font-size: 1.25rem;
 };
+
+.dataset-label-available {
+  color: var(--rosalution-purple-300)
+}
+
+.dataset-label-unavailable {
+  color: var(--rosalution-grey-100)
+}
 
 a:hover .dataset-label {
   color: var(--rosalution-purple-100);

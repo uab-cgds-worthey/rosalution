@@ -134,6 +134,6 @@ describe('GeneBox.vue', () => {
     expect(variant.props('to').name).to.equal('annotation');
     expect(variant.props('to').params.analysis_name).to.equal('CPAM0046');
     expect(variant.props('to').params.gene).to.equal('LMNA');
-    expect(variant.props('to').params.variant).to.equal('NM_170707.3:c.745C>T');
+    expect(variant.props('to').params.variant).to.equal('NM_170707.3:c.745C>T(p.R249W)');
   });
 });

@@ -6,7 +6,7 @@
       {{ label }}
       <font-awesome-icon icon="up-right-from-square" size="2xs"/>
     </a>
-    <span v-if="!isDataUnavailable" data-test="text-value" >{{ value }}</span>
+    <span v-if="!isDataUnavailable" class="text-value" data-test="text-value" >{{ content }}</span>
   </div>
 </template>
 
@@ -24,6 +24,10 @@ export default {
     value: {
       type: [String, Array],
     },
+    delimeter: {
+      type: String,
+      default: ';   ',
+    },
   },
   computed: {
     isDataUnavailable: function() {
@@ -34,6 +38,13 @@ export default {
         'var(--rosalution-grey-300)' :
           this.linkout ? 'var(--rosalution-purple-300)' :
           'var(--rosalution-black)';
+    },
+    content: function() {
+      if (typeof(this.value) == 'object') {
+        return this.value.join(this.delimeter);
+      }
+
+      return this.value;
     },
   },
 };
@@ -48,13 +59,17 @@ export default {
 }
 
 .dataset-label {
-  flex: 0 0 125px;
+  flex: 0 0 130px;
   font-weight: 600;
   color: v-bind(dataAvailabilityColour)
 };
 
-a:hover .dataset-label {
+a:hover {
   color: var(--rosalution-purple-100);
+}
+
+.text-value {
+  white-space: pre-wrap;
 }
 
 </style>

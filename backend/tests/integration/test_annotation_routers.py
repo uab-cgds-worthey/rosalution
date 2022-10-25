@@ -1,32 +1,6 @@
 """Routes dedicated for annotation within the system"""
-from unittest.mock import patch
-from fastapi import BackgroundTasks
 
-from src.core.annotation import AnnotationService
-
-from ..test_utils import read_database_fixture, read_test_fixture
-
-
-def test_queue_annotations_for_sample(client, mock_repositories, mock_annotation_queue):
-    """Testing that the correct number of analyses were returned and in the right order"""
-    analysis_collection_json = read_database_fixture("analyses.json")
-    mock_repositories['analysis'].collection.find.return_value = analysis_collection_json
-    mock_repositories['analysis'].collection.find_one.return_value = next(
-        (analysis for analysis in analysis_collection_json if analysis['name'] == "CPAM0002"), None)
-    mock_repositories['annotation_config'].collection.find.return_value = read_database_fixture(
-        "annotations-config.json")
-    mock_repositories['genomic_unit'].collection.find.return_value = read_database_fixture(
-        "genomic-units.json")
-
-    with patch.object(BackgroundTasks, "add_task", return_value=None) as mock_background_add_task:
-        response = client.post("/annotate/CPAM0002")
-        assert response.status_code == 202
-        assert mock_annotation_queue.put.call_count == 47
-        mock_background_add_task.assert_called_once_with(
-            AnnotationService.process_tasks,
-            mock_annotation_queue,
-            mock_repositories['genomic_unit']
-        )
+from ..test_utils import read_test_fixture
 
 def test_get_annotations_by_gene(client, mock_access_token, mock_repositories):
     """Testing that the annotations by gene endpoint returns the annotations correctly"""
