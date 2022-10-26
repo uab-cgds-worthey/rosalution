@@ -1,4 +1,4 @@
-import {expect, describe, it, beforeAll, afterAll, beforeEach} from 'vitest';
+import {expect, describe, it, afterEach, beforeEach} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 import sinon from 'sinon';
 
@@ -48,26 +48,25 @@ describe('AnalysisView', () => {
   let mockedData;
   let pedigreeAttachMock;
   let mockedAttachSupportingEvidence;
+  let mockedRemoveSupportingEvidence;
   let mockedLogout;
   let wrapper;
   let sandbox;
 
-  beforeAll(() => {
+  beforeEach(() => {
     sandbox = sinon.createSandbox();
     mockedData = sandbox.stub(Analyses, 'getAnalysis');
     mockedData.returns(fixtureData());
 
     pedigreeAttachMock = sandbox.stub(Analyses, 'attachSectionBoxImage');
     mockedAttachSupportingEvidence = sandbox.stub(Analyses, 'attachSupportingEvidence');
+    mockedRemoveSupportingEvidence = sandbox.stub(Analyses, 'removeSupportingEvidence');
 
     mockedLogout = sandbox.stub(authStore, 'logout');
-  });
-
-  beforeEach(() => {
     wrapper = getMountedComponent();
   });
 
-  afterAll(() => {
+  afterEach(() => {
     sandbox.restore();
   });
 
@@ -147,24 +146,48 @@ describe('AnalysisView', () => {
     expect(supplementalComponent.props('attachments').length).to.equal(1);
   });
 
-  it('confirmation removes the attachment to the analysis', async () => {
-    const fakeAttachment = {name: 'fake.txt'};
-    const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+  describe('when removing supporting evidence', async () => {
+    it('should confirmation to remove the supporting evidence from the analysis', async () => {
+      const fakeAttachment = {name: 'fake.txt'};
+      const supplementalComponent = wrapper.getComponent(SupplementalFormList);
 
-    expect(supplementalComponent.props('attachments').length).to.equal(1);
+      expect(supplementalComponent.props('attachments').length).to.equal(1);
 
-    supplementalComponent.vm.$emit('delete', fakeAttachment);
+      supplementalComponent.vm.$emit('delete', fakeAttachment);
 
-    notificationDialog.confirmation();
-    await wrapper.vm.$nextTick();
+      notificationDialog.confirmation();
+      await wrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick();
 
-    expect(supplementalComponent.props('attachments').length).to.equal(0);
+      expect(supplementalComponent.props('attachments').length).to.equal(0);
+      expect(mockedRemoveSupportingEvidence.called).to.be.true;
+    });
+
+    it('should alert user when failes to delete', async () => {
+      mockedRemoveSupportingEvidence.throws('Failed to delete');
+
+      const fakeAttachment = {name: 'fake.txt'};
+      const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+
+      expect(supplementalComponent.props('attachments').length).to.equal(1);
+
+
+      supplementalComponent.vm.$emit('delete', fakeAttachment);
+
+      notificationDialog.confirmation();
+      await wrapper.vm.$nextTick();
+
+      expect(supplementalComponent.props('attachments').length).to.equal(1);
+      expect(mockedRemoveSupportingEvidence.called).to.be.true;
+    });
   });
+
 
   it('attachment dialog adds a new attachment to the analysis', async () => {
     const newAttachmentData = {
       name: 'fake-attachment-evidence-name',
       data: 'http://sites.uab.edu/cgds',
+      attachment_id: 'new-failure-id',
       type: 'link',
       comments: '',
     };
@@ -173,8 +196,7 @@ describe('AnalysisView', () => {
     mockedAttachSupportingEvidence.returns(analysisWithNewEvidence);
 
     const supplementalComponent = wrapper.getComponent(SupplementalFormList);
-
-    expect(supplementalComponent.props('attachments').length).to.equal(0);
+    expect(supplementalComponent.props('attachments').length).to.equal(1);
 
     supplementalComponent.vm.$emit('open-modal');
     await wrapper.vm.$nextTick();

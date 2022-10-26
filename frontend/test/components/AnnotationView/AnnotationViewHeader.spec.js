@@ -93,4 +93,22 @@ describe('AnnotationViewHeader.vue', () => {
     expect(changedActiveGenomicUnits.gene).to.equal('LMNA');
     expect(changedActiveGenomicUnits.variant).to.equal('NM_170707.3:c.745C>T(p.R249W)');
   });
+
+  it('should not emit changed event when the same variant', () => {
+    const wrapper = getMountedComponent();
+
+    const variantSelectComponent = wrapper.getComponent('[class="variant-unit-select"]');
+    variantSelectComponent.vm.$emit('update:selected', 'NM_153818.2:c.28dup(p.Glu10fs)');
+
+    expect(wrapper.emitted('changed'), 'the "changed" event happened').to.be.undefined;
+  });
+
+  it('should not emit changed event when the same gene is selected', () => {
+    const wrapper = getMountedComponent();
+
+    const geneSelectComponent = wrapper.getComponent('[class="gene-unit-select"]');
+    geneSelectComponent.vm.$emit('update:selected', 'PEX10');
+
+    expect(wrapper.emitted('changed'), 'the "changed" event happened').to.be.undefined;
+  });
 });

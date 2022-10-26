@@ -126,5 +126,29 @@
       "scope":"bioinformatics-section-user",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false
+   },
+   {
+      "username":"user14",
+      "full_name":"User Fourteen",
+      "email":"userfourteen@example.com",
+      "scope":"researcher",
+      "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled":false
+   },
+   {
+      "username":"user15",
+      "full_name":"User Fifteen",
+      "email":"userfifteen@example.com",
+      "scope":"researcher",
+      "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled":false
+   },
+   {
+    "username":"user16",
+    "full_name":"User Sixteen",
+    "email":"usersixteen@example.com",
+    "scope":"researcher",
+    "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+    "disabled":false
    }
 ]

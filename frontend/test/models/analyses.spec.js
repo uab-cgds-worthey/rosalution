@@ -8,10 +8,12 @@ describe('analyses.js', () => {
   const sandbox = sinon.createSandbox();
   let mockGetRequest;
   let mockPostFormResponse;
+  let mockDeleteRequest;
 
   beforeEach(() => {
     mockGetRequest = sandbox.stub(Requests, 'get');
     mockPostFormResponse = sandbox.stub(Requests, 'postForm');
+    mockDeleteRequest = sandbox.stub(Requests, 'delete');
   });
 
   afterEach(() => {
@@ -86,6 +88,11 @@ describe('analyses.js', () => {
       'picture': 'this is three pictures in a trenchcoat',
     });
     expect(mockPostFormResponse.called).to.be.true;
+  });
+
+  it('removes supporting evidence for an analysis', async () => {
+    await Analyses.removeSupportingEvidence('CPAM0002', 'remove-attach-it-now');
+    expect(mockDeleteRequest.called).to.be.true;
   });
 });
 
