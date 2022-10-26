@@ -80,7 +80,7 @@ export default {
   },
 
   async removeSupportingEvidence(analysisName, attachmentId) {
-    const url = `/rosalution/api/analysis/${analysisName}/attachment/${attachmentId}`;
+    const url = `/rosalution/api/analysis/${analysisName}/attachment/${attachmentId}/remove`;
     const success = await Requests.delete(url);
     return success;
   },
