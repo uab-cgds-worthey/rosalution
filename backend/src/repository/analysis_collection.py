@@ -7,7 +7,6 @@ from pymongo import ReturnDocument
 
 # pylint: disable=too-few-public-methods
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
-from bson import ObjectId
 
 
 class AnalysisCollection:
@@ -73,10 +72,10 @@ class AnalysisCollection:
     def update_analysis_nominator(self, analysis_name: str, nominator: str):
         """Updates the Nominator field within an analysis"""
         updated_analysis_document = self.collection.find_one_and_update({"name": analysis_name},
-                                                        {"$set": {
-                                                            "nominated_by": nominator,
-                                                        }},
-                                                        return_document=ReturnDocument.AFTER)
+                                                                        {"$set": {
+                                                                            "nominated_by": nominator,
+                                                                        }},
+                                                                        return_document=ReturnDocument.AFTER)
         updated_analysis_document.pop("_id", None)
         return updated_analysis_document
 
@@ -150,8 +149,8 @@ class AnalysisCollection:
     def add_pedigree_file(self, analysis_name: str, file_id: str):
         """ Adds a pedigree file to an analysis """
         updated_document = self.collection.find_one({"name": analysis_name})
-        document_id = updated_document['_id']
-        updated_document.pop("_id", None)
+        if "_id" in updated_document:
+            updated_document.pop("_id", None)
 
         for section in updated_document['sections']:
             if section["header"] == "Pedigree":
@@ -163,10 +162,10 @@ class AnalysisCollection:
                 else:
                     section['content'][0]['value'] = [str(file_id)]
 
-        self.collection.update_one({'_id': ObjectId(str(document_id))}, {
-                                   '$set': updated_document})
+        self.collection.find_one_and_update({"name": analysis_name}, {
+            '$set': updated_document})
 
-        return updated_document
+        return updated_document.pop("_id", None)
 
     def get_genomic_units(self, analysis_name: str):
         """ Returns the genomic units for an analysis with variants displayed in the HGVS Nomenclature """
