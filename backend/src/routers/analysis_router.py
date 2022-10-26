@@ -98,10 +98,12 @@ async def create_file(
 def update_analysis_sections(analysis_name: str, updated_sections: dict, repositories=Depends(database)):
     """Updates the sections that have changes"""
     for (header, field) in updated_sections.items():
-        for(updated_field, value) in field.items():
+        for (updated_field, value) in field.items():
             if "Nominator" == updated_field:
-                repositories["analysis"].update_analysis_nominator(analysis_name, '; '.join(value))
-            repositories["analysis"].update_analysis_section(analysis_name, header, updated_field, {"value": value})
+                repositories["analysis"].update_analysis_nominator(
+                    analysis_name, '; '.join(value))
+            repositories["analysis"].update_analysis_section(
+                analysis_name, header, updated_field, {"value": value})
 
     return repositories["analysis"].find_by_name(analysis_name)
 
@@ -198,3 +200,25 @@ def remove_pedigree(analysis_name: str, repositories=Depends(database)):
     except ValueError as exception:
         raise HTTPException(
             status_code=404, detail=str(exception)) from exception
+
+
+@router.put("/{analysis_name}/update/pedigree")
+def update_pedigree(analysis_name: str, upload_file: UploadFile = File(...), repositories=Depends(database)):
+    """ Removes a pedigree file from an analysis and Specifically
+     accepts a file to save a pedigree image file to mongo """
+    try:
+        pedigree_file_id = repositories["analysis"].get_pedigree_file_id(
+            analysis_name)
+    except ValueError as exception:
+        warnings.warn(str(exception))
+        pedigree_file_id = None
+    try:
+        repositories["bucket"].delete_file(pedigree_file_id)
+        repositories["analysis"].remove_pedigree_file(analysis_name)
+    except ValueError as exception:
+        raise HTTPException(
+            status_code=404, detail=str(exception)) from exception
+    new_file_object_id = repositories["bucket"].save_file(
+        upload_file.file, upload_file.filename)
+
+    return repositories["analysis"].add_pedigree_file(analysis_name, new_file_object_id)

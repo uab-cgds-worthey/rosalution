@@ -175,7 +175,7 @@ def test_update_analysis_section(client, mock_access_token, mock_repositories, u
 
 def test_attach_pedigree_image(client, mock_access_token, mock_repositories):
     """ Testing if the create analysis function works with file upload """
-    mock_repositories['analysis'].collection.update_one = Mock()
+    mock_repositories['analysis'].collection.find_one_and_update = Mock()
     mock_repositories['bucket'].bucket.put.return_value = "633afb87fb250a6ea1569555"
     mock_repositories["analysis"].collection.find_one.return_value = {
         "_id": ObjectId(str('63430e4f076646300d18bd8d')),
@@ -205,8 +205,8 @@ def test_attach_pedigree_image(client, mock_access_token, mock_repositories):
 
         phenotips_file.close()
 
-    mock_repositories['analysis'].collection.update_one.assert_called_with(
-        {'_id': ObjectId('63430e4f076646300d18bd8d')},
+    mock_repositories['analysis'].collection.find_one_and_update.assert_called_with(
+        {'name': 'CPAM0112'},
         {'$set': {'sections':
                   [{'header': 'Pedigree', 'content': [
                       {
@@ -352,6 +352,77 @@ def test_remove_pedigree_empty_pedigree(client, mock_access_token, mock_reposito
         assert response.status_code == 200
 
 
+def test_update_pedigree(client, mock_access_token, mock_repositories):
+    """ Testing the update pedigree attachment endpoint """
+    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture(
+        "analysis-CPAM0002.json")
+    mock_repositories['bucket'].bucket.put.return_value = "633afb87fb250a6ea1569555"
+    expected = read_test_fixture("analysis-CPAM0002.json")
+    expected["sections"] = [
+        {"header": "Pedigree", "content": ["633afb87fb250a6ea1569555"]}
+    ]
+    mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
+
+    # This is used here because the 'read_fixture' returns a json dict rather than raw binary
+    # We actually want to send a binary file through the endpoint to simulate a file being sent
+    # then json.loads is used on the other end in the repository.
+    # This'll get updated and broken out in the test_utils in the future
+    path_to_current_file = os.path.realpath(__file__)
+    current_directory = os.path.split(path_to_current_file)[0]
+    path_to_file = os.path.join(
+        current_directory, '../fixtures/' + 'pedigree-fake.jpg')
+
+    with open(path_to_file, 'rb') as file:
+        pedigree_image = file.read()
+        pedigree_bytes = bytearray(pedigree_image)
+        response = client.put("/analysis/CPAM0002/update/pedigree",
+                              headers={"Authorization": "Bearer " +
+                                       mock_access_token},
+                              files={"upload_file": (
+                                  "pedigree-fake.jpg", pedigree_bytes)}
+                              )
+        file.close()
+
+    assert response.status_code == 200
+
+
+def test_update_pedigree_empty_pedigree(client, mock_access_token, mock_repositories, empty_pedigree):
+    """ Testing the update pedigree attachment endpoint """
+    mock_repositories["analysis"].collection.find_one.return_value = empty_pedigree
+    mock_repositories['bucket'].bucket.put.return_value = "633afb87fb250a6ea1569555"
+    expected = read_test_fixture("analysis-CPAM0002.json")
+    expected["sections"] = [
+        {"header": "Pedigree", "content": ["633afb87fb250a6ea1569555"]}
+    ]
+    mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
+
+    # This is used here because the 'read_fixture' returns a json dict rather than raw binary
+    # We actually want to send a binary file through the endpoint to simulate a file being sent
+    # then json.loads is used on the other end in the repository.
+    # This'll get updated and broken out in the test_utils in the future
+    path_to_current_file = os.path.realpath(__file__)
+    current_directory = os.path.split(path_to_current_file)[0]
+    path_to_file = os.path.join(
+        current_directory, '../fixtures/' + 'pedigree-fake.jpg')
+
+    with warnings.catch_warnings(record=True) as warning:
+        with open(path_to_file, 'rb') as file:
+            pedigree_image = file.read()
+            pedigree_bytes = bytearray(pedigree_image)
+            response = client.put("/analysis/CPAM0002/update/pedigree",
+                                  headers={"Authorization": "Bearer " +
+                                           mock_access_token},
+                                  files={"upload_file": (
+                                      "pedigree-fake.jpg", pedigree_bytes)}
+                                  )
+            file.close()
+        assert len(warning) == 1
+        assert issubclass(warning[-1].category, UserWarning)
+        assert "does not have a pedigree file" in str(warning[-1].message)
+
+    assert response.status_code == 200
+
+
 @pytest.fixture(name="analysis_updates_json")
 def fixture_analysis_updates_json():
     """The JSON that is being sent from a client to the endpoint with updates in it"""
@@ -400,9 +471,7 @@ def fixture_supporting_evidence_link_json():
     return setup_return_value
 
 
-@ pytest.fixture(name="empty_pedigree")
+@pytest.fixture(name="empty_pedigree")
 def fixture_empty_pedigree():
-    """Returns an empty pedigree in the analysis"""
-    empty_pedigree = read_test_fixture("analysis-CPAM0002.json")
-    empty_pedigree["sections"][2]["content"] = []
-    return empty_pedigree
+    """returns an analysis with an empty pedigree"""
+    return read_test_fixture("empty-pedigree.json")

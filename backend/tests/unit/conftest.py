@@ -156,3 +156,9 @@ def fixture_annotation_response_for_transcript():
             ]
         }
     ]
+
+
+@pytest.fixture(name="empty_pedigree")
+def fixture_empty_pedigree():
+    """returns an analysis with an empty pedigree"""
+    return read_test_fixture("empty-pedigree.json")

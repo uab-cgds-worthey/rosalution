@@ -199,11 +199,3 @@ def fixture_analysis_with_no_p_dot():
             }
         ]
     }
-
-
-@pytest.fixture(name="empty_pedigree")
-def fixture_empty_pedigree():
-    """Returns an empty pedigree in the analysis"""
-    empty_pedigree = read_test_fixture("analysis-CPAM0002.json")
-    empty_pedigree["sections"][2]["content"] = []
-    return empty_pedigree
