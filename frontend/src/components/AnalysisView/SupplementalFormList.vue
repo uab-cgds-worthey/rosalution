@@ -4,7 +4,7 @@
     <tbody>
       <tr class="supplemental-header">
         <td>
-          <h2 class="supplemental-header-name">Supplemental Attachments</h2>
+          <h2 class="supplemental-header-name">Supporting Evidence</h2>
         </td>
         <td>
           <button class="add-attachment-button" @click="$emit('openModal')" data-test="add-button">

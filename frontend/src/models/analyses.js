@@ -78,6 +78,12 @@ export default {
 
     return await Requests.postForm(url, attachmentForm);
   },
+
+  async removeSupportingEvidence(analysisName, attachmentId) {
+    const url = `/rosalution/api/analysis/${analysisName}/attachment/${attachmentId}`;
+    const success = await Requests.delete(url);
+    return success;
+  },
 };
 
 const annotationRenderingTemporary = [

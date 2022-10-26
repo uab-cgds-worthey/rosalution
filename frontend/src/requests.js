@@ -92,4 +92,27 @@ export default {
     }
     return await response.json();
   },
+  async delete(url) {
+    const authToken = authStore.getToken();
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + authToken,
+      },
+      mode: 'cors',
+      cache: 'no-cache',
+    });
+
+    if ( response.ok != true ) {
+      console.log(response);
+      throw new Error(`Status Code: ${response.status} ${ response.statusText}\nURL: \n${response.url}`);
+    }
+
+    if ( response.bodyUsed) {
+      return await response.json();
+    }
+
+    return response.ok;
+  },
 };

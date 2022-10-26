@@ -173,10 +173,18 @@ export default {
         return;
       }
 
-      const attachmentIndex = this.attachments.findIndex((attachment) => {
-        return attachment.name == attachmentToDelete.name;
-      });
-      this.analysis.supporting_evidence_files.splice(attachmentIndex, 1);
+      try {
+        await Analyses.removeSupportingEvidence(this.analysis_name, attachmentToDelete.attachment_id);
+        const attachmentIndex = this.attachments.findIndex((attachment) => {
+          return attachment.name == attachmentToDelete.name;
+        });
+        this.analysis.supporting_evidence_files.splice(attachmentIndex, 1);
+      } catch (error) {
+        await notificationDialog
+            .title('Failure')
+            .confirmText('Ok')
+            .alert(error);
+      }
     },
     async onEditAttachment(attachment) {
       const updatedAttachment = await inputDialog

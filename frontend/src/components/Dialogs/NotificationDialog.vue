@@ -48,6 +48,8 @@ export default {
     width: 400px;
     height: 170px;
     padding: 20px 35px 15px 35px;
+    word-break:break-all;
+    white-space: pre-wrap;
   }
 
   h2 {
