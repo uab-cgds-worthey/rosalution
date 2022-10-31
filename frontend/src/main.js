@@ -4,7 +4,6 @@ import {createRouter, createWebHistory} from 'vue-router';
 import App from './App.vue';
 import LoginView from './views/LoginView.vue';
 import AnalysisListingView from './views/AnalysisListingView.vue';
-import AboutView from './views/AboutView.vue';
 import NotFoundView from './views/NotFound.vue';
 import AnalysisView from './views/AnalysisView.vue';
 import AnnotationView from './views/AnnotationView.vue';
@@ -34,7 +33,6 @@ library.add(
 const routes = [
   {path: '/rosalution/login', name: 'login', component: LoginView},
   {path: '/rosalution', component: AnalysisListingView},
-  {path: '/rosalution/about', component: AboutView},
   {path: '/rosalution/analysis/:analysis_name', name: 'analysis', component: AnalysisView, props: true},
   {path: '/rosalution/analysis/:analysis_name/annotation/', name: 'annotation', component: AnnotationView,
     props: true},

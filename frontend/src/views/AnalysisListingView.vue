@@ -3,7 +3,7 @@
   <app-header>
     <AnalysisListingHeader
       :username="username"
-      v-on:search="onSearch"
+      v-model:searchText="searchText"
       @logout="this.onLogout"
     />
   </app-header>
@@ -38,7 +38,7 @@ import AnalysisCreateCard from '@/components/AnalysisListing/AnalysisCreateCard.
 import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
 import AnalysisListingLegend from '@/components/AnalysisListing/AnalysisListingLegend.vue';
 
-import InputDialog from '../components/Dialogs/InputDialog.vue';
+import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 
 import inputDialog from '@/inputDialog.js';
@@ -59,7 +59,7 @@ export default {
   data: function() {
     return {
       store: authStore,
-      searchQuery: '',
+      searchText: '',
       analysisList: [],
     };
   },
@@ -68,17 +68,21 @@ export default {
       return this.store.state.username;
     },
     searchedAnalysisListing() {
-      return this.searchQuery === '' ? this.analysisList : this.analysisList.filter( (analysis) => {
-        return analysis.name.includes(this.searchQuery) ||
+      const lowerCaseSearchText = this.searchText.toLowerCase();
+
+      return this.searchText === '' ? this.analysisList : this.analysisList.filter( (analysis) => {
+        return [analysis.name,
+          analysis.created_date,
+          analysis.last_modified_date,
+          analysis.nominated_by,
+        ].some((content) => content.toLowerCase().includes(lowerCaseSearchText)) ||
           analysis.genomic_units.some((unit) => {
-            if (unit.gene !== undefined) {
-              return unit.gene.includes(this.searchQuery);
-            } else if ( unit.transcript !== undefined ) {
-              return unit.transcript.includes(this.searchQuery);
-            }
-            return false;
+            return (unit.gene && unit.gene.toLowerCase().includes(lowerCaseSearchText)) ||
+                (unit.transcripts &&
+                    unit.transcripts.some((transcript) => transcript.toLowerCase().includes(lowerCaseSearchText))) ||
+                (unit.variants && unit.variants.some((variant) => variant.toLowerCase().includes(lowerCaseSearchText)));
           });
-      });
+      } );
     },
   },
   created() {
@@ -99,9 +103,6 @@ export default {
       }
 
       this.analysisList.push(...analyses);
-    },
-    onSearch(query) {
-      this.searchQuery = query;
     },
     async importPhenotipsAnalysis() {
       const includeComments = false;

@@ -29,7 +29,9 @@
         <button class="secondary-button" @click="dialog.cancel()" data-test="cancel">
           {{ dialog.state.cancelText }}
         </button>
-        <button v-if="dialog.state.deleteText != ''">{{ dialog.state.deleteText }}</button>
+        <button class="secondary-button" v-if="dialog.state.deleteText!=''" @click="dialog.delete()" data-test="delete">
+          {{ dialog.state.deleteText }}
+        </button>
         <button class="primary-button" @click="dialog.confirmation(dialog.activeTab().input)" data-test="confirm">
           {{ dialog.state.confirmText }}
         </button>

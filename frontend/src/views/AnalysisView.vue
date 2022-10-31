@@ -28,14 +28,15 @@
           :content="section.content"
           :edit = "this.edit"
           @attach-image="this.attachSectionImage"
+          @update-image="this.updateSectionImage"
           @update:content-row="this.onAnalysisContentUpdated"
         />
         <SupplementalFormList
           id="Supporting_Evidence"
           :attachments="this.attachments"
           @open-modal="this.addSupportingEvidence"
-          @delete="this.onDeleteAttachmentEvent"
-          @edit="this.onEditAttachment"
+          @delete="this.removeSupportingEvidence"
+          @edit="this.editSupportingEvidence"
         />
         <InputDialog />
         <NotificationDialog
@@ -44,8 +45,8 @@
         <SaveModal
         class="save-modal"
         v-if="this.edit"
-        @canceledit="this.onAnalysisSaveCancel"
-        @save="this.onAnalysisSave"
+        @canceledit="this.cancelAnalysisChanges"
+        @save="this.saveAnalysisChanges"
         />
       </app-content>
   </div>
@@ -53,13 +54,13 @@
 
 <script>
 import Analyses from '@/models/analyses.js';
-import AnalysisViewHeader from '../components/AnalysisView/AnalysisViewHeader.vue';
-import SectionBox from '../components/AnalysisView/SectionBox.vue';
-import GeneBox from '../components/AnalysisView/GeneBox.vue';
-import InputDialog from '../components/Dialogs/InputDialog.vue';
+import AnalysisViewHeader from '@/components/AnalysisView/AnalysisViewHeader.vue';
+import SectionBox from '@/components/AnalysisView/SectionBox.vue';
+import GeneBox from '@/components/AnalysisView/GeneBox.vue';
+import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
-import SaveModal from '../components/AnalysisView/SaveModal.vue';
+import SaveModal from '@/components/AnalysisView/SaveModal.vue';
 
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
@@ -121,7 +122,7 @@ export default {
     async getAnalysis() {
       this.analysis = {...await Analyses.getAnalysis(this.analysis_name)};
     },
-    async attachSectionImage(updatedSectionName) {
+    async attachSectionImage(sectionName) {
       const includeComments = false;
       const attachment = await inputDialog
           .confirmText('Attach')
@@ -133,13 +134,72 @@ export default {
         return;
       }
 
-      const updatedAnalysis = await Analyses.attachSectionBoxImage(this.analysis_name, attachment.data);
-      const updatedSection = updatedAnalysis['sections'].find((section) => section.header == updatedSectionName);
-      const editedSectionIndex = this.sectionsList.findIndex((section) => section.header == updatedSectionName);
-      this.analysis.sections.splice(editedSectionIndex, 1, updatedSection);
-      // Needed to create this uptick because the replaced element wasn't getting detected to
-      // cause it to update this still make cause issue with the edit mode and will need to re-evaluate
-      this.uptickForceRenderKey();
+      try {
+        const updatedSection = await Analyses.attachSectionImage(this.analysis_name, sectionName, attachment.data);
+        this.replaceAnalysisSection(updatedSection);
+        // Needed to create this uptick because the replaced element wasn't getting detected to
+        // cause it to update this still make cause issue with the edit mode and will need to re-evaluate
+        this.uptickSectionKeyToForceReRender();
+      } catch (error) {
+        await notificationDialog
+            .title('Failure')
+            .confirmText('Ok')
+            .alert(error);
+      }
+    },
+    async updateSectionImage(sectionName) {
+      const includeComments = false;
+      const attachment = await inputDialog
+          .confirmText('Update')
+          .deleteText('Remove')
+          .cancelText('Cancel')
+          .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp')
+          .prompt();
+
+      if (!attachment) {
+        return;
+      }
+
+      if ('DELETE' == attachment ) {
+        await this.removeSectionImage(sectionName);
+        this.uptickSectionKeyToForceReRender();
+        return;
+      }
+
+      try {
+        const updatedSection = await Analyses.updateSectionImage(this.analysis_name, sectionName, attachment.data);
+        this.replaceAnalysisSection(updatedSection);
+
+        // Needed to create this uptick because the replaced element wasn't getting detected to
+        // cause it to update this still make cause issue with the edit mode and will need to re-evaluate
+        this.uptickSectionKeyToForceReRender();
+      } catch (error) {
+        await notificationDialog
+            .title('Failure')
+            .confirmText('Ok')
+            .alert(error);
+      }
+    },
+    async removeSectionImage(sectionName) {
+      const confirmedDelete = await notificationDialog
+          .title(`Remove ${sectionName} attachment`)
+          .confirmText('Remove')
+          .cancelText('Cancel')
+          .confirm('This operation will permanently remove the image. Are you sure you want to remove?');
+
+      if (!confirmedDelete) {
+        return;
+      }
+
+      try {
+        await Analyses.removeSectionImage(this.analysis_name, sectionName);
+        this.replaceAnalysisSection({'header': sectionName, 'content': []});
+      } catch (error) {
+        await notificationDialog
+            .title('Failure')
+            .confirmText('Ok')
+            .alert(error);
+      }
     },
     async addSupportingEvidence() {
       const includeComments = true;
@@ -150,6 +210,7 @@ export default {
           .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png')
           .url(includeComments, includeName)
           .prompt();
+
       if (!attachment) {
         return;
       }
@@ -162,7 +223,26 @@ export default {
         console.error('Updating the analysis did not work');
       }
     },
-    async onDeleteAttachmentEvent(attachmentToDelete) {
+    async editSupportingEvidence(attachment) {
+      const updatedAttachment = await inputDialog
+          .confirmText('Update')
+          .cancelText('Cancel')
+          .edit(attachment)
+          .prompt();
+
+      if (!updatedAttachment) {
+        return;
+      }
+
+      try {
+        const updatedAnalysis = await Analyses.updateSupportingEvidence(this.analysis_name, updatedAttachment);
+        this.analysis.supporting_evidence_files.splice(0);
+        this.analysis.supporting_evidence_files.push(...updatedAnalysis.supporting_evidence_files);
+      } catch (error) {
+        console.error('Updating the analysis did not work');
+      }
+    },
+    async removeSupportingEvidence(attachmentToDelete) {
       const confirmedDelete = await notificationDialog
           .title('Delete Supporting Information?')
           .confirmText('Delete')
@@ -186,22 +266,23 @@ export default {
             .alert(error);
       }
     },
-    async onEditAttachment(attachment) {
-      const updatedAttachment = await inputDialog
-          .confirmText('Update')
-          .cancelText('Cancel')
-          .edit(attachment)
-          .prompt('Temp for file upload');
-
-      if (!updatedAttachment) {
-        return;
-      }
+    async saveAnalysisChanges() {
+      const updatedAnalysis = await Analyses.updateAnalysisSections(this.analysis_name, this.updatedContent);
+      this.analysis.sections.splice(0);
+      this.analysis.sections.push(...updatedAnalysis.sections);
+      this.updatedContent = {};
+      this.edit=false;
+      this.uptickSectionKeyToForceReRender();
+    },
+    cancelAnalysisChanges() {
+      this.edit=false;
+      this.updatedContent = {};
     },
     async onLogout() {
       await this.store.logout();
       this.$router.push({path: '/rosalution/login'});
     },
-    uptickForceRenderKey() {
+    uptickSectionKeyToForceReRender() {
       this.forceRenderComponentKey += 1;
     },
     onAnalysisContentUpdated(contentRow) {
@@ -211,17 +292,9 @@ export default {
 
       this.updatedContent[contentRow.header][contentRow.field] = contentRow.value;
     },
-    async onAnalysisSave() {
-      const updatedAnalysis = await Analyses.updateAnalysisSections(this.analysis_name, this.updatedContent);
-      this.analysis.sections.splice(0);
-      this.analysis.sections.push(...updatedAnalysis.sections);
-      this.updatedContent = {};
-      this.edit=false;
-      this.uptickForceRenderKey();
-    },
-    onAnalysisSaveCancel() {
-      this.edit=false;
-      this.updatedContent = {};
+    replaceAnalysisSection(sectionToReplace) {
+      const originalSectionIndex = this.sectionsList.findIndex((section) => section.header == sectionToReplace.header);
+      this.analysis.sections.splice(originalSectionIndex, 1, sectionToReplace);
     },
   },
 };

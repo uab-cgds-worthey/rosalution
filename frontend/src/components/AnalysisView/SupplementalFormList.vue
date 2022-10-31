@@ -3,17 +3,17 @@
     <input type="checkbox" id="supporting_toggle"/>
     <tbody>
       <tr class="supplemental-header">
-        <td>
-          <h2 class="supplemental-header-name">Supporting Evidence</h2>
+        <td class="supplemental-header-content">
+          <span>
+            <h2 class="supplemental-header-name">Supporting Evidence</h2>
+            <button class="add-attachment-button" @click="$emit('openModal')" data-test="add-button">
+              <font-awesome-icon icon="circle-plus" size="xl"/>
+            </button>
+          </span>
+          <label class="collapse-box" for="supporting_toggle">
+            <font-awesome-icon icon="chevron-down" size="lg"/>
+          </label>
         </td>
-        <td>
-          <button class="add-attachment-button" @click="$emit('openModal')" data-test="add-button">
-            <font-awesome-icon icon="circle-plus" size="xl"/>
-          </button>
-        </td>
-        <label class="collapse-box" for="supporting_toggle">
-          <font-awesome-icon icon="chevron-down" size="lg"/>
-        </label>
       </tr>
       <div class="seperator"></div>
       <div class="attachment-list" v-for="attachment in attachments" v-bind:key="attachment.attachment_id">
@@ -68,20 +68,18 @@ export default {
 </script>
 
 <style scoped>
-  @import url("https://use.typekit.net/rgh1osc.css");
-
   div {
     font-family: "Proxima Nova", sans-serif;
-    padding: 0%;
+    padding: var(--p-0);
   }
 
   .supplemental-container {
     display: flex;
     flex-direction: column;
     padding: var(--p-10);
-    margin: 0.625rem;
+    margin: var(--p-10);
     width: 100%;
-    gap: .625rem;
+    gap: var(--p-10);
     border-radius: 1.25rem;
     background-color: var(--rosalution-white);
   }
@@ -89,7 +87,17 @@ export default {
   .supplemental-header {
     height: 1.75rem;
     display: flex;
-    flex-direction: row;
+  }
+
+  .supplemental-header-content {
+    display: flex;
+    flex: 1 0 auto;
+  }
+
+  .supplemental-header-content > span {
+    display: inline-flex;
+    flex: 1 0 auto;
+    align-items: flex-end;
   }
 
   .supplemental-header-name {
@@ -106,9 +114,7 @@ export default {
 
   .collapse-box {
     color: var(--rosalution-grey-200);
-    float: right;
-    right: 3%;
-    position: absolute;
+    align-self: center;
     cursor: pointer;
   }
 
@@ -203,7 +209,7 @@ export default {
     display: none;
   }
 
-  input[type="checkbox"]:checked ~ tbody > tr > .collapse-box {
+  input[type="checkbox"]:checked ~ tbody > tr > td > .collapse-box {
     transform: scaleY(-1);
   }
 

@@ -42,15 +42,42 @@ export default {
     return Requests.postForm(url, fileUploadFormData);
   },
 
-  async attachSectionBoxImage(analysisName, image) {
-    let attachmentForm = null;
+  async attachSectionImage(analysisName, sectionName, image) {
+    if ('Pedigree' != sectionName) {
+      throw Error(`Only support for removing Pedigree. Failed to remove image for section '${sectionName}'.`);
+    }
+
     const url = `/rosalution/api/analysis/${analysisName}/attach/pedigree`;
 
-    attachmentForm = {
+    const attachmentForm = {
       'upload_file': image,
     };
 
     return await Requests.postForm(url, attachmentForm);
+  },
+
+  async updateSectionImage(analysisName, sectionName, image) {
+    if ('Pedigree' != sectionName) {
+      throw Error(`Only support for removing Pedigree. Failed to remove image for section '${sectionName}'.`);
+    }
+
+    const url = `/rosalution/api/analysis/${analysisName}/update/pedigree`;
+
+    const updateForm = {
+      'upload_file': image,
+    };
+
+    return await Requests.putForm(url, updateForm);
+  },
+
+  async removeSectionImage(analysisName, sectionName) {
+    if ('Pedigree' != sectionName) {
+      throw Error(`Only support for removing Pedigree. Failed to remove image for section '${sectionName}'.`);
+    }
+
+    const url = `/rosalution/api/analysis/${analysisName}/remove/pedigree`;
+    const success = await Requests.delete(url);
+    return success;
   },
 
   async attachSupportingEvidence(analysisName, evidence) {
@@ -77,6 +104,18 @@ export default {
     }
 
     return await Requests.postForm(url, attachmentForm);
+  },
+
+  async updateSupportingEvidence(analysisName, evidence) {
+    const url = `/rosalution/api/analysis/${analysisName}/attachment/${evidence.attachment_id}/update`;
+
+    const attachmentForm = {
+      name: evidence.name,
+      ...('link' == evidence.type) && {data: evidence.data},
+      comments: evidence.comments,
+    };
+
+    return await Requests.putForm(url, attachmentForm);
   },
 
   async removeSupportingEvidence(analysisName, attachmentId) {

@@ -1,4 +1,4 @@
-import {describe, it, expect, beforeAll, afterAll} from 'vitest';
+import {describe, it, expect, beforeEach, afterEach} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 import sinon from 'sinon';
 
@@ -23,7 +23,7 @@ describe('AnalysisListingView', () => {
   let wrapper;
   let sandbox;
 
-  beforeAll(() => {
+  beforeEach(() => {
     sandbox = sinon.createSandbox();
     mockedData = sandbox.stub(Analyses, 'all');
     mockedData.returns(fixtureData());
@@ -49,35 +49,31 @@ describe('AnalysisListingView', () => {
     });
   });
 
-  afterAll(() => {
+  afterEach(() => {
     sandbox.restore();
-  });
-
-  it('Vue instance exists and it is an object', () => {
-    expect(typeof wrapper).toBe('object');
   });
 
   it('Analysis Listing contains a header and content', () => {
     const appHeader = wrapper.find('app-header');
-    expect(appHeader.exists()).toBe(true);
+    expect(appHeader.exists()).to.be.true;
 
     const appContent = wrapper.find('app-content');
-    expect(appContent.exists()).toBe(true);
+    expect(appContent.exists()).to.be.true;
   });
 
-  it('Contains an analysis create card', async () => {
+  it('Contains an analysis create card', () => {
     const createCard = wrapper.findComponent(AnalysisCreateCard);
     expect(createCard.exists()).to.be.true;
   });
 
-  it('Contains listing of Analyses', async () => {
+  it('Contains listing of Analyses', () => {
     const cards = wrapper.findAllComponents(AnalysisCard);
-    expect(cards).to.have.lengthOf(4);
+    expect(cards.length).to.equal(3);
   });
 
-  it('Filters analyses by search event from search bar', async () => {
+  it('Filters analyses when text from the search bar in header is updated', async () => {
     const searchBarWrapper = wrapper.findComponent(AnalysisListingHeader);
-    searchBarWrapper.vm.$emit('search', 'NM_1');
+    searchBarWrapper.vm.$emit('update:searchText', 'ON');
 
     await wrapper.vm.$nextTick();
 
@@ -151,61 +147,39 @@ describe('AnalysisListingView', () => {
  */
 function fixtureData() {
   return [{
-    id: '10f7aa04-6adf-4538-a700-ebe2f519473f',
     name: 'CPAM0046',
-    description: ': LMNA-related congenital muscular dystropy',
-    genomic_units: [
-      {gene: 'LMNA'},
-      {transcript: 'NM_170707.3'},
-      {chromosome: '1', position: '156134885', reference: 'C', alternate: 'T'},
-    ],
+    genomic_units: [{
+      gene: 'LMNA',
+      transcripts: ['NM_170707.3'],
+      variants: [],
+    }],
     nominated_by: 'Dr. Person Two',
     latest_status: 'Approved',
     created_date: '2021-09-30',
     last_modified_date: '2021-10-01',
   },
   {
-    id: 'e99def4b-cdb3-4a6b-82f1-e3ab4df37f9f',
     name: 'CPAM0047',
-    description: 'Congenital variant of Rett syndrome',
-    genomic_units: [
-      {gene: 'SBF1'},
-      {transcript: 'NM_002972.2'},
-      {chromosome: '1', position: '5474', reference: 'T', alternate: 'G'},
-    ],
+    genomic_units: [{
+      gene: 'SBF1ON',
+      transcripts: ['NM_002972.2'],
+      variants: [],
+    }],
     nominated_by: 'CMT4B3 Foundation',
     latest_status: 'Declined',
     created_date: '2020-12-03',
     last_modified_date: '2021-12-12',
   },
   {
-    id: '10342gs4-6adf-4538-a700-ebef319473f',
     name: 'CPAM0053',
-    description:
-        'Mild Zellweger Spectrum Disorder, a Peroxisome Biogenesis Disorder',
-    genomic_units: [
-      {gene: 'PEX10'},
-      {transcript: 'NM_153818.2'},
-      {chromosome: '1', position: '2406528', reference: 'C', alternate: 'G'},
-    ],
+    genomic_units: [{
+      gene: 'PEX10',
+      transcripts: ['NM_153818.2'],
+    }],
     nominated_by: 'N/A',
     latest_status: 'Ready',
     created_date: '2021-11-02',
     last_modified_date: '2021-11-23',
-  },
-  {
-    id: '1aeg4-6d32f-4348-a700-ebef334gfsf',
-    name: 'CPAM0065',
-    description: 'Congenital variant of Rett syndrome',
-    genomic_units: [
-      {gene: 'FOXG1'},
-      {transcript: 'NM_005249.5'},
-      {chromosome: '1', position: '924', reference: 'G', alternate: 'A'},
-    ],
-    nominated_by: 'Believe in a Cure Foundation',
-    latest_status: 'Declined',
-    created_date: '2020-12-03',
-    last_modified_date: '2021-12-12',
   },
   ];
 }

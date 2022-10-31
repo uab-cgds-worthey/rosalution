@@ -5,7 +5,6 @@ import {createRouter, createWebHistory} from 'vue-router';
 
 import App from '../src/App.vue';
 import AnalysisListingView from '../src/views/AnalysisListingView.vue';
-import AboutView from '../src/views/AboutView.vue';
 
 test('Contains a the <router-view> to display the application with routes', () => {
   const router = createRouter({
@@ -14,10 +13,6 @@ test('Contains a the <router-view> to display the application with routes', () =
       {
         path: '/',
         component: AnalysisListingView,
-      },
-      {
-        path: '/about',
-        component: AboutView,
       },
     ],
   });
