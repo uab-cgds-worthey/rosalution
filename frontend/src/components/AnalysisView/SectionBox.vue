@@ -3,31 +3,31 @@
     <tbody>
       <input v-if="!this.edit" type="checkbox" v-bind:id="section_toggle"/>
       <tr class="section-header">
-        <td>
+        <td class="section-header-content">
           <h2 class="section-name">
             {{header}}
           </h2>
+          <button v-if="isSectionImage" class="attach-logo" @click="$emit(this.sectionImageOperation, header)">
+            <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
+          </button>
+          <label v-if="this.edit" class="edit-logo" id="edit-logo">
+            <font-awesome-icon icon="pencil" size="lg"/>
+          </label>
+          <label v-else class="collapsable-logo" v-bind:for="section_toggle">
+            <font-awesome-icon icon="chevron-down" size="lg"/>
+          </label>
         </td>
-        <button v-if="attachSection" class="attach-logo" @click="$emit('attach-image', header)" data-test="attach-logo">
-          <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
-        </button>
-        <label v-else-if="this.edit" class="edit-logo"  data-test="edit-logo" id="edit-logo">
-          <font-awesome-icon icon="pencil" size="lg"/>
-        </label>
-        <label v-else class="collapsable-logo" v-bind:for="section_toggle" data-test="collapsable-logo">
-          <font-awesome-icon icon="chevron-down" size="lg"/>
-        </label>
       </tr>
       <div class="seperator"></div>
         <tr class="field-value-row" v-for="content in contentList" :key="content">
-          <td v-if="!displaySectionImage">
+          <td v-if="!this.sectionImageExist">
             <label class="field"
             v-bind:style="[content.value.length === 0 && !this.edit ? 'color: var(--rosalution-grey-300);'
             : 'color: var(--rosalution-black);']">
               {{content.field}}
             </label>
           </td>
-          <td class="values" v-if="!displaySectionImage">
+          <td class="values" v-if="!this.sectionImageExist">
             <span v-if="this.edit" role="textbox" class="editable-values" contenteditable
             data-test="editable-value" @input="onContentChanged(header, content.field, $event)">
               {{content.value.join('\r\n')}}
@@ -45,7 +45,7 @@
 <script>
 export default {
   name: 'section-box',
-  emits: ['update:contentRow'],
+  emits: ['update:contentRow', 'attach-image', 'update-image'],
   props: {
     analysis_name: {
       type: String,
@@ -67,11 +67,17 @@ export default {
     };
   },
   computed: {
-    attachSection() {
-      return this.header == 'Pedigree' && this.contentList.length == 0;
+    isSectionImage() {
+      return this.header == 'Pedigree';
     },
-    displaySectionImage() {
-      return this.header == 'Pedigree' && this.contentList.length > 0;
+    sectionImageExist() {
+      return (this.isSectionImage && this.contentList.length > 0);
+    },
+    sectionImageOperation() {
+      if (this.sectionImageExist) {
+        return 'update-image';
+      }
+      return 'attach-image';
     },
     sectionImage() {
       if (this.header == 'Pedigree' && this.contentList.length > 0) {
@@ -103,9 +109,9 @@ div {
   display: flex;
   flex-direction: column;
   padding: var(--p-10);
-  margin: 0.625rem;
+  margin: var(--p-10);
   width: 100%;
-  gap: .625rem;
+  gap: var(--p-10);
   border-radius: 1.25rem;
   background-color: var(--rosalution-white);
 }
@@ -113,23 +119,34 @@ div {
 .section-header {
   height: 1.75rem;
   display: flex;
-  flex-direction: row;
+}
+
+.section-header-content {
+  display: flex;
+  align-items: center;
+  flex: 1 0 auto;
 }
 
 .section-name {
   height: 1.75rem;
   margin: .125rem .125rem 0 .125rem;
+  flex: 1 0 auto;
 }
 
 .section-image {
   max-height: 31.25rem;
 }
 
+
+.attach-logo {
+  color: var(--rosalution-purple-300);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
 .collapsable-logo {
   color: var(--rosalution-grey-200);
-  float: right;
-  right: 3%;
-  position: absolute;
   cursor: pointer;
 }
 
@@ -137,9 +154,6 @@ div {
   color: var(--rosalution-purple-300);
   background: none;
   border: none;
-  float: right;
-  right: 2.5%;
-  position: absolute;
   cursor: pointer;
 }
 
@@ -183,9 +197,6 @@ div {
 
 .edit-logo {
   color: var(--rosalution-purple-100);
-  float: right;
-  right: 3%;
-  position: absolute;
 }
 
 .editable-values {
@@ -201,15 +212,6 @@ div {
   font-size: inherit;
 }
 
-.attach-logo {
-  color: var(--rosalution-purple-300);
-  background: none;
-  border: none;
-  float: right;
-  right: 2.5%;
-  position: absolute;
-  cursor: pointer;
-}
 
 span:focus {
   color: var(--rosalution-purple-300);
@@ -229,7 +231,7 @@ input[type="checkbox"] {
   display: none;
 }
 
-input[type="checkbox"]:checked ~ tr > .collapsable-logo {
+input[type="checkbox"]:checked ~ tr > td > .collapsable-logo {
   transform: scaleY(-1);
 }
 </style>

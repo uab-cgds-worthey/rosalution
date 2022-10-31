@@ -1,8 +1,13 @@
 <template>
-  <Header :username="this.username">
+  <Header :username="username">
       <div class="search">
         <font-awesome-icon icon="magnifying-glass" size="lg" class="search-icon"></font-awesome-icon>
-        <input data-test="analysis-search" type="search" @input="onSearch" placeholder="Search">
+        <input
+          data-test="analysis-search"
+          type="search"
+          v-model="searchInput"
+          placeholder="Search"
+        >
       </div>
   </Header>
 </template>
@@ -21,10 +26,21 @@ export default {
       default: undefined,
       required: false,
     },
+    searchText: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
-  methods: {
-    onSearch(event) {
-      this.$emit('search', event.target.value);
+  emits: ['update:searchText'],
+  computed: {
+    searchInput: {
+      get() {
+        return this.searchText;
+      },
+      set(value) {
+        this.$emit('update:searchText', value);
+      },
     },
   },
 };

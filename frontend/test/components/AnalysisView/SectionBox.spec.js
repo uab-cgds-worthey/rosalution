@@ -101,13 +101,13 @@ describe('SectionBox.vue', () => {
       const wrapper = getMountedComponent({
         edit: true,
       });
-      const editLogo = wrapper.find('[data-test=edit-logo]');
+      const editLogo = wrapper.find('[class=edit-logo]');
       expect(editLogo.exists()).to.be.true;
     });
 
     it('shows collapsable logo when edit mode is not toggled', () => {
       const wrapper = getMountedComponent();
-      const collapsableLogo = wrapper.find('[data-test=collapsable-logo]');
+      const collapsableLogo = wrapper.find('[class=collapsable-logo]');
       expect(collapsableLogo.exists()).to.be.true;
     });
 

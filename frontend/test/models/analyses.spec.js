@@ -8,11 +8,13 @@ describe('analyses.js', () => {
   const sandbox = sinon.createSandbox();
   let mockGetRequest;
   let mockPostFormResponse;
+  let mockPutFormResponse;
   let mockDeleteRequest;
 
   beforeEach(() => {
     mockGetRequest = sandbox.stub(Requests, 'get');
     mockPostFormResponse = sandbox.stub(Requests, 'postForm');
+    mockPutFormResponse = sandbox.stub(Requests, 'putForm');
     mockDeleteRequest = sandbox.stub(Requests, 'delete');
   });
 
@@ -41,58 +43,67 @@ describe('analyses.js', () => {
     expect(mockPostFormResponse.called).to.be.true;
   });
 
-  it('attaches supporting evidence of a file', async () => {
-    mockPostFormResponse.returns({sucess: 'yay'});
-    await Analyses.attachSupportingEvidence('CPAM0002', {
-      data: 'jfkldjafkdjafda',
-      comment: 'Serious Things',
-      type: 'file',
+  describe('supporting evidence', () => {
+    it('attaches as a file', async () => {
+      mockPostFormResponse.returns({sucess: 'yay'});
+      await Analyses.attachSupportingEvidence('CPAM0002', {
+        data: 'jfkldjafkdjafda',
+        comment: 'Serious Things',
+        type: 'file',
+      });
+      expect(mockPostFormResponse.called).to.be.true;
     });
-    expect(mockPostFormResponse.called).to.be.true;
+
+    it('attaches as a file with empty comments', async () => {
+      mockPostFormResponse.returns({sucess: 'yay'});
+      await Analyses.attachSupportingEvidence('CPAM0002', {
+        data: 'jfkldjafkdjafda',
+        type: 'file',
+      });
+      expect(mockPostFormResponse.called).to.be.true;
+    });
+
+    it('attaches as a link', async () => {
+      mockPostFormResponse.returns({sucess: 'yay'});
+      await Analyses.attachSupportingEvidence('CPAM0002', {
+        name: 'Best Website Ever',
+        type: 'link',
+        data: 'http://sites.uab.edu/cgds',
+        comment: 'Serious Things',
+      });
+      expect(mockPostFormResponse.called).to.be.true;
+    });
+
+    it('attaches as link substitutes with empty comments', async () => {
+      mockPostFormResponse.returns({sucess: 'yay'});
+      await Analyses.attachSupportingEvidence('CPAM0002', {
+        name: 'Best Website Ever',
+        type: 'link',
+        data: 'http://sites.uab.edu/cgds',
+      });
+      expect(mockPostFormResponse.called).to.be.true;
+    });
+
+    it('removes supporting evidence', async () => {
+      await Analyses.removeSupportingEvidence('CPAM0002', 'remove-attach-it-now');
+      expect(mockDeleteRequest.called).to.be.true;
+    });
   });
 
-  it('attaches supporting evidence of a file substitutes empty comments in', async () => {
-    mockPostFormResponse.returns({sucess: 'yay'});
-    await Analyses.attachSupportingEvidence('CPAM0002', {
-      data: 'jfkldjafkdjafda',
-      type: 'file',
+  describe('section images for analysis', () => {
+    it('attaches an image to a section', async () => {
+      mockPostFormResponse.returns({sucess: 'yay'});
+      const fakeImageData = 'jklfdjlskfjal;fjdkl;a';
+      await Analyses.attachSectionImage('CPAM0002', 'Pedigree', fakeImageData);
+      expect(mockPostFormResponse.called).to.be.true;
     });
-    expect(mockPostFormResponse.called).to.be.true;
-  });
 
-  it('attaches supporting evidence of a link', async () => {
-    mockPostFormResponse.returns({sucess: 'yay'});
-    await Analyses.attachSupportingEvidence('CPAM0002', {
-      name: 'Best Website Ever',
-      type: 'link',
-      data: 'http://sites.uab.edu/cgds',
-      comment: 'Serious Things',
+    it('updates an image in a section', async () => {
+      mockPutFormResponse.resolves({sucess: 'yay'});
+      const fakeImageData = 'updated-jklfdjlskfjal;fjdkl;a';
+      await Analyses.updateSectionImage('CPAM0002', 'Pedigree', fakeImageData);
+      expect(mockPutFormResponse.called).to.be.true;
     });
-    expect(mockPostFormResponse.called).to.be.true;
-  });
-
-  it('attaches supporting evidence of a link substitutes empty comments in', async () => {
-    mockPostFormResponse.returns({sucess: 'yay'});
-    await Analyses.attachSupportingEvidence('CPAM0002', {
-      name: 'Best Website Ever',
-      type: 'link',
-      data: 'http://sites.uab.edu/cgds',
-    });
-    expect(mockPostFormResponse.called).to.be.true;
-  });
-
-
-  it('attaches a section box image for analysis', async () => {
-    mockPostFormResponse.returns({sucess: 'yay'});
-    await Analyses.attachSectionBoxImage('CPAM0002', {
-      'picture': 'this is three pictures in a trenchcoat',
-    });
-    expect(mockPostFormResponse.called).to.be.true;
-  });
-
-  it('removes supporting evidence for an analysis', async () => {
-    await Analyses.removeSupportingEvidence('CPAM0002', 'remove-attach-it-now');
-    expect(mockDeleteRequest.called).to.be.true;
   });
 });
 

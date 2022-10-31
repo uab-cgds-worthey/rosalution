@@ -112,6 +112,10 @@ export default {
     close(userInput);
     reset();
   },
+  delete() {
+    close('DELETE');
+    reset();
+  },
   activeTab() {
     if ('' == state.activeTabName) {
       return undefined;

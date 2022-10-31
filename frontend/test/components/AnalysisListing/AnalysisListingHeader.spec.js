@@ -47,7 +47,7 @@ describe('AnalysisListingHeader.vue', () => {
     const searchTextInput = wrapper.get('[data-test="analysis-search"]');
     await searchTextInput.setValue('fake-search');
 
-    const searchEvent = wrapper.emitted('search');
+    const searchEvent = wrapper.emitted('update:searchText');
     expect(searchEvent).toHaveLength(1);
     expect(searchEvent[0]).toEqual(['fake-search']);
   });

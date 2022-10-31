@@ -152,20 +152,27 @@ class AnalysisCollection:
         if "_id" in updated_document:
             updated_document.pop("_id", None)
 
+        updated_section = None
         for section in updated_document['sections']:
             if section["header"] == "Pedigree":
                 if len(section["content"]) == 0:
-                    section["content"].append({
+                    updated_section = {
                         "field": "image",
                         "value": [str(file_id)]
-                    })
+                    }
+                    section["content"].append(updated_section)
                 else:
                     section['content'][0]['value'] = [str(file_id)]
 
-        self.collection.find_one_and_update({"name": analysis_name}, {
-            '$set': updated_document})
+                updated_section = section
 
-        return updated_document.pop("_id", None)
+        if None is updated_section:
+            raise ValueError("No pedigree section to attach image to.")
+
+        self.collection.find_one_and_update(
+            {"name": analysis_name}, {'$set': updated_document})
+
+        return updated_section
 
     def get_genomic_units(self, analysis_name: str):
         """ Returns the genomic units for an analysis with variants displayed in the HGVS Nomenclature """
@@ -196,6 +203,31 @@ class AnalysisCollection:
             genomic_units_return["variants"].extend(variants)
 
         return genomic_units_return
+
+    def update_supporting_evidence(self, analysis_name: str, attachment_id: str, updated_content: dict):
+        """Updates Supporting Evidence content with by analysis and the attachment id"""
+        supporting_evidence_files = self.collection.find_one({"name": analysis_name})[
+            "supporting_evidence_files"]
+        index_to_update = supporting_evidence_files.index(next(filter(
+            lambda x: x["attachment_id"] == attachment_id, supporting_evidence_files), None))
+
+        if None is index_to_update:
+            raise ValueError(
+                f"Supporting Evidence identifier {attachment_id} does not exist for {analysis_name}")
+
+        supporting_evidence_files[index_to_update]['name'] = updated_content['name']
+        if None is updated_content['data']:
+            supporting_evidence_files[index_to_update]['data'] = updated_content['data']
+        supporting_evidence_files[index_to_update]['comments'] = updated_content['comments']
+
+        updated_document = self.collection.find_one_and_update({"name": analysis_name},
+                                                               {"$set": {
+                                                                   "supporting_evidence_files":
+                                                                   supporting_evidence_files}},
+                                                               return_document=ReturnDocument.AFTER)
+        # remove the _id field from the returned document since it is not JSON serializable
+        updated_document.pop("_id", None)
+        return updated_document
 
     def remove_supporting_evidence(self, analysis_name: str, attachment_id: str):
         """ Removes a supporting evidence file from an analysis """

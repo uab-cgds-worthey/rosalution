@@ -24,7 +24,6 @@ export default {
         return this.selected;
       },
       set(value) {
-        console.log('wat');
         this.$emit('update:selected', value);
       },
     },

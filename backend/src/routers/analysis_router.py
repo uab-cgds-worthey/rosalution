@@ -2,7 +2,7 @@
 import warnings
 import json
 
-from typing import List, Union
+from typing import List, Optional, Union
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, File, UploadFile, Form
 from fastapi.responses import StreamingResponse
@@ -10,7 +10,7 @@ from fastapi.responses import StreamingResponse
 from ..core.annotation import AnnotationService
 from ..core.phenotips_importer import PhenotipsImporter
 from ..dependencies import database, annotation_queue
-from ..models.analysis import Analysis, AnalysisSummary
+from ..models.analysis import Analysis, AnalysisSummary, Section
 from ..models.phenotips_json import BasePhenotips
 
 # This is temporarily changed as security is removed for the analysis endpoints to make development easier
@@ -39,6 +39,16 @@ def get_all_analyses_summaries(repositories=Depends(database)):
 def get_analysis_by_name(analysis_name: str, repositories=Depends(database)):
     """Returns analysis case data by calling method to find case by it's analysis_name"""
     return repositories["analysis"].find_by_name(analysis_name)
+
+
+@router.get("/{analysis_name}/genomic_units")
+def get_genomic_units(analysis_name: str, repositories=Depends(database)):
+    """ Returns a list of genomic units for a given analysis """
+    try:
+        return repositories["analysis"].get_genomic_units(analysis_name)
+    except ValueError as exception:
+        raise HTTPException(
+            status_code=404, detail=str(exception)) from exception
 
 
 @router.post("/import", response_model=Analysis)
@@ -127,13 +137,55 @@ def download(analysis_name: str, file_name: str, repositories=Depends(database))
     return StreamingResponse(repositories['bucket'].get_analysis_file_by_id(file['file_id']))
 
 
-@router.post("/{analysis_name}/attach/pedigree")
+@router.post("/{analysis_name}/attach/pedigree", response_model=Section)
 def upload_pedigree(analysis_name: str, upload_file: UploadFile = File(...), repositories=Depends(database)):
     """ Specifically accepts a file to save a pedigree image file to mongo """
     new_file_object_id = repositories["bucket"].save_file(
         upload_file.file, upload_file.filename)
 
-    return repositories["analysis"].add_pedigree_file(analysis_name, new_file_object_id)
+    updated_section = repositories["analysis"].add_pedigree_file(analysis_name, new_file_object_id)
+    return updated_section
+
+
+@router.put("/{analysis_name}/update/pedigree", response_model=Section)
+def update_pedigree(analysis_name: str, upload_file: UploadFile = File(...), repositories=Depends(database)):
+    """ Removes a pedigree file from an analysis and Specifically
+     accepts a file to save a pedigree image file to mongo """
+    try:
+        pedigree_file_id = repositories["analysis"].get_pedigree_file_id(
+            analysis_name)
+    except ValueError as exception:
+        warnings.warn(str(exception))
+        pedigree_file_id = None
+    try:
+        repositories["bucket"].delete_file(pedigree_file_id)
+        repositories["analysis"].remove_pedigree_file(analysis_name)
+    except ValueError as exception:
+        raise HTTPException(
+            status_code=404, detail=str(exception)) from exception
+    new_file_object_id = repositories["bucket"].save_file(
+        upload_file.file, upload_file.filename)
+
+    updated_section = repositories["analysis"].add_pedigree_file(analysis_name, new_file_object_id)
+    return updated_section
+
+
+@router.delete("/{analysis_name}/remove/pedigree")
+def remove_pedigree(analysis_name: str, repositories=Depends(database)):
+    """ Removes a pedigree file from an analysis """
+    try:
+        pedigree_file_id = repositories["analysis"].get_pedigree_file_id(
+            analysis_name)
+    except ValueError as exception:
+        warnings.warn(str(exception))
+        pedigree_file_id = None
+
+    try:
+        repositories["bucket"].delete_file(pedigree_file_id)
+        return repositories["analysis"].remove_pedigree_file(analysis_name)
+    except ValueError as exception:
+        raise HTTPException(
+            status_code=404, detail=str(exception)) from exception
 
 
 @router.post("/{analysis_name}/attach/file")
@@ -165,16 +217,26 @@ def attach_supporting_evidence_link(
     """Uploads a file to GridFS and adds it to the analysis"""
     return repositories["analysis"].attach_supporting_evidence_link(analysis_name, link_name, link, comments)
 
-
-@router.get("/{analysis_name}/genomic_units")
-def get_genomic_units(analysis_name: str, repositories=Depends(database)):
-    """ Returns a list of genomic units for a given analysis """
+@router.put("/{analysis_name}/attachment/{attachment_id}/update")
+def update_supporting_evidence(
+    analysis_name: str,
+    attachment_id: str,
+    name: str = Form(...),
+    data: Optional[str] = Form(None),
+    comments: str = Form(...),
+    repositories=Depends(database)
+):
+    """ Removes a supporting evidence file from an analysis """
+    content = {
+        'name': name,
+        'data': data,
+        'comments': comments,
+    }
     try:
-        return repositories["analysis"].get_genomic_units(analysis_name)
+        return repositories["analysis"].update_supporting_evidence(analysis_name, attachment_id, content)
     except ValueError as exception:
         raise HTTPException(
             status_code=404, detail=str(exception)) from exception
-
 
 @router.delete("/{analysis_name}/attachment/{attachment_id}/remove")
 def remove_supporting_evidence(analysis_name: str, attachment_id: str, repositories=Depends(database)):
@@ -182,43 +244,3 @@ def remove_supporting_evidence(analysis_name: str, attachment_id: str, repositor
     if repositories["bucket"].id_exists(attachment_id):
         repositories["bucket"].delete_file(attachment_id)
     return repositories["analysis"].remove_supporting_evidence(analysis_name, attachment_id)
-
-
-@router.delete("/{analysis_name}/remove/pedigree")
-def remove_pedigree(analysis_name: str, repositories=Depends(database)):
-    """ Removes a pedigree file from an analysis """
-    try:
-        pedigree_file_id = repositories["analysis"].get_pedigree_file_id(
-            analysis_name)
-    except ValueError as exception:
-        warnings.warn(str(exception))
-        pedigree_file_id = None
-
-    try:
-        repositories["bucket"].delete_file(pedigree_file_id)
-        return repositories["analysis"].remove_pedigree_file(analysis_name)
-    except ValueError as exception:
-        raise HTTPException(
-            status_code=404, detail=str(exception)) from exception
-
-
-@router.put("/{analysis_name}/update/pedigree")
-def update_pedigree(analysis_name: str, upload_file: UploadFile = File(...), repositories=Depends(database)):
-    """ Removes a pedigree file from an analysis and Specifically
-     accepts a file to save a pedigree image file to mongo """
-    try:
-        pedigree_file_id = repositories["analysis"].get_pedigree_file_id(
-            analysis_name)
-    except ValueError as exception:
-        warnings.warn(str(exception))
-        pedigree_file_id = None
-    try:
-        repositories["bucket"].delete_file(pedigree_file_id)
-        repositories["analysis"].remove_pedigree_file(analysis_name)
-    except ValueError as exception:
-        raise HTTPException(
-            status_code=404, detail=str(exception)) from exception
-    new_file_object_id = repositories["bucket"].save_file(
-        upload_file.file, upload_file.filename)
-
-    return repositories["analysis"].add_pedigree_file(analysis_name, new_file_object_id)

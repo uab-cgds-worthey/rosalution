@@ -1,5 +1,35 @@
 import {authStore} from '@/stores/authStore.js';
 
+/**
+ * Sends the form data either 'POST' or 'PUT method
+ * @param {string} method 'POST' or 'PUT'
+ * @param {string} url The url to send the data too
+ * @param {Object} data form data to send
+ * @return {Object} the JSON body of response
+ */
+async function sendFormData(method, url, data) {
+  const authToken = authStore.getToken();
+
+  const formData = new FormData();
+  const fieldEntries = Object.entries(data);
+  for (const [field, fieldContent] of fieldEntries) {
+    formData.append(field, fieldContent);
+  }
+  const response = await fetch(url, {
+    method: method,
+    mode: 'cors',
+    headers: {
+      'Authorization': 'Bearer ' + authToken,
+    },
+    cache: 'no-cache',
+    body: formData,
+  });
+  if ( response.ok != true ) {
+    throw new Error('Status Code: ' +response.status +' '+response.statusText);
+  }
+  return await response.json();
+}
+
 export default {
   async get(url) {
     const authToken = authStore.getToken();
@@ -71,26 +101,10 @@ export default {
     return await response.json();
   },
   async postForm(url, data) {
-    const authToken = authStore.getToken();
-
-    const formData = new FormData();
-    const fieldEntries = Object.entries(data);
-    for (const [field, fieldContent] of fieldEntries) {
-      formData.append(field, fieldContent);
-    }
-    const response = await fetch(url, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Authorization': 'Bearer ' + authToken,
-      },
-      cache: 'no-cache',
-      body: formData,
-    });
-    if ( response.ok != true ) {
-      throw new Error('Status Code: ' +response.status +' '+response.statusText);
-    }
-    return await response.json();
+    return await sendFormData('POST', url, data);
+  },
+  async putForm(url, data) {
+    return await sendFormData('PUT', url, data);
   },
   async delete(url) {
     const authToken = authStore.getToken();
