@@ -13,13 +13,11 @@ import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
 
-import {authStore} from '@/stores/authStore.js';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 describe('AnalysisListingView', () => {
   let mockedData;
   let mockedImport;
-  let mockedLogout;
   let wrapper;
   let sandbox;
 
@@ -29,8 +27,6 @@ describe('AnalysisListingView', () => {
     mockedData.returns(fixtureData());
 
     mockedImport = sandbox.stub(Analyses, 'importPhenotipsAnalysis');
-
-    mockedLogout = sandbox.stub(authStore, 'logout');
 
     wrapper = shallowMount(AnalysisListingView, {
       global: {
@@ -136,7 +132,6 @@ describe('AnalysisListingView', () => {
     header.vm.$emit('logout');
     await header.vm.$nextTick();
 
-    expect(mockedLogout.called).to.be.true;
     expect(wrapper.vm.$router.push.called).to.be.true;
   });
 });

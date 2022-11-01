@@ -26,14 +26,6 @@ def test_login_no_session(client):
         + "%2F%2Fdev.cgds.uab.edu%2Frosalution%2Fapi%2Fauth%2Flogin%3Fnexturl%3D%252Frosalution"
     )
 
-def test_login_existing_session(client):
-    """Testing the login endpoint when there is an existing login session"""
-    response = client.get(
-        "/auth/login",
-        cookies={"session": create_session_cookie({"username": "UABProvider"})},
-    )
-    assert response.json()["url"] == "http://dev.cgds.uab.edu/rosalution/"
-
 def test_login_successful(client, mock_repositories, monkeypatch):
     """Testing the login endpoint when there's a successful login and redirect"""
     # This unused parameter is required for the monkeypatch to successfully use the mock verify function,
@@ -57,7 +49,44 @@ def test_login_successful(client, mock_repositories, monkeypatch):
 
     assert response.url == "http://dev.cgds.uab.edu/rosalution"
 
-def test_logout(client):
-    """Testing the log out functionality"""
-    response = client.get("/auth/logout")
+def test_local_logout(client):
+    """ This tests functionality of the local logout function """
+    response = client.get(
+        "/auth/logout",
+        cookies={
+            "session": create_session_cookie({
+                "username": "UABProvider",
+                "local": True
+            })
+        }
+    )
+
     assert response.json() == {"access_token": ""}
+
+def test_prod_logout(client):
+    """ This tests functionality if the user logs out after logging in with their BlazerId """
+    response = client.get(
+        '/auth/logout',
+        cookies={
+            "session": create_session_cookie({
+                "username": "UABProvider",
+                "local": False
+            })
+        }
+    )
+
+    assert response.json() == {'url':
+        'https://padlockdev.idm.uab.edu/cas/logout?' +
+        'service=http%3A%2F%2Ftestserver%2Frosalution%2Fapi%2Fauth%2Flogout_callback'
+    }
+
+def test_logout_callback(client):
+    """
+    This gets called when the CAS logout calls back after destroying the BlazerId session
+    and redirects the user to login
+    """
+
+    response = client.get('/auth/logout_callback', allow_redirects=False)
+
+    assert response.status_code == 307
+    assert response.headers['location'] == 'http://dev.cgds.uab.edu/rosalution/login'

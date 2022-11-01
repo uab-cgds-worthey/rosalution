@@ -279,8 +279,7 @@ export default {
       this.updatedContent = {};
     },
     async onLogout() {
-      await this.store.logout();
-      this.$router.push({path: '/rosalution/login'});
+      this.$router.push({path: '/rosalution/logout'});
     },
     uptickSectionKeyToForceReRender() {
       this.forceRenderComponentKey += 1;

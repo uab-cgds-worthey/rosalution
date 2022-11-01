@@ -7,10 +7,11 @@ const authStore = {
     email: '',
     roles: [],
   },
-  async saveState(user) {
+  saveState(user) {
     this.state.full_name = user['full_name'];
     this.state.username = user['username'];
     this.state.email = user['email'];
+    this.state.roles.push(user['scope']);
   },
   getToken() {
     if (document.cookie == '') {
@@ -47,11 +48,6 @@ const authStore = {
     const urlQuery = 'auth/verify_token';
 
     const body = await Requests.get(baseUrl + urlQuery);
-    if ('errors' in body) {
-      const errorString = body.data.errors.map((error) => error.message).join('; ');
-      console.log(errorString);
-      throw new Error('Failed to verify user: ' + errorString);
-    }
 
     return body;
   },

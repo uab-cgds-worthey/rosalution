@@ -130,8 +130,7 @@ export default {
       }
     },
     async onLogout() {
-      await this.store.logout();
-      this.$router.push({path: '/rosalution/login'});
+      this.$router.push({path: '/rosalution/logout'});
     },
   },
 };

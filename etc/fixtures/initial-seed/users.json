@@ -25,8 +25,16 @@
    },
    {
       "username":"researcher",
-      "full_name":"Pre-Clinical Intake",
+      "full_name":"Researcher",
       "email":"fake-researcher@example.com",
+      "scope":"researcher",
+      "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled":false
+   },
+   {
+      "username":"user03",
+      "full_name":"User Three",
+      "email":"user03@uab.edu",
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false

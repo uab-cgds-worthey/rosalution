@@ -2,6 +2,7 @@
 import {defineConfig} from 'vite';
 import vue from '@vitejs/plugin-vue';
 import strip from '@rollup/plugin-strip';
+
 const path = require('path');
 
 // https://vitejs.dev/config/
