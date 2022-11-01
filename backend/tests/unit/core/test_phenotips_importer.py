@@ -83,9 +83,11 @@ def test_format_case_data(phenotips_importer):
         {"field": "Inheritance", "value": ["maternal"]},
     ]
 
+
 def test_extracting_hpo_terms(exported_phenotips_to_import_json):
     """Tests if the importer extracts the Phenotips HPO terms into the expected string format"""
-    actual_extraction_string = PhenotipsImporter.extract_hpo_terms(exported_phenotips_to_import_json["features"])
+    actual_extraction_string = PhenotipsImporter.extract_hpo_terms(
+        exported_phenotips_to_import_json["features"])
     expected_extraction_string = (
         "HP:0000175: Cleft palate; HP:0000252: Microcephaly; "
         "HP:0000708: Behavioral abnormality; HP:0000750: Delayed speech and language development; "
@@ -94,6 +96,16 @@ def test_extracting_hpo_terms(exported_phenotips_to_import_json):
     )
 
     assert actual_extraction_string == expected_extraction_string
+
+
+def test_import_phenotips_json(phenotips_importer, analysis_collection, exported_phenotips_to_import_json):
+    """Tests the import_phenotips_json function"""
+    analysis_collection.collection.find_one.return_value = None
+    incoming_phenotips_json = exported_phenotips_to_import_json
+    incoming_phenotips_json["external_id"] = "C-PAM12345"
+    actual = phenotips_importer.import_phenotips_json(incoming_phenotips_json)
+    assert actual["name"] == "CPAM12345"
+
 
 @pytest.fixture(name="phenotips_importer")
 def fixture_phenotips_importer(analysis_collection, genomic_unit_collection):

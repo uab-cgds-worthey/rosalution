@@ -16,9 +16,20 @@ def test_save_file(gridfs_bucket_collection):
 
 def test_if_id_exists(gridfs_bucket_collection):
     """Tests the check_if_id_exists function"""
-    actual = gridfs_bucket_collection.check_if_id_exists(
-        "633afb87fb250a6ea1569555")
+    actual = gridfs_bucket_collection.id_exists("633afb87fb250a6ea1569555")
     assert actual is True
+
+
+def test_if_id_does_not_exist(gridfs_bucket_collection):
+    """Tests the check_if_id_exists function"""
+    actual = gridfs_bucket_collection.id_exists("63-3afb87-fb250a6ea156-9555")
+    assert actual is False
+
+
+def test_get_file(gridfs_bucket_collection):
+    """Tests the get_file function"""
+    actual = gridfs_bucket_collection.get_file("633afb87fb250a6ea1569555")
+    assert actual == "test.txt"
 
 
 def test_list_files(gridfs_bucket_collection):
@@ -28,13 +39,7 @@ def test_list_files(gridfs_bucket_collection):
     assert actual[0] == "test.txt"
 
 
-def test_find_file_by_name(gridfs_bucket_collection):
-    """Tests the find_file_by_name function"""
-    actual = gridfs_bucket_collection.find_file_by_name("test.txt")
-    assert actual == b"This is a test file"
-
-
 def test_delete_file(gridfs_bucket_collection):
     """Tests the delete function"""
-    actual = gridfs_bucket_collection.delete("633afb87fb250a6ea1569555")
+    actual = gridfs_bucket_collection.delete_file("633afb87fb250a6ea1569555")
     assert actual is None

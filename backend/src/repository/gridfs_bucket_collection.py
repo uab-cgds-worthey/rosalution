@@ -12,9 +12,9 @@ class GridFSBucketCollection:
         """Initializes with the 'PyMongo' Collection object for the Analyses collection"""
         self.bucket = bucket
 
-    def filename_exists(self, filename):
+    def filename_exists(self, input_filename):
         """Returns true if the file with filename exists in the database"""
-        return self.bucket.exists(filename=filename)
+        return self.bucket.exists(filename=input_filename)
 
     def id_exists(self, file_id):
         """Returns true if the file with file_id exists in the database"""
@@ -37,8 +37,6 @@ class GridFSBucketCollection:
         """Returns the file with the given id"""
         if isinstance(file_id, str):
             file_id = ObjectId(file_id)
-            print("File id: ", file_id)
-            print(type(file_id))
         return self.bucket.get(file_id)
 
     def get_analysis_file_by_id(self, file_id):

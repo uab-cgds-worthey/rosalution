@@ -5,6 +5,7 @@ import warnings
 
 from ..models.event import Event
 
+
 class PhenotipsImporter:
     """imports the incoming phenotips json data"""
 
@@ -15,7 +16,8 @@ class PhenotipsImporter:
 
     def import_phenotips_json(self, phenotips_json_data):
         """Imports the phenotips json data into the database"""
-        phenotips_json_data = phenotips_json_data.dict()
+        if not isinstance(phenotips_json_data, dict):
+            phenotips_json_data = phenotips_json_data.dict()
         phenotips_variants = []
         variant_annotations = ["inheritance", "zygosity",
                                "interpretation", "transcript",
@@ -47,7 +49,8 @@ class PhenotipsImporter:
         analysis_data = self.import_analysis_data(
             phenotips_json_data, phenotips_variants, phenotips_json_data["genes"])
 
-        analysis_data['timeline'] = [Event.timestamp_create_event('user06').dict()]
+        analysis_data['timeline'] = [
+            Event.timestamp_create_event('user06').dict()]
         self.analysis_collection.create_analysis(analysis_data)
         return analysis_data
 
@@ -100,7 +103,8 @@ class PhenotipsImporter:
                     {"field": 'Sequencing', "value": []},
                     {"field": 'Testing', "value": []},
                     {"field": 'Systems', "value": []},
-                    {"field": 'HPO Terms', "value": [self.extract_hpo_terms(phenotips_json_data["features"])]},
+                    {"field": 'HPO Terms', "value": [
+                        self.extract_hpo_terms(phenotips_json_data["features"])]},
                     {"field": 'Additional Details', "value": []},
                 ]
             }, {
@@ -162,4 +166,4 @@ class PhenotipsImporter:
     @staticmethod
     def extract_hpo_terms(phenotips_json_features):
         """Extracts the HPO terms from the Phenotips JSON 'features' list and returns it as a string"""
-        return '; '.join([f"{term['id']}: {term['label']}" for term in phenotips_json_features]).replace('\n','')
+        return '; '.join([f"{term['id']}: {term['label']}" for term in phenotips_json_features]).replace('\n', '')

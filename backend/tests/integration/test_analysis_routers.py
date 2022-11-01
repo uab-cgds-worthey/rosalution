@@ -3,12 +3,10 @@
 import warnings
 import json
 import os
-from unittest.mock import patch, Mock
+from unittest.mock import patch
 
 import pytest
 from fastapi import BackgroundTasks
-
-from bson import ObjectId
 
 from src.core.annotation import AnnotationService
 
@@ -175,14 +173,16 @@ def test_update_analysis_section(client, mock_access_token, mock_repositories, u
 
 def test_attach_pedigree_image(client, mock_access_token, mock_repositories):
     """ Testing if the create analysis function works with file upload """
-    mock_repositories['analysis'].collection.find_one_and_update = Mock()
+    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture(
+        "analysis-CPAM0112.json")
+    expected = read_test_fixture("analysis-CPAM0112.json")
+    for section in expected["sections"]:
+        if section["header"] == "Pedigree":
+            section["content"] = [{
+                'field': 'image', 'value': ["633afb87fb250a6ea1569555"]
+            }]
+    mock_repositories['analysis'].collection.find_one_and_update.return_value = expected
     mock_repositories['bucket'].bucket.put.return_value = "633afb87fb250a6ea1569555"
-    mock_repositories["analysis"].collection.find_one.return_value = {
-        "_id": ObjectId(str('63430e4f076646300d18bd8d')),
-        "sections": [
-            {"header": 'Pedigree', "content": []},
-        ]
-    }
 
     # This is used here because the 'read_fixture' returns a json dict rather than raw binary
     # We actually want to send a binary file through the endpoint to simulate a file being sent
@@ -205,17 +205,9 @@ def test_attach_pedigree_image(client, mock_access_token, mock_repositories):
 
         phenotips_file.close()
 
-    mock_repositories['analysis'].collection.find_one_and_update.assert_called_with(
-        {'name': 'CPAM0112'},
-        {'$set': {'sections':
-                  [{'header': 'Pedigree', 'content': [
-                      {
-                          'field': 'image', 'value': ["633afb87fb250a6ea1569555"]
-                      }]
-                    }]
-                  }}
-    )
-
+    mock_repositories["analysis"].collection.find_one_and_update.assert_called_with(
+        {"name": "CPAM0112"},
+        {"$set": expected})
     assert response.status_code == 200
 
 
@@ -429,19 +421,19 @@ def fixture_analysis_updates_json():
     return read_test_fixture("analysis-update.json")
 
 
-@pytest.fixture(name="exported_phenotips_to_import_json")
+@ pytest.fixture(name="exported_phenotips_to_import_json")
 def fixture_phenotips_import():
     """Returns a phenotips json fixture"""
     return read_test_fixture("phenotips-import.json")
 
 
-@pytest.fixture(name="update_analysis_section_response_json")
+@ pytest.fixture(name="update_analysis_section_response_json")
 def fixture_update_analysis_section_response_json():
     """The JSON that is being sent from a client to the endpoint with updates in it"""
     return read_test_fixture("update_analysis_section.json")
 
 
-@pytest.fixture(name="genomic_unit_success_response")
+@ pytest.fixture(name="genomic_unit_success_response")
 def fixture_genomic_unit_success_response():
     """The JSON that is being sent from a client to the endpoint with updates in it"""
     return {
@@ -457,7 +449,7 @@ def fixture_genomic_unit_success_response():
     }
 
 
-@pytest.fixture(name="supporting_evidence_link_json")
+@ pytest.fixture(name="supporting_evidence_link_json")
 def fixture_supporting_evidence_link_json():
     """The JSON that is being returned to the endpoint with a link in the supporting evidence"""
     setup_return_value = read_test_fixture("analysis-CPAM0002.json")
