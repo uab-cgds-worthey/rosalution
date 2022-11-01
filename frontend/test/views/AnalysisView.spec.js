@@ -13,7 +13,6 @@ import notificationDialog from '@/notificationDialog.js';
 
 import AnalysisView from '@/views/AnalysisView.vue';
 
-import {authStore} from '../../src/stores/authStore';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {RouterLink} from 'vue-router';
 
@@ -51,7 +50,6 @@ describe('AnalysisView', () => {
   let pedigreeRemoveMock;
   let mockedAttachSupportingEvidence;
   let mockedRemoveSupportingEvidence;
-  let mockedLogout;
   let wrapper;
   let sandbox;
 
@@ -67,7 +65,6 @@ describe('AnalysisView', () => {
     mockedAttachSupportingEvidence = sandbox.stub(Analyses, 'attachSupportingEvidence');
     mockedRemoveSupportingEvidence = sandbox.stub(Analyses, 'removeSupportingEvidence');
 
-    mockedLogout = sandbox.stub(authStore, 'logout');
     wrapper = getMountedComponent();
   });
 
@@ -93,7 +90,6 @@ describe('AnalysisView', () => {
       headerComponent.vm.$emit('logout');
       await headerComponent.vm.$nextTick();
 
-      expect(mockedLogout.called).to.be.true;
       expect(wrapper.vm.$router.push.called).to.be.true;
     });
 

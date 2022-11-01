@@ -46,9 +46,10 @@ async def login(
     repositories=Depends(database)
 ):
     """Rosalution Login Method"""
-    if request.session.get("username", None):
-        # We're already logged in, don't need to do the login process
-        return {"url": "http://dev.cgds.uab.edu/rosalution/"}
+    request.session.pop("attributes", None)
+    request.session.pop("pgtiou", None)
+    request.session.pop("username", None)
+    request.session.pop("local", None)
 
     if not ticket:
         # No ticket, the request comes from end user, send to CAS login
@@ -62,12 +63,10 @@ async def login(
         return RedirectResponse("http://dev.cgds.uab.edu/rosalution/auth/login")
 
     # Login was successful, redirect to the 'nexturl' query parameter
-    print(user)
-
-    if not user:
-        raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
-
     authenticate_user = repositories["user"].authenticate_user(user, 'secret')
+
+    if not authenticate_user:
+        raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
 
     access_token = create_access_token(
         data={
@@ -79,6 +78,7 @@ async def login(
     request.session["username"] = authenticate_user['username']
     request.session["attributes"] = attributes
     request.session["pgtiou"] = pgtiou
+    request.session["local"] = False
 
     base_url = "http://dev.cgds.uab.edu"
 
@@ -101,7 +101,6 @@ def login_local_developer(
     authenticate_user = repositories["user"].authenticate_user(
         form_data.username, form_data.password)
 
-    print(authenticate_user)
     if not authenticate_user:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
 
@@ -116,6 +115,7 @@ def login_local_developer(
     response = JSONResponse(content=content)
     response.set_cookie(key="rosalution_TOKEN", value=access_token)
     request.session["username"] = authenticate_user['username']
+    request.session["local"] = True
 
     return response
 
@@ -133,13 +133,33 @@ def verify_token(
     return current_user
 
 @router.get("/logout")
-def logout_oauth(request: Request):
-    """Returns an empty access token"""
-    content = {"access_token": ""}
-    response = JSONResponse(content=content)
-    response.delete_cookie(key="rosalution_TOKEN")
+def logout_oauth(request: Request, response: Response):
+    """ Destroys the session and determines if the request was local or production and returns the proper url """
+
+    content = None
+
+    if request.session['local'] is False:
+        redirect_url = request.url_for("logout_callback")
+        cas_logout_url = cas_client.get_logout_url(redirect_url)
+        content = {"url": cas_logout_url}
+
+    if request.session['local'] is True:
+        content = {"access_token": ""}
+
     request.session.pop("attributes", None)
     request.session.pop("pgtiou", None)
-    if "username" in request.session:
-        request.session.pop("username", None)
+    request.session.pop("username", None)
+    request.session.pop("local", None)
+
+    response = JSONResponse(content=content)
+    response.delete_cookie(key="rosalution_TOKEN")
+
     return response
+
+@router.get('/logout_callback')
+def logout_callback():
+    """
+    The endpoint that gets called after the production logout function is called and redirects
+    back to the login page
+    """
+    return RedirectResponse(url='http://dev.cgds.uab.edu/rosalution/login')
