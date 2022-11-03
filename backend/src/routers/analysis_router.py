@@ -4,14 +4,17 @@ import json
 
 from typing import List, Optional, Union
 
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, File, UploadFile, Form
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, File, UploadFile, Form, Security
 from fastapi.responses import StreamingResponse
 
 from ..core.annotation import AnnotationService
 from ..core.phenotips_importer import PhenotipsImporter
 from ..dependencies import database, annotation_queue
 from ..models.analysis import Analysis, AnalysisSummary, Section
+from ..models.event import Event
 from ..models.phenotips_json import BasePhenotips
+from ..models.user import VerifyUser
+from ..security.security import get_current_user
 
 # This is temporarily changed as security is removed for the analysis endpoints to make development easier
 # Change line 18 to the following to enable security:
@@ -56,7 +59,8 @@ async def import_phenotips_json(
     background_tasks: BackgroundTasks,
     phenotips_input: BasePhenotips,
     repositories=Depends(database),
-    annotation_task_queue=Depends(annotation_queue)
+    annotation_task_queue=Depends(annotation_queue),
+    username: VerifyUser = Security(get_current_user)
 ):
     """Imports the phenotips.json file into the database"""
     phenotips_importer = PhenotipsImporter(
@@ -64,6 +68,9 @@ async def import_phenotips_json(
     try:
         new_analysis = phenotips_importer.import_phenotips_json(
             phenotips_input)
+        new_analysis['timeline'].append(Event.timestamp_create_event(username).dict())
+        repositories['analysis'].create_analysis(new_analysis)
+
     except ValueError as exception:
         raise HTTPException(status_code=409) from exception
 
@@ -81,7 +88,8 @@ async def create_file(
     background_tasks: BackgroundTasks,
     phenotips_file: Union[bytes, None] = File(default=None),
     repositories=Depends(database),
-    annotation_task_queue=Depends(annotation_queue)
+    annotation_task_queue=Depends(annotation_queue),
+    username: VerifyUser = Security(get_current_user)
 ):
     """ Imports a .json file for a phenotips case """
     # Quick and dirty json loads
@@ -92,6 +100,9 @@ async def create_file(
     try:
         new_analysis = phenotips_importer.import_phenotips_json(
             phenotips_input)
+        new_analysis['timeline'].append(Event.timestamp_create_event(username).dict())
+        repositories['analysis'].create_analysis(new_analysis)
+
     except ValueError as exception:
         raise HTTPException(status_code=409) from exception
 
