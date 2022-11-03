@@ -82,6 +82,7 @@ def test_import_analysis_from_phenotips_json(
 
     response_data = json.loads(response.text)
     assert response_data['latest_status'] == "Annotation"
+    assert response_data['timeline'][0]['username'] == 'johndoe'
 
 
 def test_import_analysis_with_phenotips_json(client, mock_access_token, mock_repositories, mock_annotation_queue):
@@ -125,6 +126,7 @@ def test_import_analysis_with_phenotips_json(client, mock_access_token, mock_rep
     assert response.status_code == 200
     response_data = json.loads(response.text)
     assert response_data['latest_status'] == "Annotation"
+    assert response_data['timeline'][0]['username'] == 'johndoe'
 
 
 def test_update_analysis_section(client, mock_access_token, mock_repositories, update_analysis_section_response_json):
