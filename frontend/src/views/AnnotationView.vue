@@ -177,8 +177,10 @@ export default {
         return;
       }
 
+      const isGeneAnnotation = !updatedSectionName.includes('Multi-Sequence');
       const annotation = {
-        genomic_unit: this.gene,
+        genomic_unit: isGeneAnnotation ? this.active.gene : this.active.variant.replace(/\(.*/, ''),
+        genomic_unit_type: isGeneAnnotation ? 'gene' : 'hgvs_variant',
         section: updatedSectionName,
       };
 

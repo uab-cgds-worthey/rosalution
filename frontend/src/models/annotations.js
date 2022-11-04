@@ -29,6 +29,7 @@ export default {
 
     const attachmentForm = {
       'upload_file': image,
+      'genomic_unit_type': annotation.genomic_unit_type,
       'section_name': annotation.section,
     };
 
