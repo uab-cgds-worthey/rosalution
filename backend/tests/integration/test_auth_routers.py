@@ -67,6 +67,9 @@ def test_prod_logout(client):
     """ This tests functionality if the user logs out after logging in with their BlazerId """
     response = client.get(
         '/auth/logout',
+        headers={
+            "host": 'dev.cgds.uab.edu'
+        },
         cookies={
             "session": create_session_cookie({
                 "username": "UABProvider",
@@ -77,7 +80,7 @@ def test_prod_logout(client):
 
     assert response.json() == {'url':
         'https://padlockdev.idm.uab.edu/cas/logout?' +
-        'service=http%3A%2F%2Ftestserver%2Frosalution%2Fapi%2Fauth%2Flogout_callback'
+        'service=http%3A%2F%2Fdev.cgds.uab.edu%2Frosalution%2Fapi%2Fauth%2Flogout_callback'
     }
 
 def test_logout_callback(client):

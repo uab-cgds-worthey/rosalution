@@ -7,6 +7,7 @@ pipeline {
   environment {
     GITLAB_API_TOKEN = credentials('GitLabToken')
     BUILD_TAG = "a${GIT_COMMIT.substring(0, 6)}"
+    ROSALUTION_VERSION = "0.6.0"
   }
   stages {
     stage('Static Analysis') {
@@ -49,7 +50,7 @@ pipeline {
       steps {
         withEnv(["HOME=${env.WORKSPACE}"]) {
           sh 'cd backend && pip3 install -r requirements.txt --user'
-          sh 'cd backend && pytest --cov=src --cov-fail-under=80 --cov-branch --cov-report=term tests/'
+          sh 'cd backend && pytest --cov=src --cov-fail-under=80 --cov-branch --cov-report=term tests/unit/'
         }
       }
       post {
@@ -85,7 +86,7 @@ pipeline {
         branch 'main'
       }
       steps {
-        sh 'bash build.sh --tag prod --push'
+        sh 'bash build.sh --tag ${ROSALUTION_VERSION} --push'
       }
       post {
         success {

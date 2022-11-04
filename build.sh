@@ -4,7 +4,7 @@
 # ./build.sh --tag <BUILD_TAG> --target <BUILD_TARGET> --config <CONFIG_FILE_PATH> --npmrc <NPM_FILE_PATH> --push
 
 ##   + target <BUILD_TAG>: development or production
-##   + tag <BUILD_TARGET>: version release or staging hash version, ex v1.0 or v14324a, default 'local'to, when local the CGDS Gitlab
+##   + tag <BUILD_TARGET>: version release or staging hash version, ex 1.0 or 14324a, default 'local'to, when local the CGDS Gitlab
 ##          image name is not used to tag build
 ##   + npmrc <CONFIG_FILE_PATH>: filepath to NPMRC 
 ##   + config <NPM_FILE_PATH>: filepath for the build arguments, default is <root>/etc/
@@ -137,7 +137,7 @@ build(){
     image_prefix_name=""
   fi
 
-  local image_name=$image_prefix_name$service_name:v$build_tag
+  local image_name=$image_prefix_name$service_name:$build_tag
   local build_target=$target-stage
 
   local docker_args
@@ -159,7 +159,7 @@ build(){
 
 buildDatabaseFixture() {
   local build_target="production-stage"
-  local image_name="gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/rosalution/database-fixture:v$build_tag"
+  local image_name="gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/rosalution/database-fixture:$build_tag"
   local build_context="./etc/fixtures"
   local docker_build_command="DOCKER_BUILDKIT=1 docker build --no-cache=true --target=$build_target --tag=$image_name -f $build_context/production.Dockerfile $build_context"
 
