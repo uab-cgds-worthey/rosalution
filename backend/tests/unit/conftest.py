@@ -31,8 +31,7 @@ def fixture_analysis_collection(analysis_collection_json, updated_analysis_colle
     mock_collection = mock_mongo_collection()
     mock_collection.find = Mock(return_value=analysis_collection_json)
     mock_collection.find_one = Mock(return_value=analysis_collection_json)
-    mock_collection.find_one_and_update = Mock(
-        return_value=updated_analysis_collection_json)
+    mock_collection.find_one_and_update = Mock(return_value=updated_analysis_collection_json)
     return AnalysisCollection(mock_collection)
 
 
@@ -68,8 +67,7 @@ def fixture_genomic_unit_collection(genomic_unit_collection_json):
 @pytest.fixture(name="cpam0002_analysis_json")
 def fixture_cpam0002_analysis_json(analysis_collection_json):
     """JSON for the CPAM0002 Analysis"""
-    return next(
-        (analysis for analysis in analysis_collection_json if analysis['name'] == "CPAM0002"), None)
+    return next((analysis for analysis in analysis_collection_json if analysis['name'] == "CPAM0002"), None)
 
 
 @pytest.fixture(name="cpam0002_analysis")
@@ -81,8 +79,7 @@ def fixture_analysis(cpam0002_analysis_json):
 @pytest.fixture(name="cpam0046_analysis")
 def fixture_cpam0046_analysis(analysis_collection_json):
     """Returns the Analysis for CPAM0046 to verify creating annotation tasks"""
-    analysis_json = next(
-        (analysis for analysis in analysis_collection_json if analysis['name'] == "CPAM0046"), None)
+    analysis_json = next((analysis for analysis in analysis_collection_json if analysis['name'] == "CPAM0046"), None)
     return Analysis(**analysis_json)
 
 
@@ -90,10 +87,8 @@ def fixture_cpam0046_analysis(analysis_collection_json):
 def fixture_annotation_collection():
     """Returns the annotation collection for the datasets to be mocked"""
     mock_collection = mock_mongo_collection()
-    mock_collection.find = Mock(
-        return_value=read_database_fixture("annotations-config.json"))
-    mock_collection.find_one = Mock(
-        return_value=read_database_fixture("annotations-config.json"))
+    mock_collection.find = Mock(return_value=read_database_fixture("annotations-config.json"))
+    mock_collection.find_one = Mock(return_value=read_database_fixture("annotations-config.json"))
     return AnnotationConfigCollection(mock_collection)
 
 
@@ -120,42 +115,31 @@ def fixture_cpam0002_annotation_queue(annotation_collection, cpam0002_analysis):
 @pytest.fixture(name="transcript_annotation_response")
 def fixture_annotation_response_for_transcript():
     """Returns a mocked response from a web page, particularly ensembl"""
-    return [
-        {
-            "transcript_consequences": [
-                {
-                    "sift_prediction": "deleterious",
-                    "gene_symbol": "VMA21",
-                    "transcript_id": "NM_001017980.4",
-                    "polyphen_score": 0.597,
-                    "polyphen_prediction": "possibly_damaging",
-                    "sift_score": 0.02,
-                    "cds_start": 164,
-                    "variant_allele": "T",
-                    "used_ref": "G",
-                    "consequence_terms": [
-                        "missense_variant",
-                        "splice_region_variant"
-                    ],
-                },
-                {
-                    "transcript_id": "NM_001363810.1",
-                    "sift_score": 0.01,
-                    "gene_symbol": "VMA21",
-                    "polyphen_prediction": "probably_damaging",
-                    "sift_prediction": "deleterious",
-                    "polyphen_score": 0.998,
-                    "used_ref": "G",
-                    "cds_start": 329,
-                    "variant_allele": "T",
-                    "consequence_terms": [
-                        "missense_variant",
-                        "splice_region_variant"
-                    ],
-                }
-            ]
-        }
-    ]
+    return [{
+        "transcript_consequences": [{
+            "sift_prediction": "deleterious",
+            "gene_symbol": "VMA21",
+            "transcript_id": "NM_001017980.4",
+            "polyphen_score": 0.597,
+            "polyphen_prediction": "possibly_damaging",
+            "sift_score": 0.02,
+            "cds_start": 164,
+            "variant_allele": "T",
+            "used_ref": "G",
+            "consequence_terms": ["missense_variant", "splice_region_variant"],
+        }, {
+            "transcript_id": "NM_001363810.1",
+            "sift_score": 0.01,
+            "gene_symbol": "VMA21",
+            "polyphen_prediction": "probably_damaging",
+            "sift_prediction": "deleterious",
+            "polyphen_score": 0.998,
+            "used_ref": "G",
+            "cds_start": 329,
+            "variant_allele": "T",
+            "consequence_terms": ["missense_variant", "splice_region_variant"],
+        }]
+    }]
 
 
 @pytest.fixture(name="empty_pedigree")

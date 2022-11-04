@@ -3,6 +3,7 @@ Class to support the importing of phenotips data
 """
 import warnings
 
+
 class PhenotipsImporter:
     """imports the incoming phenotips json data"""
 
@@ -16,10 +17,9 @@ class PhenotipsImporter:
         if not isinstance(phenotips_json_data, dict):
             phenotips_json_data = phenotips_json_data.dict()
         phenotips_variants = []
-        variant_annotations = ["inheritance", "zygosity",
-                               "interpretation", "transcript",
-                               "cdna", "reference_genome",
-                               "protein", "gene"]
+        variant_annotations = [
+            "inheritance", "zygosity", "interpretation", "transcript", "cdna", "reference_genome", "protein", "gene"
+        ]
 
         for variant in phenotips_json_data["variants"]:
             variant_data = {}
@@ -34,17 +34,14 @@ class PhenotipsImporter:
             phenotips_variants.append(variant_data)
 
         for gene in phenotips_json_data["genes"]:
-            genomic_unit_data = self.import_genomic_unit_collection_data(
-                gene, "gene")
+            genomic_unit_data = self.import_genomic_unit_collection_data(gene, "gene")
             self.genomic_unit_collection.create_genomic_unit(genomic_unit_data)
 
         for variant in phenotips_variants:
-            genomic_unit_data = self.import_genomic_unit_collection_data(
-                variant, "hgvs")
+            genomic_unit_data = self.import_genomic_unit_collection_data(variant, "hgvs")
             self.genomic_unit_collection.create_genomic_unit(genomic_unit_data)
 
-        analysis_data = self.import_analysis_data(
-            phenotips_json_data, phenotips_variants, phenotips_json_data["genes"])
+        analysis_data = self.import_analysis_data(phenotips_json_data, phenotips_variants, phenotips_json_data["genes"])
 
         analysis_data['timeline'] = []
         return analysis_data
@@ -64,11 +61,9 @@ class PhenotipsImporter:
                 "annotations": [],
             }
         elif data_format == "gene":
-            genomic_data = {
-                "gene_symbol": data['gene'], "gene": data['gene'], "annotations": []}
+            genomic_data = {"gene_symbol": data['gene'], "gene": data['gene'], "annotations": []}
         else:
-            warnings.warn(
-                "Invalid data format for import_genomic_unit_collection_data method")
+            warnings.warn("Invalid data format for import_genomic_unit_collection_data method")
             return None
         return genomic_data
 
@@ -76,36 +71,27 @@ class PhenotipsImporter:
         """Formats the analysis data from the phenotips.json file"""
 
         analysis_data = {
-            "name": str(phenotips_json_data["external_id"]).replace("-", ""),
-            "description": "",
-            "nominated_by": "",
-            "genomic_units": [],
-            "sections": [{
-                "header": 'Brief',
-                "content": [
+            "name": str(phenotips_json_data["external_id"]).replace("-", ""), "description": "", "nominated_by": "",
+            "genomic_units": [], "sections": [{
+                "header": 'Brief', "content": [
                     {"field": 'Nominator', "value": []},
                     {"field": 'Participant', "value": []},
                     {"field": 'Phenotype', "value": []},
                     {"field": 'Model of Interest', "value": []},
                     {"field": 'Goals', "value": []},
-                    {"field": 'Proposed Model/Project', "value": []}
+                    {"field": 'Proposed Model/Project', "value": []},
                 ]
             }, {
-                "header": 'Clinical History',
-                "content": [
+                "header": 'Clinical History', "content": [
                     {"field": 'Clinical Diagnosis', "value": []},
                     {"field": 'Affected Individuals Identified', "value": []},
                     {"field": 'Sequencing', "value": []},
                     {"field": 'Testing', "value": []},
                     {"field": 'Systems', "value": []},
-                    {"field": 'HPO Terms', "value": [
-                        self.extract_hpo_terms(phenotips_json_data["features"])]},
+                    {"field": 'HPO Terms', "value": [self.extract_hpo_terms(phenotips_json_data["features"])]},
                     {"field": 'Additional Details', "value": []},
                 ]
-            }, {
-                "header": 'Pedigree',
-                "content": []
-            }]
+            }, {"header": 'Pedigree', "content": []}]
         }
 
         for phenotips_gene in phenotips_genes:
@@ -119,15 +105,13 @@ class PhenotipsImporter:
                 if phenotips_variant['gene'] == phenotips_gene['gene']:
                     analysis_unit['variants'].append({
                         "hgvs_variant": str(phenotips_variant["transcript"] + ":" + phenotips_variant["cdna"]),
-                        "c_dot": phenotips_variant["cdna"],
-                        "p_dot": phenotips_variant["protein"],
+                        "c_dot": phenotips_variant["cdna"], "p_dot": phenotips_variant["protein"],
                         "build": str(phenotips_variant['reference_genome']),
                         "case": self.format_case_data(phenotips_variant)
                     })
 
                 if 'transcript' in phenotips_variant:
-                    new_transcript = {
-                        'transcript': phenotips_variant['transcript']}
+                    new_transcript = {'transcript': phenotips_variant['transcript']}
                     if new_transcript not in analysis_unit['transcripts']:
                         analysis_unit['transcripts'].append(new_transcript)
 
@@ -150,12 +134,10 @@ class PhenotipsImporter:
             case_annotation = annotation[1]
 
             if variant_data[phenotips_json_attribute]:
-                case_data.append(
-                    {
-                        "field": case_annotation,
-                        "value": [str(variant_data[phenotips_json_attribute])],
-                    }
-                )
+                case_data.append({
+                    "field": case_annotation,
+                    "value": [str(variant_data[phenotips_json_attribute])],
+                })
         return case_data
 
     @staticmethod

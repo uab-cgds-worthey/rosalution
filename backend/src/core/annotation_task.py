@@ -17,6 +17,7 @@ import requests
 #         log_file.write(string)
 #     print(string)
 
+
 class AnnotationTaskInterface:
     """Abstract class to define the interface for the the types of Annotation Task"""
 
@@ -57,12 +58,12 @@ class AnnotationTaskInterface:
 
         # The following if statement has grown too large, however it would needs
         # to be refactored at a later time
-        if 'attribute' in self.dataset: #pylint: disable=too-many-nested-blocks
+        if 'attribute' in self.dataset:  # pylint: disable=too-many-nested-blocks
             annotation_unit = {
                 "data_set": self.dataset['data_set'],
                 "data_source": self.dataset['data_source'],
                 "version": "",
-                "value": ""
+                "value": "",
             }
 
             replaced_attributes = self.aggregate_string_replacements(self.dataset['attribute'])
@@ -78,7 +79,7 @@ class AnnotationTaskInterface:
                             transcript_identifier = jq_result['transcript_id']
                             transcript_annotation_unit['transcript_id'] = transcript_identifier
                             if transcript_annotation_unit['value'] == '':
-                                transcript_annotation_unit['value']  = transcript_identifier
+                                transcript_annotation_unit['value'] = transcript_identifier
                         else:
                             transcript_annotation_unit['value'] = jq_result[key]
                     annotations.append(transcript_annotation_unit)
@@ -89,6 +90,7 @@ class AnnotationTaskInterface:
                 jq_result = next(jq_results, None)
 
         return annotations
+
 
 class ForgeAnnotationTask(AnnotationTaskInterface):
     """
@@ -106,7 +108,8 @@ class ForgeAnnotationTask(AnnotationTaskInterface):
         of the genomic unit and its dataset depedencies to generate the new dataset.  Will be returned within
         an object that has the name of the dataset as the attribute.
         """
-        return { self.dataset['data_set']: self.aggregate_string_replacements(self.dataset['base_string']) }
+        return {self.dataset['data_set']: self.aggregate_string_replacements(self.dataset['base_string'])}
+
 
 class NoneAnnotationTask(AnnotationTaskInterface):
     """An empty annotation task to be a place holder for datasets that do not have an annotation type yet"""
@@ -148,7 +151,7 @@ class HttpAnnotationTask(AnnotationTaskInterface):
     def annotate(self):
         """builds the complete url and fetches the annotation with an http request"""
         url_to_query = self.build_url()
-        result = requests.get(url_to_query, verify=False, headers={"Accept":"application/json"})
+        result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"})
         json_result = result.json()
         return json_result
 
@@ -158,14 +161,12 @@ class HttpAnnotationTask(AnnotationTaskInterface):
         within the 'url' attribute and replaces it with the genomic_unit being annotated.
         """
         string_to_replace = f"{{{self.dataset['genomic_unit_type']}}}"
-        replace_string = self.dataset['url'].replace(
-            string_to_replace, self.genomic_unit['unit'])
+        replace_string = self.dataset['url'].replace(string_to_replace, self.genomic_unit['unit'])
 
         if 'dependencies' in self.dataset:
             for depedency in self.dataset['dependencies']:
                 depedency_replace_string = f"{{{depedency}}}"
-                replace_string = replace_string.replace(
-                    depedency_replace_string, self.genomic_unit[depedency])
+                replace_string = replace_string.replace(depedency_replace_string, self.genomic_unit[depedency])
         return replace_string
 
     def build_url(self):
@@ -204,7 +205,6 @@ class AnnotationTaskFactory:
         """
         # In the future, this could be modified to use a static function instead
         # and those would be set to the dict, or an additional dictionary
-        new_task = cls.tasks[dataset["annotation_source_type"]](
-            genomic_unit_json)
+        new_task = cls.tasks[dataset["annotation_source_type"]](genomic_unit_json)
         new_task.set(dataset)
         return new_task

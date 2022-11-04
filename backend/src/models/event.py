@@ -15,7 +15,7 @@ class Event(BaseModel):
     username: str
 
     @staticmethod
-    def timestamp_create_event( username):
+    def timestamp_create_event(username):
         """Creates a timestamp of the create event done by username"""
         return Event.timestamp_event(username, EventType.CREATE)
 
@@ -30,5 +30,5 @@ class Event(BaseModel):
         return Event(**{
             "event": event,
             "timestamp": datetime.utcnow(),
-            "username": username
+            "username": username,
         })

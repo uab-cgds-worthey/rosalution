@@ -23,6 +23,7 @@ def test_create_access_token():
 
     assert actual_encoded_jwt is not None
 
+
 def test_authorization_successful():
     """Shows a completely successful authentication process and what is required"""
     security_scopes = SecurityScopes()

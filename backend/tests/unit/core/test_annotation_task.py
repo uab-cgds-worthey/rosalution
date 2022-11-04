@@ -29,11 +29,13 @@ def test_annotation_task_create_http_task(hgvs_variant_genomic_unit, transcript_
     actual_task = AnnotationTaskFactory.create(hgvs_variant_genomic_unit, transcript_id_dataset)
     assert isinstance(actual_task, HttpAnnotationTask)
 
+
 def test_annotate_forge_gene_linkout_dataset(forge_annotation_task_gene):
     """Verifies that the NCBI linkout dataset is structed as expected"""
     actual_annotation = forge_annotation_task_gene.annotate()
     assert "NCBI_linkout" in actual_annotation
     assert actual_annotation['NCBI_linkout'] == 'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=45614'
+
 
 def test_extraction_forge_gene_linkout_dataset(forge_annotation_task_gene):
     """Verifies that the NCBI linkout dataset is extracted as expected"""
@@ -41,42 +43,35 @@ def test_extraction_forge_gene_linkout_dataset(forge_annotation_task_gene):
     extracted_annotations = forge_annotation_task_gene.extract(annotation)
     assert extracted_annotations[0]['value'] == 'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=45614'
 
+
 def test_annotation_extraction_for_transcript_id_dataset(http_annotation_transcript_id, transcript_annotation_response):
     """Verifieng genomic unit extraction for a transcript using the the transcript ID dataset"""
     actual_extractions = http_annotation_transcript_id.extract(transcript_annotation_response)
     assert len(actual_extractions) == 2
     assert {
-        'data_set': 'transcript_id',
-        'data_source': 'Ensembl',
-        'version': '',
-        'value': 'NM_001017980.4',
+        'data_set': 'transcript_id', 'data_source': 'Ensembl', 'version': '', 'value': 'NM_001017980.4',
         'transcript_id': 'NM_001017980.4'
     } in actual_extractions
 
     assert {
-        'data_set': 'transcript_id',
-        'data_source': 'Ensembl',
-        'version': '',
-        'value': 'NM_001363810.1',
+        'data_set': 'transcript_id', 'data_source': 'Ensembl', 'version': '', 'value': 'NM_001363810.1',
         'transcript_id': 'NM_001363810.1'
     } in actual_extractions
 
+
 def test_annotation_extraction_for_polyphen_prediction_transcript_dataset(
-    http_annotation_polyphen_prediction,
-    transcript_annotation_response
+    http_annotation_polyphen_prediction, transcript_annotation_response
 ):
     """Verifieng genomic unit extraction for a transcript using the the transcript ID dataset"""
     actual_extractions = http_annotation_polyphen_prediction.extract(transcript_annotation_response)
     assert len(actual_extractions) == 2
 
     actual_nm_001017980_extraction = next(
-        (annotation for annotation in actual_extractions if annotation['transcript_id'] == 'NM_001017980.4'),
-        None
+        (annotation for annotation in actual_extractions if annotation['transcript_id'] == 'NM_001017980.4'), None
     )
 
     actual_nm_001363810_extraction = next(
-        (annotation for annotation in actual_extractions if annotation['transcript_id'] == 'NM_001363810.1'),
-        None
+        (annotation for annotation in actual_extractions if annotation['transcript_id'] == 'NM_001363810.1'), None
     )
 
     assert actual_nm_001017980_extraction['value'] == 'possibly_damaging'
@@ -88,14 +83,13 @@ def test_annotation_extraction_for_genomic_unit(http_annotation_task_gene, hpo_a
     actual_extractions = http_annotation_task_gene.extract(hpo_annotation_response)
     assert len(actual_extractions) == 1
     assert {
-        'data_set': 'HPO',
-        'data_source': 'HPO',
-        'version': '',
+        'data_set': 'HPO', 'data_source': 'HPO', 'version': '',
         'value': ['Myopathy, X-linked, With Excessive Autophagy']
     } in actual_extractions
 
 
 ## Fixtures ##
+
 
 @pytest.fixture(name="gene_ncbi_linkout_dataset")
 def fixture_ncbi_linkout_dataset():
@@ -109,8 +103,9 @@ def fixture_ncbi_linkout_dataset():
         "annotation_source_type": "forge",
         "base_string": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term={Entrez Gene Id}",
         "attribute": "{ \"NCBI_linkout\": .NCBI_linkout }",
-        "dependencies": ["Entrez Gene Id"]
+        "dependencies": ["Entrez Gene Id"],
     }
+
 
 @pytest.fixture(name="gene_hpo_dataset")
 def fixture_gene_hpo_dataset():
@@ -145,6 +140,7 @@ def fixture_http_annotation_empty(gene_genomic_unit, gene_hpo_dataset):
     task.set(gene_hpo_dataset)
     return task
 
+
 @pytest.fixture(name="forge_annotation_task_gene")
 def fixture_forge_annotation_task_gene_ncbi_linkout(gene_genomic_unit, gene_ncbi_linkout_dataset):
     """Returns a Forge annotation task for the NCBI linkout for the VMA21 Gene genomic unit"""
@@ -174,7 +170,7 @@ def fixture_transcript_id_dataset():
         "transcript": True,
         "annotation_source_type": "http",
         "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;refseq=1;",
-        "attribute": ".[].transcript_consequences[] | { transcript_id: .transcript_id }"
+        "attribute": ".[].transcript_consequences[] | { transcript_id: .transcript_id }",
     }
 
 
@@ -184,6 +180,7 @@ def fixture_http_annotation_transcript_id(hgvs_variant_genomic_unit, transcript_
     task = HttpAnnotationTask(hgvs_variant_genomic_unit)
     task.set(transcript_id_dataset)
     return task
+
 
 @pytest.fixture(name="polyphen_prediction_dataset")
 def fixture_polyphen_prediction_dataset():
@@ -199,7 +196,7 @@ def fixture_polyphen_prediction_dataset():
         "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;refseq=1;",
         "attribute":
             ".[].transcript_consequences[] | \
-            { polyphen_prediction: .polyphen_prediction,transcript_id: .transcript_id }"
+            { polyphen_prediction: .polyphen_prediction,transcript_id: .transcript_id }",
     }
 
 
@@ -219,9 +216,8 @@ def fixture_transcript_related_datasets(annotation_collection):
     """
     return list(
         filter(
-            lambda x: (
-                x["data_set"] == "transcript_id" or x["data_set"] == "SIFT Prediction" or x["data_set"] == "SIFT Score"
-            ),
+            lambda x:
+            (x["data_set"] == "transcript_id" or x["data_set"] == "SIFT Prediction" or x["data_set"] == "SIFT Score"),
             annotation_collection.all(),
         )
     )
@@ -235,44 +231,31 @@ def fixture_hpo_annotation_response():
     return {
         "gene": {"entrezGeneId": 203547, "entrezGeneSymbol": "VMA21"},
         "termAssoc": [
-            {"ontologyId": "HP:0001270", "name": "Motor delay",
-                "definition": "A type of Developmental delay characterized"},
-            {"ontologyId": "HP:0001419", "name": "X-linked recessive inheritance",
-                "definition": "A mode of inheritancee."},
-            {"ontologyId": "HP:0001371", "name": "Flexion contracture",
-                "definition": "A flexion contracnt of joints."},
-            {"ontologyId": "HP:0003391", "name": "Gowers sign",
-                "definition": "A phenomenon whereby patie"},
-            {"ontologyId": "HP:0008994", "name": "Proximal muscle weakness in lower limbs",
-                "definition": "A lack of legs."},
-            {"ontologyId": "HP:0002650", "name": "Scoliosis",
-                "definition": "The presence of an abnormal lateral curv"},
-            {"ontologyId": "HP:0003551", "name": "Difficulty climbing stairs",
-                "definition": "Reduced ability to climb stairs."},
-            {"ontologyId": "HP:0002093",
-                "name": "Respiratory insufficiency", "definition": ""},
-            {"ontologyId": "HP:0003198", "name": "Myopathy",
-                "definition": "A disorder of muscle unrelated to impairment"},
-            {"ontologyId": "HP:0009046", "name": "Difficulty running",
-                "definition": "Reduced ability to run."},
-            {"ontologyId": "HP:0003202", "name": "Skeletal muscle atrophy",
-                "definition": "The presence of skeletal "},
-            {"ontologyId": "HP:0001319", "name": "Neonatal hypotonia",
-                "definition": "Muscular hypotonia (abnormally "},
-            {"ontologyId": "HP:0003236",
-                "name": "Elevated circulating creatine kinase concentration", "definition": "An "},
-            {"ontologyId": "HP:0002486", "name": "Myotonia",
-                "definition": "An involuntartrical stimulation."},
-            {"ontologyId": "HP:0007941", "name": "Limited extraocular movements",
-                "definition": "Limited mobility of the"}
+            {"ontologyId": "HP:0001270", "name": "Motor delay", "definition": "A type of Developmental delay crized"},
+            {"ontologyId": "HP:0001419", "name": "X-linked recessive inheritance", "definition": "A mode of inheriee."},
+            {"ontologyId": "HP:0001371", "name": "Flexion contracture", "definition": "A flexion contracnt of joints."},
+            {"ontologyId": "HP:0003391", "name": "Gowers sign", "definition": "A phenomenon whereby patie"},
+            {"ontologyId": "HP:0008994", "name": "Proximal muscle weakness in lower limbs", "definition": "lack legs."},
+            {"ontologyId": "HP:0002650", "name": "Scoliosis", "definition": "The presence of an abnormal lateral curv"},
+            {"ontologyId": "HP:0003551", "name": "Difficulty climbing stairs", "definition": "Reduced abilit climb."},
+            {"ontologyId": "HP:0002093", "name": "Respiratory insufficiency", "definition": ""},
+            {"ontologyId": "HP:0003198", "name": "Myopathy", "definition": "A disorder of to impairment"},
+            {"ontologyId": "HP:0009046", "name": "Difficulty running", "definition": "Reduced ability to run."},
+            {"ontologyId": "HP:0003202", "name": "Skeletal muscle atrophy", "definition": "The presence of skeletal "},
+            {"ontologyId": "HP:0001319", "name": "Neonatal hypotonia", "definition": "Muscular hypotonia (abnormally "},
+            {
+                "ontologyId": "HP:0003236", "name": "Elevated circulating creatine kinase concentration",
+                "definition": "A"
+            },
+            {"ontologyId": "HP:0002486", "name": "Myotonia", "definition": "An involuntartrical stimulation."},
+            {"ontologyId": "HP:0007941", "name": "Limited extraocular movements", "definition": "Limitehe"},
         ],
         "diseaseAssoc": [{
-            "diseaseId": "OMIM:310440",
-            "diseaseName": "Myopathy, X-linked, With Excessive Autophagy",
-            "dbId": "310440",
+            "diseaseId": "OMIM:310440", "diseaseName": "Myopathy, X-linked, With Excessive Autophagy", "dbId": "310440",
             "db": "OMIM"
-        }]
+        }],
     }
+
 
 @pytest.fixture(name="rest_genenames_response")
 def fixture_genenames_annotation_response():

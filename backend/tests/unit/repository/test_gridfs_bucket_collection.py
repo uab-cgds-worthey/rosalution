@@ -9,8 +9,7 @@ def test_filename_exists(gridfs_bucket_collection):
 
 def test_save_file(gridfs_bucket_collection):
     """Tests the save_file function"""
-    actual = gridfs_bucket_collection.save_file(
-        "This is a test file", "test.txt")
+    actual = gridfs_bucket_collection.save_file("This is a test file", "test.txt")
     assert actual == "633afb87fb250a6ea1569555"
 
 

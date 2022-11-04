@@ -13,8 +13,10 @@ def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_col
     annotation_service.queue_annotation_tasks(cpam0046_analysis, mock_queue)
     assert mock_queue.put.call_count == 29
 
+
 # Patching the temporary helper method that is writing to a file, this will be
 # removed once that helper method is no longer needed for the development
+
 
 # The patched method sare done provided in reverse order within the test param arguments.  Was accidently getting
 # logging mock results instead of non task type annotations.  Was causing major failures in verifying values
@@ -24,16 +26,13 @@ def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_col
 @patch("src.core.annotation_task.HttpAnnotationTask.annotate")
 @patch("src.core.annotation_task.NoneAnnotationTask.annotate")
 def test_processing_cpam0046_annotation_tasks(
-    none_task_annotate,
-    http_task_annotate,
-    forge_task_annotate,
-    annotate_extract_mock,
-    log_to_file_mock,
+    none_task_annotate, http_task_annotate, forge_task_annotate, annotate_extract_mock, log_to_file_mock,
     cpam0046_annotation_queue
 ):  # pylint: disable=unused-argument
     """Verifies that each item on the annotation queue is read and executed"""
     flag = {'dependency_flag_passed': False}
-    def dependency_mock_side_effect(*args, **kwargs): # pylint: disable=unused-argument
+
+    def dependency_mock_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
         query, value = args  # pylint: disable=unused-variable
         if value != 'HGNC_ID':
             return 'kfldjsfds'
@@ -59,22 +58,22 @@ def test_processing_cpam0046_annotation_tasks(
 
     assert annotate_extract_mock.call_count == 29
 
+
 @patch("src.core.annotation.log_to_file")
-@patch("src.core.annotation_task.AnnotationTaskInterface.extract",return_value=[{
+@patch(
+    "src.core.annotation_task.AnnotationTaskInterface.extract",
+    return_value=[{
         'data_set': 'mock_datset',
         'data_source': 'mock_source',
         'version': '0.0',
-        'value': '9000'
-    }])
+        'value': '9000',
+    }]
+)
 @patch("src.core.annotation_task.ForgeAnnotationTask.annotate")
 @patch("src.core.annotation_task.HttpAnnotationTask.annotate")
 @patch("src.core.annotation_task.NoneAnnotationTask.annotate")
 def test_processing_cpam0002_annotations_tasks(
-    none_task_annotate,
-    http_task_annotate,
-    forge_task_annotate,
-    annotate_extract_mock,
-    log_to_file_mock,
+    none_task_annotate, http_task_annotate, forge_task_annotate, annotate_extract_mock, log_to_file_mock,
     cpam0002_annotation_queue
 ):  # pylint: disable=unused-argument
     """
@@ -94,6 +93,7 @@ def test_processing_cpam0002_annotations_tasks(
     assert annotate_extract_mock.call_count == 29
 
     mock_genomic_unit_collection.annotate_genomic_unit.assert_called()
+
 
 @pytest.fixture(name="cpam0046_hgvs_variant_json")
 def fixture_cpam0046_hgvs_variant(cpam0046_analysis):

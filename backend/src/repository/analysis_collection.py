@@ -33,22 +33,23 @@ class AnalysisCollection:
 
         summaries = []
         for summary in query_result:
-            genes_list = map(
-                lambda unit: unit['gene'], summary['genomic_units'])
+            genes_list = map(lambda unit: unit['gene'], summary['genomic_units'])
             genes_string_list = ', '.join(genes_list)
 
             transcripts_list = [[transcript_unit['transcript']
-                                 for transcript_unit in unit['transcripts']] for unit in summary['genomic_units']]
+                                 for transcript_unit in unit['transcripts']]
+                                for unit in summary['genomic_units']]
             flattened_transcripts_list = [
-                transcript for transcript_items in transcripts_list for transcript in transcript_items]
+                transcript for transcript_items in transcripts_list for transcript in transcript_items
+            ]
 
-            variant_list = [f"{variant['c_dot']} ({variant['p_dot']})"for genomic_unit in summary['genomic_units']
-                            for variant in genomic_unit['variants'] if variant['c_dot']]
+            variant_list = [
+                f"{variant['c_dot']} ({variant['p_dot']})" for genomic_unit in summary['genomic_units']
+                for variant in genomic_unit['variants'] if variant['c_dot']
+            ]
 
             genomic_units_summary = [{
-                "gene": genes_string_list,
-                "transcripts": flattened_transcripts_list,
-                "variants": variant_list
+                "gene": genes_string_list, "transcripts": flattened_transcripts_list, "variants": variant_list
             }]
 
             summary['genomic_units'] = genomic_units_summary
@@ -63,19 +64,18 @@ class AnalysisCollection:
     def create_analysis(self, analysis_data: dict):
         """Creates a new analysis if the name does not already exist"""
         if self.collection.find_one({"name": analysis_data["name"]}) is not None:
-            raise ValueError(
-                f"Analysis with name {analysis_data['name']} already exists")
+            raise ValueError(f"Analysis with name {analysis_data['name']} already exists")
 
         # returns an instance of InsertOneResult.
         return self.collection.insert_one(analysis_data)
 
     def update_analysis_nominator(self, analysis_name: str, nominator: str):
         """Updates the Nominator field within an analysis"""
-        updated_analysis_document = self.collection.find_one_and_update({"name": analysis_name},
-                                                                        {"$set": {
-                                                                            "nominated_by": nominator,
-                                                                        }},
-                                                                        return_document=ReturnDocument.AFTER)
+        updated_analysis_document = self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {"$set": {"nominated_by": nominator,}},
+            return_document=ReturnDocument.AFTER,
+        )
         updated_analysis_document.pop("_id", None)
         return updated_analysis_document
 
@@ -87,9 +87,11 @@ class AnalysisCollection:
                 for content in section["content"]:
                     if content["field"] == field_name:
                         content["value"] = updated_value["value"]
-        updated_document = self.collection.find_one_and_update({"name": name},
-                                                               {"$set": query_results_to_update},
-                                                               return_document=ReturnDocument.AFTER)
+        updated_document = self.collection.find_one_and_update(
+            {"name": name},
+            {"$set": query_results_to_update},
+            return_document=ReturnDocument.AFTER,
+        )
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
         return updated_document
@@ -117,12 +119,13 @@ class AnalysisCollection:
             "name": filename,
             "attachment_id": new_uuid,
             "type": "file",
-            "comments": comments
+            "comments": comments,
         }
-        updated_document = self.collection.find_one_and_update({"name": analysis_name},
-                                                               {"$push": {
-                                                                   "supporting_evidence_files": new_evidence}},
-                                                               return_document=ReturnDocument.AFTER)
+        updated_document = self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {"$push": {"supporting_evidence_files": new_evidence}},
+            return_document=ReturnDocument.AFTER,
+        )
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
         return updated_document
@@ -131,16 +134,13 @@ class AnalysisCollection:
         """Attachs supporting evidence URL and comments to an analysis"""
         new_uuid = str(uuid4())
         new_evidence = {
-            "name": link_name,
-            "data": link,
-            "attachment_id": new_uuid,
-            "type": "link",
-            "comments": comments
+            "name": link_name, "data": link, "attachment_id": new_uuid, "type": "link", "comments": comments
         }
-        updated_document = self.collection.find_one_and_update({"name": analysis_name},
-                                                               {"$push": {
-                                                                   "supporting_evidence_files": new_evidence}},
-                                                               return_document=ReturnDocument.AFTER)
+        updated_document = self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {"$push": {"supporting_evidence_files": new_evidence}},
+            return_document=ReturnDocument.AFTER,
+        )
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
 
@@ -157,8 +157,8 @@ class AnalysisCollection:
             if section["header"] == "Pedigree":
                 if len(section["content"]) == 0:
                     updated_section = {
-                        "field": "image",
-                        "value": [str(file_id)]
+                        "field": 'image',
+                        "value": [str(file_id)],
                     }
                     section["content"].append(updated_section)
                 else:
@@ -170,25 +170,22 @@ class AnalysisCollection:
             raise ValueError("No pedigree section to attach image to.")
 
         self.collection.find_one_and_update(
-            {"name": analysis_name}, {'$set': updated_document})
+            {"name": analysis_name},
+            {'$set': updated_document},
+        )
 
         return updated_section
 
     def get_genomic_units(self, analysis_name: str):
         """ Returns the genomic units for an analysis with variants displayed in the HGVS Nomenclature """
-        genomic_units_return = {
-            "genes": {},
-            "variants": []
-        }
+        genomic_units_return = {"genes": {}, "variants": []}
 
         analysis = self.collection.find_one({"name": analysis_name})
         if not analysis:
-            raise ValueError(
-                f"Analysis with name {analysis_name} does not exist")
+            raise ValueError(f"Analysis with name {analysis_name} does not exist")
 
         if 'genomic_units' not in analysis:
-            raise ValueError(
-                f"Analysis {analysis_name} does not have genomic units")
+            raise ValueError(f"Analysis {analysis_name} does not have genomic units")
 
         for gene in analysis['genomic_units']:
             variants = []
@@ -206,41 +203,40 @@ class AnalysisCollection:
 
     def update_supporting_evidence(self, analysis_name: str, attachment_id: str, updated_content: dict):
         """Updates Supporting Evidence content with by analysis and the attachment id"""
-        supporting_evidence_files = self.collection.find_one({"name": analysis_name})[
-            "supporting_evidence_files"]
-        index_to_update = supporting_evidence_files.index(next(filter(
-            lambda x: x["attachment_id"] == attachment_id, supporting_evidence_files), None))
+        supporting_evidence_files = self.collection.find_one({"name": analysis_name})["supporting_evidence_files"]
+        index_to_update = supporting_evidence_files.index(
+            next(filter(lambda x: x["attachment_id"] == attachment_id, supporting_evidence_files), None)
+        )
 
         if None is index_to_update:
-            raise ValueError(
-                f"Supporting Evidence identifier {attachment_id} does not exist for {analysis_name}")
+            raise ValueError(f"Supporting Evidence identifier {attachment_id} does not exist for {analysis_name}")
 
         supporting_evidence_files[index_to_update]['name'] = updated_content['name']
         if None is updated_content['data']:
             supporting_evidence_files[index_to_update]['data'] = updated_content['data']
         supporting_evidence_files[index_to_update]['comments'] = updated_content['comments']
 
-        updated_document = self.collection.find_one_and_update({"name": analysis_name},
-                                                               {"$set": {
-                                                                   "supporting_evidence_files":
-                                                                   supporting_evidence_files}},
-                                                               return_document=ReturnDocument.AFTER)
+        updated_document = self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {"$set": {"supporting_evidence_files": supporting_evidence_files}},
+            return_document=ReturnDocument.AFTER,
+        )
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
         return updated_document
 
     def remove_supporting_evidence(self, analysis_name: str, attachment_id: str):
         """ Removes a supporting evidence file from an analysis """
-        supporting_evidence_files = self.collection.find_one({"name": analysis_name})[
-            "supporting_evidence_files"]
-        index_to_remove = supporting_evidence_files.index(next(filter(
-            lambda x: x["attachment_id"] == attachment_id, supporting_evidence_files), None))
+        supporting_evidence_files = self.collection.find_one({"name": analysis_name})["supporting_evidence_files"]
+        index_to_remove = supporting_evidence_files.index(
+            next(filter(lambda x: x["attachment_id"] == attachment_id, supporting_evidence_files), None)
+        )
         del supporting_evidence_files[index_to_remove]
-        updated_document = self.collection.find_one_and_update({"name": analysis_name},
-                                                               {"$set": {
-                                                                   "supporting_evidence_files":
-                                                                   supporting_evidence_files}},
-                                                               return_document=ReturnDocument.AFTER)
+        updated_document = self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {"$set": {"supporting_evidence_files": supporting_evidence_files}},
+            return_document=ReturnDocument.AFTER,
+        )
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
         return updated_document
@@ -249,17 +245,14 @@ class AnalysisCollection:
         """ Returns the pedigree file id for an analysis """
         analysis = self.collection.find_one({"name": analysis_name})
         if not analysis:
-            raise ValueError(
-                f"Analysis with name {analysis_name} does not exist")
+            raise ValueError(f"Analysis with name {analysis_name} does not exist")
 
         for section in analysis['sections']:
             if section["header"] == "Pedigree":
                 if len(section["content"]) == 0:
-                    raise ValueError(
-                        f"Analysis {analysis_name} does not have a pedigree file")
+                    raise ValueError(f"Analysis {analysis_name} does not have a pedigree file")
                 return section['content'][0]['value'][0]
-        raise ValueError(
-            f"Analysis {analysis_name} does not have a pedigree section")
+        raise ValueError(f"Analysis {analysis_name} does not have a pedigree section")
 
     def remove_pedigree_file(self, analysis_name: str):
         """ Removes a pedigree file from an analysis """
@@ -267,10 +260,11 @@ class AnalysisCollection:
         for section in analysis["sections"]:
             if section["header"] == "Pedigree":
                 section["content"] = []
-        updated_document = self.collection.find_one_and_update({"name": analysis_name},
-                                                               {"$set": {
-                                                                   "sections": analysis["sections"]}},
-                                                               return_document=ReturnDocument.AFTER)
+        updated_document = self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {"$set": {"sections": analysis["sections"]}},
+            return_document=ReturnDocument.AFTER,
+        )
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
         return updated_document

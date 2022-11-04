@@ -15,6 +15,7 @@ router = APIRouter(
     dependencies=[Depends(database), Depends(annotation_queue)],
 )
 
+
 @router.post("/{name}", status_code=status.HTTP_202_ACCEPTED)
 def annotate_analysis(
     name: str,
@@ -38,6 +39,7 @@ def annotate_analysis(
 
     return {"name": f"{name} annotations queued."}
 
+
 @router.get("/gene/{gene}")
 def get_annotations_by_gene(gene, repositories=Depends(database)):
     """Returns annotations data by calling method to find annotations by gene"""
@@ -59,6 +61,7 @@ def get_annotations_by_gene(gene, repositories=Depends(database)):
                 annotations[dataset] = annotation[dataset][0]['value']
 
     return annotations
+
 
 @router.get("/hgvsVariant/{variant}")
 def get_annotations_by_hgvs_variant(variant: str, repositories=Depends(database)):
@@ -90,7 +93,8 @@ def get_annotations_by_hgvs_variant(variant: str, repositories=Depends(database)
                     queried_transcript_annotation[dataset] = annotation[dataset][0]['value']
         transcript_annotation_list.append(queried_transcript_annotation)
 
-    return { **annotations, "transcripts": transcript_annotation_list}
+    return {**annotations, "transcripts": transcript_annotation_list}
+
 
 @router.post("/{genomic_unit}/attach/image")
 def upload_annotation_section(
@@ -102,9 +106,7 @@ def upload_annotation_section(
     repositories=Depends(database)
 ):
     """ This endpoint specifically handles annotation section image uploads """
-    new_file_object_id = repositories["bucket"].save_file(
-        upload_file.file, upload_file.filename
-    )
+    new_file_object_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename)
 
     genomic_unit = {
         'unit': genomic_unit,
@@ -115,7 +117,7 @@ def upload_annotation_section(
         "data_set": section_name,
         "data_source": "rosalution-manual",
         "version": str(date.today()),
-        "value": str(new_file_object_id)
+        "value": str(new_file_object_id),
     }
 
     repositories['genomic_unit'].annotate_genomic_unit_with_file(genomic_unit, annotation_unit)

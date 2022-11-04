@@ -36,7 +36,7 @@ class Database:
             "annotation_config": AnnotationConfigCollection(self.database['annotations_config']),
             "genomic_unit": GenomicUnitCollection(self.database['genomic_units']),
             "user": UserCollection(self.database['users']),
-            "bucket": GridFSBucketCollection(gridfs_bucket)
+            "bucket": GridFSBucketCollection(gridfs_bucket),
         }
 
     def __call__(self):

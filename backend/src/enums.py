@@ -21,16 +21,18 @@ class AnnotationSourceType(str, Enum):
     CSV = "csv"
     NONE = "none"
 
+
 class EventType(str, Enum):
     """Enumeration of the different events for an analyses"""
 
     CREATE = 'create'
-    ANNOTATION_START ='annotation_start'
+    ANNOTATION_START = 'annotation_start'
     READY = 'ready'
     OPENED = 'opened'
     APPROVE = 'approve'
     HOLD = 'hold'
     DECLINE = 'decline'
+
 
 class StatusType(str, Enum):
     """Enumeration of the diferent statuses for an analyses"""

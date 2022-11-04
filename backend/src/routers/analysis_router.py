@@ -22,8 +22,7 @@ from ..security.security import get_current_user
 # and add the following dependencies at the top:
 # from fastapi import Security
 # from ..security.security import get_authorization
-router = APIRouter(prefix="/analysis",
-                   tags=["analysis"], dependencies=[Depends(database)])
+router = APIRouter(prefix="/analysis", tags=["analysis"], dependencies=[Depends(database)])
 
 
 @router.get("/", response_model=List[Analysis])
@@ -50,8 +49,7 @@ def get_genomic_units(analysis_name: str, repositories=Depends(database)):
     try:
         return repositories["analysis"].get_genomic_units(analysis_name)
     except ValueError as exception:
-        raise HTTPException(
-            status_code=404, detail=str(exception)) from exception
+        raise HTTPException(status_code=404, detail=str(exception)) from exception
 
 
 @router.post("/import", response_model=Analysis)
@@ -63,11 +61,9 @@ async def import_phenotips_json(
     username: VerifyUser = Security(get_current_user)
 ):
     """Imports the phenotips.json file into the database"""
-    phenotips_importer = PhenotipsImporter(
-        repositories["analysis"], repositories["genomic_unit"])
+    phenotips_importer = PhenotipsImporter(repositories["analysis"], repositories["genomic_unit"])
     try:
-        new_analysis = phenotips_importer.import_phenotips_json(
-            phenotips_input)
+        new_analysis = phenotips_importer.import_phenotips_json(phenotips_input)
         new_analysis['timeline'].append(Event.timestamp_create_event(username).dict())
         repositories['analysis'].create_analysis(new_analysis)
 
@@ -77,8 +73,7 @@ async def import_phenotips_json(
     analysis = Analysis(**new_analysis)
     annotation_service = AnnotationService(repositories["annotation_config"])
     annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
-    background_tasks.add_task(AnnotationService.process_tasks,
-                              annotation_task_queue, repositories['genomic_unit'])
+    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, repositories['genomic_unit'])
 
     return new_analysis
 
@@ -95,11 +90,9 @@ async def create_file(
     # Quick and dirty json loads
     phenotips_input = BasePhenotips(**json.loads(phenotips_file))
 
-    phenotips_importer = PhenotipsImporter(
-        repositories["analysis"], repositories["genomic_unit"])
+    phenotips_importer = PhenotipsImporter(repositories["analysis"], repositories["genomic_unit"])
     try:
-        new_analysis = phenotips_importer.import_phenotips_json(
-            phenotips_input)
+        new_analysis = phenotips_importer.import_phenotips_json(phenotips_input)
         new_analysis['timeline'].append(Event.timestamp_create_event(username).dict())
         repositories['analysis'].create_analysis(new_analysis)
 
@@ -109,8 +102,7 @@ async def create_file(
     analysis = Analysis(**new_analysis)
     annotation_service = AnnotationService(repositories["annotation_config"])
     annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
-    background_tasks.add_task(AnnotationService.process_tasks,
-                              annotation_task_queue, repositories['genomic_unit'])
+    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, repositories['genomic_unit'])
 
     return new_analysis
 
@@ -121,10 +113,8 @@ def update_analysis_sections(analysis_name: str, updated_sections: dict, reposit
     for (header, field) in updated_sections.items():
         for (updated_field, value) in field.items():
             if "Nominator" == updated_field:
-                repositories["analysis"].update_analysis_nominator(
-                    analysis_name, '; '.join(value))
-            repositories["analysis"].update_analysis_section(
-                analysis_name, header, updated_field, {"value": value})
+                repositories["analysis"].update_analysis_nominator(analysis_name, '; '.join(value))
+            repositories["analysis"].update_analysis_section(analysis_name, header, updated_field, {"value": value})
 
     return repositories["analysis"].find_by_name(analysis_name)
 
@@ -151,8 +141,7 @@ def download(analysis_name: str, file_name: str, repositories=Depends(database))
 @router.post("/{analysis_name}/attach/pedigree", response_model=Section)
 def upload_pedigree(analysis_name: str, upload_file: UploadFile = File(...), repositories=Depends(database)):
     """ Specifically accepts a file to save a pedigree image file to mongo """
-    new_file_object_id = repositories["bucket"].save_file(
-        upload_file.file, upload_file.filename)
+    new_file_object_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename)
 
     updated_section = repositories["analysis"].add_pedigree_file(analysis_name, new_file_object_id)
     return updated_section
@@ -163,8 +152,7 @@ def update_pedigree(analysis_name: str, upload_file: UploadFile = File(...), rep
     """ Removes a pedigree file from an analysis and Specifically
      accepts a file to save a pedigree image file to mongo """
     try:
-        pedigree_file_id = repositories["analysis"].get_pedigree_file_id(
-            analysis_name)
+        pedigree_file_id = repositories["analysis"].get_pedigree_file_id(analysis_name)
     except ValueError as exception:
         warnings.warn(str(exception))
         pedigree_file_id = None
@@ -172,10 +160,8 @@ def update_pedigree(analysis_name: str, upload_file: UploadFile = File(...), rep
         repositories["bucket"].delete_file(pedigree_file_id)
         repositories["analysis"].remove_pedigree_file(analysis_name)
     except ValueError as exception:
-        raise HTTPException(
-            status_code=404, detail=str(exception)) from exception
-    new_file_object_id = repositories["bucket"].save_file(
-        upload_file.file, upload_file.filename)
+        raise HTTPException(status_code=404, detail=str(exception)) from exception
+    new_file_object_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename)
 
     updated_section = repositories["analysis"].add_pedigree_file(analysis_name, new_file_object_id)
     return updated_section
@@ -185,8 +171,7 @@ def update_pedigree(analysis_name: str, upload_file: UploadFile = File(...), rep
 def remove_pedigree(analysis_name: str, repositories=Depends(database)):
     """ Removes a pedigree file from an analysis """
     try:
-        pedigree_file_id = repositories["analysis"].get_pedigree_file_id(
-            analysis_name)
+        pedigree_file_id = repositories["analysis"].get_pedigree_file_id(analysis_name)
     except ValueError as exception:
         warnings.warn(str(exception))
         pedigree_file_id = None
@@ -195,23 +180,17 @@ def remove_pedigree(analysis_name: str, repositories=Depends(database)):
         repositories["bucket"].delete_file(pedigree_file_id)
         return repositories["analysis"].remove_pedigree_file(analysis_name)
     except ValueError as exception:
-        raise HTTPException(
-            status_code=404, detail=str(exception)) from exception
+        raise HTTPException(status_code=404, detail=str(exception)) from exception
 
 
 @router.post("/{analysis_name}/attach/file")
 def attach_supporting_evidence_file(
-    analysis_name: str,
-    upload_file: UploadFile = File(...),
-    comments: str = Form(...),
-    repositories=Depends(database)
+    analysis_name: str, upload_file: UploadFile = File(...), comments: str = Form(...), repositories=Depends(database)
 ):
     """Uploads a file to GridFS and adds it to the analysis"""
     if repositories['bucket'].filename_exists(upload_file.filename):
-        raise HTTPException(
-            status_code=409, detail="File already exists in Rosalution")
-    new_file_object_id = repositories['bucket'].save_file(
-        upload_file.file, upload_file.filename)
+        raise HTTPException(status_code=409, detail="File already exists in Rosalution")
+    new_file_object_id = repositories['bucket'].save_file(upload_file.file, upload_file.filename)
     return repositories["analysis"].attach_supporting_evidence_file(
         analysis_name, new_file_object_id, upload_file.filename, comments
     )
@@ -227,6 +206,7 @@ def attach_supporting_evidence_link(
 ):
     """Uploads a file to GridFS and adds it to the analysis"""
     return repositories["analysis"].attach_supporting_evidence_link(analysis_name, link_name, link, comments)
+
 
 @router.put("/{analysis_name}/attachment/{attachment_id}/update")
 def update_supporting_evidence(
@@ -246,8 +226,8 @@ def update_supporting_evidence(
     try:
         return repositories["analysis"].update_supporting_evidence(analysis_name, attachment_id, content)
     except ValueError as exception:
-        raise HTTPException(
-            status_code=404, detail=str(exception)) from exception
+        raise HTTPException(status_code=404, detail=str(exception)) from exception
+
 
 @router.delete("/{analysis_name}/attachment/{attachment_id}/remove")
 def remove_supporting_evidence(analysis_name: str, attachment_id: str, repositories=Depends(database)):

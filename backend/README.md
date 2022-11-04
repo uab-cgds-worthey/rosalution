@@ -37,6 +37,19 @@ Running the linter:
 pylint src tests
 ```
 
+## Formatting
+
+Rosalution uses `yapf` to format the python codebase.  Configuration is maintained in `.style.yapf` within the
+`./backend` directory.
+
+To recursively format all Python files in place, run the following
+
+```bash
+# From ./backend/
+
+yapf -ir .
+```
+
 ## Running
 
 ### Local Deployment

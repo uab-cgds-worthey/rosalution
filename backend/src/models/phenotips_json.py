@@ -21,7 +21,6 @@ class PhenotipsVariants(BaseModel):
     reference_genome: str
 
     class config:  # pylint: disable=invalid-name
-
         """Configures the pydantic model"""
 
         extra = Extra.allow

@@ -37,8 +37,7 @@ def test_authenticate_user_successful(user_collection):
 def test_authenticate_user_unsuccessful_no_user(user_collection):
     """Get all the users from the user collection"""
     user_collection.collection.find_one.return_value = None
-    authenticate_result = user_collection.authenticate_user(
-        "johndoe", "secret1")
+    authenticate_result = user_collection.authenticate_user("johndoe", "secret1")
 
     assert authenticate_result is None
 
@@ -46,8 +45,7 @@ def test_authenticate_user_unsuccessful_no_user(user_collection):
 def test_authenticate_user_unsuccessful_password(user_collection, user_john_doe):
     """Get all the users from the user collection"""
     user_collection.collection.find_one.return_value = user_john_doe
-    authenticate_result = user_collection.authenticate_user(
-        "johndoe", "secret1")
+    authenticate_result = user_collection.authenticate_user("johndoe", "secret1")
 
     assert authenticate_result is None
 

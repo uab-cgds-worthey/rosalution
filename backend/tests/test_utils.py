@@ -22,8 +22,7 @@ def read_fixtures(base_path, fixture_filename):
     """With a base path relative to the current directory, loads a fixture for fixture_filename"""
     path_to_current_file = os.path.realpath(__file__)
     current_directory = os.path.split(path_to_current_file)[0]
-    path_to_file = os.path.join(
-        current_directory, base_path + fixture_filename)
+    path_to_file = os.path.join(current_directory, base_path + fixture_filename)
     with open(path_to_file, mode="r", encoding="utf-8") as file_to_open:
         data = json.load(file_to_open)
         file_to_open.close()
