@@ -43,7 +43,7 @@ class BaseAnalysis(BaseModel):
     # The structure of the root_validator from pydantic requires the method to be setup this way even if there is no
     # self being used and no self argument
     @root_validator
-    def compute_dates_and_status(cls, values): #pylint: disable=no-self-argument,no-self-use
+    def compute_dates_and_status(cls, values):  #pylint: disable=no-self-argument,no-self-use
         """Computes the dates and status of an analysis from a timeline"""
         if len(values['timeline']) == 0:
             return values
@@ -51,8 +51,7 @@ class BaseAnalysis(BaseModel):
         last_event = sorted(values['timeline'], key=lambda event: event.timestamp, reverse=True)[0]
         values['last_modified_date'] = last_event.timestamp.date()
         values['created_date'] = next(
-            (event.timestamp.date() for event in values['timeline'] if event.event == EventType.CREATE),
-            None
+            (event.timestamp.date() for event in values['timeline'] if event.event == EventType.CREATE), None
         )
         values['latest_status'] = StatusType.from_event(last_event.event)
         return values
@@ -62,6 +61,7 @@ class AnalysisSummary(BaseAnalysis):
     """Models the summary of an analysis"""
 
     genomic_units: List = []
+
 
 class Analysis(BaseAnalysis):
     """Models a detailed analysis"""
@@ -77,23 +77,19 @@ class Analysis(BaseAnalysis):
             if hasattr(unit, "gene"):
                 units.append({"unit": unit.gene, "type": GenomicUnitType.GENE})
             for transcript in unit.transcripts:
-                units.append(
-                    {
-                        "unit": transcript["transcript"],
-                        "type": GenomicUnitType.TRANSCRIPT,
-                    }
-                )
+                units.append({
+                    "unit": transcript["transcript"],
+                    "type": GenomicUnitType.TRANSCRIPT,
+                })
             for variant in unit.variants:
                 if "hgvs_variant" in variant and variant["hgvs_variant"]:
                     transcript = variant["hgvs_variant"].split(':')[0]
-                    transcript_without_version = re.sub(r'\..*', '', transcript )
-                    units.append(
-                        {
-                            "unit": variant["hgvs_variant"],
-                            "type": GenomicUnitType.HGVS_VARIANT,
-                            "genomic_build": variant["build"],
-                            "transcript": transcript_without_version
-                        }
-                    )
+                    transcript_without_version = re.sub(r'\..*', '', transcript)
+                    units.append({
+                        "unit": variant["hgvs_variant"],
+                        "type": GenomicUnitType.HGVS_VARIANT,
+                        "genomic_build": variant["build"],
+                        "transcript": transcript_without_version,
+                    })
 
         return units

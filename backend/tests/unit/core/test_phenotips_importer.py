@@ -8,10 +8,8 @@ from ...test_utils import read_test_fixture
 
 def test_import_genomic_unit_data_hgvs(phenotips_importer):
     """Tests the format_genomic_unit_data function"""
-    data = {"transcript": "NM_001005484.1",
-            "cdna": "c.1036C>T", "reference_genome": "GRCh37"}
-    actual = phenotips_importer.import_genomic_unit_collection_data(
-        data, "hgvs")
+    data = {"transcript": "NM_001005484.1", "cdna": "c.1036C>T", "reference_genome": "GRCh37"}
+    actual = phenotips_importer.import_genomic_unit_collection_data(data, "hgvs")
     assert actual['hgvs_variant'] == "NM_001005484.1:c.1036C>T"
     assert len(actual['transcripts']) == 0
     assert len(actual['annotations']) == 0
@@ -20,10 +18,8 @@ def test_import_genomic_unit_data_hgvs(phenotips_importer):
 def test_import_genomic_unit_data_gene(phenotips_importer):
     """Tests the format_genomic_unit_data function"""
     data = {"gene": "BRCA1"}
-    actual = phenotips_importer.import_genomic_unit_collection_data(
-        data, "gene")
-    assert actual == {"gene": "BRCA1",
-                      "gene_symbol": "BRCA1", "annotations": []}
+    actual = phenotips_importer.import_genomic_unit_collection_data(data, "gene")
+    assert actual == {"gene": "BRCA1", "gene_symbol": "BRCA1", "annotations": []}
 
 
 def test_import_analysis_data(phenotips_importer, exported_phenotips_to_import_json):
@@ -33,7 +29,7 @@ def test_import_analysis_data(phenotips_importer, exported_phenotips_to_import_j
         "inheritance": "maternal",
         "zygosity": "hemizygous",
         "interpretation": "variant_u_s",
-        "transcript": "NM_001017980.3",
+        "transcript": "NM_001017111.3",
         "protein": "p.Gly55Val",
         "cdna": "c.164G>T",
         "reference_genome": "GRCh38",
@@ -41,28 +37,24 @@ def test_import_analysis_data(phenotips_importer, exported_phenotips_to_import_j
     }]
 
     actual = phenotips_importer.import_analysis_data(
-        exported_phenotips_to_import_json, variant_data, exported_phenotips_to_import_json["genes"])
+        exported_phenotips_to_import_json, variant_data, exported_phenotips_to_import_json["genes"]
+    )
     assert actual["name"] == "CPAM0112"
-    assert actual["genomic_units"] == [
-        {
-            "gene": "VMA21",
-            "transcripts": [{"transcript": "NM_001017980.3"}],
-            "variants": [
-                    {
-                        "hgvs_variant": "NM_001017980.3:c.164G>T",
-                        "c_dot": "c.164G>T",
-                        "p_dot": "p.Gly55Val",
-                        "build": "GRCh38",
-                        "case": [
-                            {"field": "Interpretation",
-                                "value": ["variant_u_s"]},
-                            {"field": "Zygosity", "value": ["hemizygous"]},
-                            {"field": "Inheritance", "value": ["maternal"]},
-                        ],
-                    }
+    assert actual["genomic_units"] == [{
+        "gene": "VMA21",
+        "transcripts": [{"transcript": "NM_001017111.3"}],
+        "variants": [{
+            "hgvs_variant": "NM_001017111.3:c.164G>T",
+            "c_dot": "c.164G>T",
+            "p_dot": "p.Gly55Val",
+            "build": "GRCh38",
+            "case": [
+                {"field": "Interpretation", "value": ["variant_u_s"]},
+                {"field": "Zygosity", "value": ["hemizygous"]},
+                {"field": "Inheritance", "value": ["maternal"]},
             ],
-        }
-    ]
+        }],
+    }]
 
 
 def test_format_case_data(phenotips_importer):
@@ -71,7 +63,7 @@ def test_format_case_data(phenotips_importer):
         "inheritance": "maternal",
         "zygosity": "hemizygous",
         "interpretation": "variant_u_s",
-        "transcript": "NM_001017980.3",
+        "transcript": "NM_001017111.3",
         "cdna": "c.164G>T",
         "reference_genome": "GRCh38",
         "gene": "VMA21",
@@ -86,8 +78,7 @@ def test_format_case_data(phenotips_importer):
 
 def test_extracting_hpo_terms(exported_phenotips_to_import_json):
     """Tests if the importer extracts the Phenotips HPO terms into the expected string format"""
-    actual_extraction_string = PhenotipsImporter.extract_hpo_terms(
-        exported_phenotips_to_import_json["features"])
+    actual_extraction_string = PhenotipsImporter.extract_hpo_terms(exported_phenotips_to_import_json["features"])
     expected_extraction_string = (
         "HP:0000175: Cleft palate; HP:0000252: Microcephaly; "
         "HP:0000708: Behavioral abnormality; HP:0000750: Delayed speech and language development; "

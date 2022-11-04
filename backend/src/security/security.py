@@ -17,10 +17,10 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=constants.TOKEN_URL)
 
+
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     """Takes in information and uses JWT to create and return a proper access token"""
-    access_token_expires = timedelta(
-        minutes=constants.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(minutes=constants.ACCESS_TOKEN_EXPIRE_MINUTES)
 
     if expires_delta is not None:
         access_token_expires = expires_delta
@@ -34,13 +34,16 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     encoded_jwt = jwt.encode(to_encode, constants.SECRET_KEY, algorithm=constants.ALGORITHM)
     return encoded_jwt
 
+
 def verify_password(plain_password, hashed_password):
     """This will use the CryptContext to hash the plain password and check against the stored pass hash to verify"""
     return pwd_context.verify(plain_password, hashed_password)
 
+
 def get_password_hash(password):
     """This function takes the plain password and makes a hash from it using CryptContext"""
     return pwd_context.hash(password)
+
 
 def get_authorization(security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme)):
     """
@@ -76,6 +79,7 @@ def get_authorization(security_scopes: SecurityScopes, token: str = Depends(oaut
             )
 
     return True
+
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
     """Extracts the username from the token, this is useful to ensure the user is who they say they are"""

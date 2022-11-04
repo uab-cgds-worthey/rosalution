@@ -26,6 +26,7 @@ cas_client = CASClient(
     server_url="https://padlockdev.idm.uab.edu/cas/",
 )
 
+
 ## Test Route ##
 @router.get("/dev_only_test")
 def test(authorized=Security(get_authorization, scopes=["developer"])):
@@ -35,12 +36,13 @@ def test(authorized=Security(get_authorization, scopes=["developer"])):
         "Ka": ["Boom", "Blammo", "Pow"],
     }
 
+
 # pylint: disable=no-member
 # This is done because pylint doesn't appear to be recognizing python-cas's functions saying they have no member
 @router.get("/login")
 async def login(
     response: Response,
-    nexturl: Optional[str] = None, # CAS Nexturl
+    nexturl: Optional[str] = None,  # CAS Nexturl
     ticket: Optional[str] = None,
     repositories=Depends(database)
 ):
@@ -68,17 +70,18 @@ async def login(
     access_token = create_access_token(
         data={
             "sub": authenticate_user['username'],
-            "scopes": [authenticate_user['scope']]
+            "scopes": [authenticate_user['scope']],
         }
     )
 
     base_url = "http://dev.cgds.uab.edu"
 
-    response = RedirectResponse(url=base_url+nexturl)
+    response = RedirectResponse(url=base_url + nexturl)
     response.delete_cookie(key="rosalution_TOKEN")
     response.set_cookie(key="rosalution_TOKEN", value=access_token)
 
     return response
+
 
 # This needs to be /token for the api/docs to work in issuing and recognizing a bearer
 @router.post("/token", response_model=User)
@@ -90,8 +93,7 @@ def login_local_developer(
     """
     OAuth2 compatible token login, get an access token for future requests.
     """
-    authenticate_user = repositories["user"].authenticate_user(
-        form_data.username, form_data.password)
+    authenticate_user = repositories["user"].authenticate_user(form_data.username, form_data.password)
 
     if not authenticate_user:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
@@ -99,7 +101,7 @@ def login_local_developer(
     access_token = create_access_token(
         data={
             "sub": authenticate_user['username'],
-            "scopes": [authenticate_user['scope']]
+            "scopes": [authenticate_user['scope']],
         }
     )
 
@@ -109,6 +111,7 @@ def login_local_developer(
     response.set_cookie(key="rosalution_TOKEN", value=access_token)
 
     return response
+
 
 @router.get("/verify_token", response_model=User)
 def verify_token(
@@ -122,6 +125,7 @@ def verify_token(
         raise HTTPException(status_code=400, detail="Inactive User")
 
     return current_user
+
 
 @router.get("/logout")
 def logout_oauth(request: Request, response: Response):
@@ -138,6 +142,7 @@ def logout_oauth(request: Request, response: Response):
     response.delete_cookie(key="rosalution_TOKEN")
 
     return response
+
 
 @router.get('/logout_callback')
 def logout_callback():

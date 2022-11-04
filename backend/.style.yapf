@@ -1,0 +1,9 @@
+[style]
+based_on_style = google
+column_limit = 120
+indent_width = 4
+allow_split_before_dict_value = false
+coalesce_brackets = true
+split_complex_comprehension = true
+dedent_closing_brackets = true
+each_dict_entry_on_separate_line = false

@@ -22,9 +22,8 @@ tags_metadata = [
     },
     {
         "name": "annotation",
-        "description": (
-            "Temporary endpoint to facilitate annotating an analysis from a default annotation configuration"
-        ),
+        "description":
+            ("Temporary endpoint to facilitate annotating an analysis from a default annotation configuration"),
     },
     {
         "name": "lifecycle",
@@ -32,7 +31,7 @@ tags_metadata = [
     },
     {
         "name": "auth",
-        "description": "Handles user authentication"
+        "description": "Handles user authentication",
     },
 ]
 
@@ -57,6 +56,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.get("/heart-beat", tags=["lifecycle"])
 def heartbeat():

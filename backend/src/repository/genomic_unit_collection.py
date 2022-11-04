@@ -7,6 +7,7 @@ type of Genomic Unit.
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 from bson import ObjectId
 
+
 class GenomicUnitCollection:
     """ Repository for user09ing genomic units and their annotations """
 
@@ -32,22 +33,23 @@ class GenomicUnitCollection:
                 return False
 
             for transcript in hgvs_genomic_unit['transcripts']:
-                if not next(
+                dataset_in_transcript_annotation = next(
                     (annotation for annotation in transcript['annotations'] if data_set_name in annotation), None
-                ):
+                )
+                if not dataset_in_transcript_annotation:
                     return False
             return True
 
         annotation_field_key = f"annotations.{data_set_name}"
         find_query[annotation_field_key] = {'$exists': True}
-        return  bool(self.collection.count_documents(find_query, limit=1))
+        return bool(self.collection.count_documents(find_query, limit=1))
 
     def find_genomic_unit_annotation_value(self, genomic_unit, dataset):
         """ Returns the annotation value for a genomic unit according the the dataset"""
         data_set_name = dataset
         find_query = {
             genomic_unit['type'].value: genomic_unit['unit'],
-            f"annotations.{data_set_name}": {'$exists': True}
+            f"annotations.{data_set_name}": {'$exists': True},
         }
         result = self.collection.find_one(find_query)
 
@@ -63,28 +65,31 @@ class GenomicUnitCollection:
 
     def find_genomic_unit(self, genomic_unit):
         """ Returns the given genomic unit from the genomic unit collection """
-        return self.collection.find_one({genomic_unit['type'].value: genomic_unit['unit']})
+        return self.collection.find_one({
+            genomic_unit['type'].value: genomic_unit['unit'],
+        })
 
     def find_genomic_unit_with_transcript_id(self, genomic_unit, transcript_id):
         """ Returns the genomic unit with the corresponding transcript if it exists """
         return self.collection.find_one({
             genomic_unit['type'].value: genomic_unit['unit'],
-            'transcripts.transcript_id': transcript_id
+            'transcripts.transcript_id': transcript_id,
         })
 
     def update_genomic_unit_with_transcript_id(self, genomic_unit, transcript_id):
         """ Takes a genomic unit and transcript id and updates the document with a new transcript """
         return self.collection.update_one(
             {genomic_unit['type'].value: genomic_unit['unit']},
-            {'$addToSet': {'transcripts': {
-                'transcript_id': transcript_id, 'annotations': []}}}
+            {'$addToSet': {'transcripts': {'transcript_id': transcript_id, 'annotations': []}}},
         )
 
     def update_genomic_unit_with_mongo_id(self, genomic_unit_document):
         """ Takes a genomic unit and overwrites the existing object based on the object's id """
         genomic_unit_id = genomic_unit_document['_id']
-        self.collection.update_one({'_id': ObjectId(str(genomic_unit_id))}, {
-                                   '$set': genomic_unit_document})
+        self.collection.update_one(
+            {'_id': ObjectId(str(genomic_unit_id))},
+            {'$set': genomic_unit_document},
+        )
 
     def annotate_genomic_unit(self, genomic_unit, genomic_annotation):
         """
@@ -93,25 +98,22 @@ class GenomicUnitCollection:
         """
 
         annotation_data_set = {
-                    genomic_annotation['data_set']: [{
-                        'data_source': genomic_annotation['data_source'],
-                        'version': genomic_annotation['version'],
-                        'value': genomic_annotation['value'],
-                    }]
-                }
+            genomic_annotation['data_set']: [{
+                'data_source': genomic_annotation['data_source'],
+                'version': genomic_annotation['version'],
+                'value': genomic_annotation['value'],
+            }]
+        }
 
         if 'transcript_id' in genomic_annotation:
             genomic_unit_document = self.find_genomic_unit_with_transcript_id(
-                genomic_unit,
-                genomic_annotation['transcript_id']
+                genomic_unit, genomic_annotation['transcript_id']
             )
 
             if not genomic_unit_document:
-                self.update_genomic_unit_with_transcript_id(
-                    genomic_unit, genomic_annotation['transcript_id'])
+                self.update_genomic_unit_with_transcript_id(genomic_unit, genomic_annotation['transcript_id'])
                 genomic_unit_document = self.find_genomic_unit_with_transcript_id(
-                    genomic_unit,
-                    genomic_annotation['transcript_id']
+                    genomic_unit, genomic_annotation['transcript_id']
                 )
 
             for transcript in genomic_unit_document['transcripts']:
@@ -127,7 +129,6 @@ class GenomicUnitCollection:
 
         return
 
-
     # Annotate Genomic Unit should be updated to support doing this, but there are some implications
     # here that need to be approached at another time.
     # Specifically here, if the section image exists as an annotation and we upload a different one,
@@ -136,12 +137,12 @@ class GenomicUnitCollection:
     def annotate_genomic_unit_with_file(self, genomic_unit, genomic_annotation):
         """ Ensures that an annotation is created for the annotation image upload and only one image is allowed """
         annotation_data_set = {
-                    genomic_annotation['data_set']: [{
-                        'data_source': genomic_annotation['data_source'],
-                        'version': genomic_annotation['version'],
-                        'value': genomic_annotation['value'],
-                    }]
-                }
+            genomic_annotation['data_set']: [{
+                'data_source': genomic_annotation['data_source'],
+                'version': genomic_annotation['version'],
+                'value': genomic_annotation['value'],
+            }]
+        }
 
         data_set = genomic_annotation['data_set']
 

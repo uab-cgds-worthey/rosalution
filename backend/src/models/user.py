@@ -5,6 +5,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+
 class User(BaseModel):
     """The most basic information that is needed by the application pretatining to a registered user"""
 

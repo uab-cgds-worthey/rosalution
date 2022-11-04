@@ -31,11 +31,8 @@ def mock_database_collections():
     mock_database_client = Mock()
     mock_gridfs_client = Mock()
     mock_database_client.rosalution_db = {
-        "analyses": mock_mongo_collection(),
-        "annotations_config": mock_mongo_collection(),
-        "genomic_units": mock_mongo_collection(),
-        "users": mock_mongo_collection(),
-        "bucket": mock_gridfs_bucket()
+        "analyses": mock_mongo_collection(), "annotations_config": mock_mongo_collection(),
+        "genomic_units": mock_mongo_collection(), "users": mock_mongo_collection(), "bucket": mock_gridfs_bucket()
     }
     mock_database = Database(mock_database_client, mock_gridfs_client)
     app.dependency_overrides[database] = mock_database
@@ -48,23 +45,24 @@ def test_auth_user():
     """A mocked user that can be used to generate an OAuth2 access token"""
     return {"sub": "johndoe", "scopes": ["read", "write"]}
 
+
 @pytest.fixture(name="mock_access_token")
 def mock_access_token(mock_user):
     """Mocks a valid access token for the tests to properly execute"""
     return create_access_token(data=mock_user)
+
 
 @pytest.fixture(name="mock_file_upload")
 def mock_file_upload():
     """A mocked file upload"""
     path_to_current_file = os.path.realpath(__file__)
     current_directory = os.path.split(path_to_current_file)[0]
-    path_to_file = os.path.join(
-        current_directory, '../fixtures/' + 'example_file_to_upload.txt')
+    path_to_file = os.path.join(current_directory, '../fixtures/' + 'example_file_to_upload.txt')
     return {"upload_file": ('example_file_to_upload.txt', open(path_to_file, 'rb'))}
+
 
 @pytest.fixture(name="cpam0002_analysis_json")
 def fixture_cpam0002_analysis_json():
     """The JSON for the CPAM 0002 Analysis"""
     collection = read_database_fixture("analyses.json")
-    return next(
-        (analysis for analysis in collection if analysis['name'] == "CPAM0002"), None)
+    return next((analysis for analysis in collection if analysis['name'] == "CPAM0002"), None)
