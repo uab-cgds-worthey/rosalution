@@ -39,26 +39,23 @@ def test(authorized=Security(get_authorization, scopes=["developer"])):
 # This is done because pylint doesn't appear to be recognizing python-cas's functions saying they have no member
 @router.get("/login")
 async def login(
-    request: Request,
     response: Response,
-    nexturl: Optional[str] = None,
+    nexturl: Optional[str] = None, # CAS Nexturl
     ticket: Optional[str] = None,
     repositories=Depends(database)
 ):
     """Rosalution Login Method"""
-    request.session.pop("attributes", None)
-    request.session.pop("pgtiou", None)
-    request.session.pop("username", None)
-    request.session.pop("local", None)
-
     if not ticket:
         # No ticket, the request comes from end user, send to CAS login
         cas_login_url = cas_client.get_login_url()
         return {"url": cas_login_url}
 
+    # These are returned by UAB CAS login, but they are unused beyond the user value
+    # pylint: disable=unused-variable
     user, attributes, pgtiou = cas_client.verify_ticket(ticket)
 
     if not user:
+        print("Failed Padlock ticket user verification, redirect back to login page")
         # Failed ticket verification, this should be an error page of some kind maybe?
         return RedirectResponse("http://dev.cgds.uab.edu/rosalution/auth/login")
 
@@ -75,14 +72,10 @@ async def login(
         }
     )
 
-    request.session["username"] = authenticate_user['username']
-    request.session["attributes"] = attributes
-    request.session["pgtiou"] = pgtiou
-    request.session["local"] = False
-
     base_url = "http://dev.cgds.uab.edu"
 
     response = RedirectResponse(url=base_url+nexturl)
+    response.delete_cookie(key="rosalution_TOKEN")
     response.set_cookie(key="rosalution_TOKEN", value=access_token)
 
     return response
@@ -90,7 +83,6 @@ async def login(
 # This needs to be /token for the api/docs to work in issuing and recognizing a bearer
 @router.post("/token", response_model=User)
 def login_local_developer(
-    request: Request,
     response: Response,
     form_data: OAuth2PasswordRequestForm = Depends(),
     repositories=Depends(database),
@@ -113,9 +105,8 @@ def login_local_developer(
 
     content = {"access_token": access_token, "token_type": "bearer"}
     response = JSONResponse(content=content)
+    response.delete_cookie(key='rosalution_TOKEN')
     response.set_cookie(key="rosalution_TOKEN", value=access_token)
-    request.session["username"] = authenticate_user['username']
-    request.session["local"] = True
 
     return response
 
@@ -136,20 +127,12 @@ def verify_token(
 def logout_oauth(request: Request, response: Response):
     """ Destroys the session and determines if the request was local or production and returns the proper url """
 
-    content = None
+    content = {"access_token": ""}
 
-    if request.session['local'] is False:
+    if 'dev.cgds.uab.edu' in request.headers['host']:
         redirect_url = request.url_for("logout_callback")
         cas_logout_url = cas_client.get_logout_url(redirect_url)
         content = {"url": cas_logout_url}
-
-    if request.session['local'] is True:
-        content = {"access_token": ""}
-
-    request.session.pop("attributes", None)
-    request.session.pop("pgtiou", None)
-    request.session.pop("username", None)
-    request.session.pop("local", None)
 
     response = JSONResponse(content=content)
     response.delete_cookie(key="rosalution_TOKEN")

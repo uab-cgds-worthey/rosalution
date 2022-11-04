@@ -2,6 +2,7 @@
 This test module goes over the security.py file and tests what is
 required for a user to successfully authenticate with the system
 """
+
 from unittest.mock import Mock
 
 import pytest
@@ -10,8 +11,17 @@ from jose import jwt
 
 from fastapi import HTTPException
 from fastapi.security import SecurityScopes
-from src.security.security import get_authorization, get_current_user
+from src.security.security import get_authorization, get_current_user, create_access_token
 
+
+def test_create_access_token():
+    """ This tests a successfully created access token """
+
+    payload = {'sub': 'johndoe', 'scopes': ['read']}
+
+    actual_encoded_jwt = create_access_token(payload)
+
+    assert actual_encoded_jwt is not None
 
 def test_authorization_successful():
     """Shows a completely successful authentication process and what is required"""
