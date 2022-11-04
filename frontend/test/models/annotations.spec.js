@@ -45,6 +45,7 @@ describe('analyses.js', () => {
     const expectedFormData = {
       'upload_file': 'file here',
       'section_name': 'Gene Homology',
+      'genomic_unit_type': 'gene',
     };
     const expectedReturn = 'it worked';
 
@@ -53,7 +54,9 @@ describe('analyses.js', () => {
     const actualReturned = await Annotations.attachAnnotationImage({
       genomic_unit: 'SBFP1',
       section: 'Gene Homology',
+      genomic_unit_type: 'gene',
     }, 'file here');
+
     expect(actualReturned).to.equal(expectedReturn);
     expect(mockPostFormRequest.calledWith(expectedUrl, expectedFormData)).to.be.true;
   });

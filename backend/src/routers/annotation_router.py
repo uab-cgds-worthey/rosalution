@@ -96,6 +96,7 @@ def get_annotations_by_hgvs_variant(variant: str, repositories=Depends(database)
 def upload_annotation_section(
     response: Response,
     genomic_unit: str,
+    genomic_unit_type: GenomicUnitType = Form(...),
     section_name: str = Form(...),
     upload_file: UploadFile = File(...),
     repositories=Depends(database)
@@ -107,7 +108,7 @@ def upload_annotation_section(
 
     genomic_unit = {
         'unit': genomic_unit,
-        'type': GenomicUnitType.GENE
+        'type': genomic_unit_type,
     }
 
     annotation_unit = {
