@@ -1,6 +1,7 @@
 """Tests analysis collection"""
 import pytest
 
+from src.enums import ThirdPartyLinkType
 from ...test_utils import read_test_fixture
 
 
@@ -225,6 +226,48 @@ def test_remove_pedigree_file_id(analysis_collection):
     analysis_collection.collection.find_one_and_update.return_value = expected
     actual = analysis_collection.remove_pedigree_file("CPAM0002")
     assert actual == expected
+
+
+def test_attach_third_party_link_monday(analysis_collection):
+    """Tests the attach_third_party_link function"""
+    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    analysis_collection.attach_third_party_link("CPAM0002", "MONDAY_COM", "https://monday.com")
+    analysis_collection.collection.find_one_and_update.assert_called_with(
+        {'name': 'CPAM0002'},
+        {'$set': {ThirdPartyLinkType.MONDAY_COM: 'https://monday.com'}},
+        return_document=True,
+    )
+
+
+def test_attach_third_party_link_phenotips(analysis_collection):
+    """Tests the attach_third_party_link function"""
+    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    analysis_collection.attach_third_party_link("CPAM0002", "PHENOTIPS_COM", "https://phenotips.com")
+    analysis_collection.collection.find_one_and_update.assert_called_with(
+        {'name': 'CPAM0002'},
+        {'$set': {ThirdPartyLinkType.PHENOTIPS_COM: 'https://phenotips.com'}},
+        return_document=True,
+    )
+
+
+def test_attach_third_party_link_analysis_does_not_exist(analysis_collection):
+    """Tests the attach_third_party_link function"""
+    analysis_collection.collection.find_one.return_value = None
+    try:
+        analysis_collection.attach_third_party_link("CPAM02222", "MONDAY_COM", "https://monday.com")
+    except ValueError as error:
+        assert isinstance(error, ValueError)
+        assert str(error) == "Analysis with name CPAM02222 does not exist"
+
+
+def test_attach_third_party_link_unsupported_enum(analysis_collection):
+    """Tests the attach_third_party_link function"""
+    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    try:
+        analysis_collection.attach_third_party_link("CPAM02222", "BAD_ENUM", "https://monday.com")
+    except ValueError as error:
+        assert isinstance(error, ValueError)
+        assert str(error) == "Third party link type BAD_ENUM is not supported"
 
 
 @pytest.fixture(name="analysis_with_no_p_dot")

@@ -208,6 +208,17 @@ def attach_supporting_evidence_link(
     return repositories["analysis"].attach_supporting_evidence_link(analysis_name, link_name, link, comments)
 
 
+@router.put("/{analysis_name}/attach/{third_party_enum}")
+def attach_third_party_link(
+    analysis_name: str, third_party_enum: str, link: str = Form(...), repositories=Depends(database)
+):
+    """ This endpoint attaches a third party link to an analysis """
+    try:
+        return repositories['analysis'].attach_third_party_link(analysis_name, third_party_enum, link)
+    except ValueError as exception:
+        raise HTTPException(status_code=409, detail=f"Error attaching third party link: {exception}") from exception
+
+
 @router.put("/{analysis_name}/attachment/{attachment_id}/update")
 def update_supporting_evidence(
     analysis_name: str,
@@ -217,7 +228,7 @@ def update_supporting_evidence(
     comments: str = Form(...),
     repositories=Depends(database)
 ):
-    """ Removes a supporting evidence file from an analysis """
+    """ Updates a supporting evidence file in an analysis """
     content = {
         'name': name,
         'data': data,

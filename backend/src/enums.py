@@ -61,3 +61,10 @@ class StatusType(str, Enum):
             event_text = "Declined"
 
         return cls(event_text)
+
+
+class ThirdPartyLinkType(str, Enum):
+    """Enumeration of the different types of third party links"""
+
+    MONDAY_COM = "monday_com"
+    PHENOTIPS_COM = "phenotips_com"
