@@ -5,6 +5,8 @@ from uuid import uuid4
 
 from pymongo import ReturnDocument
 
+from ..enums import ThirdPartyLinkType
+
 # pylint: disable=too-few-public-methods
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 
@@ -263,6 +265,31 @@ class AnalysisCollection:
         updated_document = self.collection.find_one_and_update(
             {"name": analysis_name},
             {"$set": {"sections": analysis["sections"]}},
+            return_document=ReturnDocument.AFTER,
+        )
+        # remove the _id field from the returned document since it is not JSON serializable
+        updated_document.pop("_id", None)
+        return updated_document
+
+    def attach_third_party_link(self, analysis_name: str, third_party_enum: str, link: str):
+        """ Returns an analysis with a third party link attached to it """
+        analysis = self.collection.find_one({"name": analysis_name})
+        if not analysis:
+            raise ValueError(f"Analysis with name {analysis_name} does not exist")
+
+        if third_party_enum == "MONDAY_COM":
+            third_party_enum = ThirdPartyLinkType.MONDAY_COM
+        elif third_party_enum == "PHENOTIPS_COM":
+            third_party_enum = ThirdPartyLinkType.PHENOTIPS_COM
+        else:
+            raise ValueError(f"Third party link type {third_party_enum} is not supported")
+
+        if third_party_enum not in analysis:
+            analysis[third_party_enum] = None
+
+        updated_document = self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {"$set": {ThirdPartyLinkType(third_party_enum): link}},
             return_document=ReturnDocument.AFTER,
         )
         # remove the _id field from the returned document since it is not JSON serializable

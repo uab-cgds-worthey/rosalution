@@ -376,6 +376,46 @@ def test_update_pedigree_empty_pedigree(client, mock_access_token, mock_reposito
     assert response.status_code == 200
 
 
+def test_attach_third_party_link(client, mock_access_token, mock_repositories):
+    """ Testing the attach third party link endpoint """
+    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    expected = read_test_fixture("analysis-CPAM0002.json")
+    expected["monday_com"] = "https://monday.com"
+    mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
+    response = client.put(
+        "/analysis/CPAM0002/attach/MONDAY_COM",
+        headers={"Authorization": "Bearer " + mock_access_token},
+        data={"link": "https://monday.com"}
+    )
+
+    assert response.status_code == 200
+    assert response.json() == expected
+
+
+def test_attach_third_party_link_analysis_does_not_exist(client, mock_access_token, mock_repositories):
+    """ Testing the attach third party link endpoint """
+    mock_repositories["analysis"].collection.find_one.return_value = None
+    response = client.put(
+        "/analysis/CPAM0002/attach/MONDAY_COM",
+        headers={"Authorization": "Bearer " + mock_access_token},
+        data={"link": "monday.com"}
+    )
+
+    assert response.status_code == 409
+
+
+def test_attach_third_party_link_invalid_enum(client, mock_access_token, mock_repositories):
+    """ Testing the attach third party link endpoint """
+    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    response = client.put(
+        "/analysis/CPAM0002/attach/BAD_ENUM",
+        headers={"Authorization": "Bearer " + mock_access_token},
+        data={"link": "monday.com"}
+    )
+
+    assert response.status_code == 409
+
+
 @pytest.fixture(name="analysis_updates_json")
 def fixture_analysis_updates_json():
     """The JSON that is being sent from a client to the endpoint with updates in it"""
