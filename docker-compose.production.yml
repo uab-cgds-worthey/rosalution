@@ -35,13 +35,6 @@ services:
         - "traefik.http.middlewares.backend-strip-prefix.stripprefix.prefixes=/rosalution/api"
         - "traefik.http.services.rosalution-backend-prod-service.loadbalancer.server.port=8000"
 
-  rosalution-db:
-    image: gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/rosalution/database-fixture:${ROSALUTION_VERSION}
-    networks:
-      - rosalution-network
-    environment:
-      MONGO_INITDB_DATABASE: rosalution_db
-
 networks:
   rosalution-network:
     name: rosalution-network-prod
