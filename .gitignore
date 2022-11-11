@@ -8,6 +8,7 @@ data
 **/.cache
 *.npmrc
 **/tmp/**
+*.archive
 
 # Log files
 npm-debug.log*
