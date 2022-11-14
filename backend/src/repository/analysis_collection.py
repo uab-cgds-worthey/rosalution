@@ -4,6 +4,7 @@ Collection with retrieves, creates, and modify analyses.
 from uuid import uuid4
 
 from pymongo import ReturnDocument
+from ..models.event import Event
 
 from ..enums import ThirdPartyLinkType
 
@@ -290,6 +291,25 @@ class AnalysisCollection:
         updated_document = self.collection.find_one_and_update(
             {"name": analysis_name},
             {"$set": {ThirdPartyLinkType(third_party_enum): link}},
+            return_document=ReturnDocument.AFTER,
+        )
+        # remove the _id field from the returned document since it is not JSON serializable
+        updated_document.pop("_id", None)
+        return updated_document
+
+    def mark_ready(self, analysis_name: str, username: str):
+        """ Marks an analysis as ready """
+        analysis = self.collection.find_one({"name": analysis_name})
+        if not analysis:
+            raise ValueError(f"Analysis with name {analysis_name} does not exist.")
+        for event in analysis['timeline']:
+            if event['event'] == 'ready':
+                raise ValueError(f"Analysis {analysis_name} is already marked as ready!")
+        analysis['timeline'].append(Event.timestamp_ready_event(username).dict())
+
+        updated_document = self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {"$set": {"timeline": analysis["timeline"]}},
             return_document=ReturnDocument.AFTER,
         )
         # remove the _id field from the returned document since it is not JSON serializable

@@ -1,6 +1,11 @@
 """Tests analysis collection"""
+from unittest.mock import patch
+import datetime
 import pytest
 
+from pymongo import ReturnDocument
+from src.enums import EventType
+from src.models.event import Event
 from src.enums import ThirdPartyLinkType
 from ...test_utils import read_test_fixture
 
@@ -270,6 +275,67 @@ def test_attach_third_party_link_unsupported_enum(analysis_collection):
         assert str(error) == "Third party link type BAD_ENUM is not supported"
 
 
+def test_mark_ready(analysis_collection, create_timestamp, ready_timestamp):
+    """Tests the mark_ready function"""
+    staging_analysis_timeline = read_test_fixture("analysis-CPAM0002.json")
+    staging_analysis_timeline["timeline"] = [{
+        'event': 'create',
+        'timestamp': create_timestamp,
+        'username': 'user01',
+    }]
+    analysis_collection.collection.find_one.return_value = staging_analysis_timeline
+    with patch(
+        "src.models.event.Event.timestamp_ready_event",
+        return_value=Event(
+            **{
+                'event': EventType.READY,
+                'timestamp': datetime.datetime(2022, 11, 10, 16, 52, 52, 301003),
+                'username': 'user01',
+            }
+        )
+    ):
+
+        analysis_collection.mark_ready("CPAM0002", "user01")
+
+        analysis_collection.collection.find_one_and_update.assert_called_with(
+            {"name": "CPAM0002"},
+            {
+                "$set": {
+                    "timeline": [
+                        {'event': 'create', 'timestamp': create_timestamp, 'username': 'user01'},
+                        {'event': EventType.READY, 'timestamp': ready_timestamp, 'username': 'user01'},
+                    ]
+                }
+            },
+            return_document=ReturnDocument.AFTER,
+        )
+
+
+def test_mark_ready_analysis_does_not_exist(analysis_collection):
+    """Tests the mark_ready function returns an error if the analysis does not exist"""
+    analysis_collection.collection.find_one.return_value = None
+    try:
+        analysis_collection.mark_ready("CPAM2222", "user01")
+    except ValueError as error:
+        assert isinstance(error, ValueError)
+        assert str(error) == "Analysis with name CPAM2222 does not exist."
+
+
+def test_mark_ready_already_marked_ready(analysis_collection, create_timestamp, ready_timestamp):
+    """"tests the mark_ready function returns an error if the analysis is already marked ready"""
+    staging_analysis_timeline = read_test_fixture("analysis-CPAM0002.json")
+    staging_analysis_timeline["timeline"] = [
+        {'event': 'create', 'timestamp': create_timestamp, 'username': 'user01'},
+        {'event': 'ready', 'timestamp': ready_timestamp, 'username': 'user01'},
+    ]
+    analysis_collection.collection.find_one.return_value = staging_analysis_timeline
+    try:
+        analysis_collection.mark_ready("CPAM0002", "user01")
+    except ValueError as error:
+        assert isinstance(error, ValueError)
+        assert str(error) == "Analysis CPAM0002 is already marked as ready!"
+
+
 @pytest.fixture(name="analysis_with_no_p_dot")
 def fixture_analysis_with_no_p_dot():
     """Returns an analysis with no p. in the genomic unit"""
@@ -286,3 +352,15 @@ def fixture_analysis_with_no_p_dot():
             }],
         }],
     }
+
+
+@pytest.fixture(name="create_timestamp")
+def fixture_create_timestamp():
+    """Returns a create timestamp"""
+    return datetime.datetime(2022, 11, 10, 16, 52, 43, 910000)
+
+
+@pytest.fixture(name="ready_timestamp")
+def fixture_ready_timestamp():
+    """Returns a ready timestamp"""
+    return datetime.datetime(2022, 11, 10, 16, 52, 52, 301003)
