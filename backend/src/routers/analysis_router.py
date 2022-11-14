@@ -107,6 +107,15 @@ async def create_file(
     return new_analysis
 
 
+@router.put("/{analysis_name}/mark_ready", response_model=Analysis)
+def mark_ready(analysis_name: str, repositories=Depends(database), username: VerifyUser = Security(get_current_user)):
+    """ Marks an analysis as ready for review """
+    try:
+        return repositories["analysis"].mark_ready(analysis_name, username)
+    except ValueError as exception:
+        raise HTTPException(status_code=409, detail=str(exception)) from exception
+
+
 @router.put("/{analysis_name}/update/sections", response_model=Analysis)
 def update_analysis_sections(analysis_name: str, updated_sections: dict, repositories=Depends(database)):
     """Updates the sections that have changes"""
