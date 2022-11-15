@@ -1,5 +1,4 @@
 describe('search_case_cards.cy.js', () => {
-
   it('searches for cases', () => {
     cy.visit('/login');
     cy.get('[data-test="username-input"]').type('user01');
