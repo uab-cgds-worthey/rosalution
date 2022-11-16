@@ -6,17 +6,14 @@ describe('login_logout_combined.cy.js', () => {
 
   it('logs in a user', () => {
     cy.visit('/login');
-    cy.get('[placeholder="username"]').type('user01');
-    cy.get('[placeholder="password"]').type('secret');
-    cy.intercept('POST', '**/auth/token').as('login');
-    cy.get('.center > :nth-child(8)').click();
-    cy.wait('@login');
-    cy.get('.center > :nth-child(11)').click();
-    cy.get('h1').should('contain', 'Welcome, user01');
+    cy.get('[data-test="username-input"]').type('user01');
+    cy.get('[data-test="local-login-button"]').click();
+    cy.get('[data-test="user-text"]').should('contain', 'user01');
   });
 
   it('logs out', () => {
-    cy.get('.center > :nth-child(14)').click();
-    cy.get('h1').should('contain', 'Logged out successfully!');
+    cy.get('.grey-rounded-menu').invoke('attr', 'style', 'display: block; visibility: visible; opacity: 1;');
+    cy.get('.grey-rounded-menu > li').contains('Logout').click();
+    cy.get('span').should('contain', 'Local Development Login');
   });
 });

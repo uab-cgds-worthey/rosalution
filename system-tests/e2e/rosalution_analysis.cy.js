@@ -1,11 +1,13 @@
 describe('As a Clinical Analyst using Rosalution for analysis', () => {
   it('should allow the user to navigate the analysis via the logo, header, and section anchor links', () => {
-    cy.visit('/');
+    cy.visit('/login');
+    cy.get('[data-test="username-input"]').type('user01');
+    cy.get('[data-test="local-login-button"]').click();
     cy.get('.analysis-card')
         .find(':contains(CPAM0002)')
         .find('.case-name').click();
 
-    const anchorLinks = ['Brief', 'Medical Summary', 'Case Information', 'Supplemental Attachments'];
+    const anchorLinks = ['Brief', 'Clinical History', 'Pedigree', 'Supporting Evidence'];
     const expectedHeaderLinks =
       ['CPAM0002', 'LOGIN', ...anchorLinks];
 

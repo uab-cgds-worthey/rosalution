@@ -4,7 +4,9 @@ describe('Rosalution home', () => {
   });
 
   it('renders the available analyses as cards', () => {
-    cy.visit('/');
+    cy.visit('/login');
+    cy.get('[data-test="username-input"]').type('user01');
+    cy.get('[data-test="local-login-button"]').click();
     cy.get('.analysis-card').should('have.length', 5);
   });
 });

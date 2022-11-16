@@ -12,8 +12,8 @@
     "eslint-plugin-cypress": "^2.12.1"
   },
   "scripts": {
-    "test:e2e": "cypress run",
-    "test:e2e:open": "cypress open --e2e",
+    "test:e2e": "cypress run --browser chrome",
+    "test:e2e:open": "cypress open --browser chrome --e2e",
     "lint": "eslint --ext .js,.ts ./",
     "lint:auto": "eslint --ext .js,.ts ./ --fix"
   }
