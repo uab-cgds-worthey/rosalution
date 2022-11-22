@@ -24,6 +24,7 @@ services:
       - traefik
     environment:
       - MONGODB_HOST=rosalution-db
+      - CAS_LOGIN_ENABLE=True
     entrypoint: ['/bin/sh', '-c', './entrypoint-init.sh']
     deploy:
       labels:

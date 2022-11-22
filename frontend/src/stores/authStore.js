@@ -18,7 +18,7 @@ const authStore = {
       return null;
     }
 
-    const rosalutionCookie = document.cookie.split(';').find((row) => row.startsWith('rosalution_TOKEN='));
+    const rosalutionCookie = document.cookie.split('; ').find((row) => row.startsWith('rosalution_TOKEN='));
 
     if (typeof(rosalutionCookie) == 'undefined') {
       return null;

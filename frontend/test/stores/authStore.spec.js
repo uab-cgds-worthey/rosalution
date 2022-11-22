@@ -29,6 +29,17 @@ describe('user.js', () => {
     expect(expectedCookie).to.equal('cookieomnomnom');
   });
 
+  it('Returns the rosalution_Token stored in the browsers document with lots of other cookies', () => {
+    Object.defineProperty(window.document, 'cookie', {
+      writable: true,
+      // eslint-disable-next-line max-len
+      value: '_gcl_au=gcl-au-fake; _ga_35R7WJH7GD=GS1.1.111111111.1.1.1111111111.0.0.0; screenResolution=1000x1000; rosalution_TOKEN=cookieomnomnom',
+    });
+
+    const expectedCookie = authStore.getToken();
+    expect(expectedCookie).to.equal('cookieomnomnom');
+  });
+
   it('Other cookies exist in the document, but not the rosalution token returns null', () => {
     Object.defineProperty(window.document, 'cookie', {
       writable: true,
@@ -50,7 +61,6 @@ describe('user.js', () => {
 
     expect(expectedCookie).to.equal(null);
   });
-
 
   it('Saves the state of the returned user object', async () => {
     authStore.saveState(userResponse);
