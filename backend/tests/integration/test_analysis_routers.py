@@ -45,7 +45,12 @@ def test_get_analysis_summary(client, mock_access_token, mock_repositories):
 
 
 def test_import_analysis_from_phenotips_json(
-    client, mock_access_token, mock_repositories, exported_phenotips_to_import_json, mock_annotation_queue
+    client,
+    mock_access_token,
+    mock_repositories,
+    exported_phenotips_to_import_json,
+    mock_annotation_queue,
+    mock_security_get_current_user,  # pylint: disable=unused-argument
 ):
     """Testing if the create analysis endpoint creates a new analysis"""
     mock_repositories["analysis"].collection.insert_one.return_value = True
@@ -76,7 +81,13 @@ def test_import_analysis_from_phenotips_json(
     assert response_data['timeline'][0]['username'] == 'johndoe'
 
 
-def test_import_analysis_with_phenotips_json(client, mock_access_token, mock_repositories, mock_annotation_queue):
+def test_import_analysis_with_phenotips_json(
+    client,
+    mock_access_token,
+    mock_repositories,
+    mock_annotation_queue,
+    mock_security_get_current_user,  # pylint: disable=unused-argument
+):
     """ Testing if the create analysis function works with file upload """
     mock_repositories["analysis"].collection.insert_one.return_value = True
     mock_repositories["analysis"].collection.find_one.return_value = None

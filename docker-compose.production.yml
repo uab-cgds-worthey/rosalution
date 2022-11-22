@@ -23,7 +23,8 @@ services:
       - rosalution-network
       - traefik
     environment:
-      MONGODB_HOST: "rosalution-db"
+      - MONGODB_HOST=rosalution-db
+    entrypoint: ['/bin/sh', '-c', './entrypoint-init.sh']
     deploy:
       labels:
         - "traefik.enable=true"

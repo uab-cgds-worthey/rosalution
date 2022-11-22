@@ -2,11 +2,9 @@
 End points for backend
 """
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 
 from .routers import analysis_router, annotation_router, auth_router
-
-from .dependencies import database, annotation_queue
 
 DESCRIPTION = """
 rosalution REST API assists researchers study 🧬 variation in patients 🧑🏾‍🤝‍🧑🏼
@@ -45,8 +43,8 @@ app = FastAPI(
     root_path="/rosalution/api/",
 )
 
-app.include_router(analysis_router.router, dependencies=[Depends(database)])
-app.include_router(annotation_router.router, dependencies=[Depends(database), Depends(annotation_queue)])
+app.include_router(analysis_router.router)
+app.include_router(annotation_router.router)
 app.include_router(auth_router.router)
 
 app.add_middleware(

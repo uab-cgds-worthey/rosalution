@@ -3,7 +3,7 @@ import pytest
 
 from src.repository.user_collection import UserCollection
 
-from ...test_utils import mock_mongo_collection, read_test_fixture
+from ...test_utils import mock_mongo_collection
 
 
 def test_find_all_users(user_collection):
@@ -26,30 +26,6 @@ def test_find_specific_user_unsuccessful(user_collection):
     assert user is None
 
 
-def test_authenticate_user_successful(user_collection):
-    """Get all the users from the user collection"""
-    user = user_collection.authenticate_user("johndoe", "secret")
-
-    assert user["full_name"] == "John Doe"
-    assert user["email"] == "johndoe@example.com"
-
-
-def test_authenticate_user_unsuccessful_no_user(user_collection):
-    """Get all the users from the user collection"""
-    user_collection.collection.find_one.return_value = None
-    authenticate_result = user_collection.authenticate_user("johndoe", "secret1")
-
-    assert authenticate_result is None
-
-
-def test_authenticate_user_unsuccessful_password(user_collection, user_john_doe):
-    """Get all the users from the user collection"""
-    user_collection.collection.find_one.return_value = user_john_doe
-    authenticate_result = user_collection.authenticate_user("johndoe", "secret1")
-
-    assert authenticate_result is None
-
-
 @pytest.fixture(name="user_collection")
 def fixture_user_collection(users_json, user_john_doe):
     """Fixture for the user collection"""
@@ -65,9 +41,3 @@ def fixture_user_collection(users_json, user_john_doe):
 def fixture_user_john_doe(users_json):
     """Fixture for the user John Doe from the users collection JSON"""
     return next((user for user in users_json if user['full_name'] == "John Doe"), None)
-
-
-@pytest.fixture(name="users_json")
-def fixture_users_json():
-    """Returns the JSON for the users collection used to seed the MongoDB database"""
-    return read_test_fixture("users-test-fixture.json")

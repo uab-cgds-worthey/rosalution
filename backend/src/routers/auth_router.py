@@ -8,10 +8,10 @@ from starlette.requests import Request
 
 from cas import CASClient
 
-from ..models.user import User, VerifyUser
-from ..security.security import get_authorization, get_current_user, create_access_token
-
+from ..config import Settings, get_settings
 from ..dependencies import database
+from ..models.user import User, VerifyUser
+from ..security.security import authenticate, create_access_token, get_authorization, get_current_user
 
 router = APIRouter(
     prefix="/auth",
@@ -22,8 +22,8 @@ router = APIRouter(
 # URLs for interacting with UAB CAS Padlock system for BlazerID
 cas_client = CASClient(
     version=3,
-    service_url="http://dev.cgds.uab.edu/rosalution/api/auth/login?nexturl=%2Frosalution",
-    server_url="https://padlockdev.idm.uab.edu/cas/",
+    service_url=get_settings().cas_api_service_url,
+    server_url=get_settings().cas_server_url,
 )
 
 
@@ -44,7 +44,8 @@ async def login(
     response: Response,
     nexturl: Optional[str] = None,  # CAS Nexturl
     ticket: Optional[str] = None,
-    repositories=Depends(database)
+    repositories=Depends(database),
+    settings: Settings = Depends(get_settings),
 ):
     """Rosalution Login Method"""
     if not ticket:
@@ -54,29 +55,31 @@ async def login(
 
     # These are returned by UAB CAS login, but they are unused beyond the user value
     # pylint: disable=unused-variable
-    user, attributes, pgtiou = cas_client.verify_ticket(ticket)
+    cas_user, attributes, pgtiou = cas_client.verify_ticket(ticket)
 
-    if not user:
+    if not cas_user:
         print("Failed Padlock ticket user verification, redirect back to login page")
         # Failed ticket verification, this should be an error page of some kind maybe?
-        return RedirectResponse("http://dev.cgds.uab.edu/rosalution/auth/login")
+
+        redirect_frontend_route_response = settings.web_base_url + settings.auth_web_failure_redirect_route
+        return RedirectResponse(redirect_frontend_route_response)
 
     # Login was successful, redirect to the 'nexturl' query parameter
-    authenticate_user = repositories["user"].authenticate_user(user, 'secret')
+    user = repositories["user"].find_by_username(cas_user)
+    user_authenticated = authenticate(user, 'secret')
 
-    if not authenticate_user:
+    if not user_authenticated:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
 
+    data_to_encode = {
+        "sub": user_authenticated['username'],
+        "scopes": [user_authenticated['scope']],
+    }
     access_token = create_access_token(
-        data={
-            "sub": authenticate_user['username'],
-            "scopes": [authenticate_user['scope']],
-        }
+        data_to_encode, settings.oauth2_access_token_expire_minutes, settings.rosalution_key, settings.oauth2_algorithm
     )
 
-    base_url = "http://dev.cgds.uab.edu"
-
-    response = RedirectResponse(url=base_url + nexturl)
+    response = RedirectResponse(url=settings.web_base_url + nexturl)
     response.delete_cookie(key="rosalution_TOKEN")
     response.set_cookie(key="rosalution_TOKEN", value=access_token)
 
@@ -89,20 +92,23 @@ def login_local_developer(
     response: Response,
     form_data: OAuth2PasswordRequestForm = Depends(),
     repositories=Depends(database),
+    settings: Settings = Depends(get_settings),
 ):
     """
     OAuth2 compatible token login, get an access token for future requests.
     """
-    authenticate_user = repositories["user"].authenticate_user(form_data.username, form_data.password)
+    user = repositories["user"].find_by_username(form_data.username)
+    user_authenticated = authenticate(user, form_data.password)
 
-    if not authenticate_user:
+    if not user_authenticated:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
 
+    data_to_encode = {
+        "sub": user_authenticated['username'],
+        "scopes": [user_authenticated['scope']],
+    }
     access_token = create_access_token(
-        data={
-            "sub": authenticate_user['username'],
-            "scopes": [authenticate_user['scope']],
-        }
+        data_to_encode, settings.oauth2_access_token_expire_minutes, settings.rosalution_key, settings.oauth2_algorithm
     )
 
     content = {"access_token": access_token, "token_type": "bearer"}
@@ -128,12 +134,12 @@ def verify_token(
 
 
 @router.get("/logout")
-def logout_oauth(request: Request, response: Response):
+def logout_oauth(request: Request, response: Response, settings: Settings = Depends(get_settings)):
     """ Destroys the session and determines if the request was local or production and returns the proper url """
 
     content = {"access_token": ""}
 
-    if 'dev.cgds.uab.edu' in request.headers['host']:
+    if settings.cas_login_enable:
         redirect_url = request.url_for("logout_callback")
         cas_logout_url = cas_client.get_logout_url(redirect_url)
         content = {"url": cas_logout_url}
@@ -145,9 +151,10 @@ def logout_oauth(request: Request, response: Response):
 
 
 @router.get('/logout_callback')
-def logout_callback():
+def logout_callback(settings: Settings = Depends(get_settings)):
     """
     The endpoint that gets called after the production logout function is called and redirects
     back to the login page
     """
-    return RedirectResponse(url='http://dev.cgds.uab.edu/rosalution/login')
+    redirect_url = settings.web_base_url + settings.auth_web_failure_redirect_route
+    return RedirectResponse(url=redirect_url)

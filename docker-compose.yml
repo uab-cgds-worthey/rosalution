@@ -45,7 +45,8 @@ services:
     volumes:
       - ./backend:/app
     environment:
-      MONGODB_HOST: "rosalution-db"
+      - MONGODB_HOST=rosalution-db
+      - ROSALUTION_KEY
     networks:
       - rosalution-network
     labels:

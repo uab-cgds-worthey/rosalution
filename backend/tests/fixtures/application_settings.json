@@ -1,0 +1,14 @@
+{
+  "api_base_url": "http://api.fake.cgds.uab.edu",
+  "web_base_url": "http://api.fake.cgds.uab.edu",
+  "mongodb_host": "fake-rosalution-db-host",
+  "mongodb_db": "fake-rosalution_db",
+  "rosalution_key": "invalid-hash-not-realbcdcb2d5de7acccc30d35b1b01f8f6b8fe273c34df0b",
+  "auth_web_failure_redirect_route": "/login",
+  "oauth2_access_token_expire_minutes": 11520,
+  "oauth2_algorithm": "HS256",
+  "openapi_api_token_route": "/auth/token",
+  "cas_api_service_url": "http://fake.cgds.uab.edu/rosalution/api?nexturl=%2Frosalution",
+  "cas_server_url": "https://fake.uab.cas/cas",
+  "cas_login_enable": true
+}
