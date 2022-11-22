@@ -25,8 +25,6 @@ services:
     environment:
       - MONGODB_HOST="rosalution-db"
     entrypoint: ['/bin/sh', '-c', './entrypoint-init.sh']
-    secrets:
-      - rosalution_key
     deploy:
       labels:
         - "traefik.enable=true"
@@ -43,8 +41,4 @@ networks:
     name: rosalution-network-prod
   traefik:
     name: traefik-public
-    external: true
-
-secrets:
-  rosalution_key:
     external: true
