@@ -3,6 +3,7 @@ import queue
 from unittest.mock import Mock
 import pytest
 
+from src.config import Settings
 from src.core.annotation import AnnotationService
 from src.models.analysis import Analysis
 from src.repository.analysis_collection import AnalysisCollection
@@ -146,3 +147,21 @@ def fixture_annotation_response_for_transcript():
 def fixture_empty_pedigree():
     """returns an analysis with an empty pedigree"""
     return read_test_fixture("empty-pedigree.json")
+
+
+@pytest.fixture(name="settings_json")
+def fixture_settings_json():
+    """Returns the settings for a fake rosalution. Mostly used for security functionality/testing"""
+    return read_test_fixture("application_settings.json")
+
+
+@pytest.fixture(name="settings")
+def fixture_rosalution_settings(settings_json):
+    """Returns an instance of the settings with the mocked JSON that is unpacked"""
+    return Settings(**settings_json)
+
+
+@pytest.fixture(name="users_json")
+def fixture_users_json():
+    """Returns the JSON for the users collection used to seed the MongoDB database"""
+    return read_test_fixture("users-test-fixture.json")

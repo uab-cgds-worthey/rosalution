@@ -26,3 +26,15 @@ fi
 install frontend
 
 ./etc/etc-hosts.sh local.rosalution.cgds
+
+key=$(head -c 65 < /dev/random | base64 |  tr -dc A-Za-z0-9)
+if grep -Fq "ROSALUTION_KEY" ~/.bashrc
+then
+    replace_value="ROSALUTION_KEY=$key"
+    sed "s,ROSALUTION_KEY=[^;]*,$replace_value,"  ~/.bashrc > ~/.bashrc.bak && mv ~/.bashrc.bak ~/.bashrc
+    echo "Updating rosalution_key in ~/.bashrc ..."
+else
+    echo  "export ROSALUTION_KEY=$key" >> ~/.bashrc
+    echo "Setting rosalution_key in ~/.bashrc ..."
+fi
+echo "Source your ~/.bashrc to load the updated environment"
