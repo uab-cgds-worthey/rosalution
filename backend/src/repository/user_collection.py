@@ -1,7 +1,6 @@
 """
 Manages the user collection of the users registered to rosalution
 """
-from ..security.security import verify_password
 
 
 class UserCollection:
@@ -23,13 +22,4 @@ class UserCollection:
             return None
 
         user.pop("_id", None)
-        return user
-
-    def authenticate_user(self, username: str, password: str):
-        """Takes a username string and a password string, finds the user, verfies the password and returns a user"""
-        user = self.find_by_username(username)
-        if not user:
-            return None
-        if not verify_password(password, user["hashed_password"]):
-            return None
         return user

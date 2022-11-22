@@ -6,21 +6,34 @@ from pydantic import ValidationError
 from jose import jwt, JWTError
 
 from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, SecurityScopes
+from fastapi.security import SecurityScopes
 
 from passlib.context import CryptContext
 
-from .. import constants
+from ..dependencies import oauth2_scheme
+
 from ..models.token import TokenData
+from ..config import Settings, get_settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=constants.TOKEN_URL)
+SECURITY_SCOPES = {
+    "pre-clinical-intake": "Pre-Clinical Intake",
+    "bioinformatics-section-user": "Bioinformatics Section User",
+    "researcher": "Researcher",
+    "developer": "Developer",
+}
 
 
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+def create_access_token(
+    data: dict,
+    access_token_expiration_minutes,
+    secret_token,
+    algorithm,
+    expires_delta: Optional[timedelta] = None,
+):
     """Takes in information and uses JWT to create and return a proper access token"""
-    access_token_expires = timedelta(minutes=constants.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(minutes=access_token_expiration_minutes)
 
     if expires_delta is not None:
         access_token_expires = expires_delta
@@ -31,7 +44,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     else:
         expire = datetime.utcnow() + timedelta(minutes=15)
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, constants.SECRET_KEY, algorithm=constants.ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, secret_token, algorithm)
     return encoded_jwt
 
 
@@ -45,7 +58,11 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 
-def get_authorization(security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme)):
+def get_authorization(
+    security_scopes: SecurityScopes,
+    token: str = Depends(oauth2_scheme),
+    settings: Settings = Depends(get_settings),
+):
     """
     This function does a general authorization check to see if the user is authorized and within scope to use the
     endpoint that is requested.
@@ -62,7 +79,7 @@ def get_authorization(security_scopes: SecurityScopes, token: str = Depends(oaut
     )
 
     try:
-        payload = jwt.decode(token, constants.SECRET_KEY, algorithms=[constants.ALGORITHM])
+        payload = jwt.decode(token, settings.rosalution_key, algorithms=[settings.oauth2_algorithm])
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
@@ -81,12 +98,12 @@ def get_authorization(security_scopes: SecurityScopes, token: str = Depends(oaut
     return True
 
 
-def get_current_user(token: str = Depends(oauth2_scheme)):
+def get_current_user(token: str = Depends(oauth2_scheme), settings: Settings = Depends(get_settings)):
     """Extracts the username from the token, this is useful to ensure the user is who they say they are"""
     authenticate_value = "Bearer"
 
     try:
-        payload = jwt.decode(token, constants.SECRET_KEY, algorithms=[constants.ALGORITHM])
+        payload = jwt.decode(token, settings.rosalution_key, algorithms=[settings.oauth2_algorithm])
         username: str = payload.get("sub")
         if username is None:
             raise HTTPException(
@@ -102,3 +119,12 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         ) from jwt_error
 
     return username
+
+
+def authenticate(user: Optional[dict], password: str):
+    """Takes a username string and a password string, finds the user, verfies the password and returns a user"""
+    if not user:
+        return None
+    if not verify_password(password, user["hashed_password"]):
+        return None
+    return user

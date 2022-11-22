@@ -23,7 +23,7 @@ def test_login_no_session(client):
     response = client.get("/auth/login")
     assert (
         response.json()["url"] == "https://padlockdev.idm.uab.edu/cas/login?service=http%3A" +
-        "%2F%2Fdev.cgds.uab.edu%2Frosalution%2Fapi%2Fauth%2Flogin%3Fnexturl%3D%252Frosalution"
+        "%2F%2Fdev.cgds.uab.edu%2Frosalution%2Fapi%2Fauth%2Flogin%3Fnexturl%3D%252F"
     )
 
 
@@ -47,9 +47,9 @@ def test_login_successful(client, mock_repositories, monkeypatch):
         "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
     }
 
-    response = client.get("/auth/login?nexturl=%2Frosalution&ticket=FakeTicketString")
+    response = client.get("/auth/login?nexturl=%2F&ticket=FakeTicketString")
 
-    assert response.url == "http://dev.cgds.uab.edu/rosalution"
+    assert response.url == "http://dev.cgds.uab.edu/rosalution/"
 
 
 def test_local_logout(client):
@@ -62,7 +62,7 @@ def test_local_logout(client):
     assert response.json() == {"access_token": ""}
 
 
-def test_prod_logout(client):
+def test_prod_logout(client, mock_settings):  # pylint: disable=unused-argument
     """ This tests functionality if the user logs out after logging in with their BlazerId """
     response = client.get(
         '/auth/logout',
