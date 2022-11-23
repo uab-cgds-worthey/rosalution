@@ -1,5 +1,5 @@
 <template>
-  <a :href="value" target="_blank" ref="noreferrer noopener" class="linkout">
+  <a :href="value" target="_blank" rel="noreferrer noopener" class="linkout">
     <img :src="linkoutImageSrc(imageFilename)" :alt="altText" :style="linkoutStyle" />
   </a>
 </template>

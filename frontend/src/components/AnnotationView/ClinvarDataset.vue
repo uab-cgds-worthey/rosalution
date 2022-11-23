@@ -4,7 +4,7 @@
       class="dataset-label"
       :class="isLinkoutAvailable ? 'dataset-label-available' : 'dataset-label-unavailable'"
       data-test="text-label"
-      target="_blank" ref="noreferrer noopener"
+      target="_blank" rel="noreferrer noopener"
     >
       {{ label }}
       <font-awesome-icon v-if="isLinkoutAvailable" icon="up-right-from-square" size="2xs"/>
