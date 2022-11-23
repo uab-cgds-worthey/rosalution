@@ -2,7 +2,7 @@
   <div class="dataset-container">
     <span v-if="label && !linkout" class="dataset-label" data-test="text-label">{{ label }}</span>
     <a v-else-if="label && linkout" :href="linkout" class="dataset-label" data-test="text-label"
-       target="_blank" ref="noreferrer noopener">
+       target="_blank" rel="noreferrer noopener">
       {{ label }}
       <font-awesome-icon icon="up-right-from-square" size="2xs"/>
     </a>
