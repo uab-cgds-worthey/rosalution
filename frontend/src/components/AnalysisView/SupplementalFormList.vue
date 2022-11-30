@@ -25,10 +25,10 @@
           <td class="attachment-data" rowspan="2">
             <div class="attachment-name">
               <a v-if="attachment.type=='file'" :href="`/rosalution/api/analysis/download/${attachment.attachment_id}`"
-              target="_blank" ref="noreferrer noopener">
+              target="_blank" rel="noreferrer noopener">
                 {{ attachment.name }}
               </a>
-              <a v-if="attachment.type=='link'" :href="attachment.data" target="_blank" ref="noreferrer noopener">
+              <a v-if="attachment.type=='link'" :href="attachment.data" target="_blank" rel="noreferrer noopener">
                 {{ attachment.name }}
               </a>
             </div>
