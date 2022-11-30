@@ -215,7 +215,7 @@ class AnalysisCollection:
             raise ValueError(f"Supporting Evidence identifier {attachment_id} does not exist for {analysis_name}")
 
         supporting_evidence_files[index_to_update]['name'] = updated_content['name']
-        if None is updated_content['data']:
+        if updated_content['data'] not in [None, '']:
             supporting_evidence_files[index_to_update]['data'] = updated_content['data']
         supporting_evidence_files[index_to_update]['comments'] = updated_content['comments']
 
