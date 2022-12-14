@@ -1,0 +1,40 @@
+name: Static Analysis
+
+on: [push, workflow_dispatch]
+
+env:
+  MARKDOWNLINT_CONFIG: etc/static-analysis-config/markdownlint.json
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8"]
+      
+    steps:
+    - uses: actions/checkout@v3
+    - name: Pulling Docker containers
+      run: |
+        docker pull hadolint/hadolint:v2.8.0
+        docker pull koalaman/shellcheck:stable
+        docker pull ghcr.io/igorshubovych/markdownlint-cli
+    - name: Dockerfile linting with Hadolint
+      run: |
+        while read -r file;
+        do
+          docker run --rm -i hadolint/hadolint:v2.8.0 < "$file"
+        done < <(find . -type f ! -path "*/node_modules/*" -name "Dockerfile" -print)
+    - name: Shellscript linting with ShellCheck
+      run: |
+        while read -r file;
+        do
+          docker run --rm -v "$PWD:/mnt" koalaman/shellcheck:stable --format=gcc "$file"
+        done < <(find . -type f ! -path "*node_modules/*" ! -path "*local/*" ! -path "*lib/*" ! -path "./.git/*" -name "*.sh" -print)
+    - name: Markdown linting with markdownlint-cli
+      run: |
+        while read -r file;
+        do
+         docker run -v $PWD:/workdir ghcr.io/igorshubovych/markdownlint-cli:latest --config $MARKDOWNLINT_CONFIG "$file"
+        done < <(find . -type f ! -path "**/node_modules/*" ! -path "*local/*" ! -path "*lib/*" ! -path "**/.git/*" -name "*.md" -print)
