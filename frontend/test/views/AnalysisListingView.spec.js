@@ -1,7 +1,6 @@
-// import {describe, it, expect, beforeEach, afterEach} from 'vitest';
-import {describe, beforeEach, afterEach} from 'vitest';
+import {describe, it, expect, beforeEach, afterEach} from 'vitest';
 
-// import {shallowMount} from '@vue/test-utils';
+import {shallowMount} from '@vue/test-utils';
 import sinon from 'sinon';
 
 import Analyses from '@/models/analyses.js';
