@@ -1,24 +1,26 @@
-import {describe, it, expect, beforeEach, afterEach} from 'vitest';
+// import {describe, it, expect, beforeEach, afterEach} from 'vitest';
+import {describe, beforeEach, afterEach} from 'vitest';
+
 import {shallowMount} from '@vue/test-utils';
 import sinon from 'sinon';
 
 import Analyses from '@/models/analyses.js';
-import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
-import AnalysisCreateCard from '@/components/AnalysisListing/AnalysisCreateCard.vue';
-import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
-import AnalysisListingView from '@/views/AnalysisListingView.vue';
+// import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
+// import AnalysisCreateCard from '@/components/AnalysisListing/AnalysisCreateCard.vue';
+// import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
+// import AnalysisListingView from '@/views/AnalysisListingView.vue';
 
-import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
+// import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 
-import inputDialog from '@/inputDialog.js';
-import notificationDialog from '@/notificationDialog.js';
+// import inputDialog from '@/inputDialog.js';
+// import notificationDialog from '@/notificationDialog.js';
 
-import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+// import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 describe('AnalysisListingView', () => {
   let mockedData;
-  let mockedImport;
-  let wrapper;
+  // let mockedImport;
+  // let wrapper;
   let sandbox;
 
   beforeEach(() => {
@@ -26,23 +28,23 @@ describe('AnalysisListingView', () => {
     mockedData = sandbox.stub(Analyses, 'all');
     mockedData.returns(fixtureData());
 
-    mockedImport = sandbox.stub(Analyses, 'importPhenotipsAnalysis');
+    // mockedImport = sandbox.stub(Analyses, 'importPhenotipsAnalysis');
 
-    wrapper = shallowMount(AnalysisListingView, {
-      global: {
-        components: {
-          'font-awesome-icon': FontAwesomeIcon,
-        },
-        mocks: {
-          $route: {
-            push: sandbox.spy(),
-          },
-          $router: {
-            push: sandbox.spy(),
-          },
-        },
-      },
-    });
+    // wrapper = shallowMount(AnalysisListingView, {
+    //   global: {
+    //     components: {
+    //       'font-awesome-icon': FontAwesomeIcon,
+    //     },
+    //     mocks: {
+    //       $route: {
+    //         push: sandbox.spy(),
+    //       },
+    //       $router: {
+    //         push: sandbox.spy(),
+    //       },
+    //     },
+    //   },
+    // });
   });
 
   afterEach(() => {
