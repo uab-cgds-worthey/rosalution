@@ -28,83 +28,83 @@ describe('analyses.js', () => {
     expect(allAnalyses.length).to.equal(4);
   });
 
-  it('Queries a specific analysis', async () => {
-    mockGetRequest.returns(byName);
-    const analysisName = 'CPAM0002';
-    const specificAnalysis = await Analyses.getAnalysis(analysisName);
+  // it('Queries a specific analysis', async () => {
+  //   mockGetRequest.returns(byName);
+  //   const analysisName = 'CPAM0002';
+  //   const specificAnalysis = await Analyses.getAnalysis(analysisName);
 
-    expect(specificAnalysis.name).to.equal('CPAM0002');
-    expect(specificAnalysis.nominated_by).to.equal('Dr. Person One');
-  });
+  //   expect(specificAnalysis.name).to.equal('CPAM0002');
+  //   expect(specificAnalysis.nominated_by).to.equal('Dr. Person One');
+  // });
 
-  it('Imports a browser file to the Analysis API succesfully', async () => {
-    mockPostFormResponse.returns({sucess: 'yay'});
-    await Analyses.importPhenotipsAnalysis(incomingCreateAnalysisFormFixture);
-    expect(mockPostFormResponse.called).to.be.true;
-  });
+  // it('Imports a browser file to the Analysis API succesfully', async () => {
+  //   mockPostFormResponse.returns({sucess: 'yay'});
+  //   await Analyses.importPhenotipsAnalysis(incomingCreateAnalysisFormFixture);
+  //   expect(mockPostFormResponse.called).to.be.true;
+  // });
 
-  describe('supporting evidence', () => {
-    it('attaches as a file', async () => {
-      mockPostFormResponse.returns({sucess: 'yay'});
-      await Analyses.attachSupportingEvidence('CPAM0002', {
-        data: 'jfkldjafkdjafda',
-        comment: 'Serious Things',
-        type: 'file',
-      });
-      expect(mockPostFormResponse.called).to.be.true;
-    });
+  // describe('supporting evidence', () => {
+  //   it('attaches as a file', async () => {
+  //     mockPostFormResponse.returns({sucess: 'yay'});
+  //     await Analyses.attachSupportingEvidence('CPAM0002', {
+  //       data: 'jfkldjafkdjafda',
+  //       comment: 'Serious Things',
+  //       type: 'file',
+  //     });
+  //     expect(mockPostFormResponse.called).to.be.true;
+  //   });
 
-    it('attaches as a file with empty comments', async () => {
-      mockPostFormResponse.returns({sucess: 'yay'});
-      await Analyses.attachSupportingEvidence('CPAM0002', {
-        data: 'jfkldjafkdjafda',
-        type: 'file',
-      });
-      expect(mockPostFormResponse.called).to.be.true;
-    });
+  //   it('attaches as a file with empty comments', async () => {
+  //     mockPostFormResponse.returns({sucess: 'yay'});
+  //     await Analyses.attachSupportingEvidence('CPAM0002', {
+  //       data: 'jfkldjafkdjafda',
+  //       type: 'file',
+  //     });
+  //     expect(mockPostFormResponse.called).to.be.true;
+  //   });
 
-    it('attaches as a link', async () => {
-      mockPostFormResponse.returns({sucess: 'yay'});
-      await Analyses.attachSupportingEvidence('CPAM0002', {
-        name: 'Best Website Ever',
-        type: 'link',
-        data: 'http://sites.uab.edu/cgds',
-        comment: 'Serious Things',
-      });
-      expect(mockPostFormResponse.called).to.be.true;
-    });
+  //   it('attaches as a link', async () => {
+  //     mockPostFormResponse.returns({sucess: 'yay'});
+  //     await Analyses.attachSupportingEvidence('CPAM0002', {
+  //       name: 'Best Website Ever',
+  //       type: 'link',
+  //       data: 'http://sites.uab.edu/cgds',
+  //       comment: 'Serious Things',
+  //     });
+  //     expect(mockPostFormResponse.called).to.be.true;
+  //   });
 
-    it('attaches as link substitutes with empty comments', async () => {
-      mockPostFormResponse.returns({sucess: 'yay'});
-      await Analyses.attachSupportingEvidence('CPAM0002', {
-        name: 'Best Website Ever',
-        type: 'link',
-        data: 'http://sites.uab.edu/cgds',
-      });
-      expect(mockPostFormResponse.called).to.be.true;
-    });
+  //   it('attaches as link substitutes with empty comments', async () => {
+  //     mockPostFormResponse.returns({sucess: 'yay'});
+  //     await Analyses.attachSupportingEvidence('CPAM0002', {
+  //       name: 'Best Website Ever',
+  //       type: 'link',
+  //       data: 'http://sites.uab.edu/cgds',
+  //     });
+  //     expect(mockPostFormResponse.called).to.be.true;
+  //   });
 
-    it('removes supporting evidence', async () => {
-      await Analyses.removeSupportingEvidence('CPAM0002', 'remove-attach-it-now');
-      expect(mockDeleteRequest.called).to.be.true;
-    });
-  });
+  //   it('removes supporting evidence', async () => {
+  //     await Analyses.removeSupportingEvidence('CPAM0002', 'remove-attach-it-now');
+  //     expect(mockDeleteRequest.called).to.be.true;
+  //   });
+  // });
 
-  describe('section images for analysis', () => {
-    it('attaches an image to a section', async () => {
-      mockPostFormResponse.returns({sucess: 'yay'});
-      const fakeImageData = 'jklfdjlskfjal;fjdkl;a';
-      await Analyses.attachSectionImage('CPAM0002', 'Pedigree', fakeImageData);
-      expect(mockPostFormResponse.called).to.be.true;
-    });
+  // describe('section images for analysis', () => {
+  //   it('attaches an image to a section', async () => {
+  //     mockPostFormResponse.returns({sucess: 'yay'});
+  //     const fakeImageData = 'jklfdjlskfjal;fjdkl;a';
+  //     await Analyses.attachSectionImage('CPAM0002', 'Pedigree', fakeImageData);
+  //     expect(mockPostFormResponse.called).to.be.true;
+  //   });
 
-    it('updates an image in a section', async () => {
-      mockPutFormResponse.resolves({sucess: 'yay'});
-      const fakeImageData = 'updated-jklfdjlskfjal;fjdkl;a';
-      await Analyses.updateSectionImage('CPAM0002', 'Pedigree', fakeImageData);
-      expect(mockPutFormResponse.called).to.be.true;
-    });
-  });
+  //   it('updates an image in a section', async () => {
+  //     mockPutFormResponse.resolves({sucess: 'yay'});
+  //     const fakeImageData = 'updated-jklfdjlskfjal;fjdkl;a';
+  //     await Analyses.updateSectionImage('CPAM0002', 'Pedigree', fakeImageData);
+  //     expect(mockPutFormResponse.called).to.be.true;
+  //   });
+  // });
 });
 
 const allSummaries = [
@@ -126,55 +126,55 @@ const allSummaries = [
   },
 ];
 
-const byName = {
-  'name': 'CPAM0002',
-  'description': ': LMNA-related congenital muscular dystropy',
-  'nominated_by': 'Dr. Person One',
-};
+// const byName = {
+//   'name': 'CPAM0002',
+//   'description': ': LMNA-related congenital muscular dystropy',
+//   'nominated_by': 'Dr. Person One',
+// };
 
-const incomingCreateAnalysisFormFixture = {
-  name: 'Fake Analysis',
-  description: 'Fake Description',
-  samples: [
-    {
-      name: 'Fake Sample',
-      sources: [
-        {
-          secondaryAnalysis: [
-            {
-              annotations: {
-                coordinateList: [
-                  {
-                    chromosome: '17',
-                    position: '3768176',
-                    reference: 'T',
-                    alternate: 'AGTGT',
-                  },
-                  {
-                    chromosome: '36',
-                    position: '2781',
-                    reference: 'GTATAGCA',
-                    alternate: 'GTCTATTTT',
-                  },
-                  {
-                    chromosome: '1',
-                    position: '37',
-                    reference: 'GATTTA',
-                    alternate: 'AATTTAGA',
-                  },
-                  {
-                    chromosome: '1',
-                    position: '2',
-                    reference: 'GAAAAT',
-                    alternate: 'GGGTTTAAA',
-                  },
-                ],
-                secondaryPipeline: 'sv',
-              },
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
+// const incomingCreateAnalysisFormFixture = {
+//   name: 'Fake Analysis',
+//   description: 'Fake Description',
+//   samples: [
+//     {
+//       name: 'Fake Sample',
+//       sources: [
+//         {
+//           secondaryAnalysis: [
+//             {
+//               annotations: {
+//                 coordinateList: [
+//                   {
+//                     chromosome: '17',
+//                     position: '3768176',
+//                     reference: 'T',
+//                     alternate: 'AGTGT',
+//                   },
+//                   {
+//                     chromosome: '36',
+//                     position: '2781',
+//                     reference: 'GTATAGCA',
+//                     alternate: 'GTCTATTTT',
+//                   },
+//                   {
+//                     chromosome: '1',
+//                     position: '37',
+//                     reference: 'GATTTA',
+//                     alternate: 'AATTTAGA',
+//                   },
+//                   {
+//                     chromosome: '1',
+//                     position: '2',
+//                     reference: 'GAAAAT',
+//                     alternate: 'GGGTTTAAA',
+//                   },
+//                 ],
+//                 secondaryPipeline: 'sv',
+//               },
+//             },
+//           ],
+//         },
+//       ],
+//     },
+//   ],
+// };
