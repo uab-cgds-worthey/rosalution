@@ -8,19 +8,19 @@ import Analyses from '@/models/analyses.js';
 // import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
 // import AnalysisCreateCard from '@/components/AnalysisListing/AnalysisCreateCard.vue';
 // import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
-// import AnalysisListingView from '@/views/AnalysisListingView.vue';
+import AnalysisListingView from '@/views/AnalysisListingView.vue';
 
 // import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 
 // import inputDialog from '@/inputDialog.js';
 // import notificationDialog from '@/notificationDialog.js';
 
-// import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 describe('AnalysisListingView', () => {
   let mockedData;
   // let mockedImport;
-  // let wrapper;
+  let wrapper;
   let sandbox;
 
   beforeEach(() => {
@@ -30,34 +30,34 @@ describe('AnalysisListingView', () => {
 
     // mockedImport = sandbox.stub(Analyses, 'importPhenotipsAnalysis');
 
-    // wrapper = shallowMount(AnalysisListingView, {
-    //   global: {
-    //     components: {
-    //       'font-awesome-icon': FontAwesomeIcon,
-    //     },
-    //     mocks: {
-    //       $route: {
-    //         push: sandbox.spy(),
-    //       },
-    //       $router: {
-    //         push: sandbox.spy(),
-    //       },
-    //     },
-    //   },
-    // });
+    wrapper = shallowMount(AnalysisListingView, {
+      global: {
+        components: {
+          'font-awesome-icon': FontAwesomeIcon,
+        },
+        mocks: {
+          $route: {
+            push: sandbox.spy(),
+          },
+          $router: {
+            push: sandbox.spy(),
+          },
+        },
+      },
+    });
   });
 
   afterEach(() => {
     sandbox.restore();
   });
 
-  // it('Analysis Listing contains a header and content', () => {
-  //   const appHeader = wrapper.find('app-header');
-  //   expect(appHeader.exists()).to.be.true;
+  it('Analysis Listing contains a header and content', () => {
+    const appHeader = wrapper.find('app-header');
+    expect(appHeader.exists()).to.be.true;
 
-  //   const appContent = wrapper.find('app-content');
-  //   expect(appContent.exists()).to.be.true;
-  // });
+    const appContent = wrapper.find('app-content');
+    expect(appContent.exists()).to.be.true;
+  });
 
   // it('Contains an analysis create card', () => {
   //   const createCard = wrapper.findComponent(AnalysisCreateCard);
