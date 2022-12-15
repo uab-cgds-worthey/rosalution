@@ -1,4 +1,4 @@
-name: Static Analysis
+name: Markdown, Docker, and Shell Static Analysis
 
 on: [push, workflow_dispatch]
 
