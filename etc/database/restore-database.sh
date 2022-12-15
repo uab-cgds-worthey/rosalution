@@ -5,7 +5,6 @@ usage() {
   echo "  Restores an archived 'rosalution_db', a rosalution mongodb database, into the specified"
   echo "  MongoDB docker container. The filepath for <target-restore-database-archive> must be an"
   echo "  absolute file path on the system."
-  exit
 }
 
 if [[ $# -ne 2 ]]
