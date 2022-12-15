@@ -13,9 +13,9 @@ describe('analyses.js', () => {
 
   beforeEach(() => {
     mockGetRequest = sandbox.stub(Requests, 'get');
-    mockPostFormResponse = sandbox.stub(Requests, 'postForm');
-    mockPutFormResponse = sandbox.stub(Requests, 'putForm');
-    mockDeleteRequest = sandbox.stub(Requests, 'delete');
+    // mockPostFormResponse = sandbox.stub(Requests, 'postForm');
+    // mockPutFormResponse = sandbox.stub(Requests, 'putForm');
+    // mockDeleteRequest = sandbox.stub(Requests, 'delete');
   });
 
   afterEach(() => {
