@@ -7,9 +7,9 @@ import sinon from 'sinon';
 describe('analyses.js', () => {
   const sandbox = sinon.createSandbox();
   let mockGetRequest;
-  let mockPostFormResponse;
-  let mockPutFormResponse;
-  let mockDeleteRequest;
+  // let mockPostFormResponse;
+  // let mockPutFormResponse;
+  // let mockDeleteRequest;
 
   beforeEach(() => {
     mockGetRequest = sandbox.stub(Requests, 'get');
