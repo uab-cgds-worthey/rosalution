@@ -8,9 +8,13 @@ on: [push, workflow_dispatch]
 
 
 jobs:
-  build:
+  javascript-ci:
 
     runs-on: ubuntu-latest
+  
+    defaults:
+      run:
+        working-directory: frontend
 
     strategy:
       matrix:
