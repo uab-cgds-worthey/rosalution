@@ -18,8 +18,8 @@ jobs:
     - name: Pulling Docker containers
       run: |
         docker pull hadolint/hadolint:v2.8.0
-        docker pull koalaman/shellcheck:stable
-        docker pull ghcr.io/igorshubovych/markdownlint-cli
+        docker pull koalaman/shellcheck:v0.9.0
+        docker pull ghcr.io/igorshubovych/markdownlint-cli:v0.32.2
     - name: Dockerfile linting with Hadolint
       run: |
         while read -r file;
