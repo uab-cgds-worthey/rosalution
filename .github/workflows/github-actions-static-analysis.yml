@@ -3,7 +3,7 @@ name: Static Analysis
 on: [push, workflow_dispatch]
 
 env:
-  MARKDOWNLINT_CONFIG: etc/static-analysis-config/markdownlint.json
+  MARKDOWNLINT_CONFIG: etc/static-analysis/markdownlint.json
 
 jobs:
   build:
