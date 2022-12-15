@@ -7,6 +7,7 @@ on: [push, workflow_dispatch]
 
 env:
   PYLINT_CONFIG: .pylintrc
+  ROSALUTION_KEY: not-a-real-key-but-need-to-resolve
 
 jobs:
   build:
@@ -33,7 +34,11 @@ jobs:
       run: |
         # Stop the build if there are Python linting errors
         pylint --rcfile $PYLINT_CONFIG src tests
-    - name: Test with pytest
+    - name: Unit test with pytest
       working-directory: ./backend
       run: |
-        pytest --cov=src --cov-fail-under=80 --cov-branch --cov-report=term tests
+        pytest --cov=src --cov-fail-under=80 --cov-branch --cov-report=term tests/unit/
+    - name: Integration test with pytest
+      working-directory: ./backend
+      run: |
+        pytest -s tests/integration
