@@ -7,7 +7,6 @@ usage() {
   echo "to the designated output path. By default, the output path is '/home/centos/rosalution/backup-db/'"
   echo "Include a second paramater to overwrite the <output-path>.  If the <output-path> does not exist"
   echo "the backup operation will be canceled"
-  exit
 }
 
 if [[ $# -eq 0 ]]
