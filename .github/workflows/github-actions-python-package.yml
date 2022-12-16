@@ -4,6 +4,7 @@ on: [push, workflow_dispatch]
 
 env:
   PYLINT_CONFIG: .pylintrc
+  YAPF_CONFIG: .style.yapf
   ROSALUTION_KEY: not-a-real-key-but-need-to-resolve
 
 jobs:
@@ -33,6 +34,9 @@ jobs:
       run: |
         # Stop the build if there are Python linting errors
         pylint --rcfile $PYLINT_CONFIG src tests
+    - name: Formatting with Pylint
+      run: |
+        yapf -r . --diff --style $YAPF_CONFIG
     - name: Unit test with pytest
       run: |
         pytest --cov=src --cov-fail-under=80 --cov-branch --cov-report=term tests/unit/
