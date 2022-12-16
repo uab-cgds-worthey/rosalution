@@ -4,6 +4,7 @@ on: [push, workflow_dispatch]
 
 env:
   PYLINT_CONFIG: .pylintrc
+  YAPF_CONFIG: .style.yapf
   ROSALUTION_KEY: not-a-real-key-but-need-to-resolve
 
 jobs:
