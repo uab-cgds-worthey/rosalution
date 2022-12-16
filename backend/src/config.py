@@ -14,7 +14,8 @@ class Settings(BaseSettings):
     for more details.
     """
     api_base_url: str = "http://dev.cgds.uab.edu/rosalution/api"
-    web_base_url: str = "http://dev.cgds.uab.edu/rosalution"
+    web_base_url: str =
+        "http://dev.cgds.uab.edu/rosalution"
     mongodb_host: str = "rosalution-db"
     mongodb_db: str = "rosalution_db"
     rosalution_key: str
