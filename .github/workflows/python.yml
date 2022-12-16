@@ -7,7 +7,7 @@ env:
   ROSALUTION_KEY: not-a-real-key-but-need-to-resolve
 
 jobs:
-  build:
+  python-ci:
 
     runs-on: ubuntu-latest
     strategy:
