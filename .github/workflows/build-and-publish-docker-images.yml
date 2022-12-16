@@ -1,25 +1,18 @@
-name: build and publish docker images
+name: Compile & Publish
 
 on:
-  pull_request:
+  push:
     branches:
     - main
-  # uncomment the following lines to trigger this workflow on the completion of another workflow
-  # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_run
-  # workflow_run:
-  #   workflows: ["workflow name"]
-  #   types:
-  #     - completed
+
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  on-success-build-and-push-image:
+  build-and-push-image:
     runs-on: ubuntu-latest
-    # uncomment the following line to trigger this workflow on the completion of another workflow
-    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -35,9 +28,3 @@ jobs:
       
       - name: Run build script
         run: ./build.sh --tag 0.6.0 --push
-  # uncomment the following lines to add a failure step to this workflow
-  # on-failure:
-  #   runs-on: ubuntu-latest
-  #   if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-  #   steps:
-  #     - run: echo "The triggering workflow failed."
