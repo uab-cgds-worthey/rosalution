@@ -9,7 +9,7 @@ env:
   MARKDOWN_DOCKER: ghcr.io/igorshubovych/markdownlint-cli:v0.32.2
 
 jobs:
-  build:
+  docker-shell-markdown-static-analysis:
     runs-on: ubuntu-latest
       
     steps:
