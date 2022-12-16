@@ -123,7 +123,7 @@ pushImage(){
 # build <service name> <build context - optional> 
 #################
 build(){
-  local image_prefix_name="gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/rosalution/"
+  local image_prefix_name="ghcr.io/uab-cgds-worthey/rosalution/"
   local service_name=$1
   local build_context=$2
 
@@ -159,7 +159,7 @@ build(){
 
 buildDatabaseFixture() {
   local build_target="production-stage"
-  local image_name="gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/rosalution/database-fixture:$build_tag"
+  local image_name="ghcr.io/uab-cgds-worthey/rosalution/database-fixture:$build_tag"
   local build_context="./etc/fixtures"
   local docker_build_command="DOCKER_BUILDKIT=1 docker build --no-cache=true --target=$build_target --tag=$image_name -f $build_context/production.Dockerfile $build_context"
 
