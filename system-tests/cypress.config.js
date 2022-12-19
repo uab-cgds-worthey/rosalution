@@ -9,8 +9,8 @@ module.exports = defineConfig({
     videosFolder: 'cypress/videos',
     specPattern: './e2e/**/*.cy.js',
     supportFile: './support/e2e.js',
+    experimentalSessionAndOrigin: true,
     setupNodeEvents(on, config) {
-      // implement node event listeners here
     },
   },
 });

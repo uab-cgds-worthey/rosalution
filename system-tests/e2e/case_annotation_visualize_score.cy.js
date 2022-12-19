@@ -1,8 +1,6 @@
 describe('case_annotation_display_transcripts.cy.js', () => {
   beforeEach(() => {
-    cy.visit('/login');
-    cy.get('[data-test="username-input"]').type('user01');
-    cy.get('[data-test="local-login-button"]').click();
+    cy.visit('/');
   });
 
   it('Displays Blue to represent Nominal, and Yellow to represent potentially relevant', () => {

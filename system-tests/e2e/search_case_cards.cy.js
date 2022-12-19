@@ -1,8 +1,8 @@
 describe('search_case_cards.cy.js', () => {
+  beforeEach(() => {
+    cy.visit('/');
+  });
   it('searches for cases', () => {
-    cy.visit('/login');
-    cy.get('[data-test="username-input"]').type('user01');
-    cy.get('[data-test="local-login-button"]').click();
     cy.get('[data-test="analysis-search"]').type('c.164G>T');
     cy.get('.analysis-card > .analysis-base').should('contain', 'c.164G>T');
     cy.get('[data-test="analysis-search"]').clear();
