@@ -1,8 +1,6 @@
 <!-- Add a header image here -->
 
-[![CI/CD Status][ci-cd-badge]][ci-cd-link]
-[![Code Coverage][coverage-badge]][coverage-link]
-[![Software License][license-badge]][license-link]
+<!-- CI/CD and other badges here -->
 
 # Rosalution
 
@@ -15,16 +13,16 @@ Rosalution: C-PAM Software Tool
 - [introduction](#introduction)
 - [License](#license)
 - [Installation for Use](#installation-for-use)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
 - [Installation for Development](#installation-for-development)
-  - [Project Setup](#project-setup)
-  - [Local Development](#local-development)
-  - [Database, Fixtures, and Seeding the Database](#database-fixtures-and-seeding-the-database)
+    - [Project Setup](#project-setup)
+    - [Local Development](#local-development)
+    - [Database, Fixtures, and Seeding the Database](#database-fixtures-and-seeding-the-database)
 - [Contributing](#contributing)
-  - [Contributing Guidelines](#contributing-guidelines)
-  - [Code of Conduct](#code-of-conduct)
-  - [How to Report a Bug](#how-to-report-a-bug)
+    - [Contributing Guidelines](#contributing-guidelines)
+    - [Code of Conduct](#code-of-conduct)
+    - [How to Report a Bug](#how-to-report-a-bug)
 - [API Docs](#api-docs)
 - [Maintainers](#maintainers)
 - [How to Cite](#how-to-cite)
@@ -34,13 +32,15 @@ Rosalution: C-PAM Software Tool
 
 ## Introduction
 
-Rosalution assists researchers study 🧬 variation in patients 🧑🏾‍🤝‍🧑🏼 by helping select candidate animal models 🐀🐁🐠🪱 to replicate the variation to further research to derive, diagnose, and provide therapies for ultra-rare diseases.
+Rosalution assists researchers study 🧬 variation in patients 🧑🏾‍🤝‍🧑🏼 by helping select candidate animal models 🐀🐁🐠🪱
+ to replicate the variation to further research to derive, diagnose, and provide therapies for ultra-rare diseases.
 
 ---
 
 ## License
 
-Rosalution is licensed under the [GNU General Public License v3.0](https://github.com/uab-cgds-worthey/rosalution/blob/main/COPYING).
+Rosalution is licensed under the
+ [GNU General Public License v3.0](https://github.com/uab-cgds-worthey/rosalution/blob/main/COPYING).
 
 ---
 
@@ -64,8 +64,8 @@ Rosalution is licensed under the [GNU General Public License v3.0](https://githu
 - [Project Setup](#project-setup)
 - [Local Development](#local-development)
 - [Database, Fixtures, and Seeding the Database](#database-fixtures-and-seeding-the-database)
-  - [Seeding the Database](#seeding-the-database)
-  - [Viewing the Database](#viewing-the-database)
+    - [Seeding the Database](#seeding-the-database)
+    - [Viewing the Database](#viewing-the-database)
 
 ### Project Setup
 
@@ -151,20 +151,26 @@ docker exec -it rosalution_rosalution-db_1 mongosh rosalution_db
 
 ### Contributing Guidelines
 
-We welcome contributions from the community! Please read our [contributing guidelines](url to contributing guidelines) to learn how you can help improve the project.
+We welcome contributions from the community! Please read our [contributing guidelines](url to contributing guidelines)
+ to learn how you can help improve the project.
 
 ### Code of Conduct
 
-We expect all contributors to adhere to our [code of conduct](url to code of conduct). Please read it before contributing to the project.
+We expect all contributors to adhere to our [code of conduct](url to code of conduct). Please read it before
+ contributing to the project.
 
 ### How to Report a Bug
 
 If you encounter a bug while using the project, we want to hear about it! Here's how to report a bug:
 
-  1. Check the [existing issues](https://github.com/uab-cgds-worthey/rosalution/issues) to see if the bug has already been reported.
-  2. If the bug has not already been reported, create a new issue by clicking the "New Issue" button on the [issues page](https://github.com/uab-cgds-worthey/rosalution/issues).
-  3. In the issue template, provide a clear and concise description of the bug, including any error messages that you encountered and steps to reproduce the bug.
-  4. If possible, include any relevant details such as the version of the project you are using, your operating system, and any other relevant information that may help to reproduce and fix the bug.
+  1. Check the [existing issues](https://github.com/uab-cgds-worthey/rosalution/issues) to see if the bug has already
+   been reported.
+  2. If the bug has not already been reported, create a new issue by clicking the "New Issue" button on the
+   [issues page](https://github.com/uab-cgds-worthey/rosalution/issues).
+  3. In the issue template, provide a clear and concise description of the bug, including any error messages that you
+   encountered and steps to reproduce the bug.
+  4. If possible, include any relevant details such as the version of the project you are using, your operating system,
+   and any other relevant information that may help to reproduce and fix the bug.
 
 We will review your issue and work to resolve the bug as soon as possible. Thank you for helping to improve the project!
 
