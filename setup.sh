@@ -24,6 +24,7 @@ then
 fi
 
 install frontend
+install system-tests
 
 ./etc/etc-hosts.sh local.rosalution.cgds
 
