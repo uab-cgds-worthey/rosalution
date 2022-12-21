@@ -4,7 +4,7 @@
 
 # Rosalution
 
-!\[license-badge\](https://badgen.net/badge/license/GPLv3/blue)
+![license-badge](https://badgen.net/badge/license/GPLv3/blue)
 
 Rosalution: C-PAM Software Tool
 
