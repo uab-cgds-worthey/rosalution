@@ -5,6 +5,7 @@
 # Rosalution
 
 ![license-badge](https://badgen.net/badge/license/GPLv3/blue)
+![example](https://github.com/uab-cgds-worthey/rosalution/actions/workflows/python.yml/badge.svg)
 
 Rosalution: C-PAM Software Tool
 
