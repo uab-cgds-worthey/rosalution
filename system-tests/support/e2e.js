@@ -16,5 +16,12 @@
 // Import commands.js using ES2015 syntax:
 import './commands';
 
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+beforeEach( () => {
+  const username = 'user01';
+  const sessionAlias = username;
+  cy.session(sessionAlias, () => {
+    cy.login(username);
+  }, {
+    cacheAcrossSpecs: true,
+  });
+});

@@ -1,8 +1,8 @@
 describe('visually_indicate_status.cy.js', () => {
+  beforeEach(() => {
+    cy.visit('/');
+  });
   it('visually indicates status', () => {
-    cy.visit('/login');
-    cy.get('[data-test="username-input"]').type('user01');
-    cy.get('[data-test="local-login-button"]').click();
     cy.get('[href="/rosalution/analysis/CPAM0002"] > .analysis-card > .analysis-base > .case-status-section >' +
     ' .status-icon > .svg-inline--fa').should('have.class', 'fa-check');
     cy.get('[href="/rosalution/analysis/CPAM0047"] > .analysis-card > .analysis-base > .case-status-section >' +

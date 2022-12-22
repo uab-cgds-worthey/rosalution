@@ -1,8 +1,8 @@
 describe('As a Clinical Analyst using Rosalution for analysis', () => {
+  beforeEach(() => {
+    cy.visit('/');
+  });
   it('should allow the user to navigate the analysis via the logo, header, and section anchor links', () => {
-    cy.visit('/login');
-    cy.get('[data-test="username-input"]').type('user01');
-    cy.get('[data-test="local-login-button"]').click();
     cy.get('.analysis-card')
         .find(':contains(CPAM0002)')
         .find('.case-name').click();
