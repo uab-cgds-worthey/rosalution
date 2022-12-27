@@ -1,8 +1,6 @@
 describe('gene_variant_info_present.cy.js', () => {
   beforeEach(() => {
-    cy.visit('/login');
-    cy.get('[data-test="username-input"]').type('user01');
-    cy.get('[data-test="local-login-button"]').click();
+    cy.visit('/');
     cy.get('[href="/rosalution/analysis/CPAM0047"]').click();
   });
 

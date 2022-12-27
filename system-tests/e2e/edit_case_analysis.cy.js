@@ -1,9 +1,7 @@
 describe('edit_case_analysis.cy.js', () => {
   beforeEach(() => {
     cy.resetDatabase();
-    cy.visit('/login');
-    cy.get('[data-test="username-input"]').type('user01');
-    cy.get('[data-test="local-login-button"]').click();
+    cy.visit('/');
     cy.get('.analysis-card').first().click();
     cy.get('.grey-rounded-menu').invoke('attr', 'style', 'display: block; visibility: visible; opacity: 1;');
     cy.get('[data-test="user-menu"] > .grey-rounded-menu > :nth-child(1)').contains('Edit').click();

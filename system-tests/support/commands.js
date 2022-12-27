@@ -14,10 +14,22 @@
 //
 //
 Cypress.Commands.add('resetDatabase', () => {
-  console.log('adding  reset database');
   return cy.exec(`docker-compose exec -T rosalution-db mongosh /tmp/fixtures/seed.js`);
 });
 
+Cypress.Commands.add('login', (username) => {
+  cy.request({
+    method: 'POST',
+    url: '/api/auth/token',
+    form: true,
+    body: {
+      username: username,
+      password: 'secret',
+    },
+  });
+
+  cy.getCookie('rosalution_TOKEN').should('exist');
+});
 //
 //
 // -- This is a dual command --

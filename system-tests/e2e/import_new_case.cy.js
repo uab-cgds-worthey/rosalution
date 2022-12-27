@@ -1,12 +1,10 @@
 describe('import_new_case.cy.js', () => {
   beforeEach(() => {
     cy.resetDatabase();
+    cy.visit('/');
   });
 
   it('imports a new case', () => {
-    cy.visit('/login');
-    cy.get('[data-test="username-input"]').type('user01');
-    cy.get('[data-test="local-login-button"]').click();
     cy.get('.analysis-create-card').click();
     cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/phenotips-import.json', {
       action: 'drag-drop',
@@ -21,9 +19,6 @@ describe('import_new_case.cy.js', () => {
   });
 
   it('imports a new case with a duplicate case ID', () => {
-    cy.visit('/login');
-    cy.get('[data-test="username-input"]').type('user01');
-    cy.get('[data-test="local-login-button"]').click();
     cy.get('.analysis-create-card').click();
     cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/phenotips-import.json', {
       action: 'drag-drop',
@@ -48,9 +43,6 @@ describe('import_new_case.cy.js', () => {
   });
 
   it('tries to import a new case with a file that isn\'t a JSON file', () => {
-    cy.visit('/login');
-    cy.get('[data-test="username-input"]').type('user01');
-    cy.get('[data-test="local-login-button"]').click();
     cy.get('.analysis-create-card').click();
     cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/example_file_to_upload.txt', {
       action: 'drag-drop',

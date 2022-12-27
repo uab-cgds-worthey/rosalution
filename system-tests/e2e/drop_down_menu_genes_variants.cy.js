@@ -1,9 +1,7 @@
 describe('drop_down_menu_genes_variants.cy.js', () => {
   beforeEach(() => {
     cy.resetDatabase();
-    cy.visit('/login');
-    cy.get('[data-test="username-input"]').type('user01');
-    cy.get('[data-test="local-login-button"]').click();
+    cy.visit('/');
     cy.get('[href="/rosalution/analysis/CPAM0047"]').click();
     cy.get('[data-test="gene-name"]').click();
   });
