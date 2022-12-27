@@ -1,6 +1,8 @@
 # Rosalution
 
-<img src="rosalution_title.svg" alt="Rosalution Logo and Title" width="400" style="display: block; margin: 0 auto" />
+<p align="center">
+    <img src="rosalution_title.svg" alt="Rosalution Logo and Title" width="400"/>
+</p>
 
 ![license-badge](https://badgen.net/badge/license/GPLv3/blue)
 ![example](https://github.com/uab-cgds-worthey/rosalution/actions/workflows/python.yml/badge.svg)
