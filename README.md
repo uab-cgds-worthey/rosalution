@@ -157,11 +157,11 @@ docker exec -it rosalution_rosalution-db_1 mongosh rosalution_db
 ### Contributing Guidelines
 
 We welcome contributions from the community! Please read our [contributing guidelines](url to contributing guidelines)
- to learn how you can help improve the project.
+to learn how you can help improve the project.
 
 ### Code of Conduct
 
-We expect all contributors to adhere to our [code of conduct](url to code of conduct). Please read it before
+We expect all contributors to adhere to our [code of conduct](CODE_OF_CONDUCT.md). Please read it before
  contributing to the project.
 
 ### How to Report a Bug
