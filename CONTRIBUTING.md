@@ -1,11 +1,11 @@
-# Contributing to Rosalution
+# Contributing Guidelines
 
 :grin: :tada: Thank you for taking the time to contribute! :grin: :tada:
 
 The following is a set of guidelines for contributing to Rosalution.
 
 - [Contributing](#contributing)
-  - [Linting and Static Analysis](#linting-and-static-analysis)
+    - [Linting and Static Analysis](#linting-and-static-analysis)
 - [Reporting Issues](#reporting-issues)
 - [Seeking Support](#seeking-support)
 
@@ -16,9 +16,11 @@ The following is a set of guidelines for contributing to Rosalution.
 To get started on contributing to Rosalution:
 
 - Choose an existing feature/bug listed under issues.
-  - If the feature/bug is not listed under issues, create the feature request/bug. Only start work on it once request is accepted.
+    - If the feature/bug is not listed under issues, create the feature request/bug.
+    Only start work on it once request is accepted.
 - Fork and create a new branch for your work.
-- Submit a pull request with adequete documentation of functionality and changes made. Ensure the PR description clearly describes the problem and solution. Include the relevant issue number if applicable.
+- Submit a pull request with adequete documentation of functionality and changes made.
+Ensure the PR description clearly describes the problem and solution. Include the relevant issue number if applicable.
 
 ### Linting and Static Analysis
 
