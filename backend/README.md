@@ -1,6 +1,16 @@
-# README
+# Rosalution Backend
+
+Rosalution's backend uses FastAPI as a Python REST endpoint framework to accept and proccess frontend and user requests.
+
+It is currently used to handle Rosalution's authentication system, interact with MongoDB for state management,
+and the web accessible Swagger API documentation.
 
 ## Setup
+
+### Dependencies
+
+- [Python 3.8+](https://www.python.org/) - [Install](https://www.python.org/downloads/)
+- [Pip](https://pip.pypa.io/en/stable/) - [Install](https://pip.pypa.io/en/stable/installation/)
 
 ### Requirements
 
