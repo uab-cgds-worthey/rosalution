@@ -15,7 +15,7 @@ further research to derive, diagnose, and provide therapies for ultra-rare disea
 --- INCLUDE WRITEUP ON ROSALUTION BEING A FULL STACK WEBSITE APPLICATION AND API
 
 [Getting Started](#getting-started) • [Deployment](#deployment) • [Contributing](#contributing)
-• [Maintainers](#maintainers) • [How to Cite](#how-to-cite)
+• [Maintainers](#maintainers)
 • [Credits and Acknowledgements](#credits-and-acknowledgements) • [License](#license)
 
 ---
@@ -185,9 +185,11 @@ We will review your issue and work to resolve the bug as soon as possible. Thank
 
 ## Maintainers
 
----
-
-## How to Cite
+- [Angelina Uno-Antonison](https://github.com/SeriousHorncat)
+    - Email: aeunoantonison@uabmc.edu
+- [Rabab Fatima](https://github.com/fatimarabab)
+- [James Scherer](https://github.com/JmScherer)
+- [Alex Moss](https://github.com/kuthedk)
 
 ---
 
