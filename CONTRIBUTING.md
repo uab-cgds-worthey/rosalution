@@ -38,9 +38,15 @@ Please ensure that your branch passes static analysis when submitting a pull req
   pylint src tests 
   ```
 
+- To run linting for markdown `.md` files
+
+  We use a dependency called markdownlint.
+  For installation/setup instructions, refer to [markdownlint's Github repo](https://github.com/DavidAnson/markdownlint).
+  Please reference our configuration files for additional linting rules.
+
 To reference configuration files:
 
-- General: `./etc/static-analysis`
+- General & Markdown: `./etc/static-analysis/`
 - Frontend: `./frontend/.eslintrc.js`
 - Backend: `./backend/.pylintrc`
 
