@@ -15,7 +15,7 @@ further research to derive, diagnose, and provide therapies for ultra-rare disea
 --- INCLUDE WRITEUP ON ROSALUTION BEING A FULL STACK WEBSITE APPLICATION AND API
 
 [Getting Started](#getting-started) • [Deployment](#deployment) • [Contributing](#contributing)
-• [Maintainers](#maintainers) • [How to Cite](#how-to-cite)
+• [Maintainers](#maintainers)
 • [Credits and Acknowledgements](#credits-and-acknowledgements) • [License](#license)
 
 ---
