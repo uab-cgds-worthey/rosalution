@@ -14,7 +14,7 @@ for analysis.
 
 ### Requirements
 
-Rosalution frontend application and development dependenices are managed within
+Rosalution frontend application and development dependencies are managed within
 the project's `package.json` in this project directory. Run the following to
 setup application and development dependencies using Yarn.
 
@@ -29,7 +29,7 @@ Rosalution's frontend currently expects the host address route to end with
 base url ending with `/rosalution/api`. Login will fail if Rosalution's backend
 service is unaccessible.
 
-Use *docker* and *docker-compose* facilitate these two depdencies to deploy Rosalution in
+Use *docker* and *docker-compose* facilitate these two dependencies to deploy Rosalution in
 it's entirety for local development. Visit [Rosalution's Environment Setup and Deployment](../README.md#environment-setup)
 for instructions on how to get started.
 
@@ -42,7 +42,7 @@ in support of rapid development.
 Builds Rosalution frontend for production.
 
 ```bash
-vite build
+yarn build
 ```
 
 ## Testing
@@ -79,7 +79,7 @@ Code coverage configuration is managed in the `vite.config.js` and is generated
 by [c8](https://github.com/bcoe/c8#readme).
 
 Visit
-`<{root_project_path/delphi/web-analysis/coverage/index.html}>` within the browser
+`<{root_project_path/rosalution/frontend/coverage/index.html}>` within the browser
 to see an HTML report of the code coverage generated from unit tests.
 
 ## Static Analysis
