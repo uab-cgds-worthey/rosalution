@@ -27,6 +27,8 @@ further research to derive, diagnose, and provide therapies for ultra-rare disea
 - [Local Development Setup](#local-development-setup)
     - [Clone Repository](#clone-repository)
     - [Environment Setup](#environment-setup)
+    - [Unit and System Testing](#unit-and-system-testing)
+    - [Static Analysis](#static-analysis)
 
 ### Prerequisites
 
@@ -76,6 +78,13 @@ Subsystem by running the following in Powershell as an administrator
 ```powershell
 Restart-Service LxssManager*
 ```
+
+### Unit and System Testing
+
+### Static Analysis
+
+We use different linting tools for frontend, backend and markdown files for Static Analysis. To see the commands to run linting,
+refer to [Linting and Static Analysis](CONTRIBUTING.md#linting-and-static-analysis) in the [Contributing Guidelines](CONTRIBUTING.md).
 
 ---
 
@@ -158,7 +167,7 @@ docker exec -it rosalution_rosalution-db_1 mongosh rosalution_db
 
 ### Contributing Guidelines
 
-We welcome contributions from the community! Please read our [contributing guidelines](url to contributing guidelines)
+We welcome contributions from the community! Please read our [Contributing Guidelines](CONTRIBUTING.md)
 to learn how you can help improve the project.
 
 ### Code of Conduct
@@ -168,18 +177,7 @@ We expect all contributors to adhere to our [code of conduct](CODE_OF_CONDUCT.md
 
 ### How to Report a Bug
 
-If you encounter a bug while using the project, we want to hear about it! Here's how to report a bug:
-
-  1. Check the [existing issues](https://github.com/uab-cgds-worthey/rosalution/issues) to see if the bug has already
-   been reported.
-  2. If the bug has not already been reported, create a new issue by clicking the "New Issue" button on the
-   [issues page](https://github.com/uab-cgds-worthey/rosalution/issues).
-  3. In the issue template, provide a clear and concise description of the bug, including any error messages that you
-   encountered and steps to reproduce the bug.
-  4. If possible, include any relevant details such as the version of the project you are using, your operating system,
-   and any other relevant information that may help to reproduce and fix the bug.
-
-We will review your issue and work to resolve the bug as soon as possible. Thank you for helping to improve the project!
+To report a bug, refer to [Reporting Issues](CONTRIBUTING.md#reporting-issues) in the [Contributing Guidelines](CONTRIBUTING.md).
 
 ---
 
