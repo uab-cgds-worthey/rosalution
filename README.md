@@ -185,6 +185,13 @@ We will review your issue and work to resolve the bug as soon as possible. Thank
 
 ## Maintainers
 
+- [Angelina Uno-Antonison](https://github.com/SeriousHorncat)
+- [Rabab Fatima](https://github.com/fatimarabab)
+- [James Scherer](https://github.com/JmScherer)
+- [Alex Moss](https://github.com/kuthedk)
+
+[@jmscherer](https://github.com/JmScherer)
+
 ---
 
 ## How to Cite
