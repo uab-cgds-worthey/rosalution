@@ -27,7 +27,8 @@ further research to derive, diagnose, and provide therapies for ultra-rare disea
 - [Local Development Setup](#local-development-setup)
     - [Clone Repository](#clone-repository)
     - [Environment Setup](#environment-setup)
-    - [Unit and System Testing](#unit-and-system-testing)
+    - [Unit and Integration Testing](#unit-and-integration-testing)
+    - [System Testing](#system-testing)
     - [Static Analysis](#static-analysis)
 
 ### Prerequisites
@@ -64,6 +65,7 @@ The script will
 - Updates ~/.bashrc file by appending a randomly generated key in `ROSALUTION_KEY`
 as an environment variable used for the backend service's auth.
     - Source the `.bashrc` if you are to deploy within the same terminal session.
+- Python environment is not setup with the setup script.  See [Python setup](./backend/README.md#setup) to setup Python environment.
 
 ```bash
 ./setup.sh
@@ -79,7 +81,41 @@ Subsystem by running the following in Powershell as an administrator
 Restart-Service LxssManager*
 ```
 
-### Unit and System Testing
+### Unit and Integration Testing
+
+Rosalution's entire stack is supported with thorough testing. Refer to the following
+on the different testing done within the application.
+
+- [Frontend Testing & Code Coverage](./frontend/README.md#testing)
+- [Backend Testing & Code Coverage](./backend/README.md#testing)
+
+It is important to note that your local environment must be setup in order
+to run unit testing.
+
+### System Testing
+
+- [Full Stack System Testing](./system-tests/README.md)
+
+System testing requires the entire stack of the application to be successfully
+deployed to your local development environment. The environment must be setup
+and the application deployed with *docker-compose*. Refer to the following
+for a quick start with System Testing done by Cypress.
+
+Our system testing requires that Chrome is available as a browser on the system.
+This makes it extremely difficult to setup/run within Windows Subsystem Linux,
+so running system testing in WSL2 is not supported.
+
+```bash
+# Run System Testing with report displayed in terminal
+cd system-tests
+yarn test:e2e
+```
+
+```bash
+# Run System Testing with Cypress UI to visualize and run system testing
+cd system-tests
+yarn test:e2e:open
+```
 
 ### Static Analysis
 
