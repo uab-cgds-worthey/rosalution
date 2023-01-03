@@ -230,6 +230,20 @@ To report a bug, refer to [Reporting Issues](CONTRIBUTING.md#reporting-issues) i
 
 ## Credits and Acknowledgements
 
+Dr. Elizabeth Worthey
+Principal Investigator, Director - CGDS. CPAM-BIS Core Lead.
+[Center for Computational Genomics and Data Science (CGDS)](https://sites.uab.edu/cgds/team/)
+[Center for Precision Animal Modeling - Bioinformatics Section](https://sites.uab.edu/cpam/bis/)
+Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, AL
+
+Dr. Brittany Lasseigne
+Principal Investigator - [Lasseigne Lab](https://www.lasseigne.org/team/). CPAM-BIS Core Lead.
+Assitant Professor in the Department of Cell, Developmental and Integrative Biology.
+[Center for Precision Animal Modeling - Bioinformatics Section](https://sites.uab.edu/cpam/bis/)
+Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, AL
+
+[Center for Precision Animal Modeling (C-PAM)](https://sites.uab.edu/cpam/)
+
 ---
 
 ## License
