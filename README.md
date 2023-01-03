@@ -83,7 +83,7 @@ Restart-Service LxssManager*
 
 ### Static Analysis
 
-We use linting tools for JavaScript, Python, Docker, Markdown, and Shell scripts for Static Analysis. 
+We use linting tools for JavaScript, Python, Docker, Markdown, and Shell scripts for Static Analysis.
 To see the commands and how to run linting,
 refer to [Linting and Static Analysis](CONTRIBUTING.md#linting-and-static-analysis) in the [Contributing Guidelines](CONTRIBUTING.md).
 
