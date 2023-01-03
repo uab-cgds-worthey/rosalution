@@ -1,5 +1,4 @@
-
-## Rosalution Backend
+# Rosalution Backend
 
 Rosalution's backend uses FastAPI as a Python REST endpoint framework to accept and proccess frontend and user requests.
 
