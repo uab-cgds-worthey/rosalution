@@ -190,7 +190,6 @@ We will review your issue and work to resolve the bug as soon as possible. Thank
 - [James Scherer](https://github.com/JmScherer)
 - [Alex Moss](https://github.com/kuthedk)
 
-@jmscherer
 ---
 
 ## How to Cite
