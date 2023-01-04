@@ -12,7 +12,7 @@
 [Deployment](#deployment)• [Contributing](#contributing) • [Maintainers](#maintainers) •
 [Credits and Acknowledgements](#credits-and-acknowledgements) • [License](#license)
 
-Rosalution assists researchers in studying genetic 🧬 variation in patients 🧑🏾‍🤝‍🧑🏼 by
+Rosalution assists researchers in studying genetic variation 🧬 in patients 🧑🏾‍🤝‍🧑🏼 by
 helping select candidate animal models 🐀🐁🐠🪱 to replicate the variation to
 further research to derive, diagnose, and provide therapies for ultra-rare diseases.
 
