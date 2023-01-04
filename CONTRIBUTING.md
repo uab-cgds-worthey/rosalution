@@ -19,7 +19,7 @@ To get started on contributing to Rosalution:
     - If the feature/bug is not listed under issues, create the feature request/bug.
     Only start work on it once request is accepted.
 - Fork and create a new branch for your work.
-- Submit a pull request with adequete documentation of functionality and changes made.
+- Submit a pull request with adequate documentation of functionality and changes made.
 Ensure the PR description clearly describes the problem and solution. Include the relevant issue number if applicable.
 
 ### Linting and Static Analysis

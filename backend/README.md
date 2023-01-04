@@ -14,7 +14,7 @@ and the web accessible Swagger API documentation.
 
 ### Requirements
 
-Project depdencies are listed in the `requirements.txt` file at the project's
+Project dependencies are listed in the `requirements.txt` file at the project's
 root structure.
 
 ```sh
@@ -162,7 +162,7 @@ setup code coverage for unit testing to use pytest-cov and its default configura
 configure coverage.py directly.
 
 The unit tests rely on the .coveragerc file to omit the 'main.py' where the application routes are stored.
-'main.py' is tested by integreation tests and not unit tests.
+'main.py' is tested by integration tests and not unit tests.
 
 To view an HTML report of coverage, change the option of `--cov-report=term` to `--cov-report=html`.
 Read <https://pytest-cov.readthedocs.io/en/latest/config.html> to learn more about pytest code coverage
