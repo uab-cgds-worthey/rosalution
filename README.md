@@ -8,15 +8,31 @@
 ![example](https://github.com/uab-cgds-worthey/rosalution/actions/workflows/python.yml/badge.svg)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
 
+[Getting Started](#getting-started) • [Testing & Static Analysis](#testing-and-static-analysis) •
+[Deployment](#deployment)• [Contributing](#contributing) • [Maintainers](#maintainers) •
+[Credits and Acknowledgements](#credits-and-acknowledgements) • [License](#license)
+
 Rosalution assists researchers in studying genetic 🧬 variation in patients 🧑🏾‍🤝‍🧑🏼 by
 helping select candidate animal models 🐀🐁🐠🪱 to replicate the variation to
 further research to derive, diagnose, and provide therapies for ultra-rare diseases.
 
---- INCLUDE WRITEUP ON ROSALUTION BEING A FULL STACK WEBSITE APPLICATION AND API
+Rosalution is the open-source web application maintained and developed by the
+[University of Alabama at Birmingham (UAB) Center for Computational Genomics and Data Science (CGDS)](https://sites.uab.edu/cgds/)
+to support not only the current [UAB Center for Precision Animal Modeling (C-PAM)](https://sites.uab.edu/cpam/) process,
+but also data collection, QA/QC, standardization, integration, dissemination, and collaboration. It also forces and
+collects decision points made during the process. The data collected can be mined for process improvement as well as
+generation of biological insights. This effort to consolidate both the process and the data is critical; this process
+shift is needed to reduce the costs and increase the throughput of precision modeling projects in general.
 
-[Getting Started](#getting-started) • [Deployment](#deployment) • [Contributing](#contributing)
-• [Maintainers](#maintainers)
-• [Credits and Acknowledgements](#credits-and-acknowledgements) • [License](#license)
+Rosalution supports three significant aspects of this collaborative animal modeling process.
+
+- ⌨️ configurable case annotation of genes/loci and variants with patient data intake and public 'omics datasets
+- ✨ dissemination of data to a large team of interdisciplinary researchers and physicians
+- 🌐 collaborative team review and analysis of the case
+
+![First UI screenshot of the Rosalution web application](./docs/figures/rosalution_analysis_ui.png?raw=true "Rosalution Screenshot")
+
+![Second UI screenshot of the Rosalution web application](./docs/figures/rosalution_annotation_ui.png?raw=true "Rosalution Screenshot")
 
 ---
 
@@ -27,9 +43,6 @@ further research to derive, diagnose, and provide therapies for ultra-rare disea
 - [Local Development Setup](#local-development-setup)
     - [Clone Repository](#clone-repository)
     - [Environment Setup](#environment-setup)
-    - [Unit and Integration Testing](#unit-and-integration-testing)
-    - [System Testing](#system-testing)
-    - [Static Analysis](#static-analysis)
 
 ### Prerequisites
 
@@ -81,6 +94,14 @@ Subsystem by running the following in Powershell as an administrator
 Restart-Service LxssManager*
 ```
 
+---
+
+## Testing and Static Analysis
+
+- [Unit and Integration Testing](#unit-and-integration-testing)
+- [System Testing](#system-testing)
+- [Static Analysis](#static-analysis)
+
 ### Unit and Integration Testing
 
 Rosalution's entire stack is supported with thorough testing. Refer to the following
@@ -119,7 +140,7 @@ yarn test:e2e:open
 
 ### Static Analysis
 
-We use linting tools for JavaScript, Python, Docker, Markdown, and Shell scripts for Static Analysis.
+We use linting tools for JavaScript, Python, Docker, Markdown, and Shell scripts for static analysis.
 To see the commands and how to run linting,
 refer to [Linting and Static Analysis](CONTRIBUTING.md#linting-and-static-analysis) in the [Contributing Guidelines](CONTRIBUTING.md).
 
@@ -257,5 +278,4 @@ Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham
 
 ## License
 
-Rosalution is licensed under the
- [GNU General Public License v3.0](https://github.com/uab-cgds-worthey/rosalution/blob/main/COPYING).
+Rosalution is licensed under the [GNU General Public License v3.0](COPYING).
