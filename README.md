@@ -88,7 +88,7 @@ as an environment variable used for the backend service's auth.
 
 > The `/etc/hosts` file must manually update on the Windows side located in
 `C:\Windows\System32\drivers\etc` as an administrator.  Then restart the Linux
-Subsystem by running the following in Powershell as an administrator
+Subsystem by running the following in PowerShell as an administrator
 
 ```powershell
 Restart-Service LxssManager*
@@ -152,7 +152,7 @@ refer to [Linting and Static Analysis](CONTRIBUTING.md#linting-and-static-analys
 - [Database](#database)
     - [Fixtures](#fixtures)
     - [Seeding the Database](#seeding-the-database)
-    - [Interacting with the Databsae](#interacting-with-the-database)
+    - [Interacting with the Database](#interacting-with-the-database)
 
 ### Deploying With Docker-Compose
 
@@ -209,7 +209,7 @@ docker-compose exec rosalution-db  mongosh /tmp/fixtures/seed.js
 
 #### Interacting with the Database
 
-Use the following command to view the database within the mongodb container.
+Use the following command to view the database within the MongoDB container.
 
 ```bash
 docker exec -it rosalution_rosalution-db_1 mongosh rosalution_db

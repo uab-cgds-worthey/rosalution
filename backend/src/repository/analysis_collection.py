@@ -16,7 +16,7 @@ class AnalysisCollection:
     """Repository to access analyses for projects"""
 
     def __init__(self, analysis_collection):
-        """Initializes with the 'PyMongo' Collection object for the Analyses collection"""
+        """Initializes with the 'PyMongo' Collection object for the analyses collection"""
         self.collection = analysis_collection
 
     def all(self):

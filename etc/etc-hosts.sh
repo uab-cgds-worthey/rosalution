@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Updates the /etc/hosts with a new record to redirect a Domain Name System (DNS)
-# lookup to allow custom addresses such as 'local.rosalution.cgds' & 'local.delphi.cgds'
+# lookup to allow custom addresses such as 'local.rosalution.cgds'
 # for local development so that is more fluent between applications.
 
 # ./etc-hosts.sh

@@ -6,7 +6,7 @@ for analysis.
 
 ## Setup
 
-### Depenencies
+### Dependencies
 
 - [Node.JS 16+](https://nodejs.org/en/)
     - Recommended to manageNode.JS versions with [nvm](https://www.npmjs.com/package/npx) - [install](https://github.com/nvm-sh/nvm#install--update-script)
@@ -52,7 +52,7 @@ framework along with:
 
 - [Vue Test Utils](https://test-utils.vuejs.org/) for testing Vue 3 framework
 - [Sinon.js](https://sinonjs.org/) for test spies, stubs, and mocking
-- [Chai Assertion Library](https://www.chaijs.com/) for assertions, builtin to vitest
+- [Chai Assertion Library](https://www.chaijs.com/) for assertions, builtin to Vitest
 
 ### Unit Tests
 

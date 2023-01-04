@@ -3,8 +3,9 @@
 usage() {
   echo "usage: $0"
   echo " "
-  echo "Deploys a a Rosalution mongodb database service that mounts mongodb data to local persistent storage"
-  echo "in /home/centos/rosalution/db."
+  echo "Deploys a Rosalution MongoDB database service that mounts MongoDB data to local persistent storage"
+  echo "in /home/centos/rosalution/db.  It is constrained to the primary swarm node to have access to"
+  echo "its filesystem."
   echo " "
   exit
 }

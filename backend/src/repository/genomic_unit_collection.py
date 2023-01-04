@@ -9,7 +9,7 @@ from bson import ObjectId
 
 
 class GenomicUnitCollection:
-    """ Repository for user09ing genomic units and their annotations """
+    """ Repository for managing genomic units and their annotations """
 
     def __init__(self, genomic_units_collection):
         """Initializes with the 'PyMongo' Collection object for the Genomic Units collection"""
