@@ -1,0 +1,21 @@
+name: System Tests
+
+on: [push, workflow_dispatch]
+
+jobs:
+  system-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: Running the setup.sh script
+      run: |
+        sh setup.sh
+    - name: Checking out the etc hosts file
+      run: |
+        cat /etc/hosts
+    # - name: Building with docker-compose
+    #   run: |
+    #     docker-compose up --build
