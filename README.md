@@ -232,25 +232,25 @@ To report a bug, refer to [Reporting Issues](CONTRIBUTING.md#reporting-issues) i
 
 **Elizabeth Worthey, Ph.D.**  
 *Principal Investigator*, *Director*,
-[Center for Computational Genomics and Data Science (CGDS)](https://sites.uab.edu/cgds/team/)  
+[Center for Computational Genomics and Data Science (CGDS)](https://sites.uab.edu/cgds/)  
 *Co-Director*,
-[Bioinformatics Section(BIS) in the Center for Precision Animal Modeling(C-PAM)](https://sites.uab.edu/cpam/bis/)  
+[Center for Precision Animal Modeling - Bioinformatics Section](https://sites.uab.edu/cpam/bis/)  
 Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, AL
 
-**[Center for Computational Genomics and Data Science (CGDS)](https://sites.uab.edu/cgds/team/)**  
+**[Center for Computational Genomics and Data Science (CGDS)](https://sites.uab.edu/cgds/)**  
 Department of Genetics  
 Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, AL
 
 **[Center for Precision Animal Modeling (C-PAM)](https://sites.uab.edu/cpam/)**  
  The University of Alabama at Birmingham, Birmingham, AL
 
-**Dr. Brittany Lasseigne, Ph.D.**  
-*Principal Investigator*, *Assistant Professor*, [Lasseigne Lab](https://www.lasseigne.org/team/)  
+**Brittany Lasseigne, Ph.D.**  
+*Principal Investigator*, *Assistant Professor*, [Lasseigne Lab](https://www.lasseigne.org/)  
 Department of Cell, Developmental and Integrative Biology  
 Co-Director, [Center for Precision Animal Modeling - Bioinformatics Section](https://sites.uab.edu/cpam/bis/)  
 Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, AL
 
-**[Bioinformatics Section(BIS) in Center for Precision Animal Modeling (C-PAM)](https://sites.uab.edu/cpam/bis)**  
+**[Bioinformatics Section(BIS) in the Center for Precision Animal Modeling (C-PAM)](https://sites.uab.edu/cpam/bis)**  
  The University of Alabama at Birmingham, Birmingham, AL
 
 ---
