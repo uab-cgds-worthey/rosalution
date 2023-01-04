@@ -230,6 +230,29 @@ To report a bug, refer to [Reporting Issues](CONTRIBUTING.md#reporting-issues) i
 
 ## Credits and Acknowledgements
 
+**Elizabeth Worthey, Ph.D.**  
+*Principal Investigator*, *Director*,
+[Center for Computational Genomics and Data Science (CGDS)](https://sites.uab.edu/cgds/)  
+*Co-Director*,
+[Center for Precision Animal Modeling - Bioinformatics Section](https://sites.uab.edu/cpam/bis/)  
+Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, AL
+
+**[Center for Computational Genomics and Data Science (CGDS)](https://sites.uab.edu/cgds/)**  
+Department of Genetics  
+Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, AL
+
+**[Center for Precision Animal Modeling (C-PAM)](https://sites.uab.edu/cpam/)**  
+ The University of Alabama at Birmingham, Birmingham, AL
+
+**Brittany Lasseigne, Ph.D.**  
+*Principal Investigator*, *Assistant Professor*, [Lasseigne Lab](https://www.lasseigne.org/)  
+Department of Cell, Developmental and Integrative Biology  
+*Co-Director*, [Center for Precision Animal Modeling - Bioinformatics Section](https://sites.uab.edu/cpam/bis/)  
+Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, AL
+
+**[Bioinformatics Section(BIS) in the Center for Precision Animal Modeling (C-PAM)](https://sites.uab.edu/cpam/bis)**  
+ The University of Alabama at Birmingham, Birmingham, AL
+
 ---
 
 ## License
