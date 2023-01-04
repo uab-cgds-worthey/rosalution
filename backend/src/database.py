@@ -1,4 +1,4 @@
-"""Module user09es interface to the repository in the data layer that stores the persistent state of the application"""
+"""Module manages interface to the repository in the data layer that stores the persistent state of the application"""
 # pylint: disable=too-few-public-methods
 # This wrapper is intended to create a callable instance for FastAPI Depedency Injection
 # there is no need to include any additional methods
@@ -11,7 +11,7 @@ from .repository.genomic_unit_collection import GenomicUnitCollection
 
 class Database:
     """
-    Interface for collections and additional resources for user09ing persistent
+    Interface for collections and additional resources for persistent
     state of the application.
 
     Utilize the 'connect(client)' method to accept a configured MongoDB database

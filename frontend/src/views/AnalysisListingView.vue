@@ -95,7 +95,7 @@ export default {
 
       // TODO: Handle Unauthorized error
       // Right now this is how we're handling unauthorization errors
-      // There needs to be a proper way to user09e these errors, otherwise each function will
+      // There needs to be a proper way to manage these errors, otherwise each function will
       // have their own error message
       if (analyses.error) {
         console.warn('Cannot retrieve Analyses. User is not authorized or token is expired.');

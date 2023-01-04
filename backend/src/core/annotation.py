@@ -45,7 +45,7 @@ class AnnotationQueue:
 
 class AnnotationService:
     """
-    Creates and user09es annotating genomic units for cases.
+    Creates and manages annotating genomic units for cases.
     """
 
     def __init__(self, annotation_config_collection: AnnotationConfigCollection):
