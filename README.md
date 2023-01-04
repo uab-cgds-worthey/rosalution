@@ -247,7 +247,7 @@ Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham
 **Brittany Lasseigne, Ph.D.**  
 *Principal Investigator*, *Assistant Professor*, [Lasseigne Lab](https://www.lasseigne.org/)  
 Department of Cell, Developmental and Integrative Biology  
-Co-Director, [Center for Precision Animal Modeling - Bioinformatics Section](https://sites.uab.edu/cpam/bis/)  
+*Co-Director*, [Center for Precision Animal Modeling - Bioinformatics Section](https://sites.uab.edu/cpam/bis/)  
 Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, AL
 
 **[Bioinformatics Section(BIS) in the Center for Precision Animal Modeling (C-PAM)](https://sites.uab.edu/cpam/bis)**  
