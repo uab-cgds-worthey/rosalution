@@ -19,6 +19,7 @@ jobs:
     - name: Building with docker-compose
       run: |
         docker-compose up --build -d
-    - name: Do we get an application heartbeat?
-      run: |
         curl local.rosalution.cgds/rosalution/api/heart-beat
+    - name: Stop containers
+      if: always()
+      run: docker-compose down
