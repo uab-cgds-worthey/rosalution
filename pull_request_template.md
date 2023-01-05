@@ -6,6 +6,8 @@ Thank you for contributing to Rosalution! 😁
 <!--- If suggesting a new feature or change, please discuss it in an issue first -->
 <!--- If fixing a bug, there should be an issue describing it with steps to reproduce -->
 
+Any contributions to this repository should follow the [Contributing Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md).
+
 <!-- Pull Request template begins here -->
 <!-- Copy from below to end of file -->
 ## Checklist before requesting a review
@@ -20,7 +22,7 @@ Thank you for contributing to Rosalution! 😁
 ## Pull Request Details
 
 Issue Number ______ - [Issue Title](Link to Issue here)
-
+<!-- Note: Title your Pull Request with an appropriate title corresponding to the Issue title -->
 Changes made:
 
 - Describe changes you made in bullet points
