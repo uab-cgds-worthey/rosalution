@@ -24,3 +24,4 @@ jobs:
         headed: false
         start: docker-compose up --build -d
         wait-on: 'http://local.rosalution.cgds'
+        wait-on-timeout: 120
