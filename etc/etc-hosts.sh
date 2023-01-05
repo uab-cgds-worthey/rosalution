@@ -11,7 +11,6 @@ HOSTNAME=$1
 echo "checking for DNS spoofing $HOSTNAME entry in host file ... "
 if ! grep "$HOSTNAME" /etc/hosts; then
   echo "Adding $HOSTNAME to your /etc/hosts";
-  printf "%s\t%s\n" "127.0.0.1" "$HOSTNAME" | sudo tee -a /etc/hosts > /dev/null;
   printf "%s\t%s\n" "0.0.0.0" "$HOSTNAME" | sudo tee -a /etc/hosts > /dev/null;
 else
   echo "Entry already present"
