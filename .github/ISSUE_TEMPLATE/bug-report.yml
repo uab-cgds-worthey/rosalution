@@ -1,0 +1,80 @@
+name: "\U0001F41E Bug report"
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug: pending review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! 🧬
+
+        We are looking forward to collaborating and resolving the issue.
+
+        By following these instructions, fill every question, and do every step
+        we will be best equiped to work towards a solution. 🙏
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: First Check
+      description: Please confirm and check all the following options.
+      options:
+        - label: I added a very descriptive title to this issue.
+          required: true
+        - label: Check that there isn't [already an issue](https://github.com/uab-cgds-worthey/rosalution/issues/) that reports the same bug to avoid creating a duplicate.
+          required: true
+        - label: Follow our [Code of Conduct](../../CODE_OF_CONDUCT.md)
+          required: true
+        - label: Read the [Contributing Guidelines](../../CONTRIBUTING.md).
+          required: true
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is. If you intend to submit a PR for this issue, tell us in the description. Thanks!
+      placeholder: I am doing ... What I expect is ... What actually happening is ...
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: What browsers are you seeing the problem on if accessed via the browser?
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Not in browser
+  - type: input
+    id: browsers-version
+    attributes:
+      label: Version
+      description: What version of the browser(s) or cURL are you running?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Steps to reproduce
+      description: |
+        Please provide any reproduction steps that may need to be described.
+        If reproduced from a local deployment, confirm your [local environment was setup successfuly](../../README.md#getting-started).
+      placeholder: |
+        * (optional) If from local development version
+          1. Verified environment setup environment with `.setup.sh` and sourced shell, then `docker-compose up`
+
+        * Open the browser and call the endpoint `/`.
+        * It renders an empty rosalution dashboard.
+        * But I expected it to route me to the login page.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. Either browser console logs or cURL http request logs. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](../../CODE_OF_CONDUCT.md)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

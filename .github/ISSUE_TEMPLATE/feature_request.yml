@@ -1,0 +1,55 @@
+name: "\U0001F9EC New feature proposal"
+description: Propose a new feature to be added
+labels: ["enhancement: pending review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your interest in the project and taking the time to fill out this feature proposal! 🙏
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: First Check
+      description: Please confirm and check all the following options.
+      options:
+        - label: I added a very descriptive title to this issue.
+          required: true
+        - label: Check that there isn't [already an proposed enhancement](https://github.com/uab-cgds-worthey/rosalution/issues/) that accomplishes the same thing.
+          required: true
+        - label: Follow our [Code of Conduct](../../CODE_OF_CONDUCT.md)
+          required: true
+        - label: Read the [Contributing Guidelines](../../CONTRIBUTING.md).
+          required: true
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Description
+      description: "Clear and concise description of the problem. Please make the reason and usecases as detailed as possible. If you intend to submit a PR for this issue, tell us in the description. Thanks!"
+      placeholder: As a [] type of user for Rosalution I want [goal / wish] so that [benefit].
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-solution
+    attributes:
+      label: Suggested solution
+      description: "In section [xy] we could provide following implementation..."
+    validations:
+      required: true
+  - type: textarea
+    id: alternative
+    attributes:
+      label: Alternative
+      description: Clear and concise description of any alternative solutions or features you've considered.
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Any other context or screenshots about the feature request here.
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this feature proposal, you agree to follow our [Code of Conduct](../../CODE_OF_CONDUCT.md)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
