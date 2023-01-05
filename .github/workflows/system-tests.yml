@@ -16,6 +16,6 @@ jobs:
     - name: Checking out the etc hosts file
       run: |
         cat /etc/hosts
-    # - name: Building with docker-compose
-    #   run: |
-    #     docker-compose up --build
+    - name: Building with docker-compose
+      run: |
+        docker-compose up --build -d
