@@ -15,9 +15,13 @@ The following is a set of guidelines for contributing to Rosalution.
 
 To get started on contributing to Rosalution:
 
+- Follow our [Code of Conduct](../../CODE_OF_CONDUCT.md)
+- Read these **Contributing Guidelines** to completion
 - Choose an existing feature/bug listed under issues.
-    - If the feature/bug is not listed under issues, create the feature request/bug.
-    Only start work on it once request is accepted.
+    - If the feature/bug is not listed under issues, create a new issue by clicking the **"New Issue"** button on the
+       [issues page](https://github.com/uab-cgds-worthey/rosalution/issues) and click "Get started" for a
+       "🧬 New feature proposal".  
+       Only start work on it once request is reviewed and accepted.
 - Fork and create a new branch for your work.
 - Submit a pull request with adequate documentation of functionality and changes made.
 Ensure the PR description clearly describes the problem and solution. Include the relevant issue number if applicable.
@@ -25,6 +29,7 @@ Ensure the PR description clearly describes the problem and solution. Include th
 ### Linting and Static Analysis
 
 Please ensure that your branch passes static analysis when submitting a pull request.
+GitHub Actions are configured to automate these operations upon a git push into GitHub.
 
 - To run linting in `./frontend/`
 
@@ -59,9 +64,9 @@ If you encounter a bug while using the project, we want to hear about it! Here's
   1. Check the [existing issues](https://github.com/uab-cgds-worthey/rosalution/issues) to see if the bug has already
    been reported.
   2. If the bug has not already been reported, create a new issue by clicking the "New Issue" button on the
-   [issues page](https://github.com/uab-cgds-worthey/rosalution/issues).
-  3. In the issue template, provide a clear and concise description of the bug, including any error messages that you
-   encountered and steps to reproduce the bug.
+   [issues page](https://github.com/uab-cgds-worthey/rosalution/issues) and click "Get started" for a "🐞 Bug Report".
+  3. In the 🐞 Bug Report template, provide a clear and concise description of the bug, including any error messages
+   that you encountered and steps to reproduce the bug in a specific environment.
   4. If possible, include any relevant details such as the version of the project you are using, your operating system,
    and any other relevant information that may help to reproduce and fix the bug.
 
@@ -71,4 +76,4 @@ We will review your issue and work to resolve the bug as soon as possible. Thank
 
 ## Seeking Support
 
-For support in setting up and using Rosalution, please feel free to either use Github Issues or contact us via email on cgds@uabmc.edu.
+For support in setting up and using Rosalution, please feel free to either use GitHub Issues or contact us via email on cgds@uabmc.edu.
