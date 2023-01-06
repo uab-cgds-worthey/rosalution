@@ -19,6 +19,8 @@ Any contributions to this repository should follow the [Contributing Guidelines]
 - [ ] New and existing unit tests pass locally with my changes.
 - [ ] Will this be part of a product update? If yes, please write one phrase about this update.
 
+<!-- Delete the tasks from the above list that are Not Applicable for your pull request -->
+
 ## Pull Request Details
 
 Issue Number ______ - [Issue Title](Link to Issue here)
