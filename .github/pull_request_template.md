@@ -9,7 +9,7 @@ Thank you for contributing to Rosalution! 😁
 Any contributions to this repository should follow the [Contributing Guidelines](../CONTRIBUTING.md) and [Code of Conduct](../CODE_OF_CONDUCT.md).
 
 <!-- Pull Request template begins here -->
-<!-- Copy from below to end of file -->
+<!-- Delete everything from begining of file to here -->
 ## Checklist before requesting a review
 
 - [ ] I have performed a self-review of my code.
