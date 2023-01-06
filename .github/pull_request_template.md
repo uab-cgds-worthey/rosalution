@@ -32,7 +32,8 @@ Changes made:
 - ......
 
 **To Review:**
-Make a to do list of things to check for to approve the pull request
+<!-- Make a to do list of things to check for to approve the pull request -->
+<!-- Modify the below list as appropriate by editing and deleting text that is not applicable-->
 
 - [ ] Static Analysis by Reviewer
 - [ ] The changes made to < describe purpose of change > are working as intended/rendered correctly.
