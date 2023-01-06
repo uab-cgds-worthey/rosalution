@@ -1,0 +1,25 @@
+name: System Tests
+
+on: [push, workflow_dispatch]
+
+env:
+  ROSALUTION_KEY: not-a-real-key-but-need-to-resolve
+
+jobs:
+  system-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: Running the setup.sh script
+      run: |
+        sh setup.sh
+    - name: Cypress tests
+      uses: cypress-io/github-action@v5
+      with:
+        working-directory: system-tests
+        browser: chrome
+        headed: false
+        start: docker-compose up --build -d
+        wait-on: 'http://local.rosalution.cgds'
+        wait-on-timeout: 120
