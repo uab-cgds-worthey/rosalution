@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     auth_web_failure_redirect_route = "/login"
     oauth2_access_token_expire_minutes: int = 60 * 24 * 8  # 60 minutes * 24 hours * 8 days = 8 days
     oauth2_algorithm: str = "HS256"
-    openapi_api_token_route: str = "/auth/token"
+    openapi_api_token_route: str = "auth/token"
     cas_api_service_url: str = "http://dev.cgds.uab.edu/rosalution/api/auth/login?nexturl=%2F"
     cas_server_url: str = "https://padlockdev.idm.uab.edu/cas/"
     cas_login_enable: bool = False
