@@ -9,7 +9,7 @@ Thank you for contributing to Rosalution! 😁
 Any contributions to this repository should follow the [Contributing Guidelines](../CONTRIBUTING.md) and [Code of Conduct](../CODE_OF_CONDUCT.md).
 
 <!-- Pull Request template begins here -->
-<!-- Copy from below to end of file -->
+<!-- Delete everything from begining of file to here -->
 ## Checklist before requesting a review
 
 - [ ] I have performed a self-review of my code.
@@ -18,6 +18,8 @@ Any contributions to this repository should follow the [Contributing Guidelines]
 - [ ] My changes generate no new warnings.
 - [ ] New and existing unit tests pass locally with my changes.
 - [ ] Will this be part of a product update? If yes, please write one phrase about this update.
+
+<!-- Delete the tasks from the above list that are Not Applicable for your pull request -->
 
 ## Pull Request Details
 
@@ -30,7 +32,8 @@ Changes made:
 - ......
 
 **To Review:**
-Make a to do list of things to check for to approve the pull request
+<!-- Make a to do list of things to check for to approve the pull request -->
+<!-- Modify the below list as appropriate by editing and deleting text that is not applicable-->
 
 - [ ] Static Analysis by Reviewer
 - [ ] The changes made to < describe purpose of change > are working as intended/rendered correctly.
