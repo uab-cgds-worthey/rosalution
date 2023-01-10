@@ -4,7 +4,7 @@
 import gridfs
 from pymongo import MongoClient
 # from fastapi.security import OAuth2PasswordBearer
-from .security.oauth2_scheme import OAuth2ClientCredentials
+from .security.oauth2 import OAuth2ClientCredentials
 
 from .core.annotation import AnnotationQueue
 from .database import Database

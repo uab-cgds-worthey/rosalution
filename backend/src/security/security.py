@@ -24,7 +24,6 @@ SECURITY_SCOPES = {
     "developer": "Developer",
 }
 
-
 def create_access_token(
     data: dict,
     access_token_expiration_minutes,
