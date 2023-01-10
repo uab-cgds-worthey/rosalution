@@ -6,7 +6,7 @@ Thank you for contributing to Rosalution! 😁
 <!--- If suggesting a new feature or change, please discuss it in an issue first -->
 <!--- If fixing a bug, there should be an issue describing it with steps to reproduce -->
 
-Any contributions to this repository should follow the [Contributing Guidelines](../CONTRIBUTING.md) and [Code of Conduct](../CODE_OF_CONDUCT.md).
+Any contributions to this repository should follow the [Contributing Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md).
 
 <!-- Pull Request template begins here -->
 <!-- Delete everything from begining of file to here -->
