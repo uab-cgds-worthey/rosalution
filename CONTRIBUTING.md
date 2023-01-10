@@ -15,7 +15,7 @@ The following is a set of guidelines for contributing to Rosalution.
 
 To get started on contributing to Rosalution:
 
-- Follow our [Code of Conduct](../../CODE_OF_CONDUCT.md)
+- Follow our [Code of Conduct](CODE_OF_CONDUCT.md)
 - Read these **Contributing Guidelines** to completion
 - Choose an existing feature/bug listed under issues.
     - If the feature/bug is not listed under issues, create a new issue by clicking the **"New Issue"** button on the
