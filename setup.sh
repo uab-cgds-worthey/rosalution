@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck source=/dev/null
 
 install() {
     local directory=$1
@@ -29,7 +30,7 @@ install system-tests
 ./etc/etc-hosts.sh local.rosalution.cgds
 
 # change to backend directory, create venv, and activate it
-cd backend
+cd backend || { echo "Failure to change to backend directory"; exit 1;}
 python3 -m venv rosalution_env
 source rosalution_env/bin/activate
 
