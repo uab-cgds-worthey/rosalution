@@ -28,6 +28,18 @@ install system-tests
 
 ./etc/etc-hosts.sh local.rosalution.cgds
 
+# change to backend directory, create venv, and activate it
+cd backend
+python3 -m venv rosalution_env
+source rosalution_env/bin/activate
+
+# install requirements
+pip3 install -r requirements.txt
+
+# deactivate venv and return to root directory
+deactivate
+cd - || { echo "Unable to change return to root directory"; exit 1; }
+
 key=$(head -c 65 < /dev/random | base64 |  tr -dc A-Za-z0-9)
 if grep -Fq "ROSALUTION_KEY" ~/.bashrc
 then
