@@ -20,19 +20,19 @@ export default {
 
 <style>
 footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   background-color: var(--primary-background-color);
-  padding: 1em;
   text-align: center;
   position: fixed;
   bottom: 0;
-  /* stick to the bottom */
   width: 100%;
-  /* take up the full width of the parent container */
 }
 
 .footer-link {
   font-size: 0.75em;
-  /* 25% of the parent font size */
 }
 
 .copy-left {
