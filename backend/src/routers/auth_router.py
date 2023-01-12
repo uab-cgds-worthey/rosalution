@@ -40,7 +40,6 @@ def test(authorized=Security(get_authorization, scopes=["developer"])):
         "Ka": ["Boom", "Blammo", "Pow"],
     }
 
-
 # pylint: disable=no-member
 # This is done because pylint doesn't appear to be recognizing python-cas's functions saying they have no member
 @router.get("/login")
@@ -89,9 +88,7 @@ async def login(
 
     return response
 
-
-# This needs to be /token for the api/docs to work in issuing and recognizing a bearer
-@router.post("/token")
+@router.post("/loginDev")
 def login_local_developer(
     response: Response,
     form_data: OAuth2PasswordRequestForm = Depends(),
@@ -122,7 +119,7 @@ def login_local_developer(
 
     return response
 
-@router.post("/access_token")
+@router.post("/token")
 def login_local_developer(
     response: Response,
     form_data: OAuth2ClientCredentialsRequestForm = Depends(),
@@ -143,12 +140,31 @@ def login_local_developer(
     else:
         HTTPException(status_code=400, detail="Client credentials not provided")
 
-    
+    user = repositories["user"].find_by_client_id(client_id)
 
     print(client_id)
     print(client_secret)
 
-    return {"Hello": "World"}
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
+
+    data_to_encode = {
+        "sub": user['client_id'],
+        "scopes": [user['scope']],
+    }
+    access_token = create_access_token(
+        data_to_encode,
+        settings.oauth2_access_token_expire_minutes,
+        settings.rosalution_key,
+        settings.oauth2_algorithm
+    )
+
+    content = {
+        "access_token": access_token,
+        "token_type": "bearer"
+    }
+
+    return content
 
 @router.get("/verify_token", response_model=User)
 def verify_token(
@@ -178,7 +194,6 @@ def logout_oauth(request: Request, response: Response, settings: Settings = Depe
     response.delete_cookie(key="rosalution_TOKEN")
 
     return response
-
 
 @router.get('/logout_callback')
 def logout_callback(settings: Settings = Depends(get_settings)):

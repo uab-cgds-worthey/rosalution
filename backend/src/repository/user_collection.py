@@ -23,3 +23,13 @@ class UserCollection:
 
         user.pop("_id", None)
         return user
+
+    def find_by_client_id(self, client_id: str):
+        """ Returns user by searching for a user's client id """
+        user = self.collection.find_one({"client_id": client_id})
+
+        if user is None:
+            return None
+
+        user.pop("_id", None)
+        return user

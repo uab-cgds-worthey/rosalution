@@ -38,7 +38,7 @@ const authStore = {
   },
   async loginDevelopment(data) {
     const baseUrl = '/rosalution/api/';
-    const urlQuery = 'auth/token';
+    const urlQuery = 'auth/loginDev';
     const body = await Requests.postLogin(baseUrl + urlQuery, data);
 
     return body;
