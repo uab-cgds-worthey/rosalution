@@ -6,7 +6,7 @@
 
 ![license-badge](https://badgen.net/badge/license/GPLv3/blue)
 ![example](https://github.com/uab-cgds-worthey/rosalution/actions/workflows/python.yml/badge.svg)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](https://github.com/uab-cgds-worthey/rosalution/blob/main/CODE_OF_CONDUCT.md)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
 [Getting Started](#getting-started) • [Testing & Static Analysis](#testing-and-static-analysis) •
 [Deployment](#deployment)• [Contributing](#contributing) • [Maintainers](#maintainers) •
@@ -143,7 +143,7 @@ yarn test:e2e:open
 We use linting tools for JavaScript, Python, Docker, Markdown, and Shell scripts for static analysis.
 To see the commands and how to run linting,
 refer to [Linting and Static Analysis](CONTRIBUTING.md#linting-and-static-analysis) in the
-[Contributing Guidelines](https://github.com/uab-cgds-worthey/rosalution/blob/main/CONTRIBUTING.md).
+[Contributing Guidelines](CONTRIBUTING.md).
 
 ---
 
@@ -227,20 +227,19 @@ docker exec -it rosalution_rosalution-db_1 mongosh rosalution_db
 ### Contributing Guidelines
 
 We welcome contributions from the community! Please read our
- [Contributing Guidelines](https://github.com/uab-cgds-worthey/rosalution/blob/main/CONTRIBUTING.md)
+ [Contributing Guidelines](CONTRIBUTING.md)
 to learn how you can help improve the project.
 
 ### Code of Conduct
 
 We expect all contributors to adhere to our
- [code of conduct](https://github.com/uab-cgds-worthey/rosalution/blob/main/CODE_OF_CONDUCT.md). Please read it before
+ [code of conduct](CODE_OF_CONDUCT.md). Please read it before
  contributing to the project.
 
 ### How to Report a Bug
 
-To report a bug, refer to
- [Reporting Issues](https://github.com/uab-cgds-worthey/rosalution/blob/main/CONTRIBUTING.md#reporting-issues) in the
- [Contributing Guidelines](https://github.com/uab-cgds-worthey/rosalution/blob/main/CONTRIBUTING.md).
+To report a bug, refer to [Reporting Issues](CONTRIBUTING.md#reporting-issues)
+ in the [Contributing Guidelines](CONTRIBUTING.md).
 
 ---
 
