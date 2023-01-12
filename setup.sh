@@ -52,3 +52,4 @@ else
     echo "Setting rosalution_key in ~/.bashrc ..."
 fi
 echo "Source your ~/.bashrc to load the updated environment"
+echo "Use 'source backend/rosalution_env/bin/activate' to activate the virtual environment"

@@ -77,7 +77,6 @@ The script will
 'local.rosalution.cgds' to localhost.
 - creates a virtual environment for Python called "rosalution_env" within the backend directory and activates it.
 - installs Python dependencies within the virtual environment and then deactivates the virtual environment.
-    - use `source backend/rosalution_env/bin/activate` to activate the virtual environment.
 - Updates ~/.bashrc file by appending a randomly generated key in `ROSALUTION_KEY`
 as an environment variable used for the backend service's auth.
     - Source the `.bashrc` if you are to deploy within the same terminal session.
