@@ -3,6 +3,7 @@ from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Security, Response
 from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.security import OAuth2PasswordRequestForm
 from ..security.oauth2 import OAuth2ClientCredentialsRequestForm, HTTPClientCredentials, HTTPBasicClientCredentials
 from starlette.requests import Request
 
@@ -90,38 +91,38 @@ async def login(
 
 
 # This needs to be /token for the api/docs to work in issuing and recognizing a bearer
-# @router.post("/token")
-# def login_local_developer(
-#     response: Response,
-#     form_data: OAuth2ClientCredentialsRequestForm = Depends(),
-#     repositories=Depends(database),
-#     settings: Settings = Depends(get_settings),
-# ):
-#     """
-#     OAuth2 compatible token login, get an access token for future requests.
-#     """
-#     user = repositories["user"].find_by_username(form_data.username)
-#     user_authenticated = authenticate(user, form_data.password)
-
-#     if not user_authenticated:
-#         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
-
-#     data_to_encode = {
-#         "sub": user_authenticated['username'],
-#         "scopes": [user_authenticated['scope']],
-#     }
-#     access_token = create_access_token(
-#         data_to_encode, settings.oauth2_access_token_expire_minutes, settings.rosalution_key, settings.oauth2_algorithm
-#     )
-
-#     content = {"access_token": access_token, "token_type": "bearer"}
-#     response = JSONResponse(content=content)
-#     response.delete_cookie(key='rosalution_TOKEN')
-#     response.set_cookie(key="rosalution_TOKEN", value=access_token)
-
-#     return response
-
 @router.post("/token")
+def login_local_developer(
+    response: Response,
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    repositories=Depends(database),
+    settings: Settings = Depends(get_settings),
+):
+    """
+    OAuth2 compatible token login, get an access token for future requests.
+    """
+    user = repositories["user"].find_by_username(form_data.username)
+    user_authenticated = authenticate(user, form_data.password)
+
+    if not user_authenticated:
+        raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
+
+    data_to_encode = {
+        "sub": user_authenticated['username'],
+        "scopes": [user_authenticated['scope']],
+    }
+    access_token = create_access_token(
+        data_to_encode, settings.oauth2_access_token_expire_minutes, settings.rosalution_key, settings.oauth2_algorithm
+    )
+
+    content = {"access_token": access_token, "token_type": "bearer"}
+    response = JSONResponse(content=content)
+    response.delete_cookie(key='rosalution_TOKEN')
+    response.set_cookie(key="rosalution_TOKEN", value=access_token)
+
+    return response
+
+@router.post("/access_token")
 def login_local_developer(
     response: Response,
     form_data: OAuth2ClientCredentialsRequestForm = Depends(),
@@ -142,6 +143,8 @@ def login_local_developer(
     else:
         HTTPException(status_code=400, detail="Client credentials not provided")
 
+    
+
     print(client_id)
     print(client_secret)
 
@@ -159,7 +162,6 @@ def verify_token(
         raise HTTPException(status_code=400, detail="Inactive User")
 
     return current_user
-
 
 @router.get("/logout")
 def logout_oauth(request: Request, response: Response, settings: Settings = Depends(get_settings)):

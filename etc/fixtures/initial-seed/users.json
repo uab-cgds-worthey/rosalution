@@ -5,7 +5,9 @@
       "email":"johndoe@example.com",
       "scope":"developer",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
+      "disabled":false,
+      "client_id": "7y4szxabbs6faw8orr3ow",
+      "client_secret": ""
    },
    {
       "username":"developer",
@@ -13,7 +15,9 @@
       "email":"fake-developer@example.com",
       "scope":"developer",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
+      "disabled":false,
+      "client_id": "fms6z1pu03h3ltms78esw",
+      "client_secret": ""
    },
    {
       "username":"pre-clinical-intake",
@@ -21,7 +25,9 @@
       "email":"fake-pre-clinical@example.com",
       "scope":"pre-clinical-intake",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
+      "disabled":false,
+      "client_id": "fjp3zb6u3qxgu7yt2j5r9zy0",
+      "client_secret": ""
    },
    {
       "username":"researcher",
@@ -29,23 +35,9 @@
       "email":"fake-researcher@example.com",
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
-   },
-   {
-      "username":"user03",
-      "full_name":"User Three",
-      "email":"user03@uab.edu",
-      "scope":"researcher",
-      "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
-   },
-   {
-      "username": "user04",
-      "full_name": "User Four",
-      "email": "user04@uab.edu",
-      "scope": "pre-clinical-intake",
-      "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled": false
+      "disabled":false,
+      "client_id": "y72m8wpj96ot5z5ece33x4c0",
+      "client_secret": ""
    },
    {
       "username":"user01",
@@ -53,7 +45,9 @@
       "email":"userone@example.com",
       "scope":"developer",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
+      "disabled":false,
+      "client_id": "6sq5dv8zatdwmj2i3b9g",
+      "client_secret": ""
    },
    {
       "username":"user02",
@@ -61,7 +55,29 @@
       "email":"usertwo@example.com",
       "scope":"developer",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
+      "disabled":false,
+      "client_id": "j3j8y3gnyd3c3ikvsk8ddh",
+      "client_secret": ""
+   },
+   {
+      "username":"user03",
+      "full_name":"User Three",
+      "email":"user03@uab.edu",
+      "scope":"researcher",
+      "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled":false,
+      "client_id": "ogzmk79dxrxoolakpgzihuw",
+      "client_secret": ""
+   },
+   {
+      "username": "user04",
+      "full_name": "User Four",
+      "email": "user04@uab.edu",
+      "scope": "pre-clinical-intake",
+      "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled": false,
+      "client_id": "3d9hzjd02q27zzcsigpwi3g2e",
+      "client_secret": ""
    },
    {
       "username":"user05",
@@ -69,7 +85,9 @@
       "email":"userfive@example.com",
       "scope":"developer",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
+      "disabled":false,
+      "client_id": "ybkputc2020yqau3n15zqr8owj",
+      "client_secret": ""
    },
    {
       "username":"user06",
@@ -77,7 +95,9 @@
       "email":"user06onison@uabmc.edu",
       "scope":"developer",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
+      "disabled":false,
+      "client_id": "wp6z7dfwabyr1p03iptvwiik",
+      "client_secret": ""
    },
    {
       "username":"user07",
@@ -85,7 +105,9 @@
       "email":"userseven@example.com",
       "scope":"bioinformatics-section-user",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
+      "disabled":false,
+      "client_id": "0yz1xrv14o63hdn0bk3oxg00",
+      "client_secret": ""
    },
    {
       "username":"user08",
@@ -93,7 +115,9 @@
       "email":"usereight@example.com",
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
+      "disabled":false,
+      "client_id": "5lb1v5fg142jlxzco8tb63r96x9xj",
+      "client_secret": ""
    },
    {
       "username":"user09",
@@ -101,7 +125,9 @@
       "email":"usernine@example.com",
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
+      "disabled":false,
+      "client_id": "zthgz90vpm8ffksh3he5768",
+      "client_secret": ""
    },
    {
       "username":"user10",
@@ -109,7 +135,9 @@
       "email":"user10@uab.edu",
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
+      "disabled":false,
+      "client_id": "mbt4bu2o1ls7nvoviu8gfpur8b",
+      "client_secret": ""
    },
    {
       "username":"user11",
@@ -117,7 +145,9 @@
       "email":"user11l@uab.edu",
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
+      "disabled":false,
+      "client_id": "1omrrb8789bzx2j994vupk",
+      "client_secret": ""
    },
    {
       "username":"user12",
@@ -125,7 +155,9 @@
       "email":"usertwelve@example.com",
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
+      "disabled":false,
+      "client_id": "2tb0nivr8ern31kdgza3835",
+      "client_secret": ""
    },
    {
       "username":"user13",
@@ -133,7 +165,9 @@
       "email":"user13@uab.edu",
       "scope":"bioinformatics-section-user",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
+      "disabled":false,
+      "client_id": "m969e39wqjfb8qi3r70cnbe0",
+      "client_secret": ""
    },
    {
       "username":"user14",
@@ -141,7 +175,9 @@
       "email":"userfourteen@example.com",
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
+      "disabled":false,
+      "client_id": "ejokadgklt69055tjdc",
+      "client_secret": ""
    },
    {
       "username":"user15",
@@ -149,14 +185,18 @@
       "email":"userfifteen@example.com",
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
+      "disabled":false,
+      "client_id": "dqszhc7zgh0hwfko",
+      "client_secret": ""
    },
    {
-    "username":"user16",
-    "full_name":"User Sixteen",
-    "email":"usersixteen@example.com",
-    "scope":"researcher",
-    "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-    "disabled":false
+      "username":"user16",
+      "full_name":"User Sixteen",
+      "email":"usersixteen@example.com",
+      "scope":"researcher",
+      "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+      "disabled":false,
+      "client_id": "15da1y9qeymq2dgu5gbodmdjm88",
+      "client_secret": ""
    }
 ]
