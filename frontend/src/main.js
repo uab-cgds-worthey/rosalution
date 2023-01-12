@@ -9,7 +9,7 @@ import NotFoundView from './views/NotFound.vue';
 import AnalysisView from './views/AnalysisView.vue';
 import AnnotationView from './views/AnnotationView.vue';
 
-import footer from './components/Footer.vue';
+import footer from './components/AppFooter.vue';
 
 import './styles/main.css';
 import './styles/rosalution.css';
@@ -62,5 +62,5 @@ const app = createApp(App);
 
 app.use(router);
 app.component('font-awesome-icon', FontAwesomeIcon);
-app.component('Footer', footer);
+app.component('AppFooter', footer);
 app.mount('#app');
