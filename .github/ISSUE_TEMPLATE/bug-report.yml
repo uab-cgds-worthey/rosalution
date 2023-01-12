@@ -21,9 +21,9 @@ body:
           required: true
         - label: Check that there isn't [already an issue](https://github.com/uab-cgds-worthey/rosalution/issues/) that reports the same bug to avoid creating a duplicate.
           required: true
-        - label: Follow our [Code of Conduct](CODE_OF_CONDUCT.md)
+        - label: Follow our [Code of Conduct](https://github.com/uab-cgds-worthey/rosalution/blob/main/CODE_OF_CONDUCT.md)
           required: true
-        - label: Read the [Contributing Guidelines](CONTRIBUTING.md).
+        - label: Read the [Contributing Guidelines](https://github.com/uab-cgds-worthey/rosalution/blob/main/CONTRIBUTING.md).
           required: true
   - type: textarea
     id: bug-description
@@ -72,7 +72,7 @@ body:
     id: terms
     attributes:
       label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](CODE_OF_CONDUCT.md)
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/uab-cgds-worthey/rosalution/blob/main/CODE_OF_CONDUCT.md)
       options:
         - label: I agree to follow this project's Code of Conduct
           required: true
