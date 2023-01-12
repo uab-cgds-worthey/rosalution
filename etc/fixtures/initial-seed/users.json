@@ -6,7 +6,7 @@
       "scope":"developer",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "7y4szxabbs6faw8orr3ow",
+      "client_id": "snbq1q4k4q8wnnzz3rmqjdrhais8afmj",
       "client_secret": ""
    },
    {
@@ -16,7 +16,7 @@
       "scope":"developer",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "fms6z1pu03h3ltms78esw",
+      "client_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
       "client_secret": ""
    },
    {
@@ -26,7 +26,7 @@
       "scope":"pre-clinical-intake",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "fjp3zb6u3qxgu7yt2j5r9zy0",
+      "client_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
       "client_secret": ""
    },
    {
@@ -36,7 +36,7 @@
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "y72m8wpj96ot5z5ece33x4c0",
+      "client_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
       "client_secret": ""
    },
    {
@@ -46,7 +46,7 @@
       "scope":"developer",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "6sq5dv8zatdwmj2i3b9g",
+      "client_id": "umkpw123enzl1lklhlhiegbi073ry45l",
       "client_secret": ""
    },
    {
@@ -56,7 +56,7 @@
       "scope":"developer",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "j3j8y3gnyd3c3ikvsk8ddh",
+      "client_id": "3wyelbcdvgj9e7sqw4kftynyu6nesh5l",
       "client_secret": ""
    },
    {
@@ -66,7 +66,7 @@
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "ogzmk79dxrxoolakpgzihuw",
+      "client_id": "5152vjh31k92zgwldv2d7tm65vyxnwec",
       "client_secret": ""
    },
    {
@@ -76,7 +76,7 @@
       "scope": "pre-clinical-intake",
       "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled": false,
-      "client_id": "3d9hzjd02q27zzcsigpwi3g2e",
+      "client_id": "7ousz9ybtlrhofwxpt8cdxsgx8901dvf",
       "client_secret": ""
    },
    {
@@ -86,7 +86,7 @@
       "scope":"developer",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "ybkputc2020yqau3n15zqr8owj",
+      "client_id": "65v3415j6dsxjhe82fu3c2u1va6o3ugl",
       "client_secret": ""
    },
    {
@@ -96,7 +96,7 @@
       "scope":"developer",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "wp6z7dfwabyr1p03iptvwiik",
+      "client_id": "1wrh4kg7t0udugjwdn4texyxvd57dh05",
       "client_secret": ""
    },
    {
@@ -106,7 +106,7 @@
       "scope":"bioinformatics-section-user",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "0yz1xrv14o63hdn0bk3oxg00",
+      "client_id": "gzc67kf699m9kmkbql3xkh4vqbsi6l6j",
       "client_secret": ""
    },
    {
@@ -116,7 +116,7 @@
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "5lb1v5fg142jlxzco8tb63r96x9xj",
+      "client_id": "ch8htobdchp6pqrs3rs5hgwprki30i8s",
       "client_secret": ""
    },
    {
@@ -126,7 +126,7 @@
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "zthgz90vpm8ffksh3he5768",
+      "client_id": "7n39pod2kkm6a2ubfyt5vk8mcufty996",
       "client_secret": ""
    },
    {
@@ -136,7 +136,7 @@
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "mbt4bu2o1ls7nvoviu8gfpur8b",
+      "client_id": "0oye0ilnc8vpwk54id1xhtgsyg2lgrvw",
       "client_secret": ""
    },
    {
@@ -146,7 +146,7 @@
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "1omrrb8789bzx2j994vupk",
+      "client_id": "ieloeo8w9xuuwdl70no6ly7gx20c0ic7",
       "client_secret": ""
    },
    {
@@ -156,7 +156,7 @@
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "2tb0nivr8ern31kdgza3835",
+      "client_id": "69ht54g3clrl7gw6y6n08vehabcva5c7",
       "client_secret": ""
    },
    {
@@ -166,7 +166,7 @@
       "scope":"bioinformatics-section-user",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "m969e39wqjfb8qi3r70cnbe0",
+      "client_id": "7ad4lf6c7u2gb4tyl7j9rn5so1eqf0vv",
       "client_secret": ""
    },
    {
@@ -176,7 +176,7 @@
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "ejokadgklt69055tjdc",
+      "client_id": "lu1ylmnzpskexfrxldmezvpi8qep9wxy",
       "client_secret": ""
    },
    {
@@ -186,7 +186,7 @@
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "dqszhc7zgh0hwfko",
+      "client_id": "jz8bfwy3lg4ur7owatvo4hmivetwxm1q",
       "client_secret": ""
    },
    {
@@ -196,7 +196,7 @@
       "scope":"researcher",
       "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
       "disabled":false,
-      "client_id": "15da1y9qeymq2dgu5gbodmdjm88",
+      "client_id": "m9s82hwi9c1xczx905cxxq9erm5t8uas",
       "client_secret": ""
    }
 ]
