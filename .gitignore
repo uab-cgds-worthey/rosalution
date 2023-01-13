@@ -41,6 +41,7 @@ rosalution-annotation-log.txt*
 __pycache__/
 *.py[cod]
 *$py.class
+rosalution_env/
 
 # Python Unit test / coverage reports
 htmlcov/
