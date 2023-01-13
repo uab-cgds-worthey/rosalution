@@ -29,16 +29,11 @@ footer {
   position: fixed;
   bottom: 0;
   width: 100%;
+  padding-bottom: var(--p-1);
 }
 
 .footer-link {
   font-size: 0.75em;
 }
 
-.copy-left {
-  display: inline-block;
-  text-align: right;
-  margin: 0px;
-  transform: scaleX(-1);
-}
 </style>
