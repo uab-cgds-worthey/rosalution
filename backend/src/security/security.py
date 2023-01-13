@@ -1,4 +1,6 @@
 """ Provides necessary functions to handle passwords and determining whether users are a verified user  """
+import secrets, string
+
 from typing import Optional
 
 from datetime import datetime, timedelta
@@ -46,17 +48,21 @@ def create_access_token(
     encoded_jwt = jwt.encode(to_encode, secret_token, algorithm)
     return encoded_jwt
 
-def generate_client_secret(client_id):
-    """ This generates a client secret for a user upon request """
-
 def verify_password(plain_password, hashed_password):
     """This will use the CryptContext to hash the plain password and check against the stored pass hash to verify"""
     return pwd_context.verify(plain_password, hashed_password)
 
-
 def get_password_hash(password):
     """This function takes the plain password and makes a hash from it using CryptContext"""
     return pwd_context.hash(password)
+
+def generate_client_secret():
+    """ This generates a client secret for a user upon request """
+    alphabet = string.ascii_letters + string.digits
+    password = ''.join(secrets.choice(alphabet) for i in range(32))
+
+    return password
+
 
 
 def get_authorization(
@@ -100,13 +106,13 @@ def get_authorization(
 
 
 def get_current_user(token: str = Depends(oauth2_scheme), settings: Settings = Depends(get_settings)):
-    """Extracts the username from the token, this is useful to ensure the user is who they say they are"""
+    """Extracts the client_id from the token, this is useful to ensure the user is who they say they are"""
     authenticate_value = "Bearer"
 
     try:
         payload = jwt.decode(token, settings.rosalution_key, algorithms=[settings.oauth2_algorithm])
-        username: str = payload.get("sub")
-        if username is None:
+        client_id: str = payload.get("sub")
+        if client_id is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Could not validate credentials",
@@ -119,7 +125,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), settings: Settings = D
             headers={"WWW-Authenticate": authenticate_value},
         ) from jwt_error
 
-    return username
+    return client_id
 
 
 def authenticate(user: Optional[dict], password: str):

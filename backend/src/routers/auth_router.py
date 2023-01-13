@@ -12,7 +12,7 @@ from cas import CASClient
 from ..config import Settings, get_settings
 from ..dependencies import database
 from ..models.user import User, VerifyUser
-from ..security.security import authenticate, create_access_token, get_authorization, get_current_user
+from ..security.security import authenticate, create_access_token, get_authorization, get_current_user, generate_client_secret
 
 router = APIRouter(
     prefix="/auth",
@@ -168,7 +168,7 @@ def issue_oauth2_token(
 @router.get("/verify_token", response_model=User)
 def verify_token(
     repositories=Depends(database),
-    username: VerifyUser = Security(get_current_user),
+    client_id: VerifyUser = Security(get_current_user),
 ):
     """This function issues the authentication token for the frontend to make requests"""
     user = repositories["user"].find_by_username(username)
@@ -179,8 +179,14 @@ def verify_token(
     return current_user
 
 @router.get("/generate_secret")
-def generate_client_secret():
-    return {"secret": "key"}
+def secret_generator(
+        client_id: VerifyUser = Security(get_current_user),
+        repositories=Depends(database)
+    ):
+
+    client_secret = generate_client_secret()
+
+    return {"client_id": client_id, "client_secret": client_secret}
 
 @router.get("/logout", include_in_schema=False)
 def logout_oauth(request: Request, response: Response, settings: Settings = Depends(get_settings)):
