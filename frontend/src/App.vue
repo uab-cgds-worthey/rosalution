@@ -4,7 +4,10 @@
 </script>
 
 <template>
+  <div>
   <router-view></router-view>
+  <AppFooter></AppFooter>
+  </div>
 </template>
 
 <style>
