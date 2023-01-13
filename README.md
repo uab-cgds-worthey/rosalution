@@ -75,10 +75,11 @@ The script will
 - `yarn install` within each subdirectory
 - Updates your local `/etc/hosts` to support the local DNS name redirect
 'local.rosalution.cgds' to localhost.
+- creates a virtual environment for Python called "rosalution_env" within the backend directory and activates it.
+- installs Python dependencies within the virtual environment and then deactivates the virtual environment.
 - Updates ~/.bashrc file by appending a randomly generated key in `ROSALUTION_KEY`
 as an environment variable used for the backend service's auth.
     - Source the `.bashrc` if you are to deploy within the same terminal session.
-- Python environment is not setup with the setup script.  See [Python setup](./backend/README.md#setup) to setup Python environment.
 
 ```bash
 ./setup.sh

@@ -15,7 +15,11 @@ and the web accessible Swagger API documentation.
 ### Requirements
 
 Project dependencies are listed in the `requirements.txt` file at the project's
-root structure.
+backend root structure.
+
+you do not need to run this command if you have already ran the ./setup.sh script in the Rosalution root directory.
+
+- If you ran the setup.sh script, use `source backend/rosalution_env/bin/activate` to activate the virtual environment.
 
 ```sh
 # From ./backend/
