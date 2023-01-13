@@ -46,6 +46,8 @@ def create_access_token(
     encoded_jwt = jwt.encode(to_encode, secret_token, algorithm)
     return encoded_jwt
 
+def generate_client_secret(client_id):
+    """ This generates a client secret for a user upon request """
 
 def verify_password(plain_password, hashed_password):
     """This will use the CryptContext to hash the plain password and check against the stored pass hash to verify"""

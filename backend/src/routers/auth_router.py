@@ -42,7 +42,7 @@ def test(authorized=Security(get_authorization, scopes=["developer"])):
 
 # pylint: disable=no-member
 # This is done because pylint doesn't appear to be recognizing python-cas's functions saying they have no member
-@router.get("/login")
+@router.get("/login", include_in_schema=False)
 async def login(
     response: Response,
     nexturl: Optional[str] = None,  # CAS Nexturl
@@ -120,7 +120,7 @@ def login_local_developer(
     return response
 
 @router.post("/token")
-def login_local_developer(
+def issue_oauth2_token(
     response: Response,
     form_data: OAuth2ClientCredentialsRequestForm = Depends(),
     basic_credentials: Optional[HTTPClientCredentials] = Depends(token_scheme),
@@ -128,9 +128,8 @@ def login_local_developer(
     settings: Settings = Depends(get_settings),
 ):
     """
-    OAuth2 compatible token login, get an access token for future requests.
+    Issues a valid OAuth2 token upon recieving valid client_id and client_secret
     """
-    print("Is this working?")
     if form_data.client_id and form_data.client_secret:
         client_id = form_data.client_id
         client_secret = form_data.client_secret
@@ -179,7 +178,11 @@ def verify_token(
 
     return current_user
 
-@router.get("/logout")
+@router.get("/generate_secret")
+def generate_client_secret():
+    return {"secret": "key"}
+
+@router.get("/logout", include_in_schema=False)
 def logout_oauth(request: Request, response: Response, settings: Settings = Depends(get_settings)):
     """ Destroys the session and determines if the request was local or production and returns the proper url """
 
@@ -195,7 +198,7 @@ def logout_oauth(request: Request, response: Response, settings: Settings = Depe
 
     return response
 
-@router.get('/logout_callback')
+@router.get('/logout_callback', include_in_schema=False)
 def logout_callback(settings: Settings = Depends(get_settings)):
     """
     The endpoint that gets called after the production logout function is called and redirects
