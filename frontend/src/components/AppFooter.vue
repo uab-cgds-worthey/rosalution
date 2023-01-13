@@ -1,8 +1,8 @@
 <template>
   <footer>
-    <a class="footer-link" href="https://github.com/uab-cgds-worthey/rosalution/blob/main/COPYING">
-      Copyleft <span class="copy-left">&copy;</span> {{ currentYear }} Center for Computational Genomics and Data
-      Science, UAB School of Medicine
+    <a class="footer-link" href="https://github.com/uab-cgds-worthey/rosalution">
+      Center for Computational Genomics and Data Science, University of Alabama at Birmingham, Heersink School of
+       Medicine
     </a>
   </footer>
 </template>
