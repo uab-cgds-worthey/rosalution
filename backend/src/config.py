@@ -5,7 +5,7 @@ Specifically the SECRET_KEY parameter can be generated and changed with each run
 """
 # pylint: disable=too-few-public-methods
 from functools import lru_cache
-from pydantic import BaseSettings
+from pydantic import BaseSettings, root_validator
 
 
 class Settings(BaseSettings):
@@ -25,6 +25,19 @@ class Settings(BaseSettings):
     cas_api_service_url: str = "http://dev.cgds.uab.edu/rosalution/api/auth/login?nexturl=%2F"
     cas_server_url: str = "https://padlockdev.idm.uab.edu/cas/"
     cas_login_enable: bool = False
+
+    @root_validator(pre=True)
+    @classmethod
+    def rosalution_key_exists(cls, values):
+        """
+        Verifies that the ROSALUTION_KEY environment is set and provides a more descriptive error message.
+        This needed to be done as a pydantic root validator to execute this before pydantics validation of
+        individual fields since it would fail due to the missing value.
+        """
+        key = values.get('rosalution_key')
+        if not key:
+            raise ValueError('Environment variable "ROSALUTION_KEY" missing. App requires secret for secure encoding.')
+        return values
 
 
 @lru_cache()
