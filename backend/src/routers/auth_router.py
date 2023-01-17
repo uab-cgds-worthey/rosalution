@@ -75,7 +75,7 @@ async def login(
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
 
     data_to_encode = {
-        "sub": user_authenticated['username'],
+        "sub": user_authenticated['client_id'],
         "scopes": [user_authenticated['scope']],
     }
     access_token = create_access_token(
@@ -105,7 +105,7 @@ def login_local_developer(
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
 
     data_to_encode = {
-        "sub": user_authenticated['username'],
+        "sub": user_authenticated['client_id'],
         "scopes": [user_authenticated['scope']],
     }
     access_token = create_access_token(
@@ -129,25 +129,16 @@ def issue_oauth2_token(
     """
     Issues a valid OAuth2 token upon recieving valid client_id and client_secret
     """
-    print("Is this happening?")
     if form_data.client_id and form_data.client_secret:
-        print("Inside #1")
         client_id = form_data.client_id
         client_secret = form_data.client_secret
     elif basic_credentials:
-        print("Inside #2")
         client_id = basic_credentials.client_id
         client_secret = basic_credentials.client_secret
     else:
-        print("Inside #3")
-        return HTTPException(status_code=400, detail="Client credentials not provided")
-
-    print("Continuing on")
+        raise HTTPException(status_code=400, detail="Client credentials not provided")
 
     user = repositories["user"].find_by_client_id(client_id)
-
-    print(client_id)
-    print(client_secret)
 
     if not user:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
@@ -176,8 +167,14 @@ def verify_token(
     client_id: VerifyUser = Security(get_current_user),
 ):
     """This function issues the authentication token for the frontend to make requests"""
-    user = repositories["user"].find_by_username(username)
+    print(client_id)
+    user = repositories["user"].find_by_client_id(client_id)
+    
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    
     current_user = User(**user)
+    
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive User")
 
