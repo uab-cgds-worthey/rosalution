@@ -121,7 +121,6 @@ def login_local_developer(
 
 @router.post("/token")
 def issue_oauth2_token(
-    response: Response,
     form_data: OAuth2ClientCredentialsRequestForm = Depends(),
     basic_credentials: Optional[HTTPClientCredentials] = Depends(token_scheme),
     repositories=Depends(database),
@@ -130,14 +129,20 @@ def issue_oauth2_token(
     """
     Issues a valid OAuth2 token upon recieving valid client_id and client_secret
     """
+    print("Is this happening?")
     if form_data.client_id and form_data.client_secret:
+        print("Inside #1")
         client_id = form_data.client_id
         client_secret = form_data.client_secret
     elif basic_credentials:
+        print("Inside #2")
         client_id = basic_credentials.client_id
         client_secret = basic_credentials.client_secret
     else:
-        HTTPException(status_code=400, detail="Client credentials not provided")
+        print("Inside #3")
+        return HTTPException(status_code=400, detail="Client credentials not provided")
+
+    print("Continuing on")
 
     user = repositories["user"].find_by_client_id(client_id)
 
