@@ -43,6 +43,7 @@ Rosalution supports three significant aspects of this collaborative animal model
 - [Local Development Setup](#local-development-setup)
     - [Clone Repository](#clone-repository)
     - [Environment Setup](#environment-setup)
+- [Local Development Login](#local-development-login)
 
 ### Prerequisites
 
@@ -94,6 +95,28 @@ Subsystem by running the following in PowerShell as an administrator
 ```powershell
 Restart-Service LxssManager*
 ```
+
+### Local Development Login
+
+To log in to the system once locally deployed, simply enter a username in the designated field and click the "Login" button.
+
+#### Users & user types
+
+The following table lists the available usernames and their corresponding user types, as well as their associated permissions:
+
+| Username | Type of User | User Permission Scope |
+|:--------:|:-------------|:----------------:|
+|developer | Developer user| developer |
+|researcher | Researcher user| researcher |
+|user04 | Pre-clinical-intake user| pre-clinical-intake |
+|user07 | Bioinformatics-section user| bioinformatics-section-user |
+
+Please note that the permissions listed in the table are subject to change.
+
+#### Login screenshots
+
+![Login page](./docs/figures/login.png "Login page")
+![User logged in](./docs/figures/logged-in.png "Developer user logged in")
 
 ---
 
