@@ -17,12 +17,10 @@ from ..models.user import VerifyUser
 from ..security.security import get_current_user
 
 # This is temporarily changed as security is removed for the analysis endpoints to make development easier
-# Change line 18 to the following to enable security:
 # dependencies=[Depends(database), Security(get_authorization, scopes=["write"])]
 # and add the following dependencies at the top:
-# from fastapi import Security
 # from ..security.security import get_authorization
-router = APIRouter(prefix="/analysis", tags=["analysis"], dependencies=[Depends(database)])
+router = APIRouter(prefix="/analysis", tags=["analysis"], dependencies=[Depends(database), Security(get_current_user)])
 
 
 @router.get("/", response_model=List[Analysis])

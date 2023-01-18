@@ -1,7 +1,7 @@
 """ FastAPI Authentication router file that handles the auth lifecycle of the application """
 from typing import Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Security, Response
+from fastapi import APIRouter, Depends, HTTPException, Security, Response, status
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from ..security.oauth2 import OAuth2ClientCredentialsRequestForm, HTTPClientCredentials, HTTPBasicClientCredentials
@@ -11,8 +11,8 @@ from cas import CASClient
 
 from ..config import Settings, get_settings
 from ..dependencies import database
-from ..models.user import User, VerifyUser
-from ..security.security import authenticate, create_access_token, get_authorization, get_current_user, generate_client_secret
+from ..models.user import User, VerifyUser, UserAPI
+from ..security.security import authenticate_password, create_access_token, get_authorization, get_current_user, generate_client_secret
 
 router = APIRouter(
     prefix="/auth",
@@ -69,7 +69,7 @@ async def login(
 
     # Login was successful, redirect to the 'nexturl' query parameter
     user = repositories["user"].find_by_username(cas_user)
-    user_authenticated = authenticate(user, 'secret')
+    user_authenticated = authenticate_password(user, 'secret')
 
     if not user_authenticated:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
@@ -99,7 +99,7 @@ def login_local_developer(
     OAuth2 compatible token login, get an access token for future requests.
     """
     user = repositories["user"].find_by_username(form_data.username)
-    user_authenticated = authenticate(user, form_data.password)
+    user_authenticated = authenticate_password(user, form_data.password)
 
     if not user_authenticated:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
@@ -139,8 +139,13 @@ def issue_oauth2_token(
         raise HTTPException(status_code=400, detail="Client credentials not provided")
 
     user = repositories["user"].find_by_client_id(client_id)
-
+    
     if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
+
+    credentialed_user = UserAPI(**user)
+
+    if client_secret not in credentialed_user.client_secret:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
 
     data_to_encode = {
@@ -167,7 +172,6 @@ def verify_token(
     client_id: VerifyUser = Security(get_current_user),
 ):
     """This function issues the authentication token for the frontend to make requests"""
-    print(client_id)
     user = repositories["user"].find_by_client_id(client_id)
     
     if not user:
@@ -180,15 +184,23 @@ def verify_token(
 
     return current_user
 
-@router.get("/generate_secret")
-def secret_generator(
+@router.get("/generate_secret", status_code=status.HTTP_201_CREATED)
+def generate_secret(
         client_id: VerifyUser = Security(get_current_user),
         repositories=Depends(database)
     ):
 
-    client_secret = generate_client_secret()
+    try:
+        client_secret = generate_client_secret()
+        user = repositories["user"].update_client_secret(client_id, client_secret)
+        credentialed_user = UserAPI(**user)
+    except:
+        raise HTTPException(
+            status_code=500,
+            detail="Something went wrong. Unable to create client secret."
+        )
 
-    return {"client_id": client_id, "client_secret": client_secret}
+    return credentialed_user
 
 @router.get("/logout", include_in_schema=False)
 def logout_oauth(request: Request, response: Response, settings: Settings = Depends(get_settings)):
