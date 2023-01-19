@@ -269,7 +269,7 @@ export default {
     },
     async downloadSupportingEvidence(attachmentToDownload) {
       console.log(attachmentToDownload)
-      await Analyses.downloadSupplementalFile(attachmentToDownload.attachment_id);
+      await Analyses.downloadSupportingEvidence(attachmentToDownload.attachment_id, attachmentToDownload.name);
     },
     async saveAnalysisChanges() {
       const updatedAnalysis = await Analyses.updateAnalysisSections(this.analysis_name, this.updatedContent);

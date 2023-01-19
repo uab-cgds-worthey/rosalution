@@ -173,8 +173,12 @@ def verify_token(
     """This function issues the authentication token for the frontend to make requests"""
     user = repositories["user"].find_by_client_id(client_id)
 
+    print("Is this happening?")
     if not user:
+        print("Are we unauthorized?")
         raise HTTPException(status_code=401, detail="Unauthorized")
+
+    print("Did we proceed?")
 
     current_user = User(**user)
 

@@ -123,6 +123,13 @@ export default {
     const success = await Requests.delete(url);
     return success;
   },
+
+  async downloadSupportingEvidence(attachment_id, attachment_file) {
+    const url = `/rosalution/api/analysis/download/${attachment_id}`;
+    const fileData = { "filename": attachment_file };
+    const success = await Requests.getFile(url, fileData);
+    return success;
+  }
 };
 
 const annotationRenderingTemporary = [
