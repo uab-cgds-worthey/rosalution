@@ -220,7 +220,8 @@ docker exec -it rosalution_rosalution-db_1 mongosh rosalution_db
 
 ### Login and Access
 
-To log in to the system once it has been locally deployed, enter a username in the designated field and click the "Login" button as seen in the figure below.
+To log in to the system once it has been locally deployed, enter a username in the designated field and click the
+ "Login" button as seen in the figure below.
 
 #### Users & user types
 
@@ -228,7 +229,7 @@ A list of all users in the system is available in `etc/fixtures/initial-seed/use
 
 The following table lists some of the usernames and their corresponding user types:
 
-| Username | Type of User 
+| Username | Type of User
 |:--------:|:-------------:
 |developer | Developer user
 |researcher | Researcher user
