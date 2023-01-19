@@ -9,7 +9,7 @@
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
 [Getting Started](#getting-started) • [Testing & Static Analysis](#testing-and-static-analysis) •
-[Deployment](#deployment)• [Contributing](#contributing) • [Maintainers](#maintainers) •
+[Deployment and Usage](#deployment-and-usage)• [Contributing](#contributing) • [Maintainers](#maintainers) •
 [Credits and Acknowledgements](#credits-and-acknowledgements) • [License](#license)
 
 Rosalution assists researchers in studying genetic variation 🧬 in patients 🧑🏾‍🤝‍🧑🏼 by
@@ -43,7 +43,6 @@ Rosalution supports three significant aspects of this collaborative animal model
 - [Local Development Setup](#local-development-setup)
     - [Clone Repository](#clone-repository)
     - [Environment Setup](#environment-setup)
-- [Local Development Login](#local-development-login)
 
 ### Prerequisites
 
@@ -95,28 +94,6 @@ Subsystem by running the following in PowerShell as an administrator
 ```powershell
 Restart-Service LxssManager*
 ```
-
-### Local Development Login
-
-To log in to the system once locally deployed, simply enter a username in the designated field and click the "Login" button.
-
-#### Users & user types
-
-The following table lists the available usernames and their corresponding user types, as well as their associated permissions:
-
-| Username | Type of User | User Permission Scope |
-|:--------:|:-------------:|:----------------:|
-|developer | Developer user| developer |
-|researcher | Researcher user| researcher |
-|user04 | Pre-clinical-intake user| pre-clinical-intake |
-|user07 | Bioinformatics-section user| bioinformatics-section-user |
-
-Please note that the permissions listed in the table are subject to change.
-
-#### Login screenshots
-
-![Login page](./docs/figures/login.png "Login page")
-![User logged in](./docs/figures/logged-in.png "Developer user logged in")
 
 ---
 
@@ -171,13 +148,14 @@ refer to [Linting and Static Analysis](CONTRIBUTING.md#linting-and-static-analys
 
 ---
 
-## Deployment
+## Deployment and Usage
 
 - [Deploying with Docker-Compose](#deploying-with-docker-compose)
 - [Database](#database)
     - [Fixtures](#fixtures)
     - [Seeding the Database](#seeding-the-database)
     - [Interacting with the Database](#interacting-with-the-database)
+- [Login and Access](#login-and-access)
 
 ### Deploying With Docker-Compose
 
@@ -239,6 +217,27 @@ Use the following command to view the database within the MongoDB container.
 ```bash
 docker exec -it rosalution_rosalution-db_1 mongosh rosalution_db
 ```
+
+### Login and Access
+
+To log in to the system once it has been locally deployed, enter a username in the designated field and click the "Login" button as seen in the figure below.
+
+#### Users & user types
+
+A list of all users in the system is available in `etc/fixtures/initial-seed/users.json`.
+
+The following table lists some of the usernames and their corresponding user types:
+
+| Username | Type of User 
+|:--------:|:-------------:
+|developer | Developer user
+|researcher | Researcher user
+|user01 | System Testing user
+|user04 | Pre-clinical-intake user
+|user07 | Bioinformatics-section user
+
+![Login page](./docs/figures/login.png "Login page")
+![User logged in](./docs/figures/logged-in.png "Developer user logged in")
 
 ---
 
