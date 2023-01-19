@@ -30,9 +30,7 @@ def test_get_analyses_unauthorized(client, mock_repositories):
     mock_repositories['analysis'].collection.find.return_value = read_database_fixture("analyses.json")
     response = client.get("/analysis/")
 
-    # This is temporarily changed as security is removed for the analysis endpoints to make development easier
-    # assert response.status_code == 401
-    assert response.status_code == 200
+    assert response.status_code == 401
 
 
 def test_get_analysis_summary(client, mock_access_token, mock_repositories):

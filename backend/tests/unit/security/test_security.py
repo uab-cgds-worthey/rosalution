@@ -11,7 +11,10 @@ from jose import jwt
 
 from fastapi import HTTPException
 from fastapi.security import SecurityScopes
-from src.security.security import authenticate, get_authorization, get_current_user, create_access_token
+from src.security.security import (
+    authenticate_password, get_authorization, get_current_user, create_access_token, generate_client_secret,
+    get_password_hash
+)
 
 
 def test_create_access_token(settings):
@@ -27,6 +30,14 @@ def test_create_access_token(settings):
     )
 
     assert actual_encoded_jwt is not None
+
+
+def test_password_hash():
+    """ Testing that the password given isn't what is returned """
+    password = "fake-password"
+    password_hash = get_password_hash(password)
+
+    assert password != password_hash
 
 
 def test_authorization_successful(settings):
@@ -68,36 +79,56 @@ def test_authorization_unsuccessful_not_in_scope(settings):
 
 
 def test_current_user_existing_user(settings):
-    """Successfully extracts the username from the auth token for use within the application"""
+    """Successfully extracts the client_id from the auth token for use within the application"""
     payload = {
-        "sub": "johndoe",
+        "sub": "fake-client-id",
     }
     jwt.decode = Mock(return_value=payload)
 
-    username = get_current_user(settings=settings)
-    assert username == "johndoe"
+    client_id = get_current_user(settings=settings)
+    assert client_id == "fake-client-id"
+
+
+def test_current_non_existing_user(settings):
+    """ Handles when no user is encoded in the access token, providing an unauthorized """
+    payload = {"sub": None}
+
+    jwt.decode = Mock(return_value=payload)
+
+    with pytest.raises(HTTPException) as exc_info:
+        get_current_user(settings=settings)
+
+    assert exc_info.value.status_code == 401
+    assert exc_info.value.detail == "Could not validate credentials"
 
 
 def test_authenticate_successful(user_john_doe):
-    """Get all the users from the user collection"""
-    user = authenticate(user_john_doe, "secret")
+    """ Successfully authenticates user password """
+    user = authenticate_password(user_john_doe, "secret")
 
     assert user["full_name"] == "John Doe"
     assert user["email"] == "johndoe@example.com"
 
 
 def test_authenticate_unsuccessful_no_user():
-    """Get all the users from the user collection"""
-    authenticate_result = authenticate(None, "secret1")
+    """ Fails to authenticate given no user object passed in """
+    authenticate_result = authenticate_password(None, "secret1")
 
     assert authenticate_result is None
 
 
 def test_authenticate_unsuccessful_password(user_john_doe):
-    """Get all the users from the user collection"""
-    authenticate_result = authenticate(user_john_doe, "secret1")
+    """ Handles the incorrect password for a user """
+    authenticate_result = authenticate_password(user_john_doe, "secret1")
 
     assert authenticate_result is None
+
+
+def test_generate_client_secret():
+    """ Tests to see if the client secret contains the correct length of characters """
+    client_secret = generate_client_secret()
+
+    assert len(client_secret) == 32
 
 
 @pytest.fixture(name="user_john_doe")

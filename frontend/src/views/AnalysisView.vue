@@ -37,6 +37,7 @@
           @open-modal="this.addSupportingEvidence"
           @delete="this.removeSupportingEvidence"
           @edit="this.editSupportingEvidence"
+          @download="this.downloadSupportingEvidence"
         />
         <InputDialog />
         <NotificationDialog
@@ -265,6 +266,10 @@ export default {
             .confirmText('Ok')
             .alert(error);
       }
+    },
+    async downloadSupportingEvidence(attachmentToDownload) {
+      console.log(attachmentToDownload)
+      await Analyses.downloadSupplementalFile(attachmentToDownload.attachment_id);
     },
     async saveAnalysisChanges() {
       const updatedAnalysis = await Analyses.updateAnalysisSections(this.analysis_name, this.updatedContent);

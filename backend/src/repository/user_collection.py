@@ -35,14 +35,12 @@ class UserCollection:
         return user
 
     def update_client_secret(self, client_id: str, client_secret: str):
-        """  """
-        user = self.collection.find_one_and_update({'client_id': client_id},{'$set': {'client_secret': client_secret}})
+        """ Takes a generated client secret and saves it the user with the associated client id """
+        user = self.collection.find_one_and_update({'client_id': client_id}, {'$set': {'client_secret': client_secret}})
 
         if user is None:
             return None
 
         user.pop("_id", None)
-
-        print(user)
 
         return user

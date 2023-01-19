@@ -5,9 +5,8 @@ from itsdangerous import TimestampSigner
 
 from src.routers.auth_router import cas_client
 
-# Helper functions
 
-
+# Helper functions #
 def create_session_cookie(data) -> str:
     """Function that creates a fake session token cookie to mimic Starlette session middleware"""
     signer = TimestampSigner(str("!secret"))
@@ -15,9 +14,7 @@ def create_session_cookie(data) -> str:
     return signer.sign(b64encode(json.dumps(data).encode("utf-8")),).decode("utf-8")
 
 
-# # Authentication Tests #
-
-
+# Authentication Tests #
 def test_login_no_session(client):
     """Testing the login endpoint when there is no login session already"""
     response = client.get("/auth/login")
@@ -42,9 +39,7 @@ def test_login_successful(client, mock_repositories, monkeypatch):
     monkeypatch.setattr(cas_client, "verify_ticket", mock_verify_return)
 
     mock_repositories['user'].collection.find_one.return_value = {
-        "username": "UABProvider",
-        "scope": ['fakescope'],
-        "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+        "username": "UABProvider", "scope": ['fakescope'], "client_id": "fake-uab-client-id"
     }
 
     response = client.get("/auth/login?nexturl=%2F&ticket=FakeTicketString")
@@ -52,11 +47,11 @@ def test_login_successful(client, mock_repositories, monkeypatch):
     assert response.url == "http://dev.cgds.uab.edu/rosalution/"
 
 
-def test_local_logout(client):
+def test_dev_logout(client):
     """ This tests functionality of the local logout function """
     response = client.get(
         "/auth/logout",
-        cookies={"session": create_session_cookie({"username": "UABProvider", "local": True})},
+        cookies={"session": create_session_cookie({"username": "UABProvider"})},
     )
 
     assert response.json() == {"access_token": ""}
@@ -67,7 +62,7 @@ def test_prod_logout(client, mock_settings):  # pylint: disable=unused-argument
     response = client.get(
         '/auth/logout',
         headers={"host": 'dev.cgds.uab.edu'},
-        cookies={"session": create_session_cookie({"username": "UABProvider", "local": False})}
+        cookies={"session": create_session_cookie({"username": "UABProvider"})}
     )
 
     assert response.json() == {

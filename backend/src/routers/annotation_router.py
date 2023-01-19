@@ -2,7 +2,9 @@
 
 from datetime import date
 
-from fastapi import APIRouter, Depends, BackgroundTasks, HTTPException, status, UploadFile, File, Form, Response, Security
+from fastapi import (
+    APIRouter, Depends, BackgroundTasks, HTTPException, status, UploadFile, File, Form, Response, Security
+)
 
 from ..enums import GenomicUnitType
 from ..core.annotation import AnnotationService
@@ -14,7 +16,8 @@ from ..security.security import get_current_user
 router = APIRouter(
     prefix="/annotate",
     tags=["annotation"],
-    dependencies=[Depends(database), Depends(annotation_queue), Security(get_current_user)],
+    dependencies=[Depends(database), Depends(annotation_queue),
+                  Security(get_current_user)],
 )
 
 

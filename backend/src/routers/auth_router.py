@@ -4,7 +4,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Security, Response, status
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
-from ..security.oauth2 import OAuth2ClientCredentialsRequestForm, HTTPClientCredentials, HTTPBasicClientCredentials
+
 from starlette.requests import Request
 
 from cas import CASClient
@@ -12,7 +12,10 @@ from cas import CASClient
 from ..config import Settings, get_settings
 from ..dependencies import database
 from ..models.user import User, VerifyUser, UserAPI
-from ..security.security import authenticate_password, create_access_token, get_authorization, get_current_user, generate_client_secret
+from ..security.oauth2 import OAuth2ClientCredentialsRequestForm, HTTPClientCredentials, HTTPBasicClientCredentials
+from ..security.security import (
+    authenticate_password, create_access_token, get_authorization, get_current_user, generate_client_secret
+)
 
 router = APIRouter(
     prefix="/auth",
@@ -27,9 +30,8 @@ cas_client = CASClient(
     server_url=get_settings().cas_server_url,
 )
 
-token_scheme = HTTPBasicClientCredentials(
-    auto_error=False, scheme_name="oAuth2ClientCredentials"
-)
+token_scheme = HTTPBasicClientCredentials(auto_error=False, scheme_name="oAuth2ClientCredentials")
+
 
 ## Test Route ##
 @router.get("/dev_only_test")
@@ -39,6 +41,7 @@ def test(authorized=Security(get_authorization, scopes=["developer"])):
     return {
         "Ka": ["Boom", "Blammo", "Pow"],
     }
+
 
 # pylint: disable=no-member
 # This is done because pylint doesn't appear to be recognizing python-cas's functions saying they have no member
@@ -69,14 +72,13 @@ async def login(
 
     # Login was successful, redirect to the 'nexturl' query parameter
     user = repositories["user"].find_by_username(cas_user)
-    user_authenticated = authenticate_password(user, 'secret')
 
-    if not user_authenticated:
+    if not user:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
 
     data_to_encode = {
-        "sub": user_authenticated['client_id'],
-        "scopes": [user_authenticated['scope']],
+        "sub": user['client_id'],
+        "scopes": [user['scope']],
     }
     access_token = create_access_token(
         data_to_encode, settings.oauth2_access_token_expire_minutes, settings.rosalution_key, settings.oauth2_algorithm
@@ -87,6 +89,7 @@ async def login(
     response.set_cookie(key="rosalution_TOKEN", value=access_token)
 
     return response
+
 
 @router.post("/loginDev")
 def login_local_developer(
@@ -119,6 +122,7 @@ def login_local_developer(
 
     return response
 
+
 @router.post("/token")
 def issue_oauth2_token(
     form_data: OAuth2ClientCredentialsRequestForm = Depends(),
@@ -139,13 +143,13 @@ def issue_oauth2_token(
         raise HTTPException(status_code=400, detail="Client credentials not provided")
 
     user = repositories["user"].find_by_client_id(client_id)
-    
+
     if not user:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
 
     credentialed_user = UserAPI(**user)
 
-    if client_secret not in credentialed_user.client_secret:
+    if client_secret != credentialed_user.client_secret:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
 
     data_to_encode = {
@@ -153,18 +157,13 @@ def issue_oauth2_token(
         "scopes": [user['scope']],
     }
     access_token = create_access_token(
-        data_to_encode,
-        settings.oauth2_access_token_expire_minutes,
-        settings.rosalution_key,
-        settings.oauth2_algorithm
+        data_to_encode, settings.oauth2_access_token_expire_minutes, settings.rosalution_key, settings.oauth2_algorithm
     )
 
-    content = {
-        "access_token": access_token,
-        "token_type": "bearer"
-    }
+    content = {"access_token": access_token, "token_type": "bearer"}
 
     return content
+
 
 @router.get("/verify_token", response_model=User)
 def verify_token(
@@ -173,36 +172,34 @@ def verify_token(
 ):
     """This function issues the authentication token for the frontend to make requests"""
     user = repositories["user"].find_by_client_id(client_id)
-    
+
     if not user:
         raise HTTPException(status_code=401, detail="Unauthorized")
-    
+
     current_user = User(**user)
-    
+
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive User")
 
     return current_user
 
-@router.get("/generate_secret", status_code=status.HTTP_201_CREATED)
-def generate_secret(
-        client_id: VerifyUser = Security(get_current_user),
-        repositories=Depends(database)
-    ):
 
-    try:
-        client_secret = generate_client_secret()
-        user = repositories["user"].update_client_secret(client_id, client_secret)
-        credentialed_user = UserAPI(**user)
-    except:
-        raise HTTPException(
-            status_code=500,
-            detail="Something went wrong. Unable to create client secret."
-        )
+@router.get("/generate_secret", status_code=status.HTTP_201_CREATED)
+def generate_secret(client_id: VerifyUser = Security(get_current_user), repositories=Depends(database)):
+    """ Generates and saves a client secret to a user upon request """
+
+    client_secret = generate_client_secret()
+    user = repositories["user"].update_client_secret(client_id, client_secret)
+
+    if not user:
+        raise HTTPException(status_code=500, detail="Something went wrong. Unable to create client secret.")
+
+    credentialed_user = UserAPI(**user)
 
     return credentialed_user
 
-@router.get("/logout", include_in_schema=False)
+
+@router.get("/logout")
 def logout_oauth(request: Request, response: Response, settings: Settings = Depends(get_settings)):
     """ Destroys the session and determines if the request was local or production and returns the proper url """
 
@@ -217,6 +214,7 @@ def logout_oauth(request: Request, response: Response, settings: Settings = Depe
     response.delete_cookie(key="rosalution_TOKEN")
 
     return response
+
 
 @router.get('/logout_callback', include_in_schema=False)
 def logout_callback(settings: Settings = Depends(get_settings)):
