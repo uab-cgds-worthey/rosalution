@@ -105,7 +105,7 @@ To log in to the system once locally deployed, simply enter a username in the de
 The following table lists the available usernames and their corresponding user types, as well as their associated permissions:
 
 | Username | Type of User | User Permission Scope |
-|:--------:|:-------------|:----------------:|
+|:--------:|:-------------:|:----------------:|
 |developer | Developer user| developer |
 |researcher | Researcher user| researcher |
 |user04 | Pre-clinical-intake user| pre-clinical-intake |
