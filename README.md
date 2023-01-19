@@ -151,11 +151,11 @@ refer to [Linting and Static Analysis](CONTRIBUTING.md#linting-and-static-analys
 ## Deployment and Usage
 
 - [Deploying with Docker-Compose](#deploying-with-docker-compose)
+- [Login and Access](#login-and-access)
 - [Database](#database)
     - [Fixtures](#fixtures)
     - [Seeding the Database](#seeding-the-database)
     - [Interacting with the Database](#interacting-with-the-database)
-- [Login and Access](#login-and-access)
 
 ### Deploying With Docker-Compose
 
@@ -173,6 +173,28 @@ docker-compose up --build -d
 # force docker images to re-build using the `--build` option
 docker-compose up --build
 ```
+
+### Login and Access
+
+To log in to the system once it has been locally deployed, enter a username in the designated field and click the
+ "Login" button as seen in the figure below.
+
+#### Users & user types
+
+A list of all users in the system is available in `etc/fixtures/initial-seed/users.json`.
+
+The following table lists some of the usernames and their corresponding user types:
+
+| Username | Type of User
+|:--------:|:-------------:
+|developer | Developer user
+|researcher | Researcher user
+|user01 | System Testing user
+|user04 | Pre-clinical-intake user
+|user07 | Bioinformatics-section user
+
+![Login page](./docs/figures/login.png "Login page")
+![User logged in](./docs/figures/logged-in.png "Developer user logged in")
 
 ### Database
 
@@ -217,28 +239,6 @@ Use the following command to view the database within the MongoDB container.
 ```bash
 docker exec -it rosalution_rosalution-db_1 mongosh rosalution_db
 ```
-
-### Login and Access
-
-To log in to the system once it has been locally deployed, enter a username in the designated field and click the
- "Login" button as seen in the figure below.
-
-#### Users & user types
-
-A list of all users in the system is available in `etc/fixtures/initial-seed/users.json`.
-
-The following table lists some of the usernames and their corresponding user types:
-
-| Username | Type of User
-|:--------:|:-------------:
-|developer | Developer user
-|researcher | Researcher user
-|user01 | System Testing user
-|user04 | Pre-clinical-intake user
-|user07 | Bioinformatics-section user
-
-![Login page](./docs/figures/login.png "Login page")
-![User logged in](./docs/figures/logged-in.png "Developer user logged in")
 
 ---
 
