@@ -22,7 +22,6 @@ from ..security.security import get_current_user
 # from ..security.security import get_authorization
 router = APIRouter(prefix="/analysis", tags=["analysis"], dependencies=[Depends(database), Security(get_current_user)])
 
-
 @router.get("/", response_model=List[Analysis])
 def get_all_analyses(repositories=Depends(database)):
     """Returns every analysis available"""

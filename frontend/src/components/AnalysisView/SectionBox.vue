@@ -37,12 +37,14 @@
             </tr>
           </td>
         </tr>
-        <img class="section-image" :src="sectionImage"/>
+        <img class="section-image" :src="this.sectionImage"/>
     </tbody>
   </table>
 </template>
 
 <script>
+import Analyses from '../../models/analyses';
+
 export default {
   name: 'section-box',
   emits: ['update:contentRow', 'attach-image', 'update-image'],
@@ -64,7 +66,11 @@ export default {
     return {
       contentList: this.content,
       section_toggle: this.header.toLowerCase() + '_collapse',
+      sectionImage: ''
     };
+  },
+  created() {
+    this.pedigreeImage();
   },
   computed: {
     isSectionImage() {
@@ -79,12 +85,6 @@ export default {
       }
       return 'attach-image';
     },
-    sectionImage() {
-      if (this.header == 'Pedigree' && this.contentList.length > 0) {
-        return '/rosalution/api/analysis/download/' + this.contentList[0].value[0];
-      }
-      return '';
-    },
   },
   methods: {
     onContentChanged(header, contentField, event) {
@@ -95,6 +95,13 @@ export default {
       };
       this.$emit('update:contentRow', contentRow);
     },
+    async pedigreeImage() {
+      if (this.header == 'Pedigree' && this.contentList.length > 0) {
+        const file_id = this.contentList[0].value[0];
+        const image = await Analyses.getSectionImage(file_id);
+        this.sectionImage = image;
+      }
+    }
   },
 };
 </script>
@@ -136,7 +143,6 @@ div {
 .section-image {
   max-height: 31.25rem;
 }
-
 
 .attach-logo {
   color: var(--rosalution-purple-300);
