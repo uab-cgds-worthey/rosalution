@@ -124,12 +124,12 @@ export default {
     return success;
   },
 
-  async downloadSupportingEvidence(attachment_id, attachment_file) {
-    const url = `/rosalution/api/analysis/download/${attachment_id}`;
-    const fileData = { "filename": attachment_file };
+  async downloadSupportingEvidence(attachmentId, attachmentFile) {
+    const url = `/rosalution/api/analysis/download/${attachmentId}`;
+    const fileData = {'filename': attachmentFile};
     const success = await Requests.getFile(url, fileData);
     return success;
-  }
+  },
 };
 
 const annotationRenderingTemporary = [

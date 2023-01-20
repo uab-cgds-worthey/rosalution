@@ -44,10 +44,10 @@
           data-test="notification-dialog"
         />
         <SaveModal
-        class="save-modal"
-        v-if="this.edit"
-        @canceledit="this.cancelAnalysisChanges"
-        @save="this.saveAnalysisChanges"
+          class="save-modal"
+          v-if="this.edit"
+          @canceledit="this.cancelAnalysisChanges"
+          @save="this.saveAnalysisChanges"
         />
       </app-content>
   </div>
@@ -268,7 +268,6 @@ export default {
       }
     },
     async downloadSupportingEvidence(attachmentToDownload) {
-      console.log(attachmentToDownload)
       await Analyses.downloadSupportingEvidence(attachmentToDownload.attachment_id, attachmentToDownload.name);
     },
     async saveAnalysisChanges() {

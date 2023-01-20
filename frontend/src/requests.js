@@ -52,15 +52,17 @@ export default {
   },
   async getFile(url, data) {
     const authToken = authStore.getToken();
-    const response = await fetch(url, {
+    await fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + authToken,
       },
       mode: 'cors',
-    }).then((res) => {return res.blob(); }).then((result) => {
-      var a = document.createElement("a");
+    }).then((res) => {
+      return res.blob();
+    }).then((result) => {
+      const a = document.createElement('a');
       a.href = window.URL.createObjectURL(result);
       a.download = data.filename;
       a.click();
