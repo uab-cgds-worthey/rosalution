@@ -314,15 +314,10 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.2.45.tgz#a3fffa7489eafff38d984e23d0236e230c818bc2"
   integrity sha512-Ewzq5Yhimg7pSztDV+RH1UDKBzmtqieXQlpTVm2AwraoRL/Rks96mvd8Vgi7Lj+h+TH8dv7mXD3FRZR3TUvbSg==
 
-"@vue/test-utils@2.0.0-rc.18":
-  version "2.0.0-rc.18"
-  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.0.0-rc.18.tgz#ff22b252424fe72e5462cbb3a8e7405cef11ffb6"
-  integrity sha512-aifolXjVdsogjaLmDoZ0FU8vN+R67aWmg9OuVeED4w5Ij5GFQLrlhM19uhWe/r5xXUL4fXMk3pX5wW6FJP1NcQ==
-
-"@vueform/multiselect@^2.3.1":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@vueform/multiselect/-/multiselect-2.3.2.tgz#dca077e7e6e3231f9a9f0a4f6be43f420e87b490"
-  integrity sha512-1M/le6UwTemTHRWF8aqHU3wRVwlyWNLqh8BWDmx80ygbS80P52lhfexGNh80C2P6H8AsrIoCfvdEJtfqQ/UHCg==
+"@vue/test-utils@^2.2.7":
+  version "2.2.7"
+  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.2.7.tgz#0d93d635031a4cca2de70b825aef3fe20a41e702"
+  integrity sha512-BMuoruUFTEqhLoOgsMcgNVMiByYbfHCKGr2C4CPdGtz/affUtDVX5zr1RnPuq0tYSiaqq+Enw5voUpG6JY8Q7g==
 
 acorn-jsx@^5.3.1:
   version "5.3.2"
@@ -1730,7 +1725,7 @@ vue-eslint-parser@^8.0.1:
     lodash "^4.17.21"
     semver "^7.3.5"
 
-vue-router@^4.1.6:
+vue-router@4.1.6:
   version "4.1.6"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.1.6.tgz#b70303737e12b4814578d21d68d21618469375a1"
   integrity sha512-DYWYwsG6xNPmLq/FmZn8Ip+qrhFEzA14EI12MsMgVxvHFDYvlr4NXpVF5hrRH1wVcDP8fGi5F4rxuJSl8/r+EQ==
