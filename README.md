@@ -240,6 +240,39 @@ Use the following command to view the database within the MongoDB container.
 docker exec -it rosalution_rosalution-db_1 mongosh rosalution_db
 ```
 
+### Production
+
+#### Using the Build Script
+
+When deploying the Rosalution system in a production environment, it is important to ensure that the build is optimized
+ for performance and security. This can be achieved by using the `build.sh` script.
+
+The build.sh script is a command-line tool that can be used to build the Rosalution system for a production environment.
+ The script accepts various command-line arguments that can be used to customize the build process.
+
+The arguments that can be passed to the script include:
+
+    --tag: Specifies the build tag (version release or staging hash version) to be used. If not specified, the default value is 'local'.
+    --target: Specifies the build target (development or production). If not specified, the default value is 'production'.
+    --config: Specifies the filepath for the build arguments. If not specified, the default value is <root>/etc/.
+    --npmrc: Specifies the filepath for the NPMRC. If not specified, the default value is $HOME/.npmrc.
+    --push: If present, this flag causes the script to push the built images to their respective repositories.
+
+The script also includes several functions that are used to parse the build configuration file, construct build arguments, and build the necessary images. It also includes a function to push the built images to their respective repositories.
+
+#### Local deployment of a Production Build
+
+To deploy a production build locally, the following command can be uses.
+
+```bash
+docker-compose -f docker-compose.local-production.yml up --build
+```
+
+ This command uses the `docker-compose` tool to build and run the necessary containers for the production
+ environment, as specified in the `docker-compose.local-production.yml` file. The `-f` flag is used to specify the
+ compose file to use, in this case `docker-compose.local-production.yml` and `--build` flag is used to force Docker
+ Compose to rebuild the images.
+
 ---
 
 ## Contributing
