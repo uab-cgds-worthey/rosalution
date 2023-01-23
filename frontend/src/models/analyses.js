@@ -42,9 +42,9 @@ export default {
     return Requests.postForm(url, fileUploadFormData);
   },
 
-  async getSectionImage(file_id) {
-    const url = `/rosalution/api/analysis/download/${file_id}`
-    return await Requests.getImage(url)
+  async getSectionImage(fileId) {
+    const url = `/rosalution/api/analysis/download/${fileId}`;
+    return await Requests.getImage(url);
   },
 
   async attachSectionImage(analysisName, sectionName, image) {

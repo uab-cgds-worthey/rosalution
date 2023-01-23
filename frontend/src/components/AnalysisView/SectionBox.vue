@@ -66,7 +66,7 @@ export default {
     return {
       contentList: this.content,
       section_toggle: this.header.toLowerCase() + '_collapse',
-      sectionImage: ''
+      sectionImage: '',
     };
   },
   created() {
@@ -97,11 +97,11 @@ export default {
     },
     async pedigreeImage() {
       if (this.header == 'Pedigree' && this.contentList.length > 0) {
-        const file_id = this.contentList[0].value[0];
-        const image = await Analyses.getSectionImage(file_id);
+        const fileId = this.contentList[0].value[0];
+        const image = await Analyses.getSectionImage(fileId);
         this.sectionImage = image;
       }
-    }
+    },
   },
 };
 </script>

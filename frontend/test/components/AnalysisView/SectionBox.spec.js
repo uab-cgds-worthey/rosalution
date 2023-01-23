@@ -1,6 +1,8 @@
 import {expect, describe, it, beforeAll, afterAll} from 'vitest';
 import {config, shallowMount} from '@vue/test-utils';
 
+import Analyses from '@/models/analyses.js';
+
 import SectionBox from '@/components/AnalysisView/SectionBox.vue';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
@@ -55,8 +57,11 @@ function getMountedComponent(props) {
 describe('SectionBox.vue', () => {
   let sandbox;
 
+  let getSectionImageMock;
+
   beforeAll(() => {
     sandbox = sinon.createSandbox();
+    getSectionImageMock = sandbox.stub(Analyses, 'getSectionImage');
     config.renderStubDefaultSlot = true;
   });
 
@@ -120,7 +125,8 @@ describe('SectionBox.vue', () => {
 
       const pedigreeImageTag = wrapper.find('img');
 
-      expect(pedigreeImageTag.html()).to.contain('/rosalution/api/analysis/download/fakeimagefileid');
+      expect(getSectionImageMock.calledWith('fakeimagefileid'));
+      expect(pedigreeImageTag).to.not.be.null;
     });
   });
 });

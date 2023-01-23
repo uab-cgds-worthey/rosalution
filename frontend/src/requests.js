@@ -51,7 +51,7 @@ export default {
     return await response.json();
   },
   async getImage(url) {
-    console.log(url)
+    console.log(url);
     const authToken = authStore.getToken();
     return await fetch(url, {
       method: 'GET',
@@ -60,14 +60,16 @@ export default {
         'Authorization': 'Bearer ' + authToken,
       },
       mode: 'cors',
-    }
+    },
     )
-    .then( response => response.blob() )
-    .then( blob => new Promise( callback => {
-      let reader = new FileReader();
-      reader.onload = function() { callback(this.result) };
-      reader.readAsDataURL(blob);
-    }));
+        .then( (response) => response.blob() )
+        .then( (blob) => new Promise( (callback) => {
+          const reader = new FileReader();
+          reader.onload = function() {
+            callback(this.result);
+          };
+          reader.readAsDataURL(blob);
+        }));
   },
   async getFile(url, data) {
     const authToken = authStore.getToken();

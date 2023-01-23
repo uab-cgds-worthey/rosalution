@@ -48,7 +48,7 @@ export default {
         'Modelability',
         'Druggability',
       ],
-      sectionImage: '' 
+      sectionImage: '',
     };
   },
   computed: {
@@ -61,11 +61,12 @@ export default {
   },
   methods: {
     async fetchImage(imageId) {
-      if(imageId == '')
-        return
+      if (imageId == '') {
+        return;
+      }
       const image = await Annotations.getAnnotationImage(imageId);
       this.sectionImage = image;
-    }
+    },
   },
 };
 </script>

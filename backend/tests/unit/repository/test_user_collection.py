@@ -1,6 +1,7 @@
 """ Tests to verify users are properly accessed and handled """
 import pytest
 
+from pymongo import ReturnDocument
 from src.repository.user_collection import UserCollection
 
 from ...test_utils import mock_mongo_collection
@@ -50,7 +51,8 @@ def test_update_client_secret_successful(user_collection):
     user_collection.update_client_secret(client_id, client_secret)
 
     user_collection.collection.find_one_and_update.assert_called_with({'client_id': client_id},
-                                                                      {'$set': {'client_secret': client_secret}})
+                                                                      {'$set': {'client_secret': client_secret}},
+                                                                      return_document=ReturnDocument.AFTER)
 
 
 def test_update_client_secret_unsuccessful(user_collection):
@@ -63,7 +65,8 @@ def test_update_client_secret_unsuccessful(user_collection):
     user = user_collection.update_client_secret(client_id, client_secret)
 
     user_collection.collection.find_one_and_update.assert_called_with({'client_id': client_id},
-                                                                      {'$set': {'client_secret': client_secret}})
+                                                                      {'$set': {'client_secret': client_secret}},
+                                                                      return_document=ReturnDocument.AFTER)
 
     assert user is None
 
