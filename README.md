@@ -116,6 +116,7 @@ Restart-Service LxssManager*
 - [Login and Access](#login-and-access)
     - [Authentication](#authentication)
     - [Users and User Types](#users-and-user-types)
+- [Adding Users](#adding-users)
 - [Database](#database)
     - [Fixtures](#fixtures)
     - [Seeding the Database](#seeding-the-database)
@@ -173,6 +174,19 @@ User permissions according to a type of user is planned to become available in a
 
 ![Login page](./docs/figures/login.png "Login page")
 ![User logged in](./docs/figures/logged-in.png "Developer user logged in")
+
+### Adding Users
+
+To add a new user to the system, you must first define the user in the same format as the users in the
+`example-adding-users.json` file in the `etc/fixtures` directory.
+
+Then, you must run the following command from the root directory of the project:
+
+```bash
+docker-compose exec -T rosalution-db mongosh /tmp/fixtures/add_user.js example-adding-users.json
+```
+
+where `example-adding-users.json` is the name of the file containing the new user definition.
 
 ### Database
 
