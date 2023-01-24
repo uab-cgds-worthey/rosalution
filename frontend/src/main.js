@@ -12,8 +12,6 @@ import AccountView from './views/AccountView.vue';
 
 import footer from './components/AppFooter.vue';
 
-import footer from './components/AppFooter.vue';
-
 import './styles/main.css';
 import './styles/rosalution.css';
 // import './styles/proxima-nova-font.css'

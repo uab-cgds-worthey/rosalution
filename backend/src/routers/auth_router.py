@@ -198,19 +198,16 @@ def generate_secret(client_id: VerifyUser = Security(get_current_user), reposito
 
     return credentialed_user
 
-
 @router.get('/get_user_credentials')
 def fetch_user_api_creds(client_id: VerifyUser = Security(get_current_user), repositories=Depends(database)):
-    """ This is a special endpoint that returns the user along with their credentials for API access """
     user = repositories['user'].find_by_client_id(client_id)
-
+    
     if not user:
         raise HTTPException(status_code=500, detail="Something went wrong. Unable to create client secret.")
 
-    credentialed_user = AccessUserAPI(**user)
+    credentialed_user = UserAPI(**user)
 
     return credentialed_user
-
 
 @router.get("/logout")
 def logout_oauth(request: Request, response: Response, settings: Settings = Depends(get_settings)):
