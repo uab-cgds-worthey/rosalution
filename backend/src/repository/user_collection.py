@@ -40,8 +40,6 @@ class UserCollection:
         user = self.collection.find_one_and_update({'client_id': client_id}, {'$set': {'client_secret': client_secret}},
                                                    return_document=ReturnDocument.AFTER)
 
-        print(user)
-
         if user is None:
             return None
 

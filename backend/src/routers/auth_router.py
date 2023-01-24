@@ -173,12 +173,8 @@ def verify_token(
     """This function issues the authentication token for the frontend to make requests"""
     user = repositories["user"].find_by_client_id(client_id)
 
-    print("Is this happening?")
     if not user:
-        print("Are we unauthorized?")
         raise HTTPException(status_code=401, detail="Unauthorized")
-
-    print("Did we proceed?")
 
     current_user = User(**user)
 
@@ -189,7 +185,8 @@ def verify_token(
 
 
 @router.get("/generate_secret", status_code=status.HTTP_201_CREATED)
-def generate_secret(client_id: str, repositories=Depends(database)):
+# def generate_secret(client_id: VerifyUser = Security(get_current_user), repositories=Depends(database)):
+def generate_secret(client_id: VerifyUser = Security(get_current_user), repositories=Depends(database)):
     """ Generates and saves a client secret to a user upon request """
 
     client_secret = generate_client_secret()
@@ -200,10 +197,18 @@ def generate_secret(client_id: str, repositories=Depends(database)):
 
     credentialed_user = UserAPI(**user)
 
-    print(credentialed_user)
-
     return credentialed_user
 
+@router.get('/get_user_credentials')
+def fetch_user_api_creds(client_id: VerifyUser = Security(get_current_user), repositories=Depends(database)):
+    user = repositories['user'].find_by_client_id(client_id)
+    
+    if not user:
+        raise HTTPException(status_code=500, detail="Something went wrong. Unable to create client secret.")
+
+    credentialed_user = UserAPI(**user)
+
+    return credentialed_user
 
 @router.get("/logout")
 def logout_oauth(request: Request, response: Response, settings: Settings = Depends(get_settings)):
