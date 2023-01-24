@@ -1,6 +1,6 @@
 fastapi==0.74.1
 uvicorn==0.20.0
-python-cas==1.5.0
+python-cas==1.6.0
 itsdangerous==2.1.2
 pymongo==4.2.0
 jq==1.2.1
