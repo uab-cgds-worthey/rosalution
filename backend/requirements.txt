@@ -3,7 +3,7 @@ uvicorn==0.20.0
 python-cas==1.6.0
 itsdangerous==2.1.2
 pymongo==4.3.3
-jq==1.2.1
+jq==1.4.0
 
 python-multipart
 python-jose[cryptography]
