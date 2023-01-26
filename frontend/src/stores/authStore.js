@@ -9,6 +9,9 @@ const authStore = {
     clientId: '',
     clientSecret: '',
   },
+  getUser() {
+    return {...this.state};
+  },
   saveState(user) {
     console.log(user);
 
