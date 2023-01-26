@@ -7,6 +7,9 @@ const authStore = {
     email: '',
     roles: [],
   },
+  getUser() {
+    return {...this.state};
+  },
   saveState(user) {
     this.state.full_name = user['full_name'];
     this.state.username = user['username'];
