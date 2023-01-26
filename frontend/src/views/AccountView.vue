@@ -1,8 +1,6 @@
 <template>
   <app-header>
-    <Header
-      :username="user.username"
-    >
+    <Header :username="user.username">
     <span class="empty-fill"></span>
     </Header>
   </app-header>
