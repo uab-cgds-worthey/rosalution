@@ -43,7 +43,7 @@ class BaseAnalysis(BaseModel):
     # The structure of the root_validator from pydantic requires the method to be setup this way even if there is no
     # self being used and no self argument
     @root_validator
-    def compute_dates_and_status(cls, values):  #pylint: disable=no-self-argument,no-self-use
+    def compute_dates_and_status(cls, values):  #pylint: disable=no-self-argument
         """Computes the dates and status of an analysis from a timeline"""
         if len(values['timeline']) == 0:
             return values
