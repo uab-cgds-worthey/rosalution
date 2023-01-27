@@ -162,7 +162,7 @@ In contrast, in a production environment, the system utilizes CAS (Central Authe
 A list of all users in the system is available in `etc/fixtures/initial-seed/users.json`.
 User permissions according to a type of user is planned to become available in an upcoming update.
 
-The following table lists some of the usernames and their corresponding user types:
+👩‍💻 The following table lists some of the usernames and their corresponding user types:
 
 | Username | Type of User
 |:--------:|:-------------:
@@ -266,12 +266,12 @@ Rosalution's entire stack is supported with thorough testing. Refer to the follo
 on the different testing done within the application. Review the following important notes
 below before getting started with running and developing tests.
 
-- Dependencies in your environment must be installed as listed in
+- ✔️ Dependencies in your environment must be installed as listed in
 [#Getting Started##Prerequisites](#prerequisites)
-- Your local environment must [successfully setup with setup.sh](#environment-setup)
+- ✔️ Your local environment must [successfully setup with setup.sh](#environment-setup)
 in order to run testing
-- Tests **must** be executed within their respective sub-directories
-- Python unit tests and linting must run within the activated python virtual environment
+- 📁 Tests **must** be executed within their respective sub-directories
+- 🐍 Python unit tests and linting must run within the activated python virtual environment
     - `source backend/rosalution_env/bin/activate`
 
 See the following READMEs for details on running tests and code coverage for
@@ -324,19 +324,19 @@ refer to [Linting and Static Analysis](CONTRIBUTING.md#linting-and-static-analys
 ### Contributing Guidelines
 
 We welcome contributions from the community! Please read our
- [Contributing Guidelines](CONTRIBUTING.md)
+ [🎇Contributing Guidelines](CONTRIBUTING.md)
 to learn how you can help improve the project.
 
 ### Code of Conduct
 
 We expect all contributors to adhere to our
- [code of conduct](CODE_OF_CONDUCT.md). Please read it before
+ [📋code of conduct](CODE_OF_CONDUCT.md). Please read it before
  contributing to the project.
 
 ### How to Report a Bug
 
-To report a bug, refer to [Reporting Issues](CONTRIBUTING.md#reporting-issues)
- in the [Contributing Guidelines](CONTRIBUTING.md).
+To report a bug, refer to [🐞Reporting Issues](CONTRIBUTING.md#reporting-issues)
+ in the [🎇Contributing Guidelines](CONTRIBUTING.md).
 
 ---
 

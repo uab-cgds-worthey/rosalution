@@ -14,8 +14,6 @@ and the web accessible Swagger API documentation.
 
 ### Requirements
 
--- ADD MORE DETAIL HERE FOR VENV VIRTUAL ENVIRONMENT SETUP 
-
 Project dependencies are listed in the `requirements.txt` file at the project's
 backend root structure.
 
