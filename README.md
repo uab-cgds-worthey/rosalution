@@ -46,19 +46,19 @@ Rosalution supports three significant aspects of this collaborative animal model
 
 ### Prerequisites
 
-The following pre-requisites must be installed in the target *NIX environment for
+The following pre-requisites are required to be installed in the target *NIX environment for
 deploying and testing Rosalution. Install environment dependencies below using
 the respective installation instructions for your target environment.
 
 - [Node.JS 16+](https://nodejs.org/en/)
-    - Node.JS recommends managing and installing Node.JS versions with [nvm](https://www.npmjs.com/package/npx) tool - [install](https://github.com/nvm-sh/nvm#install--update-script)
+    - Node.JS recommends managing Node.JS installations with [nvm](https://www.npmjs.com/package/npx) - [install](https://github.com/nvm-sh/nvm#install--update-script)
 - [Python 3.8+](https://www.python.org/) - [Install](https://www.python.org/downloads/)
-    - Utilizes pip to install in the virtual environment setup, and needs to be available in your path
+    - Utilizes pip to install in the virtual environment setup and needs to be available in your path
 - [Git](https://git-scm.com/)
     - Setup with your favorite git client. Here is a [GitHub Guide](https://github.com/git-guides/install-git)
     for different platforms.
 - [Docker 17.12.0+](https://www.docker.com/) with `docker-compose` CLI or `docker compose` from Docker Desktop - [Install](https://www.docker.com/)
-    - `docker-compose` is used for local deployments of the application. the `docker-compose`
+    - **Docker Compose** is used for local deployments of the application. The `docker-compose`
     tool is fully integrated within the **Docker Desktop** suite now. For new users of **Docker**
     it is easier to get started with **Docker Desktop**. From the official [Docker documentation](https://docs.docker.com/compose/compose-v2/),
     "[`docker compose`] is expected to be a drop-in replacement for `docker-compose`".
@@ -90,10 +90,9 @@ cd rosalution
 The script will
 
 - `yarn install` within each subdirectory
-- Updates your local `/etc/hosts` to support the local DNS name redirect
-'local.rosalution.cgds' to localhost.
-- creates a virtual environment for Python called "rosalution_env" within the backend directory
-- installs Python dependencies within the virtual environment
+- Updates your local `/etc/hosts` to support the local DNS redirect of localhost to 'local.rosalution.cgds'.
+- Creates a Python virtual environment for called **"rosalution_env"** within the backend directory
+- Installs Python dependencies within the virtual environment
 
 ```bash
 ./setup.sh
@@ -262,8 +261,7 @@ docker-compose -f docker-compose.local-production.yml up --build
 
 ### Unit and Integration Testing
 
-Rosalution's entire stack is supported with thorough testing. Refer to the following
-on the different testing done within the application. Review the following important notes
+Rosalution's entire stack is supported with thorough testing. Review the following important notes
 below before getting started with running and developing tests.
 
 - ✔️ Dependencies in your environment must be installed as listed in
@@ -274,7 +272,7 @@ in order to run testing
 - 🐍 Python unit tests and linting must run within the activated python virtual environment
     - `source backend/rosalution_env/bin/activate`
 
-See the following READMEs for details on running tests and code coverage for
+Refer to the following READMEs for details on running tests and code coverage for
 the Rosalution's backend and frontend.
 
 - [Frontend Testing & Code Coverage](./frontend/README.md#testing)
