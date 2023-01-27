@@ -57,9 +57,12 @@ the respective installation instructions for your target environment.
 - [Git](https://git-scm.com/)
     - Setup with your favorite git client. Here is a [GitHub Guide](https://github.com/git-guides/install-git)
     for different platforms.
-- [Docker 17.12.0+](https://www.docker.com/) - [Install](https://www.docker.com/)
-    - Deploying locally requires [Docker-Compose]
-    - Installing and running Docker requires sudo/admin privileges in the target environment
+- [Docker 17.12.0+](https://www.docker.com/) with `docker-compose` CLI or `docker compose` from Docker Desktop - [Install](https://www.docker.com/)
+    - `docker-compose` is used for local deployments of the application. the `docker-compose`
+    tool is fully integrated within the **Docker Desktop** suite now. For new users of **Docker**
+    it is easier to get started with **Docker Desktop**. From the official [Docker documentation](https://docs.docker.com/compose/compose-v2/),
+    "[`docker compose`] is expected to be a drop-in replacement for `docker-compose`".
+    - Installing and running **Docker** requires sudo/admin privileges in the target environment
 - **sudo/Admin environment privileges**
     - The `setup.sh` script requires sudo/admin privileges in the target development environment to update the
     `/etc/hosts` file to setup localhost redirection for a Rosalution deployment
@@ -110,7 +113,7 @@ Restart-Service LxssManager*
 
 ## Deployment and Usage
 
-- [Deploying with Docker-Compose](#deploying-with-docker-compose)
+- [Deploying with Docker Compose](#deploying-with-docker-compose)
 - [Login and Access](#login-and-access)
     - [Authentication](#authentication)
     - [Users and User Types](#users-and-user-types)
@@ -122,21 +125,21 @@ Restart-Service LxssManager*
     - [Using the Build Script](#using-the-build-script)
     - [Local Deployment of a Production Build](#local-deployment-of-a-production-build)
 
-### Deploying With Docker-Compose
+### Deploying With Docker Compose
 
-Deploy Rosalution from the project's root directory using `docker-compose`.
+Deploy Rosalution from the project's root directory using `docker compose`.
 Be sure that `./setup.sh` has been run recently for any recent dependency updates
 to be installed in all of the subdirectories.
 
 ```bash
 # deploy rosalution services within this session
-docker-compose up
+docker compose up
 
 # deploy services in the background using the `-d` option
-docker-compose up --build -d
+docker compose up --build -d
 
 # force docker images to re-build using the `--build` option
-docker-compose up --build
+docker compose up --build
 ```
 
 ### Login and Access
@@ -202,10 +205,10 @@ of startup.
 
 When automated testing, Cypress re-seeds the database using the `./etc/fixtures/seed.js` script to
 reset Rosalution's state.  The script is executed within the MongoDB database
-container with `docker-compose exec`.
+container with `docker compose exec`.
 
 ```bash
-docker-compose exec rosalution-db  mongosh /tmp/fixtures/seed.js
+docker compose exec rosalution-db  mongosh /tmp/fixtures/seed.js
 ```
 
 #### Interacting with the Database
@@ -259,17 +262,20 @@ docker-compose -f docker-compose.local-production.yml up --build
 
 ### Unit and Integration Testing
 
--- COME BACK TO THIS TO FIX THE SETUP --
-
 Rosalution's entire stack is supported with thorough testing. Refer to the following
-on the different testing done within the application.
+on the different testing done within the application. Review the following important notes
+below before getting started with running and developing tests.
 
-**Important Notes
-- your local environment must successfully setup in order to run testing
-- tests must be executed within their respective sub-directories
-- ADD NOTE ON PYTHON VENV environment needing to be activated, see documentation for backend for more detail
+- Dependencies in your environment must be installed as listed in
+[#Getting Started##Prerequisites](#prerequisites)
+- Your local environment must [successfully setup with setup.sh](#environment-setup)
+in order to run testing
+- Tests **must** be executed within their respective sub-directories
+- Python unit tests and linting must run within the activated python virtual environment
+    - `source backend/rosalution_env/bin/activate`
 
-**READMEs for testing & code coverage**
+See the following READMEs for details on running tests and code coverage for
+the Rosalution's backend and frontend.
 
 - [Frontend Testing & Code Coverage](./frontend/README.md#testing)
 - [Backend Testing & Code Coverage](./backend/README.md#testing)
@@ -280,7 +286,7 @@ on the different testing done within the application.
 
 System testing requires the entire stack of the application to be successfully
 deployed to your local development environment. The environment must be setup
-and the application deployed with *docker-compose*. Refer to the following
+and the application deployed with *docker compose*. Refer to the following
 for a quick start with System Testing done by Cypress.
 
 Our system testing requires that Chrome is available as a browser on the system.

@@ -25,11 +25,11 @@ yarn install
 ## Deployment
 
 Rosalution's frontend currently expects the host address route to end with
-`/rosalution/` and Rosalution's backend service to be available within the same
-base url ending with `/rosalution/api`. Login will fail if Rosalution's backend
-service is unaccessible.
+`/rosalution/` and for Rosalution's backend service to be available within the same
+base URL ending with `/rosalution/api`. Login to the application will **fail** if Rosalution's backend
+service is inaccessible.
 
-Use *docker* and *docker-compose* facilitate these two dependencies to deploy Rosalution in
+Use *docker* and *docker compose* facilitate these two dependencies to deploy Rosalution in
 it's entirety for local development. Visit [Rosalution's Environment Setup and Deployment](../README.md#environment-setup)
 for instructions on how to get started.
 
