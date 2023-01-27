@@ -8,9 +8,9 @@
 ![example](https://github.com/uab-cgds-worthey/rosalution/actions/workflows/python.yml/badge.svg)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
-[Getting Started](#getting-started) • [Testing & Static Analysis](#testing-and-static-analysis) •
-[Deployment and Usage](#deployment-and-usage)• [Contributing](#contributing) • [Maintainers](#maintainers) •
-[Credits and Acknowledgements](#credits-and-acknowledgements) • [License](#license)
+[Getting Started](#getting-started) • [Deployment and Usage](#deployment-and-usage)•
+[Testing & Static Analysis](#testing-and-static-analysis) • [Contributing](#contributing) •
+[Maintainers](#maintainers) • [Credits and Acknowledgements](#credits-and-acknowledgements) • [License](#license)
 
 Rosalution assists researchers in studying genetic variation 🧬 in patients 🧑🏾‍🤝‍🧑🏼 by
 helping select candidate animal models 🐀🐁🐠🪱 to replicate the variation to
@@ -46,9 +46,23 @@ Rosalution supports three significant aspects of this collaborative animal model
 
 ### Prerequisites
 
-| Node.JS 16 | Python 3.8 | Git        | Docker     | Bash shell |
-| ---------- | ---------- | ---------- | ---------- | ---------- |
-| 16+        | 3.8        |            |            |            |
+The following pre-requisites must be installed in the target *NIX environment for
+deploying and testing Rosalution. Install environment dependencies below using
+the respective installation instructions for your target environment.
+
+- [Node.JS 16+](https://nodejs.org/en/)
+    - Node.JS recommends managing and installing Node.JS versions with [nvm](https://www.npmjs.com/package/npx) tool - [install](https://github.com/nvm-sh/nvm#install--update-script)
+- [Python 3.8+](https://www.python.org/) - [Install](https://www.python.org/downloads/)
+    - Utilizes pip to install in the virtual environment setup, and needs to be available in your path
+- [Git](https://git-scm.com/)
+    - Setup with your favorite git client. Here is a [GitHub Guide](https://github.com/git-guides/install-git)
+    for different platforms.
+- [Docker 17.12.0+](https://www.docker.com/) - [Install](https://www.docker.com/)
+    - Deploying locally requires [Docker-Compose]
+    - Installing and running Docker requires sudo/admin privileges in the target environment
+- **sudo/Admin environment privileges**
+    - The `setup.sh` script requires sudo/admin privileges in the target development environment to update the
+    `/etc/hosts` file to setup localhost redirection for a Rosalution deployment
 
 ### Browser Support
 
@@ -63,7 +77,7 @@ Clone the Git repository [from GitHub](https://github.com/uab-cgds-worthey/rosal
 #### Clone Repository
 
 ```bash
-git clone git@github.com:username/node.git
+git clone https://github.com/uab-cgds-worthey/rosalution.git
 cd rosalution
 ```
 
@@ -94,57 +108,6 @@ Restart-Service LxssManager*
 
 ---
 
-## Testing and Static Analysis
-
-- [Unit and Integration Testing](#unit-and-integration-testing)
-- [System Testing](#system-testing)
-- [Static Analysis](#static-analysis)
-
-### Unit and Integration Testing
-
-Rosalution's entire stack is supported with thorough testing. Refer to the following
-on the different testing done within the application.
-
-- [Frontend Testing & Code Coverage](./frontend/README.md#testing)
-- [Backend Testing & Code Coverage](./backend/README.md#testing)
-
-It is important to note that your local environment must be setup in order
-to run unit testing.
-
-### System Testing
-
-- [Full Stack System Testing](./system-tests/README.md)
-
-System testing requires the entire stack of the application to be successfully
-deployed to your local development environment. The environment must be setup
-and the application deployed with *docker-compose*. Refer to the following
-for a quick start with System Testing done by Cypress.
-
-Our system testing requires that Chrome is available as a browser on the system.
-This makes it extremely difficult to setup/run within Windows Subsystem Linux,
-so running system testing in WSL2 is not supported.
-
-```bash
-# Run System Testing with report displayed in terminal
-cd system-tests
-yarn test:e2e
-```
-
-```bash
-# Run System Testing with Cypress UI to visualize and run system testing
-cd system-tests
-yarn test:e2e:open
-```
-
-### Static Analysis
-
-We use linting tools for JavaScript, Python, Docker, Markdown, and Shell scripts for static analysis.
-To see the commands and how to run linting,
-refer to [Linting and Static Analysis](CONTRIBUTING.md#linting-and-static-analysis) in the
-[Contributing Guidelines](CONTRIBUTING.md).
-
----
-
 ## Deployment and Usage
 
 - [Deploying with Docker-Compose](#deploying-with-docker-compose)
@@ -162,7 +125,7 @@ refer to [Linting and Static Analysis](CONTRIBUTING.md#linting-and-static-analys
 ### Deploying With Docker-Compose
 
 Deploy Rosalution from the project's root directory using `docker-compose`.
-Be sure that `./setup.sh` has been recently for any recent dependency updates
+Be sure that `./setup.sh` has been run recently for any recent dependency updates
 to be installed in all of the subdirectories.
 
 ```bash
@@ -194,6 +157,7 @@ In contrast, in a production environment, the system utilizes CAS (Central Authe
 #### Users and User Types
 
 A list of all users in the system is available in `etc/fixtures/initial-seed/users.json`.
+User permissions according to a type of user is planned to become available in an upcoming update.
 
 The following table lists some of the usernames and their corresponding user types:
 
@@ -284,6 +248,64 @@ docker-compose -f docker-compose.local-production.yml up --build
  environment, as specified in the `docker-compose.local-production.yml` file. The `-f` flag is used to specify the
  compose file to use, in this case `docker-compose.local-production.yml` and `--build` flag is used to force Docker
  Compose to rebuild the images.
+
+---
+
+## Testing and Static Analysis
+
+- [Unit and Integration Testing](#unit-and-integration-testing)
+- [System Testing](#system-testing)
+- [Static Analysis](#static-analysis)
+
+### Unit and Integration Testing
+
+-- COME BACK TO THIS TO FIX THE SETUP --
+
+Rosalution's entire stack is supported with thorough testing. Refer to the following
+on the different testing done within the application.
+
+**Important Notes
+- your local environment must successfully setup in order to run testing
+- tests must be executed within their respective sub-directories
+- ADD NOTE ON PYTHON VENV environment needing to be activated, see documentation for backend for more detail
+
+**READMEs for testing & code coverage**
+
+- [Frontend Testing & Code Coverage](./frontend/README.md#testing)
+- [Backend Testing & Code Coverage](./backend/README.md#testing)
+
+### System Testing
+
+- [Full Stack System Testing](./system-tests/README.md)
+
+System testing requires the entire stack of the application to be successfully
+deployed to your local development environment. The environment must be setup
+and the application deployed with *docker-compose*. Refer to the following
+for a quick start with System Testing done by Cypress.
+
+Our system testing requires that Chrome is available as a browser on the system.
+This makes it extremely difficult to setup/run within Windows Subsystem Linux,
+so running system testing in WSL2 is not supported.
+
+```bash
+# Run System Testing with report displayed in terminal
+cd system-tests
+yarn test:e2e
+```
+
+```bash
+# Run System Testing with Cypress UI to visualize and run system testing
+cd system-tests
+yarn test:e2e:open
+```
+
+### Static Analysis
+
+We use linting tools for JavaScript, Python, Docker, Markdown, and Shell scripts for static analysis.
+
+To see the commands and how to run linting,
+refer to [Linting and Static Analysis](CONTRIBUTING.md#linting-and-static-analysis) in the
+[Contributing Guidelines](CONTRIBUTING.md).
 
 ---
 
