@@ -1,15 +1,17 @@
 <template>
-  <app-header>
-    <Header :username="user.username">
-    <span class="empty-fill"></span>
-    </Header>
-  </app-header>
   <div>
+    <app-header>
+      <Header :username="user.username">
+      <span class="empty-fill"></span>
+      </Header>
+    </app-header>
+    <app-content>
       User Information
       <p>{{ user }}</p>
       <button @click="generateSecret" type="submit">
           Generate Secret
       </button>
+    </app-content>
   </div>
 </template>
 
