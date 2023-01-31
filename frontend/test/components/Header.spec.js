@@ -1,5 +1,6 @@
 import {expect, describe, it, beforeAll, afterAll} from 'vitest';
 import {config, shallowMount} from '@vue/test-utils';
+import sinon from 'sinon';
 
 import Header from '@/components/Header.vue';
 
@@ -22,6 +23,14 @@ function getMountedComponent(props) {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
         'router-link': RouterLink,
+      },
+      mocks: {
+        $route: {
+          push: sinon.spy(),
+        },
+        $router: {
+          push: sinon.spy(),
+        },
       },
     },
   });
@@ -77,4 +86,16 @@ describe('HeaderComponent.vue', () => {
 
     expect(userMenuWrapper.text()).to.contain('UABProvider');
   });
+
+  it('should route to the AccountView when the username is clicked', async () => {
+    const pushSpy = sinon.spy();
+    const wrapper = getMountedComponent({
+      username: 'UABProvider',
+    });
+    const userMenuWrapper = wrapper.find('[data-test=user-text]');
+      console.log(userMenuWrapper);
+    await userMenuWrapper.trigger('click');
+    expect(pushSpy.calledWith('/rosalution/account')).to.be.true;
+  });
+
 });
