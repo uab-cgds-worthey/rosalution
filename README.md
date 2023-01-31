@@ -183,10 +183,21 @@ To add a new user to the system, you must first define the user in the same form
 Then, you must run the following command from the root directory of the project:
 
 ```bash
-docker-compose exec -T rosalution-db mongosh /tmp/fixtures/add_user.js example-adding-users.json
+docker-compose exec -T rosalution-db mongosh /tmp/fixtures/add_user.js /tmp/fixtures/example-adding-users.json
 ```
 
 where `example-adding-users.json` is the name of the file containing the new user definition.
+
+You may also add multiple users at once by providing a JSON array of user definitions in the same format as the example.
+
+Finally there are three additional optional arguments that can be passed to the script: host, port and database name.
+
+```bash
+docker-compose exec -T rosalution-db mongosh /tmp/fixtures/add_user.js /tmp/fixtures/example-adding-users.json\
+ localhost 27017 rosalution_db
+```
+
+more information about the script can be found in the [add_user.js](./etc/fixtures/add_user.js) file.
 
 ### Database
 
