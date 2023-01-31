@@ -264,7 +264,8 @@ docker exec -it rosalution_rosalution-db_1 mongosh rosalution_db
 #### Using the Build Script
 
 When deploying the Rosalution system in a production environment, it is important to ensure that the build is optimized
- for performance and security. This can be achieved by using the `build.sh` script.
+ for security when deploying the Rosalution system in a production environment. This can be achieved by using the
+ `build.sh` script.
 
 The build.sh script is a command-line tool that can be used to build the Rosalution system for a production environment.
  The script accepts various command-line arguments that can be used to customize the build process.
