@@ -30,7 +30,7 @@ describe('AnnotationView', () => {
   let sandbox;
 
   beforeAll(() => {
-    config.renderStubDefaultSlot = true;
+    config.global.renderStubDefaultSlot = true;
     sandbox = sinon.createSandbox();
 
     const defaultProps = {
@@ -62,7 +62,7 @@ describe('AnnotationView', () => {
   });
 
   afterAll(() => {
-    config.renderStubDefaultSlot = false;
+    config.global.renderStubDefaultSlot = false;
     mockAnnotations.restore();
   });
 
