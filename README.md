@@ -152,10 +152,15 @@ refer to [Linting and Static Analysis](CONTRIBUTING.md#linting-and-static-analys
 
 - [Deploying with Docker-Compose](#deploying-with-docker-compose)
 - [Login and Access](#login-and-access)
+    - [Authentication](#authentication)
+    - [Users and User Types](#users-and-user-types)
 - [Database](#database)
     - [Fixtures](#fixtures)
     - [Seeding the Database](#seeding-the-database)
     - [Interacting with the Database](#interacting-with-the-database)
+- [Production](#production)
+    - [Using the Build Script](#using-the-build-script)
+    - [Local Deployment of a Production Build](#local-deployment-of-a-production-build)
 
 ### Deploying With Docker-Compose
 
@@ -179,7 +184,17 @@ docker-compose up --build
 To log in to the system once it has been locally deployed, enter a username in the designated field and click the
  "Login" button as seen in the figure below.
 
-#### Users & user types
+#### Authentication
+
+The method of authentication for the Rosalution system may vary depending on the deployment environment. In a local
+ development environment, the system utilizes OAuth2 for issuing login tokens. This allows for a streamlined development
+ experience and faster iteration.
+
+In contrast, in a production environment, the system utilizes CAS (Central Authentication Service) for authentication.
+ This means that in order to log in to the production environment, a valid username must be provided, and an OAuth2
+ token will be issued if the username is valid in the system.
+
+#### Users and User Types
 
 A list of all users in the system is available in `etc/fixtures/initial-seed/users.json`.
 
@@ -239,6 +254,39 @@ Use the following command to view the database within the MongoDB container.
 ```bash
 docker exec -it rosalution_rosalution-db_1 mongosh rosalution_db
 ```
+
+### Production
+
+#### Using the Build Script
+
+When deploying the Rosalution system in a production environment, it is important to ensure that the build is optimized
+ for security. This can be achieved by using the [`build.sh`](./build.sh) script.
+
+The `build.sh` script is a command-line tool that can be used to build the Rosalution system for a production
+ environment. The script accepts various command-line arguments that can be used to customize the build process.
+
+The script also includes several functions that are used to parse the build configuration file, construct build
+arguments, and build the necessary images. It also includes a function to push the built images to their respective
+repositories.
+
+Note: The Docker images built by the `build.sh` script can only be published by Rosalution maintainers to our private
+registry.
+
+For additional information on the `build.sh` script, refer to the [build.sh script documentation](./build.sh) within the
+ script itself.
+
+#### Local deployment of a Production Build
+
+To deploy a production build locally, the following command can be uses.
+
+```bash
+docker-compose -f docker-compose.local-production.yml up --build
+```
+
+ This command uses the `docker-compose` tool to build and run the necessary containers for the production
+ environment, as specified in the `docker-compose.local-production.yml` file. The `-f` flag is used to specify the
+ compose file to use, in this case `docker-compose.local-production.yml` and `--build` flag is used to force Docker
+ Compose to rebuild the images.
 
 ---
 
