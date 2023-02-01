@@ -194,10 +194,6 @@ In contrast, in a production environment, the system utilizes CAS (Central Authe
  This means that in order to log in to the production environment, a valid username must be provided, and an OAuth2
  token will be issued if the username is valid in the system.
 
-It is important to note that the choice of authentication method may be dictated by security and organizational
- requirements. OAuth2 may be suitable for local development, while CAS may be more appropriate for production
- environments due to its centralized authentication capabilities.
-
 #### Users and User Types
 
 A list of all users in the system is available in `etc/fixtures/initial-seed/users.json`.
@@ -264,30 +260,20 @@ docker exec -it rosalution_rosalution-db_1 mongosh rosalution_db
 #### Using the Build Script
 
 When deploying the Rosalution system in a production environment, it is important to ensure that the build is optimized
- for security when deploying the Rosalution system in a production environment. This can be achieved by using the
- `build.sh` script.
+ for security. This can be achieved by using the `build.sh` script.
 
-The build.sh script is a command-line tool that can be used to build the Rosalution system for a production environment.
- The script accepts various command-line arguments that can be used to customize the build process.
-
-The arguments that can be passed to the script include:
-
-```bash
---tag: Specifies the build tag (version release or staging hash version) to be used. If not specified, the default value
-is 'local'.
-
---target: Specifies the build target (development or production). If not specified, the default value is 'production'.
-
---config: Specifies the filepath for the build arguments. If not specified, the default value is <root>/etc/.
-
---npmrc: Specifies the filepath for the NPMRC. If not specified, the default value is $HOME/.npmrc.
-
---push: If present, this flag causes the script to push the built images to their respective repositories.
-```
+The `build.sh` script is a command-line tool that can be used to build the Rosalution system for a production
+ environment. The script accepts various command-line arguments that can be used to customize the build process.
 
 The script also includes several functions that are used to parse the build configuration file, construct build
 arguments, and build the necessary images. It also includes a function to push the built images to their respective
 repositories.
+
+Note: The Docker images built by the `build.sh` script can only be published by Rosalution maintainers to our private
+registry.
+
+For additional information on the `build.sh` script, refer to the [build.sh script documentation](./build.sh) within the
+ script itself.
 
 #### Local deployment of a Production Build
 
