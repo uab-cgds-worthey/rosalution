@@ -2,9 +2,6 @@ name: System Tests
 
 on: [push, workflow_dispatch]
 
-env:
-  ROSALUTION_KEY: not-a-real-key-but-need-to-resolve
-
 jobs:
   system-tests:
     runs-on: ubuntu-latest
