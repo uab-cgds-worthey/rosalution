@@ -16,21 +16,22 @@
 
 
 // Declare the variables for the URI connection
-var host = "";
-var port = "";
-var database_name = "";
+var host = "localhost";
+var port = "27017";
+var database_name = "rosalution_db";
 
-// if the arguments are not passed, use the default values
-if (process.argv.length < 5) {
-    host = "localhost";
-    port = "27017";
-    database_name = "rosalution_db";
-} else {
-    host = process.argv[4];
-    port = process.argv[5];
-    database_name = process.argv[6];
+// Check for the presence of each argument, and update its value if it's present
+for (let i = 4; i < process.argv.length; i++) {
+    if (process.argv[i] === "--script-host" || process.argv[i] === "-sh") {
+        host = process.argv[i + 1];
+    } else if (process.argv[i] === "--script-port" || process.argv[i] === "-sp") {
+        port = process.argv[i + 1];
+    } else if (process.argv[i] === "--script-database" || process.argv[i] === "-sd") {
+        database_name = process.argv[i + 1];
+    }
 }
-// set the connection URI
+
+// Set the connection URI
 var uri = "mongodb://" + host + ":" + port + "/" + database_name;
 
 // Connect to the MongoDB instance using the connect function
@@ -45,12 +46,12 @@ const fs = require("fs");
 const users = JSON.parse(fs.readFileSync(user_file, "utf8"));
 
 try {
-    var insertedUsers = []
+    var insertedUsers = [];
     users.forEach(user => {
         const existingUser = db.users.findOne({username: user.username});
         if (!existingUser) {
             db.users.insertOne(user);
-            insertedUsers.push(user.username)
+            insertedUsers.push(user.username);
         } else {
             console.log(`User ${user.username} already exists.`);
         }
