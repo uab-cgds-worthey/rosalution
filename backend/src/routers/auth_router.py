@@ -185,7 +185,6 @@ def verify_token(
 
 
 @router.get("/generate_secret", status_code=status.HTTP_201_CREATED)
-# def generate_secret(client_id: VerifyUser = Security(get_current_user), repositories=Depends(database)):
 def generate_secret(client_id: VerifyUser = Security(get_current_user), repositories=Depends(database)):
     """ Generates and saves a client secret to a user upon request """
 
