@@ -7,6 +7,8 @@ import LogoutView from '@/views/LogoutView.vue';
 
 import {authStore} from '@/stores/authStore.js';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import {RouterLink} from 'vue-router';
+
 
 /**
  * Helper that mounts and returns the rendered component
@@ -20,6 +22,7 @@ function getMountedComponent(props) {
     global: {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
+        'router-link': RouterLink,
       },
       mocks: {
         $route: {

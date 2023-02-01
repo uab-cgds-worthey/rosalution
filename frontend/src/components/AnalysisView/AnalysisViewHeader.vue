@@ -1,20 +1,20 @@
 <template>
-  <Header :username="this.username" :titleText="this.titleText" :actions="this.actions">
+  <RosalutionHeader :username="this.username" :titleText="this.titleText" :actions="this.actions">
     <div>
       <a v-for="anchorLink in this.sectionAnchors" :href="this.toAnchorId(anchorLink)" :key="anchorLink">
         {{ anchorLink }}
       </a>
     </div>
-  </Header>
+  </RosalutionHeader>
 </template>
 
 <script>
-import Header from '@/components/Header.vue';
+import RosalutionHeader from '@/components/RosalutionHeader.vue';
 
 export default {
   name: 'analysis-view-header-component',
   components: {
-    Header,
+    RosalutionHeader,
   },
   props: {
     username: {

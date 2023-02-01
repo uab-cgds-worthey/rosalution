@@ -1,5 +1,5 @@
 <template>
-  <Header :username="username">
+  <RosalutionHeader :username="username">
       <div class="search">
         <font-awesome-icon icon="magnifying-glass" size="lg" class="search-icon"></font-awesome-icon>
         <input
@@ -9,16 +9,16 @@
           placeholder="Search"
         >
       </div>
-  </Header>
+  </RosalutionHeader>
 </template>
 
 <script>
-import Header from '@/components/Header.vue';
+import RosalutionHeader from '@/components/RosalutionHeader.vue';
 
 export default {
   name: 'analysis-listing-header-component',
   components: {
-    Header,
+    RosalutionHeader,
   },
   props: {
     username: {
