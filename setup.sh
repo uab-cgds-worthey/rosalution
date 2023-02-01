@@ -40,16 +40,4 @@ pip3 install -r requirements.txt
 # deactivate venv and return to root directory
 deactivate
 cd - || { echo "Unable to change return to root directory"; exit 1; }
-
-key=$(head -c 65 < /dev/random | base64 |  tr -dc A-Za-z0-9)
-if grep -Fq "ROSALUTION_KEY" ~/.bashrc
-then
-    replace_value="ROSALUTION_KEY=$key"
-    sed "s,ROSALUTION_KEY=[^;]*,$replace_value,"  ~/.bashrc > ~/.bashrc.bak && mv ~/.bashrc.bak ~/.bashrc
-    echo "Updating rosalution_key in ~/.bashrc ..."
-else
-    echo  "export ROSALUTION_KEY=$key" >> ~/.bashrc
-    echo "Setting rosalution_key in ~/.bashrc ..."
-fi
-echo "Source your ~/.bashrc to load the updated environment"
 echo "Use 'source backend/rosalution_env/bin/activate' to activate the virtual environment"
