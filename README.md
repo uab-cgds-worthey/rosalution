@@ -8,9 +8,9 @@
 ![example](https://github.com/uab-cgds-worthey/rosalution/actions/workflows/python.yml/badge.svg)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
-[Getting Started](#getting-started) • [Testing & Static Analysis](#testing-and-static-analysis) •
-[Deployment and Usage](#deployment-and-usage)• [Contributing](#contributing) • [Maintainers](#maintainers) •
-[Credits and Acknowledgements](#credits-and-acknowledgements) • [License](#license)
+[Getting Started](#getting-started) • [Deployment and Usage](#deployment-and-usage)•
+[Testing & Static Analysis](#testing-and-static-analysis) • [Contributing](#contributing) •
+[Maintainers](#maintainers) • [Credits and Acknowledgements](#credits-and-acknowledgements) • [License](#license)
 
 Rosalution assists researchers in studying genetic variation 🧬 in patients 🧑🏾‍🤝‍🧑🏼 by
 helping select candidate animal models 🐀🐁🐠🪱 to replicate the variation to
@@ -46,9 +46,26 @@ Rosalution supports three significant aspects of this collaborative animal model
 
 ### Prerequisites
 
-| Node.JS 16 | Python 3.8 | Git        | Docker     | Bash shell |
-| ---------- | ---------- | ---------- | ---------- | ---------- |
-| 16+        | 3.8        |            |            |            |
+The following pre-requisites are required to be installed in the target *NIX environment for
+deploying and testing Rosalution. Install environment dependencies below using
+the respective installation instructions for your target environment.
+
+- [Node.JS 16+](https://nodejs.org/en/)
+    - Node.JS recommends managing Node.JS installations with [nvm](https://www.npmjs.com/package/npx) - [install](https://github.com/nvm-sh/nvm#install--update-script)
+- [Python 3.8+](https://www.python.org/) - [Install](https://www.python.org/downloads/)
+    - Utilizes pip to install in the virtual environment setup and needs to be available in your path
+- [Git](https://git-scm.com/)
+    - Setup with your favorite git client. Here is a [GitHub Guide](https://github.com/git-guides/install-git)
+    for different platforms.
+- [Docker 17.12.0+](https://www.docker.com/) with `docker-compose` CLI or `docker compose` from Docker Desktop - [Install](https://www.docker.com/)
+    - **Docker Compose** is used for local deployments of the application. The `docker-compose`
+    tool is fully integrated within the **Docker Desktop** suite now. For new users of **Docker**
+    it is easier to get started with **Docker Desktop**. From the official [Docker documentation](https://docs.docker.com/compose/compose-v2/),
+    "[`docker compose`] is expected to be a drop-in replacement for `docker-compose`".
+    - Installing and running **Docker** requires sudo/admin privileges in the target environment
+- **sudo/Admin environment privileges**
+    - The `setup.sh` script requires sudo/admin privileges in the target development environment to update the
+    `/etc/hosts` file to setup localhost redirection for a Rosalution deployment
 
 ### Browser Support
 
@@ -63,7 +80,7 @@ Clone the Git repository [from GitHub](https://github.com/uab-cgds-worthey/rosal
 #### Clone Repository
 
 ```bash
-git clone git@github.com:username/node.git
+git clone https://github.com/uab-cgds-worthey/rosalution.git
 cd rosalution
 ```
 
@@ -73,10 +90,9 @@ cd rosalution
 The script will
 
 - `yarn install` within each subdirectory
-- Updates your local `/etc/hosts` to support the local DNS name redirect
-'local.rosalution.cgds' to localhost.
-- creates a virtual environment for Python called "rosalution_env" within the backend directory
-- installs Python dependencies within the virtual environment
+- Updates your local `/etc/hosts` to support the local DNS redirect of localhost to 'local.rosalution.cgds'.
+- Creates a Python virtual environment for called **"rosalution_env"** within the backend directory
+- Installs Python dependencies within the virtual environment
 
 ```bash
 ./setup.sh
@@ -94,60 +110,9 @@ Restart-Service LxssManager*
 
 ---
 
-## Testing and Static Analysis
-
-- [Unit and Integration Testing](#unit-and-integration-testing)
-- [System Testing](#system-testing)
-- [Static Analysis](#static-analysis)
-
-### Unit and Integration Testing
-
-Rosalution's entire stack is supported with thorough testing. Refer to the following
-on the different testing done within the application.
-
-- [Frontend Testing & Code Coverage](./frontend/README.md#testing)
-- [Backend Testing & Code Coverage](./backend/README.md#testing)
-
-It is important to note that your local environment must be setup in order
-to run unit testing.
-
-### System Testing
-
-- [Full Stack System Testing](./system-tests/README.md)
-
-System testing requires the entire stack of the application to be successfully
-deployed to your local development environment. The environment must be setup
-and the application deployed with *docker-compose*. Refer to the following
-for a quick start with System Testing done by Cypress.
-
-Our system testing requires that Chrome is available as a browser on the system.
-This makes it extremely difficult to setup/run within Windows Subsystem Linux,
-so running system testing in WSL2 is not supported.
-
-```bash
-# Run System Testing with report displayed in terminal
-cd system-tests
-yarn test:e2e
-```
-
-```bash
-# Run System Testing with Cypress UI to visualize and run system testing
-cd system-tests
-yarn test:e2e:open
-```
-
-### Static Analysis
-
-We use linting tools for JavaScript, Python, Docker, Markdown, and Shell scripts for static analysis.
-To see the commands and how to run linting,
-refer to [Linting and Static Analysis](CONTRIBUTING.md#linting-and-static-analysis) in the
-[Contributing Guidelines](CONTRIBUTING.md).
-
----
-
 ## Deployment and Usage
 
-- [Deploying with Docker-Compose](#deploying-with-docker-compose)
+- [Deploying with Docker Compose](#deploying-with-docker-compose)
 - [Login and Access](#login-and-access)
     - [Authentication](#authentication)
     - [Users and User Types](#users-and-user-types)
@@ -159,21 +124,21 @@ refer to [Linting and Static Analysis](CONTRIBUTING.md#linting-and-static-analys
     - [Using the Build Script](#using-the-build-script)
     - [Local Deployment of a Production Build](#local-deployment-of-a-production-build)
 
-### Deploying With Docker-Compose
+### Deploying With Docker Compose
 
-Deploy Rosalution from the project's root directory using `docker-compose`.
-Be sure that `./setup.sh` has been recently for any recent dependency updates
+Deploy Rosalution from the project's root directory using `docker compose`.
+Be sure that `./setup.sh` has been run recently for any recent dependency updates
 to be installed in all of the subdirectories.
 
 ```bash
 # deploy rosalution services within this session
-docker-compose up
+docker compose up
 
 # deploy services in the background using the `-d` option
-docker-compose up --build -d
+docker compose up --build -d
 
 # force docker images to re-build using the `--build` option
-docker-compose up --build
+docker compose up --build
 ```
 
 ### Login and Access
@@ -194,8 +159,9 @@ In contrast, in a production environment, the system utilizes CAS (Central Authe
 #### Users and User Types
 
 A list of all users in the system is available in `etc/fixtures/initial-seed/users.json`.
+User permissions according to a type of user is planned to become available in an upcoming update.
 
-The following table lists some of the usernames and their corresponding user types:
+👩‍💻 The following table lists some of the usernames and their corresponding user types:
 
 | Username | Type of User
 |:--------:|:-------------:
@@ -238,10 +204,10 @@ of startup.
 
 When automated testing, Cypress re-seeds the database using the `./etc/fixtures/seed.js` script to
 reset Rosalution's state.  The script is executed within the MongoDB database
-container with `docker-compose exec`.
+container with `docker compose exec`.
 
 ```bash
-docker-compose exec rosalution-db  mongosh /tmp/fixtures/seed.js
+docker compose exec rosalution-db  mongosh /tmp/fixtures/seed.js
 ```
 
 #### Interacting with the Database
@@ -287,6 +253,66 @@ docker-compose -f docker-compose.local-production.yml up --build
 
 ---
 
+## Testing and Static Analysis
+
+- [Unit and Integration Testing](#unit-and-integration-testing)
+- [System Testing](#system-testing)
+- [Static Analysis](#static-analysis)
+
+### Unit and Integration Testing
+
+Rosalution's entire stack is supported with thorough testing. Review the following important notes
+below before getting started with running and developing tests.
+
+- ✔️ Dependencies in your environment must be installed as listed in
+[#Getting Started##Prerequisites](#prerequisites)
+- ✔️ Your local environment must [successfully setup with setup.sh](#environment-setup)
+in order to run testing
+- 📁 Tests **must** be executed within their respective sub-directories
+- 🐍 Python unit tests and linting must run within the activated python virtual environment
+    - `source backend/rosalution_env/bin/activate`
+
+Refer to the following READMEs for details on running tests and code coverage for
+the Rosalution's backend and frontend.
+
+- [Frontend Testing & Code Coverage](./frontend/README.md#testing)
+- [Backend Testing & Code Coverage](./backend/README.md#testing)
+
+### System Testing
+
+- [Full Stack System Testing](./system-tests/README.md)
+
+System testing requires the entire stack of the application to be successfully
+deployed to your local development environment. The environment must be setup
+and the application deployed with *docker compose*. Refer to the following
+for a quick start with System Testing done by Cypress.
+
+Our system testing requires that Chrome is available as a browser on the system.
+This makes it extremely difficult to setup/run within Windows Subsystem Linux,
+so running system testing in WSL2 is not supported.
+
+```bash
+# Run System Testing with report displayed in terminal
+cd system-tests
+yarn test:e2e
+```
+
+```bash
+# Run System Testing with Cypress UI to visualize and run system testing
+cd system-tests
+yarn test:e2e:open
+```
+
+### Static Analysis
+
+We use linting tools for JavaScript, Python, Docker, Markdown, and Shell scripts for static analysis.
+
+To see the commands and how to run linting,
+refer to [Linting and Static Analysis](CONTRIBUTING.md#linting-and-static-analysis) in the
+[Contributing Guidelines](CONTRIBUTING.md).
+
+---
+
 ## Contributing
 
 - [Contributing Guidelines](#contributing-guidelines)
@@ -296,19 +322,19 @@ docker-compose -f docker-compose.local-production.yml up --build
 ### Contributing Guidelines
 
 We welcome contributions from the community! Please read our
- [Contributing Guidelines](CONTRIBUTING.md)
+ [🎇Contributing Guidelines](CONTRIBUTING.md)
 to learn how you can help improve the project.
 
 ### Code of Conduct
 
 We expect all contributors to adhere to our
- [code of conduct](CODE_OF_CONDUCT.md). Please read it before
+ [📋code of conduct](CODE_OF_CONDUCT.md). Please read it before
  contributing to the project.
 
 ### How to Report a Bug
 
-To report a bug, refer to [Reporting Issues](CONTRIBUTING.md#reporting-issues)
- in the [Contributing Guidelines](CONTRIBUTING.md).
+To report a bug, refer to [🐞Reporting Issues](CONTRIBUTING.md#reporting-issues)
+ in the [🎇Contributing Guidelines](CONTRIBUTING.md).
 
 ---
 
