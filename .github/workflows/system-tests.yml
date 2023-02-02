@@ -17,6 +17,6 @@ jobs:
         working-directory: system-tests
         browser: chrome
         headed: false
-        start: docker-compose up --build -d
+        start: docker compose up --build -d
         wait-on: 'http://local.rosalution.cgds'
         wait-on-timeout: 120

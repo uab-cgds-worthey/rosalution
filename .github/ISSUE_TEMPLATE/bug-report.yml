@@ -57,7 +57,7 @@ body:
         Please provide any reproduction steps that may need to be described.
         If reproduced from a local deployment, confirm your [local environment was setup successfuly](https://github.com/uab-cgds-worthey/rosalution/blob/main/README.md#getting-started).
       placeholder: |
-        * (optional) If from local development version: Verified environment setup environment with `.setup.sh` and sourced shell, then `docker-compose up`
+        * (optional) If from local development version: Verified environment setup environment with `.setup.sh` and sourced shell, then `docker compose up`
 
         * Open the browser and call the endpoint `/`.
         * It renders an empty rosalution dashboard.
