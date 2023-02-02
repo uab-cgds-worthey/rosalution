@@ -1,7 +1,7 @@
 import {expect, describe, it, beforeAll, afterAll} from 'vitest';
 import {config, shallowMount} from '@vue/test-utils';
 
-import Header from '@/components/Header.vue';
+import RosalutionHeader from '@/components/RosalutionHeader.vue';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {RouterLink} from 'vue-router';
@@ -16,7 +16,7 @@ function getMountedComponent(props) {
     username: '',
   };
 
-  return shallowMount(Header, {
+  return shallowMount(RosalutionHeader, {
     props: {...defaultProps, ...props},
     global: {
       components: {
@@ -28,14 +28,14 @@ function getMountedComponent(props) {
 }
 
 beforeAll(() => {
-  config.renderStubDefaultSlot = true;
+  config.global.renderStubDefaultSlot = true;
 });
 
 afterAll(() => {
-  config.renderStubDefaultSlot = false;
+  config.global.renderStubDefaultSlot = false;
 });
 
-describe('HeaderComponent.vue', () => {
+describe('RosalutionHeaderComponent.vue', () => {
   it('should display application title by default', () => {
     const wrapper = getMountedComponent();
     const headerTextLink = wrapper.find('[data-test="header-title-text"]');

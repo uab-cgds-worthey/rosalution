@@ -21,7 +21,7 @@ test('Contains a the <router-view> to display the application with routes', () =
     global: {
       plugins: [router],
       stubs: {
-        NavigationComponent: true,
+        AppFooter: true,
       },
     },
   });

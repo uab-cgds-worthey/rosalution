@@ -62,12 +62,12 @@ describe('SectionBox.vue', () => {
   beforeAll(() => {
     sandbox = sinon.createSandbox();
     getSectionImageMock = sandbox.stub(Analyses, 'getSectionImage');
-    config.renderStubDefaultSlot = true;
+    config.global.renderStubDefaultSlot = true;
   });
 
   afterAll(() => {
     sandbox.restore();
-    config.renderStubDefaultSlot = false;
+    config.global.renderStubDefaultSlot = false;
   });
 
   describe('SectionBox.vue', () => {

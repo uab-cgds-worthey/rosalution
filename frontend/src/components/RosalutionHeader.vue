@@ -30,7 +30,7 @@
 import DropDownMenu from '@/components/DropDownMenu.vue';
 
 export default {
-  name: 'header-component',
+  name: 'rosalution-header-component',
   components: {
     DropDownMenu,
   },

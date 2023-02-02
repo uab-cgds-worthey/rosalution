@@ -28,11 +28,11 @@ function getMountedComponent(props) {
 }
 
 beforeAll(() => {
-  config.renderStubDefaultSlot = true;
+  config.global.renderStubDefaultSlot = true;
 });
 
 afterAll(() => {
-  config.renderStubDefaultSlot = false;
+  config.global.renderStubDefaultSlot = false;
 });
 
 describe('AnalysisListingHeader.vue', () => {

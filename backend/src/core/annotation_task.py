@@ -151,7 +151,7 @@ class HttpAnnotationTask(AnnotationTaskInterface):
     def annotate(self):
         """builds the complete url and fetches the annotation with an http request"""
         url_to_query = self.build_url()
-        result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"})
+        result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"}, timeout=30)
         json_result = result.json()
         return json_result
 

@@ -1,5 +1,5 @@
 <template>
-  <Header
+  <RosalutionHeader
     :username="this.username"
     :titleText="this.analysisName"
     :titleToRoute="{ name: 'analysis', params: { analysis_name: this.analysisName } }"
@@ -19,18 +19,18 @@
         >
         </AnnotationViewHeaderFormSelect>
     </div>
-  </Header>
+  </RosalutionHeader>
 </template>
 
 <script>
-import Header from '@/components/Header.vue';
+import RosalutionHeader from '@/components/RosalutionHeader.vue';
 import AnnotationViewHeaderFormSelect from '@/components/AnnotationView/AnnotationViewHeaderFormSelect.vue';
 
 export default {
   name: 'annotation-view-header-component',
   emits: ['changed'],
   components: {
-    Header,
+    RosalutionHeader,
     AnnotationViewHeaderFormSelect,
   },
   props: {
