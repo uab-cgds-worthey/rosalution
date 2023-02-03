@@ -63,7 +63,6 @@ describe('SectionBox.vue', () => {
     sandbox = sinon.createSandbox();
     getSectionImageMock = sandbox.stub(Analyses, 'getSectionImage');
     config.global.renderStubDefaultSlot = true;
-    getSectionImageMock = sandbox.stub(Analyses, 'getSectionImage');
   });
 
   afterAll(() => {
