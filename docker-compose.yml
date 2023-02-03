@@ -46,7 +46,7 @@ services:
       - ./backend:/app
     environment:
       - MONGODB_HOST=rosalution-db
-    entrypoint: ['/bin/sh', '-c', './etc/entrypoint-init.sh']
+    entrypoint: ['/bin/sh', '-c', './etc/entrypoint-init.sh --reload']
     networks:
       - rosalution-network
     labels:
