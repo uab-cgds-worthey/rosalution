@@ -5,7 +5,7 @@
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://hpo.jax.org/api/hpo/search/?q={gene}&max=-1&offset=0&category=genes",
-    "attribute": ".genes[] | select( .entrezGeneSymbol | contains(\"{gene}\")) |  { entrezGeneId: .entrezGeneId }"
+    "attribute": ".genes[] | select( .geneSymbol | contains(\"{gene}\")) |  { entrezGeneId: .geneId}"
   },
   {
     "data_set": "Ensembl Gene Id",
