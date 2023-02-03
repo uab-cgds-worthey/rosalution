@@ -1,16 +1,21 @@
 """Tasks for annotating a genomic unit with datasets"""
 from abc import abstractmethod
+import json
 from random import randint
 import time
 
 # pylint: disable=too-few-public-methods
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 import jq
-import json
 import requests
 
 
 def empty_gen():
+    """
+    Creates an empty iterator the emulate an empty return from extracting
+    an annotation.  This is for use when there is a failure in extracting
+    using jq.
+    """
     yield from ()
 
 
@@ -74,13 +79,14 @@ class AnnotationTaskInterface:
 
             replaced_attributes = self.aggregate_string_replacements(self.dataset['attribute'])
             jq_results = empty_gen()
-            print(jq_results)
             try:
                 jq_results = iter(jq.compile(replaced_attributes).input(json_result).all())
             except ValueError as value_error:
-                log_to_file(
-                    f"Failed to annotate '{annotation_unit['data_set']}' from '{annotation_unit['data_source']}' on {json.dumps(json_result)} with error '{value_error}'"
-                )
+                log_to_file((
+                    f"Failed to annotate '{annotation_unit['data_set']}' "
+                    f"from '{annotation_unit['data_source']}' "
+                    f"on {json.dumps(json_result)} with error '{value_error}'"
+                ))
             jq_result = next(jq_results, None)
             while jq_result is not None:
                 result_keys = list(jq_result.keys())

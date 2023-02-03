@@ -45,7 +45,7 @@ def test_extraction_forge_gene_linkout_dataset(forge_annotation_task_gene):
 
 
 def test_annotation_extraction_for_transcript_id_dataset(http_annotation_transcript_id, transcript_annotation_response):
-    """Verifieng genomic unit extraction for a transcript using the the transcript ID dataset"""
+    """Verifying genomic unit extraction for a transcript using the the transcript ID dataset"""
     actual_extractions = http_annotation_transcript_id.extract(transcript_annotation_response)
     assert len(actual_extractions) == 2
     assert {
@@ -62,7 +62,7 @@ def test_annotation_extraction_for_transcript_id_dataset(http_annotation_transcr
 def test_annotation_extraction_for_polyphen_prediction_transcript_dataset(
     http_annotation_polyphen_prediction, transcript_annotation_response
 ):
-    """Verifieng genomic unit extraction for a transcript using the the transcript ID dataset"""
+    """Verifying genomic unit extraction for a transcript using the the transcript ID dataset"""
     actual_extractions = http_annotation_polyphen_prediction.extract(transcript_annotation_response)
     assert len(actual_extractions) == 2
 
@@ -79,13 +79,24 @@ def test_annotation_extraction_for_polyphen_prediction_transcript_dataset(
 
 
 def test_annotation_extraction_for_genomic_unit(http_annotation_task_gene, hpo_annotation_response):
-    """Verifieng genomic unit extraction for a gene using the HPO dataset"""
+    """Verifying genomic unit extraction for a gene using the HPO dataset"""
     actual_extractions = http_annotation_task_gene.extract(hpo_annotation_response)
     assert len(actual_extractions) == 1
     assert {
         'data_set': 'HPO', 'data_source': 'HPO', 'version': '',
         'value': ['Myopathy, X-linked, With Excessive Autophagy']
     } in actual_extractions
+
+
+def test_annotation_extraction_value_error_exception(http_annotation_task_gene, hpo_annotation_response):
+    """Verifying annotation failure does not cause crash in application during extraction"""
+
+    # Removing the expected value in the json to force a jq parse error to more closely
+    # emulate the failure instead of mocking the jq response to fail.
+    del hpo_annotation_response['diseaseAssoc']
+
+    actual_extractions = http_annotation_task_gene.extract(hpo_annotation_response)
+    assert len(actual_extractions) == 0
 
 
 ## Fixtures ##
