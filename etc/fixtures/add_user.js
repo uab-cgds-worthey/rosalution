@@ -1,14 +1,14 @@
-const usage = "\n\nmongosh --eval \"var help=false; [options]\" /tmp/fixtures/add_user.js\n" +
-    "\nOptions:\n" +
-    "    help             if true or undefined, print this help message\n" +
-    "    userFile         default:  /tmp/fixtures/example-adding-users.json    file to read for new users\n" +
-    "    host             default:  localhost    host to use in the URI for connecting to mongo\n" +
-    "    port             default:  27017    port to use in the URI for connecting to mongo\n" +
-    "    databaseName     default:  rosalution_db    databaseName to use\n" +
-    "\nExample: mongosh --eval \"var help=false; userFile='/tmp/fixtures/example.json', host='127.0.0.1'," +
-    " port='27017', databaseName='your_db_name'\" /tmp/fixtures/add_user.js\n";
+const usage = `
+mongosh /tmp/fixtures/add_user.js
+    Options:
+        help             if true print this help message
+        userFile         default:  /tmp/fixtures/example-adding-users.json    file to read for new users
+        host             default:  localhost    host to use in the URI for connecting to mongo
+        port             default:  27017    port to use in the URI for connecting to mongo
+        databaseName     default:  rosalution_db    databaseName to use
+    Example: mongosh --eval "var userFile='/tmp/fixtures/example.json'; host='127.0.0.1', port='27017', databaseName='your_db_name'" /tmp/fixtures/add_user.js`;
 
-if (typeof help === 'undefined' || help !== false) {
+if (help === true) {
     print(usage);
     quit(1);
 }
@@ -46,19 +46,26 @@ if (typeof databaseName === 'undefined') {
     quit(1);
 }
 
-// Set the connection URI
-var uri = "mongodb://" + host + ":" + port + "/" + databaseName;
+conn = new Mongo();
+db = conn.getDB(databaseName);
 
-// Connect to the MongoDB instance using the connect function
-const db = connect(uri);
+db = db.getSiblingDB(databaseName);
+
+// // Set the connection URI
+// var uri = "mongodb://" + host + ":" + port + "/" + databaseName;
+
+// // Connect to the MongoDB instance using the connect function
+// const db = connect(uri);
 
 console.log(`Connected to MongoDB with URI ${uri}`);
 console.log(`Adding user from file ${userFile}`);
 
-const fs = require("fs");
-const users = JSON.parse(fs.readFileSync(userFile, "utf8"));
+
 
 try {
+    // Read the file
+    const fs = require("fs");
+    const users = JSON.parse(fs.readFileSync(userFile, "utf8"));
     var insertedUsers = [];
     users.forEach(user => {
         const existingUser = db.users.findOne({username: user.username});
@@ -72,4 +79,6 @@ try {
     console.log(`Inserted ${insertedUsers.length} users: ${insertedUsers}`);
 } catch (err) {
     console.log(err.stack);
+    console.log(usage);
+    quit(1);
 }
