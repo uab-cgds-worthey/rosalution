@@ -11,7 +11,7 @@
       <slot></slot>
       <ul class="actions-menu">
         <drop-down-menu :actions="this.userAuthActions" data-test="auth-menu">
-          <router-link :to="{path: '/rosalution/user'}">
+          <router-link :to="{path: '/rosalution/account'}">
             <span v-if="username" class="login" data-test="user-text">
               {{ username }}
             </span>

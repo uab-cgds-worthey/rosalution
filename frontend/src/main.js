@@ -8,13 +8,7 @@ import AnalysisListingView from './views/AnalysisListingView.vue';
 import NotFoundView from './views/NotFound.vue';
 import AnalysisView from './views/AnalysisView.vue';
 import AnnotationView from './views/AnnotationView.vue';
-/* Placeholder view, name subject to change. Explanation below. */
-import UserInfoView from './views/UserInfoView.vue';
-<<<<<<< HEAD
-
-import footer from './components/AppFooter.vue';
-=======
->>>>>>> 3d51623 (Added a frontend to handle the user models and a placeholder user info page with a working button)
+import AccountView from './views/AccountView.vue';
 
 import footer from './components/AppFooter.vue';
 
@@ -44,7 +38,7 @@ library.add(
 const routes = [
   {path: '/rosalution/login', name: 'login', component: LoginView},
   {path: '/rosalution', component: AnalysisListingView},
-  {path: '/rosalution/user', name: 'user', component: UserInfoView},
+  {path: '/rosalution/account', name: 'account', component: AccountView},
   {path: '/rosalution/analysis/:analysis_name', name: 'analysis', component: AnalysisView, props: true},
   {path: '/rosalution/analysis/:analysis_name/annotation/', name: 'annotation', component: AnnotationView, props: true},
   {path: '/rosalution/logout', name: 'logout', component: LogoutView},
@@ -67,7 +61,7 @@ router.beforeEach(async (to) => {
 
   if (!token && to.name !== 'login') {
     return {name: 'login'};
-  } else if (token && to.name == 'user') {
+  } else if (token && to.name == 'account') {
     const response = await authStore.getAPICredentials();
     authStore.saveState(response);
   } else if (token) {

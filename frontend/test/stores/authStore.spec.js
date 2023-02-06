@@ -78,7 +78,7 @@ describe('user.js', () => {
   });
 
   it('Handles the special user object with client_id and client_secret', () => {
-    authStore.saveState(userApiResponse);
+    authStore.saveState(AccessUserAPIResponse);
 
     expect(authStore.state.clientId).to.equal('fake-client-id');
     expect(authStore.state.clientSecret).to.equal('fake-client-secret');
@@ -114,7 +114,7 @@ describe('user.js', () => {
   });
 
   it('Fetches the user object including api client_id and client_secret', async () => {
-    mockGetRequest.returns(userApiResponse);
+    mockGetRequest.returns(AccessUserAPIResponse);
     const userObject = await authStore.getAPICredentials();
 
     expect(userObject['username']).to.equal('fakename');
@@ -123,7 +123,7 @@ describe('user.js', () => {
   });
 
   it('Sends a request to generate a client_secret and recieves a user object containing the data in it', async () => {
-    mockGetRequest.returns(userApiResponse);
+    mockGetRequest.returns(AccessUserAPIResponse);
     const userObject = await authStore.generateSecret();
 
     expect(userObject['username']).to.equal('fakename');
@@ -145,7 +145,7 @@ const userResponse = {
   'scope': 'developer',
 };
 
-const userApiResponse = {
+const AccessUserAPIResponse = {
   'username': 'fakename',
   'full_name': 'Fake Name',
   'email': 'fakemail@fake.com',
