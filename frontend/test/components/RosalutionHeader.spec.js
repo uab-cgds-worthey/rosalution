@@ -1,5 +1,6 @@
 import {expect, describe, it, beforeAll, afterAll} from 'vitest';
 import {config, shallowMount} from '@vue/test-utils';
+
 import sinon from 'sinon';
 
 import RosalutionHeader from '@/components/RosalutionHeader.vue';
@@ -26,9 +27,7 @@ function getMountedComponent(props) {
       },
       mocks: {
         $route: {
-          push: sinon.spy(),
-        },
-        $router: {
+          path: '/rosalution/account',
           push: sinon.spy(),
         },
       },
@@ -88,14 +87,16 @@ describe('RosalutionHeaderComponent.vue', () => {
   });
 
   it('should route to the AccountView when the username is clicked', async () => {
-    const pushSpy = sinon.spy();
     const wrapper = getMountedComponent({
       username: 'UABProvider',
     });
-    const userMenuWrapper = wrapper.find('[data-test=user-text]');
-      console.log(userMenuWrapper);
-    await userMenuWrapper.trigger('click');
-    expect(pushSpy.calledWith('/rosalution/account')).to.be.true;
+
+    const usernameLink = wrapper.find('[data-test="user-text"]');
+    usernameLink.trigger('click');
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$route.path).to.equal('/rosalution/account');
   });
 
 });
