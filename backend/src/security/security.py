@@ -99,6 +99,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), settings: Settings = D
 
     return client_id
 
+
 def get_authorization(
     security_scopes: SecurityScopes,
     token: str = Depends(oauth2_scheme),

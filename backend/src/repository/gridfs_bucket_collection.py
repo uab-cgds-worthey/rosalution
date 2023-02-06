@@ -39,7 +39,7 @@ class GridFSBucketCollection:
             file_id = ObjectId(file_id)
         return self.bucket.get(file_id)
 
-    def get_analysis_file_by_id(self, file_id):
+    def stream_analysis_file_by_id(self, file_id):
         """Returns the file with the given name"""
         grid_out = self.bucket.find_one({"_id": ObjectId(str(file_id))})
 

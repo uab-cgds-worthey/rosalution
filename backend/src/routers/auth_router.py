@@ -211,6 +211,7 @@ def fetch_user_api_creds(client_id: VerifyUser = Security(get_current_user), rep
 
     return credentialed_user
 
+
 @router.get("/logout")
 def logout_oauth(request: Request, response: Response, settings: Settings = Depends(get_settings)):
     """ Destroys the session and determines if the request was local or production and returns the proper url """

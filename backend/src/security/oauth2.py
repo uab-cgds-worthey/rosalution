@@ -19,6 +19,7 @@ from starlette.status import HTTP_401_UNAUTHORIZED
 
 from pydantic import BaseModel
 
+
 class HTTPClientCredentials(BaseModel):
     """ Defines credentials to use client_id and client_secret over username and password """
     client_id: str

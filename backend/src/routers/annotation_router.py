@@ -111,7 +111,9 @@ def upload_annotation_section(
     repositories=Depends(database)
 ):
     """ This endpoint specifically handles annotation section image uploads """
-    new_file_object_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename)
+    new_file_object_id = repositories["bucket"].save_file(
+        upload_file.file, upload_file.filename, upload_file.content_type
+    )
 
     genomic_unit = {
         'unit': genomic_unit,
