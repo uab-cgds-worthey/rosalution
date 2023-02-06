@@ -10,8 +10,11 @@ import AnalysisView from './views/AnalysisView.vue';
 import AnnotationView from './views/AnnotationView.vue';
 /* Placeholder view, name subject to change. Explanation below. */
 import UserInfoView from './views/UserInfoView.vue';
+<<<<<<< HEAD
 
 import footer from './components/AppFooter.vue';
+=======
+>>>>>>> 3d51623 (Added a frontend to handle the user models and a placeholder user info page with a working button)
 
 import footer from './components/AppFooter.vue';
 
