@@ -2,6 +2,8 @@
 Function overrides necessary for the Swagger documents to use client id and client secret
 instead of a username and password flow.
 """
+# Disabling linting rules as it is FastAPI code just being overridden.
+# pylint: disable=too-few-public-methods, no-else-raise
 
 from typing import Optional
 
@@ -17,16 +19,13 @@ from starlette.status import HTTP_401_UNAUTHORIZED
 
 from pydantic import BaseModel
 
-# Disabling linting rules as it is FastAPI code just being overridden.
-
-
 class HTTPClientCredentials(BaseModel):
     """ Defines credentials to use client_id and client_secret over username and password """
     client_id: str
     client_secret: str
 
 
-class HTTPBasicClientCredentials(HTTPBasic):  # pylint: disable=too-few-public-methods
+class HTTPBasicClientCredentials(HTTPBasic):
     """ Handles network request for transmitting credentials via Swagger authorize """
 
     async def __call__(  # type:ignore
@@ -38,7 +37,7 @@ class HTTPBasicClientCredentials(HTTPBasic):  # pylint: disable=too-few-public-m
         return HTTPClientCredentials(client_id=basic.username, client_secret=basic.password)
 
 
-class OAuth2ClientCredentials(OAuth2):  # pylint: disable=too-few-public-methods
+class OAuth2ClientCredentials(OAuth2):
     """ Updates the flow from username and password to client credentials for Swagger """
 
     def __init__(
@@ -57,7 +56,7 @@ class OAuth2ClientCredentials(OAuth2):  # pylint: disable=too-few-public-methods
         authorization: str = request.headers.get("Authorization")
         scheme, param = get_authorization_scheme_param(authorization)
         if not authorization or scheme.lower() != "bearer":
-            if self.auto_error:  # pylint: disable=no-else-raise
+            if self.auto_error:
                 raise HTTPException(
                     status_code=HTTP_401_UNAUTHORIZED,
                     detail="Not authenticated",
@@ -68,7 +67,7 @@ class OAuth2ClientCredentials(OAuth2):  # pylint: disable=too-few-public-methods
         return param
 
 
-class OAuth2ClientCredentialsRequestForm:  # pylint: disable=too-few-public-methods
+class OAuth2ClientCredentialsRequestForm:
     """ Changes the input form for the Swagger authorize to use client credentials """
 
     def __init__(

@@ -16,7 +16,7 @@ class User(BaseModel):
     scope: Optional[str] = None
 
 
-class UserAPI(User):
+class AccessUserAPI(User):
     """ This extends the user class to include the user's credentials for API access """
     client_id: str
     client_secret: Optional[str] = None

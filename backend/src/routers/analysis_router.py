@@ -144,7 +144,7 @@ def download_file_by_id(file_id: str, repositories=Depends(database)):
             if not chunk:
                 break
             yield chunk
-    
+
     print(grid_fs_file)
     return StreamingResponse(file_iterator(grid_fs_file), media_type=grid_fs_file.content_type)
 

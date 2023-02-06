@@ -11,7 +11,7 @@ from cas import CASClient
 
 from ..config import Settings, get_settings
 from ..dependencies import database
-from ..models.user import User, VerifyUser, UserAPI
+from ..models.user import User, VerifyUser, AccessUserAPI
 from ..security.oauth2 import OAuth2ClientCredentialsRequestForm, HTTPClientCredentials, HTTPBasicClientCredentials
 from ..security.security import (
     authenticate_password, create_access_token, get_authorization, get_current_user, generate_client_secret
@@ -147,7 +147,7 @@ def issue_oauth2_token(
     if not user:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
 
-    credentialed_user = UserAPI(**user)
+    credentialed_user = AccessUserAPI(**user)
 
     if client_secret != credentialed_user.client_secret:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
@@ -194,7 +194,7 @@ def generate_secret(client_id: VerifyUser = Security(get_current_user), reposito
     if not user:
         raise HTTPException(status_code=500, detail="Something went wrong. Unable to create client secret.")
 
-    credentialed_user = UserAPI(**user)
+    credentialed_user = AccessUserAPI(**user)
 
     return credentialed_user
 
@@ -207,18 +207,7 @@ def fetch_user_api_creds(client_id: VerifyUser = Security(get_current_user), rep
     if not user:
         raise HTTPException(status_code=500, detail="Something went wrong. Unable to create client secret.")
 
-    credentialed_user = UserAPI(**user)
-
-    return credentialed_user
-
-@router.get('/get_user_credentials')
-def fetch_user_api_creds(client_id: VerifyUser = Security(get_current_user), repositories=Depends(database)):
-    user = repositories['user'].find_by_client_id(client_id)
-    
-    if not user:
-        raise HTTPException(status_code=500, detail="Something went wrong. Unable to create client secret.")
-
-    credentialed_user = UserAPI(**user)
+    credentialed_user = AccessUserAPI(**user)
 
     return credentialed_user
 
