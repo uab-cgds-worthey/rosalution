@@ -130,7 +130,23 @@ def update_analysis_sections(analysis_name: str, updated_sections: dict, reposit
 def download_file_by_id(file_id: str, repositories=Depends(database)):
     """ Returns a file from GridFS using the file's id """
     grid_fs_file = repositories['bucket'].get_analysis_file_by_id(file_id)
-    return StreamingResponse(grid_fs_file)
+
+    print(grid_fs_file.metadata)
+    print(grid_fs_file.content_type)
+
+    file_extension = grid_fs_file.name.split('.')[1]
+
+    print(file_extension)
+
+    def file_iterator(grid_out):
+        while True:
+            chunk = grid_out.readchunk()
+            if not chunk:
+                break
+            yield chunk
+    
+    print(grid_fs_file)
+    return StreamingResponse(file_iterator(grid_fs_file), media_type=grid_fs_file.content_type)
 
 
 @router.get("/{analysis_name}/download/{file_name}")
@@ -148,7 +164,11 @@ def download(analysis_name: str, file_name: str, repositories=Depends(database))
 @router.post("/{analysis_name}/attach/pedigree", response_model=Section)
 def upload_pedigree(analysis_name: str, upload_file: UploadFile = File(...), repositories=Depends(database)):
     """ Specifically accepts a file to save a pedigree image file to mongo """
-    new_file_object_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename)
+    new_file_object_id = repositories["bucket"].save_file(
+        upload_file.file,
+        upload_file.filename,
+        upload_file.content_type
+    )
 
     updated_section = repositories["analysis"].add_pedigree_file(analysis_name, new_file_object_id)
     return updated_section
@@ -168,7 +188,11 @@ def update_pedigree(analysis_name: str, upload_file: UploadFile = File(...), rep
         repositories["analysis"].remove_pedigree_file(analysis_name)
     except ValueError as exception:
         raise HTTPException(status_code=404, detail=str(exception)) from exception
-    new_file_object_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename)
+    new_file_object_id = repositories["bucket"].save_file(
+        upload_file.file,
+        upload_file.filename,
+        upload_file.content_type
+    )
 
     updated_section = repositories["analysis"].add_pedigree_file(analysis_name, new_file_object_id)
     return updated_section
