@@ -62,14 +62,14 @@ export default {
       mode: 'cors',
     },
     )
-    .then( (response) => response.blob() )
-    .then( (blob) => new Promise( (callback) => {
-      const reader = new FileReader();
-      reader.onload = function() {
-        callback(this.result);
-      };
-      reader.readAsDataURL(blob);
-    }));
+        .then( (response) => response.blob() )
+        .then( (blob) => new Promise( (callback) => {
+          const reader = new FileReader();
+          reader.onload = function() {
+            callback(this.result);
+          };
+          reader.readAsDataURL(blob);
+        }));
   },
   getDownload(url, data) {
     const authToken = authStore.getToken();
