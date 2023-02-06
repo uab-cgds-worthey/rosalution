@@ -132,8 +132,7 @@ export default {
   async downloadSupportingEvidence(attachmentId, attachmentFile) {
     const url = `/rosalution/api/analysis/download/${attachmentId}`;
     const fileData = {'filename': attachmentFile};
-    const success = await Requests.getFile(url, fileData);
-    return success;
+    return Requests.getDownload(url, fileData);
   },
 };
 

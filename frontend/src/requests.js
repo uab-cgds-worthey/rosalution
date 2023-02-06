@@ -62,18 +62,18 @@ export default {
       mode: 'cors',
     },
     )
-        .then( (response) => response.blob() )
-        .then( (blob) => new Promise( (callback) => {
-          const reader = new FileReader();
-          reader.onload = function() {
-            callback(this.result);
-          };
-          reader.readAsDataURL(blob);
-        }));
+    .then( (response) => response.blob() )
+    .then( (blob) => new Promise( (callback) => {
+      const reader = new FileReader();
+      reader.onload = function() {
+        callback(this.result);
+      };
+      reader.readAsDataURL(blob);
+    }));
   },
-  async getFile(url, data) {
+  getDownload(url, data) {
     const authToken = authStore.getToken();
-    await fetch(url, {
+    fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

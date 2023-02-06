@@ -267,8 +267,8 @@ export default {
             .alert(error);
       }
     },
-    async downloadSupportingEvidence(attachmentToDownload) {
-      await Analyses.downloadSupportingEvidence(attachmentToDownload.attachment_id, attachmentToDownload.name);
+    downloadSupportingEvidence(attachmentToDownload) {
+      Analyses.downloadSupportingEvidence(attachmentToDownload.attachment_id, attachmentToDownload.name);
     },
     async saveAnalysisChanges() {
       const updatedAnalysis = await Analyses.updateAnalysisSections(this.analysis_name, this.updatedContent);
