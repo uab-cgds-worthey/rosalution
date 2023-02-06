@@ -1,12 +1,13 @@
 const usage = `
 mongosh /tmp/fixtures/add_user.js
-    Options:
+    Script Options:
         help             if true print this help message
         userFile         default:  /tmp/fixtures/example-adding-users.json    file to read for new users
-        host             default:  localhost    host to use in the URI for connecting to mongo
-        port             default:  27017    port to use in the URI for connecting to mongo
         databaseName     default:  rosalution_db    databaseName to use
-    Example: mongosh --eval "var userFile='/tmp/fixtures/example.json'; host='127.0.0.1', port='27017', databaseName='your_db_name'" /tmp/fixtures/add_user.js`;
+    Mongosh Options:
+        --host           default:  localhost    host to connect to
+        --port           default:  27017    port to connect to
+    Example: mongosh --host localhost --port 27017 --eval "var userFile='/tmp/fixtures/example.json'; databaseName='your_db_name'" /tmp/fixtures/add_user.js`;
 
 if (help === true) {
     print(usage);
@@ -22,21 +23,6 @@ if (typeof userFile === 'undefined') {
     print("userFile must be a string");
     quit(1);
 }
-// host
-if (typeof host === 'undefined') {
-    host = "localhost";
-} else if (typeof host !== 'string') {
-    print("host must be a string");
-    quit(1);
-}
-
-// port
-if (typeof port === 'undefined') {
-    port = "27017";
-} else if (typeof port !== 'string') {
-    print("port must be a number");
-    quit(1);
-}
 
 // databaseName
 if (typeof databaseName === 'undefined') {
@@ -46,18 +32,15 @@ if (typeof databaseName === 'undefined') {
     quit(1);
 }
 
-conn = new Mongo();
-db = conn.getDB(databaseName);
+// if host or port are defined, print the help message with a warning and quit
+if (typeof host !== 'undefined' || typeof port !== 'undefined') {
+    print("Host and port are not script options. Please use the Mongosh Options to specify host and port.");
+    print(usage);
+    quit(1);
+}
 
 db = db.getSiblingDB(databaseName);
 
-// // Set the connection URI
-// var uri = "mongodb://" + host + ":" + port + "/" + databaseName;
-
-// // Connect to the MongoDB instance using the connect function
-// const db = connect(uri);
-
-console.log(`Connected to MongoDB with URI ${uri}`);
 console.log(`Adding user from file ${userFile}`);
 
 
