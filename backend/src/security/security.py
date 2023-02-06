@@ -99,8 +99,6 @@ def get_current_user(token: str = Depends(oauth2_scheme), settings: Settings = D
 
     return client_id
 
-
-# This will be used when scopes are implemented with the users. For now, authorization will use "get_current_user"
 def get_authorization(
     security_scopes: SecurityScopes,
     token: str = Depends(oauth2_scheme),
@@ -109,6 +107,8 @@ def get_authorization(
     """
     This function does a general authorization check to see if the user is authorized and within scope to use the
     endpoint that is requested.
+
+    This will be used when scopes are implemented with the users. For now, authorization will use "get_current_user.
     """
     if security_scopes:
         authenticate_value = f'Bearer scope="{security_scopes.scope_str}"'
