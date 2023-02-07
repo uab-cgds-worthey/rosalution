@@ -27,10 +27,10 @@ class GridFSBucketCollection:
 
     def save_file(self, file, filename, content_type):
         """
-            Saves the file to the database using the GridFS bucket along with the file name and content type 
-            corresponding to the MIME_TYPE from the HTTP header uploading the file.
-            
-            Returns the file id
+        Saves the file to the database using the GridFS bucket along with the file name and content type corresponding
+        to the MIME_TYPE from the HTTP header uploading the file.
+
+        Returns the file id
         """
         return self.bucket.put(file, filename=filename, content_type=content_type)
 
