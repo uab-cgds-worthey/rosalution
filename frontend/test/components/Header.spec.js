@@ -98,5 +98,4 @@ describe('HeaderComponent.vue', () => {
 
     expect(wrapper.vm.$route.path).to.equal('/rosalution/account');
   });
-
 });
