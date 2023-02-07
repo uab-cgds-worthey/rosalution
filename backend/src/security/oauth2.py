@@ -3,8 +3,7 @@ Function overrides necessary for the Swagger documents to use client id and clie
 instead of a username and password flow.
 """
 # Disabling linting rules as it is FastAPI code just being overridden.
-# pylint: disable=too-few-public-methods, no-else-raise
-
+# pylint: disable=too-few-public-methods
 from typing import Optional
 
 from fastapi.exceptions import HTTPException
@@ -63,8 +62,7 @@ class OAuth2ClientCredentials(OAuth2):
                     detail="Not authenticated",
                     headers={"WWW-Authenticate": "Bearer"},
                 )
-            else:
-                return None
+
         return param
 
 
