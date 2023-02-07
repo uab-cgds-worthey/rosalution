@@ -52,7 +52,7 @@ def create_access_token(
 
 
 def get_password_hash(password):
-    """This function takes the plain password and makes a hash from it using CryptContext"""
+    """Takes the plain password and makes a hash from it using CryptContext"""
     return pwd_context.hash(password)
 
 
