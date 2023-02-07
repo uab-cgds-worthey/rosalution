@@ -10,8 +10,6 @@ const authStore = {
     clientSecret: '',
   },
   saveState(user) {
-    console.log(user);
-
     this.state.full_name = user['full_name'];
     this.state.username = user['username'];
     this.state.email = user['email'];
