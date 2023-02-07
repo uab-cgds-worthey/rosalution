@@ -39,7 +39,7 @@ describe('AccountView.vue', () => {
   let mockGetUser;
 
   beforeEach(() => {
-  mockGetUser = sandbox.stub(authStore, 'getUser').returns({username: 'test'});
+    mockGetUser = sandbox.stub(authStore, 'getUser').returns({username: 'test'});
   });
 
   afterEach(() => {
@@ -47,9 +47,10 @@ describe('AccountView.vue', () => {
   });
 
   it('displays the username correctly', () => {
-  const wrapper = getMountedComponent();
-  const pTag = wrapper.find('p');
+    const wrapper = getMountedComponent();
+    const pTag = wrapper.find('p');
 
-  expect(pTag.text()).to.include('test');
-  })
-})
+    expect(mockGetUser.called).toBe(true);
+    expect(pTag.text()).to.include('test');
+  });
+});
