@@ -4,10 +4,11 @@ mongosh /tmp/fixtures/add_user.js
         help             if true print this help message
         userFile         default:  /tmp/fixtures/example-adding-users.json    file to read for new users
         databaseName     default:  rosalution_db    databaseName to use
-    Mongosh Options:
-        --host           default:  localhost    host to connect to
-        --port           default:  27017    port to connect to
-    Example: mongosh --host localhost --port 27017 --eval "var userFile='/tmp/fixtures/example.json'; databaseName='your_db_name'" /tmp/fixtures/add_user.js`;
+    Run mongosh help for mongosh connection and authentication usage.
+    Example: mongosh --host localhost --port 27017 --eval "var userFile='/tmp/fixtures/example.json'; databaseName='your_db_name'" /tmp/fixtures/add_user.js
+    
+    Run mongosh help for mongosh connection and authentication usage.
+    `;
 
 if (help === true) {
     print(usage);
@@ -29,13 +30,6 @@ if (typeof databaseName === 'undefined') {
     databaseName = "rosalution_db";
 } else if (typeof databaseName !== 'string') {
     print("databaseName must be a string");
-    quit(1);
-}
-
-// if host or port are defined, print the help message with a warning and quit
-if (typeof host !== 'undefined' || typeof port !== 'undefined') {
-    print("Host and port are not script options. Please use the Mongosh Options to specify host and port.");
-    print(usage);
     quit(1);
 }
 
