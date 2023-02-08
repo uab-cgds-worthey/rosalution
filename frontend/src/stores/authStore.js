@@ -17,8 +17,6 @@ const authStore = {
 
     user['client_id'] ? this.state.clientId = user['client_id'] : '';
     user['client_secret'] ? this.state.clientSecret = user['client_secret'] : '';
-
-    console.log(this.state);
   },
   getToken() {
     if (document.cookie == '') {
