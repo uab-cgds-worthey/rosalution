@@ -1,4 +1,8 @@
+const path = require("path");
+
 describe('case_supporting_evidence.cy.js', () => {
+  const downloadsFolder = Cypress.config("downloadsFolder");
+
   beforeEach(() => {
     cy.resetDatabase();
     cy.visit('/');
@@ -85,7 +89,7 @@ describe('case_supporting_evidence.cy.js', () => {
     cy.get('.attachment-list').should('have.length', 0);
   });
 
-  it('attaches a supporting evidence file to an analysis case and can download', () => {
+  it('attaches a supporting evidence file to an analysis case, downloads, and asserts the file exists', () => {
     cy.get('#Supporting_Evidence').should('exist');
     cy.get('.attachment-list').should('have.length', 0);
     cy.get('[data-test="add-button"]').click();
@@ -97,13 +101,10 @@ describe('case_supporting_evidence.cy.js', () => {
     cy.get('[data-test="confirm"]').click();
     cy.get('[href="#Supporting_Evidence"]').click();
     cy.get('.attachment-list').should('have.length', 1);
-    cy.get('.attachment-name > a').should('have.attr', 'href')
-        .and('match', /\/rosalution\/api\/analysis\/download\/[A-Za-z0-9]+/i);
-    cy.get('.attachment-name > a').should('have.attr', 'target', '_blank');
-    cy.get('.attachment-name > a').should('have.attr', 'rel', 'noreferrer noopener');
-    cy.get('.attachment-name > a').then((link) => {
-      cy.request(link.prop('href')).its('status').should('eq', 200);
-    });
+    cy.get('.attachment-name > div').should('have.attr', 'target', '_blank');
+    cy.get('.attachment-name > div').should('have.attr', 'rel', 'noreferrer noopener');
+    cy.get('.attachment-name > div').click()
+    cy.readFile(path.join(downloadsFolder, 'pedigree-fake.jpg'))
   });
 
   it('attaches a supporting evidence file to an analysis case and can edit the comments', () => {
@@ -118,25 +119,15 @@ describe('case_supporting_evidence.cy.js', () => {
     cy.get('[data-test="confirm"]').click();
     cy.get('[href="#Supporting_Evidence"]').click();
     cy.get('.attachment-list').should('have.length', 1);
-    cy.get('.attachment-name > a').should('have.attr', 'href')
-        .and('match', /\/rosalution\/api\/analysis\/download\/[A-Za-z0-9]+/i);
-    cy.get('.attachment-name > a').should('have.attr', 'target', '_blank');
-    cy.get('.attachment-name > a').should('have.attr', 'rel', 'noreferrer noopener');
-    cy.get('.attachment-name > a').then((link) => {
-      cy.request(link.prop('href')).its('status').should('eq', 200);
-    });
+    cy.get('.attachment-name > div').should('have.attr', 'target', '_blank');
+    cy.get('.attachment-name > div').should('have.attr', 'rel', 'noreferrer noopener');
     cy.get('.edit-button').click();
     cy.get('.comments').clear().type('this is a test comment for a test file edited');
     cy.get('[data-test="confirm"]').click();
     cy.get('[href="#Supporting_Evidence"]').click();
     cy.get('.attachment-list').should('have.length', 1);
-    cy.get('.attachment-name > a').should('have.attr', 'href')
-        .and('match', /\/rosalution\/api\/analysis\/download\/[A-Za-z0-9]+/i);
-    cy.get('.attachment-name > a').should('have.attr', 'target', '_blank');
-    cy.get('.attachment-name > a').should('have.attr', 'rel', 'noreferrer noopener');
-    cy.get('.attachment-name > a').then((link) => {
-      cy.request(link.prop('href')).its('status').should('eq', 200);
-    });
+    cy.get('.attachment-name > div').should('have.attr', 'target', '_blank');
+    cy.get('.attachment-name > div').should('have.attr', 'rel', 'noreferrer noopener');
     cy.get('.attachment-comments').should('have.text', 'this is a test comment for a test file edited');
   });
 
@@ -152,13 +143,8 @@ describe('case_supporting_evidence.cy.js', () => {
     cy.get('[data-test="confirm"]').click();
     cy.get('[href="#Supporting_Evidence"]').click();
     cy.get('.attachment-list').should('have.length', 1);
-    cy.get('.attachment-name > a').should('have.attr', 'href')
-        .and('match', /\/rosalution\/api\/analysis\/download\/[A-Za-z0-9]+/i);
-    cy.get('.attachment-name > a').should('have.attr', 'target', '_blank');
-    cy.get('.attachment-name > a').should('have.attr', 'rel', 'noreferrer noopener');
-    cy.get('.attachment-name > a').then((link) => {
-      cy.request(link.prop('href')).its('status').should('eq', 200);
-    });
+    cy.get('.attachment-name > div').should('have.attr', 'target', '_blank');
+    cy.get('.attachment-name > div').should('have.attr', 'rel', 'noreferrer noopener');
     cy.get('.delete-button').click();
     cy.get('.modal-container').should('exist');
     cy.get('[data-test="confirm-button"]').click();

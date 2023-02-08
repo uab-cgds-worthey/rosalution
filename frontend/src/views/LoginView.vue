@@ -80,7 +80,11 @@ export default {
   },
   methods: {
     async loginDevelopment() {
-      // Password is hard coded. Taking it out would require a rewrite of the backend as of now.
+      /*
+        Password is hard coded. Taking it out would require a rewrite of the backend as of now.
+        This function is used for
+      */
+
       if (this.username != '') {
         const userData = {'username': this.username, 'password': ''};
         await this.store.loginDevelopment(userData);

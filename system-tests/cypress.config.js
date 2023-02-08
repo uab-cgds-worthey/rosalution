@@ -5,6 +5,7 @@ module.exports = defineConfig({
     video: false,
     baseUrl: 'http://local.rosalution.cgds/rosalution',
     fixturesFolder: './fixtures',
+    downloadsFolder: 'cypress/downloads',
     screenshotsFolder: 'cypress/screenshots',
     videosFolder: 'cypress/videos',
     specPattern: './e2e/**/*.cy.js',

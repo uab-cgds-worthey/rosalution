@@ -17,12 +17,10 @@ from ..models.user import VerifyUser
 from ..security.security import get_current_user
 
 # This is temporarily changed as security is removed for the analysis endpoints to make development easier
-# Change line 18 to the following to enable security:
 # dependencies=[Depends(database), Security(get_authorization, scopes=["write"])]
 # and add the following dependencies at the top:
-# from fastapi import Security
 # from ..security.security import get_authorization
-router = APIRouter(prefix="/analysis", tags=["analysis"], dependencies=[Depends(database)])
+router = APIRouter(prefix="/analysis", tags=["analysis"], dependencies=[Depends(database), Security(get_current_user)])
 
 
 @router.get("/", response_model=List[Analysis])
@@ -131,8 +129,8 @@ def update_analysis_sections(analysis_name: str, updated_sections: dict, reposit
 @router.get("/download/{file_id}")
 def download_file_by_id(file_id: str, repositories=Depends(database)):
     """ Returns a file from GridFS using the file's id """
-    grid_fs_file = repositories['bucket'].get_analysis_file_by_id(file_id)
-    return StreamingResponse(grid_fs_file)
+    grid_fs_file = repositories['bucket'].stream_analysis_file_by_id(file_id)
+    return StreamingResponse(grid_fs_file, media_type=grid_fs_file.content_type)
 
 
 @router.get("/{analysis_name}/download/{file_name}")
@@ -144,13 +142,15 @@ def download(analysis_name: str, file_name: str, repositories=Depends(database))
     if not file:
         raise HTTPException(status_code=404, detail="File not found.")
 
-    return StreamingResponse(repositories['bucket'].get_analysis_file_by_id(file['file_id']))
+    return StreamingResponse(repositories['bucket'].stream_analysis_file_by_id(file['file_id']))
 
 
 @router.post("/{analysis_name}/attach/pedigree", response_model=Section)
 def upload_pedigree(analysis_name: str, upload_file: UploadFile = File(...), repositories=Depends(database)):
     """ Specifically accepts a file to save a pedigree image file to mongo """
-    new_file_object_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename)
+    new_file_object_id = repositories["bucket"].save_file(
+        upload_file.file, upload_file.filename, upload_file.content_type
+    )
 
     updated_section = repositories["analysis"].add_pedigree_file(analysis_name, new_file_object_id)
     return updated_section
@@ -170,7 +170,9 @@ def update_pedigree(analysis_name: str, upload_file: UploadFile = File(...), rep
         repositories["analysis"].remove_pedigree_file(analysis_name)
     except ValueError as exception:
         raise HTTPException(status_code=404, detail=str(exception)) from exception
-    new_file_object_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename)
+    new_file_object_id = repositories["bucket"].save_file(
+        upload_file.file, upload_file.filename, upload_file.content_type
+    )
 
     updated_section = repositories["analysis"].add_pedigree_file(analysis_name, new_file_object_id)
     return updated_section
@@ -199,7 +201,9 @@ def attach_supporting_evidence_file(
     """Uploads a file to GridFS and adds it to the analysis"""
     if repositories['bucket'].filename_exists(upload_file.filename):
         raise HTTPException(status_code=409, detail="File already exists in Rosalution")
-    new_file_object_id = repositories['bucket'].save_file(upload_file.file, upload_file.filename)
+    new_file_object_id = repositories['bucket'].save_file(
+        upload_file.file, upload_file.filename, upload_file.content_type
+    )
     return repositories["analysis"].attach_supporting_evidence_file(
         analysis_name, new_file_object_id, upload_file.filename, comments
     )

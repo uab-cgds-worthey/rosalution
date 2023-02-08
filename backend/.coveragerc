@@ -7,4 +7,5 @@ omit =
        src/routers/*
        src/models/user.py
        src/models/phenotips_json.py
+       src/security/oauth2.py
        *__init__.py

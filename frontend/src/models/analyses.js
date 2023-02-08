@@ -42,6 +42,11 @@ export default {
     return Requests.postForm(url, fileUploadFormData);
   },
 
+  async getSectionImage(fileId) {
+    const url = `/rosalution/api/analysis/download/${fileId}`;
+    return await Requests.getImage(url);
+  },
+
   async attachSectionImage(analysisName, sectionName, image) {
     if ('Pedigree' != sectionName) {
       throw Error(`Only support for removing Pedigree. Failed to remove image for section '${sectionName}'.`);
@@ -122,6 +127,12 @@ export default {
     const url = `/rosalution/api/analysis/${analysisName}/attachment/${attachmentId}/remove`;
     const success = await Requests.delete(url);
     return success;
+  },
+
+  async downloadSupportingEvidence(attachmentId, attachmentFile) {
+    const url = `/rosalution/api/analysis/download/${attachmentId}`;
+    const fileData = {'filename': attachmentFile};
+    return Requests.getDownload(url, fileData);
   },
 };
 

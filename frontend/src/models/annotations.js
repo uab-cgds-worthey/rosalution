@@ -24,6 +24,10 @@ export default {
     ]);
     return {...geneAnnotations, ...variantAnnotations};
   },
+  async getAnnotationImage(fileId) {
+    const url = `/rosalution/api/analysis/download/${fileId}`;
+    return await Requests.getImage(url);
+  },
   async attachAnnotationImage(annotation, image) {
     const baseUrl = '/rosalution/api/annotate';
 

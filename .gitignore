@@ -20,10 +20,10 @@ rosalution-annotation-log.txt*
 *.vcf
 *.graphql
 
-
 **/node_modules/**
 
 # e2e run captures
+/system-tests/cypress/downloads
 /system-tests/cypress/screenshots
 /system-tests/cypress/videos
 

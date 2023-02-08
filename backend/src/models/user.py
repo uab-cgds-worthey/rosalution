@@ -16,6 +16,12 @@ class User(BaseModel):
     scope: Optional[str] = None
 
 
+class AccessUserAPI(User):
+    """ This extends the user class to include the user's credentials for API access """
+    client_id: str
+    client_secret: Optional[str] = None
+
+
 class VerifyUser(User):
     """Hashed password was omitted from the base object as it's not always needed"""
 

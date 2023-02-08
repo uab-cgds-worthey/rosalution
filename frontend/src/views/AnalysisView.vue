@@ -37,16 +37,17 @@
           @open-modal="this.addSupportingEvidence"
           @delete="this.removeSupportingEvidence"
           @edit="this.editSupportingEvidence"
+          @download="this.downloadSupportingEvidence"
         />
         <InputDialog />
         <NotificationDialog
           data-test="notification-dialog"
         />
         <SaveModal
-        class="save-modal"
-        v-if="this.edit"
-        @canceledit="this.cancelAnalysisChanges"
-        @save="this.saveAnalysisChanges"
+          class="save-modal"
+          v-if="this.edit"
+          @canceledit="this.cancelAnalysisChanges"
+          @save="this.saveAnalysisChanges"
         />
       </app-content>
   </div>
@@ -265,6 +266,9 @@ export default {
             .confirmText('Ok')
             .alert(error);
       }
+    },
+    downloadSupportingEvidence(attachmentToDownload) {
+      Analyses.downloadSupportingEvidence(attachmentToDownload.attachment_id, attachmentToDownload.name);
     },
     async saveAnalysisChanges() {
       const updatedAnalysis = await Analyses.updateAnalysisSections(this.analysis_name, this.updatedContent);

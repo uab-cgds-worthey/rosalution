@@ -25,9 +25,14 @@ class GridFSBucketCollection:
             file_id = ObjectId(file_id)
         return self.bucket.exists(file_id)
 
-    def save_file(self, file, filename):
-        """Saves the file to the database using the GridFS bucket and returns the file id"""
-        return self.bucket.put(file, filename=filename)
+    def save_file(self, file, filename, content_type):
+        """
+        Saves the file to the database using the GridFS bucket along with the file name and content type corresponding
+        to the MIME_TYPE from the HTTP header uploading the file.
+
+        Returns the file id
+        """
+        return self.bucket.put(file, filename=filename, content_type=content_type)
 
     def list_files(self):
         """Returns a list of all the files in the database"""
@@ -39,15 +44,11 @@ class GridFSBucketCollection:
             file_id = ObjectId(file_id)
         return self.bucket.get(file_id)
 
-    def get_analysis_file_by_id(self, file_id):
+    def stream_analysis_file_by_id(self, file_id):
         """Returns the file with the given name"""
         grid_out = self.bucket.find_one({"_id": ObjectId(str(file_id))})
 
-        while True:
-            chunk = grid_out.readchunk()
-            if not chunk:
-                break
-            yield chunk
+        return grid_out
 
     def delete_file(self, file_id):
         """Deletes the file with the given id"""
