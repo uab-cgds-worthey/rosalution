@@ -50,6 +50,45 @@ export default {
     }
     return await response.json();
   },
+  async getImage(url) {
+    console.log(url);
+    const authToken = authStore.getToken();
+    return await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + authToken,
+      },
+      mode: 'cors',
+    },
+    )
+        .then( (response) => response.blob() )
+        .then( (blob) => new Promise( (callback) => {
+          const reader = new FileReader();
+          reader.onload = function() {
+            callback(this.result);
+          };
+          reader.readAsDataURL(blob);
+        }));
+  },
+  getDownload(url, data) {
+    const authToken = authStore.getToken();
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + authToken,
+      },
+      mode: 'cors',
+    }).then((res) => {
+      return res.blob();
+    }).then((result) => {
+      const a = document.createElement('a');
+      a.href = window.URL.createObjectURL(result);
+      a.download = data.filename;
+      a.click();
+    });
+  },
   async post(url, data) {
     const authToken = authStore.getToken();
     const response = await fetch(url, {

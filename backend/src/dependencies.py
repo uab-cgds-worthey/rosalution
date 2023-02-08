@@ -3,7 +3,7 @@
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 import gridfs
 from pymongo import MongoClient
-from fastapi.security import OAuth2PasswordBearer
+from .security.oauth2 import OAuth2ClientCredentials
 
 from .core.annotation import AnnotationQueue
 from .database import Database
@@ -19,5 +19,4 @@ database = Database(mongodb_client, bucket)
 
 # Queue that processess annotation tasks safely between threads
 annotation_queue = AnnotationQueue()
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=settings.openapi_api_token_route)
+oauth2_scheme = OAuth2ClientCredentials(tokenUrl=settings.openapi_api_token_route)

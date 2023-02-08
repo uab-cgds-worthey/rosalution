@@ -19,12 +19,14 @@
       </tr>
       <div class="seperator"></div>
       <slot></slot>
-      <img v-if="displaySectionImage" class="annotation-image" :src="annotationImage"/>
+      <img v-if="displaySectionImage" class="annotation-image" :src="this.sectionImage"/>
     </tbody>
   </table>
 </template>
 
 <script>
+import Annotations from '@/models/annotations.js';
+
 export default {
   name: 'annotation-section',
   props: {
@@ -35,6 +37,9 @@ export default {
       type: String,
     },
   },
+  updated() {
+    this.fetchImage(this.imageId);
+  },
   data() {
     return {
       imageHeaders: [
@@ -43,6 +48,7 @@ export default {
         'Modelability',
         'Druggability',
       ],
+      sectionImage: '',
     };
   },
   computed: {
@@ -52,12 +58,14 @@ export default {
     displaySectionImage() {
       return this.imageHeaders.includes(this.header);
     },
-    annotationImage() {
-      if (this.imageId != '') {
-        return '/rosalution/api/analysis/download/' + this.imageId;
+  },
+  methods: {
+    async fetchImage(imageId) {
+      if (imageId == '') {
+        return;
       }
-
-      return '';
+      const image = await Annotations.getAnnotationImage(imageId);
+      this.sectionImage = image;
     },
   },
 };
