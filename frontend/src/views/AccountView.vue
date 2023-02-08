@@ -6,8 +6,21 @@
       </Header>
     </app-header>
     <app-content>
-      User Information
-      <p>{{ user }}</p>
+      <SectionBox
+        :header="'User'"
+        :content="[
+          {field: 'Username', value: [user.username]},
+          {field: 'Full Name', value: [user.full_name]},
+          {field: 'Email', value: [user.email]},
+        ]"
+      />
+      <SectionBox
+        :header="'Credentials'"
+        :content="[
+          {field: 'Client ID', value: [user.client_id]},
+          {field: 'Client Secret', value: [user.client_secret]},
+        ]"
+      />
       <button @click="generateSecret" type="submit">
           Generate Secret
       </button>
@@ -16,6 +29,8 @@
 </template>
 
 <script>
+import SectionBox from '@/components/AnalysisView/SectionBox.vue';
+
 import {authStore} from '../stores/authStore';
 
 import Header from '../components/Header.vue';
@@ -24,6 +39,7 @@ export default {
   name: 'account-view-component',
   components: {
     Header,
+    SectionBox,
   },
   computed: {
     user() {
