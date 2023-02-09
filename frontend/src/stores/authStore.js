@@ -12,6 +12,9 @@ const authStore = {
   getUser() {
     return {...this.state};
   },
+  getUser() {
+    return {...this.state};
+  },
   saveState(user) {
     console.log(user);
 
