@@ -174,6 +174,17 @@ User permissions according to a type of user is planned to become available in a
 ![Login page](./docs/figures/login.png "Login page")
 ![User logged in](./docs/figures/logged-in.png "Developer user logged in")
 
+### Adding Cases
+
+Users can create new cases on Rosalution by clicking on the '+' card to add a new case, as shown in the below figures.
+Doing this will prompt a dialog to import files to create a new Rosalution case. These files must be in .json format.
+Once uploaded, a 'Successful import' dialog will be displayed.
+Refresh the page to see the newly imported case on the Rosalution dashboard.
+
+To refer how to format your .json files to upload as new cases, refer to the example cases .json files in `./etc/fixtures/import/`.
+
+![Uploading New Case](./docs/figures/uploading-new-case.png "Uploading New Case")
+
 ### Database
 
 Rosalution uses MongoDB to store the state of the application.
@@ -250,6 +261,10 @@ docker-compose -f docker-compose.local-production.yml up --build
  environment, as specified in the `docker-compose.local-production.yml` file. The `-f` flag is used to specify the
  compose file to use, in this case `docker-compose.local-production.yml` and `--build` flag is used to force Docker
  Compose to rebuild the images.
+
+#### Accessing Deployed Rosalution
+
+To access the Rosalution site after local deployment is run, open the following URL in your browser[http://local.rosalution.cgds/rosalution/](http://local.rosalution.cgds/rosalution/)
 
 ---
 
