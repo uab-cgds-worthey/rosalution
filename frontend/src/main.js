@@ -9,7 +9,6 @@ import NotFoundView from './views/NotFound.vue';
 import AccountView from './views/AccountView.vue';
 import AnalysisView from './views/AnalysisView.vue';
 import AnnotationView from './views/AnnotationView.vue';
-import AccountView from './views/AccountView.vue';
 
 import footer from './components/AppFooter.vue';
 

@@ -1,9 +1,9 @@
 <template>
   <div>
     <app-header>
-      <Header :username="user.username">
+      <RosalutionHeader :username="user.username">
       <span class="empty-fill"></span>
-      </Header>
+      </RosalutionHeader>
     </app-header>
     <app-content>
       <SectionBox
@@ -33,12 +33,12 @@ import SectionBox from '@/components/AnalysisView/SectionBox.vue';
 
 import {authStore} from '../stores/authStore';
 
-import Header from '../components/Header.vue';
+import RosalutionHeader from '../components/RosalutionHeader.vue';
 
 export default {
   name: 'account-view-component',
   components: {
-    Header,
+    RosalutionHeader,
     SectionBox,
   },
   computed: {
