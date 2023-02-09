@@ -424,6 +424,10 @@ Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham
 **[Bioinformatics Section(BIS) in the Center for Precision Animal Modeling (C-PAM)](https://sites.uab.edu/cpam/bis)**  
  The University of Alabama at Birmingham, Birmingham, AL
 
+### Scientific Collaborators
+
+Donna Brown; Aleksandra Foksinska; Manavalan Gajapathy, Ph.D.; Elizabeth J. Wilk
+
 ---
 
 ## License
