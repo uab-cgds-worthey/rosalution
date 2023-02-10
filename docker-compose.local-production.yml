@@ -46,6 +46,7 @@ services:
     networks:
       - rosalution-network
     environment:
+      - ROSALUTION_ENV=production
       - MONGODB_HOST=rosalution-db
     entrypoint: ['/bin/sh', '-c', './entrypoint-init.sh']
     labels:
