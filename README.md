@@ -13,7 +13,7 @@
 [Maintainers](#maintainers) • [Credits and Acknowledgements](#credits-and-acknowledgements) • [License](#license)
 
 Rosalution assists researchers in studying genetic variation 🧬 in patients 🧑🏾‍🤝‍🧑🏼 by
-helping select candidate animal models 🐀🐁🐠🪱 to replicate the variation to
+helping select candidate animal models 🐀🐁🐠:worm: to replicate the variation to
 further research to derive, diagnose, and provide therapies for ultra-rare diseases.
 
 Rosalution is the open-source web application maintained and developed by the
@@ -423,6 +423,12 @@ Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham
 
 **[Bioinformatics Section(BIS) in the Center for Precision Animal Modeling (C-PAM)](https://sites.uab.edu/cpam/bis)**  
  The University of Alabama at Birmingham, Birmingham, AL
+
+### Scientific Collaborators
+
+Donna Brown [🌐](https://sites.uab.edu/cgds/team/) • Aleksandra Foksinska [🌐](https://www.uab.edu/medicine/pmi/our-team)
+ • Manavalan Gajapathy, Ph.D. [:octocat:](https://github.com/ManavalanG/) [🌐](https://sites.uab.edu/cgds/team/) •
+ Elizabeth J. Wilk [🌐](https://www.lasseigne.org/team/)
 
 ---
 
