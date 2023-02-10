@@ -280,7 +280,7 @@ docker-compose -f docker-compose.local-production.yml up --build
  compose file to use, in this case `docker-compose.local-production.yml` and `--build` flag is used to force Docker
  Compose to rebuild the images.
 
-#### Accessing Deployed Rosalution
+#### Accessing A Locally Deployed Rosalution
 
 To access the Rosalution site after local deployment is run, open the following URL in your browser[http://local.rosalution.cgds/rosalution/](http://local.rosalution.cgds/rosalution/)
 
