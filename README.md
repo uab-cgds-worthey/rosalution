@@ -249,12 +249,19 @@ docker exec -it rosalution_rosalution-db_1 mongosh rosalution_db
 
 ### Production
 
-#### Production Environment
+#### Production Builds
 
-An environment variable named `ROSALUTION_ENV` is set to `production` when deploying with either the
-[`docker-compose.production.yml`](./docker-compose.production.yml) or
-[`docker-compose.local-production.yml`](./docker-compose.local-production.yml) files.
+Each Rosalution service prepares docker images for production deployments.  Both
+[`docker-compose.production.yml`](./docker-compose.production.yml) and
+[`docker-compose.local-production.yml`](./docker-compose.local-production.yml) compose
+yml files allow you to build those production images locally.
 
+These images ensure that each service builds and bundles each one for production that
+strips development code that streamlines development of Rosalution.
+
+The frontend uses a rollup plugin configured to be used during bundling to strip a developer login to Rosalution.
+The backend utilizes the environment variable `ROSALUTION_ENV` set to `production` when
+deploying using the `entrypoint-init.sh` to startup the backend service.
 This alters how the application behaves in certain ways, one of which is that the backend service will run Python with
  the [`-O flag`](https://docs.python.org/3/using/cmdline.html#cmdoption-O) which will strip code conditional on the
  value of `__debug__`.
