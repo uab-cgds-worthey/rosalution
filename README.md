@@ -282,7 +282,7 @@ docker-compose -f docker-compose.local-production.yml up --build
 
 #### Accessing A Locally Deployed Rosalution
 
-To access the Rosalution site after local deployment is run, open the following URL in your browser[http://local.rosalution.cgds/rosalution/](http://local.rosalution.cgds/rosalution/)
+To access the locally deployed Rosalution application after running `docker compose up`, visit the [http://local.rosalution.cgds/rosalution/](http://local.rosalution.cgds/rosalution/) URL in your browser. 
 
 ---
 
