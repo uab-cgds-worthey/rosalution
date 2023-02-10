@@ -47,6 +47,7 @@ def test_login_successful(client, mock_repositories, monkeypatch):
 
     assert response.url == "http://dev.cgds.uab.edu/rosalution/"
 
+
 def test_logout(client):
     """ This tests functionality of the local logout function """
     response = client.get(

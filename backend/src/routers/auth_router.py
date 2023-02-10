@@ -12,9 +12,7 @@ from ..config import Settings, get_settings
 from ..dependencies import database
 from ..models.user import User, VerifyUser, AccessUserAPI
 from ..security.oauth2 import OAuth2ClientCredentialsRequestForm, HTTPClientCredentials, HTTPBasicClientCredentials
-from ..security.security import (
-    create_access_token, get_authorization, get_current_user, generate_client_secret
-)
+from ..security.security import (create_access_token, get_authorization, get_current_user, generate_client_secret)
 
 router = APIRouter(
     prefix="/auth",
@@ -88,6 +86,7 @@ async def login(
     response.set_cookie(key="rosalution_TOKEN", value=access_token)
 
     return response
+
 
 @router.post("/token")
 def issue_oauth2_token(

@@ -1,6 +1,7 @@
 """Authentication Routes Intergration test"""
 from unittest.mock import patch
 
+
 @patch("src.security.security.verify_password")
 def test_dev_login(mock_verify_password, client, mock_repositories):
     """ Tests the dedicated developer login function """

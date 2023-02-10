@@ -7,7 +7,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from ..config import Settings, get_settings
 from ..dependencies import database
 from ..security.oauth2 import HTTPBasicClientCredentials
-from ..security.security import ( authenticate_password, create_access_token )
+from ..security.security import (authenticate_password, create_access_token)
 
 router = APIRouter(
     prefix="/dev",
@@ -16,6 +16,7 @@ router = APIRouter(
 )
 
 token_scheme = HTTPBasicClientCredentials(auto_error=False, scheme_name="oAuth2ClientCredentials")
+
 
 @router.post("/loginDev")
 def login_local_developer(
