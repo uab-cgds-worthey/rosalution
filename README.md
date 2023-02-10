@@ -172,8 +172,18 @@ User permissions according to a type of user is planned to become available in a
 |user04 | Pre-clinical-intake user
 |user07 | Bioinformatics-section user
 
-![Login page](./docs/figures/login.png "Login page")
-![User logged in](./docs/figures/logged-in.png "Developer user logged in")
+![Rosalution logins](./docs/figures/rosalution-logins.png "Rosalution logins")
+
+### Adding New Analyses
+
+Users can create new cases on Rosalution by clicking on the '+' card to add a new case, as shown in the below figures.
+Doing so prompts an upload dialog to import files to create a new Rosalution case. These files must be in .json format.
+Once uploaded, a 'Successful import' dialog displays.
+Refresh the page to see the newly imported case on the Rosalution dashboard.
+
+To refer how to format your .json files to upload as new cases, refer to the example cases .json files in `./etc/fixtures/import/`.
+
+![Uploading New Case](./docs/figures/uploading-new-case.png "Uploading New Case")
 
 ### Adding Users
 
@@ -269,6 +279,11 @@ docker-compose -f docker-compose.local-production.yml up --build
  environment, as specified in the `docker-compose.local-production.yml` file. The `-f` flag is used to specify the
  compose file to use, in this case `docker-compose.local-production.yml` and `--build` flag is used to force Docker
  Compose to rebuild the images.
+
+#### Accessing A Locally Deployed Rosalution
+
+To access the locally deployed Rosalution application after running `docker compose up`,
+visit the [http://local.rosalution.cgds/rosalution/](http://local.rosalution.cgds/rosalution/) URL in your browser.
 
 ---
 
