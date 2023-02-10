@@ -252,7 +252,8 @@ docker exec -it rosalution_rosalution-db_1 mongosh rosalution_db
 #### Production Environment
 
 An environment variable named `ROSALUTION_ENV` is set to `production` when deploying with either the
-[`docker-compose.production.yml`](./docker-compose.production.yml) or [`docker-compose.local-production.yml`](./docker-compose.local-production.yml) files.
+[`docker-compose.production.yml`](./docker-compose.production.yml) or
+[`docker-compose.local-production.yml`](./docker-compose.local-production.yml) files.
 
 This alters how the application behaves in certain ways, one of which is that the backend service will run Python with
  the [`-O flag`](https://docs.python.org/3/using/cmdline.html#cmdoption-O) which will strip code conditional on the
