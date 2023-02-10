@@ -20,7 +20,7 @@ Cypress.Commands.add('resetDatabase', () => {
 Cypress.Commands.add('login', (username) => {
   cy.request({
     method: 'POST',
-    url: '/api/auth/loginDev',
+    url: '/api/dev/loginDev',
     form: true,
     body: {
       username: username,

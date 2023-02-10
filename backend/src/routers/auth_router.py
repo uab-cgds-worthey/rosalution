@@ -3,7 +3,6 @@ from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Security, Response, status
 from fastapi.responses import JSONResponse, RedirectResponse
-from fastapi.security import OAuth2PasswordRequestForm
 
 from starlette.requests import Request
 
@@ -13,9 +12,7 @@ from ..config import Settings, get_settings
 from ..dependencies import database
 from ..models.user import User, VerifyUser, AccessUserAPI
 from ..security.oauth2 import OAuth2ClientCredentialsRequestForm, HTTPClientCredentials, HTTPBasicClientCredentials
-from ..security.security import (
-    authenticate_password, create_access_token, get_authorization, get_current_user, generate_client_secret
-)
+from ..security.security import (create_access_token, get_authorization, get_current_user, generate_client_secret)
 
 router = APIRouter(
     prefix="/auth",
@@ -86,38 +83,6 @@ async def login(
 
     response = RedirectResponse(url=settings.web_base_url + nexturl)
     response.delete_cookie(key="rosalution_TOKEN")
-    response.set_cookie(key="rosalution_TOKEN", value=access_token)
-
-    return response
-
-
-@router.post("/loginDev")
-def login_local_developer(
-    response: Response,
-    form_data: OAuth2PasswordRequestForm = Depends(),
-    repositories=Depends(database),
-    settings: Settings = Depends(get_settings),
-):
-    """
-    OAuth2 compatible token login, get an access token for future requests.
-    """
-    user = repositories["user"].find_by_username(form_data.username)
-    user_authenticated = authenticate_password(user, form_data.password)
-
-    if not user_authenticated:
-        raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
-
-    data_to_encode = {
-        "sub": user_authenticated['client_id'],
-        "scopes": [user_authenticated['scope']],
-    }
-    access_token = create_access_token(
-        data_to_encode, settings.oauth2_access_token_expire_minutes, settings.rosalution_key, settings.oauth2_algorithm
-    )
-
-    content = {"access_token": access_token, "token_type": "bearer"}
-    response = JSONResponse(content=content)
-    response.delete_cookie(key='rosalution_TOKEN')
     response.set_cookie(key="rosalution_TOKEN", value=access_token)
 
     return response
