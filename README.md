@@ -428,7 +428,7 @@ Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham
 
 Donna Brown [🌐](https://sites.uab.edu/cgds/team/) • Aleksandra Foksinska [🌐](https://www.uab.edu/medicine/pmi/our-team)
  • Manavalan Gajapathy, Ph.D. [:octocat:](https://github.com/ManavalanG/) [🌐](https://sites.uab.edu/cgds/team/) •
- Elizabeth J. Wilk [🌐](https://www.lasseigne.org/)
+ Elizabeth J. Wilk [🌐](https://www.lasseigne.org/team/)
 
 ---
 
