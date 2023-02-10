@@ -44,10 +44,11 @@ within the backend codebase.
 
 ### Production Authentication configuration
 
-Currently Rosalution only supports Central Authentication System (CAS) authentication for the production deployment. The default settings of Rosalution point the implementation to the UAB CAS.
+Currently Rosalution only supports Central Authentication System (CAS) authentication for the production deployment.
+The default settings of Rosalution point the implementation to the UAB CAS.
 
 Rosalution leverages the [python-cas package](https://github.com/python-cas/python-cas) to communicate with the UAB CAS system. When the CAS object is instantiated, it accepts a `service_url` and a `server_url` which is specific to the
-system the application is connecting to. The python-cas package's documentation can be found 
+system the application is connecting to. The python-cas package's documentation can be found
 [here](https://djangocas.dev/docs/latest/modules/python_cas.html).
 
 If another entity has or wishes to employ a CAS authority, the defined configuration variables allow for this to happen.
