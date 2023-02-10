@@ -116,6 +116,7 @@ Restart-Service LxssManager*
 - [Login and Access](#login-and-access)
     - [Authentication](#authentication)
     - [Users and User Types](#users-and-user-types)
+- [Adding Users](#adding-users)
 - [Database](#database)
     - [Fixtures](#fixtures)
     - [Seeding the Database](#seeding-the-database)
@@ -183,6 +184,24 @@ Refresh the page to see the newly imported case on the Rosalution dashboard.
 To refer how to format your .json files to upload as new cases, refer to the example cases .json files in `./etc/fixtures/import/`.
 
 ![Uploading New Case](./docs/figures/uploading-new-case.png "Uploading New Case")
+
+### Adding Users
+
+To add a new user to the system, you must first define the user in the same format as the users in the
+`example-adding-users.json` file in the `etc/fixtures` directory.
+
+Then, you must run the following command from the root directory of the project:
+
+```bash
+docker-compose exec -T rosalution-db mongosh /tmp/fixtures/add_user.js
+```
+
+Usage information on optional arguments for the [add_user.js](./etc/fixtures/add_user.js) script is available by
+ running the following command:
+
+```bash
+docker-compose exec -T rosalution-db mongosh --eval "var help=true;" /tmp/fixtures/add_user.js
+```
 
 ### Database
 
