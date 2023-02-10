@@ -177,7 +177,7 @@ User permissions according to a type of user is planned to become available in a
 ### Adding Cases
 
 Users can create new cases on Rosalution by clicking on the '+' card to add a new case, as shown in the below figures.
-Doing this will prompt a dialog to import files to create a new Rosalution case. These files must be in .json format.
+Doing so prompts an upload dialog to import files to create a new Rosalution case. These files must be in .json format.
 Once uploaded, a 'Successful import' dialog will be displayed.
 Refresh the page to see the newly imported case on the Rosalution dashboard.
 
