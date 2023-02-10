@@ -1,7 +1,6 @@
 """Authentication Routes Intergration test"""
 import json
 from base64 import b64encode
-from unittest.mock import patch
 
 from itsdangerous import TimestampSigner
 
@@ -48,30 +47,7 @@ def test_login_successful(client, mock_repositories, monkeypatch):
 
     assert response.url == "http://dev.cgds.uab.edu/rosalution/"
 
-
-@patch("src.security.security.verify_password")
-def test_dev_login(mock_verify_password, client, mock_repositories):
-    """ Tests the dedicated developer login function """
-    expected_user = {
-        "username": "UABProvider", "scope": ['fakescope'], "client_id": "fake-uab-client-id",
-        "hashed_password": "fake-hashed-password"
-    }
-
-    mock_repositories['user'].collection.find_one.return_value = expected_user
-
-    mock_verify_password.verify_password.return_value = True
-
-    response = client.post(
-        "/auth/loginDev?grant_type=password&username=developer&password=secret",
-        headers={"accept": "application/json", 'Content-Type': 'application/x-www-form-urlencoded'},
-        json="grant_type=password&username=UABProvider&password=secret"
-    )
-
-    assert response.status_code == 200
-    assert response.json()['token_type'] == 'bearer'
-
-
-def test_dev_logout(client):
+def test_logout(client):
     """ This tests functionality of the local logout function """
     response = client.get(
         "/auth/logout",
@@ -81,7 +57,7 @@ def test_dev_logout(client):
     assert response.json() == {"access_token": ""}
 
 
-def test_prod_logout(client, mock_settings):  # pylint: disable=unused-argument
+def test_cas_enabled_logout(client, mock_settings):  # pylint: disable=unused-argument
     """ This tests functionality if the user logs out after logging in with their BlazerId """
     response = client.get(
         '/auth/logout',
