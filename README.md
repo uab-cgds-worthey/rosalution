@@ -171,8 +171,7 @@ User permissions according to a type of user is planned to become available in a
 |user04 | Pre-clinical-intake user
 |user07 | Bioinformatics-section user
 
-![Login page](./docs/figures/login.png "Login page")
-![User logged in](./docs/figures/logged-in.png "Developer user logged in")
+![Rosalution logins](./docs/figures/rosalution-logins.png "Rosalution logins")
 
 ### Adding Cases
 
