@@ -47,7 +47,8 @@ within the backend codebase.
 Currently Rosalution only supports Central Authentication System (CAS) authentication for the production deployment.
 The default settings of Rosalution point the implementation to the UAB CAS.
 
-Rosalution leverages the [python-cas package](https://github.com/python-cas/python-cas) to communicate with the UAB CAS system. When the CAS object is instantiated, it accepts a `service_url` and a `server_url` which is specific to the
+Rosalution leverages the [python-cas package](https://github.com/python-cas/python-cas) to communicate with the UAB
+CAS system. When the CAS object is instantiated, it accepts a `service_url` and a `server_url` which is specific to the
 system the application is connecting to. The python-cas package's documentation can be found
 [here](https://djangocas.dev/docs/latest/modules/python_cas.html).
 
@@ -62,7 +63,8 @@ If another entity has or wishes to employ a CAS authority, the defined configura
 **cas_api_service_url**: str = "http://dev.cgds.uab.edu/rosalution/api/auth/login?nexturl=%2F"
 
 - The application's url and nexturl defines where to redirect when login is successful
-- **nexturl** is a CAS parameter that tells the server where to redirect to in your application when completing the CAS interaction. The **nexturl** parameter will use a relative path.
+- **nexturl** is a CAS parameter that tells the server where to redirect to in your application when completing the
+CAS interaction. The **nexturl** parameter will use a relative path.
 
 **cas_server_url**: str = "https://padlockdev.idm.uab.edu/cas/"
 
