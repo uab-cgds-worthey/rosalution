@@ -34,7 +34,7 @@ of startup.
 
 - **ROSALUTION_ENV** Sets whether the application's environment is in production. This will run the backend with the
 [-O flag](https://docs.python.org/3/using/cmdline.html#cmdoption-O) which will turn off `__debug__` statements
-within the backend codebase.
+within the backend codebase when using the 'entrypoint-init.sh` to start the applicaiton.
 - **MONGODB_HOST** Sets the host or host:port for the server host address for MongoDB.
     (default) rosalution-db
       - The default is the **docker compose** name for the service, so inside other docker containers within the same network,
