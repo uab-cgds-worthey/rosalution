@@ -1,12 +1,17 @@
 <template>
   <div>
     <app-header>
-      <RosalutionHeader :username="user.username">
+      <RosalutionHeader 
+        :username="user.username"
+        @logout="this.onLogout"
+        data-test="rosalution-header"
+      >
       <span class="empty-fill"></span>
       </RosalutionHeader>
     </app-header>
     <app-content>
       <SectionBox
+        ref="user-section-box"
         :header="'User'"
         :content="[
           {field: 'Username', value: [user.username]},
@@ -17,8 +22,8 @@
       <SectionBox
         :header="'Credentials'"
         :content="[
-          {field: 'Client ID', value: [user.client_id]},
-          {field: 'Client Secret', value: [user.client_secret]},
+          {field: 'Client ID', value: [user.clientId]},
+          {field: 'Client Secret', value: [user.clientSecret]},
         ]"
       />
       <button @click="generateSecret" type="submit">
@@ -50,6 +55,9 @@ export default {
     async generateSecret() {
       const userObject = await authStore.generateSecret();
       console.log(userObject);
+    },
+    async onLogout(){
+      this.$router.push({path: '/rosalution/logout'});
     },
   },
 };
