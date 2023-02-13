@@ -65,22 +65,20 @@ const authStore = {
     return body;
   },
   async getAPICredentials() {
-    // const baseUrl = '/rosalution/api/';
-    // const urlQuery = 'auth/get_user_credentials';
+    const baseUrl = '/rosalution/api/';
+    const urlQuery = 'auth/get_user_credentials';
 
-    // const body = await Requests.get(baseUrl + urlQuery);
-    console.log('Get API Credentials - Feature to be implemented');
-    return {
-    };
-    // return body;
+    const body = await Requests.get(baseUrl + urlQuery);
+
+    return body;
   },
   async generateSecret() {
-    // const baseUrl = '/rosalution/api/';
-    // const urlQuery = 'auth/generate_secret';
+    const baseUrl = '/rosalution/api/';
+    const urlQuery = 'auth/generate_secret';
 
-    // const body = await Requests.get(baseUrl + urlQuery);
-    console.log('Generate Secret - Feature to be implemented');
-    return false;
+    const body = await Requests.get(baseUrl + urlQuery);
+
+    return body;
   },
   async logout() {
     const baseUrl = '/rosalution/api/';
