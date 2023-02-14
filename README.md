@@ -320,7 +320,8 @@ below before getting started with running and developing tests.
 - ✔️ Your local environment must [successfully setup with setup.sh](#environment-setup)
 in order to run testing
 - 📁 Tests **must** be executed within their respective sub-directories
-- 🐍 Python unit tests and linting must run within the activated python virtual environment
+- 🐍 Python unit tests and linting must run within the activated python virtual environment.
+(For details, refer [Backend Local Development](./backend/README.md#local-development))
     - `source backend/rosalution_env/bin/activate`
 
 Refer to the following READMEs for details on running tests and code coverage for
