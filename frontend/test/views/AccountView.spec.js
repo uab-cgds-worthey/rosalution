@@ -41,11 +41,9 @@ function getMountedComponent(props) {
 
 describe('AccountView.vue', () => {
   const sandbox = sinon.createSandbox();
-  let mockGetUser;
   let wrapper;
 
   beforeEach(() => {
-    mockGetUser = sandbox.stub(authStore, 'getUser').returns({username: 'test'});
     wrapper = getMountedComponent();
   });
 
@@ -76,6 +74,5 @@ describe('AccountView.vue', () => {
 
       expect(wrapper.vm.$router.push.called).to.be.true;
     });
-    
   });
 });

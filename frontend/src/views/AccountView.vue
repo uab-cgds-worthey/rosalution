@@ -1,7 +1,7 @@
 <template>
   <div>
     <app-header>
-      <RosalutionHeader 
+      <RosalutionHeader
         :username="user.username"
         @logout="this.onLogout"
         data-test="rosalution-header"
@@ -56,7 +56,7 @@ export default {
       const userObject = await authStore.generateSecret();
       console.log(userObject);
     },
-    async onLogout(){
+    async onLogout() {
       this.$router.push({path: '/rosalution/logout'});
     },
   },
