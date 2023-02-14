@@ -19,17 +19,18 @@ managed within the `requirements.txt` file within the project's backend root str
 
 ### Local Development
 
-- To keep dependensies required for projects separate without changing global settings and packages we create
+To keep dependensies required for projects separate without changing global settings and packages we create
 isolated virtual environments for these projects.
-- All packages necessary for Rosalution development are installed into the `./backend/rosalution_env/` virtual
-environment in the setup.sh script
 
-- To created this isolation we use the python virtual environment [venv](https://docs.python.org/3.8/library/venv.html).
+All packages necessary for Rosalution development are installed into the `./backend/rosalution_env/` virtual
+environment in the setup.sh script.
+
+To create this isolation we use the python virtual environment [venv](https://docs.python.org/3.8/library/venv.html).
 Refer to the python virtual environment for documentation.
 
 Note: Make sure setup.sh script is run as this installs the rosalution_env and all it's dependencies.
 
-To use in your shell, activate the virtual environment by:
+To use in your shell, activate the virtual environment by running the following commands:
 
 ```bash
 cd backend
