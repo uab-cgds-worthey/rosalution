@@ -64,23 +64,22 @@ ability to identify candidate and confirmed causal molecular changes (variants).
 await functional confirmation. A major bottleneck is the need for characterization of these variants to: generate
 definitive diagnoses, aid in understanding of pathogenic mechanisms, guide the development of accurate predictive
 models, and refine existing or suggest new therapeutic approaches. Rosalution is an open-source full-stack web
-application developed by the software engineering team within the UAB Center for Precision Animal Modeling (C-PAM)
-to support collaboration between researchers and physicians working on this task. It streamlines data collection,
-quality control, standardization, and integration. It also supports the analysis process, guiding and collecting the
-decisions made during case and variant consideration. Rosalution is designed not only to facilitate analysis and
-generation of biological insights for an individual case, but also aims to  enrich subsequent data mining and process
-improvement for meta-analyses.
+application developed by the software engineering team within the University of Alabama at Birmingham (UAB)
+Center for Precision Animal Modeling (C-PAM) to support collaboration between researchers and physicians working
+on this task. It streamlines data collection, quality control, standardization, and integration. It also supports
+the analysis process, guiding and collecting the decisions made during case and variant consideration. Rosalution
+is designed not only to facilitate analysis and generation of biological insights for an individual case, but also
+aims to  enrich subsequent data mining and process improvement for meta-analyses.
 
 # Statement of Need
 
 Gene editing approaches are used to generate precision disease animal models (e.g., cells, worms, zebrafish) carrying
 patient derived variants. Understanding the specific cellular and molecular impact of these variants in such model
-systems may support diagnosis, aid understanding of pathogenic mechanisms, guide the development of accurate predictive
-models, and refine existing or suggest new therapeutic approaches. Generating these models can take months to years.
-The mission of the UAB Center for Precision Animal Modeling (C-PAM) is to provide a national modeling service to aid
-patients, researchers, and physicians in diagnosing and treating rare genetic diseases. The models, materials, tools,
-and data generated are made available to the collaborators who nominated the candidate variant of interest (nominator)
-and the broader research and clinical community.
+systems support the efforts to derive, diagnose, and provide therapies for ultra-rare diseases.  Generating these
+models can take months to years. The mission of the UAB Center for Precision Animal Modeling (C-PAM) is to provide a
+national modeling service to aid patients, researchers, and physicians in diagnosing and treating rare genetic
+diseases. The models, materials, tools, and data generated are made available to the collaborators who nominated the
+candidate variant of interest (nominator) and the broader research and clinical community.
 
 The process of vetting candidate variants is generally a manual, non-systematic, and inefficient process, performed
 using different methods and datasets across many hundreds of cell and molecular biology labs worldwide. Researchers
