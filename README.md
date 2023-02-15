@@ -13,7 +13,7 @@
 [Maintainers](#maintainers) • [Credits and Acknowledgements](#credits-and-acknowledgements) • [License](#license)
 
 Rosalution assists researchers in studying genetic variation 🧬 in patients 🧑🏾‍🤝‍🧑🏼 by
-helping select candidate animal models 🐀🐁🐠🪱 to replicate the variation to
+helping select candidate animal models 🐀🐁🐠:worm: to replicate the variation to
 further research to derive, diagnose, and provide therapies for ultra-rare diseases.
 
 Rosalution is the open-source web application maintained and developed by the
@@ -172,8 +172,18 @@ User permissions according to a type of user is planned to become available in a
 |user04 | Pre-clinical-intake user
 |user07 | Bioinformatics-section user
 
-![Login page](./docs/figures/login.png "Login page")
-![User logged in](./docs/figures/logged-in.png "Developer user logged in")
+![Rosalution logins](./docs/figures/rosalution-logins.png "Rosalution logins")
+
+### Adding New Analyses
+
+Users can create new cases on Rosalution by clicking on the '+' card to add a new case, as shown in the below figures.
+Doing so prompts an upload dialog to import files to create a new Rosalution case. These files must be in .json format.
+Once uploaded, a 'Successful import' dialog displays.
+Refresh the page to see the newly imported case on the Rosalution dashboard.
+
+To refer how to format your .json files to upload as new cases, refer to the example cases .json files in `./etc/fixtures/import/`.
+
+![Uploading New Case](./docs/figures/uploading-new-case.png "Uploading New Case")
 
 ### Adding Users
 
@@ -239,6 +249,23 @@ docker exec -it rosalution_rosalution-db_1 mongosh rosalution_db
 
 ### Production
 
+#### Production Builds
+
+Each Rosalution service prepares docker images for production deployments.  Both
+[`docker-compose.production.yml`](./docker-compose.production.yml) and
+[`docker-compose.local-production.yml`](./docker-compose.local-production.yml) compose
+yml files allow you to build those production images locally.
+
+These images ensure that each service builds and bundles each one for production that
+strips development code that streamlines development of Rosalution.
+
+The frontend uses a rollup plugin configured to be used during bundling to strip a developer login to Rosalution.
+The backend utilizes the environment variable `ROSALUTION_ENV` set to `production` when
+deploying using the `entrypoint-init.sh` to startup the backend service.
+This alters how the application behaves in certain ways, one of which is that the backend service will run Python with
+ the [`-O flag`](https://docs.python.org/3/using/cmdline.html#cmdoption-O) which will strip code conditional on the
+ value of `__debug__`.
+
 #### Using the Build Script
 
 When deploying the Rosalution system in a production environment, it is important to ensure that the build is optimized
@@ -269,6 +296,11 @@ docker-compose -f docker-compose.local-production.yml up --build
  environment, as specified in the `docker-compose.local-production.yml` file. The `-f` flag is used to specify the
  compose file to use, in this case `docker-compose.local-production.yml` and `--build` flag is used to force Docker
  Compose to rebuild the images.
+
+#### Accessing A Locally Deployed Rosalution
+
+To access the locally deployed Rosalution application after running `docker compose up`,
+visit the [http://local.rosalution.cgds/rosalution/](http://local.rosalution.cgds/rosalution/) URL in your browser.
 
 ---
 
@@ -391,6 +423,12 @@ Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham
 
 **[Bioinformatics Section(BIS) in the Center for Precision Animal Modeling (C-PAM)](https://sites.uab.edu/cpam/bis)**  
  The University of Alabama at Birmingham, Birmingham, AL
+
+### Scientific Collaborators
+
+Donna Brown [🌐](https://sites.uab.edu/cgds/team/) • Aleksandra Foksinska [🌐](https://www.uab.edu/medicine/pmi/our-team)
+ • Manavalan Gajapathy, Ph.D. [:octocat:](https://github.com/ManavalanG/) [🌐](https://sites.uab.edu/cgds/team/) •
+ Elizabeth J. Wilk [🌐](https://www.lasseigne.org/team/)
 
 ---
 

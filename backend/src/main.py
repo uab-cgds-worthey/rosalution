@@ -47,6 +47,10 @@ app.include_router(analysis_router.router)
 app.include_router(annotation_router.router)
 app.include_router(auth_router.router)
 
+if __debug__:
+    from .routers import dev_router
+    app.include_router(dev_router.router)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,

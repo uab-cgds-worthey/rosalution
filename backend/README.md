@@ -32,12 +32,47 @@ pip install -r requirements.txt
 Rosalution uses Environment variables for configuring the application at the time
 of startup.
 
+- **ROSALUTION_ENV** Sets whether the application's environment is in production. This will run the backend with the
+[-O flag](https://docs.python.org/3/using/cmdline.html#cmdoption-O) which will turn off `__debug__` statements
+within the backend codebase when using the 'entrypoint-init.sh` to start the applicaiton.
 - **MONGODB_HOST** Sets the host or host:port for the server host address for MongoDB.
     (default) rosalution-db
       - The default is the **docker compose** name for the service, so inside other docker containers within the same network,
       the **docker compose** name will resolve to that service
 - **MONGODB_DB** Sets the database name to connect to at startup time
     (default) rosalution_db
+
+### Production Authentication configuration
+
+Currently Rosalution only supports Central Authentication System (CAS) authentication for the production deployment.
+The default settings of Rosalution point the implementation to the UAB CAS.
+
+Rosalution leverages the [python-cas package](https://github.com/python-cas/python-cas) to communicate with the UAB
+CAS system. When the CAS object is instantiated, it accepts a `service_url` and a `server_url` which is specific to the
+system the application is connecting to. The python-cas package's documentation can be found
+[here](https://djangocas.dev/docs/latest/modules/python_cas.html).
+
+If another entity has or wishes to employ a CAS authority, the defined configuration variables allow for this to happen.
+
+ These variables are found in `./backend/src/config.py`
+
+**auth_web_failure_redirect_route** = "/login"
+
+- This is not CAS specific, but it is employed when CAS fails and redirects the user to a specific url in the app
+
+**cas_api_service_url**: str = "http://dev.cgds.uab.edu/rosalution/api/auth/login?nexturl=%2F"
+
+- The application's url and nexturl defines where to redirect when login is successful
+- **nexturl** is a CAS parameter that tells the server where to redirect to in your application when completing the
+CAS interaction. The **nexturl** parameter will use a relative path.
+
+**cas_server_url**: str = "https://padlockdev.idm.uab.edu/cas/"
+
+- Defines where the CAS url can be reached
+
+**cas_login_enable**: bool = False
+
+- This is relevant when the application is deployed with production, affects how the logout function works
 
 ## Linting
 
