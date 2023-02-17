@@ -19,7 +19,7 @@ managed within the `requirements.txt` file within the project's backend root str
 
 ### Local Development
 
-To keep dependensies required for projects separate without changing global settings and packages we create
+To keep dependencies required for projects separate without changing global settings and packages we create
 isolated virtual environments for these projects.
 
 All packages necessary for Rosalution development are installed into the `./backend/rosalution_env/` virtual
