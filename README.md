@@ -12,23 +12,26 @@
 [Testing & Static Analysis](#testing-and-static-analysis) • [Contributing](#contributing) •
 [Maintainers](#maintainers) • [Credits and Acknowledgements](#credits-and-acknowledgements) • [License](#license)
 
-Rosalution assists researchers in studying genetic variation 🧬 in patients 🧑🏾‍🤝‍🧑🏼 by
-helping select candidate animal models 🐀🐁🐠:worm: to replicate the variation to
-further research to derive, diagnose, and provide therapies for ultra-rare diseases.
+Rosalution assists researchers and physicians collaborating on studying genetic variation 🧬 in patients 🧑🏾‍🤝‍🧑🏼
+to generate definitive diagnoses and aid in the understanding of pathogenic mechanisms. It also guides the development
+of accurate predictive models and refine existing or suggest new therapeutic approaches. The application
+facilitates researchers streamlining the selection of candidate animal models 🐀🐁🐠:worm: to replicate the patient
+variation to further research to derive, diagnose, and provide therapies for ultra-rare diseases.
 
 Rosalution is the open-source web application maintained and developed by the
 [University of Alabama at Birmingham (UAB) Center for Computational Genomics and Data Science (CGDS)](https://sites.uab.edu/cgds/)
 to support not only the current [UAB Center for Precision Animal Modeling (C-PAM)](https://sites.uab.edu/cpam/) process,
-but also data collection, QA/QC, standardization, integration, dissemination, and collaboration. It also forces and
-collects decision points made during the process. The data collected can be mined for process improvement as well as
-generation of biological insights. This effort to consolidate both the process and the data is critical; this process
-shift is needed to reduce the costs and increase the throughput of precision modeling projects in general.
+but also data collection, quality control, standardization, and integration. It enriches the analysis,
+guiding and collecting the decisions made during case and variant consideration. This effort to consolidate both the
+process and the data is critical; this shift is needed to reduce the costs and increase the throughput of
+precision modeling projects in general.
 
-Rosalution supports three significant aspects of this collaborative animal modeling process.
+Rosalution facilitates three aspects of the collaborative case review process.
 
-- ⌨️ configurable case annotation of genes/loci and variants with patient data intake and public 'omics datasets
-- ✨ dissemination of data to a large team of interdisciplinary researchers and physicians
-- 🌐 collaborative team review and analysis of the case
+- ⌨️ augmenting and standardizing case and variant/gene intake and annotation with configurable automated annotation from
+  publicly available data sources
+- ✨ supporting expert curation by clinical and research experts via a web-based interface
+- 🌐 supporting synchronous and asynchronous collaborative review by interdisciplinary teams via a web-based interface
 
 ![First UI screenshot of the Rosalution web application](./docs/figures/rosalution_analysis_ui.png?raw=true "Rosalution Screenshot")
 
@@ -320,7 +323,8 @@ below before getting started with running and developing tests.
 - ✔️ Your local environment must [successfully setup with setup.sh](#environment-setup)
 in order to run testing
 - 📁 Tests **must** be executed within their respective sub-directories
-- 🐍 Python unit tests and linting must run within the activated python virtual environment
+- 🐍 Python unit tests and linting must run within the activated python virtual environment.
+(For details, refer [Backend Local Development](./backend/README.md#local-development))
     - `source backend/rosalution_env/bin/activate`
 
 Refer to the following READMEs for details on running tests and code coverage for

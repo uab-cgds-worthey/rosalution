@@ -10,21 +10,31 @@ and the web accessible Swagger API documentation.
 ### Dependencies
 
 - [Python 3.8+](https://www.python.org/) - [Install](https://www.python.org/downloads/)
-- [Pip](https://pip.pypa.io/en/stable/) - [Install](https://pip.pypa.io/en/stable/installation/)
+- [Pip](https://pip.pypa.io/en/{"originTabId":1,"originWindowId":1}stable/) - [Install](https://pip.pypa.io/en/stable/installation/)
 
 ### Requirements
 
-Project dependencies are listed in the `requirements.txt` file at the project's
-backend root structure.
+Dependencies for the Rosalution backend service and development are
+managed within the `requirements.txt` file within the project's backend root structure.
 
-you do not need to run this command if you have already ran the ./setup.sh script in the Rosalution root directory.
+### Local Development
 
-- If you ran the setup.sh script, use `source backend/rosalution_env/bin/activate` to activate the virtual environment.
+To keep dependencies required for projects separate without changing global settings and packages we create
+isolated virtual environments for these projects.
 
-```sh
-# From ./backend/
+All packages necessary for Rosalution development are installed into the `./backend/rosalution_env/` virtual
+environment in the setup.sh script.
 
-pip install -r requirements.txt
+To create this isolation we use the python virtual environment [venv](https://docs.python.org/3.8/library/venv.html).
+Refer to the python virtual environment for documentation.
+
+Note: Make sure setup.sh script is run as this installs the rosalution_env and all it's dependencies.
+
+To use in your shell, activate the virtual environment by running the following commands:
+
+```bash
+cd backend
+source rosalution_env/bin/activate
 ```
 
 ## Configuration
