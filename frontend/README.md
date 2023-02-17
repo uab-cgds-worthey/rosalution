@@ -14,9 +14,12 @@ for analysis.
 
 ### Requirements
 
-Rosalution frontend application and development dependencies are managed within
-the project's `package.json` in this project directory. Run the following to
-setup application and development dependencies using Yarn.
+Dependencies for the Rosalution frontend application and development are managed within
+the `package.json` file in the project's frontend root structure.
+
+### Local Development
+
+Run the following to setup application and development dependencies using Yarn.
 
 ```bash
 yarn install
