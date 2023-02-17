@@ -15,8 +15,8 @@
             <span v-if="username" class="login" data-test="user-text">
               {{ username }}
             </span>
+            <font-awesome-icon class="header-icon" icon="user-doctor" size="xl" />
           </router-link>
-          <font-awesome-icon class="header-icon" icon="user-doctor" size="xl" />
         </drop-down-menu>
         <drop-down-menu v-if="actionsExist" :actions="actions" data-test="user-menu">
           <font-awesome-icon class="header-icon" icon="ellipsis-vertical" size="xl" />
