@@ -14,6 +14,8 @@ class User(BaseModel):
     full_name: Optional[str] = None
     disabled: Optional[bool] = None
     scope: Optional[str] = None
+    client_id: Optional[str] = None
+    client_secret: Optional[str] = None
 
 
 class AccessUserAPI(User):
