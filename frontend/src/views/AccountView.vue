@@ -23,7 +23,11 @@
         :header="'Credentials'"
         :content="[
           {field: 'Client ID', value: [user.clientId]},
-          {field: 'Client Secret', value: [user.clientSecret]},
+          {
+            field: 'Client Secret',
+            value: [user.clientSecret ? '<span class=\"click-to-reveal\">click to reveal</span>' : '<empty>'],
+            clickToReveal: user.clientSecret ? true : false,
+          },
         ]"
       />
       <button @click="generateSecret" type="submit">
@@ -59,11 +63,19 @@ export default {
     async onLogout() {
       this.$router.push({path: '/rosalution/logout'});
     },
+    reveal(index) {
+      this.content[index].clickToReveal = false;
+      this.content[index].value[0] = this.content[index].clickToRevealValue;
+    },
   },
 };
 </script>
 
 <style>
+.click-to-reveal {
+  cursor: pointer;
+  text-decoration: underline;
+}
 .empty-fill {
   flex: 1 1 auto;
   display: inline-flex;
