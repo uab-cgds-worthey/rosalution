@@ -11,7 +11,6 @@
     </app-header>
     <app-content>
       <SectionBox
-        ref="user-section-box"
         :header="'User'"
         :content="[
           {field: 'Username', value: [user.username]},
@@ -25,7 +24,7 @@
           {field: 'Client ID', value: [user.clientId]},
           {
             field: 'Client Secret',
-            value: [user.clientSecret ? '<span class=\"click-to-reveal\">click to reveal</span>' : '<empty>'],
+            value: [user.clientSecret ? '<click to show>' : '<empty>'],
             clickToReveal: user.clientSecret ? true : false,
           },
         ]"
