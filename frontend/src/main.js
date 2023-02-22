@@ -38,7 +38,7 @@ library.add(
 const routes = [
   {path: '/rosalution/login', name: 'login', component: LoginView},
   {path: '/rosalution', component: AnalysisListingView},
-  {path: '/rosalution/account', name: 'account ', component: AccountView},
+  {path: '/rosalution/account', name: 'account', component: AccountView},
   {path: '/rosalution/analysis/:analysis_name', name: 'analysis', component: AnalysisView, props: true},
   {path: '/rosalution/analysis/:analysis_name/annotation/', name: 'annotation', component: AnnotationView, props: true},
   {path: '/rosalution/logout', name: 'logout', component: LogoutView},

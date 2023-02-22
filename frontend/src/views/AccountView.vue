@@ -4,33 +4,32 @@
       <RosalutionHeader
         :username="user.username"
         @logout="this.onLogout"
-        data-test="rosalution-header"
-      >
-      <span class="empty-fill"></span>
+        data-test="rosalution-header">
       </RosalutionHeader>
     </app-header>
     <app-content>
-      <SectionBox
+      <SectionBox 
         :header="'User'"
         :content="[
-          {field: 'Username', value: [user.username]},
-          {field: 'Full Name', value: [user.full_name]},
-          {field: 'Email', value: [user.email]},
-        ]"
-      />
+          { field: 'Username', value: [user.username] },
+          { field: 'Full Name', value: [user.full_name] },
+          { field: 'Email', value: [user.email] },
+        ]" />
       <SectionBox
         :header="'Credentials'"
         :content="[
-          {field: 'Client ID', value: [user.clientId]},
+          { field: 'Client ID', value: [user.clientId] },
           {
             field: 'Client Secret',
-            value: [user.clientSecret ? '<click to show>' : '<empty>'],
-            clickToReveal: user.clientSecret ? true : false,
+            value: secretValue,
           },
         ]"
+        @click="toggleSecret"
+        ref="credentials"
+        :key="showSecret"
       />
       <button @click="generateSecret" type="submit">
-          Generate Secret
+        Generate Secret
       </button>
     </app-content>
   </div>
@@ -39,7 +38,7 @@
 <script>
 import SectionBox from '@/components/AnalysisView/SectionBox.vue';
 
-import {authStore} from '../stores/authStore';
+import { authStore } from '../stores/authStore';
 
 import RosalutionHeader from '../components/RosalutionHeader.vue';
 
@@ -49,6 +48,12 @@ export default {
     RosalutionHeader,
     SectionBox,
   },
+  data() {
+    return {
+      showSecret: false,
+      secretValue: ['<click to show>'],
+    };
+  },
   computed: {
     user() {
       return authStore.getUser();
@@ -56,27 +61,30 @@ export default {
   },
   methods: {
     async generateSecret() {
+      console.log('user before generateSecret:', authStore.getUser());
       const userObject = await authStore.generateSecret();
+      console.log('user after generateSecret:', authStore.getUser());
+      this.updateSecretValue();
+      this.toggleSecret();
       console.log(userObject);
+      console.log(this.showSecret)
     },
     async onLogout() {
-      this.$router.push({path: '/rosalution/logout'});
+      this.$router.push({ path: '/rosalution/logout' });
     },
-    reveal(index) {
-      this.content[index].clickToReveal = false;
-      this.content[index].value[0] = this.content[index].clickToRevealValue;
+    toggleSecret() {
+      this.showSecret = !this.showSecret;
+      console.log(this.showSecret)
+      console.log(this.secretValue)
+      this.updateSecretValue();
+    },
+    updateSecretValue() {
+      if (this.showSecret) {
+        this.secretValue = [this.user.clientSecret];
+      } else {
+        this.secretValue = ['<click to show>'];
+      }
     },
   },
 };
 </script>
-
-<style>
-.click-to-reveal {
-  cursor: pointer;
-  text-decoration: underline;
-}
-.empty-fill {
-  flex: 1 1 auto;
-  display: inline-flex;
-}
-</style>
