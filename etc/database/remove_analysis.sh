@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 # ./remove_analysis.sh -c <mongo_connection_string> -d <docker_container_name> -m <mongo_database>
 usage() {
   echo " "
@@ -30,11 +30,14 @@ while getopts ":c:d:m:h" opt; do
   esac
 done
 
+mongo_host=$(echo "$connection_string" | cut -d: -f1)
+mongo_port=$(echo "$connection_string" | cut -d: -f2)
+
 echo "Which Analysis would you like to remove:"
-read analysisName
+read -r analysisName
 
 echo "Finding Analysis..."
-analysis=$(${docker_prefix} mongosh --quiet --eval "'db.analyses.find({'name': /$analysisName/}).count();'" $database)
+analysis=$(${docker_prefix} mongosh --host "$mongo_host" --port "$mongo_port" --quiet --eval "'db.analyses.find({'name': /$analysisName/}).count();'" "$database")
 
 if [ "$analysis" = "0" ]; then
    echo "${analysisName} not found.";
@@ -44,13 +47,12 @@ fi
 read -p "Found ${analysis} of ${analysisName}. Would you like to remove them [y/N]: " -n 1 -r
 echo
 
-if [[ ! $REPLY =~ ^[Yy]$ ]]
-then
+if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
   echo "Cancelling."
   exit;
 fi
 
 echo "Removing..."
-${docker_prefix} mongosh --quiet --eval "'db.analyses.deleteMany({'name': /$analysisName/});'" $database
+${docker_prefix} mongosh  --quiet --eval "'db.analyses.deleteMany({'name': /$analysisName/});'" "$database"
 
 echo "Done."
