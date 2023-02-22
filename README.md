@@ -190,7 +190,7 @@ To refer how to format your .json files to upload as new cases, refer to the exa
 
 ### Removing Analyses
 
-A database script provides a way to remove Analyses from the database. Usage details can be found in the database scripts [README.md](./etc/fixtures/README.md).
+A database script provides a way to remove Analyses from the database. Usage details can be found in the database scripts [README.md](./etc/database/README.md).
 
 ### Adding Users
 
