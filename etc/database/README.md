@@ -15,3 +15,5 @@ to the existing 'rosalution-network-prod' docker network. The new container depl
 is constrained to being on the primary swarm node in order to mount the data directory for MongoDB.  This
 persists the data for MongoDB within the container.
 `./deploy-development-prod-database.sh`
+
+* ./remove_analysis.sh -c <mongo_connection_string> -d <docker_container_name> -m <mongo_database> - Searches mongo for an analysis name provided by the user and prompts to delete. This will delete multiple analyses with similar or matching names.
