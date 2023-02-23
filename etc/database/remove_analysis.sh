@@ -37,15 +37,7 @@ echo "Which Analysis would you like to remove:"
 read -r analysisName
 
 echo "Finding Analysis..."
-analysis=$(
-  ${docker_prefix} \
-  mongosh \
-    --host "$mongo_host" \
-    --port "$mongo_port" \
-    --quiet \
-    --eval "'db.analyses.find({'name': '$analysisName'}, {_id: true}).count();'" \
-    "$database"
-  )
+analysis=$(${docker_prefix} mongosh --host "$mongo_host" --port "$mongo_port" --quiet --eval "'db.analyses.find({'name': '$analysisName'}, {_id: true}).count();'" "$database")
 
 if [ "$analysis" = "0" ]; then
    echo "${analysisName} not found.";
