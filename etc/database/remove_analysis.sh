@@ -20,9 +20,6 @@ docker_prefix=""
 connection_string="localhost:27017"
 database="rosalution_db"
 
-# Used below
-in='$in'
-
 while getopts ":c:d:m:h" opt; do
   case $opt in
     c) connection_string=$OPTARG;;
@@ -46,7 +43,7 @@ analysis=$(
     --host "$mongo_host" \
     --port "$mongo_port" \
     --quiet \
-    --eval "'db.analyses.find({'name': {$in: ['$analysisName']}}, {_id: true}).count();'" \
+    --eval "'db.analyses.find({'name': '$analysisName'}, {_id: true}).count();'" \
     "$database"
   )
 
@@ -64,6 +61,6 @@ if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
 fi
 
 echo "Removing..."
-${docker_prefix} mongosh --host "$mongo_host" --port "$mongo_port" --quiet --eval "'db.analyses.deleteMany({'name': {$in: ['$analysisName']}});'" $database
+${docker_prefix} mongosh --host "$mongo_host" --port "$mongo_port" --quiet --eval "'db.analyses.deleteOne({'name': '$analysisName'});'" "$database"
 
 echo "Done."
