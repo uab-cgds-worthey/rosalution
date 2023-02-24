@@ -8,7 +8,7 @@
       </RosalutionHeader>
     </app-header>
     <app-content>
-      <SectionBox 
+      <SectionBox
         :header="'User'"
         :content="[
           { field: 'Username', value: [user.username] },
@@ -38,7 +38,7 @@
 <script>
 import SectionBox from '@/components/AnalysisView/SectionBox.vue';
 
-import { authStore } from '../stores/authStore';
+import {authStore} from '../stores/authStore';
 
 import RosalutionHeader from '../components/RosalutionHeader.vue';
 
@@ -66,13 +66,13 @@ export default {
       console.log(userObject);
     },
     async onLogout() {
-      this.$router.push({ path: '/rosalution/logout' });
+      this.$router.push({path: '/rosalution/logout'});
     },
     toggleSecret() {
       if (!this.showSecret && this.secretValue[0] !== '<empty>') {
         this.showSecret = !this.showSecret;
         this.updateSecretValue();
-      } 
+      }
     },
     updateSecretValue() {
       if (this.showSecret) {
