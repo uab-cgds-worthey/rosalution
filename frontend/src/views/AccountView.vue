@@ -49,9 +49,10 @@ export default {
     SectionBox,
   },
   data() {
+    const user = authStore.getUser();
     return {
       showSecret: false,
-      secretValue: ['<click to show>'],
+      secretValue: user.clientSecret ? ['<click to show>'] : ['<empty>'],
     };
   },
   computed: {
@@ -61,22 +62,17 @@ export default {
   },
   methods: {
     async generateSecret() {
-      console.log('user before generateSecret:', authStore.getUser());
       const userObject = await authStore.generateSecret();
-      console.log('user after generateSecret:', authStore.getUser());
-      this.updateSecretValue();
-      this.toggleSecret();
       console.log(userObject);
-      console.log(this.showSecret)
     },
     async onLogout() {
       this.$router.push({ path: '/rosalution/logout' });
     },
     toggleSecret() {
-      this.showSecret = !this.showSecret;
-      console.log(this.showSecret)
-      console.log(this.secretValue)
-      this.updateSecretValue();
+      if (!this.showSecret && this.secretValue[0] !== '<empty>') {
+        this.showSecret = !this.showSecret;
+        this.updateSecretValue();
+      } 
     },
     updateSecretValue() {
       if (this.showSecret) {
