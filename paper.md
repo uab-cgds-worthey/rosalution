@@ -59,7 +59,7 @@ affiliations:
       index: 5
 
 
-date: 15 February 2023
+date: 28 February 2023
 bibliography: paper.bib
 
 ---
@@ -78,8 +78,8 @@ researchers, and physicians in diagnosing and treating rare genetic diseases. Th
 generated are made available to the collaborators who nominated the candidate variant of interest (nominator) and the
 broader research and clinical community. Rosalution streamlines data collection, quality control, standardization, and
 integration. It also supports the analysis process, guiding and collecting the decisions made during case and variant
-consideration. Rosalution is designed not only to facilitate analysis and generation of biological insights for an
-individual case, but also aims to enrich subsequent data mining and process improvement for meta-analyses. 
+consideration. It is designed not only to facilitate analysis and generation of biological insights for an
+individual case, but also aims to enrich subsequent data mining and process improvement for meta-analyses.
 
 # Statement of Need
 
@@ -96,10 +96,10 @@ structured format. Criteria used in decision-making often need to be better stan
 Both ingested and generated data and metadata are often incompletely retained and thus lost for reuse. We developed
 Rosalution to centralize these collaborative efforts via an accessible website client and application programming
 interface (API). A design-first approach was selected and focused on creating a seamless experience that guides
-teams through a collaborative analysis process keeping functionality and accessibility in mind. The Rosalution
-web client implements this design as a VueJS single-page architecture (SPA) JavaScript framework service, a
-FastAPI Python framework that enables programmatic access following the OpenAPI standard and deploys interactive
-API documentation. Rosalution persistently stores its state in a MongoDB NoSQL database.
+teams through a collaborative analysis process keeping functionality and accessibility in mind. The Rosalution web
+client implements this design as a VueJS single-page architecture (SPA) website and a FastAPI Python service enabling
+programmatic access following the OpenAPI standard, which deploys interactive API documentation. Rosalution
+persistently stores its state in a MongoDB NoSQL database.
 
 Rosalution facilitates three aspects of the case review process:
 
@@ -178,7 +178,7 @@ impact, druggability, functional associations, and cellular context are presente
 
 When displaying annotations, the web client queries the web API for a configuration stored in the database that
 determines how annotations are displayed. By investing in implementation of a configurable visual rendering we can
-rapidly adjust the data representation based on how the users are using the data. 
+rapidly adjust the data representation based on how the users are using the data.
 
 A research team member is assigned to review and add any pertinent annotations from the patient records. The
 application's web client interacts with the web API to persist the changes. Once the case is open and assigned for
