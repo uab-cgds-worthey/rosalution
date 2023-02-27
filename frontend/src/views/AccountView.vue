@@ -26,7 +26,7 @@
         ]"
         @click="toggleSecret"
         ref="credentials"
-        :key="showSecret"
+        :key="showSecretValue"
       />
       <button @click="generateSecret" type="submit">
         Generate Secret
@@ -49,15 +49,24 @@ export default {
     SectionBox,
   },
   data() {
-    const user = authStore.getUser();
     return {
-      showSecret: false,
-      secretValue: user.clientSecret ? ['<click to show>'] : ['<empty>'],
+      showSecretValue: false,
     };
   },
   computed: {
     user() {
       return authStore.getUser();
+    },
+    secretValue() {
+      if (this.showSecretValue) {
+        return [this.user.clientSecret];
+      } else {
+        if (this.user.clientSecret) {
+          return ['<click to show>'];
+        } else {
+          return ['<empty>'];
+        }
+      }
     },
   },
   methods: {
@@ -69,16 +78,8 @@ export default {
       this.$router.push({path: '/rosalution/logout'});
     },
     toggleSecret() {
-      if (!this.showSecret && this.secretValue[0] !== '<empty>') {
-        this.showSecret = !this.showSecret;
-        this.updateSecretValue();
-      }
-    },
-    updateSecretValue() {
-      if (this.showSecret) {
-        this.secretValue = [this.user.clientSecret];
-      } else {
-        this.secretValue = ['<click to show>'];
+      if (!this.showSecretValue && this.secretValue[0] !== '<empty>') {
+        this.showSecretValue = !this.showSecretValue;
       }
     },
   },
