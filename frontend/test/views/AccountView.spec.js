@@ -42,6 +42,22 @@ function getMountedComponent(props) {
 describe('AccountView.vue', () => {
   const sandbox = sinon.createSandbox();
   let wrapper;
+  const mockAuthStore = {
+    getUser: (options = {}) => {
+      const defaultUser = {
+        username: 'testuser',
+        full_name: 'Test User',
+        email: 'testuser@example.com',
+        clientId: 'testclientid',
+      };
+      
+      if (options.clientSecret) {
+        return {...defaultUser, clientSecret: options.clientSecret};
+      } else {
+        return {...defaultUser, clientSecret: ''};
+      }
+    },
+  };
 
   beforeEach(() => {
     wrapper = getMountedComponent();
@@ -59,6 +75,11 @@ describe('AccountView.vue', () => {
     expect(appContent.exists()).to.be.true;
   });
 
+  it('should have a secretValue computed property', () => {
+  const secretValue = wrapper.vm.secretValue;
+  expect(secretValue).to.exist;
+  });
+
   describe('the header', () => {
     it('contains a header element', () => {
       const appHeader = wrapper.find('app-header');
@@ -74,5 +95,26 @@ describe('AccountView.vue', () => {
 
       expect(wrapper.vm.$router.push.called).to.be.true;
     });
+  });
+
+    // Test case where clientSecret is set
+  it('should return ["<click to show>"] when user.clientSecret is set', () => {
+    const user = mockAuthStore.getUser({clientSecret: 's26zcWlArYQJVW3eaL2Rl8awimSk0Us3'});
+    sandbox.stub(authStore, 'getUser').returns(user);
+    console.log(user);
+
+    const secretValue = wrapper.vm.secretValue;
+    console.log(secretValue)
+    expect(secretValue).to.deep.equal(['<click to show>']);
+  });
+
+  // Test case where clientSecret is not set
+  it('should return ["<empty>"] when user.clientSecret is not set', () => {
+    const user = mockAuthStore.getUser();
+    sandbox.stub(authStore, 'getUser').returns(user);
+    console.log(user)
+
+    const secretValue = wrapper.vm.secretValue;
+    expect(secretValue).to.deep.equal(['<empty>']);
   });
 });
