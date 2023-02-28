@@ -55,7 +55,9 @@ export default {
   },
   computed: {
     user() {
-      return authStore.getUser();
+      const temp = authStore.getUser();
+      console.log("TESTING THIS OUT: ", temp);
+      return temp;
     },
     secretValue() {
       if (this.showSecretValue) {

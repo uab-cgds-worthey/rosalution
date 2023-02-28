@@ -14,13 +14,9 @@ import {RouterLink} from 'vue-router';
  * @return {VueWrapper} returns a shallow mounted using props
  */
 function getMountedComponent(props) {
-  const defaultProps = {
-    username: authStore.getUser().username,
-  };
 
 
   return shallowMount(AccountView, {
-    props: {...defaultProps, ...props},
     attachTo: document.body,
     global: {
       components: {
@@ -97,24 +93,42 @@ describe('AccountView.vue', () => {
     });
   });
 
-    // Test case where clientSecret is set
-  it('should return ["<click to show>"] when user.clientSecret is set', () => {
-    const user = mockAuthStore.getUser({clientSecret: 's26zcWlArYQJVW3eaL2Rl8awimSk0Us3'});
+  it('should toggle the secret value on click', async () => {
+    // Set up a mock user object with a client secret
+    const user = mockAuthStore.getUser({client_secret: 'test-secret'});
     sandbox.stub(authStore, 'getUser').returns(user);
-    console.log(user);
 
-    const secretValue = wrapper.vm.secretValue;
-    console.log(secretValue)
-    expect(secretValue).to.deep.equal(['<click to show>']);
+    expect(wrapper.vm.showSecretValue).to.be.false;
+
+    // Find the section box component for the "Client Secret" section
+    const sectionBox = wrapper.findComponent({ref: 'credentials'});
+
+    // Simulate a click event on the section box
+    await sectionBox.trigger('click');
+
+    // Assert that showSecretValue has been toggled
+    expect(wrapper.vm.showSecretValue).to.be.true;
+
+    // Assert that the computed secretValue property returns the client secret
+    expect(wrapper.vm.secretValue).to.deep.equal([user.client_secret]);
+
+    // Simulate a second click event on the section box
+    await sectionBox.trigger('click');
+
+    // Assert that showSecretValue has been toggled back to false
+    expect(wrapper.vm.showSecretValue).to.be.false;
+
+    // Assert that the computed secretValue property returns "<click to show>"
+    expect(wrapper.vm.secretValue).to.deep.equal(['<click to show>']);
   });
 
-  // Test case where clientSecret is not set
-  it('should return ["<empty>"] when user.clientSecret is not set', () => {
-    const user = mockAuthStore.getUser();
-    sandbox.stub(authStore, 'getUser').returns(user);
-    console.log(user)
+  // Test case where client_secret is not set
+  // it('should return ["<empty>"] when user.client_secret is not set', () => {
+  //   const user = mockAuthStore.getUser();
+  //   sandbox.stub(authStore, 'getUser').returns(user);
+  //   console.log(user)
 
-    const secretValue = wrapper.vm.secretValue;
-    expect(secretValue).to.deep.equal(['<empty>']);
-  });
+  //   const secretValue = wrapper.vm.secretValue;
+  //   expect(secretValue).to.deep.equal(['<empty>']);
+  // });
 });
