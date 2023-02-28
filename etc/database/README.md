@@ -16,5 +16,5 @@ is constrained to being on the primary swarm node in order to mount the data dir
 persists the data for MongoDB within the container.
 `./deploy-development-prod-database.sh`
 
-* ./remove_analysis - Searches mongo for an analysis name provided by the user and prompts to delete.
-`./remove_analysis.sh -c <mongo_connection_string> -d <docker_container_name> -m <mongo_database>`
+* ./remove-analysis - Searches mongo for an analysis name provided by the user and prompts to delete.
+`./remove-analysis.sh -c <mongo_connection_string> -d <docker_container_name> -m <mongo_database>`

@@ -1,5 +1,5 @@
 #! /bin/bash
-# ./remove_analysis.sh -c <mongo_connection_string> -d <docker_container_name> -m <mongo_database>
+# ./remove-analysis.sh -c <mongo_connection_string> -d <docker_container_name> -m <mongo_database>
 usage() {
   echo " "
   echo "usage: $0 -c <mongo_connection_string> -d <docker_container_name> -m <mongo_database>"
