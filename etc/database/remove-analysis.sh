@@ -53,13 +53,14 @@ if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
 fi
 
 echo "Checking for files..."
-file_ids=$(${docker_prefix} mongosh --host "$mongo_host" --port "$mongo_port" --quiet --eval "'db.analyses.find({"name": '$analysisName'}).forEach( function(myDoc) {
-	var idArray = [];
-	myDoc.supporting_evidence_files.forEach( function(a) {
-		idArray.push(a.attachment_id);
-	});
-  print(idArray);
-});'" "$database")
+file_ids=$(docker exec -t rosalution-rosalution-db-1 mongo --quiet --eval "db.analyses.find({'name': 'CPAM0084'}, {'supporting_evidence_files': 1, '_id': 0})" rosalution_db | jq '.supporting_evidence_files[].attachment_id')
+# file_ids=$(${docker_prefix} mongosh --host "$mongo_host" --port "$mongo_port" --quiet --eval "'db.analyses.find({"name": '$analysisName'}).forEach( function(myDoc) {
+# 	var idArray = [];
+# 	myDoc.supporting_evidence_files.forEach( function(a) {
+# 		idArray.push(a.attachment_id);
+# 	});
+#   print(idArray);
+# });'" "$database")
 
 echo $file_ids
 
