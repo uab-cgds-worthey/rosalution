@@ -52,7 +52,18 @@ if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
   exit;
 fi
 
-echo "Removing..."
-${docker_prefix} mongosh --host "$mongo_host" --port "$mongo_port" --quiet --eval "'db.analyses.deleteOne({'name': '$analysisName'});'" "$database"
+echo "Checking for files..."
+file_ids=$(${docker_prefix} mongosh --host "$mongo_host" --port "$mongo_port" --quiet --eval "'db.analyses.find({"name": '$analysisName'}).forEach( function(myDoc) {
+	var idArray = [];
+	myDoc.supporting_evidence_files.forEach( function(a) {
+		idArray.push(a.attachment_id);
+	});
+  print(idArray);
+});'" "$database")
 
-echo "Done."
+echo $file_ids
+
+# echo "Removing..."
+# ${docker_prefix} mongosh --host "$mongo_host" --port "$mongo_port" --quiet --eval "'db.analyses.deleteOne({'name': '$analysisName'});'" "$database"
+
+# echo "Done."
