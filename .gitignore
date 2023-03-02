@@ -64,3 +64,4 @@ backend/example_file_to_upload.txt
 media/
 *.jats
 *.pdf
+*.crossref
