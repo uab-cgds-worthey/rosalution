@@ -59,3 +59,9 @@ coverage.xml
 cover/
 import.json
 backend/example_file_to_upload.txt
+
+# Pandoc JOSS artifacts
+media/
+*.jats
+*.pdf
+*.crossref
