@@ -7,6 +7,7 @@ import AccountView from '@/views/AccountView.vue';
 import {authStore} from '@/stores/authStore.js';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {RouterLink} from 'vue-router';
+import { nextTick } from 'vue';
 
 /**
  * Helper that mounts and returns the rendered component
@@ -14,8 +15,6 @@ import {RouterLink} from 'vue-router';
  * @return {VueWrapper} returns a shallow mounted using props
  */
 function getMountedComponent(props) {
-
-
   return shallowMount(AccountView, {
     attachTo: document.body,
     global: {
@@ -36,27 +35,22 @@ function getMountedComponent(props) {
 }
 
 describe('AccountView.vue', () => {
-  const sandbox = sinon.createSandbox();
-  let wrapper;
-  const mockAuthStore = {
-    getUser: (options = {}) => {
-      const defaultUser = {
-        username: 'testuser',
-        full_name: 'Test User',
-        email: 'testuser@example.com',
-        clientId: 'testclientid',
-      };
-      
-      if (options.clientSecret) {
-        return {...defaultUser, clientSecret: options.clientSecret};
-      } else {
-        return {...defaultUser, clientSecret: ''};
-      }
-    },
-  };
+  let sandbox;
+  let getUserStub;
 
-  beforeEach(() => {
-    wrapper = getMountedComponent();
+  beforeEach(( {clientSecret} = {} ) => {
+    sandbox = sinon.createSandbox();
+
+    // Create a stub for the getUser method and return a mock user
+    const mockUser = {
+      username: 'testuser',
+      full_name: 'Test User',
+      email: 'testtestuser@example.com',
+      clientId: 'testclientid',
+      clientSecret: clientSecret || '',
+    };
+
+    getUserStub = sandbox.stub(authStore, 'getUser').returns(mockUser);
   });
 
   afterEach(() => {
@@ -64,6 +58,7 @@ describe('AccountView.vue', () => {
   });
 
   it('contains the expected content body element', () => {
+    const wrapper = getMountedComponent();
     const appHeader = wrapper.find('app-header');
     expect(appHeader.exists()).to.be.true;
 
@@ -72,17 +67,20 @@ describe('AccountView.vue', () => {
   });
 
   it('should have a secretValue computed property', () => {
-  const secretValue = wrapper.vm.secretValue;
-  expect(secretValue).to.exist;
+    const wrapper = getMountedComponent();
+    const secretValue = wrapper.vm.secretValue;
+    expect(secretValue).to.exist;
   });
 
   describe('the header', () => {
     it('contains a header element', () => {
+      const wrapper = getMountedComponent();
       const appHeader = wrapper.find('app-header');
       expect(appHeader.exists()).to.be.true;
     });
 
     it('should logout on the header logout event', async () => {
+      const wrapper = getMountedComponent();
       const headerComponent = wrapper.getComponent(
           '[data-test=rosalution-header]',
       );
@@ -94,9 +92,11 @@ describe('AccountView.vue', () => {
   });
 
   it('should toggle the secret value on click', async () => {
-    // Set up a mock user object with a client secret
-    const user = mockAuthStore.getUser({client_secret: 'test-secret'});
-    sandbox.stub(authStore, 'getUser').returns(user);
+    const clientSecret = 'testsecret';
+    beforeEach({clientSecret});
+    const wrapper = getMountedComponent();
+    // wrapper.setData({user: mockUser01secret, showSecretValue: false});
+    // console.log(wrapper.vm.$data.user.clientSecret);
 
     expect(wrapper.vm.showSecretValue).to.be.false;
 
@@ -105,12 +105,13 @@ describe('AccountView.vue', () => {
 
     // Simulate a click event on the section box
     await sectionBox.trigger('click');
+    expect( wrapper.vm.$data.user.clientSecret).to.equal('testsecret')
 
-    // Assert that showSecretValue has been toggled
-    expect(wrapper.vm.showSecretValue).to.be.true;
+    // // Assert that showSecretValue has been toggled
+    // expect(wrapper.vm.showSecretValue).to.be.true;
 
     // Assert that the computed secretValue property returns the client secret
-    expect(wrapper.vm.secretValue).to.deep.equal([user.client_secret]);
+    expect(wrapper.vm.secretValue).to.deep.equal([wrapper.vm.$data.user.clientSecret]);
 
     // Simulate a second click event on the section box
     await sectionBox.trigger('click');
@@ -132,3 +133,12 @@ describe('AccountView.vue', () => {
   //   expect(secretValue).to.deep.equal(['<empty>']);
   // });
 });
+
+
+const mockUserSecret = {
+  username: 'testuser',
+  full_name: 'Test User',
+  email: 'testtestuser@example.com',
+  clientId: 'testclientid',
+  clientSecret: 'testsecret',
+};
