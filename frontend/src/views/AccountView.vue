@@ -55,25 +55,16 @@ export default {
   },
   computed: {
     user() {
-      const temp = authStore.getUser();
-      console.log('TESTING THIS OUT: ', temp);
-      return temp;
+      return authStore.getUser();
     },
     secretValue() {
-      let value = '';
       if (this.showSecretValue) {
-        value = [this.user.clientSecret];
-        console.log('SECRET VALUE: ', value);
-        return value;
+        return [this.user.clientSecret];
       } else {
         if (this.user.clientSecret) {
-          value = ['<click to show>'];
-          console.log('SECRET VALUE: ', value);
-          return value;
+          return ['<click to show>'];
         } else {
-          value = ['<empty>'];
-          console.log('SECRET VALUE: ', value);
-          return value;
+          return ['<empty>'];
         }
       }
     },
