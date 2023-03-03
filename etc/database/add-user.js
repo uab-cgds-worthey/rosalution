@@ -1,5 +1,5 @@
 const usage = `
-mongosh /tmp/fixtures/add_user.js
+mongosh /tmp/fixtures/add-user.js
     Script Options:
         help             if true print this help message
         userFile         default:  /tmp/fixtures/example-adding-users.json    file to read for new users

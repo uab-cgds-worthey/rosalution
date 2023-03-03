@@ -35,5 +35,5 @@ jobs:
       run: |
         while read -r file;
         do
-          docker run -v $PWD:/workdir $MARKDOWN_DOCKER --config $MARKDOWNLINT_CONFIG "$file"
+          docker run -v $PWD:/workdir $MARKDOWN_DOCKER -i paper.md --config $MARKDOWNLINT_CONFIG "$file"
         done < <(find . -type f ! -path "**/node_modules/*" ! -path "*local/*" ! -path "*lib/*" ! -path "**/.git/*" -name "*.md" -print)
