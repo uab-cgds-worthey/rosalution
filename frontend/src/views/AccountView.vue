@@ -60,13 +60,12 @@ export default {
     secretValue() {
       if (this.showSecretValue) {
         return [this.user.clientSecret];
-      } else {
-        if (this.user.clientSecret) {
-          return ['<click to show>'];
-        } else {
-          return ['<empty>'];
-        }
-      }
+      } 
+      if (this.user.clientSecret) {
+        return ['<click to show>'];
+       }
+       
+       return ['<empty>'];
     },
   },
   methods: {
