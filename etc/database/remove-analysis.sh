@@ -1,5 +1,6 @@
 #! /bin/bash
 # ./remove-analysis.sh -c <mongo_connection_string> -d <docker_container_name> -m <mongo_database>
+
 usage() {
   echo " "
   echo "usage: $0 -c <mongo_connection_string> -d <docker_container_name> -m <mongo_database>"
@@ -10,11 +11,19 @@ usage() {
   echo "    Find with 'docker ps' command"
   echo " -m Mongo database name"
   echo "    (default) rosalution_db"
-  echo " -h Usage"
+  echo " -h Prints usage"
   echo " "
   echo "Removes Rosalution Analyses from Mongo."
+  echo " "
+  echo "Please install jq for this script to work. https://stedolan.github.io/jq/"
   exit
 }
+
+if ! jq --version &> /dev/null
+then
+    echo "Error: jq could not be found. Exiting."
+    usage
+fi
 
 docker_prefix=""
 connection_string="localhost:27017"
@@ -52,7 +61,25 @@ if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
   exit;
 fi
 
-echo "Removing..."
+echo "Removing Pedigree file..."
+pedigree_id=$(docker exec -t rosalution-rosalution-db-1 mongo --quiet --eval "db.analyses.find({'name':'$analysisName'}, {'sections':1, '_id':0})" rosalution_db | jq '.sections[] | select(.header=="Pedigree") | .content[]?.value[]')
+
+if [ -n "$pedigree_id" ]; then
+  ${docker_prefix} mongofiles -d=rosalution_db delete_id "{\"\$oid\": $pedigree_id}"
+fi
+
+echo "Removing Supporting Evidence files..."
+file_ids=$(docker exec -t rosalution-rosalution-db-1 mongo --quiet --eval "db.analyses.find({'name': '$analysisName'}, {'supporting_evidence_files': 1, '_id': 0})" rosalution_db | jq '.supporting_evidence_files[]?.attachment_id')
+
+file_id_arr=()
+
+eval "file_id_arr=($file_ids)"
+
+for file_id in "${file_id_arr[@]}"; do
+  ${docker_prefix} mongofiles -d=rosalution_db delete_id "{\"\$oid\": \"$file_id\"}"
+done
+
+echo "Removing analysis..."
 ${docker_prefix} mongosh --host "$mongo_host" --port "$mongo_port" --quiet --eval "'db.analyses.deleteOne({'name': '$analysisName'});'" "$database"
 
 echo "Done."
