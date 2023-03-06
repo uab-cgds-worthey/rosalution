@@ -11,11 +11,19 @@ usage() {
   echo "    Find with 'docker ps' command"
   echo " -m Mongo database name"
   echo "    (default) rosalution_db"
-  echo " -h Usage"
+  echo " -h Prints usage"
   echo " "
   echo "Removes Rosalution Analyses from Mongo."
+  echo " "
+  echo "Please install jq for this script to work. https://stedolan.github.io/jq/"
   exit
 }
+
+if ! jq --version &> /dev/null
+then
+    echo "Error: jq could not be found. Exiting."
+    usage
+fi
 
 docker_prefix=""
 connection_string="localhost:27017"
@@ -56,10 +64,10 @@ fi
 echo "Removing associated files..."
 file_ids=$(docker exec -t rosalution-rosalution-db-1 mongo --quiet --eval "db.analyses.find({'name': 'CPAM0084'}, {'supporting_evidence_files': 1, '_id': 0})" rosalution_db | jq '.supporting_evidence_files[].attachment_id')
 
-file_ids=($file_ids) # Turning fetched ids into a bash array
+eval "file_id_arr=($file_ids)"
 
-for file_id in "${file_ids[@]}"; do
-  ${docker_prefix} mongofiles -d=rosalution_db delete_id "{\"\$oid\": $file_id}"
+for file_id in "${file_id_arr[@]}"; do
+  ${docker_prefix} mongofiles -d=rosalution_db delete_id "{\"\$oid\": \"$file_id\"}"
 done
 
 echo "Removing analysis..."
