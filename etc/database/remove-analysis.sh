@@ -61,8 +61,13 @@ if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
   exit;
 fi
 
-echo "Removing associated files..."
-file_ids=$(docker exec -t rosalution-rosalution-db-1 mongo --quiet --eval "db.analyses.find({'name': 'CPAM0084'}, {'supporting_evidence_files': 1, '_id': 0})" rosalution_db | jq '.supporting_evidence_files[].attachment_id')
+echo "Removing Pedigree file..."
+pedigree_id=$(docker exec -t rosalution-rosalution-db-1 mongo --quiet --eval "db.analyses.find({'name':'$analysisName'}, {'sections':1, '_id':0})" rosalution_db | jq '.sections[] | select(.header=="Pedigree") | .content[]?.value[]')
+
+${docker_prefix} mongofiles -d=rosalution_db delete_id "{\"\$oid\": $pedigree_id}"
+
+echo "Removing Supporting Evidence files..."
+file_ids=$(docker exec -t rosalution-rosalution-db-1 mongo --quiet --eval "db.analyses.find({'name': '$analysisName'}, {'supporting_evidence_files': 1, '_id': 0})" rosalution_db | jq '.supporting_evidence_files[]?.attachment_id')
 
 file_id_arr=()
 
