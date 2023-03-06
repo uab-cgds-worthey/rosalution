@@ -123,6 +123,7 @@ export default {
         await notificationDialog
             .title('Successful import')
             .alert('Imported Phenotips Case successfully!');
+        await this.getListing();
       } catch (error) {
         await notificationDialog
             .title('Failed to import phenotips analysis')
