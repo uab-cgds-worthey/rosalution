@@ -1,3 +1,5 @@
+name: Rosalution Paper
+
 on:
   workflow_dispatch:
   push:
