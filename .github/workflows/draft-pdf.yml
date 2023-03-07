@@ -1,11 +1,11 @@
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
     paths:
       - 'paper.md'
       - 'paper.bib'
-  workflow_dispatch:
 
 jobs:
   paper:
