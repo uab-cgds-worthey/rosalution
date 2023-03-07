@@ -14,7 +14,7 @@ describe('case_annotation_display_transcripts.cy.js', () => {
   });
 
   it('Displays the transcript in the variant', () => {
-    cy.get('[data-test="c-dot"]').click();
+    cy.get('[data-test="variant"]').click();
     cy.get(':nth-child(1) > .transcript-header > .transcript-header-text').should('exist');
     cy.get(':nth-child(1) > .transcript-header > .transcript-header-text').should('contain', 'NM_001017980.4');
     cy.get(':nth-child(2) > .transcript-header > .transcript-header-text').should('exist');

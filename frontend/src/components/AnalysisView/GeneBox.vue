@@ -19,9 +19,6 @@
             </h2>
           </td>
         </router-link>
-        <td class="transcript" v-for="transcript in transcripts" :key="transcript">
-          {{transcript.transcript}}
-        </td>
       </tr>
       <div class="seperator-gene"></div>
       <div v-for="variant in variants" :key="variant">
@@ -38,8 +35,10 @@
               <td class="link-logo">
                 <font-awesome-icon icon="angles-right"/>
               </td>
-              <td class="c-dot" data-test="c-dot">
-                {{variant.c_dot}}({{variant.p_dot}})
+              <td class="variant" data-test="variant">
+                <span class="variant-transcript">{{variant.hgvs_variant.split(':')[0]}}:</span>
+                <span>{{variant.c_dot}}</span>
+                <span v-if="variant.p_dot">({{variant.p_dot}})</span>
               </td>
             </router-link>
               <td class="copy">
@@ -129,7 +128,11 @@ export default {
       // tmpTextField.remove();
     },
     getCompleteHgvsVariantName(variant) {
-      return `${variant.hgvs_variant}(${variant.p_dot})`;
+      if ( variant.p_dot ) {
+        return `${variant.hgvs_variant}(${variant.p_dot})`;
+      }
+
+      return variant.hgvs_variant;
     },
   },
 };
@@ -204,9 +207,13 @@ div {
   align-items: baseline;
 }
 
-.c-dot {
+.variant {
   font-weight: bold;
   color: var(--rosalution-purple-300);
+}
+
+.variant-transcript {
+  font-weight: normal;
 }
 
 /* Unable to move this to top right of copy-logo */
