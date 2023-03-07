@@ -3,11 +3,11 @@ name: Rosalution Paper Draft
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
-    paths:
-      - 'paper.md'
-      - 'paper.bib'
+    # branches:
+    #   - main
+    # paths:
+    #   - 'paper.md'
+    #   - 'paper.bib'
 
 jobs:
   paper:
