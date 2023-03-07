@@ -88,12 +88,19 @@ describe('AccountView.vue', () => {
     getUserStub.returns(mockUser);
 
     const wrapper = getMountedComponent();
+    // console.log(wrapper);
 
     expect(wrapper.vm.showSecretValue).to.be.false;
     expect(wrapper.vm.secretValue).to.deep.equal(['<click to show>']);
 
     // Find the section box component for the "Client Secret" section
-    const sectionBox = wrapper.findComponent({ref: 'credentials'});
+    const sectionBox = wrapper.findComponent('[data-test=credentials]');
+
+    console.log(sectionBox);
+    console.log(sectionBox.componentVM.content);
+    console.log(sectionBox.componentVM.content[1].value);
+    let clientSecretValue = sectionBox.componentVM.content.find(component => component.field === 'Client Secret');
+    expect(clientSecretValue.value).toEqual(['<click to show>']);
 
     // Simulate a click event on the section box
     await sectionBox.trigger('click');
@@ -102,7 +109,7 @@ describe('AccountView.vue', () => {
     expect(wrapper.vm.showSecretValue).to.be.true;
 
     // Assert that the computed secretValue property returns the client secret
-    expect(wrapper.vm.secretValue).to.deep.equal([wrapper.vm.user.clientSecret]);
+    expect(clientSecretValue.value).to.deep.equal([wrapper.vm.user.clientSecret]);
 
     // Simulate a second click event on the section box
     await sectionBox.trigger('click');

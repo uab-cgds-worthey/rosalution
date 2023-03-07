@@ -25,7 +25,7 @@
           },
         ]"
         @click="toggleSecret"
-        ref="credentials"
+        data-test="credentials"
         :key="showSecretValue"
       />
       <button @click="generateSecret" type="submit">
