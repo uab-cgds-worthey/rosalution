@@ -35,28 +35,21 @@ class AnalysisCollection:
         })
 
         summaries = []
-        for summary in query_result:
-            genes_list = map(lambda unit: unit['gene'], summary['genomic_units'])
-            genes_string_list = ', '.join(genes_list)
-
-            transcripts_list = [[transcript_unit['transcript']
-                                 for transcript_unit in unit['transcripts']]
-                                for unit in summary['genomic_units']]
-            flattened_transcripts_list = [
-                transcript for transcript_items in transcripts_list for transcript in transcript_items
-            ]
-
-            variant_list = [
-                f"{variant['c_dot']} ({variant['p_dot']})" for genomic_unit in summary['genomic_units']
-                for variant in genomic_unit['variants'] if variant['c_dot']
-            ]
-
-            genomic_units_summary = [{
-                "gene": genes_string_list, "transcripts": flattened_transcripts_list, "variants": variant_list
-            }]
-
-            summary['genomic_units'] = genomic_units_summary
-            summaries.append(summary)
+        for analysis in query_result:
+            genomic_unit_summaries = []
+            for unit in analysis['genomic_units']:
+                genomic_unit_summary = {}
+                if unit.get('gene'):
+                    genomic_unit_summary['gene'] = unit['gene']
+                genomic_unit_summary['variants'] = []
+                for variant in unit['variants']:
+                    summary_variant = variant['hgvs_variant']
+                    if variant['p_dot'] is not None:
+                        summary_variant = f"{summary_variant}({variant['p_dot']})"
+                    genomic_unit_summary['variants'].append(summary_variant)
+                genomic_unit_summaries.append(genomic_unit_summary)
+            analysis['genomic_units'] = genomic_unit_summaries
+            summaries.append(analysis)
 
         return summaries
 

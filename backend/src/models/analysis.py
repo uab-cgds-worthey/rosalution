@@ -60,7 +60,7 @@ class BaseAnalysis(BaseModel):
 class AnalysisSummary(BaseAnalysis):
     """Models the summary of an analysis"""
 
-    genomic_units: List = []
+    genomic_units: List[GenomicUnit] = []
 
 
 class Analysis(BaseAnalysis):

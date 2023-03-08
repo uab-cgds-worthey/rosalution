@@ -23,21 +23,16 @@
             </span>
         </div>
         <div class="genomic-units-section">
-        <ul aria-label="Gene:">
-          <li v-for="genomic_unit in genomic_units" :key="genomic_unit">
-            {{ genomic_unit.gene }}
-          </li>
-        </ul>
-        <ul aria-label="Transcript:">
-          <li v-for="genomic_unit in genomic_units" :key="genomic_unit">
-            {{ genomic_unit.transcripts.join(", ") }}
-          </li>
-        </ul>
-        <ul aria-label="Variant:">
-          <li v-for="genomic_unit in genomic_units" :key="genomic_unit">
-            {{ genomic_unit.variants.join(", ") }}
-          </li>
-        </ul>
+          <ul>
+            <li v-for="genomic_unit in genomic_units" :key="genomic_unit">
+              <span class="gene-genomic-unit-text">{{ genomic_unit.gene || ""}}</span>
+              <ul>
+                <li v-for="variant in genomic_unit.variants" :key="variant" class="variant-genomic-unit-text">
+                  {{ variant }}
+                </li>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -200,7 +195,6 @@ div {
 .middle-separator {
   min-width: 1px;
   max-width: 1px;
-  margin: var(--p-1);
   background-color: var(--rosalution-grey-300);
 }
 
@@ -208,9 +202,16 @@ div {
   padding: var(--p-1) 0;
 }
 
-ul:before{
-  content:attr(aria-label);
-  color: var(--rosalution-grey-300);
+.gene-genomic-unit-text {
+  font-weight: bold;
+}
+
+.variant-genomic-unit-text {
+  background-color: var(--rosalution-grey-50);
+  border-radius: var(--input-border-radius);
+  padding: var(--p-1) var(--p-1) var(--p-1) var(--p-1);
+  word-wrap: break-word;
+  margin-bottom: var(--p-1);
 }
 
 </style>

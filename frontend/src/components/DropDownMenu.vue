@@ -26,7 +26,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 hr {
   border: 1px solid var(--rosalution-grey-100);
 }

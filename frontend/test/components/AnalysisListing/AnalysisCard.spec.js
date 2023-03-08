@@ -18,8 +18,7 @@ function getMountedComponent(props) {
     genomic_units: [
       {
         gene: 'LMNA',
-        transcripts: ['NM_001017980.3'],
-        variants: ['c.745C>T'],
+        variants: ['NM_001017980.3:c.745C>T'],
       },
     ],
     nominated_by: 'Dr. Person Two',
@@ -70,12 +69,10 @@ describe('AnalysisCard.vue', () => {
   describe('should show the genomic units of the case', () => {
     it('should show the gene information for a case', () => {
       const wrapper = getMountedComponent();
-      expect(wrapper.html()).to.contains('Gene');
       expect(wrapper.html()).to.contains('LMNA');
     });
     it('should show the transcript information for a case', () => {
       const wrapper = getMountedComponent();
-      expect(wrapper.html()).to.contains('Transcript');
       expect(wrapper.html()).to.contains('NM_001017980.3');
     });
     it('should show the coordinates information for a case', () => {
