@@ -7,6 +7,7 @@ import AccountView from '@/views/AccountView.vue';
 import {authStore} from '@/stores/authStore.js';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {RouterLink} from 'vue-router';
+import { nextTick } from 'vue';
 
 /**
  * Helper that mounts and returns the rendered component
@@ -83,6 +84,7 @@ describe('AccountView.vue', () => {
     const mockUser = {
       clientSecret: 'testsecret',
     };
+    const toggleSecretSpy = sandbox.spy(AccountView.methods, 'toggleSecret');
 
     const getUserStub = sandbox.stub(authStore, 'getUser');
     getUserStub.returns(mockUser);
@@ -91,32 +93,31 @@ describe('AccountView.vue', () => {
     // console.log(wrapper);
 
     expect(wrapper.vm.showSecretValue).to.be.false;
-    expect(wrapper.vm.secretValue).to.deep.equal(['<click to show>']);
+    expect(wrapper.vm.secretValue).toEqual(['<click to show>']);
 
-    // Find the section box component for the "Client Secret" section
     const sectionBox = wrapper.findComponent('[data-test=credentials]');
 
-    console.log(sectionBox);
-    console.log(sectionBox.componentVM.content);
+    // console.log(sectionBox);
+    // console.log(sectionBox.componentVM.content);
     console.log(sectionBox.componentVM.content[1].value);
     let clientSecretValue = sectionBox.componentVM.content.find(component => component.field === 'Client Secret');
     expect(clientSecretValue.value).toEqual(['<click to show>']);
-
-    // Simulate a click event on the section box
+  
     await sectionBox.trigger('click');
-
-    // Assert that showSecretValue has been toggled
+    console.log(sectionBox.componentVM.content[1].value);
+    await nextTick();
+    expect(toggleSecretSpy.called).to.be.true;
+    
+    // clientSecretValue = sectionBox.componentVM.content.find(component => component.field === 'Client Secret');
     expect(wrapper.vm.showSecretValue).to.be.true;
 
     // Assert that the computed secretValue property returns the client secret
-    expect(clientSecretValue.value).to.deep.equal([wrapper.vm.user.clientSecret]);
+    expect(clientSecretValue.value).toContain([wrapper.vm.user.clientSecret]);
 
-    // Simulate a second click event on the section box
+    // This last bit should be pulled out to be its own test
     await sectionBox.trigger('click');
-
     // Assert that showSecretValue remains true after the second click
     expect(wrapper.vm.showSecretValue).to.be.true;
-
     // Assert that the computed secretValue property remains the client secret
     expect(wrapper.vm.secretValue).to.deep.equal([wrapper.vm.user.clientSecret]);
   });

@@ -77,9 +77,14 @@ export default {
       this.$router.push({path: '/rosalution/logout'});
     },
     toggleSecret() {
+      console.log("Secret value: " + this.secretValue[0]);
+      console.log("Show secret value: " + this.showSecretValue);
       if (!this.showSecretValue && this.secretValue[0] !== '<empty>') {
         this.showSecretValue = !this.showSecretValue;
       }
+      console.log("after toggle");
+      console.log("Secret value: " + this.secretValue[0]);
+      console.log("Show secret value: " + this.showSecretValue);
     },
   },
 };
