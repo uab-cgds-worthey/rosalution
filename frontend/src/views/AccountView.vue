@@ -5,6 +5,7 @@
         :username="user.username"
         @logout="this.onLogout"
         data-test="rosalution-header">
+        <span class="empty-fill"></span>
       </RosalutionHeader>
     </app-header>
     <app-content>
@@ -88,4 +89,9 @@ export default {
 };
 </script>
 
-
+<style>
+.empty-fill {
+  flex: 1 1 auto;
+  display: inline-flex;
+}
+</style>
