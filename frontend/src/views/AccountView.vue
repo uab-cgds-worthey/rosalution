@@ -52,8 +52,8 @@ export default {
       return authStore.getUser();
     },
     credentialsContent() {
-      let content = [
-        { field: 'Client ID', value: [this.user.clientId] },
+      const content = [
+        {field: 'Client ID', value: [this.user.clientId]},
         {
           field: 'Client Secret',
           value: this.secretValue,
@@ -64,17 +64,17 @@ export default {
     secretValue() {
       if (this.showSecretValue) {
         return [this.user.clientSecret];
-      } 
+      }
       if (this.user.clientSecret) {
         return ['<click to show>'];
-       }
-       
-       return ['<empty>'];
+      }
+
+      return ['<empty>'];
     },
   },
   methods: {
     async generateSecret() {
-      const userObject = await authStore.generateSecret();
+      await authStore.generateSecret();
     },
     async onLogout() {
       this.$router.push({path: '/rosalution/logout'});

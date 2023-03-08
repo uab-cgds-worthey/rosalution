@@ -7,7 +7,6 @@ import AccountView from '@/views/AccountView.vue';
 import {authStore} from '@/stores/authStore.js';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {RouterLink} from 'vue-router';
-import { nextTick } from 'vue';
 
 /**
  * Helper that mounts and returns the rendered component
@@ -42,7 +41,7 @@ describe('AccountView.vue', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     mockUser = {
-    clientSecret: 'testsecret',
+      clientSecret: 'testsecret',
     };
 
     getUserStub = sandbox.stub(authStore, 'getUser');
@@ -91,7 +90,7 @@ describe('AccountView.vue', () => {
     const wrapper = getMountedComponent();
 
     let sectionBox = wrapper.findComponent('[data-test=credentials]');
-  
+
     await sectionBox.trigger('click');
     await wrapper.vm.$nextTick();
 
@@ -129,6 +128,9 @@ describe('AccountView.vue', () => {
 
     const wrapper = getMountedComponent();
 
-    expect(wrapper.vm.secretValue).toEqual(['<empty>']);
+    let sectionBox = wrapper.findComponent('[data-test=credentials]');
+
+    sectionBox = wrapper.findComponent('[data-test=credentials]');
+    expect(sectionBox.props('content')[1].value).toEqual(['<empty>']);
   });
 });
