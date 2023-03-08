@@ -17,13 +17,7 @@
         ]" />
       <SectionBox
         :header="'Credentials'"
-        :content="[
-          { field: 'Client ID', value: [user.clientId] },
-          {
-            field: 'Client Secret',
-            value: secretValue,
-          },
-        ]"
+        :content= credentialsContent
         @click="toggleSecret"
         data-test="credentials"
         :key="showSecretValue"
@@ -57,6 +51,16 @@ export default {
     user() {
       return authStore.getUser();
     },
+    credentialsContent() {
+      let content = [
+        { field: 'Client ID', value: [this.user.clientId] },
+        {
+          field: 'Client Secret',
+          value: this.secretValue,
+        },
+      ];
+      return content;
+    },
     secretValue() {
       if (this.showSecretValue) {
         return [this.user.clientSecret];
@@ -71,21 +75,17 @@ export default {
   methods: {
     async generateSecret() {
       const userObject = await authStore.generateSecret();
-      console.log(userObject);
     },
     async onLogout() {
       this.$router.push({path: '/rosalution/logout'});
     },
     toggleSecret() {
-      console.log("Secret value: " + this.secretValue[0]);
-      console.log("Show secret value: " + this.showSecretValue);
       if (!this.showSecretValue && this.secretValue[0] !== '<empty>') {
         this.showSecretValue = !this.showSecretValue;
       }
-      console.log("after toggle");
-      console.log("Secret value: " + this.secretValue[0]);
-      console.log("Show secret value: " + this.showSecretValue);
     },
   },
 };
 </script>
+
+

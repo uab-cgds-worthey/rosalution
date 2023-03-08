@@ -36,9 +36,17 @@ function getMountedComponent(props) {
 
 describe('AccountView.vue', () => {
   let sandbox;
+  let mockUser;
+  let getUserStub;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
+    mockUser = {
+    clientSecret: 'testsecret',
+    };
+
+    getUserStub = sandbox.stub(authStore, 'getUser');
+    getUserStub.returns(mockUser);
   });
 
   afterEach(() => {
@@ -80,60 +88,47 @@ describe('AccountView.vue', () => {
   });
 
   it('should toggle the secret value on click', async () => {
-    // Create a stub for the getUser method and return a mock user
-    const mockUser = {
-      clientSecret: 'testsecret',
-    };
-    const toggleSecretSpy = sandbox.spy(AccountView.methods, 'toggleSecret');
-
-    const getUserStub = sandbox.stub(authStore, 'getUser');
-    getUserStub.returns(mockUser);
-
     const wrapper = getMountedComponent();
-    // console.log(wrapper);
 
-    expect(wrapper.vm.showSecretValue).to.be.false;
-    expect(wrapper.vm.secretValue).toEqual(['<click to show>']);
-
-    const sectionBox = wrapper.findComponent('[data-test=credentials]');
-
-    // console.log(sectionBox);
-    // console.log(sectionBox.componentVM.content);
-    console.log(sectionBox.componentVM.content[1].value);
-    let clientSecretValue = sectionBox.componentVM.content.find(component => component.field === 'Client Secret');
-    expect(clientSecretValue.value).toEqual(['<click to show>']);
+    let sectionBox = wrapper.findComponent('[data-test=credentials]');
   
     await sectionBox.trigger('click');
-    console.log(sectionBox.componentVM.content[1].value);
-    await nextTick();
-    expect(toggleSecretSpy.called).to.be.true;
-    
-    // clientSecretValue = sectionBox.componentVM.content.find(component => component.field === 'Client Secret');
-    expect(wrapper.vm.showSecretValue).to.be.true;
+    await wrapper.vm.$nextTick();
 
-    // Assert that the computed secretValue property returns the client secret
-    expect(clientSecretValue.value).toContain([wrapper.vm.user.clientSecret]);
+    sectionBox = wrapper.findComponent('[data-test=credentials]');
+    expect(sectionBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
+  });
 
-    // This last bit should be pulled out to be its own test
+  it('should not toggle the secret value on click again after it has been toggled', async () => {
+    const wrapper = getMountedComponent();
+
+    let sectionBox = wrapper.findComponent('[data-test=credentials]');
+
     await sectionBox.trigger('click');
-    // Assert that showSecretValue remains true after the second click
-    expect(wrapper.vm.showSecretValue).to.be.true;
-    // Assert that the computed secretValue property remains the client secret
-    expect(wrapper.vm.secretValue).to.deep.equal([wrapper.vm.user.clientSecret]);
+    await wrapper.vm.$nextTick();
+
+    sectionBox = wrapper.findComponent('[data-test=credentials]');
+    expect(sectionBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
+    await sectionBox.trigger('click');
+    await wrapper.vm.$nextTick();
+
+    sectionBox = wrapper.findComponent('[data-test=credentials]');
+    expect(sectionBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
   });
 
   // Test case where clientSecret is not set
   it('should return ["<empty>"] when user.client_secret is not set', () => {
-    // Create a stub for the getUser method and return a mock user
-    const mockUser = {
+    sandbox.restore();
+    sandbox = sinon.createSandbox();
+    mockUser = {
       clientSecret: '',
     };
 
-    const getUserStub = sandbox.stub(authStore, 'getUser');
-    getUserStub.returns(mockUser);
+    const getUserEmptyStub = sandbox.stub(authStore, 'getUser');
+    getUserEmptyStub.returns(mockUser);
 
     const wrapper = getMountedComponent();
 
-    expect(wrapper.vm.secretValue).to.deep.equal(['<empty>']);
+    expect(wrapper.vm.secretValue).toEqual(['<empty>']);
   });
 });
