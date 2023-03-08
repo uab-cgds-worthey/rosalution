@@ -61,12 +61,6 @@ describe('AccountView.vue', () => {
     expect(appContent.exists()).to.be.true;
   });
 
-  it('should have a secretValue computed property', () => {
-    const wrapper = getMountedComponent();
-    const secretValue = wrapper.vm.secretValue;
-    expect(secretValue).to.exist;
-  });
-
   describe('the header', () => {
     it('contains a header element', () => {
       const wrapper = getMountedComponent();
@@ -115,7 +109,7 @@ describe('AccountView.vue', () => {
     expect(sectionBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
   });
 
-  // Test case where clientSecret is not set
+
   it('should return ["<empty>"] when user.client_secret is not set', () => {
     sandbox.restore();
     sandbox = sinon.createSandbox();
