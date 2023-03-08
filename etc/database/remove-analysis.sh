@@ -64,8 +64,6 @@ fi
 echo "Removing Pedigree file..."
 pedigree_id=$(${docker_prefix} mongo --quiet --host "$connection_string" --eval "db.analyses.find({'name':'$analysisName'}, {'sections':1, '_id':0})" "$database" | jq '.sections[] | select(.header=="Pedigree") | .content[]?.value[]')
 
-echo $pedigree_id
-
 if [ -n "$pedigree_id" ]; then
   ${docker_prefix} mongofiles --host "$connection_string" -d="$database" delete_id "{\"\$oid\": $pedigree_id}"
 fi
