@@ -62,24 +62,26 @@ if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
 fi
 
 echo "Removing Pedigree file..."
-pedigree_id=$(${docker_prefix} mongo --quiet --host "$connection_string" --eval "db.analyses.find({'name':'$analysisName'}, {'sections':1, '_id':0})" rosalution_db | jq '.sections[] | select(.header=="Pedigree") | .content[]?.value[]')
+pedigree_id=$(${docker_prefix} mongo --quiet --host "$connection_string" --eval "db.analyses.find({'name':'$analysisName'}, {'sections':1, '_id':0})" "$database" | jq '.sections[] | select(.header=="Pedigree") | .content[]?.value[]')
+
+echo $pedigree_id
 
 if [ -n "$pedigree_id" ]; then
-  ${docker_prefix} mongofiles --host "$connection_string" -d=rosalution_db delete_id "{\"\$oid\": $pedigree_id}"
+  ${docker_prefix} mongofiles --host "$connection_string" -d="$database" delete_id "{\"\$oid\": $pedigree_id}"
 fi
 
 echo "Removing Supporting Evidence files..."
-file_ids=$(${docker_prefix} mongo --quiet --host "$connection_string" --eval "db.analyses.find({'name': '$analysisName'}, {'supporting_evidence_files': 1, '_id': 0})" rosalution_db | jq '.supporting_evidence_files[]?.attachment_id')
+file_ids=$(${docker_prefix} mongo --quiet --host "$connection_string" --eval "db.analyses.find({'name': '$analysisName'}, {'supporting_evidence_files': 1, '_id': 0})" "$database" | jq '.supporting_evidence_files[]?.attachment_id')
 
 file_id_arr=()
 
 eval "file_id_arr=($file_ids)"
 
 for file_id in "${file_id_arr[@]}"; do
-  ${docker_prefix} mongofiles --host "$connection_string" -d=rosalution_db delete_id "{\"\$oid\": \"$file_id\"}"
+  ${docker_prefix} mongofiles --host "$connection_string" -d="$database" delete_id "{\"\$oid\": \"$file_id\"}"
 done
 
-echo "Removing analysis..."
+echo "Removing Analysis..."
 ${docker_prefix} mongosh --host "$mongo_host" --port "$mongo_port" --quiet --eval "'db.analyses.deleteOne({'name': '$analysisName'});'" "$database"
 
 echo "Done."
