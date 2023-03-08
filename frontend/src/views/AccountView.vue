@@ -4,30 +4,27 @@
       <RosalutionHeader
         :username="user.username"
         @logout="this.onLogout"
-        data-test="rosalution-header"
-      >
-      <span class="empty-fill"></span>
+        data-test="rosalution-header">
+        <span class="empty-fill"></span>
       </RosalutionHeader>
     </app-header>
     <app-content>
       <SectionBox
-        ref="user-section-box"
         :header="'User'"
         :content="[
-          {field: 'Username', value: [user.username]},
-          {field: 'Full Name', value: [user.full_name]},
-          {field: 'Email', value: [user.email]},
-        ]"
-      />
+          { field: 'Username', value: [user.username] },
+          { field: 'Full Name', value: [user.full_name] },
+          { field: 'Email', value: [user.email] },
+        ]" />
       <SectionBox
         :header="'Credentials'"
-        :content="[
-          {field: 'Client ID', value: [user.clientId]},
-          {field: 'Client Secret', value: [user.clientSecret]},
-        ]"
+        :content= credentialsContent
+        @click="toggleSecret"
+        data-test="credentials"
+        :key="showSecretValue"
       />
       <button @click="generateSecret" type="submit">
-          Generate Secret
+        Generate Secret
       </button>
     </app-content>
   </div>
@@ -46,18 +43,47 @@ export default {
     RosalutionHeader,
     SectionBox,
   },
+  data() {
+    return {
+      showSecretValue: false,
+    };
+  },
   computed: {
     user() {
       return authStore.getUser();
     },
+    credentialsContent() {
+      const content = [
+        {field: 'Client ID', value: [this.user.clientId]},
+        {
+          field: 'Client Secret',
+          value: this.secretValue,
+        },
+      ];
+      return content;
+    },
+    secretValue() {
+      if (this.showSecretValue) {
+        return [this.user.clientSecret];
+      }
+      if (this.user.clientSecret) {
+        return ['<click to show>'];
+      }
+
+      return ['<empty>'];
+    },
   },
   methods: {
     async generateSecret() {
-      const userObject = await authStore.generateSecret();
-      console.log(userObject);
+      await authStore.generateSecret();
     },
     async onLogout() {
       this.$router.push({path: '/rosalution/logout'});
+    },
+    toggleSecret() {
+      if (!this.showSecretValue && this.secretValue[0] !== '<empty>') {
+        this.showSecretValue = !this.showSecretValue;
+      }
     },
   },
 };

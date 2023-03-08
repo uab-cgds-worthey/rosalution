@@ -14,13 +14,7 @@ import {RouterLink} from 'vue-router';
  * @return {VueWrapper} returns a shallow mounted using props
  */
 function getMountedComponent(props) {
-  const defaultProps = {
-    username: authStore.getUser().username,
-  };
-
-
   return shallowMount(AccountView, {
-    props: {...defaultProps, ...props},
     attachTo: document.body,
     global: {
       components: {
@@ -40,11 +34,18 @@ function getMountedComponent(props) {
 }
 
 describe('AccountView.vue', () => {
-  const sandbox = sinon.createSandbox();
-  let wrapper;
+  let sandbox;
+  let mockUser;
+  let getUserStub;
 
   beforeEach(() => {
-    wrapper = getMountedComponent();
+    sandbox = sinon.createSandbox();
+    mockUser = {
+      clientSecret: 'testsecret',
+    };
+
+    getUserStub = sandbox.stub(authStore, 'getUser');
+    getUserStub.returns(mockUser);
   });
 
   afterEach(() => {
@@ -52,6 +53,7 @@ describe('AccountView.vue', () => {
   });
 
   it('contains the expected content body element', () => {
+    const wrapper = getMountedComponent();
     const appHeader = wrapper.find('app-header');
     expect(appHeader.exists()).to.be.true;
 
@@ -61,11 +63,13 @@ describe('AccountView.vue', () => {
 
   describe('the header', () => {
     it('contains a header element', () => {
+      const wrapper = getMountedComponent();
       const appHeader = wrapper.find('app-header');
       expect(appHeader.exists()).to.be.true;
     });
 
     it('should logout on the header logout event', async () => {
+      const wrapper = getMountedComponent();
       const headerComponent = wrapper.getComponent(
           '[data-test=rosalution-header]',
       );
@@ -74,5 +78,53 @@ describe('AccountView.vue', () => {
 
       expect(wrapper.vm.$router.push.called).to.be.true;
     });
+  });
+
+  it('should toggle the secret value on click', async () => {
+    const wrapper = getMountedComponent();
+
+    let sectionBox = wrapper.findComponent('[data-test=credentials]');
+
+    await sectionBox.trigger('click');
+    await wrapper.vm.$nextTick();
+
+    sectionBox = wrapper.findComponent('[data-test=credentials]');
+    expect(sectionBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
+  });
+
+  it('should not toggle the secret value on click again after it has been toggled', async () => {
+    const wrapper = getMountedComponent();
+
+    let sectionBox = wrapper.findComponent('[data-test=credentials]');
+
+    await sectionBox.trigger('click');
+    await wrapper.vm.$nextTick();
+
+    sectionBox = wrapper.findComponent('[data-test=credentials]');
+    expect(sectionBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
+    await sectionBox.trigger('click');
+    await wrapper.vm.$nextTick();
+
+    sectionBox = wrapper.findComponent('[data-test=credentials]');
+    expect(sectionBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
+  });
+
+
+  it('should return ["<empty>"] when user.client_secret is not set', () => {
+    sandbox.restore();
+    sandbox = sinon.createSandbox();
+    mockUser = {
+      clientSecret: '',
+    };
+
+    const getUserEmptyStub = sandbox.stub(authStore, 'getUser');
+    getUserEmptyStub.returns(mockUser);
+
+    const wrapper = getMountedComponent();
+
+    let sectionBox = wrapper.findComponent('[data-test=credentials]');
+
+    sectionBox = wrapper.findComponent('[data-test=credentials]');
+    expect(sectionBox.props('content')[1].value).toEqual(['<empty>']);
   });
 });
