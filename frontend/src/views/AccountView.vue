@@ -16,13 +16,13 @@
           { field: 'Full Name', value: [user.full_name] },
           { field: 'Email', value: [user.email] },
         ]" />
-      <SectionBox
+      <CredentialsBox
         :header="'Credentials'"
         :content= credentialsContent
-        @click="toggleSecret"
         data-test="credentials"
         :key="showSecretValue"
-      />
+        @toggle= this.ontoggleSecret
+        />
       <button @click="generateSecret" type="submit">
         Generate Secret
       </button>
@@ -32,6 +32,7 @@
 
 <script>
 import SectionBox from '@/components/AnalysisView/SectionBox.vue';
+import CredentialsBox from '@/components/AccountView/CredentialsBox.vue';
 
 import {authStore} from '../stores/authStore';
 
@@ -42,6 +43,7 @@ export default {
   components: {
     RosalutionHeader,
     SectionBox,
+    CredentialsBox,
   },
   data() {
     return {
@@ -58,6 +60,7 @@ export default {
         {
           field: 'Client Secret',
           value: this.secretValue,
+          clickable: true,
         },
       ];
       return content;
@@ -80,7 +83,7 @@ export default {
     async onLogout() {
       this.$router.push({path: '/rosalution/logout'});
     },
-    toggleSecret() {
+    async ontoggleSecret() {
       if (!this.showSecretValue && this.secretValue[0] !== '<empty>') {
         this.showSecretValue = !this.showSecretValue;
       }
