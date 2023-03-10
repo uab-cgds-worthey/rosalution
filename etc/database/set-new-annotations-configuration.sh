@@ -1,5 +1,5 @@
 #! /bin/bash
-# ./remove-analysis.sh -f <annotation-config-collection-json-file-path> -c <mongo_connection_string> -d <docker_container_name> -m <mongo_database> -b backup-directory
+# ./set-new-annotations-configuration.sh -f <annotation-config-collection-json-file-path> -c <mongo_connection_string> -d <docker_container_name> -m <mongo_database> -b backup-directory
 
 usage() {
   echo " "
