@@ -1,9 +1,9 @@
 #! /bin/bash
-# ./remove-analysis.sh -f <annotation-config-collection-json-file-path> -c <mongo_connection_string> -d <docker_container_name> -m <mongo_database> -b backup-file-directory
+# ./remove-analysis.sh -f <annotation-config-collection-json-file-path> -c <mongo_connection_string> -d <docker_container_name> -m <mongo_database> -b backup-directory
 
 usage() {
   echo " "
-  echo "usage: $0 -f <annotation-config-collection-json-file-path> -c <mongo_connection_string> -d <docker_container_name> -m <mongo_database> -b backup-file-directory"
+  echo "usage: $0 -f <annotation-config-collection-json-file-path> -c <mongo_connection_string> -d <docker_container_name> -m <mongo_database> -b backup-directory"
   echo " "
   echo " -f Annotation Configuration JSON file path"
   echo "    (required)"
@@ -13,7 +13,7 @@ usage() {
   echo "    Find with 'docker ps' command"
   echo " -m Mongo database name"
   echo "    (default) rosalution_db"
-  echo " -b backup directory filepath"
+  echo " -b backup directory path to save the existing annotation configuration collection json"
   echo "    (default) /home/centos/backups/rosalution-annotation-configuration-backup  "
   echo " "
   echo " -h Prints usage"
@@ -25,8 +25,6 @@ usage() {
 }
 
 target_backup_path=/home/centos/backups/rosalution-annotation-configuration-backup
-
-
 docker_container_name=""
 connection_string="localhost:27017"
 database="rosalution_db"
@@ -68,13 +66,16 @@ then
 fi
 
 date_stamp=$(date +"%Y-%m-%d-%s")
-${docker_exec_prefix} mongoexport --host "$mongo_host" --port "$mongo_port" --db "$database" --collection="annotations_config" --out="$target_backup_path/annotation-config-$date_stamp.json"
+target_backup_filepath="$target_backup_path/annotation-config-$date_stamp.json"
+${docker_exec_prefix} mongoexport --host "$mongo_host" --port "$mongo_port" --db "$database" --collection="annotations_config" --out="$target_backup_filepath"
 
 target_configuration_filepath="$annotation_configuration_filepath"
 if [ "$docker_container_name" != "" ]
 then
-  docker cp "$docker_container_name":"$target_backup_path/annotation-config-$date_stamp.json" "$target_backup_path/annotation-config-$date_stamp.json"
+  docker cp "$docker_container_name":"$target_backup_filepath" "$target_backup_filepath"
   target_configuration_filename=$(basename "$annotation_configuration_filepath")
+
+  #Updates the target annotation configuration filepath to be the filepath within the docker container instead of the local machine
   target_configuration_filepath="/home/$target_configuration_filename"
   docker cp "$annotation_configuration_filepath" "$docker_container_name":"$target_configuration_filepath"
 fi
