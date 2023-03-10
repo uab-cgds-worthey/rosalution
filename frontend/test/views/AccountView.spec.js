@@ -83,30 +83,30 @@ describe('AccountView.vue', () => {
   it('should toggle the secret value on click', async () => {
     const wrapper = getMountedComponent();
 
-    let sectionBox = wrapper.findComponent('[data-test=credentials]');
+    let credentialsBox = wrapper.findComponent('[data-test=credentials]');
 
-    await sectionBox.trigger('click');
+    await credentialsBox.trigger('click');
     await wrapper.vm.$nextTick();
 
-    sectionBox = wrapper.findComponent('[data-test=credentials]');
-    expect(sectionBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
+    credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
   });
 
   it('should not toggle the secret value on click again after it has been toggled', async () => {
     const wrapper = getMountedComponent();
 
-    let sectionBox = wrapper.findComponent('[data-test=credentials]');
+    let credentialsBox = wrapper.findComponent('[data-test=credentials]');
 
-    await sectionBox.trigger('click');
+    await credentialsBox.trigger('click');
     await wrapper.vm.$nextTick();
 
-    sectionBox = wrapper.findComponent('[data-test=credentials]');
-    expect(sectionBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
-    await sectionBox.trigger('click');
+    credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
+    await credentialsBox.trigger('click');
     await wrapper.vm.$nextTick();
 
-    sectionBox = wrapper.findComponent('[data-test=credentials]');
-    expect(sectionBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
+    credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
   });
 
 
@@ -122,9 +122,9 @@ describe('AccountView.vue', () => {
 
     const wrapper = getMountedComponent();
 
-    let sectionBox = wrapper.findComponent('[data-test=credentials]');
+    let credentialsBox = wrapper.findComponent('[data-test=credentials]');
 
-    sectionBox = wrapper.findComponent('[data-test=credentials]');
-    expect(sectionBox.props('content')[1].value).toEqual(['<empty>']);
+    credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('content')[1].value).toEqual(['<empty>']);
   });
 });
