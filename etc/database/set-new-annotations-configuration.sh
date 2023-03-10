@@ -21,7 +21,6 @@ usage() {
   echo "Backups the existing Rosalution Annotation Configuration as an Extended JSON with the current date to the backup directory."
   echo "Then replaces the existing collection with the provided annotation configuration."
   echo " "
-  exit
 }
 
 target_backup_path=/home/centos/backups/rosalution-annotation-configuration-backup
@@ -37,7 +36,7 @@ while getopts "f:b:c:d:m:h" opt; do
     d) docker_container_name=$OPTARG;;
     m) database=$OPTARG;;
     b) target_backup_path=$OPTARG;;
-    h) usage;;
+    h) usage && exit;;
     \?) echo "Invalid option -$OPTARG" && exit 127;;
   esac
 done
@@ -50,7 +49,7 @@ then
   echo ""
 
   usage
-  exit 1
+  exit 2
 fi
 
 mongo_host=$(echo "$connection_string" | cut -d: -f1)
@@ -62,7 +61,7 @@ then
     echo ""
 
     usage
-    exit 1
+    exit 2
 fi
 
 date_stamp=$(date +"%Y-%m-%d-%s")
