@@ -18,7 +18,7 @@
           </label>
         </td>
       </tr>
-      <div class="seperator"></div>
+      <div class="separator"></div>
         <tr class="field-value-row" v-for="content in contentList" :key="content">
           <td v-if="!this.sectionImageExist">
             <label class="field"
@@ -163,7 +163,7 @@ div {
   cursor: pointer;
 }
 
-.seperator {
+.separator {
   height: .125rem;
   background-color: var(--rosalution-grey-100);
   border: solid .0469rem var(--rosalution-grey-100);
