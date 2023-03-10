@@ -14,7 +14,7 @@ usage() {
   echo " -m Mongo database name"
   echo "    (default) rosalution_db"
   echo " -b backup directory filepath"
-  echo "    (default) /home/\$USER/backup/rosalution-annotation/  "
+  echo "    (default) /home/centos/backups/rosalution-annotation-configuration-backup  "
   echo " "
   echo " -h Prints usage"
   echo " "
@@ -24,7 +24,7 @@ usage() {
   exit
 }
 
-target_backup_path=/home/$USER/rosalution/rosalution-annotation-configuration-backup
+target_backup_path=/home/centos/backups/rosalution-annotation-configuration-backup
 
 
 docker_container_name=""
@@ -32,12 +32,13 @@ connection_string="localhost:27017"
 database="rosalution_db"
 annotation_configuration_filepath=""
 
-while getopts ":c:d:m:h" opt; do
+while getopts "f:b:c:d:m:h" opt; do
   case $opt in
     f) annotation_configuration_filepath=$OPTARG;;
     c) connection_string=$OPTARG;;
     d) docker_container_name=$OPTARG;;
     m) database=$OPTARG;;
+    b) target_backup_path=$OPTARG;;
     h) usage;;
     \?) echo "Invalid option -$OPTARG" && exit 127;;
   esac
@@ -72,9 +73,10 @@ ${docker_exec_prefix} mongoexport --host "$mongo_host" --port "$mongo_port" --db
 target_configuration_filepath="$annotation_configuration_filepath"
 if [ "$docker_container_name" != "" ]
 then
+  docker cp "$docker_container_name":"$target_backup_path/annotation-config-$date_stamp.json" "$target_backup_path/annotation-config-$date_stamp.json"
   target_configuration_filename=$(basename "$annotation_configuration_filepath")
   target_configuration_filepath="/home/$target_configuration_filename"
   docker cp "$annotation_configuration_filepath" "$docker_container_name":"$target_configuration_filepath"
 fi
 
-${docker_exec_prefix} mongoimport --host "$mongo_host" --port "$mongo_port" --db "$database" --collection="annotations_config" --drop --file "$target_configuration_filepath"
+${docker_exec_prefix} mongoimport --host "$mongo_host" --port "$mongo_port" --db "$database" --collection="annotations_config" --drop --file "$target_configuration_filepath" --jsonArray
