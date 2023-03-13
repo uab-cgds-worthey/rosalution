@@ -18,3 +18,12 @@ persists the data for MongoDB within the container.
 
 * ./remove-analysis - Searches mongo for an analysis name provided by the user and prompts to delete.
 `./remove-analysis.sh -c <mongo_connection_string> -d <docker_container_name> -m <mongo_database>`
+
+* ./set-new-annotations-configuration.sh - Backups the existing Rosalution Annotation Configuration as an
+Extended JSON with the current date to the backup directory. Then replaces the existing collection with
+the provided annotation configuration.
+
+```bash
+./set-new-annotations-configuration.sh -f <annotation-config-collection-json-file-path> \
+-c <mongo_connection_string> -d <docker_container_name> -m <mongo_database> -b backup-directory
+```
