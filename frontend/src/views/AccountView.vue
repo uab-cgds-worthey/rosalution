@@ -18,14 +18,13 @@
         ]" />
       <CredentialsBox
         :header="'Credentials'"
-        :content= credentialsContent
+        :clientId="user.clientId"
+        :clientSecret="secretValue"
         data-test="credentials"
         :key="showSecretValue"
-        @toggle= this.ontoggleSecret
+        @display-secret= this.ontoggleSecret
+        @generateSecret = this.generateSecret
         />
-      <button @click="generateSecret" type="submit">
-        Generate Secret
-      </button>
     </app-content>
   </div>
 </template>
@@ -65,19 +64,20 @@ export default {
       ];
       return content;
     },
+
     secretValue() {
       if (this.showSecretValue) {
-        return [this.user.clientSecret];
+        return this.user.clientSecret;
       }
       if (this.user.clientSecret) {
-        return ['<click to show>'];
+        return '<click to show>';
       }
 
-      return ['<empty>'];
+      return '<empty>';
     },
   },
   methods: {
-    async generateSecret() {
+    async onGenerateSecret() {
       await authStore.generateSecret();
     },
     async onLogout() {

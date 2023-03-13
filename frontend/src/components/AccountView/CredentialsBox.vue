@@ -9,21 +9,33 @@
         </td>
       </tr>
       <div class="separator"></div>
-      <tr class="field-value-row" v-for="content in contentList" :key="content">
+      <tr class="field-value-row">
         <td>
-          <lable class="field"
-          v-bind:style="[content.value.length === 0 && !this.edit ? 'color: var(--rosalution-grey-300);'
-          : 'color: var(--rosalution-black);']">
-            {{content.field}}
+          <lable class="field">
+            Client ID
           </lable>
         </td>
         <td class="values">
-          <tr v-for="value in content.value" :key="value" class="value-row" data-test="value-row">
-            <a v-if="content.clickable" @click="toggle()">{{value}}</a>
-            <span v-else>
-              {{value}}
-            </span>
+          <tr class="value-row" data-test="client-id-value-row">
+            {{clientId}}
           </tr>
+        </td>
+      </tr>
+      <tr class="field-value-row">
+        <td>
+          <lable class="field">
+            Client Secret
+          </lable>
+        </td>
+        <td class="values">
+          <tr class="value-row" data-test="client-secret-value-row">
+            <a class="clickable-text" @click="displaySecret()">{{clientSecret}}</a>
+          </tr>
+        </td>
+        <td class="button-row">
+          <button class="button" @click="generateSecret" type="submit">
+            Generate Secret
+          </button>
         </td>
       </tr>
     </tbody>
@@ -33,9 +45,15 @@
 <script>
 export default {
   name: 'credentials-box',
-  emits: ['toggle'],
+  emits: ['display-secret', 'generateSecret'],
   props: {
     header: {
+      type: String,
+    },
+    clientId: {
+      type: String,
+    },
+    clientSecret: {
       type: String,
     },
     content: {
@@ -48,8 +66,11 @@ export default {
     };
   },
   methods: {
-    toggle() {
-      this.$emit('toggle');
+    displaySecret() {
+      this.$emit('display-secret');
+    },
+    generateSecret() {
+      this.$emit('generateSecret');
     },
   },
 };
@@ -111,5 +132,25 @@ div {
   color: var(--rosalution-black);
   width: 100%;
   display: block;
+}
+
+.value-row {
+  font-size: 1.125rem;
+  color: var(--rosalution-black);
+  display: block;
+  width: 100%;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1 0 auto;
+  background-color: var(--rosalution-purple-100);
+}
+
+.clickable-text {
+  color: var(--rosalution-purple-300);
+  cursor: pointer;
 }
 </style>
