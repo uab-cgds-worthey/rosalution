@@ -25,6 +25,7 @@ usage() {
 
 target_backup_path=/home/centos/backups/rosalution-annotation-configuration-backup
 docker_container_name=""
+docker_exec_prefix=""
 connection_string="localhost:27017"
 database="rosalution_db"
 annotation_configuration_filepath=""
@@ -33,7 +34,7 @@ while getopts "f:b:c:d:m:h" opt; do
   case $opt in
     f) annotation_configuration_filepath=$OPTARG;;
     c) connection_string=$OPTARG;;
-    d) docker_container_name=$OPTARG;;
+    d) docker_container_name=$OPTARG && docker_exec_prefix="docker exec $docker_container_name";;
     m) database=$OPTARG;;
     b) target_backup_path=$OPTARG;;
     h) usage && exit;;
@@ -41,7 +42,7 @@ while getopts "f:b:c:d:m:h" opt; do
   esac
 done
 
-docker_exec_prefix="docker exec $docker_container_name"
+
 
 if [ "$annotation_configuration_filepath" = "" ]
 then
