@@ -4,7 +4,7 @@
 usage() {
   echo "usage: $0 <docker-container> <output-path (optional)>"
   echo " "
-  echo "Dumps a Rosalution MongoDB database archive named 'rosalution-db-<current-date-seconds>.archive'"
+  echo "Dumps a Rosalution MongoDB database archive named 'annotation-config-<current-date-seconds>.archive'"
   echo "to the designated output path. By default, the output path is '/home/\$USER/backups/rosalution-db-backup/'"
   echo "Include a second paramater to overwrite the <output-path>.  If the <output-path> does not exist"
   echo "the backup operation will be canceled."
