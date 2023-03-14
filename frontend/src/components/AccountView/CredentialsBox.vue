@@ -32,7 +32,7 @@
             <a class="clickable-text" @click="displaySecret()">{{clientSecret}}</a>
           </tr>
         </td>
-        <td class="button-row">
+        <td>
           <button class="button" @click="generateSecret" type="submit">
             Generate Secret
           </button>
@@ -142,11 +142,20 @@ div {
 }
 
 .button {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex: 1 0 auto;
   background-color: var(--rosalution-purple-100);
+  color: var(--rosalution-purple-300);
+  border: none;
+  border-radius: .625rem;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 1.625rem;
+  height: 2rem;
+  width: 9rem;
+  text-align: center;
+  justify-self: stretch;
+  cursor: pointer;
+  vertical-align: middle;
 }
 
 .clickable-text {
