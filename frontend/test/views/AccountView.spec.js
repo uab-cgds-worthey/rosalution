@@ -85,11 +85,11 @@ describe('AccountView.vue', () => {
 
     let credentialsBox = wrapper.findComponent('[data-test=credentials]');
 
-    await credentialsBox.trigger('click');
+    await credentialsBox.vm.$emit('display-secret');
     await wrapper.vm.$nextTick();
 
     credentialsBox = wrapper.findComponent('[data-test=credentials]');
-    expect(credentialsBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
+    expect(credentialsBox.props('clientSecret')).toEqual(wrapper.vm.user.clientSecret);
   });
 
   it('should not toggle the secret value on click again after it has been toggled', async () => {
@@ -97,20 +97,20 @@ describe('AccountView.vue', () => {
 
     let credentialsBox = wrapper.findComponent('[data-test=credentials]');
 
-    await credentialsBox.trigger('click');
+    await credentialsBox.vm.$emit('display-secret');
     await wrapper.vm.$nextTick();
 
     credentialsBox = wrapper.findComponent('[data-test=credentials]');
-    expect(credentialsBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
-    await credentialsBox.trigger('click');
+    expect(credentialsBox.props('clientSecret')).toEqual(wrapper.vm.user.clientSecret);
+    await credentialsBox.vm.$emit('display-secret');
     await wrapper.vm.$nextTick();
 
     credentialsBox = wrapper.findComponent('[data-test=credentials]');
-    expect(credentialsBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
+    expect(credentialsBox.props('clientSecret')).toEqual(wrapper.vm.user.clientSecret);
   });
 
 
-  it('should return ["<empty>"] when user.client_secret is not set', () => {
+  it('should return "<empty>" when user.client_secret is not set', () => {
     sandbox.restore();
     sandbox = sinon.createSandbox();
     mockUser = {
@@ -125,6 +125,6 @@ describe('AccountView.vue', () => {
     let credentialsBox = wrapper.findComponent('[data-test=credentials]');
 
     credentialsBox = wrapper.findComponent('[data-test=credentials]');
-    expect(credentialsBox.props('content')[1].value).toEqual(['<empty>']);
+    expect(credentialsBox.props('clientSecret')).toEqual('<empty>');
   });
 });
