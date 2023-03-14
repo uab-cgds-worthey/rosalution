@@ -22,8 +22,8 @@
         :clientSecret="secretValue"
         data-test="credentials"
         :key="showSecretValue"
-        @display-secret= this.ontoggleSecret
-        @generateSecret = this.generateSecret
+        @display-secret= this.onToggleSecret
+        @generateSecret = this.onGenerateSecret
         />
     </app-content>
   </div>
@@ -83,8 +83,8 @@ export default {
     async onLogout() {
       this.$router.push({path: '/rosalution/logout'});
     },
-    async ontoggleSecret() {
-      if (!this.showSecretValue && this.secretValue[0] !== '<empty>') {
+    async onToggleSecret() {
+      if (!this.showSecretValue && this.secretValue !== '<empty>') {
         this.showSecretValue = !this.showSecretValue;
       }
     },
