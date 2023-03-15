@@ -114,25 +114,6 @@ describe('AccountView.vue', () => {
     expect(credentialsBox.props('clientSecret')).toEqual(wrapper.vm.clientSecret);
   });
 
-
-  it('should return "<empty>" when user.client_secret is not set', () => {
-    sandbox.restore();
-    sandbox = sinon.createSandbox();
-    mockUser = {
-      clientSecret: '',
-    };
-
-    const getUserEmptyStub = sandbox.stub(authStore, 'getUser');
-    getUserEmptyStub.returns(mockUser);
-
-    const wrapper = getMountedComponent();
-
-    let credentialsBox = wrapper.findComponent('[data-test=credentials]');
-
-    credentialsBox = wrapper.findComponent('[data-test=credentials]');
-    expect(credentialsBox.props('clientSecret')).toEqual('<empty>');
-  });
-
   it('should call onGenerateSecret method and update clientSecret', async () => {
     getAPICredentialsStub.returns({client_secret: 'newSecret'});
 
@@ -183,5 +164,23 @@ describe('AccountView.vue', () => {
     const wrapper = getMountedComponent();
     wrapper.vm.showSecretValue = false;
     expect(wrapper.vm.secretValue).to.equal('<click to show>');
+  });
+
+  it('should return "<empty>" when user.client_secret is not set', () => {
+    sandbox.restore();
+    sandbox = sinon.createSandbox();
+    mockUser = {
+      clientSecret: '',
+    };
+
+    const getUserEmptyStub = sandbox.stub(authStore, 'getUser');
+    getUserEmptyStub.returns(mockUser);
+
+    const wrapper = getMountedComponent();
+
+    let credentialsBox = wrapper.findComponent('[data-test=credentials]');
+
+    credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('clientSecret')).toEqual('<empty>');
   });
 });
