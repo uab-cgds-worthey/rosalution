@@ -9,13 +9,11 @@
       </RosalutionHeader>
     </app-header>
     <app-content>
-      <SectionBox
+      <UserInfoBox
         :header="'User'"
-        :content="[
-          { field: 'Username', value: [user.username] },
-          { field: 'Full Name', value: [user.full_name] },
-          { field: 'Email', value: [user.email] },
-        ]" />
+        :username="user.username"
+        :fullName="user.full_name"
+        :email="user.email"/>
       <CredentialsBox
         :header="'Credentials'"
         :clientId="user.clientId"
@@ -31,7 +29,7 @@
 </template>
 
 <script>
-import SectionBox from '@/components/AnalysisView/SectionBox.vue';
+import UserInfoBox from '@/components/AccountView/UserInfoBox.vue';
 import CredentialsBox from '@/components/AccountView/CredentialsBox.vue';
 
 import {authStore} from '../stores/authStore';
@@ -42,7 +40,7 @@ export default {
   name: 'account-view-component',
   components: {
     RosalutionHeader,
-    SectionBox,
+    UserInfoBox,
     CredentialsBox,
   },
   data() {
