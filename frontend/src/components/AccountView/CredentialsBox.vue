@@ -11,9 +11,9 @@
       <div class="separator"></div>
       <tr class="field-value-row">
         <td>
-          <lable class="field">
+          <label class="field">
             Client ID
-          </lable>
+          </label>
         </td>
         <td class="values">
           <tr class="value-row" data-test="client-id-value-row">
@@ -23,9 +23,9 @@
       </tr>
       <tr class="field-value-row">
         <td>
-          <lable class="field">
+          <label class="field">
             Client Secret
-          </lable>
+          </label>
         </td>
         <td class="values">
           <tr class="value-row" data-test="client-secret-value-row">
