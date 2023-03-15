@@ -1,10 +1,11 @@
 #! /bin/bash
 # ./backup-database.sh <docker-container> <output-path (optional)>"
+
 usage() {
   echo "usage: $0 <docker-container> <output-path (optional)>"
   echo " "
   echo "Dumps a Rosalution MongoDB database archive named 'rosalution-db-<current-date-seconds>.archive'"
-  echo "to the designated output path. By default, the output path is '/home/centos/rosalution/backup-db/'"
+  echo "to the designated output path. By default, the output path is '/home/centos/backups/rosalution-db-backup/'"
   echo "Include a second paramater to overwrite the <output-path>.  If the <output-path> does not exist"
   echo "the backup operation will be canceled."
 }
@@ -19,7 +20,7 @@ then
 fi
 
 DOCKER_CONTAINER=$1
-TARGET_PATH=/home/centos/rosalution/backup-db/
+TARGET_PATH=/home/centos/backups/rosalution-db-backup/
 
 if [[ $# -eq 2 ]]
 then

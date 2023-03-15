@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
   frontend:
-    image: gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/rosalution/frontend:${ROSALUTION_VERSION}
+    image: ghcr.io/uab-cgds-worthey/rosalution/frontend:${ROSALUTION_VERSION}
     networks:
       - rosalution-network
       - traefik
@@ -18,7 +18,7 @@ services:
         - "traefik.http.services.rosalution-frontend-prod-service.loadbalancer.server.port=80"
 
   backend:
-    image: gitlab.rc.uab.edu:4567/center-for-computational-genomics-and-data-science/development/rosalution/backend:${ROSALUTION_VERSION}
+    image: ghcr.io/uab-cgds-worthey/rosalution/backend:${ROSALUTION_VERSION}
     networks:
       - rosalution-network
       - traefik
