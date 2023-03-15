@@ -45,7 +45,7 @@
 <script>
 export default {
   name: 'credentials-box',
-  emits: ['display-secret', 'generateSecret'],
+  emits: ['display-secret', 'generate-secret'],
   props: {
     header: {
       type: String,
@@ -55,9 +55,6 @@ export default {
     },
     clientSecret: {
       type: String,
-    },
-    content: {
-      type: Array,
     },
     onSecretGenerated: {
       type: Function,

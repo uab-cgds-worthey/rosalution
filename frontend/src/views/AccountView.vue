@@ -23,7 +23,7 @@
         data-test="credentials"
         :key="showSecretValue"
         @display-secret= this.onToggleSecret
-        @generateSecret = this.onGenerateSecret
+        @generate-secret = this.onGenerateSecret
         :onSecretGenerated="updateSecretValue"
         />
     </app-content>
@@ -58,18 +58,6 @@ export default {
     user() {
       return authStore.getUser();
     },
-    credentialsContent() {
-      const content = [
-        {field: 'Client ID', value: [this.user.clientId]},
-        {
-          field: 'Client Secret',
-          value: this.secretValue,
-          clickable: true,
-        },
-      ];
-      return content;
-    },
-
     secretValue() {
       if (this.showSecretValue) {
         return this.clientSecret;
