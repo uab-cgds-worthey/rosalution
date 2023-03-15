@@ -134,10 +134,10 @@ describe('AccountView.vue', () => {
   });
 
   it('should call onGenerateSecret method and update clientSecret', async () => {
-    getAPICredentialsStub.returns({ client_secret: 'newSecret' });
+    getAPICredentialsStub.returns({client_secret: 'newSecret'});
 
     const wrapper = getMountedComponent();
-    let credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    const credentialsBox = wrapper.findComponent('[data-test=credentials]');
 
     await credentialsBox.vm.$emit('generateSecret');
     await wrapper.vm.$nextTick();
@@ -154,11 +154,11 @@ describe('AccountView.vue', () => {
   });
 
   it('should update clientSecret on multiple generateSecret calls', async () => {
-    getAPICredentialsStub.onFirstCall().returns({ client_secret: 'newSecret1' });
-    getAPICredentialsStub.onSecondCall().returns({ client_secret: 'newSecret2' });
+    getAPICredentialsStub.onFirstCall().returns({client_secret: 'newSecret1'});
+    getAPICredentialsStub.onSecondCall().returns({client_secret: 'newSecret2'});
 
     const wrapper = getMountedComponent();
-    let credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    const credentialsBox = wrapper.findComponent('[data-test=credentials]');
 
     await credentialsBox.vm.$emit('generateSecret');
     await wrapper.vm.$nextTick();
