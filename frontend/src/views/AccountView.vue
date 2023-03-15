@@ -85,8 +85,6 @@ export default {
     async onGenerateSecret() {
       await authStore.generateSecret();
       const updatedUser = await authStore.getAPICredentials();
-      console.log(updatedUser);
-      console.log(updatedUser.client_secret);
       this.clientSecret = updatedUser.client_secret;
     },
     async onLogout() {
