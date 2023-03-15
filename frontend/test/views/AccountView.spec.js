@@ -37,6 +37,8 @@ describe('AccountView.vue', () => {
   let sandbox;
   let mockUser;
   let getUserStub;
+  let generateSecretStub;
+  let getAPICredentialsStub;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
@@ -46,6 +48,9 @@ describe('AccountView.vue', () => {
 
     getUserStub = sandbox.stub(authStore, 'getUser');
     getUserStub.returns(mockUser);
+
+    generateSecretStub = sandbox.stub(authStore, 'generateSecret');
+    getAPICredentialsStub = sandbox.stub(authStore, 'getAPICredentials');
   });
 
   afterEach(() => {
@@ -89,7 +94,7 @@ describe('AccountView.vue', () => {
     await wrapper.vm.$nextTick();
 
     credentialsBox = wrapper.findComponent('[data-test=credentials]');
-    expect(credentialsBox.props('clientSecret')).toEqual(wrapper.vm.user.clientSecret);
+    expect(credentialsBox.props('clientSecret')).toEqual(wrapper.vm.clientSecret);
   });
 
   it('should not toggle the secret value on click again after it has been toggled', async () => {
@@ -101,12 +106,12 @@ describe('AccountView.vue', () => {
     await wrapper.vm.$nextTick();
 
     credentialsBox = wrapper.findComponent('[data-test=credentials]');
-    expect(credentialsBox.props('clientSecret')).toEqual(wrapper.vm.user.clientSecret);
+    expect(credentialsBox.props('clientSecret')).toEqual(wrapper.vm.clientSecret);
     await credentialsBox.vm.$emit('display-secret');
     await wrapper.vm.$nextTick();
 
     credentialsBox = wrapper.findComponent('[data-test=credentials]');
-    expect(credentialsBox.props('clientSecret')).toEqual(wrapper.vm.user.clientSecret);
+    expect(credentialsBox.props('clientSecret')).toEqual(wrapper.vm.clientSecret);
   });
 
 
@@ -126,5 +131,57 @@ describe('AccountView.vue', () => {
 
     credentialsBox = wrapper.findComponent('[data-test=credentials]');
     expect(credentialsBox.props('clientSecret')).toEqual('<empty>');
+  });
+
+  it('should call onGenerateSecret method and update clientSecret', async () => {
+    getAPICredentialsStub.returns({ client_secret: 'newSecret' });
+
+    const wrapper = getMountedComponent();
+    let credentialsBox = wrapper.findComponent('[data-test=credentials]');
+
+    await credentialsBox.vm.$emit('generateSecret');
+    await wrapper.vm.$nextTick();
+
+    expect(generateSecretStub.called).to.be.true;
+    expect(getAPICredentialsStub.called).to.be.true;
+    expect(wrapper.vm.clientSecret).to.equal('newSecret');
+  });
+
+  it('should update showSecretValue to true when updateSecretValue is called', () => {
+    const wrapper = getMountedComponent();
+    wrapper.vm.updateSecretValue();
+    expect(wrapper.vm.showSecretValue).to.be.true;
+  });
+
+  it('should update clientSecret on multiple generateSecret calls', async () => {
+    getAPICredentialsStub.onFirstCall().returns({ client_secret: 'newSecret1' });
+    getAPICredentialsStub.onSecondCall().returns({ client_secret: 'newSecret2' });
+
+    const wrapper = getMountedComponent();
+    let credentialsBox = wrapper.findComponent('[data-test=credentials]');
+
+    await credentialsBox.vm.$emit('generateSecret');
+    await wrapper.vm.$nextTick();
+    expect(generateSecretStub.calledOnce).to.be.true;
+    expect(getAPICredentialsStub.calledOnce).to.be.true;
+    expect(wrapper.vm.clientSecret).to.equal('newSecret1');
+
+    await credentialsBox.vm.$emit('generateSecret');
+    await wrapper.vm.$nextTick();
+    expect(generateSecretStub.calledTwice).to.be.true;
+    expect(getAPICredentialsStub.calledTwice).to.be.true;
+    expect(wrapper.vm.clientSecret).to.equal('newSecret2');
+  });
+
+  it('should return clientSecret when showSecretValue is true', () => {
+    const wrapper = getMountedComponent();
+    wrapper.vm.showSecretValue = true;
+    expect(wrapper.vm.secretValue).to.equal(wrapper.vm.clientSecret);
+  });
+
+  it('should return "<click to show>" when showSecretValue is false and clientSecret is not empty', () => {
+    const wrapper = getMountedComponent();
+    wrapper.vm.showSecretValue = false;
+    expect(wrapper.vm.secretValue).to.equal('<click to show>');
   });
 });

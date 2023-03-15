@@ -24,6 +24,7 @@
         :key="showSecretValue"
         @display-secret= this.onToggleSecret
         @generateSecret = this.onGenerateSecret
+        :onSecretGenerated="updateSecretValue"
         />
     </app-content>
   </div>
@@ -47,7 +48,11 @@ export default {
   data() {
     return {
       showSecretValue: false,
+      clientSecret: '',
     };
+  },
+  created() {
+    this.clientSecret = this.user.clientSecret;
   },
   computed: {
     user() {
@@ -67,9 +72,9 @@ export default {
 
     secretValue() {
       if (this.showSecretValue) {
-        return this.user.clientSecret;
+        return this.clientSecret;
       }
-      if (this.user.clientSecret) {
+      if (this.clientSecret) {
         return '<click to show>';
       }
 
@@ -79,6 +84,10 @@ export default {
   methods: {
     async onGenerateSecret() {
       await authStore.generateSecret();
+      const updatedUser = await authStore.getAPICredentials();
+      console.log(updatedUser)
+      console.log(updatedUser.client_secret)
+      this.clientSecret = updatedUser.client_secret;
     },
     async onLogout() {
       this.$router.push({path: '/rosalution/logout'});
@@ -87,6 +96,9 @@ export default {
       if (!this.showSecretValue && this.secretValue !== '<empty>') {
         this.showSecretValue = !this.showSecretValue;
       }
+    },
+    updateSecretValue() {
+      this.showSecretValue = true;
     },
   },
 };

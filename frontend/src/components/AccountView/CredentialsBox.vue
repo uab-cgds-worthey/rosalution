@@ -59,6 +59,10 @@ export default {
     content: {
       type: Array,
     },
+    onSecretGenerated: {
+      type: Function,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -71,6 +75,7 @@ export default {
     },
     generateSecret() {
       this.$emit('generateSecret');
+      this.onSecretGenerated();
     },
   },
 };
