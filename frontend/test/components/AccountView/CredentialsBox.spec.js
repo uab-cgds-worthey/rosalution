@@ -1,7 +1,6 @@
-import {expect, describe, it, beforeEach, afterEach} from 'vitest';
+import {expect, describe, it} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 import CredentialsBox from '@/components/AccountView/CredentialsBox.vue';
-import sinon from 'sinon';
 
 /**
  * helper function that shallow mounts and returns the rendered component
@@ -22,31 +21,18 @@ function getMountedComponent(props) {
 }
 
 describe('CredentialsBox.vue', () => {
-  let displaySecretSpy;
-  let generateSecretSpy;
-
-  beforeEach(() => {
-    displaySecretSpy = sinon.spy(CredentialsBox.methods, 'displaySecret');
-    generateSecretSpy = sinon.spy(CredentialsBox.methods, 'generateSecret');
-  });
-
-  afterEach(() => {
-    displaySecretSpy.restore();
-    generateSecretSpy.restore();
-  });
-
   it('renders the header prop', () => {
     const header = 'Test Header';
     const wrapper = getMountedComponent({header});
 
-    expect(wrapper.find('.credentials-name').text()).toContain(header);
+    expect(wrapper.find('.credentials-name').text()).to.contain(header);
   });
 
   it('renders the clientId prop', () => {
     const clientId = 'test-client-id';
     const wrapper = getMountedComponent({clientId});
 
-    expect(wrapper.find('[data-test="client-id-value-row"]').text()).toContain(clientId);
+    expect(wrapper.find('[data-test="client-id-value-row"]').text()).to.contain(clientId);
   });
 
   it('emits display-secret event when clientSecret is clicked', async () => {
@@ -54,13 +40,15 @@ describe('CredentialsBox.vue', () => {
     const wrapper = getMountedComponent({clientSecret});
 
     await wrapper.find('.clickable-text').trigger('click');
-    expect(displaySecretSpy.calledOnce).toBe(true);
+    expect(wrapper.emitted()).to.have.property('display-secret');
+    expect(wrapper.emitted()['display-secret']).to.have.length(1);
   });
 
   it('emits generateSecret event when Generate Secret button is clicked', async () => {
     const wrapper = getMountedComponent();
 
     await wrapper.find('.button').trigger('click');
-    expect(generateSecretSpy.calledOnce).toBe(true);
+    expect(wrapper.emitted()).to.have.property('generate-secret');
+    expect(wrapper.emitted()['generate-secret']).to.have.length(1);
   });
 });

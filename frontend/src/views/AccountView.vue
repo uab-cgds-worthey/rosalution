@@ -22,7 +22,7 @@
         :key="showSecretValue"
         @display-secret= this.onToggleSecret
         @generate-secret = this.onGenerateSecret
-        :onSecretGenerated="updateSecretValue"
+        :secretExists="clientSecretExists"
         />
     </app-content>
   </div>
@@ -65,6 +65,9 @@ export default {
       }
 
       return '<empty>';
+    },
+    clientSecretExists() {
+      return !!this.clientSecret;
     },
   },
   methods: {

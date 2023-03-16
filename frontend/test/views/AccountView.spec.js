@@ -94,7 +94,7 @@ describe('AccountView.vue', () => {
     await wrapper.vm.$nextTick();
 
     credentialsBox = wrapper.findComponent('[data-test=credentials]');
-    expect(credentialsBox.props('clientSecret')).toEqual(wrapper.vm.clientSecret);
+    expect(credentialsBox.props('clientSecret')).to.equal(wrapper.vm.clientSecret);
   });
 
   it('should not toggle the secret value on click again after it has been toggled', async () => {
@@ -106,12 +106,12 @@ describe('AccountView.vue', () => {
     await wrapper.vm.$nextTick();
 
     credentialsBox = wrapper.findComponent('[data-test=credentials]');
-    expect(credentialsBox.props('clientSecret')).toEqual(wrapper.vm.clientSecret);
+    expect(credentialsBox.props('clientSecret')).to.equal(wrapper.vm.clientSecret);
     await credentialsBox.vm.$emit('display-secret');
     await wrapper.vm.$nextTick();
 
     credentialsBox = wrapper.findComponent('[data-test=credentials]');
-    expect(credentialsBox.props('clientSecret')).toEqual(wrapper.vm.clientSecret);
+    expect(credentialsBox.props('clientSecret')).to.equal(wrapper.vm.clientSecret);
   });
 
   it('should call onGenerateSecret method and update clientSecret', async () => {
@@ -181,6 +181,6 @@ describe('AccountView.vue', () => {
     let credentialsBox = wrapper.findComponent('[data-test=credentials]');
 
     credentialsBox = wrapper.findComponent('[data-test=credentials]');
-    expect(credentialsBox.props('clientSecret')).toEqual('<empty>');
+    expect(credentialsBox.props('clientSecret')).to.equal('<empty>');
   });
 });

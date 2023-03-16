@@ -56,9 +56,9 @@ export default {
     clientSecret: {
       type: String,
     },
-    onSecretGenerated: {
-      type: Function,
-      default: () => {},
+    secretExists: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -71,8 +71,7 @@ export default {
       this.$emit('display-secret');
     },
     generateSecret() {
-      this.$emit('generateSecret');
-      this.onSecretGenerated();
+      this.$emit('generate-secret');
     },
   },
 };
