@@ -24,27 +24,27 @@ describe('UserInfoBox.vue', () => {
   it('renders the correct header text', () => {
     const header = 'Account Information';
     const wrapper = getMountedComponent({header});
-    expect(wrapper.find('.user-info-header-content h2').text()).toBe('Account Information');
+    expect(wrapper.find('.user-info-header-content h2').text()).to.equal('Account Information');
   });
 
   it('renders the correct username', () => {
     const username = 'johndoe';
     const wrapper = getMountedComponent({username});
 
-    expect(wrapper.find('[data-test="username"]').text()).toBe('johndoe');
+    expect(wrapper.find('[data-test="username"]').text()).to.equal('johndoe');
   });
 
   it('renders the correct full name', () => {
     const fullName = 'John Doe';
     const wrapper = getMountedComponent({fullName});
 
-    expect(wrapper.find('[data-test="full-name"]').text()).toBe('John Doe');
+    expect(wrapper.find('[data-test="full-name"]').text()).to.equal('John Doe');
   });
 
   it('renders the correct email', () => {
     const email = 'john.doe@example.com';
     const wrapper = getMountedComponent({email});
 
-    expect(wrapper.find('[data-test="email"]').text()).toBe('john.doe@example.com');
+    expect(wrapper.find('[data-test="email"]').text()).to.equal('john.doe@example.com');
   });
 });
