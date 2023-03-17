@@ -114,18 +114,24 @@ describe('AccountView.vue', () => {
     expect(credentialsBox.props('clientSecret')).to.equal(wrapper.vm.clientSecret);
   });
 
-  it('should call onGenerateSecret method and update clientSecret', async () => {
-    getAPICredentialsStub.returns({client_secret: 'newSecret'});
-
+  it('should use clientSecret prop in computed secretValue', async () => {
     const wrapper = getMountedComponent();
-    const credentialsBox = wrapper.findComponent('[data-test=credentials]');
 
-    await credentialsBox.vm.$emit('generateSecret');
+    let credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('clientSecret')).to.equal('<click to show>');
+
+    getAPICredentialsStub.returns({client_secret: 'updatedSecret'});
+    await credentialsBox.vm.$emit('generate-secret');
     await wrapper.vm.$nextTick();
 
-    expect(generateSecretStub.called).to.be.true;
-    expect(getAPICredentialsStub.called).to.be.true;
-    expect(wrapper.vm.clientSecret).to.equal('newSecret');
+    credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('clientSecret')).to.equal('<click to show>');
+
+    await credentialsBox.vm.$emit('display-secret');
+    await wrapper.vm.$nextTick();
+
+    credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('clientSecret')).to.equal('updatedSecret');
   });
 
   it('should update showSecretValue to true when updateSecretValue is called', () => {
@@ -154,33 +160,33 @@ describe('AccountView.vue', () => {
     expect(wrapper.vm.clientSecret).to.equal('newSecret2');
   });
 
-  it('should return clientSecret when showSecretValue is true', () => {
+  it('should initially hide the secret value in the CredentialsBox component', () => {
     const wrapper = getMountedComponent();
-    wrapper.vm.showSecretValue = true;
-    expect(wrapper.vm.secretValue).to.equal(wrapper.vm.clientSecret);
+    const credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('clientSecret')).to.equal('<click to show>');
   });
 
-  it('should return "<click to show>" when showSecretValue is false and clientSecret is not empty', () => {
-    const wrapper = getMountedComponent();
-    wrapper.vm.showSecretValue = false;
-    expect(wrapper.vm.secretValue).to.equal('<click to show>');
-  });
+  describe('when user.client_secret is not set', () => {
+    let getUserEmptyStub;
 
-  it('should return "<empty>" when user.client_secret is not set', () => {
-    sandbox.restore();
-    sandbox = sinon.createSandbox();
-    mockUser = {
-      clientSecret: '',
-    };
+    beforeEach(() => {
+      sandbox.restore();
+      sandbox = sinon.createSandbox();
+      mockUser = {
+        clientSecret: '',
+      };
 
-    const getUserEmptyStub = sandbox.stub(authStore, 'getUser');
-    getUserEmptyStub.returns(mockUser);
+      getUserEmptyStub = sandbox.stub(authStore, 'getUser');
+      getUserEmptyStub.returns(mockUser);
+    });
 
-    const wrapper = getMountedComponent();
+    it('should return "<empty>" in the CredentialsBox component', () => {
+      const wrapper = getMountedComponent();
 
-    let credentialsBox = wrapper.findComponent('[data-test=credentials]');
+      let credentialsBox = wrapper.findComponent('[data-test=credentials]');
 
-    credentialsBox = wrapper.findComponent('[data-test=credentials]');
-    expect(credentialsBox.props('clientSecret')).to.equal('<empty>');
+      credentialsBox = wrapper.findComponent('[data-test=credentials]');
+      expect(credentialsBox.props('clientSecret')).to.equal('<empty>');
+    });
   });
 });
