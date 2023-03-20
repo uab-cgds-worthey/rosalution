@@ -67,7 +67,7 @@ export default {
       return '<empty>';
     },
     clientSecretExists() {
-      return !!this.clientSecret;
+      return Boolean(this.clientSecret);
     },
   },
   methods: {
