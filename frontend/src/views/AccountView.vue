@@ -83,7 +83,7 @@ export default {
     },
     async onToggleSecret() {
       if (!this.showSecretValue && this.secretValue !== '<empty>') {
-        this.showSecretValue = !this.showSecretValue;
+        this.showSecretValue = true;
       }
     },
     updateSecretValue() {
