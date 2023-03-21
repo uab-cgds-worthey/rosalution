@@ -143,7 +143,7 @@ describe('AccountView.vue', () => {
     expect(credentialsBox.props('clientSecret')).to.equal('<click to show>');
 
     await credentialsBox.vm.$emit('generate-secret');
-    await credentialsBox.vm.$emit('display-secret')
+    await credentialsBox.vm.$emit('display-secret');
     await wrapper.vm.$nextTick();
     expect(generateSecretStub.calledOnce).to.be.true;
     credentialsBox = wrapper.findComponent('[data-test=credentials]');
