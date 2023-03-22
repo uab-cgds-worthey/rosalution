@@ -53,10 +53,13 @@ The following pre-requisites are required to be installed in the target *NIX env
 deploying and testing Rosalution. Install environment dependencies below using
 the respective installation instructions for your target environment.
 
-- [Node.JS 16+](https://nodejs.org/en/)
+- [Node.JS 16+](https://nodejs.org/en/) & [Classic Yarn](https://classic.yarnpkg.com/en/)
     - Node.JS recommends managing Node.JS installations with [nvm](https://www.npmjs.com/package/npx) - [install](https://github.com/nvm-sh/nvm#install--update-script)
+    - Yarn is not included with Node.JS with `nvm`. Run `npm install --global yarn` once Node.JS is installed. - [install](https://classic.yarnpkg.com/en/docs/install)
 - [Python 3.8+](https://www.python.org/) - [Install](https://www.python.org/downloads/)
     - Utilizes pip to install in the virtual environment setup and needs to be available in your path
+    - Some system installations of Python 3+ do not include `python venv`.  Additional system installation and setup
+      may need to be done if using Python 3 that is packaged with an OS (such as Ubuntu).
 - [Git](https://git-scm.com/)
     - Setup with your favorite git client. Here is a [GitHub Guide](https://github.com/git-guides/install-git)
     for different platforms.
@@ -66,9 +69,10 @@ the respective installation instructions for your target environment.
     it is easier to get started with **Docker Desktop**. From the official [Docker documentation](https://docs.docker.com/compose/compose-v2/),
     "[`docker compose`] is expected to be a drop-in replacement for `docker-compose`".
     - Installing and running **Docker** requires sudo/admin privileges in the target environment
-- **sudo/Admin environment privileges**
+- **sudo/Admin environment privileges and write privileges to the /etc/hosts file**
     - The `setup.sh` script requires sudo/admin privileges in the target development environment to update the
-    `/etc/hosts` file to setup localhost redirection for a Rosalution deployment
+    `/etc/hosts` file to setup localhost redirection for a Rosalution deployment to redirect localhost to
+    local.rosalution.cgds
 
 ### Browser Support
 
