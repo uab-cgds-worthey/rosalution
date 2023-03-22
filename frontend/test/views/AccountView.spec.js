@@ -37,6 +37,8 @@ describe('AccountView.vue', () => {
   let sandbox;
   let mockUser;
   let getUserStub;
+  let generateSecretStub;
+  let getAPICredentialsStub;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
@@ -46,6 +48,9 @@ describe('AccountView.vue', () => {
 
     getUserStub = sandbox.stub(authStore, 'getUser');
     getUserStub.returns(mockUser);
+
+    generateSecretStub = sandbox.stub(authStore, 'generateSecret');
+    getAPICredentialsStub = sandbox.stub(authStore, 'getAPICredentials');
   });
 
   afterEach(() => {
@@ -83,48 +88,102 @@ describe('AccountView.vue', () => {
   it('should toggle the secret value on click', async () => {
     const wrapper = getMountedComponent();
 
-    let sectionBox = wrapper.findComponent('[data-test=credentials]');
+    let credentialsBox = wrapper.findComponent('[data-test=credentials]');
 
-    await sectionBox.trigger('click');
+    await credentialsBox.vm.$emit('display-secret');
     await wrapper.vm.$nextTick();
 
-    sectionBox = wrapper.findComponent('[data-test=credentials]');
-    expect(sectionBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
+    credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('clientSecret')).to.equal(wrapper.vm.clientSecret);
   });
 
   it('should not toggle the secret value on click again after it has been toggled', async () => {
     const wrapper = getMountedComponent();
 
-    let sectionBox = wrapper.findComponent('[data-test=credentials]');
+    let credentialsBox = wrapper.findComponent('[data-test=credentials]');
 
-    await sectionBox.trigger('click');
+    await credentialsBox.vm.$emit('display-secret');
     await wrapper.vm.$nextTick();
 
-    sectionBox = wrapper.findComponent('[data-test=credentials]');
-    expect(sectionBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
-    await sectionBox.trigger('click');
+    credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('clientSecret')).to.equal(wrapper.vm.clientSecret);
+    await credentialsBox.vm.$emit('display-secret');
     await wrapper.vm.$nextTick();
 
-    sectionBox = wrapper.findComponent('[data-test=credentials]');
-    expect(sectionBox.props('content')[1].value).toEqual([wrapper.vm.user.clientSecret]);
+    credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('clientSecret')).to.equal(wrapper.vm.clientSecret);
   });
 
-
-  it('should return ["<empty>"] when user.client_secret is not set', () => {
-    sandbox.restore();
-    sandbox = sinon.createSandbox();
-    mockUser = {
-      clientSecret: '',
-    };
-
-    const getUserEmptyStub = sandbox.stub(authStore, 'getUser');
-    getUserEmptyStub.returns(mockUser);
-
+  it('should use clientSecret prop in computed secretValue', async () => {
     const wrapper = getMountedComponent();
 
-    let sectionBox = wrapper.findComponent('[data-test=credentials]');
+    let credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('clientSecret')).to.equal('<click to show>');
 
-    sectionBox = wrapper.findComponent('[data-test=credentials]');
-    expect(sectionBox.props('content')[1].value).toEqual(['<empty>']);
+    getAPICredentialsStub.returns({client_secret: 'updatedSecret'});
+    await credentialsBox.vm.$emit('generate-secret');
+    await wrapper.vm.$nextTick();
+
+    credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('clientSecret')).to.equal('<click to show>');
+
+    await credentialsBox.vm.$emit('display-secret');
+    await wrapper.vm.$nextTick();
+
+    credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('clientSecret')).to.equal('updatedSecret');
+  });
+
+  it('should update clientSecret on multiple generate-secret calls', async () => {
+    getAPICredentialsStub.onFirstCall().returns({client_secret: 'newSecret1'});
+    getAPICredentialsStub.onSecondCall().returns({client_secret: 'newSecret2'});
+
+    const wrapper = getMountedComponent();
+    let credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('clientSecret')).to.equal('<click to show>');
+
+    await credentialsBox.vm.$emit('generate-secret');
+    await credentialsBox.vm.$emit('display-secret');
+    await wrapper.vm.$nextTick();
+    expect(generateSecretStub.calledOnce).to.be.true;
+    credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('clientSecret')).to.equal('newSecret1');
+
+    await credentialsBox.vm.$emit('generate-secret');
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+    expect(generateSecretStub.calledTwice).to.be.true;
+    credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('clientSecret')).to.equal('newSecret2');
+  });
+
+  it('should initially hide the secret value in the CredentialsBox component', () => {
+    const wrapper = getMountedComponent();
+    const credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('clientSecret')).to.equal('<click to show>');
+  });
+
+  describe('when user.client_secret is not set', () => {
+    let getUserEmptyStub;
+
+    beforeEach(() => {
+      sandbox.restore();
+      sandbox = sinon.createSandbox();
+      mockUser = {
+        clientSecret: '',
+      };
+
+      getUserEmptyStub = sandbox.stub(authStore, 'getUser');
+      getUserEmptyStub.returns(mockUser);
+    });
+
+    it('should return "<empty>" in the CredentialsBox component', () => {
+      const wrapper = getMountedComponent();
+
+      let credentialsBox = wrapper.findComponent('[data-test=credentials]');
+
+      credentialsBox = wrapper.findComponent('[data-test=credentials]');
+      expect(credentialsBox.props('clientSecret')).to.equal('<empty>');
+    });
   });
 });

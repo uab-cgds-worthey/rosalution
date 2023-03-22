@@ -16,22 +16,23 @@
           { field: 'Full Name', value: [user.full_name] },
           { field: 'Email', value: [user.email] },
         ]" />
-      <SectionBox
+      <CredentialsBox
         :header="'Credentials'"
-        :content= credentialsContent
-        @click="toggleSecret"
+        :clientId="user.clientId"
+        :clientSecret="secretValue"
         data-test="credentials"
         :key="showSecretValue"
-      />
-      <button @click="generateSecret" type="submit">
-        Generate Secret
-      </button>
+        @display-secret= this.onToggleSecret
+        @generate-secret = this.onGenerateSecret
+        :secretExists="clientSecretExists"
+        />
     </app-content>
   </div>
 </template>
 
 <script>
 import SectionBox from '@/components/AnalysisView/SectionBox.vue';
+import CredentialsBox from '@/components/AccountView/CredentialsBox.vue';
 
 import {authStore} from '../stores/authStore';
 
@@ -42,48 +43,51 @@ export default {
   components: {
     RosalutionHeader,
     SectionBox,
+    CredentialsBox,
   },
   data() {
     return {
       showSecretValue: false,
+      clientSecret: '',
     };
+  },
+  created() {
+    this.clientSecret = this.user.clientSecret;
   },
   computed: {
     user() {
       return authStore.getUser();
     },
-    credentialsContent() {
-      const content = [
-        {field: 'Client ID', value: [this.user.clientId]},
-        {
-          field: 'Client Secret',
-          value: this.secretValue,
-        },
-      ];
-      return content;
-    },
     secretValue() {
       if (this.showSecretValue) {
-        return [this.user.clientSecret];
+        return this.clientSecret;
       }
-      if (this.user.clientSecret) {
-        return ['<click to show>'];
+      if (this.clientSecret) {
+        return '<click to show>';
       }
 
-      return ['<empty>'];
+      return '<empty>';
+    },
+    clientSecretExists() {
+      return Boolean(this.clientSecret);
     },
   },
   methods: {
-    async generateSecret() {
+    async onGenerateSecret() {
       await authStore.generateSecret();
+      const updatedUser = await authStore.getAPICredentials();
+      this.clientSecret = updatedUser.client_secret;
     },
     async onLogout() {
       this.$router.push({path: '/rosalution/logout'});
     },
-    toggleSecret() {
-      if (!this.showSecretValue && this.secretValue[0] !== '<empty>') {
-        this.showSecretValue = !this.showSecretValue;
+    async onToggleSecret() {
+      if (!this.showSecretValue && this.secretValue !== '<empty>') {
+        this.showSecretValue = true;
       }
+    },
+    updateSecretValue() {
+      this.showSecretValue = true;
     },
   },
 };
