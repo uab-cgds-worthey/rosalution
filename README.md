@@ -57,9 +57,9 @@ the respective installation instructions for your target environment.
     - Node.JS recommends managing Node.JS installations with [nvm](https://www.npmjs.com/package/npx) - [install](https://github.com/nvm-sh/nvm#install--update-script)
     - Yarn is not included with Node.JS with `nvm`. Run `npm install --global yarn` once Node.JS is installed. - [install](https://classic.yarnpkg.com/en/docs/install)
 - [Python 3.8+](https://www.python.org/) - [Install](https://www.python.org/downloads/)
-    - Utilizes pip to install in the virtual environment setup and needs to be available in your path
-    - Some system installations of Python 3+ do not include `python venv`.  Additional system installation and setup
-      may need to be done if using Python 3 that is packaged with an OS (such as Ubuntu).
+    - `pip3` to install the required packages for development within a virtual environment
+    - `python venv` Some system installations of Python 3+ do not include python virtual environments that were added
+      in Python 3.3+.  Additional installation and setup may be necessary if using Python packaged with an OS (such as Ubuntu).
 - [Git](https://git-scm.com/)
     - Setup with your favorite git client. Here is a [GitHub Guide](https://github.com/git-guides/install-git)
     for different platforms.
