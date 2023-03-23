@@ -151,6 +151,7 @@ class GenomicUnitCollection:
         for annotation in genomic_unit_document['annotations']:
             if data_set in annotation:
                 annotation[data_set] = annotation_data_set[data_set]
+                
                 self.update_genomic_unit_with_mongo_id(genomic_unit_document)
                 return
 

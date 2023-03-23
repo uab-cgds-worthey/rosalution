@@ -16,7 +16,7 @@
         v-for="(section, index) in this.rendering" :key="`${section.type}-${section.anchor}-${index}`"
         :header="sectionHeader(section.header)" v-bind="section.props"
         :id="`${section.anchor}`" @attach-image="this.attachSectionImage"
-        :imageId="imageId(section.header)"
+        :allowAttach="section.allowHeaderAttachImageDataset"
       >
         <template #headerDatasets>
           <component
@@ -57,6 +57,7 @@ import AnnotationViewHeader from '@/components/AnnotationView/AnnotationViewHead
 
 import ClinvarDataset from '@/components/AnnotationView/ClinvarDataset.vue';
 import IconLinkoutDataset from '@/components/AnnotationView/IconLinkoutDataset.vue';
+import ImageDataset from '@/components/AnnotationView/ImageDataset.vue';
 import ScoreDataset from '@/components/AnnotationView/ScoreDataset.vue';
 import TextDataset from '@/components/AnnotationView/TextDataset.vue';
 import TranscriptDatasets from '@/components/AnnotationView/TranscriptDatasets.vue';
@@ -74,6 +75,7 @@ export default {
     AnnotationViewHeader,
     ClinvarDataset,
     IconLinkoutDataset,
+    ImageDataset,
     ScoreDataset,
     TextDataset,
     TranscriptDatasets,

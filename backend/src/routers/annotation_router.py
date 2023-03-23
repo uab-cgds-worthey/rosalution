@@ -1,6 +1,6 @@
 """ Annotation endpoint routes that handle all things annotation within the application """
 
-from datetime import date
+from datetime import datetime
 
 from fastapi import (
     APIRouter, Depends, BackgroundTasks, HTTPException, status, UploadFile, File, Form, Response, Security
@@ -123,7 +123,7 @@ def upload_annotation_section(
     annotation_unit = {
         "data_set": section_name,
         "data_source": "rosalution-manual",
-        "version": str(date.today()),
+        "version": str(datetime.now()),
         "value": str(new_file_object_id),
     }
 

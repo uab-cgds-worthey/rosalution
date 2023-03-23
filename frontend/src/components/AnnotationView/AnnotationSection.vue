@@ -10,22 +10,20 @@
         <td class="annotations">
           <slot name="headerDatasets"></slot>
         </td>
-        <button v-if="attachSection" class="attach-logo" @click="$emit('attach-image', header)" data-test="attach-logo">
+        <button v-if="allowAttach" class="attach-logo" @click="$emit('attach-image', header)" data-test="attach-logo">
           <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
         </button>
-        <label v-else class="collapsable-icon">
+        <label class="collapsable-icon">
           <font-awesome-icon icon="chevron-down" size="lg"/>
         </label>
       </tr>
       <div class="seperator"></div>
       <slot></slot>
-      <img v-if="displaySectionImage" class="annotation-image" :src="this.sectionImage"/>
     </tbody>
   </table>
 </template>
 
 <script>
-import Annotations from '@/models/annotations.js';
 
 export default {
   name: 'annotation-section',
@@ -33,40 +31,10 @@ export default {
     header: {
       type: String,
     },
-    imageId: {
-      type: String,
-    },
-  },
-  updated() {
-    this.fetchImage(this.imageId);
-  },
-  data() {
-    return {
-      imageHeaders: [
-        'Gene Homology/Multi-Sequence allignment',
-        'Protein Expression',
-        'Modelability',
-        'Druggability',
-      ],
-      sectionImage: '',
-    };
-  },
-  computed: {
-    attachSection() {
-      return this.imageHeaders.includes(this.header);
-    },
-    displaySectionImage() {
-      return this.imageHeaders.includes(this.header);
-    },
-  },
-  methods: {
-    async fetchImage(imageId) {
-      if (imageId == '') {
-        return;
-      }
-      const image = await Annotations.getAnnotationImage(imageId);
-      this.sectionImage = image;
-    },
+    allowAttach: {
+      type: Boolean,
+      default: false,
+    }
   },
 };
 </script>
