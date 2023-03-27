@@ -141,8 +141,8 @@ export default {
   },
   async created() {
     await this.getGenomicUnits();
-    this.getRenderingConfiguration();
-    this.getAnnotations();
+    await this.getRenderingConfiguration();
+    await this.getAnnotations();
     this.getSummaryByName();
   },
   methods: {

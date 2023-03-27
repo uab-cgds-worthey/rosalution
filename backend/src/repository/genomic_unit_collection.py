@@ -64,7 +64,7 @@ class GenomicUnitCollection:
         return None
 
     def find_genomic_unit(self, genomic_unit):
-        """ Returns the given genomic unit from the genomic unit collection """
+        """ Returns the given genomic unit from the genomic unit collection """       
         return self.collection.find_one({
             genomic_unit['type'].value: genomic_unit['unit'],
         })
@@ -85,7 +85,9 @@ class GenomicUnitCollection:
 
     def update_genomic_unit_with_mongo_id(self, genomic_unit_document):
         """ Takes a genomic unit and overwrites the existing object based on the object's id """
+        print("am I getting here?")
         genomic_unit_id = genomic_unit_document['_id']
+        print(genomic_unit_id)
         self.collection.update_one(
             {'_id': ObjectId(str(genomic_unit_id))},
             {'$set': genomic_unit_document},
