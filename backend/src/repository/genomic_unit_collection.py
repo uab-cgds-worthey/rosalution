@@ -64,7 +64,7 @@ class GenomicUnitCollection:
         return None
 
     def find_genomic_unit(self, genomic_unit):
-        """ Returns the given genomic unit from the genomic unit collection """
+        """ Returns the given genomic unit from the genomic unit collection """       
         return self.collection.find_one({
             genomic_unit['type'].value: genomic_unit['unit'],
         })
