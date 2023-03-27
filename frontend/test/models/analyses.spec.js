@@ -10,12 +10,14 @@ describe('analyses.js', () => {
   let mockPostFormResponse;
   let mockPutFormResponse;
   let mockDeleteRequest;
+  let mockPutRequest;
 
   beforeEach(() => {
     mockGetRequest = sandbox.stub(Requests, 'get');
     mockPostFormResponse = sandbox.stub(Requests, 'postForm');
     mockPutFormResponse = sandbox.stub(Requests, 'putForm');
     mockDeleteRequest = sandbox.stub(Requests, 'delete');
+    mockPutRequest = sandbox.stub(Requests, 'put');
   });
 
   afterEach(() => {
@@ -41,6 +43,17 @@ describe('analyses.js', () => {
     mockPostFormResponse.returns({sucess: 'yay'});
     await Analyses.importPhenotipsAnalysis(incomingCreateAnalysisFormFixture);
     expect(mockPostFormResponse.called).to.be.true;
+  });
+
+  it('Marks an analysis ready', async () => {
+    await Analyses.markAnalysisReady('anything');
+    expect(mockPutRequest.called).to.be.true;
+  });
+
+  // Remove skip when mark active is added in API
+  it.skip('Marks an analysis active', async () => {
+    await Analyses.markAnalysisActive('anything');
+    expect(mockPutRequest.called).to.be.true;
   });
 
   describe('supporting evidence', () => {

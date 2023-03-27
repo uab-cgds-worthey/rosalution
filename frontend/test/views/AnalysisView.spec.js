@@ -23,7 +23,6 @@ import {RouterLink} from 'vue-router';
  */
 function getMountedComponent(props) {
   const defaultProps = {analysis_name: 'CPAM0046'};
-
   return shallowMount(AnalysisView, {
     props: {...defaultProps, ...props},
     global: {
@@ -50,6 +49,8 @@ describe('AnalysisView', () => {
   let pedigreeRemoveMock;
   let mockedAttachSupportingEvidence;
   let mockedRemoveSupportingEvidence;
+  let markReadyMock;
+  let markActiveMock;
   let wrapper;
   let sandbox;
 
@@ -64,6 +65,9 @@ describe('AnalysisView', () => {
 
     mockedAttachSupportingEvidence = sandbox.stub(Analyses, 'attachSupportingEvidence');
     mockedRemoveSupportingEvidence = sandbox.stub(Analyses, 'removeSupportingEvidence');
+
+    markReadyMock = sandbox.stub(Analyses, 'markAnalysisReady');
+    markActiveMock = sandbox.stub(Analyses, 'markAnalysisActive');
 
     wrapper = getMountedComponent();
   });
@@ -98,6 +102,42 @@ describe('AnalysisView', () => {
       expect(headerComponent.attributes('sectionanchors')).to.equal(
           'Brief,Medical Summary,Pedigree,Case Information,Supporting Evidence',
       );
+    });
+
+    it('should mark an analysis as ready', async () => {
+      const annotatingAnalysis = fixtureData();
+      annotatingAnalysis.latest_status = 'Annotation';
+      mockedData.returns(annotatingAnalysis);
+      const wrapper = getMountedComponent();
+      await wrapper.vm.$nextTick();
+      const headerComponent = wrapper.getComponent(
+          '[data-test=analysis-view-header]',
+      );
+      const actionsProps = headerComponent.props('actions');
+      for (const action of actionsProps) {
+        if (action.text === 'Mark Ready') {
+          action.operation();
+        }
+      }
+      expect(markReadyMock.called).to.be.true;
+    });
+
+    it('should mark an analysis as active', async () => {
+      const readyAnalysis = fixtureData();
+      readyAnalysis.latest_status = 'Ready';
+      mockedData.returns(readyAnalysis);
+      wrapper = getMountedComponent();
+      await wrapper.vm.$nextTick();
+      const headerComponent = wrapper.getComponent(
+          '[data-test=analysis-view-header]',
+      );
+      const actionsProps = headerComponent.props('actions');
+      for (const action of actionsProps) {
+        if (action.text === 'Mark Active') {
+          action.operation();
+        }
+      }
+      expect(markActiveMock.called).to.be.true;
     });
   });
 

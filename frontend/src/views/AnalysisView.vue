@@ -85,12 +85,6 @@ export default {
       store: authStore,
       analysis: {sections: []},
       updatedContent: {},
-      menuActions: [
-        {icon: 'pencil', text: 'Edit', operation: () => {
-          this.edit = !this.edit;
-        }, divider: true},
-        {icon: 'paperclip', text: 'Attach', operation: this.addSupportingEvidence},
-      ],
       edit: false,
       forceRenderComponentKey: 0,
     };
@@ -106,6 +100,41 @@ export default {
       sections.push('Supporting Evidence');
       return sections;
     },
+
+    menuActions() {
+      const actionChoices = [];
+
+      actionChoices.push(
+          {icon: 'pencil', text: 'Edit', operation: () => {
+            this.edit = !this.edit;
+          }},
+      );
+
+      if (this.analysis.latest_status === 'Annotation') {
+        actionChoices.push(
+            {icon: 'clipboard-check', text: 'Mark Ready', operation: () => {
+              Analyses.markAnalysisReady(this.analysis_name);
+            }},
+        );
+      }
+
+      if (this.analysis.latest_status === 'Ready') {
+        actionChoices.push(
+            {icon: 'book-open', text: 'Mark Active', operation: () => {
+              Analyses.markAnalysisActive(this.analysis_name);
+            }},
+        );
+      }
+
+      actionChoices.push({divider: true});
+
+      actionChoices.push(
+          {icon: 'paperclip', text: 'Attach', operation: this.addSupportingEvidence},
+      );
+
+      return actionChoices;
+    },
+
     sectionsList() {
       return this.analysis.sections;
     },
