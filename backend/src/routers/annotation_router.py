@@ -1,6 +1,6 @@
 """ Annotation endpoint routes that handle all things annotation within the application """
 
-from datetime import datetime
+from datetime import date, datetime
 
 from fastapi import (
     APIRouter, Depends, BackgroundTasks, HTTPException, status, UploadFile, File, Form, Response, Security
@@ -123,8 +123,8 @@ def upload_annotation_section(
     annotation_unit = {
         "data_set": section_name,
         "data_source": "rosalution-manual",
-        "version": str(datetime.now()),
-        "value": str(new_file_object_id),
+        "version": str(date.today()),
+        "value": {"file_id": str(new_file_object_id), "created_date": str(datetime.now())},
     }
 
     repositories['genomic_unit'].annotate_genomic_unit_with_file(genomic_unit, annotation_unit)

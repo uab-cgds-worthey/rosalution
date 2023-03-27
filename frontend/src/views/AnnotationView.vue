@@ -61,7 +61,7 @@ import ImageDataset from '@/components/AnnotationView/ImageDataset.vue';
 import ScoreDataset from '@/components/AnnotationView/ScoreDataset.vue';
 import TextDataset from '@/components/AnnotationView/TextDataset.vue';
 import TranscriptDatasets from '@/components/AnnotationView/TranscriptDatasets.vue';
-import InputDialog from '../components/Dialogs/InputDialog.vue';
+import InputDialog from '@/components/Dialogs/InputDialog.vue';
 
 import inputDialog from '@/inputDialog.js';
 
@@ -124,8 +124,8 @@ export default {
   },
   async created() {
     await this.getGenomicUnits();
-    this.getRenderingConfiguration();
-    this.getAnnotations();
+    await this.getRenderingConfiguration();
+    await this.getAnnotations();
   },
   methods: {
     sectionHeader(header) {

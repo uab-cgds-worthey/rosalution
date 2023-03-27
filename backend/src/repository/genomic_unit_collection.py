@@ -64,7 +64,7 @@ class GenomicUnitCollection:
         return None
 
     def find_genomic_unit(self, genomic_unit):
-        """ Returns the given genomic unit from the genomic unit collection """
+        """ Returns the given genomic unit from the genomic unit collection """       
         return self.collection.find_one({
             genomic_unit['type'].value: genomic_unit['unit'],
         })
@@ -85,7 +85,9 @@ class GenomicUnitCollection:
 
     def update_genomic_unit_with_mongo_id(self, genomic_unit_document):
         """ Takes a genomic unit and overwrites the existing object based on the object's id """
+        print("am I getting here?")
         genomic_unit_id = genomic_unit_document['_id']
+        print(genomic_unit_id)
         self.collection.update_one(
             {'_id': ObjectId(str(genomic_unit_id))},
             {'$set': genomic_unit_document},
@@ -136,24 +138,23 @@ class GenomicUnitCollection:
 
     def annotate_genomic_unit_with_file(self, genomic_unit, genomic_annotation):
         """ Ensures that an annotation is created for the annotation image upload and only one image is allowed """
+
+        genomic_unit_document = self.find_genomic_unit(genomic_unit)
+        data_set = genomic_annotation['data_set']
+
+        for annotation in genomic_unit_document['annotations']:
+            if data_set in annotation:
+                annotation[data_set][0]['value'].append(genomic_annotation['value'])
+                self.update_genomic_unit_with_mongo_id(genomic_unit_document)
+                return
+
         annotation_data_set = {
             genomic_annotation['data_set']: [{
                 'data_source': genomic_annotation['data_source'],
                 'version': genomic_annotation['version'],
-                'value': genomic_annotation['value'],
+                'value': [genomic_annotation['value']],
             }]
         }
-
-        data_set = genomic_annotation['data_set']
-
-        genomic_unit_document = self.find_genomic_unit(genomic_unit)
-
-        for annotation in genomic_unit_document['annotations']:
-            if data_set in annotation:
-                annotation[data_set] = annotation_data_set[data_set]
-                
-                self.update_genomic_unit_with_mongo_id(genomic_unit_document)
-                return
 
         genomic_unit_document['annotations'].append(annotation_data_set)
         self.update_genomic_unit_with_mongo_id(genomic_unit_document)
