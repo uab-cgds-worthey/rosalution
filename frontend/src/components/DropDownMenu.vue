@@ -18,7 +18,7 @@ export default {
     actions: {
       type: Array,
       validator: (prop) => prop.every(
-          (action) => action.text !== undefined,
+          (action) => action.text !== undefined || action.divider,
       ),
     },
   },
