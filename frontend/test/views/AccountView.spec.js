@@ -134,30 +134,27 @@ describe('AccountView.vue', () => {
     expect(credentialsBox.props('clientSecret')).to.equal('updatedSecret');
   });
 
-  it('should update showSecretValue to true when updateSecretValue is called', () => {
-    const wrapper = getMountedComponent();
-    wrapper.vm.updateSecretValue();
-    expect(wrapper.vm.showSecretValue).to.be.true;
-  });
-
-  it('should update clientSecret on multiple generateSecret calls', async () => {
+  it('should update clientSecret on multiple generate-secret calls', async () => {
     getAPICredentialsStub.onFirstCall().returns({client_secret: 'newSecret1'});
     getAPICredentialsStub.onSecondCall().returns({client_secret: 'newSecret2'});
 
     const wrapper = getMountedComponent();
-    const credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    let credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('clientSecret')).to.equal('<click to show>');
 
-    await credentialsBox.vm.$emit('generateSecret');
+    await credentialsBox.vm.$emit('generate-secret');
+    await credentialsBox.vm.$emit('display-secret');
     await wrapper.vm.$nextTick();
     expect(generateSecretStub.calledOnce).to.be.true;
-    expect(getAPICredentialsStub.calledOnce).to.be.true;
-    expect(wrapper.vm.clientSecret).to.equal('newSecret1');
+    credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('clientSecret')).to.equal('newSecret1');
 
-    await credentialsBox.vm.$emit('generateSecret');
+    await credentialsBox.vm.$emit('generate-secret');
+    await wrapper.vm.$nextTick();
     await wrapper.vm.$nextTick();
     expect(generateSecretStub.calledTwice).to.be.true;
-    expect(getAPICredentialsStub.calledTwice).to.be.true;
-    expect(wrapper.vm.clientSecret).to.equal('newSecret2');
+    credentialsBox = wrapper.findComponent('[data-test=credentials]');
+    expect(credentialsBox.props('clientSecret')).to.equal('newSecret2');
   });
 
   it('should initially hide the secret value in the CredentialsBox component', () => {
