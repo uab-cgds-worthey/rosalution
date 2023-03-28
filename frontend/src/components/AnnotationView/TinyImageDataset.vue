@@ -1,12 +1,12 @@
 <template>
     <div>
-        <!-- <img class="section-image" :src="this.sectionImage"/> -->
-        <img class="section-image" :src="image"/>
-        <!-- <div v-if="areImagesLoaded"></div> -->
+        <img class="section-image" :src="imageSrc"/>
     </div>
 </template>
 
 <script>
+import fileRequests from '@/fileRequests.js'
+
 export default {
     name: "tiny-image-dataset",
     props: {
@@ -14,26 +14,20 @@ export default {
             type: String,
         }
     },
-    computed: {
-        imageSrc() {
-            if(!this.image) {
-                return "/src/assets/rosalution-logo.svg"
-            }
-            return this.image
+    data() {
+        return {
+            imageSrc: "/src/assets/rosalution-logo.svg"
+        }
+    },
+    created() {
+        console.log(this.image);
+        this.sectionImageUpdate();
+    },
+    methods: {
+        async sectionImageUpdate() {
+            const loadingImage = await fileRequests.getImage(this.image)
+            this.imageSrc = loadingImage;
         }
     }
-    // data() {
-    //     return {
-    //         sectionImage: this.image
-    //     }
-    // },
-    // updated() {
-    //     sectionImageUpdate()
-    // },
-    // methods: {
-    //     sectionImageUpdate() {
-    //         this.sectionImage = this.image
-    //     }
-    // }
 }
 </script>

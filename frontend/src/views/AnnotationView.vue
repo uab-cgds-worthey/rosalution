@@ -124,8 +124,8 @@ export default {
   },
   async created() {
     await this.getGenomicUnits();
-    await this.getRenderingConfiguration();
-    await this.getAnnotations();
+    this.getRenderingConfiguration();
+    this.getAnnotations();
   },
   methods: {
     sectionHeader(header) {
@@ -168,6 +168,9 @@ export default {
       await(this.getAnnotations());
     },
     async attachSectionImage(updatedSectionName) {
+      console.log(this.annotations)
+      if(!this.annotations[updatedSectionName])
+        console.log("Inuyasha")
       const includeComments = false;
       const attachment = await inputDialog
           .confirmText('Attach')
@@ -187,7 +190,12 @@ export default {
       };
 
       const updatedAnalysis = await Annotations.attachAnnotationImage(annotation, attachment.data);
-      this.annotations[updatedSectionName] = updatedAnalysis['image_id'];
+      if(!this.annotations[updatedSectionName])
+        this.annotations[updatedSectionName] = [{file_id: updatedAnalysis['image_id'], created_date: ''}];        
+      else
+        this.annotations[updatedSectionName].push({file_id: updatedAnalysis['image_id'], created_date: ''});
+      
+        console.log(this.annotations)
     },
   },
 };
