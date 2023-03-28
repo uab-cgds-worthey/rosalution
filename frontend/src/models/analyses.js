@@ -315,7 +315,7 @@ const annotationRenderingTemporary = [
           'dataset': 'Gene Homology/Multi-Sequence Alignment',
           'type': 'image-dataset',
           'props': {
-            'label': 'hgvs_variant'
+            'genomic_unit_type': 'hgvs_variant'
           }
         }
       ]

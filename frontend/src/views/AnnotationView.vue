@@ -16,6 +16,7 @@
         v-for="(section, index) in this.rendering" :key="`${section.type}-${section.anchor}-${index}`"
         :header="sectionHeader(section.header)" v-bind="section.props"
         :id="`${section.anchor}`" @attach-image="this.attachSectionImage"
+        @edit-image="this.editSectionImage"
         :allowAttach="section.allowHeaderAttachImageDataset"
       >
         <template #headerDatasets>
@@ -168,9 +169,6 @@ export default {
       await(this.getAnnotations());
     },
     async attachSectionImage(updatedSectionName) {
-      console.log(this.annotations)
-      if(!this.annotations[updatedSectionName])
-        console.log("Inuyasha")
       const includeComments = false;
       const attachment = await inputDialog
           .confirmText('Attach')
@@ -194,9 +192,10 @@ export default {
         this.annotations[updatedSectionName] = [{file_id: updatedAnalysis['image_id'], created_date: ''}];        
       else
         this.annotations[updatedSectionName].push({file_id: updatedAnalysis['image_id'], created_date: ''});
-      
-        console.log(this.annotations)
     },
+    async editSectionImage() {
+      console.log("I am being edited!")
+    }
   },
 };
 </script>
