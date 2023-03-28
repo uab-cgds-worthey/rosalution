@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="section-image">
         <TinyImageDataset
             v-for="(sectionImage, index) in this.sectionImages"
             :key="sectionImage.id"
@@ -41,7 +41,5 @@ export default {
 </script>
 
 <style>
-.section-image {
-  max-height: 31.25rem;
-}
+
 </style>
