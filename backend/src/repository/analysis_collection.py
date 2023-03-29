@@ -3,7 +3,7 @@ Collection with retrieves, creates, and modify analyses.
 """
 from uuid import uuid4
 
-from pymongo import ReturnDocument
+from pymongo import ReturnDocument, WriteConcern
 from ..models.event import Event
 
 from ..enums import ThirdPartyLinkType
@@ -285,7 +285,7 @@ class AnalysisCollection:
             {"name": analysis_name},
             {"$set": {ThirdPartyLinkType(third_party_enum): link}},
             return_document=ReturnDocument.AFTER,
-        )
+        ).WriteConcern(w=1)
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
         return updated_document

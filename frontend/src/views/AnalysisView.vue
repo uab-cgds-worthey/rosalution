@@ -90,6 +90,8 @@ export default {
           this.edit = !this.edit;
         }, divider: true},
         {icon: 'paperclip', text: 'Attach', operation: this.addSupportingEvidence},
+        {text: "Attach Monday.com", operation: this.addMondayLink},
+        {text: "Connect PhenoTips"},
       ],
       edit: false,
       forceRenderComponentKey: 0,
@@ -298,6 +300,27 @@ export default {
     replaceAnalysisSection(sectionToReplace) {
       const originalSectionIndex = this.sectionsList.findIndex((section) => section.header == sectionToReplace.header);
       this.analysis.sections.splice(originalSectionIndex, 1, sectionToReplace);
+    },
+    async addMondayLink() {
+      console.log('add monday link');
+      const includeComments = false;
+      const includeName = false;
+      const mondayLink = await inputDialog
+          .confirmText('Add')
+          .cancelText('Cancel')
+          .url(includeComments, includeName)
+          .prompt();
+
+      if (!mondayLink) {
+        return;
+      }
+      
+      try {
+        console.log('mondayLink', mondayLink.data);
+        await Analyses.attachThirdPartyLink(this.analysis_name, "MONDAY_COM", mondayLink.data);
+      } catch (error) {
+          console.error('Updating the analysis did not work', error);
+      }
     },
   },
 };
