@@ -281,14 +281,11 @@ class AnalysisCollection:
         if third_party_enum not in analysis:
             analysis[third_party_enum] = None
 
-        update_operation = {"$set": {str(third_party_enum): link}}
-
         updated_document = self.collection.find_one_and_update(
             {"name": analysis_name},
-            update_operation,
+            {"$set": {ThirdPartyLinkType(third_party_enum): link}},
             return_document=ReturnDocument.AFTER,
         )
-
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
         return updated_document
