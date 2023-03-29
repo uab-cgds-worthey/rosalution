@@ -341,12 +341,12 @@ export default {
       if (!mondayLink) {
         return;
       }
-      
+
       try {
         console.log('mondayLink', mondayLink.data);
-        await Analyses.attachThirdPartyLink(this.analysis_name, "MONDAY_COM", mondayLink.data);
+        await Analyses.attachThirdPartyLink(this.analysis_name, 'MONDAY_COM', mondayLink.data);
       } catch (error) {
-          console.error('Updating the analysis did not work', error);
+        console.error('Updating the analysis did not work', error);
       }
     },
   },

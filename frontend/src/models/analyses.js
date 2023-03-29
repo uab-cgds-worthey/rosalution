@@ -147,8 +147,8 @@ export default {
     return Requests.getDownload(url, fileData);
   },
 
-  async attachThirdPartyLink(analysisName, link_type, link) {
-    const url = `/rosalution/api/analysis/${analysisName}/attach/${link_type}`;
+  async attachThirdPartyLink(analysisName, linkType, link) {
+    const url = `/rosalution/api/analysis/${analysisName}/attach/${linkType}`;
     const attachmentForm = {
       'link': link,
     };
