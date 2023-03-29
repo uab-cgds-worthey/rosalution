@@ -90,8 +90,8 @@ export default {
           this.edit = !this.edit;
         }, divider: true},
         {icon: 'paperclip', text: 'Attach', operation: this.addSupportingEvidence},
-        {text: "Attach Monday.com", operation: this.addMondayLink},
-        {text: "Connect PhenoTips"},
+        {text: 'Attach Monday.com', operation: this.addMondayLink},
+        {text: 'Connect PhenoTips'},
       ],
       edit: false,
       forceRenderComponentKey: 0,
@@ -314,12 +314,12 @@ export default {
       if (!mondayLink) {
         return;
       }
-      
+
       try {
         console.log('mondayLink', mondayLink.data);
-        await Analyses.attachThirdPartyLink(this.analysis_name, "MONDAY_COM", mondayLink.data);
+        await Analyses.attachThirdPartyLink(this.analysis_name, 'MONDAY_COM', mondayLink.data);
       } catch (error) {
-          console.error('Updating the analysis did not work', error);
+        console.error('Updating the analysis did not work', error);
       }
     },
   },
