@@ -3,7 +3,7 @@ Collection with retrieves, creates, and modify analyses.
 """
 from uuid import uuid4
 
-from pymongo import ReturnDocument, WriteConcern
+from pymongo import ReturnDocument
 from ..models.event import Event
 
 from ..enums import ThirdPartyLinkType
