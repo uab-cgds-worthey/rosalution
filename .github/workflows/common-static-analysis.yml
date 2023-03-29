@@ -1,6 +1,6 @@
 name: Markdown, Docker, and Shell Static Analysis
 
-on: [push, workflow_dispatch]
+on: [push, pull_request, workflow_dispatch]
 
 env:
   MARKDOWNLINT_CONFIG: etc/static-analysis/markdownlint.json
