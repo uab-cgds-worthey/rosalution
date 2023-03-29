@@ -146,6 +146,14 @@ export default {
     const fileData = {'filename': attachmentFile};
     return Requests.getDownload(url, fileData);
   },
+
+  async attachThirdPartyLink(analysisName, link_type, link) {
+    const url = `/rosalution/api/analysis/${analysisName}/attach/${link_type}`;
+    const attachmentForm = {
+      'link': link,
+    };
+    return await Requests.putForm(url, attachmentForm);
+  },
 };
 
 const annotationRenderingTemporary = [
