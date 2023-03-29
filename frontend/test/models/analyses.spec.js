@@ -46,13 +46,13 @@ describe('analyses.js', () => {
   });
 
   it('Marks an analysis ready', async () => {
-    await Analyses.markAnalysisReady('anything');
+    await Analyses.markAnalysisReady('CPAM0002');
     expect(mockPutRequest.called).to.be.true;
   });
 
   // Remove skip when mark active is added in API
   it.skip('Marks an analysis active', async () => {
-    await Analyses.markAnalysisActive('anything');
+    await Analyses.markAnalysisActive('CPAM0002');
     expect(mockPutRequest.called).to.be.true;
   });
 
