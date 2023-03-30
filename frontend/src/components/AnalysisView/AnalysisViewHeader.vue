@@ -1,5 +1,9 @@
 <template>
   <RosalutionHeader :username="this.username" :titleText="this.titleText" :actions="this.actions">
+    <a v-if="mondayLink" :href="mondayLink" class="logo-link">
+        <img src="/src/assets/monday-avatar-logo.svg"/>
+    </a>
+    <!-- Add a similar block for Phenotips logo when needed -->
     <div>
       <a v-for="anchorLink in this.sectionAnchors" :href="this.toAnchorId(anchorLink)" :key="anchorLink">
         {{ anchorLink }}
@@ -34,10 +38,25 @@ export default {
       type: Array,
       required: true,
     },
+    monday_com: {
+      type: String,
+      default: '',
+      required: false,
+    },
+    phenotips_com: {
+      type: String,
+      default: '',
+      required: false,
+    },
   },
   methods: {
     toAnchorId(anchorText) {
       return `#${anchorText.replace(' ', '_')}`;
+    },
+  },
+  computed: {
+    mondayLink() {
+      return this.monday_com;
     },
   },
 };
@@ -62,4 +81,14 @@ div a {
   font-weight: 700;
 }
 
+.logo-link {
+  background-color: transparent;
+}
+
+img {
+  height: 24px;
+  width: 24px;
+  margin-left: var(--p-5);
+  margin-right: var(--p-5);
+}
 </style>
