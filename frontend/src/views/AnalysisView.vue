@@ -146,7 +146,7 @@ export default {
       return this.analysis.genomic_units;
     },
     mondayCom() {
-      console.log('mondayCom: ', this.analysis.monday_com)
+      console.log('mondayCom: ', this.analysis.monday_com);
       return this.analysis.monday_com || '';
     },
   },
@@ -158,7 +158,7 @@ export default {
       const originalAnalysis = await Analyses.getAnalysis(this.analysis_name);
       console.log('Original analysis:', originalAnalysis);
 
-      this.analysis = { ...originalAnalysis };
+      this.analysis = {...originalAnalysis};
       console.log('Shallow copied analysis:', this.analysis);
     },
     async attachSectionImage(sectionName) {
@@ -355,7 +355,7 @@ export default {
         console.log('mondayLink', mondayLink.data);
         const updatedAnalysis = await Analyses.attachThirdPartyLink(this.analysis_name, 'MONDAY_COM', mondayLink.data);
 
-        this.analysis = { ...this.analysis, ...updatedAnalysis };
+        this.analysis = {...this.analysis, ...updatedAnalysis};
       } catch (error) {
         console.error('Updating the analysis did not work', error);
       }
