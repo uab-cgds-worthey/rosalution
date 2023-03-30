@@ -7,6 +7,7 @@
           :sectionAnchors="this.sectionsHeaders"
           :username="username"
           @logout="this.onLogout"
+          :mondayLink="mondayCom"
           data-test="analysis-view-header">
         </AnalysisViewHeader>
       </app-header>
@@ -144,13 +145,21 @@ export default {
     genomicUnitsList() {
       return this.analysis.genomic_units;
     },
+    mondayCom() {
+      console.log('mondayCom: ', this.analysis.monday_com)
+      return this.analysis.monday_com || '';
+    },
   },
   created() {
     this.getAnalysis();
   },
   methods: {
     async getAnalysis() {
-      this.analysis = {...await Analyses.getAnalysis(this.analysis_name)};
+      const originalAnalysis = await Analyses.getAnalysis(this.analysis_name);
+      console.log('Original analysis:', originalAnalysis);
+
+      this.analysis = { ...originalAnalysis };
+      console.log('Shallow copied analysis:', this.analysis);
     },
     async attachSectionImage(sectionName) {
       const includeComments = false;
@@ -344,7 +353,9 @@ export default {
 
       try {
         console.log('mondayLink', mondayLink.data);
-        await Analyses.attachThirdPartyLink(this.analysis_name, 'MONDAY_COM', mondayLink.data);
+        const updatedAnalysis = await Analyses.attachThirdPartyLink(this.analysis_name, 'MONDAY_COM', mondayLink.data);
+
+        this.analysis = { ...this.analysis, ...updatedAnalysis };
       } catch (error) {
         console.error('Updating the analysis did not work', error);
       }
