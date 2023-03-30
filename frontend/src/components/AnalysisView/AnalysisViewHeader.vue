@@ -38,12 +38,12 @@ export default {
       type: Array,
       required: true,
     },
-    monday_com: {
+    mondayLink: {
       type: String,
       default: '',
       required: false,
     },
-    phenotips_com: {
+    phenotipsLink: {
       type: String,
       default: '',
       required: false,
