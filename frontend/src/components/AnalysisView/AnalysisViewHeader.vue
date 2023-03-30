@@ -54,11 +54,6 @@ export default {
       return `#${anchorText.replace(' ', '_')}`;
     },
   },
-  computed: {
-    mondayLink() {
-      return this.monday_com;
-    },
-  },
 };
 </script>
 
