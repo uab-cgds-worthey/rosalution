@@ -221,7 +221,7 @@ def attach_supporting_evidence_link(
     return repositories["analysis"].attach_supporting_evidence_link(analysis_name, link_name, link, comments)
 
 
-@router.put("/{analysis_name}/attach/{third_party_enum}")
+@router.put("/{analysis_name}/attach/{third_party_enum}", response_model=Analysis)
 def attach_third_party_link(
     analysis_name: str, third_party_enum: str, link: str = Form(...), repositories=Depends(database)
 ):
