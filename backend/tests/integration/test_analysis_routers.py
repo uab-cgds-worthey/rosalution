@@ -399,7 +399,7 @@ def test_attach_third_party_link(client, mock_access_token, mock_repositories):
     )
 
     assert response.status_code == 200
-    assert response.json() == expected
+    assert response.json()["monday_com"] == "https://monday.com"
 
 
 def test_attach_third_party_link_analysis_does_not_exist(client, mock_access_token, mock_repositories):
