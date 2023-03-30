@@ -307,7 +307,7 @@ const annotationRenderingTemporary = [
     'header': 'Gene Homology/Multi-Sequence Alignment',
     'anchor': 'Gene_Homology',
     'header_datasets': [],
-    'allowHeaderAttachImageDataset': true,
+    'allowHeaderAttachGenomicUnit': 'hgvs_variant',
     'rows': [{
       'class': '',
       'datasets': [
@@ -315,52 +315,53 @@ const annotationRenderingTemporary = [
           'dataset': 'Gene Homology/Multi-Sequence Alignment',
           'type': 'image-dataset',
           'props': {
-            'genomic_unit_type': 'hgvs_variant'
+            'sectionLabel': 'Gene Homology/Multi-Sequence Alignment',
+            'genomicUnitType': 'hgvs_variant'
           }
         }
       ]
     }],
   },
-    {
-    'type': 'section',
-    'class': '',
-    'header': 'Protein Expression',
-    'anchor': 'Protein_Expression',
-    'header_datasets': [],
-    'allowHeaderAttachImageDataset': true,
-    'rows': [{
-      'class': '',
-      'datasets': [
-        {
-          'dataset': 'Protein Expression',
-          'type': 'image-dataset',
-          'props': {
-            'label': 'hgvs_variant'
-          }
-        }
-      ]
-    }],
-  }, 
-  {
-    'type': 'section',
-    'class': '',
-    'header': 'Modelability',
-    'anchor': 'Modelability',
-    'header_datasets': [],
-    'allowHeaderAttachImageDataset': true,
-    'rows': [{
-      'class': '',
-      'datasets': [
-        {
-          'dataset': 'Modelability',
-          'type': 'image-dataset',
-          'props': {
-            'label': 'gene'
-          }
-        }
-      ]
-    }],
-  },
+  // {
+  //   'type': 'section',
+  //   'class': '',
+  //   'header': 'Protein Expression',
+  //   'anchor': 'Protein_Expression',
+  //   'header_datasets': [],
+  //   'allowHeaderAttachImageDataset': true,
+  //   'rows': [{
+  //     'class': '',
+  //     'datasets': [
+  //       {
+  //         'dataset': 'Protein Expression',
+  //         'type': 'image-dataset',
+  //         'props': {
+  //           'label': 'hgvs_variant'
+  //         }
+  //       }
+  //     ]
+  //   }],
+  // }, 
+  // {
+  //   'type': 'section',
+  //   'class': '',
+  //   'header': 'Modelability',
+  //   'anchor': 'Modelability',
+  //   'header_datasets': [],
+  //   'allowHeaderAttachImageDataset': true,
+  //   'rows': [{
+  //     'class': '',
+  //     'datasets': [
+  //       {
+  //         'dataset': 'Modelability',
+  //         'type': 'image-dataset',
+  //         'props': {
+  //           'label': 'gene'
+  //         }
+  //       }
+  //     ]
+  //   }],
+  // },
   {
     'type': 'section',
     'class': '',
@@ -413,24 +414,25 @@ const annotationRenderingTemporary = [
         },
       ],
     }],
-  }, {
-    'type': 'section',
-    'class': '',
-    'header': 'Druggability',
-    'anchor': 'Druggability',
-    'header_datasets': [],
-    'allowHeaderAttachImageDataset': true,
-    'rows': [{
-      'class': '',
-      'datasets': [
-        {
-          'dataset': 'Druggability',
-          'type': 'image-dataset',
-          'props': {
-            'genomic_unit_type': 'gene'
-          }
-        }
-      ]
-    }],
   },
+  // {
+  //   'type': 'section',
+  //   'class': '',
+  //   'header': 'Druggability',
+  //   'anchor': 'Druggability',
+  //   'header_datasets': [],
+  //   'allowHeaderAttachImageDataset': true,
+  //   'rows': [{
+  //     'class': '',
+  //     'datasets': [
+  //       {
+  //         'dataset': 'Druggability',
+  //         'type': 'image-dataset',
+  //         'props': {
+  //           'genomic_unit_type': 'gene'
+  //         }
+  //       }
+  //     ]
+  //   }],
+  // },
 ];

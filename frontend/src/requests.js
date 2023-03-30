@@ -139,12 +139,6 @@ export default {
 
     return await response.json();
   },
-  async postForm(url, data) {
-    return await sendFormData('POST', url, data);
-  },
-  async putForm(url, data) {
-    return await sendFormData('PUT', url, data);
-  },
   async delete(url) {
     const authToken = authStore.getToken();
     const response = await fetch(url, {
@@ -167,5 +161,14 @@ export default {
     }
 
     return response.ok;
+  },
+  async postForm(url, data) {
+    return await sendFormData('POST', url, data);
+  },
+  async putForm(url, data) {
+    return await sendFormData('PUT', url, data);
+  },
+  async deleteForm(url, data) {
+    return await sendFormData('DELETE', url, data);
   },
 };

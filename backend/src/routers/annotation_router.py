@@ -132,3 +132,28 @@ def upload_annotation_section(
     response.status_code = status.HTTP_201_CREATED
 
     return {'section': section_name, 'image_id': str(new_file_object_id)}
+
+@router.delete("/{genomic_unit}/remove/image/{file_id}")
+def remove_annotation_image(
+    response: Response,
+    genomic_unit: str,
+    file_id: str,
+    genomic_unit_type: GenomicUnitType = Form(...),
+    section_name: str = Form(...),
+    repositories=Depends(database)
+):
+    """ This endpoint handles removing an annotation image for specified genomic unit """
+    genomic_unit = {
+        'unit': genomic_unit,
+        'type': genomic_unit_type
+    }
+
+    print("Remove is being called!")
+    print(genomic_unit)
+    print(section_name)
+    print(file_id)
+
+    repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit, section_name, file_id)
+    repositories["bucket"].delete_file(file_id)
+
+    return

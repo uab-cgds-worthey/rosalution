@@ -161,6 +161,23 @@ class GenomicUnitCollection:
 
         return
 
+    def remove_genomic_unit_file_annotation(self, genomic_unit, section_name, file_id):
+        """ Removes a file that has been added as an annotation to a genomic unit """
+
+        genomic_unit_document = self.find_genomic_unit(genomic_unit)
+
+        for annotation in genomic_unit_document['annotations']:
+            if section_name in annotation:
+                # annotation[0]['value'] = filter(lambda x: x['file_id']!=file_id, annotation[0]['value'])
+                for i in range(len(annotation[section_name][0]['value'])):
+                    if annotation[section_name][0]['value'][i]['file_id'] == file_id:
+                        annotation[section_name][0]['value'].pop(i)
+                        break
+
+        self.update_genomic_unit_with_mongo_id(genomic_unit_document)
+
+        return
+
     def create_genomic_unit(self, genomic_unit):
         """
         Takes a genomic_unit and adds it to the collection if it doesn't already exist (exact match).

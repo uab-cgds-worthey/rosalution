@@ -1,7 +1,7 @@
 <template>
     <div>
         <img class="section-image" :src="imageSrc"/>
-        <button class="edit-icon" @click="$emit('edit-image')" data-test="edit-icon">
+        <button class="edit-icon" @click="$emit('update-annotation-image', image, sectionLabel, genomicUnitType)" data-test="edit-icon">
           <font-awesome-icon :icon="['fa', 'pencil']" size="xl" />
         </button>
     </div>
@@ -12,9 +12,18 @@ import fileRequests from '@/fileRequests.js'
 
 export default {
     name: "tiny-image-dataset",
+    emits: ['update-annotation-image'],
     props: {
         image: {
             type: String,
+        },
+        sectionLabel: {
+            type: String,
+            default: ''
+        },
+        genomicUnitType: {
+            type: String,
+            default: ''
         }
     },
     data() {
@@ -23,7 +32,8 @@ export default {
         }
     },
     created() {
-        console.log(this.image);
+        console.log(this.dataset)
+        // console.log(this.image);
         this.sectionImageUpdate();
     },
     methods: {

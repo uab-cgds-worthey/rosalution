@@ -24,10 +24,6 @@ export default {
     ]);
     return {...geneAnnotations, ...variantAnnotations};
   },
-  async getAnnotationImage(fileId) {
-    const url = `/rosalution/api/analysis/download/${fileId}`;
-    return await Requests.getImage(url);
-  },
   async attachAnnotationImage(annotation, image) {
     const baseUrl = '/rosalution/api/annotate';
 
@@ -39,4 +35,14 @@ export default {
 
     return await Requests.postForm(`${baseUrl}/${annotation.genomic_unit}/attach/image`, attachmentForm);
   },
+  async removeAnnotationImage(file_id, annotation) {
+    const baseUrl = '/rosalution/api/annotate'
+    
+    const attachmentForm = {
+      'genomic_unit_type': annotation.genomic_unit_type,
+      'section_name': annotation.section,
+    };
+
+    return await Requests.deleteForm(`${baseUrl}/${annotation.genomic_unit}/remove/image/${file_id}`, attachmentForm);
+  }
 };

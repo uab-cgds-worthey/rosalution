@@ -10,7 +10,7 @@
         <td class="annotations">
           <slot name="headerDatasets"></slot>
         </td>
-        <button v-if="allowAttach" class="attach-logo" @click="$emit('attach-image', header)" data-test="attach-logo">
+        <button v-if="allowAttach" class="attach-logo" @click="$emit('attach-image', header, genomicAttachmentType)" data-test="attach-logo">
           <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
         </button>
         <label class="collapsable-icon">
@@ -31,11 +31,19 @@ export default {
     header: {
       type: String,
     },
-    allowAttach: {
-      type: Boolean,
-      default: false,
+    genomicAttachmentType: {
+      type: String,
+      default: '',
     }
   },
+  computed: {
+    allowAttach() {
+      if(this.genomicAttachmentType == '')
+        return false
+
+      return true
+    }
+  }
 };
 </script>
 

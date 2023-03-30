@@ -15,9 +15,8 @@
       <AnnotationSection
         v-for="(section, index) in this.rendering" :key="`${section.type}-${section.anchor}-${index}`"
         :header="sectionHeader(section.header)" v-bind="section.props"
-        :id="`${section.anchor}`" @attach-image="this.attachSectionImage"
-        @edit-image="this.editSectionImage"
-        :allowAttach="section.allowHeaderAttachImageDataset"
+        :id="`${section.anchor}`" @attach-image="this.attachAnnotationImage"
+        :genomicAttachmentType="section.allowHeaderAttachGenomicUnit"
       >
         <template #headerDatasets>
           <component
@@ -38,11 +37,15 @@
                 v-bind="buildProps(datasetConfig)"
                 :value="annotations[datasetConfig.dataset]"
                 :data-test="datasetConfig.dataset"
+                @update-annotation-image="this.updateAnnotationImage"
               />
           </div>
         </template>
       </AnnotationSection>
       <InputDialog />
+      <NotificationDialog
+          data-test="notification-dialog"
+        />
     </div>
     <AnnotationSidebar class="sidebar" :section-anchors="sectionAnchors"></AnnotationSidebar>
   </app-content>
@@ -63,8 +66,10 @@ import ScoreDataset from '@/components/AnnotationView/ScoreDataset.vue';
 import TextDataset from '@/components/AnnotationView/TextDataset.vue';
 import TranscriptDatasets from '@/components/AnnotationView/TranscriptDatasets.vue';
 import InputDialog from '@/components/Dialogs/InputDialog.vue';
+import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 
 import inputDialog from '@/inputDialog.js';
+import notificationDialog from '@/notificationDialog.js';
 
 import {authStore} from '@/stores/authStore.js';
 
@@ -77,10 +82,11 @@ export default {
     ClinvarDataset,
     IconLinkoutDataset,
     ImageDataset,
+    InputDialog,
+    NotificationDialog,
     ScoreDataset,
     TextDataset,
     TranscriptDatasets,
-    InputDialog,
   },
   props: {
     analysis_name: {
@@ -168,7 +174,7 @@ export default {
       this.annotations = {};
       await(this.getAnnotations());
     },
-    async attachSectionImage(updatedSectionName) {
+    async attachAnnotationImage(sectionName, genomicType) {
       const includeComments = false;
       const attachment = await inputDialog
           .confirmText('Attach')
@@ -180,22 +186,74 @@ export default {
         return;
       }
 
-      const isGeneAnnotation = !updatedSectionName.includes('Multi-Sequence');
       const annotation = {
-        genomic_unit: isGeneAnnotation ? this.active.gene : this.active.variant.replace(/\(.*/, ''),
-        genomic_unit_type: isGeneAnnotation ? 'gene' : 'hgvs_variant',
-        section: updatedSectionName,
+        genomic_unit: genomicType.includes('gene') ? this.active.gene : this.active.variant.replace(/\(.*/, ''),
+        genomic_unit_type: genomicType,
+        section: sectionName,
       };
 
       const updatedAnalysis = await Annotations.attachAnnotationImage(annotation, attachment.data);
-      if(!this.annotations[updatedSectionName])
-        this.annotations[updatedSectionName] = [{file_id: updatedAnalysis['image_id'], created_date: ''}];        
+      if(!this.annotations[sectionName])
+        this.annotations[sectionName] = [{file_id: updatedAnalysis['image_id'], created_date: ''}];
       else
-        this.annotations[updatedSectionName].push({file_id: updatedAnalysis['image_id'], created_date: ''});
+        this.annotations[sectionName].push({file_id: updatedAnalysis['image_id'], created_date: ''});
     },
-    async editSectionImage() {
-      console.log("I am being edited!")
-    }
+    async updateAnnotationImage(file_id, sectionName, genomicType) {
+      console.log(file_id)
+      console.log(sectionName);
+      console.log(genomicType);
+      const includeComments = false;
+      const attachment = await inputDialog
+          .confirmText('Update')
+          .deleteText('Remove')
+          .cancelText('Cancel')
+          .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp')
+          .prompt();
+
+      if (!attachment) {
+        return;
+      }
+
+      const annotation = {
+        genomic_unit: genomicType.includes('gene') ? this.active.gene : this.active.variant.replace(/\(.*/, ''),
+        genomic_unit_type: genomicType,
+        section: sectionName,
+      };
+
+      if('DELETE' == attachment) {
+        await this.removeAnnotationImage(file_id, annotation);
+        // this.uptickSectionKeyToForceReRender();
+        this.$forceUpdate();
+        return;
+      }
+    },
+    async removeAnnotationImage(file_id, annotation) {
+      const confirmedDelete = await notificationDialog
+          .title(`Remove Annotation attachment`)
+          .confirmText('Remove')
+          .cancelText('Cancel')
+          .confirm('This operation will permanently remove the image. Are you sure you want to remove?');
+
+      if (!confirmedDelete) {
+        return;
+      }
+
+      try {
+        await Annotations.removeAnnotationImage(file_id, annotation)
+      } catch (error)
+      {
+        await notificationDialog
+            .title('Failure')
+            .confirmText('Ok')
+            .alert(error);
+      }
+
+      console.log(this.annotations[annotation.section])
+
+      this.annotations[annotation.section] = this.annotations[annotation.section].filter( obj => {
+        return obj.file_id !== file_id;
+      });
+    },
   },
 };
 </script>

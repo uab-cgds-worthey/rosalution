@@ -4,6 +4,9 @@
             v-for="(sectionImage, index) in this.sectionImages"
             :key="sectionImage.id"
             :image="sectionImage.id"
+            :genomicUnitType="genomicUnitType"
+            :sectionLabel="sectionLabel"
+            v-bind="$attrs"
         />
     </div>
 </template>
@@ -21,9 +24,17 @@ export default {
             type: Array,
             default: []
         },
-        genomic_unit_type: {
+        sectionLabel: {
             type: String,
+            default: ''
+        },
+        genomicUnitType: {
+            type: String,
+            default: ''
         }
+    },
+    created() {
+        console.log(this.label)
     },
     computed: {
         sectionImages() {
