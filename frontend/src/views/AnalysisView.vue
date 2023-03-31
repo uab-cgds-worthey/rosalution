@@ -8,6 +8,7 @@
           :username="username"
           @logout="this.onLogout"
           :mondayLink="mondayCom"
+          :phenotipsLink="phenotipsCom"
           data-test="analysis-view-header">
         </AnalysisViewHeader>
       </app-header>
@@ -133,6 +134,20 @@ export default {
           {icon: 'paperclip', text: 'Attach', operation: this.addSupportingEvidence},
       );
 
+      actionChoices.push(
+          {
+            text: 'Attach Monday.com',
+            operation: this.addMondayLink,
+          },
+      );
+
+      actionChoices.push(
+          {
+            text: 'Attach PhenoTips',
+            operation: this.addPhenotipsLink,
+          },
+      );
+
       return actionChoices;
     },
 
@@ -146,8 +161,10 @@ export default {
       return this.analysis.genomic_units;
     },
     mondayCom() {
-      console.log('mondayCom: ', this.analysis.monday_com);
       return this.analysis.monday_com || '';
+    },
+    phenotipsCom() {
+      return this.analysis.phenotips_com || '';
     },
   },
   created() {
@@ -156,10 +173,8 @@ export default {
   methods: {
     async getAnalysis() {
       const originalAnalysis = await Analyses.getAnalysis(this.analysis_name);
-      console.log('Original analysis:', originalAnalysis);
 
       this.analysis = {...originalAnalysis};
-      console.log('Shallow copied analysis:', this.analysis);
     },
     async attachSectionImage(sectionName) {
       const includeComments = false;
@@ -338,7 +353,6 @@ export default {
       this.analysis.sections.splice(originalSectionIndex, 1, sectionToReplace);
     },
     async addMondayLink() {
-      console.log('add monday link');
       const includeComments = false;
       const includeName = false;
       const mondayLink = await inputDialog
@@ -352,8 +366,33 @@ export default {
       }
 
       try {
-        console.log('mondayLink', mondayLink.data);
         const updatedAnalysis = await Analyses.attachThirdPartyLink(this.analysis_name, 'MONDAY_COM', mondayLink.data);
+
+        this.analysis = {...this.analysis, ...updatedAnalysis};
+      } catch (error) {
+        console.error('Updating the analysis did not work', error);
+      }
+    },
+    async addPhenotipsLink() {
+      console.log('add phenotips link');
+      const includeComments = false;
+      const includeName = false;
+      const phenotipsLink = await inputDialog
+          .confirmText('Add')
+          .cancelText('Cancel')
+          .url(includeComments, includeName)
+          .prompt();
+
+      if (!phenotipsLink) {
+        return;
+      }
+
+      try {
+        console.log('phenotipsLink', phenotipsLink.data);
+        const updatedAnalysis = await Analyses.attachThirdPartyLink(
+            this.analysis_name,
+            'PHENOTIPS_COM',
+            phenotipsLink.data);
 
         this.analysis = {...this.analysis, ...updatedAnalysis};
       } catch (error) {
