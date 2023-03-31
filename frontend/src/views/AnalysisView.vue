@@ -143,7 +143,7 @@ export default {
 
       actionChoices.push(
           {
-            text: 'Attach PhenoTips',
+            text: 'Connect PhenoTips',
             operation: this.addPhenotipsLink,
           },
       );

@@ -193,7 +193,7 @@ describe('AnalysisView', () => {
       const actionsProps = headerComponent.props('actions');
 
       for (const action of actionsProps) {
-        if (action.text === 'Attach PhenoTips') {
+        if (action.text === 'Connect PhenoTips') {
           action.operation();
         }
       }
