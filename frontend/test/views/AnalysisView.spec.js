@@ -144,6 +144,22 @@ describe('AnalysisView', () => {
   });
 
   describe('third party links', () => {
+    it('should render the input dialog when the attach monday link menu action is clicked', async () => {
+      const headerComponent = wrapper.getComponent(
+          '[data-test=analysis-view-header]',
+      );
+      const actionsProps = headerComponent.props('actions');
+
+      for (const action of actionsProps) {
+        if (action.text === 'Attach Monday.com') {
+          action.operation();
+        }
+      }
+
+      const mondayDialog = wrapper.findComponent(InputDialog);
+      expect(mondayDialog.exists()).to.be.true;
+    });
+
     it('should add a link to monday_com', async () => {
       const newAttachmentData = {
         data: 'https://monday.com',
@@ -154,8 +170,6 @@ describe('AnalysisView', () => {
       mockedAttachThirdPartyLink.returns(analysisWithMondayLink);
 
       wrapper = getMountedComponent();
-      await wrapper.vm.$nextTick();
-
       const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
       const actionsProps = headerComponent.props('actions');
 
@@ -165,16 +179,27 @@ describe('AnalysisView', () => {
         }
       }
 
-      await wrapper.vm.$nextTick();
-
-      const mondayDialog = wrapper.findComponent(InputDialog);
-      expect(mondayDialog.exists()).to.be.true;
-
       inputDialog.confirmation(newAttachmentData);
 
       await wrapper.vm.$nextTick();
 
       expect(mockedAttachThirdPartyLink.called).to.be.true;
+    });
+
+    it('should render the input dialog when the attach phenotips link menu action is clicked', async () => {
+      const headerComponent = wrapper.getComponent(
+          '[data-test=analysis-view-header]',
+      );
+      const actionsProps = headerComponent.props('actions');
+
+      for (const action of actionsProps) {
+        if (action.text === 'Connect PhenoTips') {
+          action.operation();
+        }
+      }
+
+      const phenotipsDialog = wrapper.findComponent(InputDialog);
+      expect(phenotipsDialog.exists()).to.be.true;
     });
 
     it('should add a link to phenotips_com', async () => {
@@ -187,8 +212,6 @@ describe('AnalysisView', () => {
       mockedAttachThirdPartyLink.returns(analysisWithPhenotipsLink);
 
       wrapper = getMountedComponent();
-      await wrapper.vm.$nextTick();
-
       const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
       const actionsProps = headerComponent.props('actions');
 
@@ -197,11 +220,6 @@ describe('AnalysisView', () => {
           action.operation();
         }
       }
-
-      await wrapper.vm.$nextTick();
-
-      const phenotipsDialog = wrapper.findComponent(InputDialog);
-      expect(phenotipsDialog.exists()).to.be.true;
 
       inputDialog.confirmation(newAttachmentData);
 
