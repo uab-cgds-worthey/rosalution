@@ -1,9 +1,11 @@
 <template>
   <RosalutionHeader :username="this.username" :titleText="this.titleText" :actions="this.actions">
-    <a v-if="mondayLink" :href="mondayLink" class="logo-link">
+    <a v-if="mondayLink" :href="mondayLink" target="_blank" class="logo-link">
         <img src="/src/assets/monday-avatar-logo.svg"/>
     </a>
-    <!-- Add a similar block for Phenotips logo when needed -->
+    <a v-if="phenotipsLink" :href="phenotipsLink" target="_blank" class="logo-link">
+          <img src="/src/assets/phenotips-favicon-96x96.png"/>
+    </a>
     <div>
       <a v-for="anchorLink in this.sectionAnchors" :href="this.toAnchorId(anchorLink)" :key="anchorLink">
         {{ anchorLink }}

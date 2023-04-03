@@ -4,6 +4,14 @@
     :titleText="this.analysisName"
     :titleToRoute="{ name: 'analysis', params: { analysis_name: this.analysisName } }"
   >
+  <div>
+    <a v-if="mondayLink" :href="mondayLink" target="_blank" class="logo-link">
+          <img src="/src/assets/monday-avatar-logo.svg"/>
+    </a>
+    <a v-if="phenotipsLink" :href="phenotipsLink" target="_blank" class="logo-link">
+          <img src="/src/assets/phenotips-favicon-96x96.png"/>
+    </a>
+  </div>
     <div class="annotations-select">
         <AnnotationViewHeaderFormSelect
           v-model:selected="selectedGene"
@@ -54,6 +62,16 @@ export default {
     activeGenomicUnits: {
       type: Object,
       required: true,
+    },
+    mondayLink: {
+      type: String,
+      default: '',
+      required: false,
+    },
+    phenotipsLink: {
+      type: String,
+      default: '',
+      required: false,
     },
   },
   computed: {
@@ -119,5 +137,28 @@ export default {
 svg {
   color: var(--rosalution-black);
   flex: 0 1 auto;
+}
+
+div {
+  flex: 1 1 auto;
+  display: inline-flex;
+}
+
+div a {
+  border-radius: var(--content-border-radius);
+  padding: var(--p-5);
+  margin-left: var(--p-5);
+  margin-right: var(--p-5);
+}
+
+.logo-link {
+  background-color: transparent;
+}
+
+img {
+  height: 24px;
+  width: 24px;
+  margin-left: var(--p-5);
+  margin-right: var(--p-5);
 }
 </style>
