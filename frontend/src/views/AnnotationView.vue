@@ -192,16 +192,14 @@ export default {
         section: sectionName,
       };
 
-      const updatedAnalysis = await Annotations.attachAnnotationImage(annotation, attachment.data);
+      const updatedAnnotation = await Annotations.attachAnnotationImage(annotation, attachment.data);
+      console.log(updatedAnnotation)
       if(!this.annotations[sectionName])
-        this.annotations[sectionName] = [{file_id: updatedAnalysis['image_id'], created_date: ''}];
+        this.annotations[sectionName] = [{file_id: updatedAnnotation['image_id'], created_date: ''}];
       else
-        this.annotations[sectionName].push({file_id: updatedAnalysis['image_id'], created_date: ''});
+        this.annotations[sectionName].push({file_id: updatedAnnotation['image_id'], created_date: ''});
     },
     async updateAnnotationImage(file_id, sectionName, genomicType) {
-      console.log(file_id)
-      console.log(sectionName);
-      console.log(genomicType);
       const includeComments = false;
       const attachment = await inputDialog
           .confirmText('Update')
@@ -221,10 +219,32 @@ export default {
       };
 
       if('DELETE' == attachment) {
-        await this.removeAnnotationImage(file_id, annotation);
-        // this.uptickSectionKeyToForceReRender();
-        this.$forceUpdate();
+        const updatedImage = await this.removeAnnotationImage(file_id, annotation);
+        console.log(updatedImage)
         return;
+      }
+
+      try {
+        const that = this
+        await Annotations.updateAnnotationImage(file_id, annotation, attachment.data).then(function(response) {
+          that.annotations[sectionName].forEach(elem => {
+            if(elem['file_id'] == file_id) {
+              console.log("Image Found!")
+              console.log(elem['file_id'])
+              elem['file_id'] = response['image_id']
+              console.log(elem['file_id'])
+            }
+          });
+          console.log("Image Found!");
+          console.log(that.annotations[sectionName]);
+          console.log(response)
+        })
+      }
+      catch (error) {
+        await notificationDialog
+          .title('Failure')
+          .confirmText('Ok')
+          .alert(error)
       }
     },
     async removeAnnotationImage(file_id, annotation) {

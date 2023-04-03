@@ -32,8 +32,6 @@ export default {
         }
     },
     created() {
-        console.log(this.dataset)
-        // console.log(this.image);
         this.sectionImageUpdate();
     },
     methods: {

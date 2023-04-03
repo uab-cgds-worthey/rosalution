@@ -133,6 +133,33 @@ def upload_annotation_section(
 
     return {'section': section_name, 'image_id': str(new_file_object_id)}
 
+@router.post("/{genomic_unit}/update/image/{file_id}")
+def update_annotation_image(
+    response: Response,
+    file_id: str,
+    genomic_unit: str,
+    genomic_unit_type: GenomicUnitType = Form(...),
+    section_name: str = Form(...),
+    upload_file: UploadFile = File(...),
+    repositories=Depends(database)
+):
+    """ Updates and replaces an annotation image with a new image  """
+
+    new_file_id = repositories["bucket"].save_file(
+        upload_file.file, upload_file.filename, upload_file.content_type
+    )
+
+    genomic_unit = {
+        'unit': genomic_unit,
+        'type': genomic_unit_type
+    }
+
+    annotation_value = { "file_id": str(new_file_id), "created_date": str(datetime.now())}
+
+    repositories['genomic_unit'].update_genomic_unit_file_annotation(genomic_unit, annotation_value, section_name, file_id)
+
+    return {'section': section_name, 'image_id': str(new_file_id)}
+
 @router.delete("/{genomic_unit}/remove/image/{file_id}")
 def remove_annotation_image(
     response: Response,

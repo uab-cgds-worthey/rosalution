@@ -35,6 +35,23 @@ export default {
 
     return await Requests.postForm(`${baseUrl}/${annotation.genomic_unit}/attach/image`, attachmentForm);
   },
+  async updateAnnotationImage(file_id, annotation, image) {
+    const baseUrl = '/rosalution/api/annotate';
+
+    const attachmentForm = {
+      'upload_file': image,
+      'genomic_unit_type': annotation.genomic_unit_type,
+      'section_name': annotation.section
+    }
+
+    const result = Requests.postForm(`${baseUrl}/${annotation.genomic_unit}/update/image/${file_id}`, attachmentForm)
+
+    // console.log(result)
+
+    return result
+
+    // return Requests.postForm(`${baseUrl}/${annotation.genomic_unit}/update/image/${file_id}`, attachmentForm)
+  },
   async removeAnnotationImage(file_id, annotation) {
     const baseUrl = '/rosalution/api/annotate'
     
