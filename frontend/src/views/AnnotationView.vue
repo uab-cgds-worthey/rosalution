@@ -110,7 +110,7 @@ export default {
         'genes': {},
         'variants': [],
       },
-      analysis: { sections: [] },
+      analysis: {sections: []},
     };
   },
   computed: {
