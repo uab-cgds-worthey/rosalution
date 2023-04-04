@@ -83,8 +83,8 @@ div a {
 }
 
 img {
-  height: 24px;
-  width: 24px;
+  height: 32px;
+  width: 32px;
   margin-left: var(--p-5);
   margin-right: var(--p-5);
 }
