@@ -64,7 +64,7 @@ class GenomicUnitCollection:
         return None
 
     def find_genomic_unit(self, genomic_unit):
-        """ Returns the given genomic unit from the genomic unit collection """       
+        """ Returns the given genomic unit from the genomic unit collection """
         return self.collection.find_one({
             genomic_unit['type'].value: genomic_unit['unit'],
         })
@@ -162,26 +162,15 @@ class GenomicUnitCollection:
         return
 
     def update_genomic_unit_file_annotation(self, genomic_unit, genomic_annotation_value, section_name, file_id_old):
-        """ Accepts a new file and replaces  """
+        """ Replaces existing annotation image with new image """
 
         genomic_unit_document = self.find_genomic_unit(genomic_unit)
         data_set = section_name
 
-        temp = genomic_unit_document
-
-        # temp.pop('_id', None)
-
-        print(temp)
-
         for annotation in genomic_unit_document['annotations']:
             if data_set in annotation:
-                print(annotation)
                 for i in range(len(annotation[data_set][0]['value'])):
-                    print(annotation[data_set][0]['value'][i])
-                    print(annotation[data_set][0]['value'][i]['file_id'])
-                    print(genomic_annotation_value['file_id'])
                     if annotation[data_set][0]['value'][i]['file_id'] == file_id_old:
-                        print("Is this happening?")
                         annotation[data_set][0]['value'].pop(i)
                         annotation[data_set][0]['value'].append(genomic_annotation_value)
                         break
@@ -197,7 +186,6 @@ class GenomicUnitCollection:
 
         for annotation in genomic_unit_document['annotations']:
             if section_name in annotation:
-                # annotation[0]['value'] = filter(lambda x: x['file_id']!=file_id, annotation[0]['value'])
                 for i in range(len(annotation[section_name][0]['value'])):
                     if annotation[section_name][0]['value'][i]['file_id'] == file_id:
                         annotation[section_name][0]['value'].pop(i)

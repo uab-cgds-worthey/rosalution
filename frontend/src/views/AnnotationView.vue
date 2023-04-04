@@ -193,13 +193,14 @@ export default {
       };
 
       const updatedAnnotation = await Annotations.attachAnnotationImage(annotation, attachment.data);
-      console.log(updatedAnnotation)
-      if(!this.annotations[sectionName])
+
+      if (!this.annotations[sectionName]) {
         this.annotations[sectionName] = [{file_id: updatedAnnotation['image_id'], created_date: ''}];
-      else
+      } else {
         this.annotations[sectionName].push({file_id: updatedAnnotation['image_id'], created_date: ''});
+      }
     },
-    async updateAnnotationImage(file_id, sectionName, genomicType) {
+    async updateAnnotationImage(fileId, sectionName, genomicType) {
       const includeComments = false;
       const attachment = await inputDialog
           .confirmText('Update')
@@ -218,36 +219,28 @@ export default {
         section: sectionName,
       };
 
-      if('DELETE' == attachment) {
-        const updatedImage = await this.removeAnnotationImage(file_id, annotation);
-        console.log(updatedImage)
+      if ('DELETE' == attachment) {
+        await this.removeAnnotationImage(fileId, annotation);
         return;
       }
 
       try {
-        const that = this
-        await Annotations.updateAnnotationImage(file_id, annotation, attachment.data).then(function(response) {
-          that.annotations[sectionName].forEach(elem => {
-            if(elem['file_id'] == file_id) {
-              console.log("Image Found!")
-              console.log(elem['file_id'])
-              elem['file_id'] = response['image_id']
-              console.log(elem['file_id'])
+        const that = this;
+        await Annotations.updateAnnotationImage(fileId, annotation, attachment.data).then(function(response) {
+          that.annotations[sectionName].forEach((elem) => {
+            if (elem['file_id'] == fileId) {
+              elem['file_id'] = response['image_id'];
             }
           });
-          console.log("Image Found!");
-          console.log(that.annotations[sectionName]);
-          console.log(response)
-        })
-      }
-      catch (error) {
+        });
+      } catch (error) {
         await notificationDialog
-          .title('Failure')
-          .confirmText('Ok')
-          .alert(error)
+            .title('Failure')
+            .confirmText('Ok')
+            .alert(error);
       }
     },
-    async removeAnnotationImage(file_id, annotation) {
+    async removeAnnotationImage(fileId, annotation) {
       const confirmedDelete = await notificationDialog
           .title(`Remove Annotation attachment`)
           .confirmText('Remove')
@@ -259,19 +252,16 @@ export default {
       }
 
       try {
-        await Annotations.removeAnnotationImage(file_id, annotation)
-      } catch (error)
-      {
+        await Annotations.removeAnnotationImage(fileId, annotation);
+      } catch (error) {
         await notificationDialog
             .title('Failure')
             .confirmText('Ok')
             .alert(error);
       }
 
-      console.log(this.annotations[annotation.section])
-
-      this.annotations[annotation.section] = this.annotations[annotation.section].filter( obj => {
-        return obj.file_id !== file_id;
+      this.annotations[annotation.section] = this.annotations[annotation.section].filter( (obj) => {
+        return obj.file_id !== fileId;
       });
     },
   },

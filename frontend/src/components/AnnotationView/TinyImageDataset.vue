@@ -1,46 +1,50 @@
 <template>
     <div>
         <img class="section-image" :src="imageSrc"/>
-        <button class="edit-icon" @click="$emit('update-annotation-image', image, sectionLabel, genomicUnitType)" data-test="edit-icon">
+        <button
+          class="edit-icon"
+          @click="$emit('update-annotation-image', image, sectionLabel, genomicUnitType)"
+          data-test="edit-icon"
+        >
           <font-awesome-icon :icon="['fa', 'pencil']" size="xl" />
         </button>
     </div>
 </template>
 
 <script>
-import fileRequests from '@/fileRequests.js'
+import fileRequests from '@/fileRequests.js';
 
 export default {
-    name: "tiny-image-dataset",
-    emits: ['update-annotation-image'],
-    props: {
-        image: {
-            type: String,
-        },
-        sectionLabel: {
-            type: String,
-            default: ''
-        },
-        genomicUnitType: {
-            type: String,
-            default: ''
-        }
+  name: 'tiny-image-dataset',
+  emits: ['update-annotation-image'],
+  props: {
+    image: {
+      type: String,
     },
-    data() {
-        return {
-            imageSrc: "/src/assets/rosalution-logo.svg"
-        }
+    sectionLabel: {
+      type: String,
+      default: '',
     },
-    created() {
-        this.sectionImageUpdate();
+    genomicUnitType: {
+      type: String,
+      default: '',
     },
-    methods: {
-        async sectionImageUpdate() {
-            const loadingImage = await fileRequests.getImage(this.image)
-            this.imageSrc = loadingImage;
-        }
-    }
-}
+  },
+  data() {
+    return {
+      imageSrc: '/src/assets/rosalution-logo.svg',
+    };
+  },
+  created() {
+    this.sectionImageUpdate();
+  },
+  methods: {
+    async sectionImageUpdate() {
+      const loadingImage = await fileRequests.getImage(this.image);
+      this.imageSrc = loadingImage;
+    },
+  },
+};
 </script>
 
 <style>

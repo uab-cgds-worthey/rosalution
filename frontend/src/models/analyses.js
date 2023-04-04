@@ -316,10 +316,10 @@ const annotationRenderingTemporary = [
           'type': 'image-dataset',
           'props': {
             'sectionLabel': 'Gene Homology/Multi-Sequence Alignment',
-            'genomicUnitType': 'hgvs_variant'
-          }
-        }
-      ]
+            'genomicUnitType': 'hgvs_variant',
+          },
+        },
+      ],
     }],
   },
   // {
@@ -341,7 +341,7 @@ const annotationRenderingTemporary = [
   //       }
   //     ]
   //   }],
-  // }, 
+  // },
   // {
   //   'type': 'section',
   //   'class': '',

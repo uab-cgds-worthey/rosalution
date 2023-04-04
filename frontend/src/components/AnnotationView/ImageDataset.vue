@@ -1,7 +1,7 @@
 <template>
     <div class="section-image">
         <TinyImageDataset
-            v-for="(sectionImage, index) in this.sectionImages"
+            v-for="(sectionImage) in this.sectionImages"
             :key="sectionImage.id"
             :image="sectionImage.id"
             :genomicUnitType="genomicUnitType"
@@ -15,40 +15,37 @@
 import TinyImageDataset from '@/components/AnnotationView/TinyImageDataset.vue';
 
 export default {
-    name: 'image-dataset',
-    components: {
-        TinyImageDataset,
+  name: 'image-dataset',
+  components: {
+    TinyImageDataset,
+  },
+  props: {
+    value: {
+      type: Object,
+      default: [],
     },
-    props: {
-        value: {
-            type: Array,
-            default: []
-        },
-        sectionLabel: {
-            type: String,
-            default: ''
-        },
-        genomicUnitType: {
-            type: String,
-            default: ''
-        }
+    sectionLabel: {
+      type: String,
+      default: '',
     },
-    created() {
-        console.log(this.label)
+    genomicUnitType: {
+      type: String,
+      default: '',
     },
-    computed: {
-        sectionImages() {
-            let images = [];
+  },
+  computed: {
+    sectionImages() {
+      const images = [];
 
-            this.value.forEach(async incoming_image => {
-                const imageToLoad = { id: incoming_image.file_id }
-                images.push(imageToLoad);
-            });
+      this.value.forEach(async (incomingImage) => {
+        const imageToLoad = {id: incomingImage.file_id};
+        images.push(imageToLoad);
+      });
 
-            return images;
-        }
-    }
-}
+      return images;
+    },
+  },
+};
 </script>
 
 <style>

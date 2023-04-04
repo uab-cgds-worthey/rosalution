@@ -133,6 +133,7 @@ def upload_annotation_section(
 
     return {'section': section_name, 'image_id': str(new_file_object_id)}
 
+
 @router.post("/{genomic_unit}/update/image/{file_id}")
 def update_annotation_image(
     response: Response,
@@ -145,24 +146,26 @@ def update_annotation_image(
 ):
     """ Updates and replaces an annotation image with a new image  """
 
-    new_file_id = repositories["bucket"].save_file(
-        upload_file.file, upload_file.filename, upload_file.content_type
+    new_file_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_type)
+
+    genomic_unit = {'unit': genomic_unit, 'type': genomic_unit_type}
+
+    annotation_value = {"file_id": str(new_file_id), "created_date": str(datetime.now())}
+
+    repositories['genomic_unit'].update_genomic_unit_file_annotation(
+        genomic_unit, annotation_value, section_name, file_id
     )
 
-    genomic_unit = {
-        'unit': genomic_unit,
-        'type': genomic_unit_type
-    }
+    repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit, section_name, file_id)
+    repositories["bucket"].delete_file(file_id)
 
-    annotation_value = { "file_id": str(new_file_id), "created_date": str(datetime.now())}
-
-    repositories['genomic_unit'].update_genomic_unit_file_annotation(genomic_unit, annotation_value, section_name, file_id)
+    response.status_code = status.HTTP_200_OK
 
     return {'section': section_name, 'image_id': str(new_file_id)}
 
+
 @router.delete("/{genomic_unit}/remove/image/{file_id}")
 def remove_annotation_image(
-    response: Response,
     genomic_unit: str,
     file_id: str,
     genomic_unit_type: GenomicUnitType = Form(...),
@@ -170,17 +173,14 @@ def remove_annotation_image(
     repositories=Depends(database)
 ):
     """ This endpoint handles removing an annotation image for specified genomic unit """
-    genomic_unit = {
-        'unit': genomic_unit,
-        'type': genomic_unit_type
-    }
+    genomic_unit = {'unit': genomic_unit, 'type': genomic_unit_type}
 
-    print("Remove is being called!")
-    print(genomic_unit)
-    print(section_name)
-    print(file_id)
+    try:
+        repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit, section_name, file_id)
+    except ValueError as exception:
+        raise HTTPException(status_code=404, detail=str(exception)) from exception
 
-    repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit, section_name, file_id)
-    repositories["bucket"].delete_file(file_id)
-
-    return
+    try:
+        return repositories["bucket"].delete_file(file_id)
+    except ValueError as exception:
+        raise HTTPException(status_code=404, detail=str(exception)) from exception
