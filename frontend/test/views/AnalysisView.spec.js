@@ -49,6 +49,7 @@ describe('AnalysisView', () => {
   let pedigreeRemoveMock;
   let mockedAttachSupportingEvidence;
   let mockedRemoveSupportingEvidence;
+  let mockedAttachThirdPartyLink;
   let markReadyMock;
   let markActiveMock;
   let wrapper;
@@ -65,6 +66,7 @@ describe('AnalysisView', () => {
 
     mockedAttachSupportingEvidence = sandbox.stub(Analyses, 'attachSupportingEvidence');
     mockedRemoveSupportingEvidence = sandbox.stub(Analyses, 'removeSupportingEvidence');
+    mockedAttachThirdPartyLink = sandbox.stub(Analyses, 'attachThirdPartyLink');
 
     markReadyMock = sandbox.stub(Analyses, 'markAnalysisReady');
     markActiveMock = sandbox.stub(Analyses, 'markAnalysisActive');
@@ -138,6 +140,92 @@ describe('AnalysisView', () => {
         }
       }
       expect(markActiveMock.called).to.be.true;
+    });
+  });
+
+  describe('third party links', () => {
+    it('should render the input dialog when the attach monday link menu action is clicked', async () => {
+      const headerComponent = wrapper.getComponent(
+          '[data-test=analysis-view-header]',
+      );
+      const actionsProps = headerComponent.props('actions');
+
+      for (const action of actionsProps) {
+        if (action.text === 'Attach Monday.com') {
+          action.operation();
+        }
+      }
+
+      const mondayDialog = wrapper.findComponent(InputDialog);
+      expect(mondayDialog.exists()).to.be.true;
+    });
+
+    it('should add a link to monday_com', async () => {
+      const newAttachmentData = {
+        data: 'https://monday.com',
+        type: 'link',
+      };
+      const analysisWithMondayLink = fixtureData();
+      analysisWithMondayLink['monday_com'] = 'https://monday.com';
+      mockedAttachThirdPartyLink.returns(analysisWithMondayLink);
+
+      wrapper = getMountedComponent();
+      const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
+      const actionsProps = headerComponent.props('actions');
+
+      for (const action of actionsProps) {
+        if (action.text === 'Attach Monday.com') {
+          action.operation();
+        }
+      }
+
+      inputDialog.confirmation(newAttachmentData);
+
+      await wrapper.vm.$nextTick();
+
+      expect(mockedAttachThirdPartyLink.called).to.be.true;
+    });
+
+    it('should render the input dialog when the attach phenotips link menu action is clicked', async () => {
+      const headerComponent = wrapper.getComponent(
+          '[data-test=analysis-view-header]',
+      );
+      const actionsProps = headerComponent.props('actions');
+
+      for (const action of actionsProps) {
+        if (action.text === 'Connect PhenoTips') {
+          action.operation();
+        }
+      }
+
+      const phenotipsDialog = wrapper.findComponent(InputDialog);
+      expect(phenotipsDialog.exists()).to.be.true;
+    });
+
+    it('should add a link to phenotips_com', async () => {
+      const newAttachmentData = {
+        data: 'https://phenotips.com',
+        type: 'link',
+      };
+      const analysisWithPhenotipsLink = fixtureData();
+      analysisWithPhenotipsLink['phenotips_com'] = 'https://phenotips.com';
+      mockedAttachThirdPartyLink.returns(analysisWithPhenotipsLink);
+
+      wrapper = getMountedComponent();
+      const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
+      const actionsProps = headerComponent.props('actions');
+
+      for (const action of actionsProps) {
+        if (action.text === 'Connect PhenoTips') {
+          action.operation();
+        }
+      }
+
+      inputDialog.confirmation(newAttachmentData);
+
+      await wrapper.vm.$nextTick();
+
+      expect(mockedAttachThirdPartyLink.called).to.be.true;
     });
   });
 
@@ -399,6 +487,8 @@ function fixtureData() {
     latest_status: 'Approved',
     created_date: '2021-09-30',
     last_modified_date: '2021-10-01',
+    monday_com: null,
+    phenotips_com: null,
     genomic_units: [
       {
         gene: 'LMNA',

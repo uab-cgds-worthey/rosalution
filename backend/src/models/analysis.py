@@ -39,6 +39,8 @@ class BaseAnalysis(BaseModel):
     created_date: Optional[date]
     last_modified_date: Optional[date]
     timeline: List[Event] = []
+    monday_com: Optional[str]
+    phenotips_com: Optional[str]
 
     # The structure of the root_validator from pydantic requires the method to be setup this way even if there is no
     # self being used and no self argument

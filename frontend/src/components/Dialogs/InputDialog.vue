@@ -66,8 +66,10 @@ export default {
   padding: var(--p-16);
   display: flex;
   flex-direction: column;
-  width: 400px;
-  height: 400px;
+  min-width: 400px;
+  max-width: auto;
+  min-height: auto;
+  max-height: auto;
   gap: var(--p-16);
   align-items: stretch;
 }

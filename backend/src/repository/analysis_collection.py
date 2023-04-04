@@ -109,7 +109,7 @@ class AnalysisCollection:
         return None
 
     def attach_supporting_evidence_file(self, analysis_name: str, file_id: str, filename: str, comments: str):
-        """Attachs supporting evidence documents and comments for an analysis"""
+        """Attaches supporting evidence documents and comments for an analysis"""
         new_uuid = str(file_id)
         new_evidence = {
             "name": filename,
@@ -127,7 +127,7 @@ class AnalysisCollection:
         return updated_document
 
     def attach_supporting_evidence_link(self, analysis_name: str, link_name: str, link: str, comments: str):
-        """Attachs supporting evidence URL and comments to an analysis"""
+        """Attaches supporting evidence URL and comments to an analysis"""
         new_uuid = str(uuid4())
         new_evidence = {
             "name": link_name, "data": link, "attachment_id": new_uuid, "type": "link", "comments": comments
