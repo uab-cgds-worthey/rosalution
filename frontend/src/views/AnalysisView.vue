@@ -172,9 +172,7 @@ export default {
   },
   methods: {
     async getAnalysis() {
-      const originalAnalysis = await Analyses.getAnalysis(this.analysis_name);
-
-      this.analysis = {...originalAnalysis};
+      this.analysis = await Analyses.getAnalysis(this.analysis_name);
     },
     async attachSectionImage(sectionName) {
       const includeComments = false;
