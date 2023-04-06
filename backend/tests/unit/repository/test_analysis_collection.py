@@ -16,6 +16,11 @@ def test_all(analysis_collection):
     assert len(actual) == 5
     assert actual[0]["name"] == "CPAM0002"
 
+def test_summary_by_name(analysis_collection):
+    """Tests the summary_by_name function"""
+    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    actual = analysis_collection.summary_by_name("CPAM0002")
+    assert actual["name"] == "CPAM0002"
 
 def test_find_by_name(analysis_collection):
     """Tests the find_by_name function"""
