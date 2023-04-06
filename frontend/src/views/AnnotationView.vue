@@ -34,6 +34,7 @@
                 v-for="(datasetConfig, index) in row.datasets"
                 :key="`${datasetConfig.dataset}-${index}`"
                 :is="datasetConfig.type"
+                :dataSet="datasetConfig.dataset"
                 v-bind="buildProps(datasetConfig)"
                 :value="annotations[datasetConfig.dataset]"
                 :data-test="datasetConfig.dataset"
@@ -138,13 +139,6 @@ export default {
     sectionHeader(header) {
       return header in this ? this.active[header] : header;
     },
-    imageId(header) {
-      if (this.annotations[header] != undefined) {
-        return this.annotations[header];
-      }
-
-      return '';
-    },
     buildProps(datasetConfig) {
       return {
         ...datasetConfig.props,
@@ -200,7 +194,13 @@ export default {
         this.annotations[sectionName].push({file_id: updatedAnnotation['image_id'], created_date: ''});
       }
     },
-    async updateAnnotationImage(fileId, sectionName, genomicType) {
+    async updateAnnotationImage(fileId, dataSet) {
+      let genomicType = this.rendering.find(section => section['header'] == dataSet).allowHeaderAttachGenomicUnit;
+      
+      console.log(fileId);
+      console.log(dataSet);
+      console.log(genomicType);
+
       const includeComments = false;
       const attachment = await inputDialog
           .confirmText('Update')
@@ -216,7 +216,7 @@ export default {
       const annotation = {
         genomic_unit: genomicType.includes('gene') ? this.active.gene : this.active.variant.replace(/\(.*/, ''),
         genomic_unit_type: genomicType,
-        section: sectionName,
+        section: dataSet,
       };
 
       if ('DELETE' == attachment) {
@@ -227,7 +227,7 @@ export default {
       try {
         const that = this;
         await Annotations.updateAnnotationImage(fileId, annotation, attachment.data).then(function(response) {
-          that.annotations[sectionName].forEach((elem) => {
+          that.annotations[dataSet].forEach((elem) => {
             if (elem['file_id'] == fileId) {
               elem['file_id'] = response['image_id'];
             }
@@ -274,6 +274,12 @@ app-content {
   display: flex;
   flex-direction: row;
   gap: var(--p-10);
+}
+
+app-header {
+  position: sticky;
+  top:0px;
+  z-index: 10;
 }
 
 .sections {

@@ -3,9 +3,8 @@
         <TinyImageDataset
             v-for="(sectionImage) in this.sectionImages"
             :key="sectionImage.id"
-            :image="sectionImage.id"
-            :genomicUnitType="genomicUnitType"
-            :sectionLabel="sectionLabel"
+            :imageId="sectionImage.id"
+            :dataSet="dataSet"
             v-bind="$attrs"
         />
     </div>
@@ -24,14 +23,9 @@ export default {
       type: Object,
       default: [],
     },
-    sectionLabel: {
-      type: String,
-      default: '',
-    },
-    genomicUnitType: {
-      type: String,
-      default: '',
-    },
+    dataSet: {
+      type:String,
+    }
   },
   computed: {
     sectionImages() {
