@@ -110,7 +110,7 @@ export default {
         'genes': {},
         'variants': [],
       },
-      analysis: {sections: []},
+      summary: {sections: []},
     };
   },
   computed: {
@@ -123,21 +123,22 @@ export default {
       });
     },
     mondayCom() {
-      return this.analysis.monday_com || '';
+      return this.summary.monday_com || '';
     },
     phenotipsCom() {
-      return this.analysis.phenotips_com || '';
+      return this.summary.phenotips_com || '';
     },
   },
   async created() {
     await this.getGenomicUnits();
     this.getRenderingConfiguration();
     this.getAnnotations();
-    this.getAnalysis();
+    this.getSummaryByName();
   },
   methods: {
-    async getAnalysis() {
-      this.analysis = await Analyses.getAnalysis(this.analysis_name);
+    async getSummaryByName() {
+      this.summary = await Analyses.getSummaryByName(this.analysis_name);
+      console.log(this.summary);
     },
     sectionHeader(header) {
       return header in this ? this.active[header] : header;
