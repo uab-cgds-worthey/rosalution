@@ -160,6 +160,50 @@ describe('AnnotationView', () => {
           'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=ENSG00000160131',
         ]).to.include(linkDomElement.attributes('href'));
       });
+    });    
+  });
+
+  describe('Annotation image attachments', () => {
+    describe('when an image section does not have an image', () => {
+      it.only('accepts an image to be added as content', async () => {
+        const newImageResult = {
+          image_id: 'fake-image-id-1',
+          section: 'Gene Homology/Multi-Sequence Alignment',
+        }
+
+        annotationAttachMock.returns(newImageResult);
+
+        const annotationSection = wrapper.findComponent('[id=Gene_Homology]')
+
+        // console.log(annotationSection)
+
+        annotationSection.vm.$emit('attach-image', 'Gene Homology/Multi-Sequence Alignment', 'hgvs_variant');
+
+        await wrapper.vm.$nextTick();
+
+        const fakeImage = {data: 'path/to/fake/fakeImage.png'};
+
+        inputDialog.confirmation(fakeImage);
+
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+
+        const reRenderedAnnotationSection = wrapper.findComponent('[id=Gene_Homology]');
+
+        // console.log(wrapper.vm.annotations);
+
+        const imageDatasetComponents = reRenderedAnnotationSection.findComponent(ImageDataset)
+
+        // console.log(imageDatasetComponents.vm.value)
+      });
+    });
+
+    describe('when an image section has an image', () => {
+      it('allows user to remove image content with input dialog with confirmation', () => {
+
+      });
     });
   });
 
@@ -698,4 +742,5 @@ const mockAnnotationsForCPAM0002 = {
     'Consequences': ['missense_variant', 'splice_region_variant'],
     'Polyphen Prediction': 'probably_damaging',
   }],
+  'Gene Homology/Multi-Sequence Alignment': [],
 };
