@@ -1,4 +1,4 @@
-import {expect, describe, it, beforeAll, afterAll} from 'vitest';
+import {expect, describe, it, beforeAll, afterAll, beforeEach} from 'vitest';
 import {config, mount} from '@vue/test-utils';
 import sinon from 'sinon';
 
@@ -9,6 +9,9 @@ import AnnotationView from '@/views/AnnotationView.vue';
 import AnnotationSection from '@/components/AnnotationView/AnnotationSection.vue';
 import AnnotationViewHeader from '@/components/AnnotationView/AnnotationViewHeader.vue';
 import TextDataset from '@/components/AnnotationView/TextDataset.vue';
+import ImageDataset from '@/components/AnnotationView/ImageDataset.vue';
+
+import inputDialog from '@/inputDialog.js';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
@@ -16,7 +19,9 @@ describe('AnnotationView', () => {
   let wrapper;
   let mockAnnotations;
   let mockGenomicUnits;
-  // Future Mock Analyis Annotation Rendering Configuration
+  // Future Mock Analysis Annotation Rendering Configuration
+
+  let annotationAttachMock;
 
   const mockRoute = {
     params: {
@@ -42,6 +47,8 @@ describe('AnnotationView', () => {
 
     mockGenomicUnits = sandbox.stub(Analyses, 'getGenomicUnits');
     mockGenomicUnits.returns(mockGenomicUnitsForCPAM0002);
+
+    annotationAttachMock = sandbox.stub(Annotations, 'attachAnnotationImage');
 
     wrapper = mount(AnnotationView, {
       props: {...defaultProps},
@@ -131,6 +138,50 @@ describe('AnnotationView', () => {
           'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=HGNC:22082',
           'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=ENSG00000160131',
         ]).to.include(linkDomElement.attributes('href'));
+      });
+    });    
+  });
+
+  describe('Annotation image attachments', () => {
+    describe('when an image section does not have an image', () => {
+      it.only('accepts an image to be added as content', async () => {
+        const newImageResult = {
+          image_id: 'fake-image-id-1',
+          section: 'Gene Homology/Multi-Sequence Alignment',
+        }
+
+        annotationAttachMock.returns(newImageResult);
+
+        const annotationSection = wrapper.findComponent('[id=Gene_Homology]')
+
+        // console.log(annotationSection)
+
+        annotationSection.vm.$emit('attach-image', 'Gene Homology/Multi-Sequence Alignment', 'hgvs_variant');
+
+        await wrapper.vm.$nextTick();
+
+        const fakeImage = {data: 'path/to/fake/fakeImage.png'};
+
+        inputDialog.confirmation(fakeImage);
+
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+
+        const reRenderedAnnotationSection = wrapper.findComponent('[id=Gene_Homology]');
+
+        // console.log(wrapper.vm.annotations);
+
+        const imageDatasetComponents = reRenderedAnnotationSection.findComponent(ImageDataset)
+
+        // console.log(imageDatasetComponents.vm.value)
+      });
+    });
+
+    describe('when an image section has an image', () => {
+      it('allows user to remove image content with input dialog with confirmation', () => {
+
       });
     });
   });
@@ -226,4 +277,5 @@ const mockAnnotationsForCPAM0002 = {
     'Consequences': ['missense_variant', 'splice_region_variant'],
     'Polyphen Prediction': 'probably_damaging',
   }],
+  'Gene Homology/Multi-Sequence Alignment': [],
 };

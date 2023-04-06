@@ -324,16 +324,13 @@ const annotationRenderingTemporary = [
     'header': 'Protein Expression',
     'anchor': 'Protein_Expression',
     'header_datasets': [],
-    'allowHeaderAttachImageDataset': true,
+    'allowHeaderAttachGenomicUnit': 'hgvs_variant',
     'rows': [{
       'class': '',
       'datasets': [
         {
           'dataset': 'Protein Expression',
           'type': 'image-dataset',
-          'props': {
-            'label': 'hgvs_variant',
-          },
         },
       ],
     }],
@@ -344,16 +341,13 @@ const annotationRenderingTemporary = [
     'header': 'Modelability',
     'anchor': 'Modelability',
     'header_datasets': [],
-    'allowHeaderAttachImageDataset': true,
+    'allowHeaderAttachGenomicUnit': 'gene',
     'rows': [{
       'class': '',
       'datasets': [
         {
           'dataset': 'Modelability',
           'type': 'image-dataset',
-          'props': {
-            'label': 'gene',
-          },
         },
       ],
     }],
@@ -417,16 +411,13 @@ const annotationRenderingTemporary = [
     'header': 'Druggability',
     'anchor': 'Druggability',
     'header_datasets': [],
-    'allowHeaderAttachImageDataset': true,
+    'allowHeaderAttachGenomicUnit': 'gene',
     'rows': [{
       'class': '',
       'datasets': [
         {
           'dataset': 'Druggability',
           'type': 'image-dataset',
-          'props': {
-            'genomic_unit_type': 'gene',
-          },
         },
       ],
     }],
