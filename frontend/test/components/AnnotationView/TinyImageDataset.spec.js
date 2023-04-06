@@ -14,62 +14,62 @@ import sinon from 'sinon';
     * @return {Object} shallowMount to be used
 */
 function getMountedComponent(propsData) {
-    const defaultPropsData = {
-        imageId: 'fake-image-id-1',
-        dataSet: 'Fake Dataset Section'
-    }
+  const defaultPropsData = {
+    imageId: 'fake-image-id-1',
+    dataSet: 'Fake Dataset Section',
+  };
 
-    return shallowMount(TinyImageDataset, {
-        props: {...defaultPropsData, ...propsData},
-        global: {
-          components: {
-            'font-awesome-icon': FontAwesomeIcon,
-          },
-        },
-    });
+  return shallowMount(TinyImageDataset, {
+    props: {...defaultPropsData, ...propsData},
+    global: {
+      components: {
+        'font-awesome-icon': FontAwesomeIcon,
+      },
+    },
+  });
 }
 
 describe('TinyImageDataset.vue', () => {
-    let sandbox;
-    let getImageMock;
+  let sandbox;
+  let getImageMock;
 
-    beforeAll(() => {
-        sandbox = sinon.createSandbox();
-        getImageMock = sandbox.stub(FileRequests, 'getImage');
-        getImageMock.returns('fake-image-data-from-mongo');
-    });
+  beforeAll(() => {
+    sandbox = sinon.createSandbox();
+    getImageMock = sandbox.stub(FileRequests, 'getImage');
+    getImageMock.returns('fake-image-data-from-mongo');
+  });
 
-    afterAll(() => {
-        sandbox.restore();
-    });
+  afterAll(() => {
+    sandbox.restore();
+  });
 
-    it('Should display a placeholder image if image has not been fetched from mongo', () => {
-        const imagePlaceholderPath = '/src/assets/rosalution-logo.svg';
+  it('Should display a placeholder image if image has not been fetched from mongo', () => {
+    const imagePlaceholderPath = '/src/assets/rosalution-logo.svg';
 
-        const wrapper = getMountedComponent();
-        const annotationImage = wrapper.find('[data-test=annotation-image]');
+    const wrapper = getMountedComponent();
+    const annotationImage = wrapper.find('[data-test=annotation-image]');
 
-        expect(annotationImage.html()).toContain(imagePlaceholderPath)
-    });
+    expect(annotationImage.html()).toContain(imagePlaceholderPath);
+  });
 
-    it('Should display image data that has been retrieved from mongo', async () => {
-        const wrapper = getMountedComponent();
-        const annotationImage = wrapper.find('[data-test=annotation-image]');
+  it('Should display image data that has been retrieved from mongo', async () => {
+    const wrapper = getMountedComponent();
+    const annotationImage = wrapper.find('[data-test=annotation-image]');
 
-        await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
 
-        expect(annotationImage.html()).toContain('fake-image-data-from-mongo')
-    });
+    expect(annotationImage.html()).toContain('fake-image-data-from-mongo');
+  });
 
-    it('Should emit an update-annotation-image event when the edit icon is clicked', async () => {
-        const wrapper = getMountedComponent();
-        const editAnnotationImageButton = wrapper.find('[data-test=annotation-edit-icon]');
-        
-        await editAnnotationImageButton.trigger('click');
+  it('Should emit an update-annotation-image event when the edit icon is clicked', async () => {
+    const wrapper = getMountedComponent();
+    const editAnnotationImageButton = wrapper.find('[data-test=annotation-edit-icon]');
 
-        const emittedObjects = wrapper.emitted()['update-annotation-image'][0];
+    await editAnnotationImageButton.trigger('click');
 
-        expect(emittedObjects[0]).to.equal('fake-image-id-1');
-        expect(emittedObjects[1]).to.equal('Fake Dataset Section');
-    });
+    const emittedObjects = wrapper.emitted()['update-annotation-image'][0];
+
+    expect(emittedObjects[0]).to.equal('fake-image-id-1');
+    expect(emittedObjects[1]).to.equal('Fake Dataset Section');
+  });
 });

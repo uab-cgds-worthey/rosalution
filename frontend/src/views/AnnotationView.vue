@@ -195,8 +195,8 @@ export default {
       }
     },
     async updateAnnotationImage(fileId, dataSet) {
-      let genomicType = this.rendering.find(section => section['header'] == dataSet).allowHeaderAttachGenomicUnit;
-      
+      const genomicType = this.rendering.find((section) => section['header'] == dataSet).allowHeaderAttachGenomicUnit;
+
       console.log(fileId);
       console.log(dataSet);
       console.log(genomicType);

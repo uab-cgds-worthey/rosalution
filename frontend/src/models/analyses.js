@@ -332,10 +332,10 @@ const annotationRenderingTemporary = [
           'dataset': 'Protein Expression',
           'type': 'image-dataset',
           'props': {
-            'label': 'hgvs_variant'
-          }
-        }
-      ]
+            'label': 'hgvs_variant',
+          },
+        },
+      ],
     }],
   },
   {
@@ -352,10 +352,10 @@ const annotationRenderingTemporary = [
           'dataset': 'Modelability',
           'type': 'image-dataset',
           'props': {
-            'label': 'gene'
-          }
-        }
-      ]
+            'label': 'gene',
+          },
+        },
+      ],
     }],
   },
   {
@@ -425,10 +425,10 @@ const annotationRenderingTemporary = [
           'dataset': 'Druggability',
           'type': 'image-dataset',
           'props': {
-            'genomic_unit_type': 'gene'
-          }
-        }
-      ]
+            'genomic_unit_type': 'gene',
+          },
+        },
+      ],
     }],
   },
 ];

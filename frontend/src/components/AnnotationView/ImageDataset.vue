@@ -24,8 +24,8 @@ export default {
       default: [],
     },
     dataSet: {
-      type:String,
-    }
+      type: String,
+    },
   },
   computed: {
     sectionImages() {
