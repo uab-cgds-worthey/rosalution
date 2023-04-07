@@ -1,9 +1,9 @@
 <template>
   <RosalutionHeader :username="this.username" :titleText="this.titleText" :actions="this.actions">
-    <a v-if="mondayLink" :href="mondayLink" target="_blank" class="logo-link">
+    <a v-if="mondayLink" :href="mondayLink" target="_blank" class="logo-link" data-test="monday-link">
         <img src="/src/assets/monday-avatar-logo.svg"/>
     </a>
-    <a v-if="phenotipsLink" :href="phenotipsLink" target="_blank" class="logo-link">
+    <a v-if="phenotipsLink" :href="phenotipsLink" target="_blank" class="logo-link" data-test="phenotips-link">
           <img src="/src/assets/phenotips-favicon-96x96.png"/>
     </a>
     <div>
