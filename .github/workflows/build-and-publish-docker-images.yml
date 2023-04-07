@@ -27,4 +27,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Run build script
-        run: ./build.sh --tag 0.6.0 --push
+        run: ./build.sh --tag ${{ vars.VERSION_BUILD_TAG }} --push
