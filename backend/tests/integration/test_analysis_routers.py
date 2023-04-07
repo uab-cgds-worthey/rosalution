@@ -41,10 +41,10 @@ def test_get_analysis_summary(client, mock_access_token, mock_repositories):
     response = client.get("/analysis/summary", headers={"Authorization": "Bearer " + mock_access_token})
     assert len(response.json()) == 5
 
+
 def test_get_summary_by_name(client, mock_access_token, mock_repositories):
     """Tests the summary_by_name endpoint"""
-    mock_repositories['analysis'].collection.find_one.return_value = read_test_fixture(
-        "analysis-CPAM0002.json")
+    mock_repositories['analysis'].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
 
     response = client.get("/analysis/summary/CPAM0002", headers={"Authorization": "Bearer " + mock_access_token})
 
