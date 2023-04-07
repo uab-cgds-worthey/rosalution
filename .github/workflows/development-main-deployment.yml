@@ -1,0 +1,23 @@
+name: Production Build Deployment to DevOps Server
+
+on:
+  workflow_run:
+    workflows: [Compile & Publish]
+    types:
+      - completed
+  workflow_dispatch:
+
+env:
+  ROSALUTION_VERSION: ${{ vars.VERSION_BUILD_TAG }}
+
+jobs:
+  docker-shell-stack-deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: HEAD^
+
+      - name: Deploy Production Rosalution Build to Developer DevOps Server
+        run: sudo -E docker stack deploy --prune --with-registry-auth --compose-file docker-compose.production.yml rosalution-prod
