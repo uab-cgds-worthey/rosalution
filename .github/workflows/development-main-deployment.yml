@@ -21,4 +21,4 @@ jobs:
           ref: HEAD^
 
       - name: Deploy Production Rosalution Build to Developer DevOsp Server
-        run: docker stack deploy --prune --with-registry-auth --compose-file docker-compose.production.yml rosalution-prod
+        run: sudo docker stack deploy --prune --with-registry-auth --compose-file docker-compose.production.yml rosalution-prod
