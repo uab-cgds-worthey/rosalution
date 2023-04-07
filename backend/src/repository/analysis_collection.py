@@ -32,6 +32,8 @@ class AnalysisCollection:
             "genomic_units": 1,
             "nominated_by": 1,
             "timeline": 1,
+            "monday_com": 1,
+            "phenotips_com": 1,
         })
 
         summaries = []
