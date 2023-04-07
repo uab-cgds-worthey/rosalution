@@ -6,13 +6,12 @@ on:
     types:
       - completed
   workflow_dispatch:
-  push:
 
 env:
   ROSALUTION_VERSION: ${{ vars.VERSION_BUILD_TAG }}
 
 jobs:
-  docker-shell-markdown-static-analysis:
+  docker-shell-stack-deploy:
     runs-on: self-hosted
     steps:
       - name: Checkout repository
