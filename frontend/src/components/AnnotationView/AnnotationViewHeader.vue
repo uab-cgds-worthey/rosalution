@@ -122,7 +122,7 @@ export default {
   flex: 1 1 auto;
   display: inline-flex;
   align-items: center;
-  margin-left: var(--p-8);
+  margin: 0 var(--p-8);
   gap: var(--p-10);
 }
 

@@ -56,6 +56,7 @@ export default {
   border: 1px solid transparent;
   border-radius: var(--content-border-radius);
   background-color: var(--primary-background-color);
+  margin: 0 12px;
 }
 
 .search:hover, .search:focus, .search:focus-within{

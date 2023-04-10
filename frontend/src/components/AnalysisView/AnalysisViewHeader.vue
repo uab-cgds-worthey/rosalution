@@ -61,6 +61,10 @@ export default {
 
 <style scoped>
 
+RosalutionHeader .content {
+  gap: 0;
+}
+
 div {
   flex: 1 1 auto;
   display: inline-flex;
@@ -80,6 +84,7 @@ div a {
 
 .logo-link {
   background-color: transparent;
+  padding: 0;
 }
 
 img {
