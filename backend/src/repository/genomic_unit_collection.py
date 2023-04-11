@@ -161,6 +161,8 @@ class GenomicUnitCollection:
 
         genomic_unit_document = self.find_genomic_unit(genomic_unit)
 
+        # print(genomic_annotation_value)
+
         for annotation in genomic_unit_document['annotations']:
             if data_set in annotation:
                 for i in range(len(annotation[data_set][0]['value'])):

@@ -39,9 +39,3 @@ export default {
     }
 }
 </script>
-
-<style>
-.section-image {
-  max-height: 31.25rem;
-}
-</style>
