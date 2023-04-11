@@ -117,13 +117,11 @@ describe('AnnotationViewHeader.vue', () => {
   it('should render third party links', () => {
     const wrapper = getMountedComponent();
 
-    const mondayLink = wrapper.find('[data-test="monday-link"]');
-    expect(mondayLink.exists()).toBe(true);
+    const mondayLink = wrapper.get('[data-test="monday-link"]');
     expect(mondayLink.attributes('href')).to.equal('https://monday.com');
     expect(mondayLink.attributes('target')).to.equal('_blank');
 
-    const phenotipsLink = wrapper.find('[data-test="phenotips-link"]');
-    expect(phenotipsLink.exists()).toBe(true);
+    const phenotipsLink = wrapper.get('[data-test="phenotips-link"]');
     expect(phenotipsLink.attributes('href')).to.equal('https://phenotips.org');
     expect(phenotipsLink.attributes('target')).to.equal('_blank');
   });
@@ -135,9 +133,9 @@ describe('AnnotationViewHeader.vue', () => {
     });
 
     const mondayLink = wrapper.find('[data-test="monday-link"]');
-    expect(mondayLink.exists()).toBe(false);
+    expect(mondayLink.exists()).to.be.false;
 
     const phenotipsLink = wrapper.find('[data-test="phenotips-link"]');
-    expect(phenotipsLink.exists()).toBe(false);
+    expect(phenotipsLink.exists()).to.be.false;
   });
 });
