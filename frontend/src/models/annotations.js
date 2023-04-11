@@ -33,12 +33,7 @@ export default {
       'section_name': annotation.section,
     };
 
-    const result = await Requests.postForm(`${baseUrl}/${annotation.genomic_unit}/attach/image`, attachmentForm);
-
-    console.log("Is this happening?")
-    console.log(result)
-
-    return result
+    return await Requests.postForm(`${baseUrl}/${annotation.genomic_unit}/attach/image`, attachmentForm);
   },
   async updateAnnotationImage(fileId, annotation, image) {
     const baseUrl = '/rosalution/api/annotate';

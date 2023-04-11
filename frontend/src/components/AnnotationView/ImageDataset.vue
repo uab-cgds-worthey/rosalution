@@ -20,8 +20,10 @@ export default {
   },
   props: {
     value: {
-      type: Object,
-      default: [],
+      type: Array,
+      default() {
+        return [];
+      },
     },
     dataSet: {
       type: String,
@@ -41,7 +43,3 @@ export default {
   },
 };
 </script>
-
-<style>
-
-</style>

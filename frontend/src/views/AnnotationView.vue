@@ -186,20 +186,23 @@ export default {
         section: sectionName,
       };
 
-      const updatedAnnotation = await Annotations.attachAnnotationImage(annotation, attachment.data);
+      try {
+        const updatedAnnotation = await Annotations.attachAnnotationImage(annotation, attachment.data);
 
-      if (!this.annotations[sectionName]) {
-        this.annotations[sectionName] = [{file_id: updatedAnnotation['image_id'], created_date: ''}];
-      } else {
-        this.annotations[sectionName].push({file_id: updatedAnnotation['image_id'], created_date: ''});
+        if (!this.annotations[sectionName]) {
+          this.annotations[sectionName] = [{file_id: updatedAnnotation['image_id'], created_date: ''}];
+        } else {
+          this.annotations[sectionName].push({file_id: updatedAnnotation['image_id'], created_date: ''});
+        }
+      } catch (error) {
+        await notificationDialog
+            .title('Failure')
+            .confirmText('Ok')
+            .alert(error);
       }
     },
     async updateAnnotationImage(fileId, dataSet) {
       const genomicType = this.rendering.find((section) => section['header'] == dataSet).allowHeaderAttachGenomicUnit;
-
-      console.log(fileId);
-      console.log(dataSet);
-      console.log(genomicType);
 
       const includeComments = false;
       const attachment = await inputDialog

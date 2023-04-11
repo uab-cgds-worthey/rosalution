@@ -136,7 +136,6 @@ def upload_annotation_section(
 
 @router.post("/{genomic_unit}/update/image/{file_id}")
 def update_annotation_image(
-    response: Response,
     file_id: str,
     genomic_unit: str,
     genomic_unit_type: GenomicUnitType = Form(...),
@@ -158,8 +157,6 @@ def update_annotation_image(
 
     repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit, section_name, file_id)
     repositories["bucket"].delete_file(file_id)
-
-    response.status_code = status.HTTP_200_OK
 
     return {'section': section_name, 'image_id': str(new_file_id)}
 

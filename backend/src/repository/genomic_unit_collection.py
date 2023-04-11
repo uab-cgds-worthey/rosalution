@@ -129,11 +129,6 @@ class GenomicUnitCollection:
 
         return
 
-    # Annotate Genomic Unit should be updated to support doing this, but there are some implications
-    # here that need to be approached at another time.
-    # Specifically here, if the section image exists as an annotation and we upload a different one,
-    # We're overwriting it.
-
     def annotate_genomic_unit_with_file(self, genomic_unit, genomic_annotation):
         """ Ensures that an annotation is created for the annotation image upload and only one image is allowed """
 
@@ -164,6 +159,8 @@ class GenomicUnitCollection:
 
         genomic_unit_document = self.find_genomic_unit(genomic_unit)
         data_set = section_name
+
+        # print(genomic_annotation_value)
 
         for annotation in genomic_unit_document['annotations']:
             if data_set in annotation:
