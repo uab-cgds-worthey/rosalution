@@ -4,14 +4,12 @@
     :titleText="this.analysisName"
     :titleToRoute="{ name: 'analysis', params: { analysis_name: this.analysisName } }"
   >
-  <div>
     <a v-if="mondayLink" :href="mondayLink" target="_blank" class="logo-link" data-test="monday-link">
-          <img src="/src/assets/monday-avatar-logo.svg"/>
+          <img src="/src/assets/monday-avatar-logo.svg" class="monday-icon"/>
     </a>
     <a v-if="phenotipsLink" :href="phenotipsLink" target="_blank" class="logo-link" data-test="phenotips-link">
-          <img src="/src/assets/phenotips-favicon-96x96.png"/>
+          <img src="/src/assets/phenotips-favicon-96x96.png" class="phenotips-icon"/>
     </a>
-  </div>
     <div class="annotations-select">
         <AnnotationViewHeaderFormSelect
           v-model:selected="selectedGene"
@@ -152,12 +150,22 @@ div a {
 
 .logo-link {
   background-color: transparent;
+  padding: 0;
+  transform: translate(0, 4px);
 }
 
 img {
-  height: 32px;
-  width: 32px;
   margin-left: var(--p-5);
   margin-right: var(--p-5);
+}
+
+.monday-icon {
+  width: 1.875rem; /* 30px */
+  height: 1.875rem; /* 30px */
+}
+
+.phenotips-icon {
+  width: 1.25rem; /* 20px */
+  height: 1.25rem; /* 20px */
 }
 </style>
