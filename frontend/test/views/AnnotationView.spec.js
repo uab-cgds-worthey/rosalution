@@ -160,22 +160,20 @@ describe('AnnotationView', () => {
           'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=ENSG00000160131',
         ]).to.include(linkDomElement.attributes('href'));
       });
-    });    
+    });
   });
 
   describe('Annotation image attachments', () => {
     describe('when an image section does not have an image', () => {
-      it.only('accepts an image to be added as content', async () => {
+      it('accepts an image to be added as content', async () => {
         const newImageResult = {
           image_id: 'fake-image-id-1',
           section: 'Gene Homology/Multi-Sequence Alignment',
-        }
+        };
 
         annotationAttachMock.returns(newImageResult);
 
-        const annotationSection = wrapper.findComponent('[id=Gene_Homology]')
-
-        // console.log(annotationSection)
+        const annotationSection = wrapper.findComponent('[id=Gene_Homology]');
 
         annotationSection.vm.$emit('attach-image', 'Gene Homology/Multi-Sequence Alignment', 'hgvs_variant');
 
@@ -185,24 +183,190 @@ describe('AnnotationView', () => {
 
         inputDialog.confirmation(fakeImage);
 
-        await wrapper.vm.$nextTick();
-        await wrapper.vm.$nextTick();
+        // Needs to cycle through updating the props in the view and then additional
+        // ticks for vuejs to reactively update the supplemental component
         await wrapper.vm.$nextTick();
         await wrapper.vm.$nextTick();
 
-        const reRenderedAnnotationSection = wrapper.findComponent('[id=Gene_Homology]');
+        const tinyImageDatasetComponents = wrapper.findAllComponents(TinyImageDataset);
 
-        // console.log(wrapper.vm.annotations);
+        expect(tinyImageDatasetComponents.length).to.equal(1);
+      });
 
-        const imageDatasetComponents = reRenderedAnnotationSection.findComponent(ImageDataset)
+      it('should display a notification if the image fails to upload', async () => {
+        annotationAttachMock.throws('Something went wrong when attaching an image. Please seek help.');
 
-        // console.log(imageDatasetComponents.vm.value)
+        const annotationSection = wrapper.findComponent('[id=Gene_Homology]');
+        annotationSection.vm.$emit('attach-image', 'Gene Homology/Multi-Sequence Alignment', 'hgvs_variant');
+
+        await wrapper.vm.$nextTick();
+
+        const fakeImage = {data: 'path/to/fake/fakeImage.png'};
+        inputDialog.confirmation(fakeImage);
+
+        // Needs to cycle through updating the props in the view and then additional
+        // ticks for vuejs to reactively update the supplemental component
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+
+        notificationDialog.confirmation();
+
+        await wrapper.vm.$nextTick();
+
+        const failureNotificationDialog = wrapper.findComponent(NotificationDialog);
+        expect(failureNotificationDialog.exists()).to.be.true;
       });
     });
 
     describe('when an image section has an image', () => {
-      it('allows user to remove image content with input dialog with confirmation', () => {
+      beforeEach(() => {
+        const imageAnnotation = {'file_id': 'fake-image-id-1', 'created_date': 'fake-date'};
 
+        const annotationsWithNewEvidence = mockAnnotationsForCPAM0002;
+        annotationsWithNewEvidence['Gene Homology/Multi-Sequence Alignment'] = [imageAnnotation];
+        mockAnnotations.returns(annotationsWithNewEvidence);
+        wrapper = getMountedComponent();
+      });
+
+      it('allows user to add an image when an image already exists', async () => {
+        const newImageResult = {
+          image_id: 'fake-image-id-2',
+          section: 'Gene Homology/Multi-Sequence Alignment',
+        };
+
+        annotationAttachMock.returns(newImageResult);
+
+        const annotationSection = wrapper.findComponent('[id=Gene_Homology]');
+
+        annotationSection.vm.$emit('attach-image', 'Gene Homology/Multi-Sequence Alignment', 'hgvs_variant');
+
+        await wrapper.vm.$nextTick();
+
+        const fakeImage = {data: 'path/to/fake/fakeImage.png'};
+
+        inputDialog.confirmation(fakeImage);
+
+        // Needs to cycle through updating the props in the view and then additional
+        // ticks for vuejs to reactively update the supplemental component
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+
+        const tinyImageDatasetComponents = wrapper.findAllComponents(TinyImageDataset);
+
+        expect(tinyImageDatasetComponents.length).to.equal(2);
+      });
+
+      it('allows the user to update an existing image with another image', async () => {
+        const newImageResult = {
+          image_id: 'fake-image-id-2',
+          section: 'Gene Homology/Multi-Sequence Alignment',
+        };
+
+        annotationUpdateMock.resolves(newImageResult);
+
+        let tinyImageDatasetComponent = wrapper.findComponent(TinyImageDataset);
+
+        expect(tinyImageDatasetComponent.exists()).to.be.true;
+
+        tinyImageDatasetComponent.vm.$emit(
+            'update-annotation-image',
+            'fake-image-id-1',
+            'Gene Homology/Multi-Sequence Alignment',
+        );
+
+        await wrapper.vm.$nextTick();
+
+        const fakeImageForUpdate = {data: 'fakeImage.png'};
+        inputDialog.confirmation(fakeImageForUpdate);
+
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+
+        tinyImageDatasetComponent = wrapper.findComponent(TinyImageDataset);
+
+        expect(tinyImageDatasetComponent.vm.imageId).to.equal(newImageResult.image_id);
+      });
+
+      it('fails to update an existing image with a new image and notifies the user of the error', async () => {
+        annotationUpdateMock.throws('Could not update the image annoation. Please seek help.');
+
+        const tinyImageDatasetComponent = wrapper.findComponent(TinyImageDataset);
+
+        tinyImageDatasetComponent.vm.$emit(
+            'update-annotation-image',
+            'fake-image-id-1',
+            'Gene Homology/Multi-Sequence Alignment',
+        );
+
+        await wrapper.vm.$nextTick();
+
+        const fakeImageForUpdate = {data: 'fakeImage.png'};
+        inputDialog.confirmation(fakeImageForUpdate);
+
+        await wrapper.vm.$nextTick();
+
+        notificationDialog.confirmation();
+
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+
+        const failureNotificationDialog = wrapper.findComponent(NotificationDialog);
+        expect(failureNotificationDialog.exists()).to.be.true;
+      });
+
+      it('allows the user to remove an image annotation with input dialog with confirmation', async () => {
+        const tinyImageDatasetComponent = wrapper.findComponent(TinyImageDataset);
+
+        expect(tinyImageDatasetComponent.exists()).to.be.true;
+
+        tinyImageDatasetComponent.vm.$emit(
+            'update-annotation-image',
+            'fake-image-id-1',
+            'Gene Homology/Multi-Sequence Alignment',
+        );
+
+        await wrapper.vm.$nextTick();
+
+        inputDialog.delete();
+
+        await wrapper.vm.$nextTick();
+
+        const confirmationDialog = wrapper.findComponent(NotificationDialog);
+        expect(confirmationDialog.exists()).to.be.true;
+
+        notificationDialog.confirmation();
+
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+
+        const tinyImageDatasetComponents = wrapper.findAllComponents(TinyImageDataset);
+
+        expect(tinyImageDatasetComponents.length).to.equal(0);
+      });
+
+      it('should not remove an image if the remove dialogue was cancelled', async () => {
+        annotationRemoveMock.throws('Failed to remove image. Please seek help.');
+
+        const tinyImageDatasetComponent = wrapper.findComponent(TinyImageDataset);
+
+        tinyImageDatasetComponent.vm.$emit(
+            'update-annotation-image',
+            'fake-image-id-1',
+            'Gene Homology/Multi-Sequence Alignment',
+        );
+
+        await wrapper.vm.$nextTick();
+
+        inputDialog.delete();
+
+        await wrapper.vm.$nextTick();
+
+        notificationDialog.confirmation();
+
+        await wrapper.vm.$nextTick();
+
+        const failureNotificationDialog = wrapper.findComponent(NotificationDialog);
+        expect(failureNotificationDialog.exists()).to.be.true;
       });
     });
   });
@@ -742,5 +906,4 @@ const mockAnnotationsForCPAM0002 = {
     'Consequences': ['missense_variant', 'splice_region_variant'],
     'Polyphen Prediction': 'probably_damaging',
   }],
-  'Gene Homology/Multi-Sequence Alignment': [],
 };
