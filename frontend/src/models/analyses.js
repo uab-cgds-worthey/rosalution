@@ -313,7 +313,7 @@ const annotationRenderingTemporary = [
       'datasets': [
         {
           'dataset': 'Gene Homology/Multi-Sequence Alignment',
-          'type': 'image-dataset',
+          'type': 'images-dataset',
         },
       ],
     }],
@@ -330,7 +330,7 @@ const annotationRenderingTemporary = [
       'datasets': [
         {
           'dataset': 'Protein Expression',
-          'type': 'image-dataset',
+          'type': 'images-dataset',
         },
       ],
     }],
@@ -347,7 +347,7 @@ const annotationRenderingTemporary = [
       'datasets': [
         {
           'dataset': 'Modelability',
-          'type': 'image-dataset',
+          'type': 'images-dataset',
         },
       ],
     }],
@@ -417,7 +417,7 @@ const annotationRenderingTemporary = [
       'datasets': [
         {
           'dataset': 'Druggability',
-          'type': 'image-dataset',
+          'type': 'images-dataset',
         },
       ],
     }],

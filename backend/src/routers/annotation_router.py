@@ -111,9 +111,12 @@ def upload_annotation_section(
     repositories=Depends(database)
 ):
     """ This endpoint specifically handles annotation section image uploads """
-    new_file_object_id = repositories["bucket"].save_file(
-        upload_file.file, upload_file.filename, upload_file.content_type
-    )
+    try:
+        new_file_object_id = repositories["bucket"].save_file(
+            upload_file.file, upload_file.filename, upload_file.content_type
+        )
+    except Exception as exception:
+        raise HTTPException(status_code=500, detail=str(exception)) from exception
 
     genomic_unit = {
         'unit': genomic_unit,
@@ -127,7 +130,10 @@ def upload_annotation_section(
         "value": {"file_id": str(new_file_object_id), "created_date": str(datetime.now())},
     }
 
-    repositories['genomic_unit'].annotate_genomic_unit_with_file(genomic_unit, annotation_unit)
+    try:
+        repositories['genomic_unit'].annotate_genomic_unit_with_file(genomic_unit, annotation_unit)
+    except Exception as exception:
+        raise HTTPException(status_code=500, detail=str(exception)) from exception
 
     response.status_code = status.HTTP_201_CREATED
 
@@ -145,18 +151,30 @@ def update_annotation_image(
 ):
     """ Updates and replaces an annotation image with a new image  """
 
-    new_file_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_type)
+    try:
+        new_file_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_type)
+    except Exception as exception:
+        raise HTTPException(status_code=500, detail=str(exception)) from exception
 
     genomic_unit = {'unit': genomic_unit, 'type': genomic_unit_type}
-
     annotation_value = {"file_id": str(new_file_id), "created_date": str(datetime.now())}
 
-    repositories['genomic_unit'].update_genomic_unit_file_annotation(
-        genomic_unit, annotation_value, section_name, file_id
-    )
+    try:
+        repositories['genomic_unit'].update_genomic_unit_file_annotation(
+            genomic_unit, annotation_value, section_name, file_id
+        )
+    except Exception as exception:
+        raise HTTPException(status_code=500, detail=str(exception)) from exception
 
-    repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit, section_name, file_id)
-    repositories["bucket"].delete_file(file_id)
+    try:
+        repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit, section_name, file_id)
+    except Exception as exception:
+        raise HTTPException(status_code=500, detail=str(exception)) from exception
+    
+    try:
+        repositories["bucket"].delete_file(file_id)
+    except Exception as exception:
+        raise HTTPException(status_code=500, detail=str(exception)) from exception
 
     return {'section': section_name, 'image_id': str(new_file_id)}
 
@@ -174,10 +192,10 @@ def remove_annotation_image(
 
     try:
         repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit, section_name, file_id)
-    except ValueError as exception:
-        raise HTTPException(status_code=404, detail=str(exception)) from exception
+    except Exception as exception:
+        raise HTTPException(status_code=500, detail=str(exception)) from exception
 
     try:
         return repositories["bucket"].delete_file(file_id)
-    except ValueError as exception:
-        raise HTTPException(status_code=404, detail=str(exception)) from exception
+    except Exception as exception:
+        raise HTTPException(status_code=500, detail=str(exception)) from exception

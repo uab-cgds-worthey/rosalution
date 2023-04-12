@@ -1,7 +1,7 @@
 import {expect, describe, it} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 
-import ImageDataset from '@/components/AnnotationView/ImageDataset.vue';
+import ImagesDataset from '@/components/AnnotationView/ImagesDataset.vue';
 import SectionImage from '@/components/SectionImage.vue';
 
 /**
@@ -20,12 +20,12 @@ function getMountedComponent(propsData) {
     dataSet: 'Fake Dataset Section',
   };
 
-  return shallowMount(ImageDataset, {
+  return shallowMount(ImagesDataset, {
     propsData: {...defaultPropsData, ...propsData},
   });
 }
 
-describe('ImageDataset.vue', () => {
+describe('ImagesDataset.vue', () => {
   let wrapper;
 
   it('Should render SectionImages with the given props data', () => {
