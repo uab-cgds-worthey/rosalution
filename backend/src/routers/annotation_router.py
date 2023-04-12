@@ -170,7 +170,7 @@ def update_annotation_image(
         repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit, section_name, file_id)
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
-    
+
     try:
         repositories["bucket"].delete_file(file_id)
     except Exception as exception:
