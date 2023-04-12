@@ -1,6 +1,6 @@
 <template>
     <div class="section-image">
-        <TinyImageDataset
+        <SectionImage
             v-for="(sectionImage) in this.sectionImages"
             :key="sectionImage.id"
             :imageId="sectionImage.id"
@@ -11,12 +11,12 @@
 </template>
 
 <script>
-import TinyImageDataset from '@/components/AnnotationView/TinyImageDataset.vue';
+import SectionImage from '@/components/SectionImage.vue';
 
 export default {
   name: 'image-dataset',
   components: {
-    TinyImageDataset,
+    SectionImage,
   },
   props: {
     value: {

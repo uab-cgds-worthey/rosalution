@@ -3,7 +3,7 @@ import {shallowMount} from '@vue/test-utils';
 
 import FileRequests from '@/fileRequests.js';
 
-import TinyImageDataset from '@/components/AnnotationView/TinyImageDataset.vue';
+import SectionImage from '@/components/SectionImage.vue';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import sinon from 'sinon';
@@ -19,7 +19,7 @@ function getMountedComponent(propsData) {
     dataSet: 'Fake Dataset Section',
   };
 
-  return shallowMount(TinyImageDataset, {
+  return shallowMount(SectionImage, {
     props: {...defaultPropsData, ...propsData},
     global: {
       components: {
@@ -29,7 +29,7 @@ function getMountedComponent(propsData) {
   });
 }
 
-describe('TinyImageDataset.vue', () => {
+describe('SectionImage.vue', () => {
   let sandbox;
   let getImageMock;
 

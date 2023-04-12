@@ -2,7 +2,7 @@ import {expect, describe, it} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 
 import ImageDataset from '@/components/AnnotationView/ImageDataset.vue';
-import TinyImageDataset from '@/components/AnnotationView/TinyImageDataset.vue';
+import SectionImage from '@/components/SectionImage.vue';
 
 /**
     * Creates a shallow mount for the vue component.
@@ -28,17 +28,17 @@ function getMountedComponent(propsData) {
 describe('ImageDataset.vue', () => {
   let wrapper;
 
-  it('Should render TinyImageDatasets with the given props data', () => {
+  it('Should render SectionImages with the given props data', () => {
     wrapper = getMountedComponent();
 
-    const sections = wrapper.findAllComponents(TinyImageDataset);
+    const sections = wrapper.findAllComponents(SectionImage);
     expect(sections.length).to.equal(4);
   });
 
-  it('Should not render TinyImageDatasets if the props are empty', () => {
+  it('Should not render SectionImages if the props are empty', () => {
     wrapper = getMountedComponent({value: []});
 
-    const sections = wrapper.findAllComponents(TinyImageDataset);
+    const sections = wrapper.findAllComponents(SectionImage);
     expect(sections.length).to.equal(0);
   });
 });

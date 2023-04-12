@@ -10,7 +10,7 @@ import AnnotationView from '@/views/AnnotationView.vue';
 import AnnotationSection from '@/components/AnnotationView/AnnotationSection.vue';
 import AnnotationViewHeader from '@/components/AnnotationView/AnnotationViewHeader.vue';
 import TextDataset from '@/components/AnnotationView/TextDataset.vue';
-import TinyImageDataset from '@/components/AnnotationView/TinyImageDataset.vue';
+import SectionImage from '@/components/SectionImage.vue';
 
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 
@@ -184,9 +184,9 @@ describe('AnnotationView', () => {
         await wrapper.vm.$nextTick();
         await wrapper.vm.$nextTick();
 
-        const tinyImageDatasetComponents = wrapper.findAllComponents(TinyImageDataset);
+        const sectionImageComponents = wrapper.findAllComponents(SectionImage);
 
-        expect(tinyImageDatasetComponents.length).to.equal(1);
+        expect(sectionImageComponents.length).to.equal(1);
       });
 
       it('should display a notification if the image fails to upload', async () => {
@@ -247,9 +247,9 @@ describe('AnnotationView', () => {
         await wrapper.vm.$nextTick();
         await wrapper.vm.$nextTick();
 
-        const tinyImageDatasetComponents = wrapper.findAllComponents(TinyImageDataset);
+        const sectionImageComponents = wrapper.findAllComponents(SectionImage);
 
-        expect(tinyImageDatasetComponents.length).to.equal(2);
+        expect(sectionImageComponents.length).to.equal(2);
       });
 
       it('allows the user to update an existing image with another image', async () => {
@@ -260,11 +260,11 @@ describe('AnnotationView', () => {
 
         annotationUpdateMock.resolves(newImageResult);
 
-        let tinyImageDatasetComponent = wrapper.findComponent(TinyImageDataset);
+        let sectionImageComponent = wrapper.findComponent(SectionImage);
 
-        expect(tinyImageDatasetComponent.exists()).to.be.true;
+        expect(sectionImageComponent.exists()).to.be.true;
 
-        tinyImageDatasetComponent.vm.$emit(
+        sectionImageComponent.vm.$emit(
             'update-annotation-image',
             'fake-image-id-1',
             'Gene Homology/Multi-Sequence Alignment',
@@ -278,17 +278,17 @@ describe('AnnotationView', () => {
         await wrapper.vm.$nextTick();
         await wrapper.vm.$nextTick();
 
-        tinyImageDatasetComponent = wrapper.findComponent(TinyImageDataset);
+        sectionImageComponent = wrapper.findComponent(SectionImage);
 
-        expect(tinyImageDatasetComponent.vm.imageId).to.equal(newImageResult.image_id);
+        expect(sectionImageComponent.vm.imageId).to.equal(newImageResult.image_id);
       });
 
       it('fails to update an existing image with a new image and notifies the user of the error', async () => {
         annotationUpdateMock.throws('Could not update the image annoation. Please seek help.');
 
-        const tinyImageDatasetComponent = wrapper.findComponent(TinyImageDataset);
+        const sectionImageComponent = wrapper.findComponent(SectionImage);
 
-        tinyImageDatasetComponent.vm.$emit(
+        sectionImageComponent.vm.$emit(
             'update-annotation-image',
             'fake-image-id-1',
             'Gene Homology/Multi-Sequence Alignment',
@@ -311,11 +311,11 @@ describe('AnnotationView', () => {
       });
 
       it('allows the user to remove an image annotation with input dialog with confirmation', async () => {
-        const tinyImageDatasetComponent = wrapper.findComponent(TinyImageDataset);
+        const sectionImageComponent = wrapper.findComponent(SectionImage);
 
-        expect(tinyImageDatasetComponent.exists()).to.be.true;
+        expect(sectionImageComponent.exists()).to.be.true;
 
-        tinyImageDatasetComponent.vm.$emit(
+        sectionImageComponent.vm.$emit(
             'update-annotation-image',
             'fake-image-id-1',
             'Gene Homology/Multi-Sequence Alignment',
@@ -335,17 +335,17 @@ describe('AnnotationView', () => {
         await wrapper.vm.$nextTick();
         await wrapper.vm.$nextTick();
 
-        const tinyImageDatasetComponents = wrapper.findAllComponents(TinyImageDataset);
+        const sectionImageComponents = wrapper.findAllComponents(SectionImage);
 
-        expect(tinyImageDatasetComponents.length).to.equal(0);
+        expect(sectionImageComponents.length).to.equal(0);
       });
 
       it('should not remove an image if the remove dialogue was cancelled', async () => {
         annotationRemoveMock.throws('Failed to remove image. Please seek help.');
 
-        const tinyImageDatasetComponent = wrapper.findComponent(TinyImageDataset);
+        const sectionImageComponent = wrapper.findComponent(SectionImage);
 
-        tinyImageDatasetComponent.vm.$emit(
+        sectionImageComponent.vm.$emit(
             'update-annotation-image',
             'fake-image-id-1',
             'Gene Homology/Multi-Sequence Alignment',
