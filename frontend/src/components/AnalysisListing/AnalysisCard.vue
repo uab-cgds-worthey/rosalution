@@ -248,11 +248,12 @@ div {
 .logo-link {
   display: inline-block;
   padding: 0 var(--p-1);
+  transform: translate(0, 20%);
 }
 
 .logo-link img {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
 }
 
 </style>
