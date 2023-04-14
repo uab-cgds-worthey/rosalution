@@ -5,7 +5,11 @@ mongosh /tmp/fixtures/add-user.js
     
     Run mongosh help for mongosh connection and authentication usage.
     
-    Example: mongosh --host localhost --port 27017 --eval "var help=true;" /tmp/fixtures/update-file-anntation.js
+    Example: 
+    
+    mongosh --host localhost --port 27017 --eval "var help=true;" /tmp/fixtures/update-file-anntation.js
+    
+    docker exec -it <rosalution_db_container> mongosh /tmp/fixtures/update-file-anntation.js
 `
 
 if (help === true) {
