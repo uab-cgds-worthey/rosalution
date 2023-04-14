@@ -1,6 +1,17 @@
 const usage = `
-
+mongosh /tmp/fixtures/add-user.js
+    Script Options:
+        help: if true print this help message
+    
+    Run mongosh help for mongosh connection and authentication usage.
+    
+    Example: mongosh --host localhost --port 27017 --eval "var help=true;" /tmp/fixtures/update-file-anntation.js
 `
+
+if (help === true) {
+    print(usage);
+    quit(1);
+}
 
 if (typeof databaseName === 'undefined') {
     databaseName = "rosalution_db";
