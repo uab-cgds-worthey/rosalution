@@ -120,7 +120,7 @@ export default {
   flex: 1 1 auto;
   display: inline-flex;
   align-items: center;
-  margin: 0 var(--p-8);
+  margin-left: var(--p-8);
   gap: var(--p-10);
 }
 
@@ -162,10 +162,12 @@ img {
 .monday-icon {
   width: 1.875rem; /* 30px */
   height: 1.875rem; /* 30px */
+  transform: translate(-8px, 0);
 }
 
 .phenotips-icon {
   width: 1.25rem; /* 20px */
   height: 1.25rem; /* 20px */
+  transform: translate(-16px, 0);
 }
 </style>
