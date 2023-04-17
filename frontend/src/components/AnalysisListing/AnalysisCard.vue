@@ -34,6 +34,16 @@
             </li>
           </ul>
         </div>
+        <div class="logo-links-section">
+            <a v-if="mondayLink" :href="mondayLink" target="_blank" class="logo-link"
+              data-test="monday-link" @click.stop>
+              <img src="/src/assets/monday-avatar-logo.svg" class="logo-img"/>
+            </a>
+            <a v-if="phenotipsLink" :href="phenotipsLink" target="_blank" class="logo-link"
+              data-test="phenotips-link" @click.stop>
+              <img src="/src/assets/phenotips-favicon-96x96.png" class="logo-img"/>
+            </a>
+          </div>
       </div>
     </div>
   </router-link>
@@ -68,6 +78,16 @@ export default {
     },
     genomic_units: {
       type: Array,
+    },
+    mondayLink: {
+      type: String,
+      default: '',
+      required: false,
+    },
+    phenotipsLink: {
+      type: String,
+      default: '',
+      required: false,
     },
   },
   computed: {
@@ -149,6 +169,7 @@ div {
   box-sizing: border-box;
   color: inherit;
   transition: all .2s ease-in-out;
+  position: relative;
 }
 
 .subection-text {
@@ -212,6 +233,27 @@ div {
   padding: var(--p-1) var(--p-1) var(--p-1) var(--p-1);
   word-wrap: break-word;
   margin-bottom: var(--p-1);
+}
+.logo-links-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--p-1);
+  position: absolute;
+  bottom: var(--p-1);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.logo-link {
+  display: inline-block;
+  padding: 0 var(--p-1);
+  transform: translate(0, 20%);
+}
+
+.logo-link img {
+  width: 24px;
+  height: 24px;
 }
 
 </style>
