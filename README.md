@@ -423,12 +423,6 @@ Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham
 **[Center for Precision Animal Modeling (C-PAM)](https://sites.uab.edu/cpam/)**  
  The University of Alabama at Birmingham, Birmingham, AL
 
-**Brittany Lasseigne, Ph.D.**  
-*Principal Investigator*, *Assistant Professor*, [Lasseigne Lab](https://www.lasseigne.org/)  
-Department of Cell, Developmental and Integrative Biology  
-*Co-Director*, [Center for Precision Animal Modeling - Bioinformatics Section](https://sites.uab.edu/cpam/bis/)  
-Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, AL
-
 **[Bioinformatics Section(BIS) in the Center for Precision Animal Modeling (C-PAM)](https://sites.uab.edu/cpam/bis)**  
  The University of Alabama at Birmingham, Birmingham, AL
 
@@ -436,7 +430,7 @@ Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham
 
 Donna Brown [🌐](https://sites.uab.edu/cgds/team/) • Aleksandra Foksinska [🌐](https://www.uab.edu/medicine/pmi/our-team)
  • Manavalan Gajapathy, Ph.D. [:octocat:](https://github.com/ManavalanG/) [🌐](https://sites.uab.edu/cgds/team/) •
- Elizabeth J. Wilk [🌐](https://www.lasseigne.org/team/)
+ Elizabeth J. Wilk [🌐](https://www.lasseigne.org/team/) • Brittany Lasseigne, Ph.D. [🌐Lasseigne Lab](https://www.lasseigne.org/)
 
 ---
 
