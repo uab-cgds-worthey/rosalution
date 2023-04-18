@@ -42,6 +42,16 @@ def test_get_analysis_summary(client, mock_access_token, mock_repositories):
     assert len(response.json()) == 5
 
 
+def test_get_summary_by_name(client, mock_access_token, mock_repositories):
+    """Tests the summary_by_name endpoint"""
+    mock_repositories['analysis'].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+
+    response = client.get("/analysis/summary/CPAM0002", headers={"Authorization": "Bearer " + mock_access_token})
+
+    assert response.status_code == 200
+    assert response.json()["name"] == "CPAM0002"
+
+
 def test_import_analysis_from_phenotips_json(
     client,
     mock_access_token,

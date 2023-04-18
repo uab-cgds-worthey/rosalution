@@ -1,9 +1,11 @@
 <template>
   <RosalutionHeader :username="this.username" :titleText="this.titleText" :actions="this.actions">
-    <a v-if="mondayLink" :href="mondayLink" class="logo-link">
-        <img src="/src/assets/monday-avatar-logo.svg"/>
+    <a v-if="mondayLink" :href="mondayLink" target="_blank" class="logo-link" data-test="monday-link">
+        <img src="/src/assets/monday-avatar-logo.svg" class="monday-icon"/>
     </a>
-    <!-- Add a similar block for Phenotips logo when needed -->
+    <a v-if="phenotipsLink" :href="phenotipsLink" target="_blank" class="logo-link" data-test="phenotips-link">
+          <img src="/src/assets/phenotips-favicon-96x96.png" class="phenotips-icon"/>
+    </a>
     <div>
       <a v-for="anchorLink in this.sectionAnchors" :href="this.toAnchorId(anchorLink)" :key="anchorLink">
         {{ anchorLink }}
@@ -78,12 +80,24 @@ div a {
 
 .logo-link {
   background-color: transparent;
+  padding: 0;
+  transform: translate(0, 4px);
 }
 
 img {
-  height: 24px;
-  width: 24px;
   margin-left: var(--p-5);
   margin-right: var(--p-5);
+}
+
+.monday-icon {
+  width: 1.875rem; /* 30px */
+  height: 1.875rem; /* 30px */
+  transform: translate(-8px, 0);
+}
+
+.phenotips-icon {
+  width: 1.25rem; /* 20px */
+  height: 1.25rem; /* 20px */
+  transform: translate(-16px, 0);
 }
 </style>

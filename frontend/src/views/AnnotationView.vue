@@ -6,6 +6,8 @@
       :genes="this.genomicUnits['genes']"
       :variants="this.genomicUnits['variants']"
       :activeGenomicUnits="this.active"
+      :mondayLink="mondayCom"
+      :phenotipsLink="phenotipsCom"
       @changed="this.onActiveGenomicUnitsChanged"
     >
     </AnnotationViewHeader>
@@ -108,6 +110,7 @@ export default {
         'genes': {},
         'variants': [],
       },
+      summary: {sections: []},
     };
   },
   computed: {
@@ -119,13 +122,24 @@ export default {
         return section.anchor;
       });
     },
+    mondayCom() {
+      return this.summary.monday_com || '';
+    },
+    phenotipsCom() {
+      return this.summary.phenotips_com || '';
+    },
   },
   async created() {
     await this.getGenomicUnits();
     this.getRenderingConfiguration();
     this.getAnnotations();
+    this.getSummaryByName();
   },
   methods: {
+    async getSummaryByName() {
+      this.summary = await Analyses.getSummaryByName(this.analysis_name);
+      console.log(this.summary);
+    },
     sectionHeader(header) {
       return header in this ? this.active[header] : header;
     },

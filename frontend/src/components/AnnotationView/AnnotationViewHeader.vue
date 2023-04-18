@@ -4,6 +4,12 @@
     :titleText="this.analysisName"
     :titleToRoute="{ name: 'analysis', params: { analysis_name: this.analysisName } }"
   >
+    <a v-if="mondayLink" :href="mondayLink" target="_blank" class="logo-link" data-test="monday-link">
+          <img src="/src/assets/monday-avatar-logo.svg" class="monday-icon"/>
+    </a>
+    <a v-if="phenotipsLink" :href="phenotipsLink" target="_blank" class="logo-link" data-test="phenotips-link">
+          <img src="/src/assets/phenotips-favicon-96x96.png" class="phenotips-icon"/>
+    </a>
     <div class="annotations-select">
         <AnnotationViewHeaderFormSelect
           v-model:selected="selectedGene"
@@ -54,6 +60,16 @@ export default {
     activeGenomicUnits: {
       type: Object,
       required: true,
+    },
+    mondayLink: {
+      type: String,
+      default: '',
+      required: false,
+    },
+    phenotipsLink: {
+      type: String,
+      default: '',
+      required: false,
     },
   },
   computed: {
@@ -119,5 +135,39 @@ export default {
 svg {
   color: var(--rosalution-black);
   flex: 0 1 auto;
+}
+
+div {
+  display: inline-flex;
+}
+
+div a {
+  border-radius: var(--content-border-radius);
+  padding: var(--p-5);
+  margin-left: var(--p-5);
+  margin-right: var(--p-5);
+}
+
+.logo-link {
+  background-color: transparent;
+  padding: 0;
+  transform: translate(0, 4px);
+}
+
+img {
+  margin-left: var(--p-5);
+  margin-right: var(--p-5);
+}
+
+.monday-icon {
+  width: 1.875rem; /* 30px */
+  height: 1.875rem; /* 30px */
+  transform: translate(-8px, 0);
+}
+
+.phenotips-icon {
+  width: 1.25rem; /* 20px */
+  height: 1.25rem; /* 20px */
+  transform: translate(-16px, 0);
 }
 </style>

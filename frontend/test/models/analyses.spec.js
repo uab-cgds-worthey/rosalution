@@ -39,6 +39,16 @@ describe('analyses.js', () => {
     expect(specificAnalysis.nominated_by).to.equal('Dr. Person One');
   });
 
+  it('Queries a specific summary by name', async () => {
+    mockGetRequest.returns(byName);
+    const analysisName = 'CPAM0002';
+    const specificSummary = await Analyses.getSummaryByName(analysisName);
+
+    expect(specificSummary.name).to.equal('CPAM0002');
+    expect(specificSummary.nominated_by).to.equal('Dr. Person One');
+    expect(specificSummary.monday_com).to.equal('https://monday.com');
+  });
+
   it('Imports a browser file to the Analysis API succesfully', async () => {
     mockPostFormResponse.returns({sucess: 'yay'});
     await Analyses.importPhenotipsAnalysis(incomingCreateAnalysisFormFixture);
@@ -143,6 +153,7 @@ const byName = {
   'name': 'CPAM0002',
   'description': ': LMNA-related congenital muscular dystropy',
   'nominated_by': 'Dr. Person One',
+  'monday_com': 'https://monday.com',
 };
 
 const incomingCreateAnalysisFormFixture = {
