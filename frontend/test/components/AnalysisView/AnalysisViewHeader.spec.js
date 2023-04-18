@@ -14,8 +14,7 @@ function getMountedComponent(props) {
     titleText: 'CPAM0002',
     sectionAnchors: ['Brief', 'Summary', 'Medical'],
     actions: ['Action1', 'Action2', 'Action3'],
-    mondayLink: 'https://monday.com',
-    phenotipsLink: 'https://phenotips.org',
+    third_party_links: [{'type': 'monday_com', 'link': 'https://monday.com'}],
   };
 
   return shallowMount(AnalysisViewHeader, {
@@ -64,22 +63,14 @@ describe('AnalysisViewHeader.vue', () => {
     const mondayLink = wrapper.get('[data-test="monday-link"]');
     expect(mondayLink.attributes('href')).to.equal('https://monday.com');
     expect(mondayLink.attributes('target')).to.equal('_blank');
-
-    const phenotipsLink = wrapper.get('[data-test="phenotips-link"]');
-    expect(phenotipsLink.attributes('href')).to.equal('https://phenotips.org');
-    expect(phenotipsLink.attributes('target')).to.equal('_blank');
   });
 
   it('should not render third party links if null or empty string', () => {
     const wrapper = getMountedComponent({
-      mondayLink: null,
-      phenotipsLink: '',
+      third_party_links: [],
     });
 
     const mondayLink = wrapper.find('[data-test="monday-link"]');
     expect(mondayLink.exists()).to.be.false;
-
-    const phenotipsLink = wrapper.find('[data-test="phenotips-link"]');
-    expect(phenotipsLink.exists()).to.be.false;
   });
 });

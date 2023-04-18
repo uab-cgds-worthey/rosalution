@@ -1,10 +1,14 @@
 <template>
   <RosalutionHeader :username="this.username" :titleText="this.titleText" :actions="this.actions">
-    <a v-if="mondayLink" :href="mondayLink" target="_blank" class="logo-link" data-test="monday-link">
-        <img src="/src/assets/monday-avatar-logo.svg" class="monday-icon"/>
-    </a>
-    <a v-if="phenotipsLink" :href="phenotipsLink" target="_blank" class="logo-link" data-test="phenotips-link">
-          <img src="/src/assets/phenotips-favicon-96x96.png" class="phenotips-icon"/>
+    <a
+      v-for="link in third_party_links"
+      :key="link.type"
+      :href="link.link"
+      target="_blank"
+      class="logo-link"
+      :data-test="`${link.type.toLowerCase().replace('_com', '')}-link`"
+    >
+      <img :src="getIconSrc(link.type)" :class="getIconClass(link.type)" />
     </a>
     <div>
       <a v-for="anchorLink in this.sectionAnchors" :href="this.toAnchorId(anchorLink)" :key="anchorLink">
@@ -39,21 +43,29 @@ export default {
     actions: {
       type: Array,
       required: true,
-    },
-    mondayLink: {
-      type: String,
-      default: '',
-      required: false,
-    },
-    phenotipsLink: {
-      type: String,
-      default: '',
-      required: false,
+    }, 
+    third_party_links: {
+      type: Array,
+      default: () => [],
     },
   },
   methods: {
     toAnchorId(anchorText) {
       return `#${anchorText.replace(' ', '_')}`;
+    },
+    getIconSrc(linkType) {
+      if (linkType === 'monday_com') {
+        return '/src/assets/monday-avatar-logo.svg';
+      } else if (linkType === 'phenotips_com') {
+        return '/src/assets/phenotips-favicon-96x96.png';
+      }
+    },
+    getIconClass(linkType) {
+      if (linkType === 'monday_com') {
+        return 'monday-icon';
+      } else if (linkType === 'phenotips_com') {
+        return 'phenotips-icon';
+      }
     },
   },
 };

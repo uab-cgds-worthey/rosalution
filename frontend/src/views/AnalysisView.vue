@@ -7,8 +7,7 @@
           :sectionAnchors="this.sectionsHeaders"
           :username="username"
           @logout="this.onLogout"
-          :mondayLink="mondayCom"
-          :phenotipsLink="phenotipsCom"
+          :third_party_links="analysis.third_party_links"
           data-test="analysis-view-header">
         </AnalysisViewHeader>
       </app-header>
@@ -159,12 +158,6 @@ export default {
     },
     genomicUnitsList() {
       return this.analysis.genomic_units;
-    },
-    mondayCom() {
-      return this.analysis.monday_com || '';
-    },
-    phenotipsCom() {
-      return this.analysis.phenotips_com || '';
     },
   },
   created() {

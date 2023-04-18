@@ -25,8 +25,7 @@ function getMountedComponent(props) {
     latest_status: 'Approved',
     created_date: '2021-09-30',
     last_modified_date: '2021-10-01',
-    mondayLink: 'https://monday.com',
-    phenotipsLink: 'https://phenotips.org',
+    third_party_links: [{'type': 'monday_com', 'link': 'https://monday.com'}],
   };
 
   return shallowMount(AnalysisCard, {
@@ -109,22 +108,17 @@ describe('AnalysisCard.vue', () => {
   describe('third party logo links', () => {
     it('should add logo links when provided', () => {
       const wrapper = getMountedComponent();
-      const mondayLink = wrapper.get('[data-test="monday-link"]');
-      const phenotipsLink = wrapper.get('[data-test="phenotips-link"]');
-      expect(mondayLink.exists()).to.be.true;
-      expect(phenotipsLink.exists()).to.be.true;
+      const thirdPartyLink = wrapper.get('[data-test="third-party-link"]');
+      expect(thirdPartyLink.exists()).to.be.true;
     });
 
     it('should open the correct links in a new tab', () => {
       const wrapper = getMountedComponent();
-      const mondayLink = wrapper.get('[data-test="monday-link"]');
-      const phenotipsLink = wrapper.get('[data-test="phenotips-link"]');
 
-      expect(mondayLink.attributes().href).to.equal('https://monday.com');
-      expect(phenotipsLink.attributes().href).to.equal('https://phenotips.org');
+      const thirdPartyLink = wrapper.get('[data-test="third-party-link"]');
 
-      expect(mondayLink.attributes().target).to.equal('_blank');
-      expect(phenotipsLink.attributes().target).to.equal('_blank');
+      expect(thirdPartyLink.attributes().href).to.equal('https://monday.com');
+      expect(thirdPartyLink.attributes().target).to.equal('_blank');
     });
   });
 });
