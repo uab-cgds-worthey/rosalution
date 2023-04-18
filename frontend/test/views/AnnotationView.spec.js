@@ -86,6 +86,9 @@ describe('AnnotationView', () => {
     getImageMock = sandbox.stub(FileRequests, 'getImage');
     getImageMock.returns('data:image/jpeg;base64,/fake-data');
 
+    mockSummaryByName = sandbox.stub(Analyses, 'getSummaryByName');
+    mockSummaryByName.returns(mockSummaryByNameForCPAM0002);
+
     wrapper = getMountedComponent();
   });
 
