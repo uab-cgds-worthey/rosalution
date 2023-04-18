@@ -35,6 +35,12 @@ def get_all_analyses_summaries(repositories=Depends(database)):
     return repositories["analysis"].all_summaries()
 
 
+@router.get("/summary/{analysis_name}", response_model=AnalysisSummary)
+def get_analysis_summary_by_name(analysis_name: str, repositories=Depends(database)):
+    """Returns a summary of every analysis within the application"""
+    return repositories["analysis"].summary_by_name(analysis_name)
+
+
 @router.get("/{analysis_name}", response_model=Analysis)
 def get_analysis_by_name(analysis_name: str, repositories=Depends(database)):
     """Returns analysis case data by calling method to find case by it's analysis_name"""

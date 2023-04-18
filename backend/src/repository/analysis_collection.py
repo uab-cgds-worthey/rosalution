@@ -32,6 +32,8 @@ class AnalysisCollection:
             "genomic_units": 1,
             "nominated_by": 1,
             "timeline": 1,
+            "monday_com": 1,
+            "phenotips_com": 1,
         })
 
         summaries = []
@@ -52,6 +54,36 @@ class AnalysisCollection:
             summaries.append(analysis)
 
         return summaries
+
+    def summary_by_name(self, name: str):
+        """Returns the summary of an analysis by name"""
+
+        query_result = self.collection.find_one({"name": name}, {
+            "name": 1,
+            "description": 1,
+            "genomic_units": 1,
+            "nominated_by": 1,
+            "timeline": 1,
+            "monday_com": 1,
+            "phenotips_com": 1,
+        })
+
+        if query_result:
+            genomic_unit_summaries = []
+            for unit in query_result['genomic_units']:
+                genomic_unit_summary = {}
+                if unit.get('gene'):
+                    genomic_unit_summary['gene'] = unit['gene']
+                genomic_unit_summary['variants'] = []
+                for variant in unit['variants']:
+                    summary_variant = variant['hgvs_variant']
+                    if variant['p_dot'] is not None:
+                        summary_variant = f"{summary_variant}({variant['p_dot']})"
+                    genomic_unit_summary['variants'].append(summary_variant)
+                genomic_unit_summaries.append(genomic_unit_summary)
+            query_result['genomic_units'] = genomic_unit_summaries
+
+        return query_result
 
     def find_by_name(self, name: str):
         """Returns analysis by searching for name"""

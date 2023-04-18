@@ -21,6 +21,8 @@
       :latest_status="analysis.latest_status"
       :created_date="analysis.created_date"
       :last_modified_date="analysis.last_modified_date"
+      :mondayLink="analysis.monday_com"
+      :phenotipsLink="analysis.phenotips_com"
     />
   </app-content>
   <app-footer>

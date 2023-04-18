@@ -25,6 +25,8 @@ function getMountedComponent(props) {
     latest_status: 'Approved',
     created_date: '2021-09-30',
     last_modified_date: '2021-10-01',
+    mondayLink: 'https://monday.com',
+    phenotipsLink: 'https://phenotips.org',
   };
 
   return shallowMount(AnalysisCard, {
@@ -101,6 +103,28 @@ describe('AnalysisCard.vue', () => {
       });
       const icon = wrapper.get('font-awesome-icon-stub');
       expect(icon.attributes().icon).to.equal(test.expected);
+    });
+  });
+
+  describe('third party logo links', () => {
+    it('should add logo links when provided', () => {
+      const wrapper = getMountedComponent();
+      const mondayLink = wrapper.get('[data-test="monday-link"]');
+      const phenotipsLink = wrapper.get('[data-test="phenotips-link"]');
+      expect(mondayLink.exists()).to.be.true;
+      expect(phenotipsLink.exists()).to.be.true;
+    });
+
+    it('should open the correct links in a new tab', () => {
+      const wrapper = getMountedComponent();
+      const mondayLink = wrapper.get('[data-test="monday-link"]');
+      const phenotipsLink = wrapper.get('[data-test="phenotips-link"]');
+
+      expect(mondayLink.attributes().href).to.equal('https://monday.com');
+      expect(phenotipsLink.attributes().href).to.equal('https://phenotips.org');
+
+      expect(mondayLink.attributes().target).to.equal('_blank');
+      expect(phenotipsLink.attributes().target).to.equal('_blank');
     });
   });
 });
