@@ -66,7 +66,8 @@ export default {
 <style>
 
 .comments {
-  flex: 3 0 auto
+  flex: 3 0 auto;
+  height: 8rem;
 }
 
 </style>
