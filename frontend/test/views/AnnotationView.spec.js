@@ -55,6 +55,7 @@ describe('AnnotationView', () => {
   let wrapper;
   let mockAnnotations;
   let mockGenomicUnits;
+  let mockSummaryByName;
   // Future Mock Analysis Annotation Rendering Configuration
 
   let annotationAttachMock;
@@ -74,6 +75,9 @@ describe('AnnotationView', () => {
 
     mockGenomicUnits = sandbox.stub(Analyses, 'getGenomicUnits');
     mockGenomicUnits.returns(mockGenomicUnitsForCPAM0002);
+
+    mockSummaryByName = sandbox.stub(Analyses, 'getSummaryByName');
+    mockSummaryByName.returns(mockSummaryByNameForCPAM0002);
 
     annotationAttachMock = sandbox.stub(Annotations, 'attachAnnotationImage');
     annotationUpdateMock = sandbox.stub(Annotations, 'updateAnnotationImage');
@@ -381,6 +385,17 @@ const mockGenomicUnitsForCPAM0002 = {
     'NM_005249.5:c.924G>A(p.Trp308Ter)',
     'NM_005249.5:c.256dup(p.Gln86fs)',
   ],
+};
+
+const mockSummaryByNameForCPAM0002 = {
+  'name': 'CPAM0002',
+  'description': 'Vacuolar myopathy with autophagy, X-linked vacuolar myopathy with autophagy',
+  'nominated_by': 'Dr. Person One',
+  'latest_status': 'Approved',
+  'created_date': '2022-10-09',
+  'last_modified_date': '2022-10-09',
+  'monday_com': 'https://monday.com',
+  'phenotips_com': 'https://phenotips.com',
 };
 
 const mockAnnotationsForCPAM0002 = {

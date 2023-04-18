@@ -105,8 +105,8 @@ header .content {
   display: flex;
   flex: 1 1 auto;
   align-items: center;
-  gap: 12px;
   padding: var(--p-8);
+  gap: 12px;
   border-radius: var(--content-border-radius);
   background-color: var(--secondary-background-color);
 }

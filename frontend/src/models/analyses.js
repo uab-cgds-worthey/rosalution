@@ -7,6 +7,12 @@ export default {
     return analysesSummary;
   },
 
+  async getSummaryByName(analysisName) {
+    const url = `/rosalution/api/analysis/summary/${analysisName}`;
+    const analysisSummary = await Requests.get(url);
+    return analysisSummary;
+  },
+
   async getAnalysis(analysisName) {
     const baseUrl = '/rosalution/api/';
     const urlQuery = 'analysis/' + analysisName;
