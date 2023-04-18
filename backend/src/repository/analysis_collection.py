@@ -32,8 +32,7 @@ class AnalysisCollection:
             "genomic_units": 1,
             "nominated_by": 1,
             "timeline": 1,
-            "monday_com": 1,
-            "phenotips_com": 1,
+            "third_party_links": 1,
         })
 
         summaries = []
@@ -64,8 +63,7 @@ class AnalysisCollection:
             "genomic_units": 1,
             "nominated_by": 1,
             "timeline": 1,
-            "monday_com": 1,
-            "phenotips_com": 1,
+            "third_party_links": 1,
         })
 
         if query_result:
@@ -310,16 +308,30 @@ class AnalysisCollection:
         else:
             raise ValueError(f"Third party link type {third_party_enum} is not supported")
 
-        if third_party_enum not in analysis:
-            analysis[third_party_enum] = None
+        if 'third_party_links' not in analysis:
+            analysis['third_party_links'] = []
 
-        updated_document = self.collection.find_one_and_update(
-            {"name": analysis_name},
-            {"$set": {ThirdPartyLinkType(third_party_enum): link}},
-            return_document=ReturnDocument.AFTER,
-        )
-        # remove the _id field from the returned document since it is not JSON serializable
+        # Check if the third_party_enum already exists in the list
+        existing_link = next((item for item in analysis['third_party_links'] if item['type'] == third_party_enum), None)
+
+        if existing_link:
+            # Update the existing link
+            updated_document = self.collection.find_one_and_update(
+                {"name": analysis_name, "third_party_links.type": third_party_enum},
+                {"$set": {"third_party_links.$.link": link}},
+                return_document=ReturnDocument.AFTER,
+            )
+        else:
+            # Add a new link to the list
+            updated_document = self.collection.find_one_and_update(
+                {"name": analysis_name},
+                {"$push": {"third_party_links": {"type": third_party_enum, "link": link}}},
+                return_document=ReturnDocument.AFTER,
+            )
+
+        # Remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
+
         return updated_document
 
     def mark_ready(self, analysis_name: str, username: str):

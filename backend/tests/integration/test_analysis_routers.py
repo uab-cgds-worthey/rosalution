@@ -400,7 +400,8 @@ def test_attach_third_party_link(client, mock_access_token, mock_repositories):
     """ Testing the attach third party link endpoint """
     mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
     expected = read_test_fixture("analysis-CPAM0002.json")
-    expected["monday_com"] = "https://monday.com"
+    expected["third_party_links"] = [{"type": "MONDAY_COM", "link": "https://monday.com"}]
+    # print(expected)
     mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
     response = client.put(
         "/analysis/CPAM0002/attach/MONDAY_COM",
@@ -409,7 +410,8 @@ def test_attach_third_party_link(client, mock_access_token, mock_repositories):
     )
 
     assert response.status_code == 200
-    assert response.json()["monday_com"] == "https://monday.com"
+    # print(response.json())
+    assert response.json()["third_party_links"] == [{"type": "MONDAY_COM", "link": "https://monday.com"}]
 
 
 def test_attach_third_party_link_analysis_does_not_exist(client, mock_access_token, mock_repositories):
