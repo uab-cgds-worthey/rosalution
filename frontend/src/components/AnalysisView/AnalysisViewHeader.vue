@@ -43,7 +43,7 @@ export default {
     actions: {
       type: Array,
       required: true,
-    }, 
+    },
     third_party_links: {
       type: Array,
       default: () => [],

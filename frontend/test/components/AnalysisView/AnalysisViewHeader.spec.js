@@ -14,7 +14,10 @@ function getMountedComponent(props) {
     titleText: 'CPAM0002',
     sectionAnchors: ['Brief', 'Summary', 'Medical'],
     actions: ['Action1', 'Action2', 'Action3'],
-    third_party_links: [{'type': 'monday_com', 'link': 'https://monday.com'}],
+    third_party_links: [
+      {'type': 'monday_com', 'link': 'https://monday.com'},
+      {'type': 'phenotips_com', 'link': 'https://phenotips.com'},
+    ],
   };
 
   return shallowMount(AnalysisViewHeader, {
@@ -60,12 +63,18 @@ describe('AnalysisViewHeader.vue', () => {
   it('should render third party links', () => {
     const wrapper = getMountedComponent();
 
-    const thirdPartyLink = wrapper.get('[data-test="third-party-link"]');
-    expect(thirdPartyLink.attributes('href')).to.equal('https://monday.com');
-    expect(thirdPartyLink.attributes('target')).to.equal('_blank');
+    const thirdPartyLinks = wrapper.findAll('[data-test="third-party-link"]');
+
+    const mondayLink = thirdPartyLinks[0];
+    expect(mondayLink.attributes('href')).to.equal('https://monday.com');
+    expect(mondayLink.attributes('target')).to.equal('_blank');
+
+    const phenotipsLink = thirdPartyLinks[1];
+    expect(phenotipsLink.attributes('href')).to.equal('https://phenotips.com');
+    expect(phenotipsLink.attributes('target')).to.equal('_blank');
   });
 
-  it('should not render third party links if null or empty string', () => {
+  it('should not render third party links if empty', () => {
     const wrapper = getMountedComponent({
       third_party_links: [],
     });

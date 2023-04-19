@@ -24,8 +24,10 @@ function getMountedComponent(props) {
       'gene': 'PEX10',
       'variant': 'NM_153818.2:c.28dup(p.Glu10fs)',
     },
-    mondayLink: 'https://monday.com',
-    phenotipsLink: 'https://phenotips.org',
+    third_party_links: [
+      {'type': 'monday_com', 'link': 'https://monday.com'},
+      {'type': 'phenotips_com', 'link': 'https://phenotips.com'},
+    ],
   };
 
   return shallowMount(AnnotationViewHeader, {
@@ -117,25 +119,23 @@ describe('AnnotationViewHeader.vue', () => {
   it('should render third party links', () => {
     const wrapper = getMountedComponent();
 
-    const mondayLink = wrapper.get('[data-test="monday-link"]');
+    const thirdPartyLinks = wrapper.findAll('[data-test="third-party-link"]');
+
+    const mondayLink = thirdPartyLinks[0];
     expect(mondayLink.attributes('href')).to.equal('https://monday.com');
     expect(mondayLink.attributes('target')).to.equal('_blank');
 
-    const phenotipsLink = wrapper.get('[data-test="phenotips-link"]');
-    expect(phenotipsLink.attributes('href')).to.equal('https://phenotips.org');
+    const phenotipsLink = thirdPartyLinks[1];
+    expect(phenotipsLink.attributes('href')).to.equal('https://phenotips.com');
     expect(phenotipsLink.attributes('target')).to.equal('_blank');
   });
 
-  it('should not render third party links if null or empty string', () => {
+  it('should not render third party links if empty', () => {
     const wrapper = getMountedComponent({
-      mondayLink: null,
-      phenotipsLink: '',
+      third_party_links: [],
     });
 
-    const mondayLink = wrapper.find('[data-test="monday-link"]');
-    expect(mondayLink.exists()).to.be.false;
-
-    const phenotipsLink = wrapper.find('[data-test="phenotips-link"]');
-    expect(phenotipsLink.exists()).to.be.false;
+    const thirdPartyLink = wrapper.find('[data-test="third-party-link"]');
+    expect(thirdPartyLink.exists()).to.be.false;
   });
 });

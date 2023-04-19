@@ -25,7 +25,10 @@ function getMountedComponent(props) {
     latest_status: 'Approved',
     created_date: '2021-09-30',
     last_modified_date: '2021-10-01',
-    third_party_links: [{'type': 'monday_com', 'link': 'https://monday.com'}],
+    third_party_links: [
+      {'type': 'monday_com', 'link': 'https://monday.com'},
+      {'type': 'phenotips_com', 'link': 'https://phenotips.com'},
+    ],
   };
 
   return shallowMount(AnalysisCard, {
@@ -113,12 +116,17 @@ describe('AnalysisCard.vue', () => {
     });
 
     it('should open the correct links in a new tab', () => {
-      const wrapper = getMountedComponent();
+    const wrapper = getMountedComponent();
 
-      const thirdPartyLink = wrapper.get('[data-test="third-party-link"]');
+    const thirdPartyLinks = wrapper.findAll('[data-test="third-party-link"]');
 
-      expect(thirdPartyLink.attributes().href).to.equal('https://monday.com');
-      expect(thirdPartyLink.attributes().target).to.equal('_blank');
+    const mondayLink = thirdPartyLinks[0];
+    expect(mondayLink.attributes('href')).to.equal('https://monday.com');
+    expect(mondayLink.attributes('target')).to.equal('_blank');
+
+    const phenotipsLink = thirdPartyLinks[1];
+    expect(phenotipsLink.attributes('href')).to.equal('https://phenotips.com');
+    expect(phenotipsLink.attributes('target')).to.equal('_blank');
     });
   });
 });
