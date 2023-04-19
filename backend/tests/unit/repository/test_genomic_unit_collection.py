@@ -232,7 +232,7 @@ def test_annotation_genomic_unit_with_file(genomic_unit_collection, hgvs_variant
     """ Accepts a file and adds it as an annotation to the given genomic unit """
     genomic_unit = {'unit': 'NM_001017980.3:c.164G>T', 'type': GenomicUnitType.HGVS_VARIANT}
     annotation_unit = {
-        "data_set": 'Gene Homology/Multi-Sequence Alignment', "data_source": "rosalution_maual",
+        "data_set": 'Gene Homology/Multi-Sequence Alignment', "data_source": "rosalution_manual",
         "version": "1979-01-01", "value": {"file_id": "fake-image-id-1", "created_date": "1979-01-01 00:00:00"}
     }
 
