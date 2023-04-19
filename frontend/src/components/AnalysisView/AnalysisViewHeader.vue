@@ -6,7 +6,7 @@
       :href="link.link"
       target="_blank"
       class="logo-link"
-      :data-test="`${link.type.toLowerCase().replace('_com', '')}-link`"
+      data-test="third-party-link"
     >
       <img :src="getIconSrc(link.type)" :class="getIconClass(link.type)" />
     </a>

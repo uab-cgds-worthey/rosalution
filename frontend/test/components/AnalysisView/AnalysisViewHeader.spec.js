@@ -60,9 +60,9 @@ describe('AnalysisViewHeader.vue', () => {
   it('should render third party links', () => {
     const wrapper = getMountedComponent();
 
-    const mondayLink = wrapper.get('[data-test="monday-link"]');
-    expect(mondayLink.attributes('href')).to.equal('https://monday.com');
-    expect(mondayLink.attributes('target')).to.equal('_blank');
+    const thirdPartyLink = wrapper.get('[data-test="third-party-link"]');
+    expect(thirdPartyLink.attributes('href')).to.equal('https://monday.com');
+    expect(thirdPartyLink.attributes('target')).to.equal('_blank');
   });
 
   it('should not render third party links if null or empty string', () => {
@@ -70,7 +70,7 @@ describe('AnalysisViewHeader.vue', () => {
       third_party_links: [],
     });
 
-    const mondayLink = wrapper.find('[data-test="monday-link"]');
-    expect(mondayLink.exists()).to.be.false;
+    const thirdPartyLink = wrapper.find('[data-test="third-party-link"]');
+    expect(thirdPartyLink.exists()).to.be.false;
   });
 });
