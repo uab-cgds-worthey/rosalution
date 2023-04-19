@@ -6,6 +6,7 @@
           :titleText="this.analysis_name"
           :sectionAnchors="this.sectionsHeaders"
           :username="username"
+          :workflowStatus="currentStatus"
           @logout="this.onLogout"
           :mondayLink="mondayCom"
           :phenotipsLink="phenotipsCom"
@@ -165,6 +166,10 @@ export default {
     },
     phenotipsCom() {
       return this.analysis.phenotips_com || '';
+    },
+    currentStatus() {
+      console.log(this.analysis.latest_status)
+      return this.analysis.latest_status;
     },
   },
   created() {
