@@ -116,17 +116,17 @@ describe('AnalysisCard.vue', () => {
     });
 
     it('should open the correct links in a new tab', () => {
-    const wrapper = getMountedComponent();
+      const wrapper = getMountedComponent();
 
-    const thirdPartyLinks = wrapper.findAll('[data-test="third-party-link"]');
+      const thirdPartyLinks = wrapper.findAll('[data-test="third-party-link"]');
 
-    const mondayLink = thirdPartyLinks[0];
-    expect(mondayLink.attributes('href')).to.equal('https://monday.com');
-    expect(mondayLink.attributes('target')).to.equal('_blank');
+      const mondayLink = thirdPartyLinks[0];
+      expect(mondayLink.attributes('href')).to.equal('https://monday.com');
+      expect(mondayLink.attributes('target')).to.equal('_blank');
 
-    const phenotipsLink = thirdPartyLinks[1];
-    expect(phenotipsLink.attributes('href')).to.equal('https://phenotips.com');
-    expect(phenotipsLink.attributes('target')).to.equal('_blank');
+      const phenotipsLink = thirdPartyLinks[1];
+      expect(phenotipsLink.attributes('href')).to.equal('https://phenotips.com');
+      expect(phenotipsLink.attributes('target')).to.equal('_blank');
     });
   });
 });
