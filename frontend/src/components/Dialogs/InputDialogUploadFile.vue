@@ -115,7 +115,7 @@ input[type=file]::file-selector-button {
 
 .drop-file-box-content {
   display: flex;
-  height: 100%;
+  height: 8rem;
   justify-content: center ;
   align-items: center;
   gap: var(--p-1);
@@ -132,7 +132,8 @@ input[type=file]::file-selector-button {
 }
 
 .comments {
-  flex: 3 0 auto
+  flex: 3 0 auto;
+  height: 8rem;
 }
 
 </style>
