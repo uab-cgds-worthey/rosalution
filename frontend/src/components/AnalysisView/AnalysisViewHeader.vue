@@ -1,5 +1,10 @@
 <template>
-  <RosalutionHeader :username="this.username" :titleText="this.titleText" :workflow_status="this.latest_status" :actions="this.actions">
+  <RosalutionHeader
+    :username="this.username"
+    :titleText="this.titleText"
+    :workflow_status="this.workflowStatus"
+    :actions="this.actions"
+  >
     <a v-if="mondayLink" :href="mondayLink" target="_blank" class="logo-link" data-test="monday-link">
         <img src="/src/assets/monday-avatar-logo.svg" class="monday-icon"/>
     </a>
@@ -59,11 +64,6 @@ export default {
   methods: {
     toAnchorId(anchorText) {
       return `#${anchorText.replace(' ', '_')}`;
-    },
-  },
-  computed: {
-    latest_status() {
-      return this.workflowStatus;
     },
   },
 };

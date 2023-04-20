@@ -168,7 +168,6 @@ export default {
       return this.analysis.phenotips_com || '';
     },
     currentStatus() {
-      console.log(this.analysis.latest_status)
       return this.analysis.latest_status;
     },
   },
