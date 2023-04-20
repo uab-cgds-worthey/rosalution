@@ -54,7 +54,7 @@ export default {
   border: none;
   float: right;
   cursor: pointer;
-  margin-top: 5px;
-  margin-right: 5px;
+  margin-top: var(--p-5);
+  margin-right: var(--p-5);
 }
 </style>
