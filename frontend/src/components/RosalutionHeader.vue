@@ -4,7 +4,7 @@
       <img src="@/assets/rosalution-logo.svg" class="rosalution-logo">
     </router-link>
     <div data-test="primary-content" class="content">
-      <a v-if="this.workflow_status" class="status-icon" :class="status" data-test="status-icon">
+      <a v-if="this.workflow_status && this.workflow_status !== 'none'" class="status-icon" data-test="status-icon">
           <font-awesome-icon :icon="workflowIcon" size="xl" :style="workflowColorStyle"/>
       </a>
       <router-link v-if="doTitleToRoute" :to="titleToRoute" class="title left-content">
@@ -66,7 +66,7 @@ export default {
         return [];
       },
     },
-    workflow_status : {
+    workflow_status: {
       type: String,
       default: 'none',
     },
@@ -78,7 +78,7 @@ export default {
     doTitleToRoute: function() {
       return typeof(this.titleToRoute) !== 'undefined';
     },
-    workflowIcon: function () {
+    workflowIcon: function() {
       if (this.workflow_status == 'Annotation') {
         return 'asterisk';
       } else if (this.workflow_status == 'Ready') {
@@ -95,7 +95,7 @@ export default {
 
       return 'question';
     },
-    workflowColor: function () {
+    workflowColor: function() {
       if (this.workflow_status == 'Annotation') {
         return '--rosalution-status-annotation';
       } else if (this.workflow_status == 'Ready') {
@@ -112,7 +112,7 @@ export default {
 
       return '--rosalution-white';
     },
-    workflowColorStyle: function () {
+    workflowColorStyle: function() {
       return {
         color: `var(${this.workflowColor})`,
       };
