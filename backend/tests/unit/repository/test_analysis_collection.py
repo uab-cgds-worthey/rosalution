@@ -243,9 +243,9 @@ def test_remove_pedigree_file_id(analysis_collection):
 def test_attach_third_party_link_monday(analysis_collection):
     """Tests the attach_third_party_link function"""
     analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
-    analysis_collection.attach_third_party_link("CPAM0002", "MONDAY_COM", "https://monday.com")
+    analysis_collection.attach_third_party_link("CPAM0002", "monday_com", "https://monday.com")
     analysis_collection.collection.find_one_and_update.assert_called_with({'name': 'CPAM0002'}, {
-        '$push': {'third_party_links': {'type': ThirdPartyLinkType.MONDAY_COM, 'link': 'https://monday.com'}}
+        '$push': {'third_party_links': {'type': "monday_com", 'link': "https://monday.com"}}
     },
                                                                           return_document=True)
 
@@ -253,9 +253,9 @@ def test_attach_third_party_link_monday(analysis_collection):
 def test_attach_third_party_link_phenotips(analysis_collection):
     """Tests the attach_third_party_link function"""
     analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
-    analysis_collection.attach_third_party_link("CPAM0002", "PHENOTIPS_COM", "https://phenotips.com")
+    analysis_collection.attach_third_party_link("CPAM0002", "phenotips_com", "https://phenotips.com")
     analysis_collection.collection.find_one_and_update.assert_called_with({'name': 'CPAM0002'}, {
-        '$push': {'third_party_links': {'type': ThirdPartyLinkType.PHENOTIPS_COM, 'link': 'https://phenotips.com'}}
+        '$push': {'third_party_links': {'type': "phenotips_com", 'link': 'https://phenotips.com'}}
     },
                                                                           return_document=True)
 
