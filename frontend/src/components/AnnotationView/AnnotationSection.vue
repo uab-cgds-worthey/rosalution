@@ -13,10 +13,10 @@
         <button
           v-if="allowAttach"
           class="attach-logo"
-          @click="$emit('attach-image', header, genomicAttachmentType)"
+          @click="$emit('attach-image', attachmentDataset, genomicAttachmentType)"
           data-test="attach-logo"
         >
-          <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
+        <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
         </button>
         <label class="collapsable-icon">
           <font-awesome-icon icon="chevron-down" size="lg"/>
@@ -35,6 +35,10 @@ export default {
   props: {
     header: {
       type: String,
+    },
+    attachmentDataset: {
+      type: String,
+      default: '',
     },
     genomicAttachmentType: {
       type: String,

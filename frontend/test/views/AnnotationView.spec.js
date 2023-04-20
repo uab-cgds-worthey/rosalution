@@ -171,7 +171,7 @@ describe('AnnotationView', () => {
 
         const annotationSection = wrapper.findComponent('[id=Gene_Homology]');
 
-        annotationSection.vm.$emit('attach-image', 'Gene Homology/Multi-Sequence Alignment', 'hgvs_variant');
+        annotationSection.vm.$emit('attach-image', 'GeneHomology_Multi-SequenceAlignment', 'hgvs_variant');
 
         await wrapper.vm.$nextTick();
 
@@ -193,7 +193,7 @@ describe('AnnotationView', () => {
         annotationAttachMock.throws('Something went wrong when attaching an image. Please seek help.');
 
         const annotationSection = wrapper.findComponent('[id=Gene_Homology]');
-        annotationSection.vm.$emit('attach-image', 'Gene Homology/Multi-Sequence Alignment', 'hgvs_variant');
+        annotationSection.vm.$emit('attach-image', 'GeneHomology_Multi-SequenceAlignment', 'hgvs_variant');
 
         await wrapper.vm.$nextTick();
 
@@ -219,7 +219,7 @@ describe('AnnotationView', () => {
         const imageAnnotation = {'file_id': 'fake-image-id-1', 'created_date': 'fake-date'};
 
         const annotationsWithNewEvidence = mockAnnotationsForCPAM0002;
-        annotationsWithNewEvidence['Gene Homology/Multi-Sequence Alignment'] = [imageAnnotation];
+        annotationsWithNewEvidence['GeneHomology_Multi-SequenceAlignment'] = [imageAnnotation];
         mockAnnotations.returns(annotationsWithNewEvidence);
         wrapper = getMountedComponent();
       });
@@ -227,14 +227,14 @@ describe('AnnotationView', () => {
       it('allows user to add an image when an image already exists', async () => {
         const newImageResult = {
           image_id: 'fake-image-id-2',
-          section: 'Gene Homology/Multi-Sequence Alignment',
+          section: 'GeneHomology_Multi-SequenceAlignment',
         };
 
         annotationAttachMock.returns(newImageResult);
 
         const annotationSection = wrapper.findComponent('[id=Gene_Homology]');
 
-        annotationSection.vm.$emit('attach-image', 'Gene Homology/Multi-Sequence Alignment', 'hgvs_variant');
+        annotationSection.vm.$emit('attach-image', 'GeneHomology_Multi-SequenceAlignment', 'hgvs_variant');
 
         await wrapper.vm.$nextTick();
 
@@ -255,7 +255,7 @@ describe('AnnotationView', () => {
       it('allows the user to update an existing image with another image', async () => {
         const newImageResult = {
           image_id: 'fake-image-id-2',
-          section: 'Gene Homology/Multi-Sequence Alignment',
+          section: 'GeneHomology_Multi-SequenceAlignment',
         };
 
         annotationUpdateMock.resolves(newImageResult);
@@ -267,7 +267,8 @@ describe('AnnotationView', () => {
         sectionImageComponent.vm.$emit(
             'update-annotation-image',
             'fake-image-id-1',
-            'Gene Homology/Multi-Sequence Alignment',
+            'GeneHomology_Multi-SequenceAlignment',
+            'hgvs_variant',
         );
 
         await wrapper.vm.$nextTick();
@@ -291,7 +292,8 @@ describe('AnnotationView', () => {
         sectionImageComponent.vm.$emit(
             'update-annotation-image',
             'fake-image-id-1',
-            'Gene Homology/Multi-Sequence Alignment',
+            'GeneHomology_Multi-SequenceAlignment',
+            'hgvs_variant',
         );
 
         await wrapper.vm.$nextTick();
@@ -318,7 +320,8 @@ describe('AnnotationView', () => {
         sectionImageComponent.vm.$emit(
             'update-annotation-image',
             'fake-image-id-1',
-            'Gene Homology/Multi-Sequence Alignment',
+            'GeneHomology_Multi-SequenceAlignment',
+            'hgvs_variant',
         );
 
         await wrapper.vm.$nextTick();
@@ -348,7 +351,8 @@ describe('AnnotationView', () => {
         sectionImageComponent.vm.$emit(
             'update-annotation-image',
             'fake-image-id-1',
-            'Gene Homology/Multi-Sequence Alignment',
+            'GeneHomology_Multi-SequenceAlignment',
+            'hgvs_variant',
         );
 
         await wrapper.vm.$nextTick();

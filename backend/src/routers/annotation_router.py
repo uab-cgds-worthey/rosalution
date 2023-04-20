@@ -101,12 +101,12 @@ def get_annotations_by_hgvs_variant(variant: str, repositories=Depends(database)
     return {**annotations, "transcripts": transcript_annotation_list}
 
 
-@router.post("/{genomic_unit}/attach/image")
+@router.post("/{genomic_unit}/{data_set}/attach/image")
 def upload_annotation_section(
     response: Response,
     genomic_unit: str,
+    data_set: str,
     genomic_unit_type: GenomicUnitType = Form(...),
-    section_name: str = Form(...),
     upload_file: UploadFile = File(...),
     repositories=Depends(database)
 ):
@@ -124,7 +124,7 @@ def upload_annotation_section(
     }
 
     annotation_unit = {
-        "data_set": section_name,
+        "data_set": data_set,
         "data_source": "rosalution-manual",
         "version": str(date.today()),
         "value": {"file_id": str(new_file_object_id), "created_date": str(datetime.now())},
@@ -137,15 +137,15 @@ def upload_annotation_section(
 
     response.status_code = status.HTTP_201_CREATED
 
-    return {'section': section_name, 'image_id': str(new_file_object_id)}
+    return {'section': data_set, 'image_id': str(new_file_object_id)}
 
 
-@router.post("/{genomic_unit}/update/image/{file_id}")
+@router.post("/{genomic_unit}/{data_set}/update/{old_file_id}")
 def update_annotation_image(
-    file_id: str,
     genomic_unit: str,
+    data_set: str,
+    old_file_id: str,
     genomic_unit_type: GenomicUnitType = Form(...),
-    section_name: str = Form(...),
     upload_file: UploadFile = File(...),
     repositories=Depends(database)
 ):
@@ -161,37 +161,37 @@ def update_annotation_image(
 
     try:
         repositories['genomic_unit'].update_genomic_unit_file_annotation(
-            genomic_unit, annotation_value, section_name, file_id
+            genomic_unit, data_set, annotation_value, old_file_id
         )
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
     try:
-        repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit, section_name, file_id)
+        repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit, data_set, old_file_id)
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
     try:
-        repositories["bucket"].delete_file(file_id)
+        repositories["bucket"].delete_file(old_file_id)
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
-    return {'section': section_name, 'image_id': str(new_file_id)}
+    return {'section': data_set, 'image_id': str(new_file_id)}
 
 
-@router.delete("/{genomic_unit}/remove/image/{file_id}")
+@router.delete("/{genomic_unit}/{data_set}/remove/{file_id}")
 def remove_annotation_image(
     genomic_unit: str,
+    data_set: str,
     file_id: str,
     genomic_unit_type: GenomicUnitType = Form(...),
-    section_name: str = Form(...),
     repositories=Depends(database)
 ):
     """ This endpoint handles removing an annotation image for specified genomic unit """
     genomic_unit = {'unit': genomic_unit, 'type': genomic_unit_type}
 
     try:
-        repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit, section_name, file_id)
+        repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit, data_set, file_id)
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 

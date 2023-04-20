@@ -258,7 +258,7 @@ def test_update_existing_genomic_unit_file_annotation(genomic_unit_collection, h
     """ Updates an existing file annotation with a new file annotation in place"""
     genomic_unit = {'unit': 'NM_001017980.3:c.164G>T', 'type': GenomicUnitType.HGVS_VARIANT}
     annotation_unit_value = {"file_id": "fake-image-id-2", "created_date": "1979-01-01 00:00:00"}
-    section_name = 'Gene Homology/Multi-Sequence Alignment'
+    data_set = 'Gene Homology/Multi-Sequence Alignment'
     file_id_old = "fake-image-id-1"
 
     expected_genomic_unit = copy.copy(hgvs_variant_genomic_unit_json)
@@ -284,7 +284,7 @@ def test_update_existing_genomic_unit_file_annotation(genomic_unit_collection, h
     genomic_unit_collection.update_genomic_unit_with_mongo_id = Mock()
 
     genomic_unit_collection.update_genomic_unit_file_annotation(
-        genomic_unit, annotation_unit_value, section_name, file_id_old
+        genomic_unit, data_set, annotation_unit_value, file_id_old
     )
 
     genomic_unit_collection.update_genomic_unit_with_mongo_id.assert_called_once_with(expected_genomic_unit)

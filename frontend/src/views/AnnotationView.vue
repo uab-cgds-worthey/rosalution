@@ -16,7 +16,6 @@
         v-for="(section, index) in this.rendering" :key="`${section.type}-${section.anchor}-${index}`"
         :header="sectionHeader(section.header)" v-bind="section.props"
         :id="`${section.anchor}`" @attach-image="this.attachAnnotationImage"
-        :genomicAttachmentType="section.allowHeaderAttachGenomicUnit"
       >
         <template #headerDatasets>
           <component
@@ -35,6 +34,7 @@
                 :key="`${datasetConfig.dataset}-${index}`"
                 :is="datasetConfig.type"
                 :dataSet="datasetConfig.dataset"
+                :genomicType="datasetConfig.genomicType"
                 v-bind="buildProps(datasetConfig)"
                 :value="annotations[datasetConfig.dataset]"
                 :data-test="datasetConfig.dataset"
@@ -168,7 +168,7 @@ export default {
       this.annotations = {};
       await(this.getAnnotations());
     },
-    async attachAnnotationImage(sectionName, genomicType) {
+    async attachAnnotationImage(dataSet, genomicUnitType) {
       const includeComments = false;
       const attachment = await inputDialog
           .confirmText('Attach')
@@ -180,19 +180,21 @@ export default {
         return;
       }
 
+      const genomicUnit = genomicUnitType.includes('gene') ? this.active.gene : this.active.variant.replace(/\(.*/, '');
+      console.log(genomicUnit);
+
       const annotation = {
-        genomic_unit: genomicType.includes('gene') ? this.active.gene : this.active.variant.replace(/\(.*/, ''),
-        genomic_unit_type: genomicType,
-        section: sectionName,
+        genomic_unit_type: genomicUnitType,
+        annotation_data: attachment.data,
       };
 
       try {
-        const updatedAnnotation = await Annotations.attachAnnotationImage(annotation, attachment.data);
+        const updatedAnnotation = await Annotations.attachAnnotationImage(genomicUnit, dataSet, annotation);
 
-        if (!this.annotations[sectionName]) {
-          this.annotations[sectionName] = [{file_id: updatedAnnotation['image_id'], created_date: ''}];
+        if (!this.annotations[dataSet]) {
+          this.annotations[dataSet] = [{file_id: updatedAnnotation['image_id'], created_date: ''}];
         } else {
-          this.annotations[sectionName].push({file_id: updatedAnnotation['image_id'], created_date: ''});
+          this.annotations[dataSet].push({file_id: updatedAnnotation['image_id'], created_date: ''});
         }
       } catch (error) {
         await notificationDialog
@@ -201,7 +203,7 @@ export default {
             .alert(error);
       }
     },
-    async updateAnnotationImage(fileId, dataSet) {
+    async updateAnnotationImage(fileId, dataSet, genomicUnitType) {
       const includeComments = false;
       const attachment = await inputDialog
           .confirmText('Update')
@@ -214,22 +216,21 @@ export default {
         return;
       }
 
-      const genomicType = this.rendering.find((section) => section['header'] == dataSet).allowHeaderAttachGenomicUnit;
+      const genomicUnit = genomicUnitType.includes('gene') ? this.active.gene : this.active.variant.replace(/\(.*/, '');
 
       const annotation = {
-        genomic_unit: genomicType.includes('gene') ? this.active.gene : this.active.variant.replace(/\(.*/, ''),
-        genomic_unit_type: genomicType,
-        section: dataSet,
+        genomic_unit_type: genomicUnitType,
+        annotation_data: attachment.data,
       };
 
       if ('DELETE' == attachment) {
-        await this.removeAnnotationImage(fileId, annotation);
+        await this.removeAnnotationImage(genomicUnit, dataSet, fileId, annotation);
         return;
       }
 
       try {
         const that = this;
-        await Annotations.updateAnnotationImage(fileId, annotation, attachment.data).then(function(response) {
+        await Annotations.updateAnnotationImage(genomicUnit, dataSet, fileId, annotation).then(function(response) {
           that.annotations[dataSet].forEach((elem) => {
             if (elem['file_id'] == fileId) {
               elem['file_id'] = response['image_id'];
@@ -243,7 +244,7 @@ export default {
             .alert(error);
       }
     },
-    async removeAnnotationImage(fileId, annotation) {
+    async removeAnnotationImage(genomicUnit, dataSet, fileId, annotation) {
       const confirmedDelete = await notificationDialog
           .title(`Remove Annotation attachment`)
           .confirmText('Remove')
@@ -255,7 +256,7 @@ export default {
       }
 
       try {
-        await Annotations.removeAnnotationImage(fileId, annotation);
+        await Annotations.removeAnnotationImage(genomicUnit, dataSet, fileId, annotation);
       } catch (error) {
         await notificationDialog
             .title('Failure')
@@ -263,7 +264,7 @@ export default {
             .alert(error);
       }
 
-      this.annotations[annotation.section] = this.annotations[annotation.section].filter( (obj) => {
+      this.annotations[dataSet] = this.annotations[dataSet].filter( (obj) => {
         return obj.file_id !== fileId;
       });
     },

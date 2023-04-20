@@ -5,6 +5,7 @@
             :key="sectionImage.id"
             :imageId="sectionImage.id"
             :dataSet="dataSet"
+            :genomicType="genomicType"
             v-bind="$attrs"
         />
     </div>
@@ -14,7 +15,7 @@
 import SectionImage from '@/components/SectionImage.vue';
 
 export default {
-  name: 'image-dataset',
+  name: 'images-dataset',
   components: {
     SectionImage,
   },
@@ -26,6 +27,9 @@ export default {
       },
     },
     dataSet: {
+      type: String,
+    },
+    genomicType: {
       type: String,
     },
   },

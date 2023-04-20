@@ -3,7 +3,7 @@
         <img class="section-image" :src="imageSrc" data-test="annotation-image"/>
         <button
           class="edit-icon"
-          @click="$emit('update-annotation-image', imageId, dataSet)"
+          @click="$emit('update-annotation-image', imageId, dataSet, genomicType)"
           data-test="annotation-edit-icon"
         >
           <font-awesome-icon :icon="['fa', 'pencil']" size="xl" />
@@ -22,6 +22,10 @@ export default {
       type: String,
     },
     dataSet: {
+      type: String,
+      default: '',
+    },
+    genomicType: {
       type: String,
       default: '',
     },

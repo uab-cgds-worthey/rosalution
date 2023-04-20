@@ -295,6 +295,7 @@ const annotationRenderingTemporary = [
         'datasets': [
           {
             'dataset': 'transcripts',
+            'genomicType': 'hgvs_variant',
             'type': 'transcript-datasets',
           },
         ],
@@ -307,12 +308,16 @@ const annotationRenderingTemporary = [
     'header': 'Gene Homology/Multi-Sequence Alignment',
     'anchor': 'Gene_Homology',
     'header_datasets': [],
-    'allowHeaderAttachGenomicUnit': 'hgvs_variant',
+    'props': {
+      'attachmentDataset': 'GeneHomology_Multi-SequenceAlignment',
+      'genomicAttachmentType': 'hgvs_variant',
+    },
     'rows': [{
       'class': '',
       'datasets': [
         {
-          'dataset': 'Gene Homology/Multi-Sequence Alignment',
+          'dataset': 'GeneHomology_Multi-SequenceAlignment',
+          'genomicType': 'hgvs_variant',
           'type': 'images-dataset',
         },
       ],
@@ -324,12 +329,16 @@ const annotationRenderingTemporary = [
     'header': 'Protein Expression',
     'anchor': 'Protein_Expression',
     'header_datasets': [],
-    'allowHeaderAttachGenomicUnit': 'hgvs_variant',
+    'props': {
+      'attachmentDataset': 'Protein Expression',
+      'genomicAttachmentType': 'hgvs_variant',
+    },
     'rows': [{
       'class': '',
       'datasets': [
         {
           'dataset': 'Protein Expression',
+          'genomicType': 'gene',
           'type': 'images-dataset',
         },
       ],
@@ -341,12 +350,16 @@ const annotationRenderingTemporary = [
     'header': 'Modelability',
     'anchor': 'Modelability',
     'header_datasets': [],
-    'allowHeaderAttachGenomicUnit': 'gene',
+    'props': {
+      'attachmentDataset': 'Modelability',
+      'genomicAttachmentType': 'gene',
+    },
     'rows': [{
       'class': '',
       'datasets': [
         {
           'dataset': 'Modelability',
+          'genomicType': 'gene',
           'type': 'images-dataset',
         },
       ],
@@ -411,12 +424,16 @@ const annotationRenderingTemporary = [
     'header': 'Druggability',
     'anchor': 'Druggability',
     'header_datasets': [],
-    'allowHeaderAttachGenomicUnit': 'gene',
+    'props': {
+      'attachmentDataset': 'Druggability',
+      'genomicAttachmentType': 'gene',
+    },
     'rows': [{
       'class': '',
       'datasets': [
         {
           'dataset': 'Druggability',
+          'genomicType': 'gene',
           'type': 'images-dataset',
         },
       ],
