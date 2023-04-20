@@ -232,12 +232,12 @@ def test_annotation_genomic_unit_with_file(genomic_unit_collection, hgvs_variant
     """ Accepts a file and adds it as an annotation to the given genomic unit """
     genomic_unit = {'unit': 'NM_001017980.3:c.164G>T', 'type': GenomicUnitType.HGVS_VARIANT}
     annotation_unit = {
-        "data_set": 'Gene Homology/Multi-Sequence Alignment', "data_source": "rosalution_manual",
+        "data_set": 'GeneHomology_Multi-SequenceAlignment', "data_source": "rosalution_manual",
         "version": "1979-01-01", "value": {"file_id": "fake-image-id-1", "created_date": "1979-01-01 00:00:00"}
     }
 
     expected_annotation_update = {
-        "Gene Homology/Multi-Sequence Alignment": [{
+        "GeneHomology_Multi-SequenceAlignment": [{
             "data_source": "rosalution_maual", "version": "1979-01-01",
             "value": [{"file_id": "fake-image-id-1", "created_date": "1979-01-01 00:00:00"}]
         }]
@@ -258,13 +258,13 @@ def test_update_existing_genomic_unit_file_annotation(genomic_unit_collection, h
     """ Updates an existing file annotation with a new file annotation in place"""
     genomic_unit = {'unit': 'NM_001017980.3:c.164G>T', 'type': GenomicUnitType.HGVS_VARIANT}
     annotation_unit_value = {"file_id": "fake-image-id-2", "created_date": "1979-01-01 00:00:00"}
-    data_set = 'Gene Homology/Multi-Sequence Alignment'
+    data_set = 'GeneHomology_Multi-SequenceAlignment'
     file_id_old = "fake-image-id-1"
 
     expected_genomic_unit = copy.copy(hgvs_variant_genomic_unit_json)
 
     hgvs_variant_genomic_unit_json['annotations'].append({
-        "Gene Homology/Multi-Sequence Alignment": [{
+        "GeneHomology_Multi-SequenceAlignment": [{
             "data_source": "rosalution_maual", "version": "1979-01-01",
             "value": [{"file_id": "fake-image-id-1", "created_date": "1979-01-01 00:00:00"}]
         }]
@@ -273,7 +273,7 @@ def test_update_existing_genomic_unit_file_annotation(genomic_unit_collection, h
     genomic_unit_collection.collection.find_one.return_value = hgvs_variant_genomic_unit_json
 
     expected_annotation_update = {
-        "Gene Homology/Multi-Sequence Alignment": [{
+        "GeneHomology_Multi-SequenceAlignment": [{
             "data_source": "rosalution_maual", "version": "1979-01-01",
             "value": [{"file_id": "fake-image-id-2", "created_date": "1979-01-01 00:00:00"}]
         }]
@@ -293,13 +293,13 @@ def test_update_existing_genomic_unit_file_annotation(genomic_unit_collection, h
 def test_remove_existing_genomic_unit_file_annotation(genomic_unit_collection, hgvs_variant_genomic_unit_json):
     """ Accepts a request to remove an existing file annotation """
     genomic_unit = {'unit': 'NM_001017980.3:c.164G>T', 'type': GenomicUnitType.HGVS_VARIANT}
-    section_name = 'Gene Homology/Multi-Sequence Alignment'
+    data_set = 'GeneHomology_Multi-SequenceAlignment'
     file_id = "fake-image-id-1"
 
     expected_genomic_unit = copy.deepcopy(hgvs_variant_genomic_unit_json)
 
     hgvs_variant_genomic_unit_json['annotations'].append({
-        "Gene Homology/Multi-Sequence Alignment": [{
+        "GeneHomology_Multi-SequenceAlignment": [{
             "data_source": "rosalution_maual", "version": "1979-01-01",
             "value": [{"file_id": "fake-image-id-1", "created_date": "1979-01-01 00:00:00"}]
         }]
@@ -308,14 +308,14 @@ def test_remove_existing_genomic_unit_file_annotation(genomic_unit_collection, h
     genomic_unit_collection.collection.find_one.return_value = hgvs_variant_genomic_unit_json
 
     expected_genomic_unit['annotations'].append({
-        "Gene Homology/Multi-Sequence Alignment": [{
+        "GeneHomology_Multi-SequenceAlignment": [{
             "data_source": "rosalution_maual", "version": "1979-01-01", "value": []
         }]
     })
 
     genomic_unit_collection.update_genomic_unit_with_mongo_id = Mock()
 
-    genomic_unit_collection.remove_genomic_unit_file_annotation(genomic_unit, section_name, file_id)
+    genomic_unit_collection.remove_genomic_unit_file_annotation(genomic_unit, data_set, file_id)
 
     genomic_unit_collection.update_genomic_unit_with_mongo_id.assert_called_once_with(expected_genomic_unit)
 
