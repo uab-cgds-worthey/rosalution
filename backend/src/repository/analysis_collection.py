@@ -6,8 +6,6 @@ from uuid import uuid4
 from pymongo import ReturnDocument
 from ..models.event import Event
 
-from ..enums import ThirdPartyLinkType
-
 # pylint: disable=too-few-public-methods
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 

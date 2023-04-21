@@ -6,7 +6,6 @@ import pytest
 from pymongo import ReturnDocument
 from src.enums import EventType
 from src.models.event import Event
-from src.enums import ThirdPartyLinkType
 from ...test_utils import read_test_fixture
 
 
