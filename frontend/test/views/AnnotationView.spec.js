@@ -13,11 +13,11 @@ import TextDataset from '@/components/AnnotationView/TextDataset.vue';
 import SectionImage from '@/components/SectionImage.vue';
 
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
-
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+
 
 /**
  * Helper mounts and returns the rendered component

@@ -144,6 +144,7 @@ export default {
     await this.getRenderingConfiguration();
     await this.getAnnotations();
     await this.getSummaryByName();
+
   },
   methods: {
     async getSummaryByName() {
