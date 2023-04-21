@@ -347,7 +347,7 @@ const annotationRenderingTemporary = [
   //       }
   //     ]
   //   }],
-  // }, 
+  // },
   // {
   //   'type': 'section',
   //   'class': '',
