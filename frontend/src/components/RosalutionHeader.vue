@@ -75,8 +75,9 @@ export default {
     },
     third_party_links: {
       type: Array,
-      default: () => [],
-      required: false,
+      default: () => {
+        return [];
+      },
     },
   },
   computed: {

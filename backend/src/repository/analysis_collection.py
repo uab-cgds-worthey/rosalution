@@ -299,13 +299,6 @@ class AnalysisCollection:
         if not analysis:
             raise ValueError(f"Analysis with name {analysis_name} does not exist")
 
-        # if third_party_enum == "MONDAY_COM":
-        #     third_party_enum = ThirdPartyLinkType.MONDAY_COM
-        # elif third_party_enum == "PHENOTIPS_COM":
-        #     third_party_enum = ThirdPartyLinkType.PHENOTIPS_COM
-        # else:
-        #     raise ValueError(f"Third party link type {third_party_enum} is not supported")
-
         if 'third_party_links' not in analysis:
             analysis['third_party_links'] = []
 
