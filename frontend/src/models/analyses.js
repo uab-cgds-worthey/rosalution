@@ -337,7 +337,7 @@ const annotationRenderingTemporary = [
     'header_datasets': [],
     'props': {
       'attachmentDataset': 'Protein Expression',
-      'genomicAttachmentType': 'hgvs_variant',
+      'genomicAttachmentType': 'gene',
     },
     'rows': [{
       'class': '',
