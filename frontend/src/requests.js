@@ -51,7 +51,6 @@ export default {
     return await response.json();
   },
   async getImage(url) {
-    console.log(url);
     const authToken = authStore.getToken();
     return await fetch(url, {
       method: 'GET',
@@ -139,12 +138,6 @@ export default {
 
     return await response.json();
   },
-  async postForm(url, data) {
-    return await sendFormData('POST', url, data);
-  },
-  async putForm(url, data) {
-    return await sendFormData('PUT', url, data);
-  },
   async delete(url) {
     const authToken = authStore.getToken();
     const response = await fetch(url, {
@@ -158,7 +151,6 @@ export default {
     });
 
     if ( response.ok != true ) {
-      console.log(response);
       throw new Error(`Status Code: ${response.status} ${ response.statusText}\nURL: \n${response.url}`);
     }
 
@@ -167,5 +159,14 @@ export default {
     }
 
     return response.ok;
+  },
+  async postForm(url, data) {
+    return await sendFormData('POST', url, data);
+  },
+  async putForm(url, data) {
+    return await sendFormData('PUT', url, data);
+  },
+  async deleteForm(url, data) {
+    return await sendFormData('DELETE', url, data);
   },
 };

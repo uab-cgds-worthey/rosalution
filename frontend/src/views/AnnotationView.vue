@@ -17,8 +17,7 @@
       <AnnotationSection
         v-for="(section, index) in this.rendering" :key="`${section.type}-${section.anchor}-${index}`"
         :header="sectionHeader(section.header)" v-bind="section.props"
-        :id="`${section.anchor}`" @attach-image="this.attachSectionImage"
-        :imageId="imageId(section.header)"
+        :id="`${section.anchor}`" @attach-image="this.attachAnnotationImage"
       >
         <template #headerDatasets>
           <component
@@ -36,14 +35,20 @@
                 v-for="(datasetConfig, index) in row.datasets"
                 :key="`${datasetConfig.dataset}-${index}`"
                 :is="datasetConfig.type"
+                :dataSet="datasetConfig.dataset"
+                :genomicType="datasetConfig.genomicType"
                 v-bind="buildProps(datasetConfig)"
                 :value="annotations[datasetConfig.dataset]"
                 :data-test="datasetConfig.dataset"
+                @update-annotation-image="this.updateAnnotationImage"
               />
           </div>
         </template>
       </AnnotationSection>
       <InputDialog />
+      <NotificationDialog
+          data-test="notification-dialog"
+        />
     </div>
     <AnnotationSidebar class="sidebar" :section-anchors="sectionAnchors"></AnnotationSidebar>
   </app-content>
@@ -59,12 +64,15 @@ import AnnotationViewHeader from '@/components/AnnotationView/AnnotationViewHead
 
 import ClinvarDataset from '@/components/AnnotationView/ClinvarDataset.vue';
 import IconLinkoutDataset from '@/components/AnnotationView/IconLinkoutDataset.vue';
+import ImagesDataset from '@/components/AnnotationView/ImagesDataset.vue';
 import ScoreDataset from '@/components/AnnotationView/ScoreDataset.vue';
 import TextDataset from '@/components/AnnotationView/TextDataset.vue';
 import TranscriptDatasets from '@/components/AnnotationView/TranscriptDatasets.vue';
-import InputDialog from '../components/Dialogs/InputDialog.vue';
+import InputDialog from '@/components/Dialogs/InputDialog.vue';
+import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 
 import inputDialog from '@/inputDialog.js';
+import notificationDialog from '@/notificationDialog.js';
 
 import {authStore} from '@/stores/authStore.js';
 
@@ -76,10 +84,12 @@ export default {
     AnnotationViewHeader,
     ClinvarDataset,
     IconLinkoutDataset,
+    ImagesDataset,
+    InputDialog,
+    NotificationDialog,
     ScoreDataset,
     TextDataset,
     TranscriptDatasets,
-    InputDialog,
   },
   props: {
     analysis_name: {
@@ -131,24 +141,16 @@ export default {
   },
   async created() {
     await this.getGenomicUnits();
-    this.getRenderingConfiguration();
-    this.getAnnotations();
-    this.getSummaryByName();
+    await this.getRenderingConfiguration();
+    await this.getAnnotations();
+    await this.getSummaryByName();
   },
   methods: {
     async getSummaryByName() {
       this.summary = await Analyses.getSummaryByName(this.analysis_name);
-      console.log(this.summary);
     },
     sectionHeader(header) {
       return header in this ? this.active[header] : header;
-    },
-    imageId(header) {
-      if (this.annotations[header] != undefined) {
-        return this.annotations[header];
-      }
-
-      return '';
     },
     buildProps(datasetConfig) {
       return {
@@ -179,7 +181,7 @@ export default {
       this.annotations = {};
       await(this.getAnnotations());
     },
-    async attachSectionImage(updatedSectionName) {
+    async attachAnnotationImage(dataSet, genomicUnitType) {
       const includeComments = false;
       const attachment = await inputDialog
           .confirmText('Attach')
@@ -191,15 +193,92 @@ export default {
         return;
       }
 
-      const isGeneAnnotation = !updatedSectionName.includes('Multi-Sequence');
+      const genomicUnit = genomicUnitType.includes('gene') ? this.active.gene : this.active.variant.replace(/\(.*/, '');
+
       const annotation = {
-        genomic_unit: isGeneAnnotation ? this.active.gene : this.active.variant.replace(/\(.*/, ''),
-        genomic_unit_type: isGeneAnnotation ? 'gene' : 'hgvs_variant',
-        section: updatedSectionName,
+        genomic_unit_type: genomicUnitType,
+        annotation_data: attachment.data,
       };
 
-      const updatedAnalysis = await Annotations.attachAnnotationImage(annotation, attachment.data);
-      this.annotations[updatedSectionName] = updatedAnalysis['image_id'];
+      try {
+        const updatedAnnotation = await Annotations.attachAnnotationImage(genomicUnit, dataSet, annotation);
+
+        if (!this.annotations[dataSet]) {
+          this.annotations[dataSet] = [{file_id: updatedAnnotation['image_id'], created_date: ''}];
+        } else {
+          this.annotations[dataSet].push({file_id: updatedAnnotation['image_id'], created_date: ''});
+        }
+      } catch (error) {
+        await notificationDialog
+            .title('Failure')
+            .confirmText('Ok')
+            .alert(error);
+      }
+    },
+    async updateAnnotationImage(fileId, dataSet, genomicUnitType) {
+      const includeComments = false;
+      const attachment = await inputDialog
+          .confirmText('Update')
+          .deleteText('Remove')
+          .cancelText('Cancel')
+          .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp')
+          .prompt();
+
+      if (!attachment) {
+        return;
+      }
+
+      const genomicUnit = genomicUnitType.includes('gene') ? this.active.gene : this.active.variant.replace(/\(.*/, '');
+
+      const annotation = {
+        genomic_unit_type: genomicUnitType,
+        annotation_data: attachment.data,
+      };
+
+      if ('DELETE' == attachment) {
+        await this.removeAnnotationImage(genomicUnit, dataSet, fileId, annotation);
+        return;
+      }
+
+      try {
+        const that = this;
+        await Annotations.updateAnnotationImage(genomicUnit, dataSet, fileId, annotation).then(function(response) {
+          that.annotations[dataSet].forEach((elem) => {
+            if (elem['file_id'] == fileId) {
+              elem['file_id'] = response['image_id'];
+            }
+          });
+        });
+      } catch (error) {
+        await notificationDialog
+            .title('Failure')
+            .confirmText('Ok')
+            .alert(error);
+      }
+    },
+    async removeAnnotationImage(genomicUnit, dataSet, fileId, annotation) {
+      const confirmedDelete = await notificationDialog
+          .title(`Remove Annotation attachment`)
+          .confirmText('Remove')
+          .cancelText('Cancel')
+          .confirm('This operation will permanently remove the image. Are you sure you want to remove?');
+
+      if (!confirmedDelete) {
+        return;
+      }
+
+      try {
+        await Annotations.removeAnnotationImage(genomicUnit, dataSet, fileId, annotation);
+      } catch (error) {
+        await notificationDialog
+            .title('Failure')
+            .confirmText('Ok')
+            .alert(error);
+      }
+
+      this.annotations[dataSet] = this.annotations[dataSet].filter( (obj) => {
+        return obj.file_id !== fileId;
+      });
     },
   },
 };
@@ -211,6 +290,12 @@ app-content {
   display: flex;
   flex-direction: row;
   gap: var(--p-10);
+}
+
+app-header {
+  position: sticky;
+  top:0px;
+  z-index: 10;
 }
 
 .sections {

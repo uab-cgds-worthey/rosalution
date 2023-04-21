@@ -129,32 +129,62 @@ class GenomicUnitCollection:
 
         return
 
-    # Annotate Genomic Unit should be updated to support doing this, but there are some implications
-    # here that need to be approached at another time.
-    # Specifically here, if the section image exists as an annotation and we upload a different one,
-    # We're overwriting it.
-
     def annotate_genomic_unit_with_file(self, genomic_unit, genomic_annotation):
         """ Ensures that an annotation is created for the annotation image upload and only one image is allowed """
+
+        genomic_unit_document = self.find_genomic_unit(genomic_unit)
+        data_set = genomic_annotation['data_set']
+
+        for annotation in genomic_unit_document['annotations']:
+            if data_set in annotation:
+                annotation[data_set][0]['value'].append(genomic_annotation['value'])
+                self.update_genomic_unit_with_mongo_id(genomic_unit_document)
+                return
+
         annotation_data_set = {
             genomic_annotation['data_set']: [{
                 'data_source': genomic_annotation['data_source'],
                 'version': genomic_annotation['version'],
-                'value': genomic_annotation['value'],
+                'value': [genomic_annotation['value']],
             }]
         }
 
-        data_set = genomic_annotation['data_set']
+        genomic_unit_document['annotations'].append(annotation_data_set)
+        self.update_genomic_unit_with_mongo_id(genomic_unit_document)
+
+        return
+
+    def update_genomic_unit_file_annotation(self, genomic_unit, data_set, annotation_value, file_id_old):
+        """ Replaces existing annotation image with new image """
+
+        genomic_unit_document = self.find_genomic_unit(genomic_unit)
+
+        # print(genomic_annotation_value)
+
+        for annotation in genomic_unit_document['annotations']:
+            if data_set in annotation:
+                for i in range(len(annotation[data_set][0]['value'])):
+                    if annotation[data_set][0]['value'][i]['file_id'] == file_id_old:
+                        annotation[data_set][0]['value'].pop(i)
+                        annotation[data_set][0]['value'].append(annotation_value)
+                        break
+
+        self.update_genomic_unit_with_mongo_id(genomic_unit_document)
+
+        return
+
+    def remove_genomic_unit_file_annotation(self, genomic_unit, data_set, file_id):
+        """ Removes a file that has been added as an annotation to a genomic unit """
 
         genomic_unit_document = self.find_genomic_unit(genomic_unit)
 
         for annotation in genomic_unit_document['annotations']:
             if data_set in annotation:
-                annotation[data_set] = annotation_data_set[data_set]
-                self.update_genomic_unit_with_mongo_id(genomic_unit_document)
-                return
+                for i in range(len(annotation[data_set][0]['value'])):
+                    if annotation[data_set][0]['value'][i]['file_id'] == file_id:
+                        annotation[data_set][0]['value'].pop(i)
+                        break
 
-        genomic_unit_document['annotations'].append(annotation_data_set)
         self.update_genomic_unit_with_mongo_id(genomic_unit_document)
 
         return

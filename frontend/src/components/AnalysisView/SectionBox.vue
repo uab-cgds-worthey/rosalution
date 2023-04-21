@@ -218,7 +218,6 @@ div {
   font-size: inherit;
 }
 
-
 span:focus {
   color: var(--rosalution-purple-300);
   outline: none;
