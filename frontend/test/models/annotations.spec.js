@@ -58,8 +58,6 @@ describe('annotations.js', () => {
         {genomic_unit_type: 'gene', annotation_data: 'fake-image-path-1'},
     );
 
-    console.log(actualReturned);
-
     expect(actualReturned).to.equal(expectedReturn);
     expect(mockPostFormRequest.calledWith(expectedUrl, expectedFormData)).to.be.true;
   });

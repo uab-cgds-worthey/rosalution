@@ -51,7 +51,6 @@ export default {
     return await response.json();
   },
   async getImage(url) {
-    console.log(url);
     const authToken = authStore.getToken();
     return await fetch(url, {
       method: 'GET',
@@ -152,7 +151,6 @@ export default {
     });
 
     if ( response.ok != true ) {
-      console.log(response);
       throw new Error(`Status Code: ${response.status} ${ response.statusText}\nURL: \n${response.url}`);
     }
 
