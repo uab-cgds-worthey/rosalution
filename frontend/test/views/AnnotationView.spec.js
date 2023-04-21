@@ -324,10 +324,9 @@ describe('AnnotationView', () => {
       });
 
       it('allows the user to remove an image annotation with input dialog with confirmation', async () => {
-        
         await wrapper.vm.$nextTick();
         await wrapper.vm.$nextTick();
-        
+
         const sectionImageComponent = wrapper.findComponent(SectionImage);
 
         expect(sectionImageComponent.exists()).to.be.true;
@@ -360,7 +359,7 @@ describe('AnnotationView', () => {
 
       it('should not remove an image if the remove dialogue was cancelled', async () => {
         annotationRemoveMock.throws('Failed to remove image. Please seek help.');
-        
+
         await wrapper.vm.$nextTick();
         await wrapper.vm.$nextTick();
 
