@@ -8,6 +8,16 @@
         {{ titleText }}
       </router-link>
       <a v-else class="title left-content" href="#top" data-test="header-title-text">{{ titleText }}</a>
+      <a
+        v-for="link in filteredThirdPartyLinks"
+        :key="link.type"
+        :href="link.link"
+        target="_blank"
+        class="third-party-logo-link"
+        data-test="third-party-link"
+      >
+        <img :src="getIconSrc(link.type)" :class="getIconClass(link.type)" />
+      </a>
       <slot></slot>
       <ul class="actions-menu">
         <drop-down-menu :actions="this.userAuthActions" data-test="auth-menu">
@@ -63,6 +73,11 @@ export default {
         return [];
       },
     },
+    third_party_links: {
+      type: Array,
+      default: () => [],
+      required: false,
+    },
   },
   computed: {
     actionsExist: function() {
@@ -70,6 +85,25 @@ export default {
     },
     doTitleToRoute: function() {
       return typeof(this.titleToRoute) !== 'undefined';
+    },
+    filteredThirdPartyLinks() {
+      return this.third_party_links && this.third_party_links.length > 0 ? this.third_party_links : [];
+    },
+  },
+  methods: {
+    getIconSrc(linkType) {
+      if (linkType === 'monday_com') {
+        return '/src/assets/monday-avatar-logo.svg';
+      } else if (linkType === 'phenotips_com') {
+        return '/src/assets/phenotips-favicon-96x96.png';
+      }
+    },
+    getIconClass(linkType) {
+      if (linkType === 'monday_com') {
+        return 'monday-icon';
+      } else if (linkType === 'phenotips_com') {
+        return 'phenotips-icon';
+      }
     },
   },
 };
@@ -133,5 +167,23 @@ header .left-content {
 
 .actions-menu > li {
   float: left;
+}
+
+.third-party-logo-link {
+  background-color: transparent;
+  padding: 0;
+  transform: translate(0, 4px);
+}
+
+.monday-icon {
+  width: 1.875rem; /* 30px */
+  height: 1.875rem; /* 30px */
+  transform: translate(-8px, 0);
+}
+
+.phenotips-icon {
+  width: 1.25rem; /* 20px */
+  height: 1.25rem; /* 20px */
+  transform: translate(-16px, 0);
 }
 </style>

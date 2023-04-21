@@ -357,7 +357,7 @@ export default {
       }
 
       try {
-        const updatedAnalysis = await Analyses.attachThirdPartyLink(this.analysis_name, 'MONDAY_COM', mondayLink.data);
+        const updatedAnalysis = await Analyses.attachThirdPartyLink(this.analysis_name, 'monday_com', mondayLink.data);
 
         this.analysis = {...this.analysis, ...updatedAnalysis};
       } catch (error) {
@@ -382,7 +382,7 @@ export default {
         console.log('phenotipsLink', phenotipsLink.data);
         const updatedAnalysis = await Analyses.attachThirdPartyLink(
             this.analysis_name,
-            'PHENOTIPS_COM',
+            'phenotips_com',
             phenotipsLink.data);
 
         this.analysis = {...this.analysis, ...updatedAnalysis};
