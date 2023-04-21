@@ -64,7 +64,7 @@ class GenomicUnitCollection:
         return None
 
     def find_genomic_unit(self, genomic_unit):
-        """ Returns the given genomic unit from the genomic unit collection """       
+        """ Returns the given genomic unit from the genomic unit collection """
         return self.collection.find_one({
             genomic_unit['type'].value: genomic_unit['unit'],
         })
@@ -160,8 +160,6 @@ class GenomicUnitCollection:
         """ Replaces existing annotation image with new image """
 
         genomic_unit_document = self.find_genomic_unit(genomic_unit)
-
-        # print(genomic_annotation_value)
 
         for annotation in genomic_unit_document['annotations']:
             if data_set in annotation:
