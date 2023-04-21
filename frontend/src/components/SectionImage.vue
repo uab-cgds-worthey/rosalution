@@ -15,7 +15,7 @@
 import FileRequests from '@/fileRequests.js';
 
 export default {
-  name: 'tiny-image-dataset',
+  name: 'section-image',
   emits: ['update-annotation-image'],
   props: {
     imageId: {

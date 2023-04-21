@@ -314,63 +314,6 @@ const annotationRenderingTemporary = [
     'header': 'Gene Homology/Multi-Sequence Alignment',
     'anchor': 'Gene_Homology',
     'header_datasets': [],
-    'allowHeaderAttachImageDataset': true,
-    'rows': [{
-      'class': '',
-      'datasets': [
-        {
-          'dataset': 'Gene Homology/Multi-Sequence Alignment',
-          'type': 'image-dataset',
-          'props': {
-            'label': 'hgvs_variant'
-          }
-        }
-      ]
-    }],
-  },
-    {
-    'type': 'section',
-    'class': '',
-    'header': 'Protein Expression',
-    'anchor': 'Protein_Expression',
-    'header_datasets': [],
-    'allowHeaderAttachGenomicUnit': 'hgvs_variant',
-    'rows': [{
-      'class': '',
-      'datasets': [
-        {
-          'dataset': 'Protein Expression',
-          'type': 'image-dataset',
-        },
-      ],
-    }],
-  }, 
-  {
-    'type': 'section',
-    'class': '',
-    'header': 'Modelability',
-    'anchor': 'Modelability',
-    'header_datasets': [],
-    'allowHeaderAttachGenomicUnit': 'gene',
-    'rows': [{
-      'class': '',
-      'datasets': [
-        {
-          'dataset': 'Modelability',
-          'type': 'image-dataset',
-          'props': {
-            'label': 'gene'
-          }
-        }
-      ]
-    }],
-  },
-  {
-    'type': 'section',
-    'class': '',
-    'header': 'Gene Homology/Multi-Sequence Alignment',
-    'anchor': 'Gene_Homology',
-    'header_datasets': [],
     'props': {
       'attachmentDataset': 'GeneHomology_Multi-SequenceAlignment',
       'genomicAttachmentType': 'hgvs_variant',

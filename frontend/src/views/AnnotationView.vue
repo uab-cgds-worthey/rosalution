@@ -143,12 +143,11 @@ export default {
     await this.getGenomicUnits();
     await this.getRenderingConfiguration();
     await this.getAnnotations();
-    this.getSummaryByName();
+    await this.getSummaryByName();
   },
   methods: {
     async getSummaryByName() {
       this.summary = await Analyses.getSummaryByName(this.analysis_name);
-      console.log(this.summary);
     },
     sectionHeader(header) {
       return header in this ? this.active[header] : header;
@@ -195,7 +194,6 @@ export default {
       }
 
       const genomicUnit = genomicUnitType.includes('gene') ? this.active.gene : this.active.variant.replace(/\(.*/, '');
-      console.log(genomicUnit);
 
       const annotation = {
         genomic_unit_type: genomicUnitType,
