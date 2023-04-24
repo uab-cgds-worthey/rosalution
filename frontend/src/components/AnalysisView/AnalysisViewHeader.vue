@@ -2,7 +2,6 @@
   <RosalutionHeader
     :username="this.username"
     :titleText="this.titleText"
-    :workflow_status="this.workflowStatus"
     :actions="this.actions"
   >
     <a v-if="mondayLink" :href="mondayLink" target="_blank" class="logo-link" data-test="monday-link">
@@ -53,11 +52,6 @@ export default {
     phenotipsLink: {
       type: String,
       default: '',
-      required: false,
-    },
-    workflowStatus: {
-      type: String,
-      default: 'none',
       required: false,
     },
   },

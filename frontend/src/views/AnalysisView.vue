@@ -6,7 +6,7 @@
           :titleText="this.analysis_name"
           :sectionAnchors="this.sectionsHeaders"
           :username="username"
-          :workflowStatus="currentStatus"
+          :workflow_status="currentStatus"
           @logout="this.onLogout"
           :mondayLink="mondayCom"
           :phenotipsLink="phenotipsCom"

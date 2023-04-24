@@ -2,6 +2,7 @@
   <app-header>
     <AnnotationViewHeader
       :username="username"
+      :workflow_status="currentStatus"
       :analysisName="this.analysis_name"
       :genes="this.genomicUnits['genes']"
       :variants="this.genomicUnits['variants']"
@@ -128,6 +129,9 @@ export default {
     phenotipsCom() {
       return this.summary.phenotips_com || '';
     },
+    currentStatus() {
+      return this.summary.latest_status;
+    }
   },
   async created() {
     await this.getGenomicUnits();

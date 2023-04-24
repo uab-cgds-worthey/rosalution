@@ -2,6 +2,7 @@
   <RosalutionHeader
     :username="this.username"
     :titleText="this.analysisName"
+    :workflow_status="this.workflowStatus"
     :titleToRoute="{ name: 'analysis', params: { analysis_name: this.analysisName } }"
   >
     <a v-if="mondayLink" :href="mondayLink" target="_blank" class="logo-link" data-test="monday-link">
