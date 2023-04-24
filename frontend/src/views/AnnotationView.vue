@@ -131,7 +131,7 @@ export default {
     },
     currentStatus() {
       return this.summary.latest_status;
-    }
+    },
   },
   async created() {
     await this.getGenomicUnits();
