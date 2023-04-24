@@ -180,4 +180,8 @@ header .left-content {
 .actions-menu > li {
   float: left;
 }
+.status-icon {
+  transform: translateX(6px);
+}
+
 </style>
