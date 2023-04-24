@@ -301,6 +301,7 @@ const annotationRenderingTemporary = [
         'datasets': [
           {
             'dataset': 'transcripts',
+            'genomicType': 'hgvs_variant',
             'type': 'transcript-datasets',
           },
         ],
@@ -310,25 +311,67 @@ const annotationRenderingTemporary = [
   {
     'type': 'section',
     'class': '',
-    'header': 'Gene Homology/Multi-Sequence allignment',
+    'header': 'Gene Homology/Multi-Sequence Alignment',
     'anchor': 'Gene_Homology',
     'header_datasets': [],
-    'rows': [],
-  }, {
+    'props': {
+      'attachmentDataset': 'GeneHomology_Multi-SequenceAlignment',
+      'genomicAttachmentType': 'hgvs_variant',
+    },
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'GeneHomology_Multi-SequenceAlignment',
+          'genomicType': 'hgvs_variant',
+          'type': 'images-dataset',
+        },
+      ],
+    }],
+  },
+  {
     'type': 'section',
     'class': '',
     'header': 'Protein Expression',
     'anchor': 'Protein_Expression',
     'header_datasets': [],
-    'rows': [],
-  }, {
+    'props': {
+      'attachmentDataset': 'Protein Expression',
+      'genomicAttachmentType': 'gene',
+    },
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Protein Expression',
+          'genomicType': 'gene',
+          'type': 'images-dataset',
+        },
+      ],
+    }],
+  },
+  {
     'type': 'section',
     'class': '',
     'header': 'Modelability',
     'anchor': 'Modelability',
     'header_datasets': [],
-    'rows': [],
-  }, {
+    'props': {
+      'attachmentDataset': 'Modelability',
+      'genomicAttachmentType': 'gene',
+    },
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Modelability',
+          'genomicType': 'gene',
+          'type': 'images-dataset',
+        },
+      ],
+    }],
+  },
+  {
     'type': 'section',
     'class': '',
     'header': 'Model Systems',
@@ -380,12 +423,26 @@ const annotationRenderingTemporary = [
         },
       ],
     }],
-  }, {
+  },
+  {
     'type': 'section',
     'class': '',
     'header': 'Druggability',
     'anchor': 'Druggability',
     'header_datasets': [],
-    'rows': [],
+    'props': {
+      'attachmentDataset': 'Druggability',
+      'genomicAttachmentType': 'gene',
+    },
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Druggability',
+          'genomicType': 'gene',
+          'type': 'images-dataset',
+        },
+      ],
+    }],
   },
 ];
