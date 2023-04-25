@@ -9,7 +9,7 @@
       </router-link>
       <a v-else class="title left-content" href="#top" data-test="header-title-text">{{ titleText }}</a>
       <a
-        v-for="link in filteredThirdPartyLinks"
+        v-for="link in third_party_links"
         :key="link.type"
         :href="link.link"
         target="_blank"
@@ -86,9 +86,6 @@ export default {
     },
     doTitleToRoute: function() {
       return typeof(this.titleToRoute) !== 'undefined';
-    },
-    filteredThirdPartyLinks() {
-      return this.third_party_links && this.third_party_links.length > 0 ? this.third_party_links : [];
     },
   },
   methods: {
