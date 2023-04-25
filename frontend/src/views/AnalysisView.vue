@@ -8,8 +8,7 @@
           :username="username"
           :workflow_status="currentStatus"
           @logout="this.onLogout"
-          :mondayLink="mondayCom"
-          :phenotipsLink="phenotipsCom"
+          :third_party_links="analysis.third_party_links"
           data-test="analysis-view-header">
         </AnalysisViewHeader>
       </app-header>
@@ -160,12 +159,6 @@ export default {
     },
     genomicUnitsList() {
       return this.analysis.genomic_units;
-    },
-    mondayCom() {
-      return this.analysis.monday_com || '';
-    },
-    phenotipsCom() {
-      return this.analysis.phenotips_com || '';
     },
     currentStatus() {
       return this.analysis.latest_status;
@@ -368,7 +361,7 @@ export default {
       }
 
       try {
-        const updatedAnalysis = await Analyses.attachThirdPartyLink(this.analysis_name, 'MONDAY_COM', mondayLink.data);
+        const updatedAnalysis = await Analyses.attachThirdPartyLink(this.analysis_name, 'monday_com', mondayLink.data);
 
         this.analysis = {...this.analysis, ...updatedAnalysis};
       } catch (error) {
@@ -393,7 +386,7 @@ export default {
         console.log('phenotipsLink', phenotipsLink.data);
         const updatedAnalysis = await Analyses.attachThirdPartyLink(
             this.analysis_name,
-            'PHENOTIPS_COM',
+            'phenotips_com',
             phenotipsLink.data);
 
         this.analysis = {...this.analysis, ...updatedAnalysis};

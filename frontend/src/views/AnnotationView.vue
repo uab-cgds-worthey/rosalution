@@ -7,8 +7,7 @@
       :genes="this.genomicUnits['genes']"
       :variants="this.genomicUnits['variants']"
       :activeGenomicUnits="this.active"
-      :mondayLink="mondayCom"
-      :phenotipsLink="phenotipsCom"
+      :third_party_links="summary.third_party_links"
       @changed="this.onActiveGenomicUnitsChanged"
     >
     </AnnotationViewHeader>
@@ -132,12 +131,6 @@ export default {
       return this.rendering.map((section) => {
         return section.anchor;
       });
-    },
-    mondayCom() {
-      return this.summary.monday_com || '';
-    },
-    phenotipsCom() {
-      return this.summary.phenotips_com || '';
     },
     currentStatus() {
       return this.summary.latest_status;

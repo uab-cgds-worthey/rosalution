@@ -35,15 +35,18 @@
           </ul>
         </div>
         <div class="logo-links-section">
-            <a v-if="mondayLink" :href="mondayLink" target="_blank" class="logo-link"
-              data-test="monday-link" @click.stop>
-              <img src="/src/assets/monday-avatar-logo.svg" class="logo-img"/>
-            </a>
-            <a v-if="phenotipsLink" :href="phenotipsLink" target="_blank" class="logo-link"
-              data-test="phenotips-link" @click.stop>
-              <img src="/src/assets/phenotips-favicon-96x96.png" class="logo-img"/>
-            </a>
-          </div>
+          <a
+            v-for="link in third_party_links"
+            :key="link.type"
+            :href="link.link"
+            target="_blank"
+            class="logo-link"
+            data-test="third-party-link"
+            @click.stop
+          >
+            <img :src="getLogoSrc(link.type)" class="logo-img" />
+          </a>
+        </div>
       </div>
     </div>
   </router-link>
@@ -79,15 +82,9 @@ export default {
     genomic_units: {
       type: Array,
     },
-    mondayLink: {
-      type: String,
-      default: '',
-      required: false,
-    },
-    phenotipsLink: {
-      type: String,
-      default: '',
-      required: false,
+    third_party_links: {
+      type: Array,
+      default: () => [],
     },
   },
   computed: {
@@ -135,6 +132,18 @@ export default {
         'border-color': `var(${this.workflowColor}`,
         'color': `var(${this.workflowColor})`,
       };
+    },
+  },
+  methods: {
+    getLogoSrc(type) {
+      switch (type) {
+        case 'monday_com':
+          return '/src/assets/monday-avatar-logo.svg';
+        case 'phenotips_com':
+          return '/src/assets/phenotips-favicon-96x96.png';
+        default:
+          return '';
+      }
     },
   },
 };

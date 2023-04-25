@@ -487,8 +487,7 @@ function fixtureData() {
     latest_status: 'Approved',
     created_date: '2021-09-30',
     last_modified_date: '2021-10-01',
-    monday_com: null,
-    phenotips_com: null,
+    third_party_links: [],
     genomic_units: [
       {
         gene: 'LMNA',
