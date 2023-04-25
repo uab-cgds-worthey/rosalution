@@ -16,6 +16,10 @@ import {RouterLink} from 'vue-router';
 function getMountedComponent(props) {
   const defaultProps = {
     username: '',
+    third_party_links: [
+      {'type': 'monday_com', 'link': 'https://monday.com'},
+      {'type': 'phenotips_com', 'link': 'https://phenotips.com'},
+    ],
   };
 
   return shallowMount(RosalutionHeader, {
@@ -97,5 +101,28 @@ describe('RosalutionHeaderComponent.vue', () => {
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.$route.path).to.equal('/rosalution/account');
+  });
+
+  it('should render third party links', () => {
+    const wrapper = getMountedComponent();
+
+    const thirdPartyLinks = wrapper.findAll('[data-test="third-party-link"]');
+
+    const mondayLink = thirdPartyLinks[0];
+    expect(mondayLink.attributes('href')).to.equal('https://monday.com');
+    expect(mondayLink.attributes('target')).to.equal('_blank');
+
+    const phenotipsLink = thirdPartyLinks[1];
+    expect(phenotipsLink.attributes('href')).to.equal('https://phenotips.com');
+    expect(phenotipsLink.attributes('target')).to.equal('_blank');
+  });
+
+  it('should not render third party links if empty', () => {
+    const wrapper = getMountedComponent({
+      third_party_links: [],
+    });
+
+    const thirdPartyLink = wrapper.find('[data-test="third-party-link"]');
+    expect(thirdPartyLink.exists()).to.be.false;
   });
 });

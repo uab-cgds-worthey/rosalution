@@ -24,8 +24,6 @@ function getMountedComponent(props) {
       'gene': 'PEX10',
       'variant': 'NM_153818.2:c.28dup(p.Glu10fs)',
     },
-    mondayLink: 'https://monday.com',
-    phenotipsLink: 'https://phenotips.org',
   };
 
   return shallowMount(AnnotationViewHeader, {
@@ -112,30 +110,5 @@ describe('AnnotationViewHeader.vue', () => {
     geneSelectComponent.vm.$emit('update:selected', 'PEX10');
 
     expect(wrapper.emitted('changed'), 'the "changed" event happened').to.be.undefined;
-  });
-
-  it('should render third party links', () => {
-    const wrapper = getMountedComponent();
-
-    const mondayLink = wrapper.get('[data-test="monday-link"]');
-    expect(mondayLink.attributes('href')).to.equal('https://monday.com');
-    expect(mondayLink.attributes('target')).to.equal('_blank');
-
-    const phenotipsLink = wrapper.get('[data-test="phenotips-link"]');
-    expect(phenotipsLink.attributes('href')).to.equal('https://phenotips.org');
-    expect(phenotipsLink.attributes('target')).to.equal('_blank');
-  });
-
-  it('should not render third party links if null or empty string', () => {
-    const wrapper = getMountedComponent({
-      mondayLink: null,
-      phenotipsLink: '',
-    });
-
-    const mondayLink = wrapper.find('[data-test="monday-link"]');
-    expect(mondayLink.exists()).to.be.false;
-
-    const phenotipsLink = wrapper.find('[data-test="phenotips-link"]');
-    expect(phenotipsLink.exists()).to.be.false;
   });
 });
