@@ -24,19 +24,39 @@ export default {
     ]);
     return {...geneAnnotations, ...variantAnnotations};
   },
-  async getAnnotationImage(fileId) {
-    const url = `/rosalution/api/analysis/download/${fileId}`;
-    return await Requests.getImage(url);
-  },
-  async attachAnnotationImage(annotation, image) {
+  async attachAnnotationImage(genomicUnit, dataSet, annotation) {
     const baseUrl = '/rosalution/api/annotate';
 
     const attachmentForm = {
-      'upload_file': image,
       'genomic_unit_type': annotation.genomic_unit_type,
-      'section_name': annotation.section,
+      'upload_file': annotation.annotation_data,
     };
 
-    return await Requests.postForm(`${baseUrl}/${annotation.genomic_unit}/attach/image`, attachmentForm);
+    return await Requests.postForm(`${baseUrl}/${genomicUnit}/${dataSet}/attach/image`, attachmentForm);
+  },
+  async updateAnnotationImage(genomicUnit, dataSet, oldFileId, annotation) {
+    const baseUrl = '/rosalution/api/annotate';
+
+    const attachmentForm = {
+      'genomic_unit_type': annotation.genomic_unit_type,
+      'upload_file': annotation.annotation_data,
+    };
+
+    console.log(attachmentForm);
+
+    return await Requests.postForm(`${baseUrl}/${genomicUnit}/${dataSet}/update/${oldFileId}`, attachmentForm);
+  },
+  async removeAnnotationImage(genomicUnit, dataSet, fileId, annotation) {
+    const baseUrl = '/rosalution/api/annotate';
+
+    const attachmentForm = {
+      'genomic_unit_type': annotation.genomic_unit_type,
+    };
+
+    const success = await Requests.deleteForm(
+        `${baseUrl}/${genomicUnit}/${dataSet}/remove/${fileId}`, attachmentForm,
+    );
+
+    return success;
   },
 };
