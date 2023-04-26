@@ -390,7 +390,7 @@ export default {
       }
     },
     async markReady() {
-      try{
+      try {
         const updatedAnalysis = await Analyses.markAnalysisReady(this.analysis_name);
         this.analysis = {...this.analysis, ...updatedAnalysis};
       } catch (error) {
