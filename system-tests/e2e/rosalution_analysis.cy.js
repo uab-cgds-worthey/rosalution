@@ -11,7 +11,9 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
     const expectedHeaderLinks =
       ['CPAM0002', 'LOGIN', ...anchorLinks];
 
-    cy.get('div.content').get('div > a').each(($el) => {
+    cy.get('div.content').get('div > a')
+      .filter(':not([data-test="status-icon"], [data-test="third-party-link"])')
+      .each(($el) => {
       cy.wrap($el).invoke('text').should('be.oneOf', expectedHeaderLinks).then((text) => {
         if (anchorLinks.includes(text)) {
           const anchorLink = `#${text.replace(' ', '_')}`;
