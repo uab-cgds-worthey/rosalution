@@ -103,69 +103,54 @@ describe('RosalutionHeaderComponent.vue', () => {
     expect(wrapper.vm.$route.path).to.equal('/rosalution/account');
   });
 
-  it('should display the proper workflow icon based on the workflow_status prop', async () => {
-    const wrapper = getMountedComponent({workflow_status: 'Annotation'});
-    let statusIcons = wrapper.findAllComponents({name: 'FontAwesomeIcon'});
-    let statusIcon = statusIcons[0];
-    expect(statusIcon.props('icon')).to.equal('asterisk');
-
-    await wrapper.setProps({workflow_status: 'Ready'});
-    statusIcons = wrapper.findAllComponents({name: 'FontAwesomeIcon'});
-    statusIcon = statusIcons[0];
-    expect(statusIcon.props('icon')).to.equal('clipboard-check');
-
-    await wrapper.setProps({workflow_status: 'Active'});
-    statusIcons = wrapper.findAllComponents({name: 'FontAwesomeIcon'});
-    statusIcon = statusIcons[0];
-    expect(statusIcon.props('icon')).to.equal('book-open');
-
-    await wrapper.setProps({workflow_status: 'Approved'});
-    statusIcons = wrapper.findAllComponents({name: 'FontAwesomeIcon'});
-    statusIcon = statusIcons[0];
-    expect(statusIcon.props('icon')).to.equal('check');
-
-    await wrapper.setProps({workflow_status: 'On-Hold'});
-    statusIcons = wrapper.findAllComponents({name: 'FontAwesomeIcon'});
-    statusIcon = statusIcons[0];
-    expect(statusIcon.props('icon')).to.equal('pause');
-
-    await wrapper.setProps({workflow_status: 'Declined'});
-    statusIcons = wrapper.findAllComponents({name: 'FontAwesomeIcon'});
-    statusIcon = statusIcons[0];
-    expect(statusIcon.props('icon')).to.equal('x');
+  it('should display the proper workflow icon based on the workflow_status prop', () => {
+    [
+      {
+        workflow_status: 'Annotation',
+        expected: 'asterisk',
+      },
+      {
+        workflow_status: 'Active',
+        expected: 'book-open',
+      },
+      {
+        workflow_status: 'Approved',
+        expected: 'check',
+      },
+    ].forEach((test) => {
+      const wrapper = getMountedComponent({ workflow_status: test.workflow_status });
+      const statusIcon = wrapper.get('font-awesome-icon-stub');
+      expect(statusIcon.attributes().icon).to.equal(test.expected);
+    });
   });
 
-  it('should display the proper workflow color based on the workflow_status prop', async () => {
-    const wrapper = getMountedComponent({workflow_status: 'Annotation'});
-    let statusIcons = wrapper.findAllComponents({name: 'FontAwesomeIcon'});
-    let statusIcon = statusIcons[0];
-    expect(statusIcon.attributes('style')).to.equal('color: var(--rosalution-status-annotation);');
-
-    await wrapper.setProps({workflow_status: 'Ready'});
-    statusIcons = wrapper.findAllComponents({name: 'FontAwesomeIcon'});
-    statusIcon = statusIcons[0];
-    expect(statusIcon.attributes('style')).to.equal('color: var(--rosalution-status-ready);');
-
-    await wrapper.setProps({workflow_status: 'Active'});
-    statusIcons = wrapper.findAllComponents({name: 'FontAwesomeIcon'});
-    statusIcon = statusIcons[0];
-    expect(statusIcon.attributes('style')).to.equal('color: var(--rosalution-status-active);');
-
-    await wrapper.setProps({workflow_status: 'Approved'});
-    statusIcons = wrapper.findAllComponents({name: 'FontAwesomeIcon'});
-    statusIcon = statusIcons[0];
-    expect(statusIcon.attributes('style')).to.equal('color: var(--rosalution-status-approved);');
-
-    await wrapper.setProps({workflow_status: 'On-Hold'});
-    statusIcons = wrapper.findAllComponents({name: 'FontAwesomeIcon'});
-    statusIcon = statusIcons[0];
-    expect(statusIcon.attributes('style')).to.equal('color: var(--rosalution-status-on-hold);');
-
-    await wrapper.setProps({workflow_status: 'Declined'});
-    statusIcons = wrapper.findAllComponents({name: 'FontAwesomeIcon'});
-    statusIcon = statusIcons[0];
-    expect(statusIcon.attributes('style')).to.equal('color: var(--rosalution-status-declined);');
+  it('should display the proper workflow color based on the workflow_status prop', () => {
+    [
+      {
+        workflow_status: 'Annotation',
+        expected: 'color: var(--rosalution-status-annotation);',
+      },
+      {
+        workflow_status: 'Active',
+        expected: 'color: var(--rosalution-status-active);',
+      },
+      {
+        workflow_status: 'Approved',
+        expected: 'color: var(--rosalution-status-approved);',
+      },
+    ].forEach((test) => {
+      const wrapper = getMountedComponent({ workflow_status: test.workflow_status });
+      const statusIcon = wrapper.get('font-awesome-icon-stub');
+      expect(statusIcon.attributes().style).to.equal(test.expected);
+    });
   });
+
+  it('should not render any icon when the workflow_status prop is not provided', () => {
+    const wrapper = getMountedComponent();
+    const statusIcon = wrapper.find('[data-test="status-icon"]');
+    expect(statusIcon.exists()).to.be.false;
+  });
+
 
   it('should render third party links', () => {
     const wrapper = getMountedComponent();

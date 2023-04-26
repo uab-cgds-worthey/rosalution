@@ -4,7 +4,7 @@
       <img src="@/assets/rosalution-logo.svg" class="rosalution-logo">
     </router-link>
     <div data-test="primary-content" class="content">
-      <a v-if="this.workflow_status && this.workflow_status !== 'none'" class="status-icon" data-test="status-icon">
+      <a v-if="this.workflow_status !== 'none'" class="status-icon" data-test="status-icon">
           <font-awesome-icon :icon="workflowIcon" size="xl" :style="workflowColorStyle"/>
       </a>
       <router-link v-if="doTitleToRoute" :to="titleToRoute" class="title left-content">
