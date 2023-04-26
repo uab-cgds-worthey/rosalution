@@ -3,7 +3,7 @@
       <app-header>
         <AnalysisViewHeader
           :actions="this.menuActions"
-          :titleText="analysis.latest_status"
+          :titleText="analysis.name"
           :sectionAnchors="this.sectionsHeaders"
           :username="username"
           :workflow_status="analysis.latest_status"
