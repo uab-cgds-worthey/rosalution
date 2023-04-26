@@ -118,7 +118,7 @@ describe('RosalutionHeaderComponent.vue', () => {
         expected: 'check',
       },
     ].forEach((test) => {
-      const wrapper = getMountedComponent({ workflow_status: test.workflow_status });
+      const wrapper = getMountedComponent({workflow_status: test.workflow_status});
       const statusIcon = wrapper.get('font-awesome-icon-stub');
       expect(statusIcon.attributes().icon).to.equal(test.expected);
     });
@@ -139,7 +139,7 @@ describe('RosalutionHeaderComponent.vue', () => {
         expected: 'color: var(--rosalution-status-approved);',
       },
     ].forEach((test) => {
-      const wrapper = getMountedComponent({ workflow_status: test.workflow_status });
+      const wrapper = getMountedComponent({workflow_status: test.workflow_status});
       const statusIcon = wrapper.get('font-awesome-icon-stub');
       expect(statusIcon.attributes().style).to.equal(test.expected);
     });
