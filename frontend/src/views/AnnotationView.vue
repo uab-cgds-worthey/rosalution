@@ -2,6 +2,7 @@
   <app-header>
     <AnnotationViewHeader
       :username="username"
+      :workflow_status="summary.latest_status"
       :analysisName="this.analysis_name"
       :genes="this.genomicUnits['genes']"
       :variants="this.genomicUnits['variants']"

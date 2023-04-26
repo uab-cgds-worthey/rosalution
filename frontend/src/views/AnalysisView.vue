@@ -3,9 +3,10 @@
       <app-header>
         <AnalysisViewHeader
           :actions="this.menuActions"
-          :titleText="this.analysis_name"
+          :titleText="analysis.name"
           :sectionAnchors="this.sectionsHeaders"
           :username="username"
+          :workflow_status="analysis.latest_status"
           @logout="this.onLogout"
           :third_party_links="analysis.third_party_links"
           data-test="analysis-view-header">
@@ -113,9 +114,7 @@ export default {
 
       if (this.analysis.latest_status === 'Annotation') {
         actionChoices.push(
-            {icon: 'clipboard-check', text: 'Mark Ready', operation: () => {
-              Analyses.markAnalysisReady(this.analysis_name);
-            }},
+            {icon: 'clipboard-check', text: 'Mark Ready', operation: this.markReady},
         );
       }
 
@@ -385,6 +384,14 @@ export default {
             'phenotips_com',
             phenotipsLink.data);
 
+        this.analysis = {...this.analysis, ...updatedAnalysis};
+      } catch (error) {
+        console.error('Updating the analysis did not work', error);
+      }
+    },
+    async markReady() {
+      try {
+        const updatedAnalysis = await Analyses.markAnalysisReady(this.analysis_name);
         this.analysis = {...this.analysis, ...updatedAnalysis};
       } catch (error) {
         console.error('Updating the analysis did not work', error);
