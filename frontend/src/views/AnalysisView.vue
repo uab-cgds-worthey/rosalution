@@ -6,7 +6,7 @@
           :titleText="this.analysis_name"
           :sectionAnchors="this.sectionsHeaders"
           :username="username"
-          :workflow_status="currentStatus"
+          :workflow_status="analysis.latest_status"
           @logout="this.onLogout"
           :third_party_links="analysis.third_party_links"
           data-test="analysis-view-header">
@@ -159,9 +159,6 @@ export default {
     },
     genomicUnitsList() {
       return this.analysis.genomic_units;
-    },
-    currentStatus() {
-      return this.analysis.latest_status;
     },
   },
   created() {

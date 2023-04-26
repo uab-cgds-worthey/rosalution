@@ -2,7 +2,7 @@
   <app-header>
     <AnnotationViewHeader
       :username="username"
-      :workflow_status="currentStatus"
+      :workflow_status="summary.latest_status"
       :analysisName="this.analysis_name"
       :genes="this.genomicUnits['genes']"
       :variants="this.genomicUnits['variants']"
@@ -131,9 +131,6 @@ export default {
       return this.rendering.map((section) => {
         return section.anchor;
       });
-    },
-    currentStatus() {
-      return this.summary.latest_status;
     },
   },
   async created() {
