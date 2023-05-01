@@ -1,5 +1,5 @@
 <template>
-    <div class="section-image">
+    <div>
         <SectionImage
             v-for="(sectionImage) in this.sectionImages"
             :key="sectionImage.id"

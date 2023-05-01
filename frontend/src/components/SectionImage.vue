@@ -1,6 +1,11 @@
 <template>
     <div>
+      <a :href="domId">
         <img class="section-image" :src="imageSrc" data-test="annotation-image"/>
+      </a>
+      <a href="#_" class="lightbox" :id="imageId">
+        <span :style="{backgroundImage: `url(${this.imageSrc})`}"></span>
+      </a>
         <button
           class="edit-icon"
           @click="$emit('update-annotation-image', imageId, dataSet, genomicType)"
@@ -28,6 +33,11 @@ export default {
     genomicType: {
       type: String,
       default: '',
+    },
+  },
+  computed: {
+    domId() {
+      return `#${this.imageId}`;
     },
   },
   data() {
