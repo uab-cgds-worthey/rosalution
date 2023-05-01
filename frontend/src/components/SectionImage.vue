@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="image-row">
       <a :href="domId">
         <img class="section-image" :src="imageSrc" data-test="annotation-image"/>
       </a>
@@ -58,6 +58,18 @@ export default {
 </script>
 
 <style>
+
+.image-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  align-items: start;
+}
+
+.section-image {
+  width:100%;
+}
+
 .edit-icon {
   color: var(--rosalution-purple-300);
   background: none;
