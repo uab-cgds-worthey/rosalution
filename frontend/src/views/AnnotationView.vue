@@ -298,6 +298,9 @@ app-header {
 
 .sidebar {
   position: sticky;
+  height: 90vh;
+  top: 4rem;
+  flex: 1 1 auto;
 }
 
 </style>
