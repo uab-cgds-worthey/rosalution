@@ -42,6 +42,7 @@
             target="_blank"
             class="logo-link"
             data-test="third-party-link"
+            rel="noopener noreferrer"
             @click.stop
           >
             <img :src="getLogoSrc(link.type)" class="logo-img" />

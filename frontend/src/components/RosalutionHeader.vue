@@ -18,6 +18,7 @@
         target="_blank"
         class="third-party-logo-link"
         data-test="third-party-link"
+        rel="noopener noreferrer"
       >
         <img :src="getIconSrc(link.type)" :class="getIconClass(link.type)" />
       </a>

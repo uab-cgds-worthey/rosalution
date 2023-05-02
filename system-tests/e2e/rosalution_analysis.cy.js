@@ -1,11 +1,12 @@
 describe('As a Clinical Analyst using Rosalution for analysis', () => {
   beforeEach(() => {
+    cy.resetDatabase();
     cy.visit('/');
-  });
-  it('should allow the user to navigate the analysis via the logo, header, and section anchor links', () => {
     cy.get('.analysis-card')
         .find(':contains(CPAM0002)')
         .find('.case-name').click();
+  });
+  it('should allow the user to navigate the analysis via the logo, header, and section anchor links', () => {
 
     const anchorLinks = ['Brief', 'Clinical History', 'Pedigree', 'Supporting Evidence'];
     const expectedHeaderLinks =
@@ -28,5 +29,19 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
 
     cy.get('.rosalution-logo').click();
     cy.url().should('eq', Cypress.config().baseUrl + '/');
+  });
+
+  it('should allow the user to navigate to a third party link after adding one', () => {
+    
+    cy.get('.grey-rounded-menu').invoke('attr', 'style', 'display: block; visibility: visible; opacity: 1;');
+    cy.get('[data-test="user-menu"] > .grey-rounded-menu > :nth-child(4)').contains('Attach Monday.com').click();
+    cy.get('.grey-rounded-menu').invoke('attr', 'style', 'display: block; visibility: hidden; opacity: 0;');
+
+    cy.get('[data-test="link-input"]').type('https://www.monday.com');
+    cy.get('[data-test="confirm"]').click();
+    cy.get('[data-test="third-party-link"]').should('exist');
+    cy.get('[data-test="third-party-link"]').should('have.attr', 'href', 'https://www.monday.com');
+    cy.get('[data-test="third-party-link"]').should('have.attr', 'target', '_blank');
+    cy.get('[data-test="third-party-link"]').should('have.attr', 'rel', 'noopener noreferrer');
   });
 });
