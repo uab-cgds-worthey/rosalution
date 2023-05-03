@@ -52,7 +52,7 @@ export default {
         return 'Error';
       }
 
-      console.log("IS IT GETTING TO THE TITLE THAT DIDN'T PLASS?")
+      console.log('IS IT GETTING TO THE TITLE THAT DIDN\'T PLASS?');
       return 'Info';
     },
   },
