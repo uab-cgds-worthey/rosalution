@@ -2,8 +2,10 @@
 
 html {
   --cgds-blue-100: #CED2FE; /** delphi-blue-100 within figma documentation **/
+  --cgds-red-100: #F7AEAE;
   --cgds-red-200: #FF555D; /** delphi-red-200 within figma documentation **/
-
+  --cgds-yellow-100: #F7EFAE;  /** delphi-yellow-100 within figma documentation **/
+  
   --rosalution-red-300: #A00000;
   --rosalution-red-200: #DC0000;
   --rosalution-red-100: #FF0100;
@@ -18,7 +20,10 @@ html {
   --rosalution-teal-200: #13CEC3;
   --rosalution-yellow-100: #FEE353; 
   --rosalution-yellow-200: #FECA0F;
-  --rosalution-yellow-300: #FFAB07;
+  --rosalution-yellow-300: #DEA000;
+  --rosalution-orange-100: #FFC56F; 
+  --rosalution-orange-200: #FFA41B;
+  --rosalution-orange-300: #FF7B07;
   --rosalution-grey-200: #C4C4C4; 
   --rosalution-grey-300: #A1A1A1;
   --rosalution-grey-100: #E7E6E6;

@@ -25,13 +25,15 @@ import {
   faUpRightFromSquare, faCirclePlus, faPencil, faEllipsisVertical, faLink, faXmark, faUserDoctor, faPaperclip, faPlus,
   faAnglesRight,
 } from '@fortawesome/free-solid-svg-icons';
-import {faCopy, faFile, faComment} from '@fortawesome/free-regular-svg-icons';
+import {
+  faCopy, faFile, faComment, faCircleCheck, faCircleQuestion, faCircleXmark,
+} from '@fortawesome/free-regular-svg-icons';
 
 library.add(
     faAsterisk, faPause, faCheck, faX, faMagnifyingGlass, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList,
     faLayerGroup, faBoxArchive, faQuestion, faClock, faClipboardCheck, faChevronDown, faChevronRight,
     faUpRightFromSquare, faCopy, faCirclePlus, faFile, faComment, faPencil, faEllipsisVertical, faLink, faXmark,
-    faUserDoctor, faPaperclip, faPlus, faAnglesRight);
+    faUserDoctor, faPaperclip, faPlus, faAnglesRight, faCircleCheck, faCircleQuestion, faCircleXmark);
 
 // The NotFoundView should always be last because it's an ordered array.
 /* Placeholder route, name subject to change */
