@@ -36,7 +36,6 @@ export default {
   },
   success(message) {
     state.type = 'success';
-    console.log('success');
     return open(message);
   },
   info(message) {

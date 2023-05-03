@@ -29,31 +29,28 @@ describe('Dialog.vue', () => {
     sandbox.resetHistory();
   });
 
-  it('should render the type as a message title', async () => {
-    [
-      // {
-      //   expected_state: 'Info',
-      //   method: toast.info,
-      // },
-      {
-        expected_state: 'Success',
-        method: toast.success,
-      },
-      {
-        expected_state: 'Error',
-        method: toast.error,
-      },
-    ].forEach(async (test) => {
-      test.method();
-      await wrapper.vm.$nextTick();
+  it('should render the info title for info type messages', async () => {
+    toast.info();
+    await wrapper.vm.$nextTick();
 
-      const titleElement = wrapper.get('[data-test=toast-title-type]');
-      expect(titleElement.text()).to.equal(test.expected_state);
+    const titleElement = wrapper.get('[data-test=toast-title-type]');
+    expect(titleElement.text()).to.equal('Info');
+  });
 
-      const closeIconElement = wrapper.get('[data-test=toast-close-button]');
-      closeIconElement.trigger('click');
-      await wrapper.vm.$nextTick();
-    });
+  it('should render the success title for success type messages', async () => {
+    toast.success();
+    await wrapper.vm.$nextTick();
+
+    const titleElement = wrapper.get('[data-test=toast-title-type]');
+    expect(titleElement.text()).to.equal('Success');
+  });
+
+  it('should render the error title for error type messages', async () => {
+    toast.error();
+    await wrapper.vm.$nextTick();
+
+    const titleElement = wrapper.get('[data-test=toast-title-type]');
+    expect(titleElement.text()).to.equal('Error');
   });
 
   it('should render a toast message', async () => {
