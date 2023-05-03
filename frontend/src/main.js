@@ -61,12 +61,16 @@ const router = createRouter({
 router.beforeEach(async (to) => {
   const token = authStore.getToken();
 
+  console.log("This is happening?")
+  console.log(authStore.state);
+
   if (!token && to.name !== 'login') {
     return {name: 'login'};
   } else if (token && to.name == 'account') {
     const response = await authStore.getAPICredentials();
 
     if (response.error) {
+      authStore.clearState();
       return {name: 'login'};
     }
 
@@ -75,6 +79,8 @@ router.beforeEach(async (to) => {
     const response = await authStore.verifyToken();
 
     if (response.error) {
+      authStore.clearState();
+      console.log(authStore.state);
       return {name: 'login'};
     }
 

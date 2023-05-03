@@ -12,6 +12,15 @@ const authStore = {
   getUser() {
     return {...this.state};
   },
+  clearState() {
+    this.state.full_name = '';
+    this.state.username = '';
+    this.state.email = '';
+    this.state.roles = [];
+
+    this.state.clientId = '';
+    this.state.clientSecret = '';
+  },
   saveState(user) {
     this.state.full_name = user['full_name'];
     this.state.username = user['username'];
