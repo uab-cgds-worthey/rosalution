@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from pydantic import ValidationError
 from jose import jwt, JWTError
 
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, Response, status
 from fastapi.security import SecurityScopes
 
 from passlib.context import CryptContext
@@ -77,7 +77,7 @@ def generate_client_secret():
     return client_secret
 
 
-def get_current_user(token: str = Depends(oauth2_scheme), settings: Settings = Depends(get_settings)):
+def get_current_user(response: Response, token: str = Depends(oauth2_scheme), settings: Settings = Depends(get_settings)):
     """Extracts the client_id from the token, this is useful to ensure the user is who they say they are"""
     authenticate_value = "Bearer"
 
@@ -85,16 +85,24 @@ def get_current_user(token: str = Depends(oauth2_scheme), settings: Settings = D
         payload = jwt.decode(token, settings.rosalution_key, algorithms=[settings.oauth2_algorithm])
         client_id: str = payload.get("sub")
         if client_id is None:
+            response.delete_cookie(key="rosalution_TOKEN")
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Could not validate credentials",
-                headers={"WWW-Autenticate": authenticate_value},
+                headers={
+                    "WWW-Autenticate": authenticate_value,
+                    "set-cookie": response.headers["set-cookie"]
+                },
             )
     except JWTError as jwt_error:
+        response.delete_cookie(key="rosalution_TOKEN")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Not a valid token: " + str(jwt_error),
-            headers={"WWW-Authenticate": authenticate_value},
+            headers={
+                "WWW-Authenticate": authenticate_value, 
+                "set-cookie": response.headers["set-cookie"]
+            },
         ) from jwt_error
 
     return client_id
