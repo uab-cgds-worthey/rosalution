@@ -1,5 +1,5 @@
 fastapi==0.74.1
-uvicorn==0.20.0
+uvicorn[standard]==0.22.0
 python-cas==1.6.0
 itsdangerous==2.1.2
 pymongo==4.3.3
