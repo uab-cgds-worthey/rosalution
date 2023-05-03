@@ -42,8 +42,6 @@ export default {
       'upload_file': annotation.annotation_data,
     };
 
-    console.log(attachmentForm);
-
     return await Requests.postForm(`${baseUrl}/${genomicUnit}/${dataSet}/update/${oldFileId}`, attachmentForm);
   },
   async removeAnnotationImage(genomicUnit, dataSet, fileId, annotation) {

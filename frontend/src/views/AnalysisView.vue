@@ -85,7 +85,10 @@ export default {
   data: function() {
     return {
       store: authStore,
-      analysis: {sections: []},
+      analysis: {
+        name: '',
+        sections: [],
+      },
       updatedContent: {},
       edit: false,
       forceRenderComponentKey: 0,
@@ -364,7 +367,6 @@ export default {
       }
     },
     async addPhenotipsLink() {
-      console.log('add phenotips link');
       const includeComments = false;
       const includeName = false;
       const phenotipsLink = await inputDialog
@@ -378,7 +380,6 @@ export default {
       }
 
       try {
-        console.log('phenotipsLink', phenotipsLink.data);
         const updatedAnalysis = await Analyses.attachThirdPartyLink(
             this.analysis_name,
             'phenotips_com',
