@@ -63,8 +63,7 @@ router.beforeEach(async (to) => {
 
   if (!token && to.name !== 'login') {
     return {name: 'login'};
-  }
-  else if (token && to.name == 'account') {
+  } else if (token && to.name == 'account') {
     const response = await authStore.getAPICredentials();
 
     if (response.error) {
@@ -73,11 +72,9 @@ router.beforeEach(async (to) => {
     }
 
     authStore.saveState(response);
-  } 
-  else if (to.name == 'logout') {
+  } else if (to.name == 'logout') {
     authStore.clearState();
-  }
-  else if (token) {
+  } else if (token) {
     const response = await authStore.verifyToken();
 
     if (response.error) {
@@ -86,7 +83,7 @@ router.beforeEach(async (to) => {
     }
 
     authStore.saveState(response);
-  } 
+  }
 });
 
 const app = createApp(App);

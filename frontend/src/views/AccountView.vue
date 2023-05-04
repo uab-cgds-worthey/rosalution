@@ -77,7 +77,7 @@ export default {
       this.clientSecret = updatedUser.client_secret;
     },
     async onLogout() {
-      this.$router.push({ name: 'logout' });
+      this.$router.push({name: 'logout'});
     },
     async onToggleSecret() {
       if (!this.showSecretValue && this.secretValue !== '<empty>') {

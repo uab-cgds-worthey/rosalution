@@ -329,7 +329,7 @@ export default {
       this.updatedContent = {};
     },
     async onLogout() {
-      this.$router.push({ name: 'logout' });
+      this.$router.push({name: 'logout'});
     },
     uptickSectionKeyToForceReRender() {
       this.forceRenderComponentKey += 1;

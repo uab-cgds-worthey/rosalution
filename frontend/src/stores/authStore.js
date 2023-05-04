@@ -10,7 +10,6 @@ const authStore = {
     clientSecret: '',
   },
   clearState() {
-    console.log("Clear state happening?");
     this.state.full_name = '';
     this.state.username = '';
     this.state.email = '';

@@ -132,7 +132,7 @@ export default {
       }
     },
     async onLogout() {
-      this.$router.push({ name: 'logout' });
+      this.$router.push({name: 'logout'});
     },
   },
 };

@@ -77,7 +77,9 @@ def generate_client_secret():
     return client_secret
 
 
-def get_current_user(response: Response, token: str = Depends(oauth2_scheme), settings: Settings = Depends(get_settings)):
+def get_current_user(
+    response: Response, token: str = Depends(oauth2_scheme), settings: Settings = Depends(get_settings)
+):
     """Extracts the client_id from the token, this is useful to ensure the user is who they say they are"""
     authenticate_value = "Bearer"
 
@@ -89,20 +91,14 @@ def get_current_user(response: Response, token: str = Depends(oauth2_scheme), se
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Could not validate credentials",
-                headers={
-                    "WWW-Autenticate": authenticate_value,
-                    "set-cookie": response.headers["set-cookie"]
-                },
+                headers={"WWW-Autenticate": authenticate_value, "set-cookie": response.headers["set-cookie"]},
             )
     except JWTError as jwt_error:
         response.delete_cookie(key="rosalution_TOKEN")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Not a valid token: " + str(jwt_error),
-            headers={
-                "WWW-Authenticate": authenticate_value, 
-                "set-cookie": response.headers["set-cookie"]
-            },
+            headers={"WWW-Authenticate": authenticate_value, "set-cookie": response.headers["set-cookie"]},
         ) from jwt_error
 
     return client_id
