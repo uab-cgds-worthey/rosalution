@@ -701,18 +701,8 @@
         "username": "user06"
       },
       {
-        "event": "ready",
+        "event": "annotation_start",
         "timestamp": "2022-11-09T21:13:22.687002",
-        "username": "user06"
-      },
-      {
-        "event": "opened",
-        "timestamp": "2022-11-09T21:13:22.687003",
-        "username": "user06"
-      },
-      {
-        "event": "decline",
-        "timestamp": "2022-11-09T21:13:22.687004",
         "username": "user06"
       }
     ]
