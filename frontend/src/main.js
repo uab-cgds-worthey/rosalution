@@ -65,9 +65,23 @@ router.beforeEach(async (to) => {
     return {name: 'login'};
   } else if (token && to.name == 'account') {
     const response = await authStore.getAPICredentials();
+
+    if (response.error) {
+      authStore.clearState();
+      return {name: 'login'};
+    }
+
     authStore.saveState(response);
+  } else if (to.name == 'logout') {
+    authStore.clearState();
   } else if (token) {
     const response = await authStore.verifyToken();
+
+    if (response.error) {
+      authStore.clearState();
+      return {name: 'login'};
+    }
+
     authStore.saveState(response);
   }
 });
