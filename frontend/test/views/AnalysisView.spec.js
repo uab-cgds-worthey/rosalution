@@ -7,9 +7,11 @@ import Analyses from '@/models/analyses.js';
 import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
+import SaveModal from '@/components/AnalysisView/SaveModal.vue';
 
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
+import toast from '@/toast.js';
 
 import AnalysisView from '@/views/AnalysisView.vue';
 
@@ -52,6 +54,7 @@ describe('AnalysisView', () => {
   let mockedAttachThirdPartyLink;
   let markReadyMock;
   let markActiveMock;
+  let updateAnalysisSectionsStub;
   let wrapper;
   let sandbox;
 
@@ -70,6 +73,8 @@ describe('AnalysisView', () => {
 
     markReadyMock = sandbox.stub(Analyses, 'markAnalysisReady');
     markActiveMock = sandbox.stub(Analyses, 'markAnalysisActive');
+
+    updateAnalysisSectionsStub = sandbox.stub(Analyses, 'updateAnalysisSections');
 
     wrapper = getMountedComponent();
   });
@@ -106,40 +111,99 @@ describe('AnalysisView', () => {
       );
     });
 
-    it('should mark an analysis as ready', async () => {
-      const annotatingAnalysis = fixtureData();
-      annotatingAnalysis.latest_status = 'Annotation';
-      mockedData.returns(annotatingAnalysis);
-      const wrapper = getMountedComponent();
-      await wrapper.vm.$nextTick();
-      const headerComponent = wrapper.getComponent(
-          '[data-test=analysis-view-header]',
-      );
-      const actionsProps = headerComponent.props('actions');
-      for (const action of actionsProps) {
-        if (action.text === 'Mark Ready') {
-          action.operation();
-        }
-      }
-      expect(markReadyMock.called).to.be.true;
-    });
+    describe('actions with toasts', () => {
 
-    it('should mark an analysis as active', async () => {
-      const readyAnalysis = fixtureData();
-      readyAnalysis.latest_status = 'Ready';
-      mockedData.returns(readyAnalysis);
-      wrapper = getMountedComponent();
-      await wrapper.vm.$nextTick();
-      const headerComponent = wrapper.getComponent(
-          '[data-test=analysis-view-header]',
-      );
-      const actionsProps = headerComponent.props('actions');
-      for (const action of actionsProps) {
-        if (action.text === 'Mark Active') {
-          action.operation();
+      /**
+       * Helper triggers an action based on the action text
+       * @param {VueWrapper} wrapper The Vue wrapper containing the component instance
+       * @param {string} actionText The text of the action to trigger
+       * @return {Promise} A promise that resolves when the action is triggered
+       */
+      async function triggerAction(wrapper, actionText) {
+        const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
+        const actionsProps = headerComponent.props('actions');
+        for (const action of actionsProps) {
+          if (action.text === actionText) {
+            action.operation();
+            break;
+          }
         }
       }
-      expect(markActiveMock.called).to.be.true;
+
+      /**
+       * Helper sets up a mocked wrapper with the given latest status and returns it
+       * @param {string} latestStatus The latest status of the analysis to set
+       * @return {Promise<VueWrapper>} A promise that resolves with the mocked Vue wrapper
+       */
+      async function getMockedWrapper(latestStatus) {
+        const analysisData = fixtureData();
+        analysisData.latest_status = latestStatus;
+        mockedData.returns(analysisData);
+        const wrapper = getMountedComponent();
+        await wrapper.vm.$nextTick();
+        return wrapper;
+      }
+
+      it('should mark an analysis as ready', async () => {
+        const wrapper = await getMockedWrapper('Annotation');
+
+        await triggerAction(wrapper, 'Mark Ready');
+
+        expect(markReadyMock.called).to.be.true;
+      });
+
+      it('should display success toast with correct message when marking analysis as ready', async () => {
+        const wrapper = await getMockedWrapper('Annotation');
+
+        await triggerAction(wrapper, 'Mark Ready');
+
+        expect(toast.state.active).to.be.true;
+        expect(toast.state.type).to.equal('success');
+        expect(toast.state.message).to.equal('Analysis marked as ready.');
+      });
+
+      it('should display error toast with correct message when marking analysis as ready fails', async () => {
+        const wrapper = await getMockedWrapper('Annotation');
+        const error = new Error('Failed to mark analysis as ready');
+        markReadyMock.throws(error);
+        
+        try {
+          await triggerAction(wrapper, 'Mark Ready');
+        } catch (error) {
+          console.log(error);
+        }
+        expect(toast.state.active).to.be.true;
+        expect(toast.state.type).to.equal('error');
+        expect(toast.state.message).to.equal('Error marking analysis as ready.');
+      });
+
+      it('should mark an analysis as active', async () => {
+        const wrapper = await getMockedWrapper('Ready');
+
+        await triggerAction(wrapper, 'Mark Active');
+
+        expect(markActiveMock.called).to.be.true;
+      });
+
+      it('should display info toast with correct message when marking analysis as active', async () => {
+        const wrapper = await getMockedWrapper('Ready');
+
+        await triggerAction(wrapper, 'Mark Active');
+
+        expect(toast.state.active).to.be.true;
+        expect(toast.state.type).to.equal('info');
+        expect(toast.state.message).to.equal('This feature is not yet implemented.');
+      });
+
+      it('should display info toast with correct message when entering edit mode', async () => {
+        const wrapper = getMountedComponent();
+
+        await triggerAction(wrapper, 'Edit');
+
+        expect(toast.state.active).to.be.true;
+        expect(toast.state.type).to.equal('info');
+        expect(toast.state.message).to.equal('Edit mode enabled.');
+      });
     });
   });
 
@@ -315,7 +379,7 @@ describe('AnalysisView', () => {
         expect(mockedRemoveSupportingEvidence.called).to.be.true;
       });
 
-      it('should alert user when failes to delete', async () => {
+      it('should alert user when fails to delete', async () => {
         mockedRemoveSupportingEvidence.throws('Failed to delete');
 
         const fakeAttachment = {name: 'fake.txt'};
@@ -471,6 +535,38 @@ describe('AnalysisView', () => {
         const failureNotificationDialog = wrapper.findComponent(NotificationDialog);
         expect(failureNotificationDialog.exists()).to.be.true;
       });
+    });
+  });
+
+  describe('Saving and canceling analysis changes displays toasts', () => {
+    beforeEach(() => {
+      updateAnalysisSectionsStub.returns(Promise.resolve({ sections: [] })); // return a resolved promise with mocked data
+    });
+
+    it('should display success toast when saving analysis changes', async () => {
+      const wrapper = getMountedComponent();
+      await wrapper.setData({ edit: true });
+      const saveModal = wrapper.findComponent(SaveModal);
+
+      saveModal.vm.$emit('save');
+      await wrapper.vm.$nextTick();
+
+      expect(toast.state.active).to.be.true;
+      expect(toast.state.type).to.equal('success');
+      expect(toast.state.message).to.equal('Analysis updated successfully.');
+    });
+
+    it('should display info toast when canceling analysis changes', async () => {
+      const wrapper = getMountedComponent();
+      await wrapper.setData({ edit: true });
+      const saveModal = wrapper.findComponent(SaveModal);
+
+      saveModal.vm.$emit('canceledit');
+      await wrapper.vm.$nextTick();
+
+      expect(toast.state.active).to.be.true;
+      expect(toast.state.type).to.equal('info');
+      expect(toast.state.message).to.equal('Analysis changes cancelled.');
     });
   });
 });
