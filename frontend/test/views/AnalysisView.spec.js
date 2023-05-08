@@ -112,7 +112,6 @@ describe('AnalysisView', () => {
     });
 
     describe('actions with toasts', () => {
-
       /**
        * Helper triggers an action based on the action text
        * @param {VueWrapper} wrapper The Vue wrapper containing the component instance
@@ -166,7 +165,7 @@ describe('AnalysisView', () => {
         const wrapper = await getMockedWrapper('Annotation');
         const error = new Error('Failed to mark analysis as ready');
         markReadyMock.throws(error);
-        
+
         try {
           await triggerAction(wrapper, 'Mark Ready');
         } catch (error) {
@@ -540,12 +539,12 @@ describe('AnalysisView', () => {
 
   describe('Saving and canceling analysis changes displays toasts', () => {
     beforeEach(() => {
-      updateAnalysisSectionsStub.returns(Promise.resolve({ sections: [] })); // return a resolved promise with mocked data
+      updateAnalysisSectionsStub.returns(Promise.resolve({sections: []})); // return a resolved promise with mocked data
     });
 
     it('should display success toast when saving analysis changes', async () => {
       const wrapper = getMountedComponent();
-      await wrapper.setData({ edit: true });
+      await wrapper.setData({edit: true});
       const saveModal = wrapper.findComponent(SaveModal);
 
       saveModal.vm.$emit('save');
@@ -558,7 +557,7 @@ describe('AnalysisView', () => {
 
     it('should display info toast when canceling analysis changes', async () => {
       const wrapper = getMountedComponent();
-      await wrapper.setData({ edit: true });
+      await wrapper.setData({edit: true});
       const saveModal = wrapper.findComponent(SaveModal);
 
       saveModal.vm.$emit('canceledit');

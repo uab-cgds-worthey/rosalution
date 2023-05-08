@@ -329,12 +329,12 @@ export default {
       this.updatedContent = {};
       this.edit=false;
       this.uptickSectionKeyToForceReRender();
-      toast.success('Analysis updated successfully.')
+      toast.success('Analysis updated successfully.');
     },
     cancelAnalysisChanges() {
       this.edit=false;
       this.updatedContent = {};
-      toast.info('Analysis changes cancelled.')
+      toast.info('Analysis changes cancelled.');
     },
     async onLogout() {
       this.$router.push({path: '/rosalution/logout'});
