@@ -5,6 +5,7 @@
 </p>
 
 ![license-badge](https://badgen.net/badge/license/GPLv3/blue)
+[![status](https://joss.theoj.org/papers/8f7091da9fa801c97f60a4af368c7b3a/status.svg)](https://joss.theoj.org/papers/8f7091da9fa801c97f60a4af368c7b3a)
 ![example](https://github.com/uab-cgds-worthey/rosalution/actions/workflows/python.yml/badge.svg)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
