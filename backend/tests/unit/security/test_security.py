@@ -9,7 +9,7 @@ import pytest
 
 from jose import jwt
 
-from fastapi import HTTPException
+from fastapi import HTTPException, Response
 from fastapi.security import SecurityScopes
 from src.security.security import (
     authenticate_password, get_authorization, get_current_user, create_access_token, generate_client_secret,
@@ -85,7 +85,9 @@ def test_current_user_existing_user(settings):
     }
     jwt.decode = Mock(return_value=payload)
 
-    client_id = get_current_user(settings=settings)
+    response = Response("fake response", media_type="text/plain")
+
+    client_id = get_current_user(response, settings=settings)
     assert client_id == "fake-client-id"
 
 
@@ -95,8 +97,10 @@ def test_current_non_existing_user(settings):
 
     jwt.decode = Mock(return_value=payload)
 
+    response = Response("fake response", media_type="text/plain")
+
     with pytest.raises(HTTPException) as exc_info:
-        get_current_user(settings=settings)
+        get_current_user(response=response, settings=settings)
 
     assert exc_info.value.status_code == 401
     assert exc_info.value.detail == "Could not validate credentials"

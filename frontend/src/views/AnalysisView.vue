@@ -341,7 +341,7 @@ export default {
       toast.info('Edit mode disabled.');
     },
     async onLogout() {
-      this.$router.push({path: '/rosalution/logout'});
+      this.$router.push({name: 'logout'});
     },
     uptickSectionKeyToForceReRender() {
       this.forceRenderComponentKey += 1;
