@@ -203,6 +203,15 @@ describe('AnalysisView', () => {
         expect(toast.state.type).to.equal('info');
         expect(toast.state.message).to.equal('Edit mode enabled.');
       });
+      it('should display info toast with correct message when exiting edit mode', async () => {
+        const wrapper = getMountedComponent();
+        await wrapper.setData({edit: true});
+        await triggerAction(wrapper, 'Edit');
+
+        expect(toast.state.active).to.be.true;
+        expect(toast.state.type).to.equal('info');
+        expect(toast.state.message).to.equal('Edit mode disabled.');
+      });
     });
   });
 
@@ -565,7 +574,7 @@ describe('AnalysisView', () => {
 
       expect(toast.state.active).to.be.true;
       expect(toast.state.type).to.equal('info');
-      expect(toast.state.message).to.equal('Analysis changes cancelled.');
+      expect(toast.state.message).to.equal('Edit mode disabled.');
     });
   });
 });

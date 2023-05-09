@@ -115,8 +115,12 @@ export default {
 
       actionChoices.push(
           {icon: 'pencil', text: 'Edit', operation: () => {
+            if (!this.edit) {
+              toast.info('Edit mode enabled.');
+            } else {
+              toast.info('Edit mode disabled.');
+            }
             this.edit = !this.edit;
-            toast.info('Edit mode enabled.');
           }},
       );
 
@@ -334,7 +338,7 @@ export default {
     cancelAnalysisChanges() {
       this.edit=false;
       this.updatedContent = {};
-      toast.info('Analysis changes cancelled.');
+      toast.info('Edit mode disabled.');
     },
     async onLogout() {
       this.$router.push({path: '/rosalution/logout'});
