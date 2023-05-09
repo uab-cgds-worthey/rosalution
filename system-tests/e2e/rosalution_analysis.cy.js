@@ -46,7 +46,7 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
   });
 
   it('should update the status icon when the user changes the status', () => {
-    cy.visit('/analysis/CPAM0065');
+    cy.visit('/analysis/CPAM0084');
 
     cy.get('[data-test="status-icon"] > svg').should('have.class', 'fa-asterisk');
 
