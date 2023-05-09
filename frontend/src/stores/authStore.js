@@ -9,8 +9,14 @@ const authStore = {
     clientId: '',
     clientSecret: '',
   },
-  getUser() {
-    return {...this.state};
+  clearState() {
+    this.state.full_name = '';
+    this.state.username = '';
+    this.state.email = '';
+    this.state.roles = [];
+
+    this.state.clientId = '';
+    this.state.clientSecret = '';
   },
   saveState(user) {
     this.state.full_name = user['full_name'];
@@ -20,6 +26,9 @@ const authStore = {
 
     user['client_id'] ? this.state.clientId = user['client_id'] : '';
     user['client_secret'] ? this.state.clientSecret = user['client_secret'] : '';
+  },
+  getUser() {
+    return {...this.state};
   },
   getToken() {
     if (document.cookie == '') {

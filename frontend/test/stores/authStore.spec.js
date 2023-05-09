@@ -69,6 +69,18 @@ describe('user.js', () => {
     expect(authStore.state.email).to.equal(userResponse['email']);
   });
 
+  it('Clears the auth state of any traces of the user', async () => {
+    authStore.state.full_name = 'fakename';
+    authStore.state.username = 'Fake Name';
+    authStore.state.email = 'fakemail@fake.com';
+
+    authStore.clearState();
+
+    expect(authStore.state.full_name).to.equal('');
+    expect(authStore.state.username).to.equal('');
+    expect(authStore.state.email).to.equal('');
+  });
+
   it('Returns the roles a user has associated with them', () => {
     authStore.saveState(userResponse);
 
