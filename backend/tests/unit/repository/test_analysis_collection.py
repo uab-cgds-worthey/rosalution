@@ -12,7 +12,7 @@ from ...test_utils import read_test_fixture
 def test_all(analysis_collection):
     """Tests the all function"""
     actual = analysis_collection.all()
-    assert len(actual) == 5
+    assert len(actual) == 6
     assert actual[0]["name"] == "CPAM0002"
 
 
