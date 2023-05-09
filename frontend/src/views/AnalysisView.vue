@@ -404,7 +404,6 @@ export default {
         this.analysis = {...this.analysis, ...updatedAnalysis};
         toast.success('Analysis marked as ready.');
       } catch (error) {
-        console.error('Updating the analysis did not work', error);
         toast.error('Error marking analysis as ready.');
       }
     },
