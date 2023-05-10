@@ -44,4 +44,16 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
     cy.get('[data-test="third-party-link"]').should('have.attr', 'target', '_blank');
     cy.get('[data-test="third-party-link"]').should('have.attr', 'rel', 'noopener noreferrer');
   });
+
+  it('should update the status icon when the user changes the status', () => {
+    cy.visit('/analysis/CPAM0084');
+
+    cy.get('[data-test="status-icon"] > svg').should('have.class', 'fa-asterisk');
+
+    cy.get('.grey-rounded-menu').invoke('attr', 'style', 'display: block; visibility: visible; opacity: 1;');
+    cy.get('[data-test="user-menu"] > .grey-rounded-menu > :nth-child(2)').contains('Mark Ready').click();
+    cy.get('.grey-rounded-menu').invoke('attr', 'style', 'display: block; visibility: hidden; opacity: 0;');
+    
+    cy.get('[data-test="status-icon"] > svg').should('have.class', 'fa-clipboard-check');
+  });
 });
