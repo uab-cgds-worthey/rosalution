@@ -133,6 +133,7 @@ def test_attach_file_supporting_evidence(analysis_collection, cpam0002_analysis_
     assert 'attachment_id' in new_evidence
     assert new_evidence['attachment_id'] == 'Fake-Mongo-Object-ID-2'
 
+
 def test_file_exists_in_analysis(analysis_collection):
     """Tests the file_exists_in_analysis function"""
     analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")

@@ -203,7 +203,8 @@ def remove_pedigree(analysis_name: str, repositories=Depends(database)):
 
 @router.post("/{analysis_name}/attach/file")
 def attach_supporting_evidence_file(
-    analysis_name: str, upload_file: UploadFile = File(...), comments: str = Form(...), repositories=Depends(database)):
+    analysis_name: str, upload_file: UploadFile = File(...), comments: str = Form(...), repositories=Depends(database)
+):
     """Uploads a file to GridFS and adds it to the analysis"""
     if repositories["analysis"].file_exists_in_analysis(analysis_name, upload_file.filename):
         raise HTTPException(status_code=409, detail="File with the same name already exists in the given analysis")
@@ -215,7 +216,6 @@ def attach_supporting_evidence_file(
     return repositories["analysis"].attach_supporting_evidence_file(
         analysis_name, new_file_object_id, upload_file.filename, comments
     )
-
 
 
 @router.post("/{analysis_name}/attach/link")
