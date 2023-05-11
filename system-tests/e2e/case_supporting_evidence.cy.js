@@ -150,4 +150,60 @@ describe('case_supporting_evidence.cy.js', () => {
     cy.get('[data-test="confirm-button"]').click();
     cy.get('.attachment-list').should('have.length', 0);
   });
+
+  it('should fail to attach the same supporting evidence file twice to the same analysis', () => {
+    cy.get('#Supporting_Evidence').should('exist');
+    cy.get('.attachment-list').should('have.length', 0);
+    cy.get('[data-test="add-button"]').click();
+    cy.get('[data-test="button-input-dialog-upload-file"]').click();
+    cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/pedigree-fake.jpg', {
+      action: 'drag-drop',
+    });
+    cy.get('.comments').type('this is a test comment for a test file');
+    cy.get('[data-test="confirm"]').click();
+    cy.get('[href="#Supporting_Evidence"]').click();
+    cy.get('.attachment-list').should('have.length', 1);
+    cy.get('.attachment-name > div').should('have.attr', 'target', '_blank');
+    cy.get('.attachment-name > div').should('have.attr', 'rel', 'noreferrer noopener');
+    cy.get('[data-test="add-button"]').click();
+    cy.get('[data-test="button-input-dialog-upload-file"]').click();
+    cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/pedigree-fake.jpg', {
+      action: 'drag-drop',
+    });
+    cy.get('.comments').type('this is a test comment for a test file');
+    cy.get('[data-test="confirm"]').click();
+    cy.get('.attachment-list').should('have.length', 1);
+  });
+
+  it('should be able to attach the same supporting evidence file to different analyses', () => {
+    cy.get('#Supporting_Evidence').should('exist');
+    cy.get('.attachment-list').should('have.length', 0);
+    cy.get('[data-test="add-button"]').click();
+    cy.get('[data-test="button-input-dialog-upload-file"]').click();
+    cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/pedigree-fake.jpg', {
+      action: 'drag-drop',
+    });
+    cy.get('.comments').type('this is a test comment for a test file');
+    cy.get('[data-test="confirm"]').click();
+    cy.get('[href="#Supporting_Evidence"]').click();
+    cy.get('.attachment-list').should('have.length', 1);
+    cy.get('.attachment-name > div').should('have.attr', 'target', '_blank');
+    cy.get('.attachment-name > div').should('have.attr', 'rel', 'noreferrer noopener');
+
+    cy.get('.rosalution-logo').click();
+    cy.get('[href="/rosalution/analysis/CPAM0046"] > .analysis-card > .analysis-base').click();
+    cy.get('[href="#Supporting_Evidence"]').click();
+    cy.get('.attachment-list').should('have.length', 0);
+    cy.get('[data-test="add-button"]').click();
+    cy.get('[data-test="button-input-dialog-upload-file"]').click();
+    cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/pedigree-fake.jpg', {
+      action: 'drag-drop',
+    });
+    cy.get('.comments').type('this is a test comment for a test file');
+    cy.get('[data-test="confirm"]').click();
+    cy.get('[href="#Supporting_Evidence"]').click();
+    cy.get('.attachment-list').should('have.length', 1);
+    cy.get('.attachment-name > div').should('have.attr', 'target', '_blank');
+    cy.get('.attachment-name > div').should('have.attr', 'rel', 'noreferrer noopener');
+  });
 });
