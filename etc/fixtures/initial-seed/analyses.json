@@ -716,5 +716,169 @@
         "username": "user06"
       }
     ]
+  },
+  {
+    "name": "CPAM0084",
+    "description": "",
+    "nominated_by": "",
+    "timeline": [
+      {
+        "event": "create",
+        "timestamp": "2023-05-09T19:10:31.369000",
+        "username": "umkpw123enzl1lklhlhiegbi073ry45l"
+      }
+    ],
+    "third_party_links": [],
+    "genomic_units": [
+      {
+        "gene": "DLG4",
+        "transcripts": [
+          {
+            "transcript": "NM_001365.4"
+          },
+          {
+            "transcript": "NM_001360016.2"
+          }
+        ],
+        "variants": [
+          {
+            "hgvs_variant": "NM_001365.4:c.1039del",
+            "c_dot": "c.1039del",
+            "p_dot": "p.Glu347ArgTer12",
+            "build": "GRCh37",
+            "case": [
+              {
+                "field": "Interpretation",
+                "value": [
+                  "likely_pathogenic"
+                ]
+              },
+              {
+                "field": "Zygosity",
+                "value": [
+                  "heterozygous"
+                ]
+              },
+              {
+                "field": "Inheritance",
+                "value": [
+                  "unknown"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "gene": "G6PD",
+        "transcripts": [
+          {
+            "transcript": "NM_001365.4"
+          },
+          {
+            "transcript": "NM_001360016.2"
+          }
+        ],
+        "variants": [
+          {
+            "hgvs_variant": "NM_001360016.2:c.563C>T",
+            "c_dot": "c.563C>T",
+            "p_dot": "p.Ser188Phe",
+            "build": "GRCh37",
+            "case": [
+              {
+                "field": "Interpretation",
+                "value": [
+                  "pathogenic"
+                ]
+              },
+              {
+                "field": "Zygosity",
+                "value": [
+                  "heterozygous"
+                ]
+              },
+              {
+                "field": "Inheritance",
+                "value": [
+                  "NA"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "sections": [
+      {
+        "header": "Brief",
+        "content": [
+          {
+            "field": "Nominator",
+            "value": []
+          },
+          {
+            "field": "Participant",
+            "value": []
+          },
+          {
+            "field": "Phenotype",
+            "value": []
+          },
+          {
+            "field": "Model of Interest",
+            "value": []
+          },
+          {
+            "field": "Goals",
+            "value": []
+          },
+          {
+            "field": "Proposed Model/Project",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "Clinical History",
+        "content": [
+          {
+            "field": "Clinical Diagnosis",
+            "value": []
+          },
+          {
+            "field": "Affected Individuals Identified",
+            "value": []
+          },
+          {
+            "field": "Sequencing",
+            "value": []
+          },
+          {
+            "field": "Testing",
+            "value": []
+          },
+          {
+            "field": "Systems",
+            "value": []
+          },
+          {
+            "field": "HPO Terms",
+            "value": [
+              "HP:0000739: Anxiety; HP:0000750: Delayed speech and language development; HP:0001249: Intellectual disability; HP:0001260: Dysarthria; HP:0001290: Generalized hypotonia; HP:0001298: Encephalopathy; HP:0002194: Delayed gross motor development; HP:0002370: Poor coordination; HP:0002425: Anarthria; HP:0007018: Attention deficit hyperactivity disorder; HP:0012758: Neurodevelopmental delay; HP:0100702: Arachnoid cyst"
+            ]
+          },
+          {
+            "field": "Additional Details",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "Pedigree",
+        "content": []
+      }
+    ],
+    "supporting_evidence_files": []
   }
 ]
