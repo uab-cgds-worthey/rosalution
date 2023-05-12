@@ -44,6 +44,39 @@ function getMountedComponent(props) {
   });
 }
 
+/**
+ * Helper triggers an action based on the action text
+ * @param {VueWrapper} wrapper The Vue wrapper containing the component instance
+ * @param {string} actionText The text of the action to trigger
+ * @return {Promise} A promise that resolves when the action is triggered
+ */
+async function triggerAction(wrapper, actionText) {
+  const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
+  const actionsProps = headerComponent.props('actions');
+  for (const action of actionsProps) {
+    if (action.text === actionText) {
+      action.operation();
+      break;
+    }
+  }
+}
+
+/**
+ * Helper sets up a mocked wrapper with the given latest status and returns it
+ * @param {string} latestStatus The latest status of the analysis to set
+ * @param {object} mockedData The mocked data to be used
+ * @return {Promise<VueWrapper>} A promise that resolves with the mocked Vue wrapper
+ */
+async function getMockedWrapper(latestStatus, mockedData) {
+  const analysisData = fixtureData();
+  analysisData.latest_status = latestStatus;
+  mockedData.returns(analysisData);
+  const wrapper = getMountedComponent();
+  await wrapper.vm.$nextTick();
+  return wrapper;
+}
+
+
 describe('AnalysisView', () => {
   let mockedData;
   let pedigreeAttachMock;
@@ -54,7 +87,7 @@ describe('AnalysisView', () => {
   let mockedAttachThirdPartyLink;
   let markReadyMock;
   let markActiveMock;
-  let updateAnalysisSectionsStub;
+  let updateAnalysisSectionsMock;
   let wrapper;
   let sandbox;
 
@@ -74,7 +107,7 @@ describe('AnalysisView', () => {
     markReadyMock = sandbox.stub(Analyses, 'markAnalysisReady');
     markActiveMock = sandbox.stub(Analyses, 'markAnalysisActive');
 
-    updateAnalysisSectionsStub = sandbox.stub(Analyses, 'updateAnalysisSections');
+    updateAnalysisSectionsMock = sandbox.stub(Analyses, 'updateAnalysisSections');
 
     wrapper = getMountedComponent();
   });
@@ -111,107 +144,74 @@ describe('AnalysisView', () => {
       );
     });
 
-    describe('actions with toasts', () => {
-      /**
-       * Helper triggers an action based on the action text
-       * @param {VueWrapper} wrapper The Vue wrapper containing the component instance
-       * @param {string} actionText The text of the action to trigger
-       * @return {Promise} A promise that resolves when the action is triggered
-       */
-      async function triggerAction(wrapper, actionText) {
-        const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
-        const actionsProps = headerComponent.props('actions');
-        for (const action of actionsProps) {
-          if (action.text === actionText) {
-            action.operation();
-            break;
-          }
-        }
-      }
+    it('should mark an analysis as ready', async () => {
+      const wrapper = await getMockedWrapper('Annotation', mockedData);
 
-      /**
-       * Helper sets up a mocked wrapper with the given latest status and returns it
-       * @param {string} latestStatus The latest status of the analysis to set
-       * @return {Promise<VueWrapper>} A promise that resolves with the mocked Vue wrapper
-       */
-      async function getMockedWrapper(latestStatus) {
-        const analysisData = fixtureData();
-        analysisData.latest_status = latestStatus;
-        mockedData.returns(analysisData);
-        const wrapper = getMountedComponent();
-        await wrapper.vm.$nextTick();
-        return wrapper;
-      }
+      await triggerAction(wrapper, 'Mark Ready');
 
-      it('should mark an analysis as ready', async () => {
-        const wrapper = await getMockedWrapper('Annotation');
+      expect(markReadyMock.called).to.be.true;
+    });
 
+    it('should display success toast with correct message when marking analysis as ready', async () => {
+      const wrapper = await getMockedWrapper('Annotation', mockedData);
+
+      await triggerAction(wrapper, 'Mark Ready');
+
+      expect(toast.state.active).to.be.true;
+      expect(toast.state.type).to.equal('success');
+      expect(toast.state.message).to.equal('Analysis marked as ready.');
+    });
+
+    it('should display error toast with correct message when marking analysis as ready fails', async () => {
+      const wrapper = await getMockedWrapper('Annotation', mockedData);
+      const error = new Error('Failed to mark analysis as ready');
+      markReadyMock.throws(error);
+
+      try {
         await triggerAction(wrapper, 'Mark Ready');
+      } catch (error) {
+        console.log(error);
+      }
+      expect(toast.state.active).to.be.true;
+      expect(toast.state.type).to.equal('error');
+      expect(toast.state.message).to.equal('Error marking analysis as ready.');
+    });
 
-        expect(markReadyMock.called).to.be.true;
-      });
+    it('should mark an analysis as active', async () => {
+      const wrapper = await getMockedWrapper('Ready', mockedData);
 
-      it('should display success toast with correct message when marking analysis as ready', async () => {
-        const wrapper = await getMockedWrapper('Annotation');
+      await triggerAction(wrapper, 'Mark Active');
 
-        await triggerAction(wrapper, 'Mark Ready');
+      expect(markActiveMock.called).to.be.true;
+    });
 
-        expect(toast.state.active).to.be.true;
-        expect(toast.state.type).to.equal('success');
-        expect(toast.state.message).to.equal('Analysis marked as ready.');
-      });
+    it('should display info toast with correct message when marking analysis as active', async () => {
+      const wrapper = await getMockedWrapper('Ready', mockedData);
 
-      it('should display error toast with correct message when marking analysis as ready fails', async () => {
-        const wrapper = await getMockedWrapper('Annotation');
-        const error = new Error('Failed to mark analysis as ready');
-        markReadyMock.throws(error);
+      await triggerAction(wrapper, 'Mark Active');
 
-        try {
-          await triggerAction(wrapper, 'Mark Ready');
-        } catch (error) {
-          console.log(error);
-        }
-        expect(toast.state.active).to.be.true;
-        expect(toast.state.type).to.equal('error');
-        expect(toast.state.message).to.equal('Error marking analysis as ready.');
-      });
+      expect(toast.state.active).to.be.true;
+      expect(toast.state.type).to.equal('info');
+      expect(toast.state.message).to.equal('The Mark Ready feature is not yet implemented.');
+    });
 
-      it('should mark an analysis as active', async () => {
-        const wrapper = await getMockedWrapper('Ready');
+    it('should display info toast with correct message when entering edit mode', async () => {
+      const wrapper = getMountedComponent();
 
-        await triggerAction(wrapper, 'Mark Active');
+      await triggerAction(wrapper, 'Edit');
 
-        expect(markActiveMock.called).to.be.true;
-      });
+      expect(toast.state.active).to.be.true;
+      expect(toast.state.type).to.equal('success');
+      expect(toast.state.message).to.equal('Edit mode enabled.');
+    });
+    it('should display info toast with correct message when exiting edit mode', async () => {
+      const wrapper = getMountedComponent();
+      await wrapper.setData({edit: true});
+      await triggerAction(wrapper, 'Edit');
 
-      it('should display info toast with correct message when marking analysis as active', async () => {
-        const wrapper = await getMockedWrapper('Ready');
-
-        await triggerAction(wrapper, 'Mark Active');
-
-        expect(toast.state.active).to.be.true;
-        expect(toast.state.type).to.equal('info');
-        expect(toast.state.message).to.equal('This feature is not yet implemented.');
-      });
-
-      it('should display info toast with correct message when entering edit mode', async () => {
-        const wrapper = getMountedComponent();
-
-        await triggerAction(wrapper, 'Edit');
-
-        expect(toast.state.active).to.be.true;
-        expect(toast.state.type).to.equal('info');
-        expect(toast.state.message).to.equal('Edit mode enabled.');
-      });
-      it('should display info toast with correct message when exiting edit mode', async () => {
-        const wrapper = getMountedComponent();
-        await wrapper.setData({edit: true});
-        await triggerAction(wrapper, 'Edit');
-
-        expect(toast.state.active).to.be.true;
-        expect(toast.state.type).to.equal('info');
-        expect(toast.state.message).to.equal('Edit mode disabled.');
-      });
+      expect(toast.state.active).to.be.true;
+      expect(toast.state.type).to.equal('info');
+      expect(toast.state.message).to.equal('Edit mode disabled, & changes were not saved.');
     });
   });
 
@@ -548,7 +548,7 @@ describe('AnalysisView', () => {
 
   describe('Saving and canceling analysis changes displays toasts', () => {
     beforeEach(() => {
-      updateAnalysisSectionsStub.returns(Promise.resolve({sections: []})); // return a resolved promise with mocked data
+      updateAnalysisSectionsMock.resolves({sections: []});
     });
 
     it('should display success toast when saving analysis changes', async () => {
@@ -574,7 +574,7 @@ describe('AnalysisView', () => {
 
       expect(toast.state.active).to.be.true;
       expect(toast.state.type).to.equal('info');
-      expect(toast.state.message).to.equal('Edit mode disabled.');
+      expect(toast.state.message).to.equal('Edit mode disabled, & changes were not saved.');
     });
   });
 });

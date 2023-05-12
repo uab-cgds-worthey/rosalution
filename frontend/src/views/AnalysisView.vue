@@ -116,9 +116,9 @@ export default {
       actionChoices.push(
           {icon: 'pencil', text: 'Edit', operation: () => {
             if (!this.edit) {
-              toast.info('Edit mode enabled.');
+              toast.success('Edit mode enabled.');
             } else {
-              toast.info('Edit mode disabled.');
+              toast.info('Edit mode disabled, & changes were not saved.');
             }
             this.edit = !this.edit;
           }},
@@ -134,7 +134,7 @@ export default {
         actionChoices.push(
             {icon: 'book-open', text: 'Mark Active', operation: () => {
               Analyses.markAnalysisActive(this.analysis_name);
-              toast.info('This feature is not yet implemented.');
+              toast.info('The Mark Ready feature is not yet implemented.');
             }},
         );
       }
@@ -338,7 +338,7 @@ export default {
     cancelAnalysisChanges() {
       this.edit=false;
       this.updatedContent = {};
-      toast.info('Edit mode disabled.');
+      toast.info('Edit mode disabled, & changes were not saved.');
     },
     async onLogout() {
       this.$router.push({name: 'logout'});
