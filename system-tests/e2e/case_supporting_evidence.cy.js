@@ -189,6 +189,8 @@ describe('case_supporting_evidence.cy.js', () => {
     cy.get('.attachment-list').should('have.length', 1);
     cy.get('.attachment-name > div').should('have.attr', 'target', '_blank');
     cy.get('.attachment-name > div').should('have.attr', 'rel', 'noreferrer noopener');
+    cy.get('.attachment-comments').should('have.text', 'this is a test comment for a test file');
+    cy.get('.attachment-name > div').should('have.text', 'pedigree-fake.jpg')
 
     cy.get('.rosalution-logo').click();
     cy.get('[href="/rosalution/analysis/CPAM0046"] > .analysis-card > .analysis-base').click();
@@ -199,11 +201,13 @@ describe('case_supporting_evidence.cy.js', () => {
     cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/pedigree-fake.jpg', {
       action: 'drag-drop',
     });
-    cy.get('.comments').type('this is a test comment for a test file');
+    cy.get('.comments').type('writing a different comment and testing this out.');
     cy.get('[data-test="confirm"]').click();
     cy.get('[href="#Supporting_Evidence"]').click();
     cy.get('.attachment-list').should('have.length', 1);
     cy.get('.attachment-name > div').should('have.attr', 'target', '_blank');
     cy.get('.attachment-name > div').should('have.attr', 'rel', 'noreferrer noopener');
+    cy.get('.attachment-comments').should('have.text', 'writing a different comment and testing this out.');
+    cy.get('.attachment-name > div').should('have.text', 'pedigree-fake.jpg')
   });
 });
