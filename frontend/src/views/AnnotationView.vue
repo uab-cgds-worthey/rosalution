@@ -70,6 +70,7 @@ import TextDataset from '@/components/AnnotationView/TextDataset.vue';
 import TranscriptDatasets from '@/components/AnnotationView/TranscriptDatasets.vue';
 import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
+import HpoPills from '@/components/AnnotationView/HpoPills.vue';
 
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
@@ -90,6 +91,7 @@ export default {
     ScoreDataset,
     TextDataset,
     TranscriptDatasets,
+    HpoPills,
   },
   props: {
     analysis_name: {
