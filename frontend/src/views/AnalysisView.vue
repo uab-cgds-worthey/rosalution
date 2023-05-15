@@ -116,9 +116,9 @@ export default {
       actionChoices.push(
           {icon: 'pencil', text: 'Edit', operation: () => {
             if (!this.edit) {
-              toast.success('Edit mode enabled.');
+              toast.success('Edit mode has been enabled.');
             } else {
-              toast.info('Edit mode disabled, & changes were not saved.');
+              toast.info('Edit mode has been disabled and changes have not been saved.');
             }
             this.edit = !this.edit;
           }},
@@ -338,7 +338,7 @@ export default {
     cancelAnalysisChanges() {
       this.edit=false;
       this.updatedContent = {};
-      toast.info('Edit mode disabled, & changes were not saved.');
+      toast.info('Edit mode has been disabled and changes have not been saved.');
     },
     async onLogout() {
       this.$router.push({name: 'logout'});

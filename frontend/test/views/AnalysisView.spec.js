@@ -202,7 +202,7 @@ describe('AnalysisView', () => {
 
       expect(toast.state.active).to.be.true;
       expect(toast.state.type).to.equal('success');
-      expect(toast.state.message).to.equal('Edit mode enabled.');
+      expect(toast.state.message).to.equal('Edit mode has been enabled.');
     });
     it('should display info toast with correct message when exiting edit mode', async () => {
       const wrapper = getMountedComponent();
@@ -211,7 +211,7 @@ describe('AnalysisView', () => {
 
       expect(toast.state.active).to.be.true;
       expect(toast.state.type).to.equal('info');
-      expect(toast.state.message).to.equal('Edit mode disabled, & changes were not saved.');
+      expect(toast.state.message).to.equal('Edit mode has been disabled and changes have not been saved.');
     });
   });
 
@@ -574,7 +574,7 @@ describe('AnalysisView', () => {
 
       expect(toast.state.active).to.be.true;
       expect(toast.state.type).to.equal('info');
-      expect(toast.state.message).to.equal('Edit mode disabled, & changes were not saved.');
+      expect(toast.state.message).to.equal('Edit mode has been disabled and changes have not been saved.');
     });
   });
 });
