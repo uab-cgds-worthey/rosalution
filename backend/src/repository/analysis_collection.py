@@ -136,22 +136,6 @@ class AnalysisCollection:
 
         return None
 
-    def file_exists_in_analysis(self, analysis_name: str, file_name: str):
-        """ Returns True if a file exists in an analysis by name """
-        analysis = self.collection.find_one({"name": analysis_name})
-
-        if not analysis:
-            return False
-
-        if 'supporting_evidence_files' not in analysis:
-            return False
-
-        for file in analysis['supporting_evidence_files']:
-            if file['name'] == file_name:
-                return True
-
-        return False
-
     def attach_supporting_evidence_file(self, analysis_name: str, file_id: str, filename: str, comments: str):
         """Attaches supporting evidence documents and comments for an analysis"""
         new_uuid = str(file_id)

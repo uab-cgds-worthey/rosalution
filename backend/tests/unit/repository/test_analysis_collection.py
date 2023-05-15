@@ -134,20 +134,6 @@ def test_attach_file_supporting_evidence(analysis_collection, cpam0002_analysis_
     assert new_evidence['attachment_id'] == 'Fake-Mongo-Object-ID-2'
 
 
-def test_file_exists_in_analysis(analysis_collection):
-    """Tests the file_exists_in_analysis function"""
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
-    actual = analysis_collection.file_exists_in_analysis("CPAM0002", "test.txt")
-    assert actual is True
-
-
-def test_file_exists_in_analysis_file_not_in_evidence(analysis_collection):
-    """Tests the file_exists_in_analysis function when the analysis has supporting files but not the specific one"""
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
-    actual = analysis_collection.file_exists_in_analysis("CPAM0002", "newfile.txt")
-    assert actual is False
-
-
 def test_add_pedigree_file(analysis_collection, empty_pedigree):
     """Tests adding pedigree file to an analysis and return an updated analysis"""
     analysis_collection.collection.find_one.return_value = empty_pedigree
