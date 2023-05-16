@@ -149,7 +149,7 @@ def download(analysis_name: str, file_name: str, repositories=Depends(database))
     if not file:
         raise HTTPException(status_code=404, detail="File not found.")
 
-    return StreamingResponse(repositories['bucket'].stream_analysis_file_by_id(file['file_id']))
+    return StreamingResponse(repositories['bucket'].stream_analysis_file_by_id(file['attachment_id']))
 
 
 @router.post("/{analysis_name}/attach/pedigree", response_model=Section)
@@ -206,11 +206,13 @@ def attach_supporting_evidence_file(
     analysis_name: str, upload_file: UploadFile = File(...), comments: str = Form(...), repositories=Depends(database)
 ):
     """Uploads a file to GridFS and adds it to the analysis"""
-    if repositories['bucket'].filename_exists(upload_file.filename):
-        raise HTTPException(status_code=409, detail="File already exists in Rosalution")
+    if bool(repositories["analysis"].find_file_by_name(analysis_name, upload_file.filename)):
+        raise HTTPException(status_code=409, detail="File with the same name already exists in the given analysis")
+
     new_file_object_id = repositories['bucket'].save_file(
         upload_file.file, upload_file.filename, upload_file.content_type
     )
+
     return repositories["analysis"].attach_supporting_evidence_file(
         analysis_name, new_file_object_id, upload_file.filename, comments
     )

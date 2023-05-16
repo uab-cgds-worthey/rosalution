@@ -44,7 +44,7 @@ def test_find_file_by_name(analysis_collection):
     """Tests the find_file_by_name function"""
     analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
     actual = analysis_collection.find_file_by_name("CPAM0002", "test.txt")
-    assert actual == {'attachment_id': '633afb87fb250a6ea1569555', 'comments': 'hello world', 'filename': 'test.txt'}
+    assert actual == {'attachment_id': '633afb87fb250a6ea1569555', 'comments': 'hello world', 'name': 'test.txt'}
 
 
 def test_find_file_by_name_analysis_none(analysis_collection):

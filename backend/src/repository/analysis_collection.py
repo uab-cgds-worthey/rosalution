@@ -131,7 +131,7 @@ class AnalysisCollection:
             return None
 
         for file in analysis['supporting_evidence_files']:
-            if file['filename'] == file_name:
+            if file['name'] == file_name:
                 return file
 
         return None
