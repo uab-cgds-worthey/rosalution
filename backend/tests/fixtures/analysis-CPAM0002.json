@@ -165,7 +165,7 @@
   ],
   "supporting_evidence_files": [
     {
-      "filename": "test.txt", 
+      "name": "test.txt", 
       "attachment_id": "633afb87fb250a6ea1569555", 
       "comments": "hello world"
     }
