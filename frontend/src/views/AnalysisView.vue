@@ -11,6 +11,7 @@
           :third_party_links="analysis.third_party_links"
           data-test="analysis-view-header">
         </AnalysisViewHeader>
+        <Toast data-test="toast"/>
       </app-header>
       <app-content>
         <GeneBox
@@ -62,11 +63,13 @@ import SectionBox from '@/components/AnalysisView/SectionBox.vue';
 import GeneBox from '@/components/AnalysisView/GeneBox.vue';
 import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
+import Toast from '@/components/Dialogs/Toast.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
 import SaveModal from '@/components/AnalysisView/SaveModal.vue';
 
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
+import toast from '@/toast.js';
 
 import {authStore} from '@/stores/authStore.js';
 
@@ -78,6 +81,7 @@ export default {
     GeneBox,
     InputDialog,
     NotificationDialog,
+    Toast,
     SupplementalFormList,
     SaveModal,
   },
@@ -111,6 +115,11 @@ export default {
 
       actionChoices.push(
           {icon: 'pencil', text: 'Edit', operation: () => {
+            if (!this.edit) {
+              toast.success('Edit mode has been enabled.');
+            } else {
+              toast.info('Edit mode has been disabled and changes have not been saved.');
+            }
             this.edit = !this.edit;
           }},
       );
@@ -125,6 +134,7 @@ export default {
         actionChoices.push(
             {icon: 'book-open', text: 'Mark Active', operation: () => {
               Analyses.markAnalysisActive(this.analysis_name);
+              toast.info('The Mark Ready feature is not yet implemented.');
             }},
         );
       }
@@ -323,10 +333,12 @@ export default {
       this.updatedContent = {};
       this.edit=false;
       this.uptickSectionKeyToForceReRender();
+      toast.success('Analysis updated successfully.');
     },
     cancelAnalysisChanges() {
       this.edit=false;
       this.updatedContent = {};
+      toast.info('Edit mode has been disabled and changes have not been saved.');
     },
     async onLogout() {
       this.$router.push({name: 'logout'});
@@ -394,8 +406,9 @@ export default {
       try {
         const updatedAnalysis = await Analyses.markAnalysisReady(this.analysis_name);
         this.analysis = {...this.analysis, ...updatedAnalysis};
+        toast.success('Analysis marked as ready.');
       } catch (error) {
-        console.error('Updating the analysis did not work', error);
+        toast.error('Error marking analysis as ready.');
       }
     },
   },
