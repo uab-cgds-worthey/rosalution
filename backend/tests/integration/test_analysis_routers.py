@@ -21,7 +21,7 @@ def test_get_analyses(client, mock_access_token, mock_repositories):
     response = client.get("/analysis/", headers={"Authorization": "Bearer " + mock_access_token})
 
     assert response.status_code == 200
-    assert len(response.json()) == 5
+    assert len(response.json()) == 6
     assert response.json()[2]["name"] == "CPAM0047"
 
 
