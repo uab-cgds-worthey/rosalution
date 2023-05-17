@@ -84,8 +84,10 @@ describe('TagDataset.vue', () => {
 
   it('renders tags correctly for string values', () => {
     const delimiter = ';   ';
-    const testData = 'HP:0001270: Motor delay;\
-       HP:0001419: X-linked recessive inheritance;   HP:0001371: Flexion contracture';
+    const testData = 'HP:0001270: Motor delay;   ' +
+    'HP:0001419: X-linked recessive inheritance;   ' +
+    'HP:0001371: Flexion contracture';
+
     wrapper = getMountedComponent({value: testData, delimiter});
 
     const tags = wrapper.findAll('.tag');
