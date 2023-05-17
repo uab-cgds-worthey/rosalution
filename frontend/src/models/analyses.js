@@ -219,7 +219,7 @@ const annotationRenderingTemporary = [
         'datasets': [
           {
             'dataset': 'HPO',
-            'type': 'tag-dataset',
+            'type': 'text-dataset',
             'linkout_dataset': 'HPO_gene_search_url',
             'props': {
               'label': 'HPO',
