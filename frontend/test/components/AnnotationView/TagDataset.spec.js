@@ -95,7 +95,7 @@ describe('TagDataset.vue', () => {
     const expectedValues = testData.split(delimiter);
     expect(tags.length).to.equal(expectedValues.length);
     expectedValues.forEach((value, index) => {
-      expect(tags[index].text()).to.contains(value.trim());
+      expect(tags[index].text()).to.contains(value);
     });
   });
 });
