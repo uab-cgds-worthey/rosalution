@@ -73,7 +73,7 @@ export default {
 }
 
 .tag {
-  padding: 5px 10px;
+  padding: var(--p-1) var(--p-8);
   background-color: transparent;
   border-radius: 20px;
   border: 2px solid var(--rosalution-black);

@@ -10,7 +10,7 @@ import AnnotationView from '@/views/AnnotationView.vue';
 import AnnotationSection from '@/components/AnnotationView/AnnotationSection.vue';
 import AnnotationViewHeader from '@/components/AnnotationView/AnnotationViewHeader.vue';
 import TextDataset from '@/components/AnnotationView/TextDataset.vue';
-// import TagDataset from '@/components/AnnotationView/TagDataset.vue';
+import TagDataset from '@/components/AnnotationView/TagDataset.vue';
 import SectionImage from '@/components/SectionImage.vue';
 
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
@@ -118,10 +118,10 @@ describe('AnnotationView', () => {
   });
 
   // Enable this test when tag datasets are added to the configuration
-  // it('renders tag datasets according to configuration', () => {
-  //   const textDatasets = wrapper.findAllComponents(TagDataset);
-  //   expect(textDatasets.length).to.equal(1);
-  // });
+  it.skip('renders tag datasets according to configuration', () => {
+    const textDatasets = wrapper.findAllComponents(TagDataset);
+    expect(textDatasets.length).to.equal(1);
+  });
 
   it('should update the active genomic units to render annotations for', () => {
     const headerComponent = wrapper.findComponent(AnnotationViewHeader);
