@@ -57,7 +57,7 @@ export default {
 .dataset-container {
   display: flex;
   padding: var(--p-1);
-  line-height: 24px;
+  line-height: 1.5rem;
 }
 
 .dataset-label {
