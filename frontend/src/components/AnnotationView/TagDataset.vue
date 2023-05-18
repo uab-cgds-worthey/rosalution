@@ -69,13 +69,13 @@ export default {
 .tags-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 5px;
+  gap: var(--p-8) var(--p-1);
 }
 
 .tag {
   padding: var(--p-1) var(--p-8);
   background-color: transparent;
-  border-radius: 20px;
+  border-radius: var(--p-16); 
   border: 2px solid var(--rosalution-black);
   color: var(--rosalution-black);
 }
