@@ -75,7 +75,7 @@ export default {
 .tag {
   padding: var(--p-1) var(--p-8);
   background-color: transparent;
-  border-radius: var(--p-16); 
+  border-radius: var(--p-16);
   border: 2px solid var(--rosalution-black);
   color: var(--rosalution-black);
 }
