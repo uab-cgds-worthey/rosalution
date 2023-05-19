@@ -72,3 +72,34 @@ html {
 .rosalution-input::placeholder {
   color: var(--rosalution-grey-300);
 }
+
+.rosalution-section-container {
+  display: flex;
+  flex-direction: column;
+  padding: var(--p-10);
+  margin: var(--p-10);
+  gap: var(--p-10);
+  border-radius: var(--content-border-radius);
+  background-color: var(--rosalution-white);
+}
+
+.rosalution-section-seperator {
+  height: .125rem;
+  background-color: var(--rosalution-grey-100);
+  border: solid .0469rem var(--rosalution-grey-100);
+}
+
+.rosalution-section-header {
+  height: 2rem;
+  display: flex;
+}
+
+.rosalution-section-center {
+  flex-grow: 2;
+}
+
+.rosalution-section-text {
+  /* height: 1.75rem; */
+  margin: .125rem .125rem 0 .125rem;
+  /* flex: 1 0 auto; */
+}

@@ -4,7 +4,7 @@
       <tr class="gene-box-header">
         <router-link :to="{
             name: 'annotation',
-            params: {
+            props: {
               analysis_name: this.name,
               gene: this.gene,
               ...(variants.length > 0 ? {variant: getCompleteHgvsVariantName(variants[0])} : {}),
@@ -26,7 +26,7 @@
           <tr class="gene-box-second-line">
             <router-link :to="{
               name: 'annotation',
-              params: {
+              props: {
                 analysis_name: this.name,
                 gene: this.gene,
                 variant: getCompleteHgvsVariantName(variant),

@@ -40,18 +40,22 @@
         "header": "Brief",
         "content": [
           {
+            "type": "section-text",
             "field": "Nominator",
             "value": ["Dr. Person One"]
           },
           {
+            "type": "section-text",
             "field": "Participant",
             "value": ["1 patient, carrier mother"]
           },
           {
+            "type": "section-text",
             "field": "Model of Interest",
             "value": []
           },
           {
+            "type": "section-text",
             "field": "Goals",
             "value": [
               "Review of ACMG classification",
@@ -60,6 +64,7 @@
             ]
           },
           {
+            "type": "section-text",
             "field": "Proposed Model/Project",
             "value": []
           }
@@ -69,12 +74,14 @@
         "header": "Clinical History",
         "content": [
           {
+            "type": "section-text",
             "field": "Clinical Diagnosis",
             "value": [
               "Vacuolor myopathy with autophagy, X-linked vacuolor myopathy with autophagy"
             ]
           },
           {
+            "type": "section-text",
             "field": "Affected Individuals Identified",
             "value": [
               "1 patient, carrier mother",
@@ -84,10 +91,12 @@
             ]
           },
           {
+            "type": "section-text",
             "field": "Sequencing",
             "value": []
           },
           {
+            "type": "section-text",
             "field": "Testing",
             "value": [
               "- DMD, LAMP2, myofibrillar myopathy panel performed testing for BAG3, crystalline B, desmin, DNAJB6, FLH1, LDB3, and myotilin. Non diagnostic.",
@@ -96,16 +105,19 @@
             ]
           },
           {
+            "type": "section-text",
             "field": "Systems",
             "value": ["Musculoskeletal and orthopedics"]
           },
           {
+            "type": "section-text",
             "field": "HPO Terms",
             "value": [
               "HP:0003198; HP:0003797; HP:0003325; HP:0008997; HP:0008994; HP:0001288; HP:0009060; HP:0004303; HP:0012103; HP:0003736"
             ]
           },
           {
+            "type": "section-text",
             "field": "Additional Details",
             "value": [
               "8 yo male at time of testing. Ambulatory. Myopathy starting from 2 years of age with falls, elevated CK, and myopathic muscle biopsy. Clinical course is slowly progressive.",
@@ -121,7 +133,11 @@
       },
       {
         "header": "Pedigree",
-        "content": []
+        "content": [{
+          "type": "image-dataset",
+          "field": "Pedigree",
+          "value": []
+        }]
       }
     ],
     "supporting_evidence_files": [],

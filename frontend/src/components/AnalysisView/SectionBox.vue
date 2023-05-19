@@ -1,52 +1,50 @@
 <template>
-  <table class="section-box-container">
+  <table class="rosalution-section-container">
     <tbody>
-      <input v-if="!this.edit" type="checkbox" v-bind:id="section_toggle"/>
-      <tr class="section-header">
-        <td class="section-header-content">
-          <h2 class="section-name">
-            {{header}}
+      <input v-if="!this.edit" type="checkbox" v-bind:id="section_toggle" />
+      <tr class="rosalution-section-header">
+        <td>
+          <h2 class="rosalution-section-text">
+            {{ header }}
           </h2>
-          <button v-if="isSectionImage" class="attach-logo" @click="$emit(this.sectionImageOperation, header)">
-            <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
-          </button>
-          <label v-if="this.edit" class="edit-logo" id="edit-logo">
-            <font-awesome-icon icon="pencil" size="lg"/>
-          </label>
-          <label v-else class="collapsable-logo" v-bind:for="section_toggle">
-            <font-awesome-icon icon="chevron-down" size="lg"/>
-          </label>
         </td>
+        <td class="rosalution-section-center"></td>
+        <button v-if="hasAttachmentContent" class="attach-logo" @click="$emit(this.sectionImageOperation, header)">
+          <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
+        </button>
+        <label v-if="this.edit" class="edit-logo" id="edit-logo">
+          <font-awesome-icon icon="pencil" size="lg" />
+        </label>
+        <label v-else class="collapsable-logo" v-bind:for="section_toggle">
+          <font-awesome-icon icon="chevron-down" size="lg" />
+        </label>
       </tr>
-      <div class="separator"></div>
-        <tr class="field-value-row" v-for="content in contentList" :key="content">
-          <td v-if="!this.sectionImageExist">
-            <label class="field"
-            v-bind:style="[content.value.length === 0 && !this.edit ? 'color: var(--rosalution-grey-300);'
-            : 'color: var(--rosalution-black);']">
-              {{content.field}}
-            </label>
-          </td>
-          <td class="values" v-if="!this.sectionImageExist">
-            <span v-if="this.edit" role="textbox" class="editable-values" contenteditable
-            data-test="editable-value" @input="onContentChanged(header, content.field, $event)">
-              {{content.value.join('\r\n')}}
-            </span>
-            <tr v-else v-for="value in content.value" :key="value" class="value-row" data-test="value-row">
-              {{value}}
-            </tr>
-          </td>
-        </tr>
-        <img class="section-image" :src="this.sectionImage"/>
+      <div class="rosalution-section-seperator"></div>
+      <component
+        v-for="(contentRow, index) in this.contentList"
+        :key="`${contentRow.field}-${index}`"
+        :is="contentRow.type"
+        :editable="this.edit"
+        :field="contentRow.field"
+        :value="contentRow.value"
+        :data-test="contentRow.field"
+      />
     </tbody>
   </table>
 </template>
 
 <script>
 import Analyses from '../../models/analyses';
+import ImagesDataset from '@/components/AnnotationView/ImagesDataset.vue';
+import SectionText from '@/components/AnalysisView/SectionText.vue';
+
 
 export default {
   name: 'section-box',
+  components: {
+    SectionText,
+    ImagesDataset,
+  },
   emits: ['update:contentRow', 'attach-image', 'update-image'],
   props: {
     analysis_name: {
@@ -54,6 +52,10 @@ export default {
     },
     header: {
       type: String,
+    },
+    imageAttachmentField: {
+      type: String,
+      default: '',
     },
     content: {
       type: Array,
@@ -66,18 +68,11 @@ export default {
     return {
       contentList: this.content,
       section_toggle: this.header.toLowerCase() + '_collapse',
-      sectionImage: '',
     };
   },
-  created() {
-    this.pedigreeImage();
-  },
   computed: {
-    isSectionImage() {
-      return this.header == 'Pedigree';
-    },
-    sectionImageExist() {
-      return (this.isSectionImage && this.contentList.length > 0);
+    hasAttachmentContent() {
+      return (this.imageAttachmentField.length > 0);
     },
     sectionImageOperation() {
       if (this.sectionImageExist) {
@@ -107,41 +102,19 @@ export default {
 </script>
 
 <style scoped>
+table {
+  width: 100%;
+}
+
 div {
   font-family: "Proxima Nova", sans-serif;
   padding: var(--p-0);
 }
 
-.section-box-container {
-  display: flex;
-  flex-direction: column;
-  padding: var(--p-10);
-  margin: var(--p-10);
-  width: 100%;
-  gap: var(--p-10);
-  border-radius: 1.25rem;
-  background-color: var(--rosalution-white);
-}
-
-.section-header {
-  height: 1.75rem;
-  display: flex;
-}
-
-.section-header-content {
-  display: flex;
-  align-items: center;
-  flex: 1 0 auto;
-}
-
 .section-name {
-  height: 1.75rem;
+  /* height: 1.75rem; */
   margin: .125rem .125rem 0 .125rem;
-  flex: 1 0 auto;
-}
-
-.section-image {
-  max-height: 31.25rem;
+  /* flex: 1 0 auto; */
 }
 
 .attach-logo {
@@ -156,27 +129,14 @@ div {
   cursor: pointer;
 }
 
-.logo-attach-edit {
-  color: var(--rosalution-purple-300);
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.separator {
-  height: .125rem;
-  background-color: var(--rosalution-grey-100);
-  border: solid .0469rem var(--rosalution-grey-100);
-}
-
-.field-value-row {
+.section-row {
   display: flex;
   flex-direction: row;
-  gap: .625rem;
-  margin: 0.625rem 0.250rem 0.625rem 0.250rem;
+  gap: var(--p-10);
+  margin: var(--p-10) var(--p-1) var(--p-10) var(--p-1);
 }
 
-.field {
+.section-field {
   display: inline-block;
   width: 11.25rem;
   height: 1.375rem;
@@ -186,15 +146,14 @@ div {
   text-align: left;
 }
 
-.values {
+.section-content {
   font-size: 1.125rem;
   text-align: left;
   color: var(--rosalution-black);
-  width: 100%;
   display: block;
 }
 
-.value-row {
+.section-content-values {
   font-size: 1.125rem;
   color: var(--rosalution-black);
   display: block;
@@ -205,7 +164,7 @@ div {
   color: var(--rosalution-purple-100);
 }
 
-.editable-values {
+.editable-section-content-values {
   display: block;
   width: 100%;
   overflow: hidden;
@@ -228,15 +187,15 @@ input[type="checkbox"] {
   display: none;
 }
 
-.section-box-container input[type="checkbox"]:checked ~ .field-value-row {
+.section-box-container input[type="checkbox"]:checked~.field-value-row {
   display: none;
 }
 
-.section-box-container input[type="checkbox"]:checked ~ img {
+.section-box-container input[type="checkbox"]:checked~img {
   display: none;
 }
 
-input[type="checkbox"]:checked ~ tr > td > .collapsable-logo {
+input[type="checkbox"]:checked~tr>td>.collapsable-logo {
   transform: scaleY(-1);
 }
 </style>

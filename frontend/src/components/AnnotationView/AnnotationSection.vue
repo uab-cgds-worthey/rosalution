@@ -1,13 +1,13 @@
 <template>
-  <table class="section-box-container">
+  <table class="rosalution-section-container">
     <tbody>
-      <tr class="section-header">
+      <tr class="rosalution-section-header">
         <td>
-          <h2 class="section-name">
+          <h2 class="rosalution-section-text">
             {{header}}
           </h2>
         </td>
-        <td class="annotations">
+        <td class="rosalution-section-center">
           <slot name="headerDatasets"></slot>
         </td>
         <button
@@ -22,7 +22,7 @@
           <font-awesome-icon icon="chevron-down" size="lg"/>
         </label>
       </tr>
-      <div class="seperator"></div>
+      <div class="rosalution-section-seperator"></div>
       <slot></slot>
     </tbody>
   </table>
@@ -62,28 +62,13 @@ table {
   width:100%;
 }
 
-.section-box-container {
-  display: flex;
-  flex-direction: column;
-  padding: var(--p-10);
-  margin: var(--p-10);
-  gap: var(--p-10);
-  border-radius: var(--content-border-radius);
-  background-color: var(--rosalution-white);
-}
-
-.section-header {
-  height: 2rem;
-  display: flex;
-}
-
 .section-name {
   margin: var(--p-1) var(--p-1) 0 var(--p-1);
 }
 
-.annotations {
+.section-center {
   flex-grow: 2;
-  justify-content: flex-start;
+  /* justify-content: flex-start; */
 }
 
 .collapsable-icon {
@@ -103,10 +88,6 @@ table {
   height: .125rem;
   background-color: var(--rosalution-grey-100);
   border: solid .0469rem var(--rosalution-grey-100);
-}
-
-.annotation-image {
-  max-height: 31.25rem;
 }
 
 </style>
