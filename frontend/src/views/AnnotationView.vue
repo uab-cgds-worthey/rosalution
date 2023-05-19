@@ -62,6 +62,7 @@ import AnnotationSection from '@/components/AnnotationView/AnnotationSection.vue
 import AnnotationSidebar from '@/components/AnnotationView/AnnotationSidebar.vue';
 import AnnotationViewHeader from '@/components/AnnotationView/AnnotationViewHeader.vue';
 
+import CardDataset from '@/components/AnnotationView/CardDataset.vue';
 import ClinvarDataset from '@/components/AnnotationView/ClinvarDataset.vue';
 import IconLinkoutDataset from '@/components/AnnotationView/IconLinkoutDataset.vue';
 import ImagesDataset from '@/components/AnnotationView/ImagesDataset.vue';
@@ -82,6 +83,7 @@ export default {
     AnnotationSection,
     AnnotationSidebar,
     AnnotationViewHeader,
+    CardDataset,
     ClinvarDataset,
     IconLinkoutDataset,
     ImagesDataset,

@@ -427,6 +427,38 @@ const annotationRenderingTemporary = [
   {
     'type': 'section',
     'class': '',
+    'header': 'Rattus norvegicus (Rat) Model System',
+    'anchor': 'Rat_Models',
+    'header_datasets': [],
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Rat Models',
+          'type': 'card-dataset'
+        }
+      ]
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
+    'header': 'Mus musculus (Mouse) Model System',
+    'anchor': 'Mouse_Models',
+    'header_datasets': [],
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Mouse Models',
+          'type': 'card-dataset'
+        }
+      ]
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
     'header': 'Druggability',
     'anchor': 'Druggability',
     'header_datasets': [],
