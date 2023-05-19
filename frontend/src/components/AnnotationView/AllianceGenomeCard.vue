@@ -37,11 +37,26 @@ export default ({
     data() {
         return {
             frequentTerms: ['normal', 'abnormal', 'decreased', 'increased'],
-            testObject: {
-                'normal': ["hello", "goodbye", "hellogoodbye"],
-                'abnormal': ["hello", "goodbye", "hellogoodbye"],
-                'decreased': ["hello", "goodbye", "hellogoodbye"]
-            },
+            frequentTermsObject: [
+                {
+                    term: 'normal',
+                    color: '--rosalution-purple-100',
+                    icon: ''
+                },
+                {
+                    term: 'abnormal',
+                    color: '--rosalution-red-100',
+                    icon: ''
+                },
+                {
+                    term: 'decreased',
+                    color: '--rosalution-black',
+                    icon: ''
+                }
+            ]
+                
+
+            }
             associatedHumanDiseasesData: {},
             associatedPhenotypesData: {}
         }
