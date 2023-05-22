@@ -501,7 +501,7 @@ const annotationRenderingTemporary = [
     'type': 'section',
     'class': '',
     'header': 'Mus musculus (Mouse) Model System',
-    'anchor': 'Mouse Model',
+    'anchor': 'Mouse_Model',
     'header_datasets': [],
     'props': {
       'attachmentDataset': 'Mus musculus Model System',
@@ -518,7 +518,7 @@ const annotationRenderingTemporary = [
     'type': 'section',
     'class': '',
     'header': 'Rattus norvegicus (Rat) Model System',
-    'anchor': 'Rat Model',
+    'anchor': 'Rat_Model',
     'header_datasets': [],
     'props': {
       'attachmentDataset': 'Rattus norvegicus Model System',

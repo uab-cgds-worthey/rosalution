@@ -16,7 +16,7 @@ describe('case_annotation_display_transcripts.cy.js', () => {
     cy.get('.sidebar').find('a').each(($el) => {
       cy.wrap($el).invoke('text').should('be.oneOf', expectedSidebarLinks).then((text) => {
         if (anchorLinks.includes(text)) {
-          const anchorLink = `#${text.replace(' ', '_')}`;
+          const anchorLink = `#${text.replace(/ /g, '_')}`;
           cy.wrap($el).click().url().should('contain', `analysis/CPAM0002/annotation/${anchorLink}`);
           cy.get(anchorLink);
         }
