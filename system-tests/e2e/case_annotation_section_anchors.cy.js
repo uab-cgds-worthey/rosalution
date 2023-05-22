@@ -7,8 +7,10 @@ describe('case_annotation_display_transcripts.cy.js', () => {
   });
 
   it('navigates to the annotation sections via anchor links', () => {
-    const anchorLinks = ['Gene', 'Variant', 'Gene Homology', 'Protein Expression', 'Modelability',
-      'Model Systems', 'Druggability'];
+    const anchorLinks = ['Gene', 'Variant', 'Chromosomal Localization', 'Secondary Structure', 'Casual Variant',
+      'Variant Publications', 'Gene Homology', 'Human Gene_Expression', 'Human Gene_versus_Protein_Expression',
+      'Expression Profiles', 'Orthology', 'Mouse Model', 'Rat Model', 'Zebrafish Model', 'Worm Model', 'Modelability',
+      'Druggability'];
     const expectedSidebarLinks = [...anchorLinks];
 
     cy.get('.sidebar').find('a').each(($el) => {
