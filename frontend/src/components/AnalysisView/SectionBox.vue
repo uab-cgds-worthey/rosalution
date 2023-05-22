@@ -9,7 +9,7 @@
           </h2>
         </td>
         <td class="rosalution-section-center"></td>
-        <button v-if="hasAttachmentContent" class="attach-logo" @click="$emit(this.sectionImageOperation, header)">
+        <button v-if="this.attachmentField" class="attach-logo" @click="$emit(this.sectionImageOperation, header, attachmentField)">
           <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
         </button>
         <label v-if="this.edit" class="edit-logo" id="edit-logo">
@@ -28,13 +28,13 @@
         :field="contentRow.field"
         :value="contentRow.value"
         :data-test="contentRow.field"
+        @update:section-text="this.onContentChanged"
       />
     </tbody>
   </table>
 </template>
 
 <script>
-import Analyses from '../../models/analyses';
 import ImagesDataset from '@/components/AnnotationView/ImagesDataset.vue';
 import SectionText from '@/components/AnalysisView/SectionText.vue';
 
@@ -53,7 +53,7 @@ export default {
     header: {
       type: String,
     },
-    imageAttachmentField: {
+    attachmentField: {
       type: String,
       default: '',
     },
@@ -72,30 +72,35 @@ export default {
   },
   computed: {
     hasAttachmentContent() {
-      return (this.imageAttachmentField.length > 0);
+      return (this.attachmentField.length > 0);
     },
-    sectionImageOperation() {
-      if (this.sectionImageExist) {
-        return 'update-image';
+    sectionImageExist() {
+      console.log('section image existing?')
+      for ( const rowContent of this.contentList ) {
+        if (rowContent.dataset && rowContent.dataset === this.attachmentField) {
+          return rowContent.value > 0;
+        }
       }
-      return 'attach-image';
+
+      return false;
     },
   },
   methods: {
-    onContentChanged(header, contentField, event) {
+    onContentChanged(sectionText) {
       const contentRow = {
-        header: header,
-        field: contentField,
-        value: event.target.innerText.split('\n'),
+        header: this.header,
+        ...sectionText,
       };
+      console.log(contentRow);
+      console.log('content row');
       this.$emit('update:contentRow', contentRow);
     },
-    async pedigreeImage() {
-      if (this.header == 'Pedigree' && this.contentList.length > 0) {
-        const fileId = this.contentList[0].value[0];
-        const image = await Analyses.getSectionImage(fileId);
-        this.sectionImage = image;
-      }
+    sectionImageOperation() {
+      console.log('section image operation select?')
+      // if (this.sectionImageExist) {
+      //   return 'update-image';
+      // }
+      return 'attach-image';
     },
   },
 };

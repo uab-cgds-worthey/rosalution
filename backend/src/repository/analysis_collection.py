@@ -170,28 +170,23 @@ class AnalysisCollection:
 
         return updated_document
 
-    def add_pedigree_file(self, analysis_name: str, file_id: str):
-        """ Adds a pedigree file to an analysis """
+    def add_section_image(self, analysis_name: str, section_name: str, field_name: str, file_id: str):
+        """
+        Adds an image to a section within an analysis specified by the the name of the section (the header) and
+        """
         updated_document = self.collection.find_one({"name": analysis_name})
         if "_id" in updated_document:
             updated_document.pop("_id", None)
 
         updated_section = None
         for section in updated_document['sections']:
-            if section["header"] == "Pedigree":
-                if len(section["content"]) == 0:
-                    updated_section = {
-                        "field": 'image',
-                        "value": [str(file_id)],
-                    }
-                    section["content"].append(updated_section)
-                else:
-                    section['content'][0]['value'] = [str(file_id)]
-
+            if section_name == section['header']:
                 updated_section = section
 
         if None is updated_section:
-            raise ValueError("No pedigree section to attach image to.")
+            raise ValueError(f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach image to '{field_name}' field in section '{section_name}")
+
+
 
         self.collection.find_one_and_update(
             {"name": analysis_name},

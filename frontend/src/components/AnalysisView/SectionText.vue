@@ -7,7 +7,7 @@
     </label>
   </td>
   <td class="section-content">
-    <span v-if="this.editable" role="textbox" class="editable-section-content-values" contenteditable data-test="editable-value" @input="onContentChanged(field, $event)">
+    <span v-if="this.editable" role="textbox" class="editable-section-content-values" contenteditable data-test="editable-value" @input="onContentChanged($event)">
       {{ value.join('\r\n') }}
     </span>
     <span v-else v-for="rowValue, index in value" :key="index" class="section-content-values" data-test="value-row">
@@ -21,6 +21,7 @@
 <script>
 export default {
   name: 'section-text',
+  emits: ['update:sectionText'],
   props: {
     field: {
       type: String,
@@ -52,6 +53,17 @@ export default {
       return this.value;
     },
   },
+  methods: {
+    onContentChanged(event) {
+      const contentRow = {
+        field: this.field,
+        value: event.target.innerText.split('\n'),
+      };
+      console.log(contentRow);
+      console.log('section text');
+      this.$emit('update:sectionText', contentRow);
+    },
+  }
 };
 </script>
 

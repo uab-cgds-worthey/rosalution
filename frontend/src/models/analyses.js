@@ -65,16 +65,16 @@ export default {
     return await Requests.getImage(url);
   },
 
-  async attachSectionImage(analysisName, sectionName, image) {
-    if ('Pedigree' != sectionName) {
-      throw Error(`Only support for removing Pedigree. Failed to remove image for section '${sectionName}'.`);
-    }
-
-    const url = `/rosalution/api/analysis/${analysisName}/attach/pedigree`;
+  async attachSectionImage(analysisName, sectionName, field, image) {
+    const url = `/rosalution/api/analysis/${analysisName}/attach/section/image`;
 
     const attachmentForm = {
       'upload_file': image,
+      'section_name': sectionName,
+      'field_name': field,
     };
+
+    console.log(attachmentForm);
 
     return await Requests.postForm(url, attachmentForm);
   },

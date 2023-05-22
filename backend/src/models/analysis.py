@@ -26,6 +26,7 @@ class Section(BaseModel):
     """The sections of case notes associated with an analysis"""
 
     header: str
+    attachment_field: Optional[str] = None
     content: List = []
 
 

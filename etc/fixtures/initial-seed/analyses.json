@@ -133,9 +133,10 @@
       },
       {
         "header": "Pedigree",
+        "attachment_field": "Pedigree",
         "content": [{
-          "type": "image-dataset",
-          "field": "Pedigree",
+          "type": "images-dataset",
+          "dataset": "Pedigree",
           "value": []
         }]
       }

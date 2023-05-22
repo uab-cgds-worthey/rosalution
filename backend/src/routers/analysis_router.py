@@ -42,7 +42,7 @@ def get_analysis_summary_by_name(analysis_name: str, repositories=Depends(databa
     return repositories["analysis"].summary_by_name(analysis_name)
 
 
-@router.get("/{analysis_name}", response_model=Analysis)
+@router.get("/{analysis_name}", response_model=Analysis, response_model_exclude_none=True)
 def get_analysis_by_name(analysis_name: str, repositories=Depends(database)):
     """Returns analysis case data by calling method to find case by it's analysis_name"""
     return repositories["analysis"].find_by_name(analysis_name)
@@ -152,14 +152,14 @@ def download(analysis_name: str, file_name: str, repositories=Depends(database))
     return StreamingResponse(repositories['bucket'].stream_analysis_file_by_id(file['attachment_id']))
 
 
-@router.post("/{analysis_name}/attach/pedigree", response_model=Section)
-def upload_pedigree(analysis_name: str, upload_file: UploadFile = File(...), repositories=Depends(database)):
+@router.post("/{analysis_name}/attach/section/image", response_model=Section, response_model_exclude_none=True)
+def upload_pedigree(analysis_name: str, upload_file: UploadFile = File(...), section_name: str = Form(...), field_name: str = Form(...), repositories=Depends(database)):
     """ Specifically accepts a file to save a pedigree image file to mongo """
     new_file_object_id = repositories["bucket"].save_file(
         upload_file.file, upload_file.filename, upload_file.content_type
     )
 
-    updated_section = repositories["analysis"].add_pedigree_file(analysis_name, new_file_object_id)
+    updated_section = repositories["analysis"].add_section_image(analysis_name, section_name, field_name, new_file_object_id)
     return updated_section
 
 
