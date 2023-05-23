@@ -36,6 +36,7 @@ export default {
   computed: {
     sectionImages() {
       const images = [];
+      console.log(images);
 
       this.value.forEach(async (incomingImage) => {
         const imageToLoad = {id: incomingImage.file_id};

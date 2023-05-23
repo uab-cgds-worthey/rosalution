@@ -70,6 +70,10 @@ export default {
       section_toggle: this.header.toLowerCase() + '_collapse',
     };
   },
+  created() {
+    console.log(this.contentList);
+    console.log('on created');
+  },
   computed: {
     hasAttachmentContent() {
       return (this.attachmentField.length > 0);
