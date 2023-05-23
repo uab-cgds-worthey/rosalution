@@ -186,12 +186,16 @@ class AnalysisCollection:
         if None is updated_section:
             raise ValueError(f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach image to '{field_name}' field in section '{section_name}")
 
-
+        for content_row in updated_section['content']:
+            if content_row["dataset"] and content_row["dataset"] == field_name:
+                content_row["value"].append(str(file_id))
 
         self.collection.find_one_and_update(
             {"name": analysis_name},
             {'$set': updated_document},
         )
+
+        print(updated_document)
 
         return updated_section
 

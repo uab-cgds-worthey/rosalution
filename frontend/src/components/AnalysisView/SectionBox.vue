@@ -9,7 +9,7 @@
           </h2>
         </td>
         <td class="rosalution-section-center"></td>
-        <button v-if="this.attachmentField" class="attach-logo" @click="$emit(this.sectionImageOperation, header, attachmentField)">
+        <button v-if="this.attachmentField" class="attach-logo" @click="$emit(this.sectionImageOperation(), this.header, this.attachmentField)">
           <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
         </button>
         <label v-if="this.edit" class="edit-logo" id="edit-logo">
