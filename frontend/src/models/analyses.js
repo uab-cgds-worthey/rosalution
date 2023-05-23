@@ -440,10 +440,6 @@ const annotationRenderingTemporary = [
     'header': 'Human Gene versus Protein Expression Profile',
     'anchor': 'Human_Gene_versus_Protein_Expression',
     'header_datasets': [],
-    'props': {
-      'attachmentDataset': 'Human Gene versus Protein Expression Profile',
-      'genomicAttachmentType': 'gene',
-    },
     'rows': [{
       'class': '',
       'datasets': [
@@ -503,10 +499,6 @@ const annotationRenderingTemporary = [
     'header': 'Mus musculus (Mouse) Model System',
     'anchor': 'Mouse_Model',
     'header_datasets': [],
-    'props': {
-      'attachmentDataset': 'Mus musculus Model System',
-      'genomicAttachmentType': 'gene',
-    },
     'rows': [
       {
         'class': '',
@@ -528,10 +520,6 @@ const annotationRenderingTemporary = [
     'header': 'Rattus norvegicus (Rat) Model System',
     'anchor': 'Rat_Model',
     'header_datasets': [],
-    'props': {
-      'attachmentDataset': 'Rattus norvegicus Model System',
-      'genomicAttachmentType': 'gene',
-    },
     'rows': [
       {
         'class': '',
@@ -553,10 +541,6 @@ const annotationRenderingTemporary = [
     'header': 'Danio rerio (Zebrafish) Model System',
     'anchor': 'Zebrafish_Model',
     'header_datasets': [],
-    'props': {
-      'attachmentDataset': 'Danio rerio Model System',
-      'genomicAttachmentType': 'gene',
-    },
     'rows': [
       {
         'class': '',
@@ -578,10 +562,6 @@ const annotationRenderingTemporary = [
     'header': 'C.-Elegans (Worm) Model System',
     'anchor': 'Worm_Model',
     'header_datasets': [],
-    'props': {
-      'attachmentDataset': 'C.-Elegans Model System',
-      'genomicAttachmentType': 'gene',
-    },
     'rows': [
       {
         'class': '',
