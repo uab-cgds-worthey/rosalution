@@ -496,8 +496,7 @@ const annotationRenderingTemporary = [
         },
       ],
     }],
-  },
-  {
+  },{
     'type': 'section',
     'class': '',
     'header': 'Mus musculus (Mouse) Model System',
@@ -510,7 +509,15 @@ const annotationRenderingTemporary = [
     'rows': [
       {
         'class': '',
-        'datasets': [],
+        'datasets': [
+          {
+            'dataset': 'Model Systems - Mouse - Automated',
+            'type': 'text-dataset',
+            'props': {
+              'label': 'Mouse - Automated',
+            },
+          },
+        ],
       },
     ],
   },
@@ -527,7 +534,15 @@ const annotationRenderingTemporary = [
     'rows': [
       {
         'class': '',
-        'datasets': [],
+        'datasets': [
+          {
+            'dataset': 'Model Systems - Rat',
+            'type': 'text-dataset',
+            'props': {
+              'label': 'Rat',
+            },
+          },
+        ],
       },
     ],
   },
@@ -544,7 +559,15 @@ const annotationRenderingTemporary = [
     'rows': [
       {
         'class': '',
-        'datasets': [],
+        'datasets': [
+          {
+            'dataset': 'Model Systems - Zebrafish - Automated',
+            'type': 'text-dataset',
+            'props': {
+              'label': 'Zebrafish - Automated',
+            },
+          },
+        ],
       },
     ],
   },
@@ -561,7 +584,15 @@ const annotationRenderingTemporary = [
     'rows': [
       {
         'class': '',
-        'datasets': [],
+        'datasets': [
+          {
+            'dataset': 'Model Systems - C-Elegens - Automated',
+            'type': 'text-dataset',
+            'props': {
+              'label': 'C-Elegens - Automated',
+            },
+          },
+        ],
       },
     ],
   },
