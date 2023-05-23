@@ -496,7 +496,8 @@ const annotationRenderingTemporary = [
         },
       ],
     }],
-  },{
+  },
+  {
     'type': 'section',
     'class': '',
     'header': 'Mus musculus (Mouse) Model System',
