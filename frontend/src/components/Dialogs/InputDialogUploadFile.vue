@@ -115,7 +115,7 @@ input[type=file]::file-selector-button {
 
 .drop-file-box-content {
   display: flex;
-  height: 8rem;
+  height: 12rem; /* This is not accepting the var(--p-10) variable. reason unknown*/
   justify-content: center ;
   align-items: center;
   gap: var(--p-1);
