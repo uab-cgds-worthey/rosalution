@@ -1,6 +1,6 @@
 <template>
   <div v-if="dialog.state.active" class="modal-background">
-    <div class="modal-container limit-width">
+    <div :class="['modal-container', dialog.state.warningText ? 'limit-width' : '']">
       <div class="tab-header">
         <button
           v-for="(tab, index) in dialog.state.tabs"
@@ -105,20 +105,18 @@ export default {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: var(--p-16)
+  gap: var(--p-16);
 }
 
 .warning-message{
-  /* color: var(--rosalution-red-200); */
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-24);
   text-align: center;
-  margin-bottom: var(--p-16);
 }
 
 .limit-width {
-  max-width: none;
+  max-width: 25rem;
 }
 
 </style>
