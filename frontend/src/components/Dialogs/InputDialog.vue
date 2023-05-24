@@ -1,6 +1,6 @@
 <template>
   <div v-if="dialog.state.active" class="modal-background">
-    <div class="modal-container">
+    <div class="modal-container limit-width">
       <div class="tab-header">
         <button
           v-for="(tab, index) in dialog.state.tabs"
@@ -20,6 +20,7 @@
           </font-awesome-icon>
         </button>
       </div>
+      <div v-if="dialog.state.warningText" class="warning-message" v-html="dialog.state.warningText"></div>
         <component v-bind:is="dialog.state.activeTabName"
           :userInput = "dialog.activeTab().input"
           v-bind="dialog.activeTab().props"
@@ -66,10 +67,9 @@ export default {
   padding: var(--p-16);
   display: flex;
   flex-direction: column;
-  min-width: 400px;
-  max-width: auto;
+  min-width: 25rem;
   min-height: auto;
-  max-height: auto;
+  max-height: none;
   gap: var(--p-16);
   align-items: stretch;
 }
@@ -106,6 +106,19 @@ export default {
   justify-content: flex-end;
   align-items: center;
   gap: var(--p-16)
+}
+
+.warning-message{
+  /* color: var(--rosalution-red-200); */
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-24);
+  text-align: center;
+  margin-bottom: var(--p-16);
+}
+
+.limit-width {
+  max-width: none;
 }
 
 </style>

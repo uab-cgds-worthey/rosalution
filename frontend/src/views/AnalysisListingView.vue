@@ -112,6 +112,9 @@ export default {
       const importFile = await inputDialog
           .confirmText('Upload')
           .cancelText('Cancel')
+          .warningText('Rosalution is <span style="color: var(--rosalution-red-200)">not authorized to </span>' +
+          '<span style="color: var(--rosalution-red-200)"> store any Protected Health Information (PHI).</span>' +
+          ' Double check the *.json files before importing them to create a new analysis.')
           .file(includeComments, includeIcon)
           .prompt('Temp for file upload');
 
