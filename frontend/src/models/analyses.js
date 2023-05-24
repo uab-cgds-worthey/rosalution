@@ -316,14 +316,14 @@ const annotationRenderingTemporary = [
     'header_datasets': [],
     'props': {
       'attachmentDataset': 'Chromosomal_Localization',
-      'genomicAttachmentType': 'variant',
+      'genomicAttachmentType': 'hgvs_variant',
     },
     'rows': [{
       'class': '',
       'datasets': [
         {
           'dataset': 'Chromosomal_Localization',
-          'genomicType': 'variant',
+          'genomicType': 'hgvs_variant',
           'type': 'images-dataset',
         },
       ],
@@ -336,15 +336,15 @@ const annotationRenderingTemporary = [
     'anchor': 'Secondary_Structure',
     'header_datasets': [],
     'props': {
-      'attachmentDataset': 'Secondary Structure',
-      'genomicAttachmentType': 'variant',
+      'attachmentDataset': 'Secondary_Structure',
+      'genomicAttachmentType': 'hgvs_variant',
     },
     'rows': [{
       'class': '',
       'datasets': [
         {
           'dataset': 'Secondary_Structure',
-          'genomicType': 'variant',
+          'genomicType': 'hgvs_variant',
           'type': 'images-dataset',
         },
       ],
@@ -357,15 +357,15 @@ const annotationRenderingTemporary = [
     'anchor': 'Casual_Variant',
     'header_datasets': [],
     'props': {
-      'attachmentDataset': 'Casual Variant In This Locus (ClinVar)',
-      'genomicAttachmentType': 'variant',
+      'attachmentDataset': 'Casual_Variant_In_This_Locus_ClinVar',
+      'genomicAttachmentType': 'hgvs_variant',
     },
     'rows': [{
       'class': '',
       'datasets': [
         {
-          'dataset': 'Casual Variant In This Locus (ClinVar)',
-          'genomicType': 'variant',
+          'dataset': 'Casual_Variant_In_This_Locus_ClinVar',
+          'genomicType': 'hgvs_variant',
           'type': 'images-dataset',
         },
       ],
@@ -378,15 +378,15 @@ const annotationRenderingTemporary = [
     'anchor': 'Variant_Publications',
     'header_datasets': [],
     'props': {
-      'attachmentDataset': 'Variant Publications',
-      'genomicAttachmentType': 'variant',
+      'attachmentDataset': 'Variant_Publications',
+      'genomicAttachmentType': 'hgvs_variant',
     },
     'rows': [{
       'class': '',
       'datasets': [
         {
           'dataset': 'Variant_Publications',
-          'genomicType': 'variant',
+          'genomicType': 'hgvs_variant',
           'type': 'images-dataset',
         },
       ],
@@ -420,14 +420,14 @@ const annotationRenderingTemporary = [
     'anchor': 'Human_Gene_Expression',
     'header_datasets': [],
     'props': {
-      'attachmentDataset': 'Human Gene Expression',
+      'attachmentDataset': 'Protein_Expression',
       'genomicAttachmentType': 'gene',
     },
     'rows': [{
       'class': '',
       'datasets': [
         {
-          'dataset': 'Protein Expression',
+          'dataset': 'Protein_Expression',
           'genomicType': 'gene',
           'type': 'images-dataset',
         },
@@ -440,6 +440,10 @@ const annotationRenderingTemporary = [
     'header': 'Human Gene versus Protein Expression Profile',
     'anchor': 'Human_Gene_versus_Protein_Expression',
     'header_datasets': [],
+    'props': {
+      'attachmentDataset': 'Human_Gene_versus_Protein_Expression_Profile',
+      'genomicAttachmentType': 'gene',
+    },
     'rows': [{
       'class': '',
       'datasets': [
@@ -458,7 +462,7 @@ const annotationRenderingTemporary = [
     'anchor': 'Expression_Profiles',
     'header_datasets': [],
     'props': {
-      'attachmentDataset': 'Model System Expression Profiles',
+      'attachmentDataset': 'Model_System_Expression_Profiles',
       'genomicAttachmentType': 'gene',
     },
     'rows': [{
