@@ -74,6 +74,7 @@ html {
 }
 
 .rosalution-section-container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   padding: var(--p-10);
@@ -92,6 +93,13 @@ html {
 .rosalution-section-header {
   height: 2rem;
   display: flex;
+  align-items: flex-end;
+}
+
+.rosalution-header-right-icons {
+  gap: var(--p-8);
+  display: flex;
+  flex-wrap: nowrap;
 }
 
 .rosalution-section-center {

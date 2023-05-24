@@ -43,6 +43,8 @@ html {
   --modal-container-z-index: 999;
   
   --p-0: 0rem;
+  --p-005: 0.04rem;
+  --p-05: 0.125rem;
   --p-1: 0.25rem;
   --p-5: 0.313rem;
   --p-8: 0.5rem;
@@ -50,14 +52,17 @@ html {
   --p-16: 1rem;
 
   scroll-padding-top: 4rem;
+  
+
 }
 
 /** || General Styles **/
 
 body {
-  font-family: "proxima-nova", sans-serif;
+  font-family: "Proxima Nova", sans-serif;
   font-size: 1.125rem; /* 18px */
   background-color: var(--primary-background-color);
+
 }
 
 ul {
@@ -69,7 +74,9 @@ ul {
 h2 { 
   font-size: 1.5rem; /* 24px */
   font-weight: 700;
-  color: var(--rosalution-black);
+  
+  margin-block: 0px;
+  margin-inline: 0px;
 }
 
 a:link {
@@ -134,8 +141,7 @@ textarea:focus {
   display: grid;
   grid-template-rows: auto 1fr auto;
   grid-auto-columns: 1fr;
-  color: #444;
-  padding: 0.625rem;
+  padding: var(--p-10);
 }
 
 app-header {

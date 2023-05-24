@@ -23,12 +23,7 @@ export default {
 };
 </script>
 
-<style>
-
-div {
-  font-family: "Proxima Nova", sans-serif;
-  padding: var(--p-0);
-}
+<style scoped>
 
 .save-modal-container {
   display: flex;

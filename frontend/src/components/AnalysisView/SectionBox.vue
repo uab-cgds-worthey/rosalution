@@ -1,24 +1,27 @@
 <template>
-  <table class="rosalution-section-container">
-    <tbody>
+  <div class="rosalution-section-container">
+    <div>
       <input v-if="!this.edit" type="checkbox" v-bind:id="section_toggle" />
-      <tr class="rosalution-section-header">
-        <td>
-          <h2 class="rosalution-section-text">
-            {{ header }}
-          </h2>
-        </td>
-        <td class="rosalution-section-center"></td>
-        <button v-if="this.attachmentField" class="attach-logo" @click="$emit(this.sectionImageOperation(), this.header, this.attachmentField)">
-          <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
-        </button>
-        <label v-if="this.edit" class="edit-logo" id="edit-logo">
-          <font-awesome-icon icon="pencil" size="lg" />
-        </label>
-        <label v-else class="collapsable-logo" v-bind:for="section_toggle">
-          <font-awesome-icon icon="chevron-down" size="lg" />
-        </label>
-      </tr>
+      <div class="rosalution-section-header">
+        <h2 class="rosalution-section-text">
+          {{ header }}
+        </h2>
+        <span class="rosalution-section-center"></span>
+        <span class="rosalution-header-right-icons">
+          <label v-if="this.attachmentField" class="attach-logo" @click="$emit('attach-image', this.header, this.attachmentField)">
+            <font-awesome-layers class="fa-md">
+              <font-awesome-icon :icon="['fa', 'file-circle-plus']" />
+              <font-awesome-icon transform="shrink-9.5 left-4.5 down-3" inverse :icon="['fa', 'mountain-sun']"/>
+            </font-awesome-layers>
+          </label>
+          <label v-if="this.edit" class="edit-logo" id="edit-logo">
+            <font-awesome-icon icon="pencil" size="lg" />
+          </label>
+          <label v-else class="collapsable-logo" v-bind:for="section_toggle">
+            <font-awesome-icon icon="chevron-down" size="lg" />
+          </label>
+        </span>
+      </div>
       <div class="rosalution-section-seperator"></div>
       <component
         v-for="(contentRow, index) in this.contentList"
@@ -30,8 +33,8 @@
         :data-test="contentRow.field"
         @update:section-text="this.onContentChanged"
       />
-    </tbody>
-  </table>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -99,37 +102,13 @@ export default {
       console.log('content row');
       this.$emit('update:contentRow', contentRow);
     },
-    sectionImageOperation() {
-      console.log('section image operation select?')
-      // if (this.sectionImageExist) {
-      //   return 'update-image';
-      // }
-      return 'attach-image';
-    },
   },
 };
 </script>
 
 <style scoped>
-table {
-  width: 100%;
-}
-
-div {
-  font-family: "Proxima Nova", sans-serif;
-  padding: var(--p-0);
-}
-
-.section-name {
-  /* height: 1.75rem; */
-  margin: .125rem .125rem 0 .125rem;
-  /* flex: 1 0 auto; */
-}
-
 .attach-logo {
   color: var(--rosalution-purple-300);
-  background: none;
-  border: none;
   cursor: pointer;
 }
 
@@ -138,52 +117,8 @@ div {
   cursor: pointer;
 }
 
-.section-row {
-  display: flex;
-  flex-direction: row;
-  gap: var(--p-10);
-  margin: var(--p-10) var(--p-1) var(--p-10) var(--p-1);
-}
-
-.section-field {
-  display: inline-block;
-  width: 11.25rem;
-  height: 1.375rem;
-  margin: 0 1.1875rem .0063rem 0;
-  font-size: 1.125rem;
-  font-weight: 600;
-  text-align: left;
-}
-
-.section-content {
-  font-size: 1.125rem;
-  text-align: left;
-  color: var(--rosalution-black);
-  display: block;
-}
-
-.section-content-values {
-  font-size: 1.125rem;
-  color: var(--rosalution-black);
-  display: block;
-  width: 100%;
-}
-
 .edit-logo {
   color: var(--rosalution-purple-100);
-}
-
-.editable-section-content-values {
-  display: block;
-  width: 100%;
-  overflow: hidden;
-  resize: both;
-  border-top: none;
-  border-right: none;
-  border-left: none;
-  border-bottom: 2px solid var(--rosalution-purple-200);
-  font-family: inherit;
-  font-size: inherit;
 }
 
 span:focus {
@@ -204,7 +139,7 @@ input[type="checkbox"] {
   display: none;
 }
 
-input[type="checkbox"]:checked~tr>td>.collapsable-logo {
+input[type="checkbox"]:checked~tr>td>label.collapsable-logo {
   transform: scaleY(-1);
 }
 </style>

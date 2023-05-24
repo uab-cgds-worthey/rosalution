@@ -452,15 +452,10 @@ export default {
 </script>
 
 <style scoped>
-div {
-  font-family: "Proxima Nova", sans-serif;
-}
 
 app-content {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  height: 100%;
 }
 
 app-header {
