@@ -32,6 +32,7 @@ describe('InputDialog.vue', () => {
           .cancelText('Cancel')
           .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png')
           .url(includeComments, includeName)
+          .warningText('Warning message')
           .prompt();
     });
 
@@ -73,6 +74,30 @@ describe('InputDialog.vue', () => {
       await wrapper.find('[data-test=button-input-dialog-upload-file]').trigger('click');
       const uploadFileComponent = wrapper.findComponent(InputDialogUploadFile);
       expect(uploadFileComponent.exists()).to.be.true;
+    });
+
+    it('Should show the warning message when one is set', async () => {
+      const warningMessageElement = wrapper.find('[data-test=warning-message]');
+      expect(warningMessageElement.exists()).to.be.true;
+      expect(warningMessageElement.text()).to.equal('Warning message');
+    });
+
+    it('Should not show the warning message when one is not set', async () => {
+      inputDialog.warningText('');
+      await wrapper.vm.$nextTick();
+
+      const warningMessageElement = wrapper.find('[data-test=warning-message]');
+      expect(warningMessageElement.exists()).to.be.false;
+    });
+
+    it('Should render raw html in the warning message', async () => {
+      inputDialog.warningText('<b>Bolded Text</b>');
+      await wrapper.vm.$nextTick();
+
+      const warningMessageElement = wrapper.find('[data-test=warning-message]');
+      expect(warningMessageElement.exists()).to.be.true;
+      expect(warningMessageElement.text()).to.equal('Bolded Text');
+      expect(warningMessageElement.html()).to.contain('<b>Bolded Text</b>');
     });
   });
 });

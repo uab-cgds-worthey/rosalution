@@ -20,7 +20,11 @@
           </font-awesome-icon>
         </button>
       </div>
-      <div v-if="dialog.state.warningText" class="warning-message" v-html="dialog.state.warningText"></div>
+      <div v-if="dialog.state.warningText"
+        class="warning-message"
+        v-html="dialog.state.warningText"
+        data-test="warning-message">
+      </div>
         <component v-bind:is="dialog.state.activeTabName"
           :userInput = "dialog.activeTab().input"
           v-bind="dialog.activeTab().props"
