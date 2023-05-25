@@ -357,7 +357,7 @@ const annotationRenderingTemporary = [
     'anchor': 'Casual_Variant',
     'header_datasets': [],
     'props': {
-      'attachmentDataset': 'Casual_Variant_In_This_Locus_ClinVar',
+      'attachmentDataset': 'Causal_Variant_In_This_Locus_ClinVar',
       'genomicAttachmentType': 'hgvs_variant',
     },
     'rows': [{
