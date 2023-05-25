@@ -7,7 +7,7 @@ describe('case_annotation_display_transcripts.cy.js', () => {
   });
 
   it('navigates to the annotation sections via anchor links', () => {
-    const anchorLinks = ['Gene', 'Variant', 'Chromosomal Localization', 'Secondary Structure', 'Casual Variant',
+    const anchorLinks = ['Gene', 'Variant', 'Chromosomal Localization', 'Secondary Structure', 'Causal Variant',
       'Variant Publications', 'Gene Homology', 'Human Gene Expression', 'Human Gene versus Protein Expression',
       'Expression Profiles', 'Orthology', 'Mouse Model', 'Rat Model', 'Zebrafish Model', 'Worm Model', 'Modelability',
       'Druggability'];
