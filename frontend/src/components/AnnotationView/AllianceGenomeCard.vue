@@ -4,6 +4,7 @@
             <div class="card-header" v-html="modelName" />
             <div class="card-sub-header" v-html="modelBackground" />
             <div class="card-content">
+                <div class="card-section" :style="experimentalConditionStyle"> Experimental Condition </div>
                 <div class="card-section" :style="associatedHumanDiseasesStyle"> Associated Human Diseases </div>
                 <li class="card-list" v-for="(diseaseModel) in this.model.diseaseModels">
                     {{ diseaseModel.diseaseModel }}
@@ -12,8 +13,13 @@
                 <div class="card-list"
                     v-for="(value, key) in this.associatedPhenotypesData"
                 >
-                    <b>{{ key }}</b>
-                    <li v-for="item in value"> {{ item }}</li>
+                <div v-if="key != ''">
+                    <font-awesome-icon v-if="value.icon" :icon="value.icon" :style="value.iconStyle"/>
+                    <span class="card-section-term" :style="value.style">{{ key }}</span>
+                </div>
+                    <ul>
+                        <li v-for="item in value.phenotypes"> {{ item }}</li>
+                    </ul>
                 </div>
                 <div class="card-source">
                     <b>Source:</b> {{ this.model.source.name }}
@@ -36,29 +42,36 @@ export default ({
     },
     data() {
         return {
-            frequentTerms: ['normal', 'abnormal', 'decreased', 'increased'],
+            frequentTerms: ['normal', 'abnormal', 'increased', 'decreased'],
             frequentTermsObject: [
                 {
                     term: 'normal',
-                    color: '--rosalution-purple-100',
-                    icon: ''
+                    style: { 'color': 'var(--rosalution-purple-300)' },
+                    icon: '',
+                    iconStyle: {}
                 },
                 {
                     term: 'abnormal',
-                    color: '--rosalution-red-100',
-                    icon: ''
+                    style: { 'color': 'var(--rosalution-red-100)' },
+                    icon: '',
+                    iconStyle: {}
+                },
+                {
+                    term: 'increased',
+                    style: { 'color': 'var(--rosalution-purple-300)' },
+                    icon: 'arrow-up',
+                    iconStyle: { 'color': 'purple' }
                 },
                 {
                     term: 'decreased',
-                    color: '--rosalution-black',
-                    icon: ''
+                    style: { 'color': 'var(--rosalution-red-100)' },
+                    icon: 'arrow-down',
+                    iconStyle: { 'color': 'var(--rosalution-red-100)' }
                 }
-            ]
-                
-
-            }
+            ],
             associatedHumanDiseasesData: {},
-            associatedPhenotypesData: {}
+            associatedPhenotypesData: {},
+            experimentalCondition: {}
         }
     },
     created() {
@@ -68,13 +81,22 @@ export default ({
     computed: {
         modelName() {
             const regex = new RegExp('^(.*?)(?= \\[)', 'g');
+            const matchResult = this.model.name.match(regex);
             
-            return this.model.name.match(regex)[0];
+            if(matchResult)
+                return matchResult[0]
+            
+            return this.model.name;
         },
         modelBackground() {
             let regex = new RegExp('\\[background:\]?(.*)', 'g');
             
-            return this.model.name.match(regex)[0];
+            let matchResult = this.model.name.match(regex);
+
+            if(matchResult)
+                return matchResult[0];
+
+            return '';
         },
         associatedHumanDiseasesStyle() {
             if(Object.keys(this.associatedHumanDiseasesData).length === 0)
@@ -87,38 +109,63 @@ export default ({
                 return {color: `var(--rosalution-grey-300)`};
 
             return 'color: black';
-        }
+        },
+        experimentalConditionStyle() {
+            if(Object.keys(this.experimentalCondition).length === 0)
+                return {color: `var(--rosalution-grey-300)`};
+
+            return 'color: black';
+        },
     },
     methods: {
         calculateAssociatedHumanDiseases() {
             this.associatedHumanDiseasesData = this.model.diseaseModels;
         },
         calculateAssociatedPhenotypes() {
-            let phenotypesDict = {'': [...this.model.phenotypes]};
+            let phenotypesDict = {'': 
+                {
+                    phenotypes: [],
+                    style: '',
+                    icon: '',
+                    iconStyle: {}
+                }
+            }
 
-            this.frequentTerms.forEach((term) => {
-                phenotypesDict[term] = []
+            this.model.phenotypes.forEach((phenotype) => {
+                phenotypesDict[''].phenotypes.push(phenotype);
+            });
+
+            this.frequentTermsObject.forEach((term) => {
+                phenotypesDict[term.term] = {
+                    phenotypes: [],
+                    style: term.style,
+                    icon: term.icon,
+                    iconStyle: term.iconStyle,
+                }
             })
 
             this.model.phenotypes.forEach((phenotype) => {
-                this.frequentTerms.forEach((term) => {
+                this.frequentTermsObject.forEach((term) => {
                     
-                    let regex = new RegExp('\\b' + term + '\\b', 'i');
+                    let regex = new RegExp('\\b' + term.term + '\\b', 'i');
                     
                     if(phenotype.match(regex)) {
-                        phenotypesDict[term].push(phenotype);
-                        phenotypesDict[''].splice(phenotypesDict[''].indexOf(phenotype), 1);
+                        phenotypesDict[term.term].phenotypes.push(phenotype);
+                        phenotypesDict[''].phenotypes.splice(phenotypesDict[''].phenotypes.indexOf(phenotype), 1);
                     }
                 })
             })
 
             Object.keys(phenotypesDict).forEach((key) => {
-                if (phenotypesDict.hasOwnProperty(key) && !phenotypesDict[key].length) {
+                if (phenotypesDict.hasOwnProperty(key) && !phenotypesDict[key].phenotypes.length) {
                     delete phenotypesDict[key];
                 }
             })
-            
+
             this.associatedPhenotypesData = phenotypesDict
+        },
+        calculateExperimentalCondition() {
+            
         }
     }
 });
@@ -131,9 +178,15 @@ div {
   font-family: "Proxima Nova", sans-serif;
 }
 
+ul {
+    list-style-type: disc;
+    padding-left: 7%;
+}
+
 li {
+    margin-left: 10px;
     padding-top: 1%;
-    padding-left: 4%;
+    
     font-size: 15px;
 }
 
@@ -171,6 +224,10 @@ li {
 .card-section {
     font-weight: bold;
     padding-top: 2.5%;
+}
+
+.card-section-term {
+    padding-left: var(--p-5);
 }
 
 .card-list {

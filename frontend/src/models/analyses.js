@@ -459,6 +459,38 @@ const annotationRenderingTemporary = [
   {
     'type': 'section',
     'class': '',
+    'header': 'Danio rerio (Zebrafish) Model System',
+    'anchor': 'Zebrafish_Models',
+    'header_datasets': [],
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Zebrafish Models',
+          'type': 'card-dataset'
+        }
+      ]
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
+    'header': 'C. Elegens (Roundworm) Model System',
+    'anchor': 'Zebrafish_Models',
+    'header_datasets': [],
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'C-Elegens Models',
+          'type': 'card-dataset'
+        }
+      ]
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
     'header': 'Druggability',
     'anchor': 'Druggability',
     'header_datasets': [],
