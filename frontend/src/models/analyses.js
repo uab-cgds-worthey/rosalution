@@ -354,7 +354,7 @@ const annotationRenderingTemporary = [
     'type': 'section',
     'class': '',
     'header': 'Casual Variant In This Locus (ClinVar)',
-    'anchor': 'Casual_Variant',
+    'anchor': 'Causal_Variant',
     'header_datasets': [],
     'props': {
       'attachmentDataset': 'Causal_Variant_In_This_Locus_ClinVar',
