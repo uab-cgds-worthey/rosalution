@@ -364,7 +364,7 @@ const annotationRenderingTemporary = [
       'class': '',
       'datasets': [
         {
-          'dataset': 'Casual_Variant_In_This_Locus_ClinVar',
+          'dataset': 'Causal_Variant_In_This_Locus_ClinVar',
           'genomicType': 'hgvs_variant',
           'type': 'images-dataset',
         },
