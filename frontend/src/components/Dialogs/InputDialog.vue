@@ -73,7 +73,6 @@ export default {
   flex-direction: column;
   min-width: 25rem;
   min-height: auto;
-  max-height: none;
   gap: var(--p-16);
   align-items: stretch;
 }
