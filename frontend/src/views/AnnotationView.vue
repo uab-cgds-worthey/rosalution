@@ -302,7 +302,7 @@ app-header {
   position: sticky;
   height: 90vh;
   top: 4rem;
-  flex: 1 1 auto;
+  flex: 1 0 12.5rem;
 }
 
 </style>
