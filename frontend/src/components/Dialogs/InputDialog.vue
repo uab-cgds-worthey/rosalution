@@ -1,6 +1,6 @@
 <template>
   <div v-if="dialog.state.active" class="modal-background">
-    <div :class="['modal-container', dialog.state.warningText ? 'limit-width' : '']">
+    <div :class="['modal-container', dialog.state.message ? 'limit-width' : '']">
       <div class="tab-header">
         <button
           v-for="(tab, index) in dialog.state.tabs"
@@ -20,9 +20,9 @@
           </font-awesome-icon>
         </button>
       </div>
-      <div v-if="dialog.state.warningText"
+      <div v-if="dialog.state.message"
         class="warning-message"
-        v-html="dialog.state.warningText"
+        v-html="dialog.state.message"
         data-test="warning-message">
       </div>
         <component v-bind:is="dialog.state.activeTabName"

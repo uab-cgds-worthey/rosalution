@@ -32,7 +32,7 @@ describe('InputDialog.vue', () => {
           .cancelText('Cancel')
           .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png')
           .url(includeComments, includeName)
-          .warningText('Warning message')
+          .message('Warning message')
           .prompt();
     });
 
@@ -83,7 +83,7 @@ describe('InputDialog.vue', () => {
     });
 
     it('Should not show the warning message when one is not set', async () => {
-      inputDialog.warningText('');
+      inputDialog.message('');
       await wrapper.vm.$nextTick();
 
       const warningMessageElement = wrapper.find('[data-test=warning-message]');
@@ -91,7 +91,7 @@ describe('InputDialog.vue', () => {
     });
 
     it('Should render raw html in the warning message', async () => {
-      inputDialog.warningText('<b>Bolded Text</b>');
+      inputDialog.message('<b>Bolded Text</b>');
       await wrapper.vm.$nextTick();
 
       const warningMessageElement = wrapper.find('[data-test=warning-message]');

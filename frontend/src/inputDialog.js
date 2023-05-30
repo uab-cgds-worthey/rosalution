@@ -7,7 +7,7 @@ const state = reactive({
   confirmText: 'Ok',
   cancelText: 'Cancel',
   deleteText: '',
-  warningText: '',
+  message: '',
 });
 
 // -----------------------------------
@@ -29,7 +29,7 @@ const reset = () => {
   state.confirmText = 'Ok';
   state.cancelText = 'Cancel';
   state.deleteText = '';
-  state.warningText = '';
+  state.message = '';
 };
 
 // -----------------------------------
@@ -52,8 +52,8 @@ export default {
     state.deleteText = text;
     return this;
   },
-  warningText(text) {
-    state.warningText = text;
+  message(text) {
+    state.message = text;
     return this;
   },
   file(includeComments=false, includeIcon='file', fileTypesAccept='.json') {
