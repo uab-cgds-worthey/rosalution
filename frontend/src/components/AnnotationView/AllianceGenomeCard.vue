@@ -42,7 +42,8 @@ export default ({
     },
     data() {
         return {
-            frequentTerms: ['normal', 'abnormal', 'increased', 'decreased'],
+            // Note: Consolidate these into a single object, there's no need to update two places for a frequent term.
+            frequentTerms: ['normal', 'abnormal', 'absent', 'increased', 'decreased'],
             frequentTermsObject: [
                 {
                     term: 'normal',
@@ -52,6 +53,12 @@ export default ({
                 },
                 {
                     term: 'abnormal',
+                    style: { 'color': 'var(--rosalution-red-100)' },
+                    icon: '',
+                    iconStyle: {}
+                },
+                {
+                    term: 'absent',
                     style: { 'color': 'var(--rosalution-red-100)' },
                     icon: '',
                     iconStyle: {}
@@ -214,7 +221,8 @@ li {
     color: inherit;
     position: relative;
     border-radius: var(--content-border-radius);
-    height: 100%;
+    height: 35rem;
+    overflow-y: scroll;
 }
 
 .card-content {
@@ -237,8 +245,9 @@ li {
 }
 
 .card-source {
-    position: absolute;
-    bottom: 10px;
+    /* position: absolute; */
+    /* bottom: 10px; */
+    overflow-y: scroll;
 }
 
 </style>
