@@ -18,16 +18,16 @@ describe('upload_images_to_case_annotations.cy.js', () => {
 
   it('uploads two images to the gene homology section', () => {
     // First Image
-    cy.get('[href="#Protein_Expression"]').click();
-    cy.get('#Protein_Expression > tbody > .section-header > [data-test="attach-logo"]').click();
+    cy.get('[href="#Gene_Homology"]').click();
+    cy.get('#Gene_Homology > tbody > .section-header > [data-test="attach-logo"]').click();
     cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/pedigree-fake.jpg', {
       action: 'drag-drop',
     });
     cy.get('[data-test="confirm"]').click();
 
     // Second Image
-    cy.get('[href="#Protein_Expression"]').click();
-    cy.get('#Protein_Expression > tbody > .section-header > [data-test="attach-logo"]').click();
+    cy.get('[href="#Gene_Homology"]').click();
+    cy.get('#Gene_Homology > tbody > .section-header > [data-test="attach-logo"]').click();
     cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/pedigree-fake-2.jpg', {
       action: 'drag-drop',
     });
