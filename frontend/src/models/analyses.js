@@ -435,9 +435,9 @@ const annotationRenderingTemporary = [
       'datasets': [
         {
           'dataset': 'Rat Models',
-          'type': 'card-dataset'
-        }
-      ]
+          'type': 'card-dataset',
+        },
+      ],
     }],
   },
   {
@@ -451,9 +451,9 @@ const annotationRenderingTemporary = [
       'datasets': [
         {
           'dataset': 'Mouse Models',
-          'type': 'card-dataset'
-        }
-      ]
+          'type': 'card-dataset',
+        },
+      ],
     }],
   },
   {
@@ -467,9 +467,9 @@ const annotationRenderingTemporary = [
       'datasets': [
         {
           'dataset': 'Zebrafish Models',
-          'type': 'card-dataset'
-        }
-      ]
+          'type': 'card-dataset',
+        },
+      ],
     }],
   },
   {
@@ -483,9 +483,9 @@ const annotationRenderingTemporary = [
       'datasets': [
         {
           'dataset': 'C-Elegens Models',
-          'type': 'card-dataset'
-        }
-      ]
+          'type': 'card-dataset',
+        },
+      ],
     }],
   },
   {

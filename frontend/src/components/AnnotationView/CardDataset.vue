@@ -11,27 +11,27 @@
 <script>
 import AllianceGenomeCard from '@/components/AnnotationView/AllianceGenomeCard.vue';
 
-export default({
-    name: 'CardDataset',
-    components: {
-      AllianceGenomeCard
-    },
-    props: {
-      value: {
-        type: Array,
-        default() {
-          return [];
-        },
-      },
-      dataSet: {
-        type: String,
+export default ({
+  name: 'CardDataset',
+  components: {
+    AllianceGenomeCard,
+  },
+  props: {
+    value: {
+      type: Array,
+      default() {
+        return [];
       },
     },
-    computed: {
-      models() {
-        return this.value
-      }
-    }
+    dataSet: {
+      type: String,
+    },
+  },
+  computed: {
+    models() {
+      return this.value;
+    },
+  },
 });
 </script>
 
