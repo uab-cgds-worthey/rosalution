@@ -5,6 +5,11 @@
             <div class="card-sub-header" v-html="modelBackground" />
             <div class="card-content">
                 <div class="card-section" :style="experimentalConditionStyle"> Experimental Condition </div>
+                <li class="card-list"
+                    v-for="condition in this.experimentalConditions"
+                >
+                {{ condition.conditionStatement }}
+                </li>
                 <div class="card-section" :style="associatedHumanDiseasesStyle"> Associated Human Diseases </div>
                 <li class="card-list" v-for="(diseaseModel) in this.model.diseaseModels">
                     {{ diseaseModel.diseaseModel }}
@@ -78,10 +83,11 @@ export default ({
             ],
             associatedHumanDiseasesData: {},
             associatedPhenotypesData: {},
-            experimentalCondition: {}
+            experimentalConditions: {}
         }
     },
     created() {
+        this.calculateExperimentalCondition();
         this.calculateAssociatedPhenotypes();
         this.calculateAssociatedHumanDiseases();
     },
@@ -118,7 +124,7 @@ export default ({
             return 'color: black';
         },
         experimentalConditionStyle() {
-            if(Object.keys(this.experimentalCondition).length === 0)
+            if(Object.keys(this.experimentalConditions).length === 0)
                 return {color: `var(--rosalution-grey-300)`};
 
             return 'color: black';
@@ -172,7 +178,12 @@ export default ({
             this.associatedPhenotypesData = phenotypesDict
         },
         calculateExperimentalCondition() {
-            
+            if(Object.keys(this.model.conditions).length == 0)
+                return;
+
+            console.log(this.model.conditions.has_condition)
+
+            this.experimentalConditions = this.model.conditions.has_condition;
         }
     }
 });
@@ -245,8 +256,6 @@ li {
 }
 
 .card-source {
-    /* position: absolute; */
-    /* bottom: 10px; */
     overflow-y: scroll;
 }
 

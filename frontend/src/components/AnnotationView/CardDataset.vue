@@ -29,7 +29,6 @@ export default({
     },
     computed: {
       models() {
-        console.log(this.value)
         return this.value
       }
     }
