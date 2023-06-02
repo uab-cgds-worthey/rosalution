@@ -7,23 +7,30 @@
                 <div class="card-section" :style="experimentalConditionStyle" data-test="model-section-condition">
                     Experimental Condition
                 </div>
-                <li class="card-list"
-                    v-for="condition in this.experimentalConditions"
-                    data-test="model-list-condition"
-                >
-                {{ condition.conditionStatement }}
-                </li>
+                <ul>
+                    <li class="card-list"
+                        v-for="condition in this.experimentalConditions" :key="condition"
+                        data-test="model-list-condition"
+                    >
+                        {{ condition.conditionStatement }}
+                    </li>
+                </ul>
+
                 <div class="card-section" :style="associatedHumanDiseasesStyle" data-test="model-section-disease">
                     Associated Human Diseases
                 </div>
-                <li class="card-list" v-for="(diseaseModel) in this.model.diseaseModels" data-test="model-list-disease">
+                <li
+                  class="card-list"
+                  v-for="(diseaseModel) in this.model.diseaseModels" :key="diseaseModel"
+                  data-test="model-list-disease"
+                >
                     {{ diseaseModel.diseaseModel }}
                 </li>
                 <div class="card-section" :style="associatedPhenotypesStyle" data-test="model-section-phenotype">
                     Associated Phenotypes
                 </div>
                 <div class="card-list"
-                    v-for="(value, key) in this.associatedPhenotypesData"
+                    v-for="(value, key) in this.associatedPhenotypesData" :key="key"
                     data-test="model-list-phenotype"
                 >
                 <div v-if="key != ''">
@@ -31,7 +38,7 @@
                     <span class="card-section-term" :style="value.style">{{ key }}</span>
                 </div>
                     <ul>
-                        <li v-for="item in value.phenotypes">{{ item }}</li>
+                        <li v-for="item in value.phenotypes" :key="item">{{ item }}</li>
                     </ul>
                 </div>
                 <div class="card-source" data-test="model-source">
@@ -48,9 +55,6 @@ export default ({
   props: {
     model: {
       type: Object,
-      default() {
-        return {};
-      },
     },
   },
   data() {
@@ -111,7 +115,9 @@ export default ({
       return this.model.name;
     },
     modelBackground() {
-      const regex = new RegExp('\\[background:\]?(.*)', 'g');
+      // This escape character is very necessary, but eslint doesn't think so
+
+      const regex = new RegExp(`\\[background:\]?(.*)`, 'g'); // eslint-disable-line
 
       const matchResult = this.model.name.match(regex);
 
@@ -182,7 +188,8 @@ export default ({
       });
 
       Object.keys(phenotypesDict).forEach((key) => {
-        if (phenotypesDict.hasOwnProperty(key) && !phenotypesDict[key].phenotypes.length) {
+        // if (phenotypesDict.hasOwnProperty(key) && !phenotypesDict[key].phenotypes.length) {
+        if (!phenotypesDict[key].phenotypes.length) {
           delete phenotypesDict[key];
         }
       });

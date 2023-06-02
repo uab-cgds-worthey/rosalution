@@ -8,7 +8,7 @@ describe('case_annotation_display_transcripts.cy.js', () => {
 
   it('navigates to the annotation sections via anchor links', () => {
     const anchorLinks = ['Gene', 'Variant', 'Gene Homology', 'Protein Expression', 'Modelability',
-      'Model Systems', 'Druggability'];
+      'Model Systems', 'Rat Models', 'Mouse Models', 'Zebrafish Models', 'C-Elegens Models', 'Druggability'];
     const expectedSidebarLinks = [...anchorLinks];
 
     cy.get('.sidebar').find('a').each(($el) => {

@@ -5,6 +5,11 @@ import AllianceGenomeCard from '@/components/AnnotationView/AllianceGenomeCard.v
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
+/**
+ * helper function that shallow mounts and returns the rendered component
+ * @param {propsData} propsData props for testing to overwrite default props
+ * @return {VueWrapper} returns a shallow mounted using props
+ */
 function getMountedComponent(propsData) {
   const defaultPropsData = {
     model: fakeModelProp,
@@ -35,11 +40,79 @@ describe('AllianceGenomeCard.vue', () => {
     expect(cardBackground.html()).toContain('[background:] involves: 129S4/SvJae * C57BL/6');
   });
 
-  it('Displays the Experimental Condition section with black text because it has a property', () => {
+  it('Displays the Experimental Condition section with black text because it has list items', () => {
     const wrapper = getMountedComponent();
     const experimentalSection = wrapper.find('[data-test=model-section-condition]');
 
     expect(experimentalSection.attributes().style).toContain('color: black;');
+  });
+
+  it('Shows a list of conditions under the experimental conditions section', () => {
+    const wrapper = getMountedComponent();
+    const experimentalSectionList = wrapper.findAll('[data-test=model-list-condition]');
+
+    expect(experimentalSectionList.length).to.equal(1);
+  });
+
+  it('Shows the Associated Human Diseases as gray because it has list items', () => {
+    const wrapper = getMountedComponent();
+    const diseasesSection = wrapper.find('[data-test=model-section-disease]');
+
+    expect(diseasesSection.attributes().style).toContain('color: black;');
+  });
+
+  it('Shows the Associated Human Diseases as gray because there are no list items', () => {
+    const wrapper = getMountedComponent({model: fakeEmptyModelProp});
+    const diseasesSection = wrapper.find('[data-test=model-section-disease]');
+
+    expect(diseasesSection.attributes().style).toContain('--rosalution-grey-300');
+  });
+
+  it('Does not display a list as there are no diseases to show', () => {
+    const wrapper = getMountedComponent({model: fakeEmptyModelProp});
+    const diseasesList = wrapper.find('[data-test=model-list-disease]');
+
+    expect(diseasesList.exists()).to.be.false;
+  });
+
+  it('Displays the Associated Phenotypes section with black text because it has list items', () => {
+    const wrapper = getMountedComponent();
+    const phenotypesSection = wrapper.find('[data-test=model-section-phenotype]');
+
+    expect(phenotypesSection.attributes().style).toContain('color: black;');
+  });
+
+  it('Shows the Associated Phenotypes section as gray because there are no items', () => {
+    const wrapper = getMountedComponent({model: fakeEmptyModelProp});
+    const phenotypesSection = wrapper.find('[data-test=model-section-phenotype]');
+
+    expect(phenotypesSection.attributes().style).toContain('--rosalution-grey-300');
+  });
+
+  it('Displays Phenotype lists with frequent term sub-headers ', () => {
+    const wrapper = getMountedComponent({model: fakeModelProp});
+    const phenotypesList = wrapper.findAll('[data-test=model-list-phenotype]');
+
+    const firstTerm = phenotypesList[0].find('span');
+    const firstTermList = phenotypesList[0].findAll('li');
+
+    expect(firstTerm.html()).toContain('abnormal');
+    expect(firstTermList.length).to.equal(5);
+
+    const secondTerm = phenotypesList[1].find('span');
+    const secondTermIcon = phenotypesList[1].find('font-awesome-icon-stub');
+    const secondTermList = phenotypesList[1].findAll('li');
+
+    expect(secondTerm.html()).toContain('decreased');
+    expect(secondTermIcon.attributes().icon).to.equal('arrow-down');
+    expect(secondTermList.length).to.equal(4);
+  });
+
+  it('Displays the source of the animal model', () => {
+    const wrapper = getMountedComponent();
+    const modelSource = wrapper.find('[data-test=model-source]');
+
+    expect(modelSource.html()).toContain('ZFIN');
   });
 });
 
@@ -62,54 +135,27 @@ const fakeModelProp = {
     'url': null,
   },
   'diseaseAssociationType': null,
-  'diseaseModels': [],
-  'publicationEvidenceCodes': [
+  'diseaseModels': [
     {
-      'primaryKey': '0d26b7d9-dc2d-4022-8630-7c18c4ec169e',
-      'publication': {
-        'id': 'PMID:31977013',
-        'url': 'https://www.ncbi.nlm.nih.gov/pubmed/31977013',
+      'disease': {
+        'id': 'DOID:10754',
+        'name': 'otitis media',
+        'url': 'http://www.disease-ontology.org/?id=DOID:10754',
       },
-      'dateAssigned': null,
-      'evidenceCodes': [],
+      'associationType': 'IS_MODEL_OF',
+      'diseaseModel': 'otitis media',
     },
     {
-      'primaryKey': '9a017502-cf7e-4525-b842-9c85f326ae9e',
-      'publication': {
-        'id': 'PMID:31977013',
-        'url': 'https://www.ncbi.nlm.nih.gov/pubmed/31977013',
+      'disease': {
+        'id': 'DOID:3911',
+        'name': 'progeria',
+        'url': 'http://www.disease-ontology.org/?id=DOID:3911',
       },
-      'dateAssigned': null,
-      'evidenceCodes': [],
-    },
-    {
-      'primaryKey': '48abf479-3482-449e-8cf0-df631aa37cb3',
-      'publication': {
-        'id': 'PMID:31977013',
-        'url': 'https://www.ncbi.nlm.nih.gov/pubmed/31977013',
-      },
-      'dateAssigned': null,
-      'evidenceCodes': [],
-    },
-    {
-      'primaryKey': '1624fc58-153f-419f-80ef-2e094fe1e0b8',
-      'publication': {
-        'id': 'PMID:31977013',
-        'url': 'https://www.ncbi.nlm.nih.gov/pubmed/31977013',
-      },
-      'dateAssigned': null,
-      'evidenceCodes': [],
-    },
-    {
-      'primaryKey': '6e8a385e-0501-4949-a768-76c898aff653',
-      'publication': {
-        'id': 'PMID:31977013',
-        'url': 'https://www.ncbi.nlm.nih.gov/pubmed/31977013',
-      },
-      'dateAssigned': null,
-      'evidenceCodes': [],
+      'associationType': 'IS_MODEL_OF',
+      'diseaseModel': 'progeria',
     },
   ],
+  'publicationEvidenceCodes': [],
   'conditions': {
     'has_condition': [
       {
@@ -122,6 +168,23 @@ const fakeModelProp = {
       },
     ],
   },
+  'conditionModifiers': {},
+  'alleles': [],
+  'sequenceTargetingReagents': [],
+  'species': null,
+};
+
+const fakeEmptyModelProp = {
+  'id': 'ZFIN:ZDB-FISH-220613-4',
+  'name': 'lmna<sup>bw25/bw25</sup>',
+  'displayName': 'lmna<bw25/bw25>',
+  'phenotypes': [],
+  'source': {
+    'name': 'ZFIN',
+    'url': null,
+  },
+  'diseaseModels': [],
+  'conditions': {},
   'conditionModifiers': {},
   'alleles': [],
   'sequenceTargetingReagents': [],

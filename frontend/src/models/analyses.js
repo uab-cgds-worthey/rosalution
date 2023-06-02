@@ -476,7 +476,7 @@ const annotationRenderingTemporary = [
     'type': 'section',
     'class': '',
     'header': 'C. Elegens (Roundworm) Model System',
-    'anchor': 'Zebrafish_Models',
+    'anchor': 'C-Elegens_Models',
     'header_datasets': [],
     'rows': [{
       'class': '',
