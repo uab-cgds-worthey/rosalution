@@ -455,7 +455,9 @@ export default {
 
 app-content {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: blueviolet;
 }
 
 app-header {

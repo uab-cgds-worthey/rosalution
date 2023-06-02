@@ -74,14 +74,13 @@ html {
 }
 
 .rosalution-section-container {
-  width: 100%;
   display: flex;
   flex-direction: column;
   padding: var(--p-10);
   margin: var(--p-10);
-  gap: var(--p-10);
   border-radius: var(--content-border-radius);
-  background-color: var(--rosalution-white);
+  /* background-color: var(--rosalution-white); */
+  background-color: aqua;
 }
 
 .rosalution-section-seperator {
@@ -106,7 +105,7 @@ html {
   flex-grow: 2;
 }
 
-.rosalution-section-text {
+.rosalution-section-header-text {
   /* height: 1.75rem; */
   margin: .125rem .125rem 0 .125rem;
   /* flex: 1 0 auto; */

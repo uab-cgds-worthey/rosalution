@@ -284,8 +284,7 @@ export default {
 
 app-content {
   display: flex;
-  flex-direction: row;
-  gap: var(--p-10);
+  background-color: blueviolet;
 }
 
 app-header {
@@ -295,14 +294,17 @@ app-header {
 }
 
 .sections {
-  flex: 7 1 auto;
+  background-color: orange;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar {
   position: sticky;
   height: 90vh;
   top: 4rem;
-  flex: 1 1 auto;
+  flex: 1 0 12.5rem;
+  background-color: pink;
 }
 
 </style>

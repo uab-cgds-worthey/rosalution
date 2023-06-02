@@ -1,20 +1,18 @@
 <template>
-<tr class="section-row">
-  <td>
-    <label class="section-field"
-      v-bind:style="[value.length === 0 && !this.editable ? 'color: var(--rosalution-grey-300);' : 'color: var(--rosalution-black);']" >
-      {{ field }}
-    </label>
-  </td>
-  <td class="section-content">
+<div class="section-row">
+  <label class="section-field"
+    v-bind:style="[value.length === 0 && !this.editable ? 'color: var(--rosalution-grey-300);' : 'color: var(--rosalution-black);']" >
+    {{ field }}
+  </label>
+  <span class="section-content">
     <span v-if="this.editable" role="textbox" class="editable-section-content-values" contenteditable data-test="editable-value" @input="onContentChanged($event)">
       {{ value.join('\r\n') }}
     </span>
     <span v-else v-for="rowValue, index in value" :key="index" class="section-content-values" data-test="value-row">
       {{ rowValue }}
     </span>
-  </td>
-</tr>
+  </span>
+</div>
 </template>
 
 
@@ -63,41 +61,28 @@ export default {
       console.log('section text');
       this.$emit('update:sectionText', contentRow);
     },
-  }
+  },
 };
 </script>
 
 <style scoped>
 
-<style scoped>
-table {
-  width: 100%;
-}
-
-div {
-  font-family: "Proxima Nova", sans-serif;
-  padding: var(--p-0);
-}
-
 .section-row {
   display: flex;
   flex-direction: row;
   gap: var(--p-10);
-  margin: var(--p-10) var(--p-1) var(--p-10) var(--p-1);
+  /* margin: var(--p-10) var(--p-1) var(--p-10) var(--p-1); */
+  background-color: hotpink;
 }
 
 .section-field {
-  display: inline-block;
   width: 11.25rem;
-  height: 1.375rem;
-  margin: 0 1.1875rem .0063rem 0;
-  font-size: 1.125rem;
   font-weight: 600;
   text-align: left;
+  background-color: gold;
 }
 
 .section-content {
-  font-size: 1.125rem;
   text-align: left;
   color: var(--rosalution-black);
   display: block;
@@ -108,10 +93,6 @@ div {
   color: var(--rosalution-black);
   display: block;
   width: 100%;
-}
-
-.edit-logo {
-  color: var(--rosalution-purple-100);
 }
 
 .editable-section-content-values {

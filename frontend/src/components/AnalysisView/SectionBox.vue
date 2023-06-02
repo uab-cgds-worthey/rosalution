@@ -1,9 +1,9 @@
 <template>
   <div class="rosalution-section-container">
-    <div>
+    <div style="background-color: red;">
       <input v-if="!this.edit" type="checkbox" v-bind:id="section_toggle" />
       <div class="rosalution-section-header">
-        <h2 class="rosalution-section-text">
+        <h2 class="rosalution-section-header-text">
           {{ header }}
         </h2>
         <span class="rosalution-section-center"></span>
@@ -131,11 +131,11 @@ input[type="checkbox"] {
   display: none;
 }
 
-.section-box-container input[type="checkbox"]:checked~.field-value-row {
+.rosalution-section-container input[type="checkbox"]:checked~.field-value-row {
   display: none;
 }
 
-.section-box-container input[type="checkbox"]:checked~img {
+.rosalution-section-container input[type="checkbox"]:checked~img {
   display: none;
 }
 
