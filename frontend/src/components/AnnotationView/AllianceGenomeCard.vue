@@ -1,52 +1,50 @@
 <template>
-    <div class="card">
-        <div class="card-base">
-            <div class="card-header" v-html="modelName" data-test="model-header"/>
-            <div class="card-sub-header" v-html="modelBackground" data-test="model-background"/>
-            <div class="card-content">
-                <div class="card-section" :style="experimentalConditionStyle" data-test="model-section-condition">
-                    Experimental Condition
-                </div>
-                <ul>
-                    <li class="card-list"
-                        v-for="condition in this.experimentalConditions" :key="condition"
-                        data-test="model-list-condition"
-                    >
-                        {{ condition.conditionStatement }}
-                    </li>
-                </ul>
+  <div class="card-base">
+    <div class="card-header" v-html="modelName" data-test="model-header"/>
+    <div class="card-sub-header" v-html="modelBackground" data-test="model-background"/>
+    <div class="card-content">
+      <div class="card-section" :style="experimentalConditionStyle" data-test="model-section-condition">
+          Experimental Condition
+      </div>
+      <ul>
+          <li class="card-list"
+              v-for="condition in this.experimentalConditions" :key="condition"
+              data-test="model-list-condition"
+          >
+              {{ condition.conditionStatement }}
+          </li>
+      </ul>
 
-                <div class="card-section" :style="associatedHumanDiseasesStyle" data-test="model-section-disease">
-                    Associated Human Diseases
-                </div>
-                <li
-                  class="card-list"
-                  v-for="(diseaseModel) in this.model.diseaseModels" :key="diseaseModel"
-                  data-test="model-list-disease"
-                >
-                    {{ diseaseModel.diseaseModel }}
-                </li>
-                <div class="card-section" :style="associatedPhenotypesStyle" data-test="model-section-phenotype">
-                    Associated Phenotypes
-                </div>
-                <div class="card-list"
-                    v-for="(value, key) in this.associatedPhenotypesData" :key="key"
-                    data-test="model-list-phenotype"
-                >
-                <div v-if="key != ''">
-                    <font-awesome-icon v-if="value.icon" :icon="value.icon" :style="value.iconStyle"/>
-                    <span class="card-section-term" :style="value.style">{{ key }}</span>
-                </div>
-                    <ul>
-                        <li v-for="item in value.phenotypes" :key="item">{{ item }}</li>
-                    </ul>
-                </div>
-                <div class="card-source" data-test="model-source">
-                    <b>Source:</b> {{ this.model.source.name }}
-                </div>
-            </div>
+        <div class="card-section" :style="associatedHumanDiseasesStyle" data-test="model-section-disease">
+            Associated Human Diseases
         </div>
-    </div>
+        <li
+          class="card-list"
+          v-for="(diseaseModel) in this.model.diseaseModels" :key="diseaseModel"
+          data-test="model-list-disease"
+        >
+            {{ diseaseModel.diseaseModel }}
+        </li>
+        <div class="card-section" :style="associatedPhenotypesStyle" data-test="model-section-phenotype">
+            Associated Phenotypes
+        </div>
+        <div class="card-list"
+            v-for="(value, key) in this.associatedPhenotypesData" :key="key"
+            data-test="model-list-phenotype"
+        >
+        <div v-if="key != ''">
+            <font-awesome-icon v-if="value.icon" :icon="value.icon" :style="value.iconStyle"/>
+            <span class="card-section-term" :style="value.style">{{ key }}</span>
+        </div>
+            <ul>
+                <li v-for="item in value.phenotypes" :key="item">{{ item }}</li>
+            </ul>
+        </div>
+        <div class="card-source" data-test="model-source">
+            <b>Source:</b> {{ this.model.source.name }}
+        </div>
+      </div>
+  </div>
 </template>
 
 <script>
@@ -59,7 +57,7 @@ export default ({
   },
   data() {
     return {
-      // Note: Consolidate these into a single object, there's no need to update two places for a frequent term.
+      // TODO: Consolidate these into a single object, there's no need to update two places for a frequent term.
       frequentTerms: ['normal', 'abnormal', 'absent', 'increased', 'decreased'],
       frequentTermsObject: [
         {
@@ -188,7 +186,6 @@ export default ({
       });
 
       Object.keys(phenotypesDict).forEach((key) => {
-        // if (phenotypesDict.hasOwnProperty(key) && !phenotypesDict[key].phenotypes.length) {
         if (!phenotypesDict[key].phenotypes.length) {
           delete phenotypesDict[key];
         }
@@ -215,20 +212,14 @@ div {
 }
 
 ul {
-    list-style-type: disc;
-    padding-left: 7%;
+  list-style-type: disc;
+  padding-left: 7%;
 }
 
 li {
-    margin-left: 10px;
-    padding-top: 1%;
-
-    font-size: 15px;
-}
-
-.card {
-    position: relative;
-    text-decoration: none;
+  margin-left: 10px;
+  padding-top: 1%;
+  font-size: 15px;
 }
 
 .card-header {
@@ -242,16 +233,18 @@ li {
 }
 
 .card-base {
-    width: 30rem;
-    padding: var(--p-8);
-    background-color: var(--rosalution-grey-50);
-    display: block;
-    box-sizing: border-box;
-    color: inherit;
-    position: relative;
-    border-radius: var(--content-border-radius);
-    height: 35rem;
-    overflow-y: scroll;
+  position: relative;
+  text-decoration: none;
+  width: 30rem;
+  padding: var(--p-8);
+  background-color: var(--rosalution-grey-50);
+  display: block;
+  box-sizing: border-box;
+  color: inherit;
+  position: relative;
+  border-radius: var(--content-border-radius);
+  height: 35rem;
+  overflow-y: scroll;
 }
 
 .card-content {

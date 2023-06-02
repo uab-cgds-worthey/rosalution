@@ -1,6 +1,6 @@
 <template>
     <div class="model-cards">
-      <!-- This is intended to become a <slot> to allow any card type to be used here -->
+      <!-- TODO: This is intended to become a <slot> to allow any card type to be used here -->
       <AllianceGenomeCard
         v-for="(model) in this.models"
         :key="model.id"
