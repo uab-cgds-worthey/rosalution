@@ -427,6 +427,70 @@ const annotationRenderingTemporary = [
   {
     'type': 'section',
     'class': '',
+    'header': 'Rattus norvegicus (Rat) Model System',
+    'anchor': 'Rat_Models',
+    'header_datasets': [],
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Rat Models',
+          'type': 'card-dataset',
+        },
+      ],
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
+    'header': 'Mus musculus (Mouse) Model System',
+    'anchor': 'Mouse_Models',
+    'header_datasets': [],
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Mouse Models',
+          'type': 'card-dataset',
+        },
+      ],
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
+    'header': 'Danio rerio (Zebrafish) Model System',
+    'anchor': 'Zebrafish_Models',
+    'header_datasets': [],
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Zebrafish Models',
+          'type': 'card-dataset',
+        },
+      ],
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
+    'header': 'C. Elegens (Roundworm) Model System',
+    'anchor': 'C-Elegens_Models',
+    'header_datasets': [],
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'C-Elegens Models',
+          'type': 'card-dataset',
+        },
+      ],
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
     'header': 'Druggability',
     'anchor': 'Druggability',
     'header_datasets': [],

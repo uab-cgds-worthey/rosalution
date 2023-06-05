@@ -102,7 +102,7 @@ describe('AnnotationView', () => {
 
   it('renders expected number of sections ', () => {
     const sections = wrapper.findAllComponents(AnnotationSection);
-    expect(sections.length).to.equal(7);
+    expect(sections.length).to.equal(11);
   });
 
   it('renders each section with an Id to be used for an achor', () => {

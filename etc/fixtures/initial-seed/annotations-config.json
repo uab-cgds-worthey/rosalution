@@ -125,14 +125,14 @@
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
-    "attribute": ".results[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Rno)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"Mouse Gene Identifier\": .primaryKey }"
+    "attribute": ".results[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Rno)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"Rat Gene Identifier\": .primaryKey }"
   },
   {
     "data_set": "Rat Models",
     "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
-    "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}/models",
+    "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}/models?limit=100",
     "attribute": "{ \"Rat Models\": [.results[]] }",
     "dependencies": ["Rat Gene Identifier"]
   },
@@ -158,7 +158,7 @@
     "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
-    "url": "https://www.alliancegenome.org/api/gene/{Mouse Gene Identifier}/models",
+    "url": "https://www.alliancegenome.org/api/gene/{Mouse Gene Identifier}/models?limit=100",
     "attribute": "{ \"Mouse Models\": [.results[]] }",
     "dependencies": ["Mouse Gene Identifier"]
   },
@@ -168,7 +168,7 @@
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
-    "attribute": ".results[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Dre)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"Mouse Gene Identifier\": .primaryKey }"
+    "attribute": ".results[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Dre)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"Zebrafish Gene Identifier\": .primaryKey }"
   },
   {
     "data_set": "Model Systems - Zebrafish - Automated",
@@ -184,7 +184,7 @@
     "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
-    "url": "https://www.alliancegenome.org/api/gene/{Zebrafish Gene Identifier}/models",
+    "url": "https://www.alliancegenome.org/api/gene/{Zebrafish Gene Identifier}/models?limit=100",
     "attribute": "{ \"Zebrafish Models\": [.results[]] }",
     "dependencies": ["Zebrafish Gene Identifier"]
   },
@@ -194,7 +194,7 @@
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
-    "attribute": ".results[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Cel)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"Mouse Gene Identifier\": .primaryKey }"
+    "attribute": ".results[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Cel)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"C-Elegens Gene Identifier\": .primaryKey }"
   },
   {
     "data_set": "Model Systems - C-Elegens - Automated",
@@ -210,7 +210,7 @@
     "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
-    "url": "https://www.alliancegenome.org/api/gene/{C-Elegens Gene Identifier}/models",
+    "url": "https://www.alliancegenome.org/api/gene/{C-Elegens Gene Identifier}/models?limit=100",
     "attribute": "{ \"C-Elegens Models\": [.results[]] }",
     "dependencies": ["C-Elegens Gene Identifier"]
   },
