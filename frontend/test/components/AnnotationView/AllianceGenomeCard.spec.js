@@ -30,21 +30,21 @@ describe('AllianceGenomeCard.vue', () => {
     const wrapper = getMountedComponent();
     const cardHeader = wrapper.find('[data-test=model-header]');
 
-    expect(cardHeader.html()).toContain('lmna<sup>bw25/bw25</sup>');
+    expect(cardHeader.html()).to.include('lmna<sup>bw25/bw25</sup>');
   });
 
   it('Displays a card with a proper background', () => {
     const wrapper = getMountedComponent();
     const cardBackground = wrapper.find('[data-test=model-background]');
 
-    expect(cardBackground.html()).toContain('[background:] involves: 129S4/SvJae * C57BL/6');
+    expect(cardBackground.html()).to.include('[background:] involves: 129S4/SvJae * C57BL/6');
   });
 
   it('Displays the Experimental Condition section with black text because it has list items', () => {
     const wrapper = getMountedComponent();
     const experimentalSection = wrapper.find('[data-test=model-section-condition]');
 
-    expect(experimentalSection.attributes().style).toContain('color: black;');
+    expect(experimentalSection.attributes().style).to.include('color: black;');
   });
 
   it('Shows a list of conditions under the experimental conditions section', () => {
@@ -58,14 +58,14 @@ describe('AllianceGenomeCard.vue', () => {
     const wrapper = getMountedComponent();
     const diseasesSection = wrapper.find('[data-test=model-section-disease]');
 
-    expect(diseasesSection.attributes().style).toContain('color: black;');
+    expect(diseasesSection.attributes().style).to.include('color: black;');
   });
 
   it('Shows the Associated Human Diseases as gray because there are no list items', () => {
     const wrapper = getMountedComponent({model: fakeEmptyModelProp});
     const diseasesSection = wrapper.find('[data-test=model-section-disease]');
 
-    expect(diseasesSection.attributes().style).toContain('--rosalution-grey-300');
+    expect(diseasesSection.attributes().style).to.include('--rosalution-grey-300');
   });
 
   it('Does not display a list as there are no diseases to show', () => {
@@ -79,14 +79,14 @@ describe('AllianceGenomeCard.vue', () => {
     const wrapper = getMountedComponent();
     const phenotypesSection = wrapper.find('[data-test=model-section-phenotype]');
 
-    expect(phenotypesSection.attributes().style).toContain('color: black;');
+    expect(phenotypesSection.attributes().style).to.include('color: black;');
   });
 
   it('Shows the Associated Phenotypes section as gray because there are no items', () => {
     const wrapper = getMountedComponent({model: fakeEmptyModelProp});
     const phenotypesSection = wrapper.find('[data-test=model-section-phenotype]');
 
-    expect(phenotypesSection.attributes().style).toContain('--rosalution-grey-300');
+    expect(phenotypesSection.attributes().style).to.include('--rosalution-grey-300');
   });
 
   it('Displays Phenotype lists with frequent term sub-headers ', () => {
@@ -96,14 +96,14 @@ describe('AllianceGenomeCard.vue', () => {
     const firstTerm = phenotypesList[0].find('span');
     const firstTermList = phenotypesList[0].findAll('li');
 
-    expect(firstTerm.html()).toContain('abnormal');
+    expect(firstTerm.html()).to.include('abnormal');
     expect(firstTermList.length).to.equal(5);
 
     const secondTerm = phenotypesList[1].find('span');
     const secondTermIcon = phenotypesList[1].find('font-awesome-icon-stub');
     const secondTermList = phenotypesList[1].findAll('li');
 
-    expect(secondTerm.html()).toContain('decreased');
+    expect(secondTerm.html()).to.include('decreased');
     expect(secondTermIcon.attributes().icon).to.equal('arrow-down');
     expect(secondTermList.length).to.equal(4);
   });
@@ -112,7 +112,7 @@ describe('AllianceGenomeCard.vue', () => {
     const wrapper = getMountedComponent();
     const modelSource = wrapper.find('[data-test=model-source]');
 
-    expect(modelSource.html()).toContain('ZFIN');
+    expect(modelSource.html()).to.include('ZFIN');
   });
 });
 
