@@ -217,7 +217,7 @@ ul {
 }
 
 li {
-  margin-left: 10px;
+  margin-left: var(--p-10);
   padding-top: 1%;
   font-size: 15px;
 }
@@ -233,15 +233,12 @@ li {
 }
 
 .card-base {
-  position: relative;
   text-decoration: none;
   width: 30rem;
   padding: var(--p-8);
   background-color: var(--rosalution-grey-50);
-  display: block;
   box-sizing: border-box;
   color: inherit;
-  position: relative;
   border-radius: var(--content-border-radius);
   height: 35rem;
   overflow-y: scroll;
@@ -267,7 +264,7 @@ li {
 }
 
 .card-source {
-    overflow-y: scroll;
+  padding-top: 2%;
 }
 
 </style>
