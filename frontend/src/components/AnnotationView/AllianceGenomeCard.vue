@@ -114,7 +114,6 @@ export default ({
     },
     modelBackground() {
       // This escape character is very necessary, but eslint doesn't think so
-
       const regex = new RegExp(`\\[background:\]?(.*)`, 'g'); // eslint-disable-line
 
       const matchResult = this.model.name.match(regex);
@@ -126,25 +125,13 @@ export default ({
       return '';
     },
     associatedHumanDiseasesStyle() {
-      if (Object.keys(this.associatedHumanDiseasesData).length === 0) {
-        return {color: `var(--rosalution-grey-300)`};
-      }
-
-      return 'color: black';
+      return this.determineSectionTextColor(this.associatedHumanDiseasesData);
     },
     associatedPhenotypesStyle() {
-      if (Object.keys(this.associatedPhenotypesData).length === 0) {
-        return {color: `var(--rosalution-grey-300)`};
-      }
-
-      return 'color: black';
+      return this.determineSectionTextColor(this.associatedPhenotypesData);
     },
     experimentalConditionStyle() {
-      if (Object.keys(this.experimentalConditions).length === 0) {
-        return {color: `var(--rosalution-grey-300)`};
-      }
-
-      return 'color: black';
+      return this.determineSectionTextColor(this.experimentalConditions);
     },
   },
   methods: {
@@ -153,12 +140,12 @@ export default ({
     },
     calculateAssociatedPhenotypes() {
       const phenotypesDict = {'':
-                {
-                  phenotypes: [],
-                  style: '',
-                  icon: '',
-                  iconStyle: {},
-                },
+        {
+          phenotypes: [],
+          style: '',
+          icon: '',
+          iconStyle: {},
+        },
       };
 
       this.model.phenotypes.forEach((phenotype) => {
@@ -200,6 +187,13 @@ export default ({
 
       this.experimentalConditions = this.model.conditions.has_condition;
     },
+    determineSectionTextColor(section) {
+      if (Object.keys(section).length === 0) {
+        return {color: `var(--rosalution-grey-300)`};
+      }
+
+      return 'color: black';
+    }
   },
 });
 
