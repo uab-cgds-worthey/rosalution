@@ -193,7 +193,7 @@ export default ({
       }
 
       return 'color: black';
-    }
+    },
   },
 });
 
