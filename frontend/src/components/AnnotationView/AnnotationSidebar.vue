@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     toAnchorText(anchor) {
-      return `${anchor.replace('_', ' ')}`;
+      return `${anchor.replace(/_/g, ' ')}`;
     },
   },
 };
@@ -28,9 +28,12 @@ div {
   background-color: var(--rosalution-white);
   border-radius: var(--content-border-radius);
   padding: var(--p-8);
-  margin-top: 0.625rem;
-  margin-left: 0.625rem;
-  margin-bottom: 0.625rem
+  margin-top: var(--p-10);
+  margin-left: var(--p-10);
+  margin-bottom: var(--p-10);
+  overflow-x: hidden;
+  max-height: 100vh;
+  width: fit-content;
 }
 
 div a {
@@ -41,6 +44,7 @@ div a {
   margin: var(--p-5);
   font-size: 1.125rem; /* 18px */
   font-weight: 700;
+  width: fit-content;
 }
 
 /*
