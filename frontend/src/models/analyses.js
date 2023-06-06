@@ -501,7 +501,7 @@ const annotationRenderingTemporary = [
     'type': 'section',
     'class': '',
     'header': 'Rattus norvegicus (Rat) Model System',
-    'anchor': 'Rat_Animal_Models',
+    'anchor': 'Rattus_norvegicus_Model_System',
     'header_datasets': [],
     'rows': [{
       'class': '',
@@ -524,7 +524,7 @@ const annotationRenderingTemporary = [
     'type': 'section',
     'class': '',
     'header': 'Mus musculus (Mouse) Model System',
-    'anchor': 'Mouse_Animal_Models',
+    'anchor': 'Mus_musculus_Model_System',
     'header_datasets': [],
     'rows': [{
       'class': '',
@@ -533,7 +533,7 @@ const annotationRenderingTemporary = [
           'dataset': 'Model Systems - Mouse - Automated',
           'type': 'text-dataset',
           'props': {
-             'label': 'Mouse - Automated',
+            'label': 'Mouse - Automated',
           },
         },
         {
@@ -547,7 +547,7 @@ const annotationRenderingTemporary = [
     'type': 'section',
     'class': '',
     'header': 'Danio rerio (Zebrafish) Model System',
-    'anchor': 'Zebrafish_Animal_Models',
+    'anchor': 'Danio_rerio_Model_System',
     'header_datasets': [],
     'rows': [{
       'class': '',
@@ -570,7 +570,7 @@ const annotationRenderingTemporary = [
     'type': 'section',
     'class': '',
     'header': 'C. Elegens (Roundworm) Model System',
-    'anchor': 'C_Elegens_Animal_Models',
+    'anchor': 'C_Elegens_Model_System',
     'header_datasets': [],
     'rows': [{
       'class': '',
@@ -580,7 +580,7 @@ const annotationRenderingTemporary = [
           'type': 'text-dataset',
           'props': {
             'label': 'C-Elegens - Automated',
-           },
+          },
         },
         {
           'dataset': 'C-Elegens_Alliance_Genome_Models',

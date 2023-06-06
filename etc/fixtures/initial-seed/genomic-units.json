@@ -183,7 +183,7 @@
 			]
 		},
 		{
-			"Rat Models": [
+			"Rat_Alliance_Genome_Models": [
 				{
 					"data_source": "Alliance Genome",
 					"version": "",
@@ -192,7 +192,7 @@
 			]
 		},
 		{
-			"Mouse Models": [
+			"Mouse_Alliance_Genome_Models": [
 				{
 					"data_source": "Alliance Genome",
 					"version": "",
@@ -201,7 +201,7 @@
 			]
 		},
 		{
-			"Zebrafish Models": [
+			"Zebrafish_Alliance_Genome_Models": [
 				{
 					"data_source": "Alliance Genome",
 					"version": "",
@@ -722,7 +722,7 @@
 			]
 		},
 		{
-			"Rat Models": [
+			"Rat_Alliance_Genome_Models": [
 				{
 					"data_source": "Alliance Genome",
 					"version": "",
@@ -912,7 +912,7 @@
 			]
 		},
 		{
-			"Mouse Models": [
+			"Mouse_Alliance_Genome_Models": [
 				{
 					"data_source": "Alliance Genome",
 					"version": "",
@@ -1376,7 +1376,7 @@
 			]
 		},
 		{
-			"Zebrafish Models": [
+			"Zebrafish_Alliance_Genome_Models": [
 				{
 					"data_source": "Alliance Genome",
 					"version": "",
@@ -2887,7 +2887,7 @@
 			]
 		},
 		{
-			"Rat Models": [
+			"Rat_Alliance_Genome_Models": [
 				{
 					"data_source": "Alliance Genome",
 					"version": "",
@@ -2896,7 +2896,7 @@
 			]
 		},
 		{
-			"Mouse Models": [
+			"Mouse_Alliance_Genome_Models": [
 				{
 					"data_source": "Alliance Genome",
 					"version": "",
@@ -8656,7 +8656,7 @@
 			]
 		},
 		{
-			"Rat Models": [
+			"Rat_Alliance_Genome_Models": [
 				{
 					"data_source": "Alliance Genome",
 					"version": "",
@@ -8665,7 +8665,7 @@
 			]
 		},
 		{
-			"Mouse Models": [
+			"Mouse_Alliance_Genome_Models": [
 				{
 					"data_source": "Alliance Genome",
 					"version": "",
@@ -8921,7 +8921,7 @@
 			]
 		},
 		{
-			"Zebrafish Models": [
+			"Zebrafish_Alliance_Genome_Models": [
 				{
 					"data_source": "Alliance Genome",
 					"version": "",
@@ -11589,7 +11589,7 @@
 			]
 		},
 		{
-			"Rat Models": [
+			"Rat_Alliance_Genome_Models": [
 				{
 					"data_source": "Alliance Genome",
 					"version": "",
@@ -11598,7 +11598,7 @@
 			]
 		},
 		{
-			"Mouse Models": [
+			"Mouse_Alliance_Genome_Models": [
 				{
 					"data_source": "Alliance Genome",
 					"version": "",
@@ -19189,7 +19189,7 @@
 			]
 		},
 		{
-			"Zebrafish Models": [
+			"Zebrafish_Alliance_Genome_Models": [
 				{
 					"data_source": "Alliance Genome",
 					"version": "",
