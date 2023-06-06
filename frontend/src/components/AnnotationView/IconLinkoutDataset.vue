@@ -48,8 +48,8 @@ export default {
 }
 
 .linkout img {
-  height:100%;
-  margin-right: var(--p-10)
+  max-height: 1.5rem;
+  padding-right: var(--p-10)
 }
 
 </style>

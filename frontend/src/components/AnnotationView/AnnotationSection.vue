@@ -1,11 +1,9 @@
 <template>
   <div class="rosalution-section-container">
     <div class="rosalution-section-header">
-      <span>
-        <h2 class="rosalution-section-header-text">
-          {{header}}
-        </h2>
-      </span>
+      <h2 class="rosalution-section-header-text">
+        {{header}}
+      </h2>
       <span class="rosalution-section-center">
         <slot name="headerDatasets"></slot>
       </span>
@@ -15,7 +13,7 @@
         @click="$emit('attach-image', attachmentDataset, genomicAttachmentType)"
         data-test="attach-logo"
       >
-      <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
+        <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
       </button>
       <label class="collapsable-icon">
         <font-awesome-icon icon="chevron-down" size="lg"/>
