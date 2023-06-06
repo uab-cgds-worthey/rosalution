@@ -419,14 +419,14 @@ const annotationRenderingTemporary = [
     'anchor': 'Human_Gene_Expression',
     'header_datasets': [],
     'props': {
-      'attachmentDataset': 'Protein_Expression',
+      'attachmentDataset': 'Human_Gene_Expression',
       'genomicAttachmentType': 'gene',
     },
     'rows': [{
       'class': '',
       'datasets': [
         {
-          'dataset': 'Protein_Expression',
+          'dataset': 'Human_Gene_Expression',
           'genomicType': 'gene',
           'type': 'images-dataset',
         },
@@ -499,86 +499,94 @@ const annotationRenderingTemporary = [
   {
     'type': 'section',
     'class': '',
-    'header': 'Mus musculus (Mouse) Model System',
-    'anchor': 'Mouse_Model',
+    'header': 'Rattus norvegicus (Rat) Model System',
+    'anchor': 'Rattus_norvegicus_Model_System',
     'header_datasets': [],
-    'rows': [
-      {
-        'class': '',
-        'datasets': [
-          {
-            'dataset': 'Model Systems - Mouse - Automated',
-            'type': 'text-dataset',
-            'props': {
-              'label': 'Mouse - Automated',
-            },
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Model Systems - Rat',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'Rat',
           },
-        ],
-      },
-    ],
+        },
+        {
+          'dataset': 'Rat_Alliance_Genome_Models',
+          'type': 'card-dataset',
+        },
+      ],
+    }],
   },
   {
     'type': 'section',
     'class': '',
-    'header': 'Rattus norvegicus (Rat) Model System',
-    'anchor': 'Rat_Model',
+    'header': 'Mus musculus (Mouse) Model System',
+    'anchor': 'Mus_musculus_Model_System',
     'header_datasets': [],
-    'rows': [
-      {
-        'class': '',
-        'datasets': [
-          {
-            'dataset': 'Model Systems - Rat',
-            'type': 'text-dataset',
-            'props': {
-              'label': 'Rat',
-            },
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Model Systems - Mouse - Automated',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'Mouse - Automated',
           },
-        ],
-      },
-    ],
+        },
+        {
+          'dataset': 'Mouse_Alliance_Genome_Models',
+          'type': 'card-dataset',
+        },
+      ],
+    }],
   },
   {
     'type': 'section',
     'class': '',
     'header': 'Danio rerio (Zebrafish) Model System',
-    'anchor': 'Zebrafish_Model',
+    'anchor': 'Danio_rerio_Model_System',
     'header_datasets': [],
-    'rows': [
-      {
-        'class': '',
-        'datasets': [
-          {
-            'dataset': 'Model Systems - Zebrafish - Automated',
-            'type': 'text-dataset',
-            'props': {
-              'label': 'Zebrafish - Automated',
-            },
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Model Systems - Zebrafish - Automated',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'Zebrafish - Automated',
           },
-        ],
-      },
-    ],
+        },
+        {
+          'dataset': 'Zebrafish_Alliance_Genome_Models',
+          'type': 'card-dataset',
+        },
+      ],
+    }],
   },
   {
     'type': 'section',
     'class': '',
-    'header': 'C.-Elegans (Worm) Model System',
-    'anchor': 'Worm_Model',
+    'header': 'C. Elegens (Roundworm) Model System',
+    'anchor': 'C_Elegens_Model_System',
     'header_datasets': [],
-    'rows': [
-      {
-        'class': '',
-        'datasets': [
-          {
-            'dataset': 'Model Systems - C-Elegens - Automated',
-            'type': 'text-dataset',
-            'props': {
-              'label': 'C-Elegens - Automated',
-            },
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Model Systems - C-Elegens - Automated',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'C-Elegens - Automated',
           },
-        ],
-      },
-    ],
+        },
+        {
+          'dataset': 'C-Elegens_Alliance_Genome_Models',
+          'type': 'card-dataset',
+        },
+      ],
+    }],
   },
   {
     'type': 'section',
