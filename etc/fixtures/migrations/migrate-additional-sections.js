@@ -31,41 +31,23 @@ const annotationSectionsRename = {
   'Protein Expression': 'Human Gene Expression',
 }
 
-// annotationsSectionREname.keys()
-
-// if (matching)
-// {
-//   dbentryanntoation[key] = annotationsSectionREname[key]
-// }
-
 try {
   const genomicUnits = db.genomic_units.find();
-
-  // read in annotation sections
-  // if old section found rename to new section
-  print("Starting to loop through each of the engomic units")
   genomicUnits.forEach(element => {
-    print("this genomic unit is the above")
-    print(element)
     element.annotations.forEach(annotation => {
-
-        const annotation_names = Object.keys(annotation)
-        print(annotation_names)
-        // const found = annotationOldSections.some(r => keys.includes(r));
-        if(found) {
-          annotation[annotation_names[0]].forEach(elem => {
-            print(elem)
-            // if(keys[0] == 'Modelability') {
-              
-            // }
-        });
+        const annotation_name = Object.keys(annotation)
+        
+        if (annotationSectionsRename[annotation_name]) {
+          Object.assign(annotation, {[annotationSectionsRename[annotation_name]]: annotation[annotation_name]})
+          delete annotation[annotation_name]
+          
+          db.genomic_units.update(
+            {'_id': element._id},
+            {'$set': element}
+          )
         }
     })
-});
-
-// db.genomic_units.find({'gene': 'VMA21'});
-
-
+  });
 } catch (err) {
   console.log(err.stack);
   console.log(usage);
