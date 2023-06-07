@@ -28,7 +28,7 @@ db = db.getSiblingDB(databaseName);
 
 const annotationSectionsRename = {
   'Modelability': 'Orthology',
-  'Protein Expression': 'Human Gene Expression',
+  'Protein Expression': 'Human_Gene_Expression',
 }
 
 try {
