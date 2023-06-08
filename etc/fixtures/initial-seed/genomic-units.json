@@ -1,217 +1,7 @@
 [{
-	"gene_symbol": "VMA21",
-	"gene": "VMA21",
-	"annotations": [
-		{
-			"Entrez Gene Id": [
-				{
-					"data_source": "HPO",
-					"version": "",
-					"value": 203547
-				}
-			]
-		},
-		{
-			"Ensembl Gene Id": [
-				{
-					"data_source": "Ensembl",
-					"version": "",
-					"value": "ENSG00000160131"
-				}
-			]
-		},
-		{
-			"HGNC_ID": [
-				{
-					"data_source": "Ensembl",
-					"version": "",
-					"value": "HGNC:22082"
-				}
-			]
-		},
-		{
-			"Gene Summary": [
-				{
-					"data_source": "Alliance Genome",
-					"version": "",
-					"value": "This gene encodes a chaperone for assembly of lysosomal vacuolar ATPase.[provided by RefSeq, Jul 2012]"
-				}
-			]
-		},
-		{
-			"ClinGen_gene_url": [
-				{
-					"data_source": "Rosalution",
-					"version": "",
-					"value": "https://search.clinicalgenome.org/kb/genes/HGNC:22082"
-				}
-			]
-		},
-		{
-			"NCBI_gene_url": [
-				{
-					"data_source": "Rosalution",
-					"version": "",
-					"value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=203547"
-				}
-			]
-		},
-		{
-			"gnomAD_gene_url": [
-				{
-					"data_source": "Rosalution",
-					"version": "",
-					"value": "https://gnomad.broadinstitute.org/gene/ENSG00000160131?dataset=gnomad_r2_1"
-				}
-			]
-		},
-		{
-			"OMIM": [
-				{
-					"data_source": "HPO",
-					"version": "",
-					"value": [
-						"Myopathy, X-linked, With Excessive Autophagy"
-					]
-				}
-			]
-		},
-		{
-			"OMIM_gene_search_url": [
-				{
-					"data_source": "Rosalution",
-					"version": "",
-					"value": "https://www.omim.org/search?index=entry&start=1&sort=score+desc%2C+prefix_sort+desc&search=VMA21"
-				}
-			]
-		},
-		{
-			"HPO": [
-				{
-					"data_source": "HPO",
-					"version": "",
-					"value": [
-						"HP:0001270: Motor delay",
-						"HP:0001419: X-linked recessive inheritance",
-						"HP:0001371: Flexion contracture",
-						"HP:0003391: Gowers sign",
-						"HP:0008994: Proximal muscle weakness in lower limbs",
-						"HP:0002650: Scoliosis",
-						"HP:0003551: Difficulty climbing stairs",
-						"HP:0002093: Respiratory insufficiency",
-						"HP:0003198: Myopathy",
-						"HP:0009046: Difficulty running",
-						"HP:0003202: Skeletal muscle atrophy",
-						"HP:0001319: Neonatal hypotonia",
-						"HP:0003236: Elevated circulating creatine kinase concentration",
-						"HP:0002486: Myotonia",
-						"HP:0007941: Limited extraocular movements"
-					]
-				}
-			]
-		},
-		{
-			"HPO_gene_search_url": [
-				{
-					"data_source": "Rosalution",
-					"version": "",
-					"value": "https://hpo.jax.org/app/browse/search?q=VMA21&navFilter=all"
-				}
-			]
-		},
-		{
-			"Model Systems - Mouse - Automated": [
-				{
-					"data_source": "Aliance Genome",
-					"version": "",
-					"value": "Predicted to be involved in vacuolar proton-transporting V-type ATPase complex assembly. Predicted to be located in lysosome. Predicted to be active in endoplasmic reticulum membrane. Human ortholog(s) of this gene implicated in X-linked myopathy with excessive autophagy. Orthologous to human VMA21 (vacuolar ATPase assembly factor VMA21)."
-				}
-			]
-		},
-		{
-			"Model Systems - Zebrafish - Automated": [
-				{
-					"data_source": "Alliance Genome",
-					"version": "",
-					"value": "Predicted to be involved in vacuolar proton-transporting V-type ATPase complex assembly. Predicted to be located in ER to Golgi transport vesicle membrane; endoplasmic reticulum membrane; and endoplasmic reticulum-Golgi intermediate compartment membrane. Predicted to be integral component of membrane. Human ortholog(s) of this gene implicated in X-linked myopathy with excessive autophagy. Orthologous to human VMA21 (vacuolar ATPase assembly factor VMA21)."
-				}
-			]
-		},
-		{
-			"Model Systems - C-Elegens - Automated": [
-				{
-					"data_source": "Alliance Genome",
-					"version": "",
-					"value": "Predicted to be involved in vacuolar proton-transporting V-type ATPase complex assembly. Predicted to be located in ER to Golgi transport vesicle membrane; endoplasmic reticulum membrane; and endoplasmic reticulum-Golgi intermediate compartment membrane. Predicted to be integral component of membrane. Human ortholog(s) of this gene implicated in X-linked myopathy with excessive autophagy. Orthologous to human VMA21 (vacuolar ATPase assembly factor VMA21)."
-				}
-			]
-		},
-		{
-			"Model Systems - Rat": [
-				{
-					"data_source": "Aliance Genome",
-					"version": "",
-					"value": "Predicted to be involved in vacuolar proton-transporting V-type ATPase complex assembly. Predicted to be located in lysosome. Predicted to be active in endoplasmic reticulum membrane. Human ortholog(s) of this gene implicated in X-linked myopathy with excessive autophagy. Orthologous to human VMA21 (vacuolar ATPase assembly factor VMA21); INTERACTS WITH 2,3,7,8-Tetrachlorodibenzofuran; 3-chloropropane-1,2-diol; bisphenol A."
-				}
-			]
-		},
-		{
-			"Rat Gene Identifier": [
-				{
-					"data_source": "Alliance Genome",
-					"version": "",
-					"value": "RGD:1566155"
-				}
-			]
-		},
-		{
-			"Mouse Gene Identifier": [
-				{
-					"data_source": "Alliance Genome",
-					"version": "",
-					"value": "MGI:1914298"
-				}
-			]
-		},
-		{
-			"Zebrafish Gene Identifier": [
-				{
-					"data_source": "Alliance Genome",
-					"version": "",
-					"value": "ZFIN:ZDB-GENE-081104-272"
-				}
-			]
-		},
-		{
-			"Rat_Alliance_Genome_Models": [
-				{
-					"data_source": "Alliance Genome",
-					"version": "",
-					"value": []
-				}
-			]
-		},
-		{
-			"Mouse_Alliance_Genome_Models": [
-				{
-					"data_source": "Alliance Genome",
-					"version": "",
-					"value": []
-				}
-			]
-		},
-		{
-			"Zebrafish_Alliance_Genome_Models": [
-				{
-					"data_source": "Alliance Genome",
-					"version": "",
-					"value": []
-				}
-			]
-		}
-	]
-},
-{
+	"_id": {
+		"$oid": "648232c4b9704e9aec062a75"
+	},
 	"hgvs_variant": "NM_001017980.3:c.164G>T",
 	"transcripts": [
 		{
@@ -4540,33 +4330,6 @@
 			]
 		},
 		{
-			"Model Systems - Mouse - Automated": [
-				{
-					"data_source": "Aliance Genome",
-					"version": "",
-					"value": null
-				}
-			]
-		},
-		{
-			"Model Systems - Zebrafish - Automated": [
-				{
-					"data_source": "Alliance Genome",
-					"version": "",
-					"value": "Predicted to enable guanyl-nucleotide exchange factor activity and phosphatase regulator activity. Predicted to act upstream of or within regulation of GTPase activity. Predicted to be active in cytoplasm and membrane. Human ortholog(s) of this gene implicated in Charcot-Marie-Tooth disease type 4B3. Orthologous to human SBF1 (SET binding factor 1)."
-				}
-			]
-		},
-		{
-			"Model Systems - Rat": [
-				{
-					"data_source": "Aliance Genome",
-					"version": "",
-					"value": null
-				}
-			]
-		},
-		{
 			"Rat Gene Identifier": [
 				{
 					"data_source": "Alliance Genome",
@@ -5419,38 +5182,11 @@
 			]
 		},
 		{
-			"Model Systems - Rat": [
-				{
-					"data_source": "Aliance Genome",
-					"version": "",
-					"value": "Predicted to enable sequence-specific double-stranded DNA binding activity. Involved in aging and brain development. Predicted to be active in nucleus. Orthologous to human FOXG1 (forkhead box G1); INTERACTS WITH Cuprizon; dexamethasone; flavonoids."
-				}
-			]
-		},
-		{
-			"Model Systems - Zebrafish - Automated": [
-				{
-					"data_source": "Alliance Genome",
-					"version": "",
-					"value": "Predicted to enable sequence-specific double-stranded DNA binding activity. Predicted to be involved in regulation of transcription by RNA polymerase II. Predicted to act upstream of or within regulation of transcription, DNA-templated. Predicted to be active in nucleus. Is expressed in forebrain; immature eye; inner ear; and otic vesicle."
-				}
-			]
-		},
-		{
 			"Gene Summary": [
 				{
 					"data_source": "Alliance Genome",
 					"version": "",
 					"value": "This locus encodes a member of the fork-head transcription factor family. The encoded protein, which functions as a transcriptional repressor, is highly expressed in neural tissues during brain development. Mutations at this locus have been associated with Rett syndrome and a diverse spectrum of neurodevelopmental disorders defined as part of the FOXG1 syndrome. This gene is disregulated in many types of cancer and is the target of multiple microRNAs that regulate the proliferation of tumor cells. [provided by RefSeq, Jul 2020]"
-				}
-			]
-		},
-		{
-			"Model Systems - Mouse - Automated": [
-				{
-					"data_source": "Aliance Genome",
-					"version": "",
-					"value": null
 				}
 			]
 		},
@@ -11531,33 +11267,6 @@
 					"data_source": "Rosalution",
 					"version": "",
 					"value": "https://hpo.jax.org/app/browse/search?q=LMNA&navFilter=all"
-				}
-			]
-		},
-		{
-			"Model Systems - Mouse - Automated": [
-				{
-					"data_source": "Aliance Genome",
-					"version": "",
-					"value": null
-				}
-			]
-		},
-		{
-			"Model Systems - Zebrafish - Automated": [
-				{
-					"data_source": "Alliance Genome",
-					"version": "",
-					"value": "Acts upstream of or within heart contraction and regulation of cellular senescence. Predicted to be located in intermediate filament. Is expressed in several structures, including fin; head; mesoderm; musculature system; and pleuroperitoneal region. Human ortholog(s) of this gene implicated in several diseases, including Charcot-Marie-Tooth disease type 2B1; intrinsic cardiomyopathy (multiple); lipodystrophy (multiple); muscular dystrophy (multiple); and type 2 diabetes mellitus (multiple). Orthologous to human LMNA (lamin A/C)."
-				}
-			]
-		},
-		{
-			"Model Systems - Rat": [
-				{
-					"data_source": "Aliance Genome",
-					"version": "",
-					"value": "Enables protein phosphatase 1 binding activity. Involved in several processes, including cellular senescence; negative regulation of adipose tissue development; and positive regulation of osteoblast differentiation. Located in nuclear matrix. Used to study transient cerebral ischemia. Biomarker of arteriosclerosis. Human ortholog(s) of this gene implicated in several diseases, including Charcot-Marie-Tooth disease type 2B1; intrinsic cardiomyopathy (multiple); lipodystrophy (multiple); muscular dystrophy (multiple); and type 2 diabetes mellitus (multiple). Orthologous to human LMNA (lamin A/C); PARTICIPATES IN atherosclerosis pathway; arrhythmogenic right ventricular cardiomyopathy pathway; dilated cardiomyopathy pathway; INTERACTS WITH (+)-schisandrin B; 1,1,1-trichloro-2,2-bis(4-hydroxyphenyl)ethane; 1,1,1-Trichloro-2-(o-chlorophenyl)-2-(p-chlorophenyl)ethane."
 				}
 			]
 		},
@@ -19885,6 +19594,60 @@
 							"species": null
 						}
 					]
+				}
+			]
+		},
+		{
+			"Rat_Alliance_Genome_RGD_Summary": [
+				{
+					"data_source": "Alliance Genome",
+					"version": "",
+					"value": "Enables protein phosphatase 1 binding activity. Involved in several processes, including cellular senescence; negative regulation of adipose tissue development; and positive regulation of osteoblast differentiation. Located in nuclear envelope and nuclear matrix. Used to study transient cerebral ischemia. Biomarker of arteriosclerosis. Human ortholog(s) of this gene implicated in several diseases, including Charcot-Marie-Tooth disease type 2B1; intrinsic cardiomyopathy (multiple); lipodystrophy (multiple); muscular dystrophy (multiple); and type 2 diabetes mellitus (multiple). Orthologous to human LMNA (lamin A/C); PARTICIPATES IN atherosclerosis pathway; arrhythmogenic right ventricular cardiomyopathy pathway; dilated cardiomyopathy pathway; INTERACTS WITH (+)-schisandrin B; 1,1,1-trichloro-2,2-bis(4-hydroxyphenyl)ethane; 1,1,1-Trichloro-2-(o-chlorophenyl)-2-(p-chlorophenyl)ethane."
+				}
+			]
+		},
+		{
+			"Rat_Alliance_Genome_Automated_Summary": [
+				{
+					"data_source": "Alliance Genome",
+					"version": "",
+					"value": "Enables protein phosphatase 1 binding activity. Involved in several processes, including cellular senescence; negative regulation of adipose tissue development; and positive regulation of osteoblast differentiation. Located in nuclear envelope and nuclear matrix. Used to study transient cerebral ischemia. Biomarker of arteriosclerosis. Human ortholog(s) of this gene implicated in several diseases, including Charcot-Marie-Tooth disease type 2B1; intrinsic cardiomyopathy (multiple); lipodystrophy (multiple); muscular dystrophy (multiple); and type 2 diabetes mellitus (multiple). Orthologous to human LMNA (lamin A/C)."
+				}
+			]
+		},
+		{
+			"Zebrafish_Alliance_Genome_ZFIN_Summary": [
+				{
+					"data_source": "Alliance Genome",
+					"version": "",
+					"value": ""
+				}
+			]
+		},
+		{
+			"Zebrafish_Alliance_Genome_Automated_Summary": [
+				{
+					"data_source": "Alliance Genome",
+					"version": "",
+					"value": "Predicted to be a structural constituent of cytoskeleton. Acts upstream of or within several processes, including heart contraction; regulation of cellular senescence; and skeletal muscle tissue development. Predicted to be located in intermediate filament. Predicted to be active in nuclear envelope and nuclear lamina. Is expressed in several structures, including fin; head; mesoderm; musculature system; and pleuroperitoneal region. Used to study muscle tissue disease. Human ortholog(s) of this gene implicated in several diseases, including Charcot-Marie-Tooth disease type 2B1; intrinsic cardiomyopathy (multiple); lipodystrophy (multiple); muscular dystrophy (multiple); and type 2 diabetes mellitus (multiple). Orthologous to human LMNA (lamin A/C)."
+				}
+			]
+		},
+		{
+			"Mouse_Alliance_Genome_MGI_Summary": [
+				{
+					"data_source": "Alliance Genome",
+					"version": "",
+					"value": "PHENOTYPE: Homozygotes for targeted mutations exhibit retarded postnatal growth, muscular dystrophy, reduced fat stores, micrognathy, abnormal dentition, impaired gonadal development, malformed scapulae, hyperkeratosis, and die by 8 weeks of age. [provided by MGI curators]"
+				}
+			]
+		},
+		{
+			"Mouse_Alliance_Genome_Automated_Summary": [
+				{
+					"data_source": "Alliance Genome",
+					"version": "",
+					"value": "Predicted to enable identical protein binding activity and protein phosphatase 1 binding activity. Predicted to be a structural constituent of cytoskeleton. Involved in several processes, including establishment or maintenance of microtubule cytoskeleton polarity; negative regulation of cardiac muscle hypertrophy in response to stress; and protein localization to nucleus. Acts upstream of or within several processes, including negative regulation of apoptotic signaling pathway; protein import into nucleus; and ventricular cardiac muscle cell development. Located in lamin filament and nuclear membrane. Is expressed in several structures, including embryo mesenchyme; epithelium; heart; immune system; and musculature. Used to study several diseases, including Charcot-Marie-Tooth disease type 2B1; achalasia; dilated cardiomyopathy 1A; muscular dystrophy (multiple); and progeria. Human ortholog(s) of this gene implicated in several diseases, including Charcot-Marie-Tooth disease type 2B1; intrinsic cardiomyopathy (multiple); lipodystrophy (multiple); muscular dystrophy (multiple); and type 2 diabetes mellitus (multiple). Orthologous to human LMNA (lamin A/C)."
 				}
 			]
 		}

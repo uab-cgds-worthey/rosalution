@@ -507,10 +507,17 @@ const annotationRenderingTemporary = [
       'class': '',
       'datasets': [
         {
-          'dataset': 'Model Systems - Rat',
+          'dataset': 'Rat_Alliance_Genome_Automated_Summary',
           'type': 'text-dataset',
           'props': {
-            'label': 'Rat',
+            'label': 'AG Summary',
+          },
+        },
+        {
+          'dataset': 'Rat_Alliance_Genome_RGD_Summary',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'RGD Summary',
           },
         },
         {
@@ -530,10 +537,17 @@ const annotationRenderingTemporary = [
       'class': '',
       'datasets': [
         {
-          'dataset': 'Model Systems - Mouse - Automated',
+          'dataset': 'Mouse_Alliance_Genome_Automated_Summary',
           'type': 'text-dataset',
           'props': {
-            'label': 'Mouse - Automated',
+            'label': 'AG Summary',
+          },
+        },
+        {
+          'dataset': 'Mouse_Alliance_Genome_MGI_Summary',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'MGI Summary',
           },
         },
         {
@@ -553,10 +567,17 @@ const annotationRenderingTemporary = [
       'class': '',
       'datasets': [
         {
-          'dataset': 'Model Systems - Zebrafish - Automated',
+          'dataset': 'Zebrafish_Alliance_Genome_Automated_Summary',
           'type': 'text-dataset',
           'props': {
-            'label': 'Zebrafish - Automated',
+            'label': 'AG Summary',
+          },
+        },
+        {
+          'dataset': 'Zebrafish_Alliance_Genome_ZFIN_Summary',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'ZFIN Summary',
           },
         },
         {
@@ -576,10 +597,17 @@ const annotationRenderingTemporary = [
       'class': '',
       'datasets': [
         {
-          'dataset': 'Model Systems - C-Elegens - Automated',
+          'dataset': 'C-Elegens_Alliance_Genome_Automated_Summary',
           'type': 'text-dataset',
           'props': {
-            'label': 'C-Elegens - Automated',
+            'label': 'AG Summary',
+          },
+        },
+        {
+          'dataset': 'C-Elegens_Alliance_Genome_WB_Summary',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'WB Summary',
           },
         },
         {
