@@ -1,7 +1,4 @@
 [{
-	"_id": {
-		"$oid": "648232c4b9704e9aec062a75"
-	},
 	"hgvs_variant": "NM_001017980.3:c.164G>T",
 	"transcripts": [
 		{
