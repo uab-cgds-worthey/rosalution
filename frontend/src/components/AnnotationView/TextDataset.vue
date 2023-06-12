@@ -31,7 +31,7 @@ export default {
   },
   computed: {
     isDataUnavailable: function() {
-      return this.value == '.' || this.value == 'null' || this.value == null;
+      return this.value == '.' || this.value == 'null' || this.value == null || this.value == '';
     },
     dataAvailabilityColour: function() {
       return this.isDataUnavailable ?
