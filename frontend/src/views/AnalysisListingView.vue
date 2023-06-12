@@ -27,7 +27,7 @@
   <app-footer>
     <InputDialog data-test="phenotips-import-dialog"/>
     <NotificationDialog data-test="notification-dialog" />
-    <AnalysisListingLegend/>
+    <AnalysisListingLegend @filtered-statuses="updateFilter"/>
   </app-footer>
 </div>
 </template>
@@ -62,34 +62,44 @@ export default {
       store: authStore,
       searchText: '',
       analysisList: [],
+      filteredStatuses: [],
     };
   },
   computed: {
     username() {
       return this.store.state.username;
     },
+    filteredAnalysisListing() {
+      console.log(this.filteredStatuses)
+      return this.analysisList.filter(analysis => {
+        return !this.filteredStatuses.includes(analysis.latest_status);
+      });
+    },
     searchedAnalysisListing() {
       const lowerCaseSearchText = this.searchText.toLowerCase();
 
-      return this.searchText === '' ? this.analysisList : this.analysisList.filter( (analysis) => {
+      return this.searchText === '' ? this.filteredAnalysisListing : this.filteredAnalysisListing.filter(analysis => {
         return [analysis.name,
-          analysis.created_date,
-          analysis.last_modified_date,
-          analysis.nominated_by,
-        ].some((content) => content.toLowerCase().includes(lowerCaseSearchText)) ||
-          analysis.genomic_units.some((unit) => {
+        analysis.created_date,
+        analysis.last_modified_date,
+        analysis.nominated_by,
+        ].some(content => content.toLowerCase().includes(lowerCaseSearchText)) ||
+          analysis.genomic_units.some(unit => {
             return (unit.gene && unit.gene.toLowerCase().includes(lowerCaseSearchText)) ||
-                (unit.transcripts &&
-                    unit.transcripts.some((transcript) => transcript.toLowerCase().includes(lowerCaseSearchText))) ||
-                (unit.variants && unit.variants.some((variant) => variant.toLowerCase().includes(lowerCaseSearchText)));
+              (unit.transcripts &&
+                unit.transcripts.some(transcript => transcript.toLowerCase().includes(lowerCaseSearchText))) ||
+              (unit.variants && unit.variants.some(variant => variant.toLowerCase().includes(lowerCaseSearchText)));
           });
-      } );
+      });
     },
   },
   created() {
     this.getListing();
   },
   methods: {
+    updateFilter(filter) {
+      this.filteredStatuses = filter;
+    },
     async getListing() {
       this.analysisList.length = 0;
       const analyses = await Analyses.all();
