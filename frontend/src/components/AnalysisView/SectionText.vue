@@ -1,20 +1,27 @@
 <template>
-<div class="section-row">
-  <label class="section-field"
-    v-bind:style="[value.length === 0 && !this.editable ? 'color: var(--rosalution-grey-300);' : 'color: var(--rosalution-black);']" >
-    {{ field }}
-  </label>
-  <span class="section-content">
-    <span v-if="this.editable" role="textbox" class="editable-section-content-values" contenteditable data-test="editable-value" @input="onContentChanged($event)">
-      {{ value.join('\r\n') }}
+  <div class="section-row">
+    <label
+      class="section-field"
+      v-bind:style="[
+        value.length === 0 && !this.editable
+          ? 'color: var(--rosalution-grey-300);'
+          : 'color: var(--rosalution-black);',
+      ]"
+    >
+      {{ field }}
+    </label>
+    <span class="section-content">
+      <span v-if="this.editable" role="textbox" class="editable-section-content-values" contenteditable
+        data-test="editable-value" @input="onContentChanged($event)"
+      >
+        {{ value.join("\r\n") }}
+      </span>
+      <span v-else v-for="(rowValue, index) in value" :key="index" class="section-content-values" data-test="value-row">
+        {{ rowValue }}
+      </span>
     </span>
-    <span v-else v-for="rowValue, index in value" :key="index" class="section-content-values" data-test="value-row">
-      {{ rowValue }}
-    </span>
-  </span>
-</div>
+  </div>
 </template>
-
 
 <script>
 export default {
@@ -39,12 +46,10 @@ export default {
     },
     dataAvailabilityColour: function() {
       return this.isDataUnavailable ?
-        'var(--rosalution-grey-300)' :
-          this.linkout ? 'var(--rosalution-purple-300)' :
-          'var(--rosalution-black)';
+        'var(--rosalution-grey-300)' : this.linkout ? 'var(--rosalution-purple-300)' : 'var(--rosalution-black)';
     },
     content: function() {
-      if (typeof(this.value) == 'object') {
+      if (typeof this.value == 'object') {
         return this.value.join(this.delimeter);
       }
 
@@ -66,7 +71,6 @@ export default {
 </script>
 
 <style scoped>
-
 .section-row {
   display: flex;
   flex-direction: row;

@@ -1,6 +1,6 @@
 <template>
   <div class="rosalution-section-container">
-    <div style="background-color: red;">
+    <div style="background-color: red">
       <input v-if="!this.edit" type="checkbox" v-bind:id="section_toggle" />
       <div class="rosalution-section-header">
         <h2 class="rosalution-section-header-text">
@@ -8,10 +8,16 @@
         </h2>
         <span class="rosalution-section-center"></span>
         <span class="rosalution-header-right-icons">
-          <label v-if="this.attachmentField" class="attach-logo" @click="$emit('attach-image', this.header, this.attachmentField)">
+          <label v-if="this.attachmentField" class="attach-logo"
+            @click="$emit('attach-image', this.header, this.attachmentField)"
+          >
             <font-awesome-layers class="fa-md">
               <font-awesome-icon :icon="['fa', 'file-circle-plus']" />
-              <font-awesome-icon transform="shrink-9.5 left-4.5 down-3" inverse :icon="['fa', 'mountain-sun']"/>
+              <font-awesome-icon
+                transform="shrink-9.5 left-4.5 down-3"
+                inverse
+                :icon="['fa', 'mountain-sun']"
+              />
             </font-awesome-layers>
           </label>
           <label v-if="this.edit" class="edit-logo" id="edit-logo">
@@ -40,7 +46,6 @@
 <script>
 import ImagesDataset from '@/components/AnnotationView/ImagesDataset.vue';
 import SectionText from '@/components/AnalysisView/SectionText.vue';
-
 
 export default {
   name: 'section-box',
@@ -79,10 +84,10 @@ export default {
   },
   computed: {
     hasAttachmentContent() {
-      return (this.attachmentField.length > 0);
+      return this.attachmentField.length > 0;
     },
     sectionImageExist() {
-      for ( const rowContent of this.contentList ) {
+      for (const rowContent of this.contentList) {
         if (rowContent.dataset && rowContent.dataset === this.attachmentField) {
           return rowContent.value > 0;
         }
@@ -130,15 +135,15 @@ input[type="checkbox"] {
   display: none;
 }
 
-.rosalution-section-container input[type="checkbox"]:checked~.field-value-row {
+.rosalution-section-container input[type="checkbox"]:checked ~ .field-value-row {
   display: none;
 }
 
-.rosalution-section-container input[type="checkbox"]:checked~img {
+.rosalution-section-container input[type="checkbox"]:checked ~ img {
   display: none;
 }
 
-input[type="checkbox"]:checked~tr>td>label.collapsable-logo {
+input[type="checkbox"]:checked ~ tr > td > label.collapsable-logo {
   transform: scaleY(-1);
 }
 </style>

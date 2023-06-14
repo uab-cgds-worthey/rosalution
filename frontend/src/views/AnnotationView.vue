@@ -172,7 +172,11 @@ export default {
     },
     async getAnnotations() {
       this.annotations =
-        {...await Annotations.getAnnotations(this.analysis_name, this.active.gene, this.activeVariantWithRemovedProtein)};
+        {
+          ...await Annotations.getAnnotations(
+              this.analysis_name, this.active.gene, this.activeVariantWithRemovedProtein,
+          ),
+        };
     },
     async onActiveGenomicUnitsChanged(genomicUnitsChanged) {
       this.active.gene = genomicUnitsChanged.gene;
