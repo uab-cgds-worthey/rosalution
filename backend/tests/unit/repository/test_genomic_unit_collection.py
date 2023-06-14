@@ -14,7 +14,7 @@ from ...test_utils import mock_mongo_collection, read_database_fixture
 def test_find_genomic_units(genomic_unit_collection):
     """ Gets all the genomic units from the genomic unit collection """
     all_genomic_units = genomic_unit_collection.all()
-    assert len(all_genomic_units) == 14
+    assert len(all_genomic_units) == 18
 
 
 def test_transcript_annotation_not_exist_with_no_annotations(genomic_unit_collection, hgvs_variant_genomic_unit_json):
