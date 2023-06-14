@@ -23,7 +23,7 @@ import {
   faAsterisk, faPause, faCheck, faX, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList, faLayerGroup,
   faBoxArchive, faQuestion, faClock, faClipboardCheck, faMagnifyingGlass, faChevronDown, faChevronRight,
   faUpRightFromSquare, faCirclePlus, faPencil, faEllipsisVertical, faLink, faXmark, faUserDoctor, faPaperclip, faPlus,
-  faAnglesRight, faFileImage, faFileCirclePlus, faMountainSun
+  faAnglesRight, faFileImage, faFileCirclePlus, faMountainSun,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faCopy, faFile, faComment, faCircleCheck, faCircleQuestion, faCircleXmark, faImages,

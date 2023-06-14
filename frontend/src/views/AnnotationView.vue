@@ -134,6 +134,9 @@ export default {
         return section.anchor;
       });
     },
+    activeVariantWithRemovedProtein() {
+      return this.active.variant.replace(/\(.*/, '');
+    },
   },
   async created() {
     await this.getGenomicUnits();
@@ -169,7 +172,7 @@ export default {
     },
     async getAnnotations() {
       this.annotations =
-        {...await Annotations.getAnnotations(this.analysis_name, this.active.gene, this.active.variant)};
+        {...await Annotations.getAnnotations(this.analysis_name, this.active.gene, this.activeVariantWithRemovedProtein)};
     },
     async onActiveGenomicUnitsChanged(genomicUnitsChanged) {
       this.active.gene = genomicUnitsChanged.gene;
@@ -189,7 +192,7 @@ export default {
         return;
       }
 
-      const genomicUnit = genomicUnitType.includes('gene') ? this.active.gene : this.active.variant.replace(/\(.*/, '');
+      const genomicUnit = genomicUnitType.includes('gene') ? this.active.gene : this.activeVariantWithRemovedProtein;
 
       const annotation = {
         genomic_unit_type: genomicUnitType,

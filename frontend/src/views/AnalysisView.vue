@@ -57,24 +57,24 @@
 </template>
 
 <script>
-import Analyses from "@/models/analyses.js";
-import AnalysisViewHeader from "@/components/AnalysisView/AnalysisViewHeader.vue";
-import SectionBox from "@/components/AnalysisView/SectionBox.vue";
-import GeneBox from "@/components/AnalysisView/GeneBox.vue";
-import InputDialog from "@/components/Dialogs/InputDialog.vue";
-import NotificationDialog from "@/components/Dialogs/NotificationDialog.vue";
-import Toast from "@/components/Dialogs/Toast.vue";
-import SupplementalFormList from "@/components/AnalysisView/SupplementalFormList.vue";
-import SaveModal from "@/components/AnalysisView/SaveModal.vue";
+import Analyses from '@/models/analyses.js';
+import AnalysisViewHeader from '@/components/AnalysisView/AnalysisViewHeader.vue';
+import SectionBox from '@/components/AnalysisView/SectionBox.vue';
+import GeneBox from '@/components/AnalysisView/GeneBox.vue';
+import InputDialog from '@/components/Dialogs/InputDialog.vue';
+import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
+import Toast from '@/components/Dialogs/Toast.vue';
+import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
+import SaveModal from '@/components/AnalysisView/SaveModal.vue';
 
-import inputDialog from "@/inputDialog.js";
-import notificationDialog from "@/notificationDialog.js";
-import toast from "@/toast.js";
+import inputDialog from '@/inputDialog.js';
+import notificationDialog from '@/notificationDialog.js';
+import toast from '@/toast.js';
 
-import { authStore } from "@/stores/authStore.js";
+import {authStore} from '@/stores/authStore.js';
 
 export default {
-  name: "analysis-view",
+  name: 'analysis-view',
   components: {
     AnalysisViewHeader,
     SectionBox,
@@ -85,12 +85,12 @@ export default {
     SupplementalFormList,
     SaveModal,
   },
-  props: ["analysis_name"],
-  data: function () {
+  props: ['analysis_name'],
+  data: function() {
     return {
       store: authStore,
       analysis: {
-        name: "",
+        name: '',
         sections: [],
       },
       updatedContent: {},
@@ -106,7 +106,7 @@ export default {
       const sections = this.analysis.sections.map((section) => {
         return section.header;
       });
-      sections.push("Supporting Evidence");
+      sections.push('Supporting Evidence');
       return sections;
     },
 
@@ -114,52 +114,52 @@ export default {
       const actionChoices = [];
 
       actionChoices.push({
-        icon: "pencil",
-        text: "Edit",
+        icon: 'pencil',
+        text: 'Edit',
         operation: () => {
           if (!this.edit) {
-            toast.success("Edit mode has been enabled.");
+            toast.success('Edit mode has been enabled.');
           } else {
-            toast.info("Edit mode has been disabled and changes have not been saved.");
+            toast.info('Edit mode has been disabled and changes have not been saved.');
           }
           this.edit = !this.edit;
         },
       });
 
-      if (this.analysis.latest_status === "Annotation") {
+      if (this.analysis.latest_status === 'Annotation') {
         actionChoices.push({
-          icon: "clipboard-check",
-          text: "Mark Ready",
+          icon: 'clipboard-check',
+          text: 'Mark Ready',
           operation: this.markReady,
         });
       }
 
-      if (this.analysis.latest_status === "Ready") {
+      if (this.analysis.latest_status === 'Ready') {
         actionChoices.push({
-          icon: "book-open",
-          text: "Mark Active",
+          icon: 'book-open',
+          text: 'Mark Active',
           operation: () => {
             Analyses.markAnalysisActive(this.analysis_name);
-            toast.info("The Mark Ready feature is not yet implemented.");
+            toast.info('The Mark Ready feature is not yet implemented.');
           },
         });
       }
 
-      actionChoices.push({ divider: true });
+      actionChoices.push({divider: true});
 
       actionChoices.push({
-        icon: "paperclip",
-        text: "Attach",
+        icon: 'paperclip',
+        text: 'Attach',
         operation: this.addSupportingEvidence,
       });
 
       actionChoices.push({
-        text: "Attach Monday.com",
+        text: 'Attach Monday.com',
         operation: this.addMondayLink,
       });
 
       actionChoices.push({
-        text: "Connect PhenoTips",
+        text: 'Connect PhenoTips',
         operation: this.addPhenotipsLink,
       });
 
@@ -189,10 +189,10 @@ export default {
       console.log(field);
 
       const attachment = await inputDialog
-        .confirmText("Attach")
-        .cancelText("Cancel")
-        .file(includeComments, "file", ".png, .jpg, .jpeg, .bmp")
-        .prompt();
+          .confirmText('Attach')
+          .cancelText('Cancel')
+          .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp')
+          .prompt();
 
       if (!attachment) {
         return;
@@ -200,17 +200,17 @@ export default {
 
       try {
         const updatedSection = await Analyses.attachSectionImage(
-          this.analysis_name,
-          sectionName,
-          field,
-          attachment.data
+            this.analysis_name,
+            sectionName,
+            field,
+            attachment.data,
         );
         this.replaceAnalysisSection(updatedSection);
         // Needed to create this uptick because the replaced element wasn't getting detected to
         // cause it to update this still make cause issue with the edit mode and will need to re-evaluate
         this.uptickSectionKeyToForceReRender();
       } catch (error) {
-        await notificationDialog.title("Failure").confirmText("Ok").alert(error);
+        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
     async updateSectionImage(sectionName) {
@@ -218,18 +218,18 @@ export default {
 
       const includeComments = false;
       const attachment = await inputDialog
-        .confirmText("Update")
-        .deleteText("Remove")
-        .cancelText("Cancel")
-        .file(includeComments, "file", ".png, .jpg, .jpeg, .bmp")
-        .prompt();
+          .confirmText('Update')
+          .deleteText('Remove')
+          .cancelText('Cancel')
+          .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp')
+          .prompt();
 
       if (!attachment) {
         return;
       }
-      
 
-      if ("DELETE" == attachment) {
+
+      if ('DELETE' == attachment) {
         await this.removeSectionImage(sectionName);
         this.uptickSectionKeyToForceReRender();
         return;
@@ -237,9 +237,9 @@ export default {
 
       try {
         const updatedSection = await Analyses.updateSectionImage(
-          this.analysis_name,
-          sectionName,
-          attachment.data
+            this.analysis_name,
+            sectionName,
+            attachment.data,
         );
         this.replaceAnalysisSection(updatedSection);
 
@@ -247,17 +247,17 @@ export default {
         // cause it to update this still make cause issue with the edit mode and will need to re-evaluate
         this.uptickSectionKeyToForceReRender();
       } catch (error) {
-        await notificationDialog.title("Failure").confirmText("Ok").alert(error);
+        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
     async removeSectionImage(sectionName) {
       const confirmedDelete = await notificationDialog
-        .title(`Remove ${sectionName} attachment`)
-        .confirmText("Remove")
-        .cancelText("Cancel")
-        .confirm(
-          "This operation will permanently remove the image. Are you sure you want to remove?"
-        );
+          .title(`Remove ${sectionName} attachment`)
+          .confirmText('Remove')
+          .cancelText('Cancel')
+          .confirm(
+              'This operation will permanently remove the image. Are you sure you want to remove?',
+          );
 
       if (!confirmedDelete) {
         return;
@@ -265,20 +265,20 @@ export default {
 
       try {
         await Analyses.removeSectionImage(this.analysis_name, sectionName);
-        this.replaceAnalysisSection({ header: sectionName, content: [] });
+        this.replaceAnalysisSection({header: sectionName, content: []});
       } catch (error) {
-        await notificationDialog.title("Failure").confirmText("Ok").alert(error);
+        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
     async addSupportingEvidence() {
       const includeComments = true;
       const includeName = true;
       const attachment = await inputDialog
-        .confirmText("Add")
-        .cancelText("Cancel")
-        .file(includeComments, "file", ".pdf, .jpg, .jpeg, .png")
-        .url(includeComments, includeName)
-        .prompt();
+          .confirmText('Add')
+          .cancelText('Cancel')
+          .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png')
+          .url(includeComments, includeName)
+          .prompt();
 
       if (!attachment) {
         return;
@@ -286,23 +286,23 @@ export default {
 
       try {
         const updatedAnalysis = await Analyses.attachSupportingEvidence(
-          this.analysis_name,
-          attachment
+            this.analysis_name,
+            attachment,
         );
         this.analysis.supporting_evidence_files.splice(0);
         this.analysis.supporting_evidence_files.push(
-          ...updatedAnalysis.supporting_evidence_files
+            ...updatedAnalysis.supporting_evidence_files,
         );
       } catch (error) {
-        console.error("Updating the analysis did not work");
+        console.error('Updating the analysis did not work');
       }
     },
     async editSupportingEvidence(attachment) {
       const updatedAttachment = await inputDialog
-        .confirmText("Update")
-        .cancelText("Cancel")
-        .edit(attachment)
-        .prompt();
+          .confirmText('Update')
+          .cancelText('Cancel')
+          .edit(attachment)
+          .prompt();
 
       if (!updatedAttachment) {
         return;
@@ -310,23 +310,23 @@ export default {
 
       try {
         const updatedAnalysis = await Analyses.updateSupportingEvidence(
-          this.analysis_name,
-          updatedAttachment
+            this.analysis_name,
+            updatedAttachment,
         );
         this.analysis.supporting_evidence_files.splice(0);
         this.analysis.supporting_evidence_files.push(
-          ...updatedAnalysis.supporting_evidence_files
+            ...updatedAnalysis.supporting_evidence_files,
         );
       } catch (error) {
-        console.error("Updating the analysis did not work");
+        console.error('Updating the analysis did not work');
       }
     },
     async removeSupportingEvidence(attachmentToDelete) {
       const confirmedDelete = await notificationDialog
-        .title("Delete Supporting Information?")
-        .confirmText("Delete")
-        .cancelText("Cancel")
-        .confirm("Deleting this item will remove it from the supporting evidence list.");
+          .title('Delete Supporting Information?')
+          .confirmText('Delete')
+          .cancelText('Cancel')
+          .confirm('Deleting this item will remove it from the supporting evidence list.');
 
       if (!confirmedDelete) {
         return;
@@ -334,42 +334,42 @@ export default {
 
       try {
         await Analyses.removeSupportingEvidence(
-          this.analysis_name,
-          attachmentToDelete.attachment_id
+            this.analysis_name,
+            attachmentToDelete.attachment_id,
         );
         const attachmentIndex = this.attachments.findIndex((attachment) => {
           return attachment.name == attachmentToDelete.name;
         });
         this.analysis.supporting_evidence_files.splice(attachmentIndex, 1);
       } catch (error) {
-        await notificationDialog.title("Failure").confirmText("Ok").alert(error);
+        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
     downloadSupportingEvidence(attachmentToDownload) {
       Analyses.downloadSupportingEvidence(
-        attachmentToDownload.attachment_id,
-        attachmentToDownload.name
+          attachmentToDownload.attachment_id,
+          attachmentToDownload.name,
       );
     },
     async saveAnalysisChanges() {
       const updatedAnalysis = await Analyses.updateAnalysisSections(
-        this.analysis_name,
-        this.updatedContent
+          this.analysis_name,
+          this.updatedContent,
       );
       this.analysis.sections.splice(0);
       this.analysis.sections.push(...updatedAnalysis.sections);
       this.updatedContent = {};
       this.edit = false;
       this.uptickSectionKeyToForceReRender();
-      toast.success("Analysis updated successfully.");
+      toast.success('Analysis updated successfully.');
     },
     cancelAnalysisChanges() {
       this.edit = false;
       this.updatedContent = {};
-      toast.info("Edit mode has been disabled and changes have not been saved.");
+      toast.info('Edit mode has been disabled and changes have not been saved.');
     },
     async onLogout() {
-      this.$router.push({ name: "logout" });
+      this.$router.push({name: 'logout'});
     },
     uptickSectionKeyToForceReRender() {
       this.forceRenderComponentKey += 1;
@@ -384,7 +384,7 @@ export default {
     },
     replaceAnalysisSection(sectionToReplace) {
       const originalSectionIndex = this.sectionsList.findIndex(
-        (section) => section.header == sectionToReplace.header
+          (section) => section.header == sectionToReplace.header,
       );
       this.analysis.sections.splice(originalSectionIndex, 1, sectionToReplace);
     },
@@ -392,10 +392,10 @@ export default {
       const includeComments = false;
       const includeName = false;
       const mondayLink = await inputDialog
-        .confirmText("Add")
-        .cancelText("Cancel")
-        .url(includeComments, includeName)
-        .prompt();
+          .confirmText('Add')
+          .cancelText('Cancel')
+          .url(includeComments, includeName)
+          .prompt();
 
       if (!mondayLink) {
         return;
@@ -403,24 +403,24 @@ export default {
 
       try {
         const updatedAnalysis = await Analyses.attachThirdPartyLink(
-          this.analysis_name,
-          "monday_com",
-          mondayLink.data
+            this.analysis_name,
+            'monday_com',
+            mondayLink.data,
         );
 
-        this.analysis = { ...this.analysis, ...updatedAnalysis };
+        this.analysis = {...this.analysis, ...updatedAnalysis};
       } catch (error) {
-        console.error("Updating the analysis did not work", error);
+        console.error('Updating the analysis did not work', error);
       }
     },
     async addPhenotipsLink() {
       const includeComments = false;
       const includeName = false;
       const phenotipsLink = await inputDialog
-        .confirmText("Add")
-        .cancelText("Cancel")
-        .url(includeComments, includeName)
-        .prompt();
+          .confirmText('Add')
+          .cancelText('Cancel')
+          .url(includeComments, includeName)
+          .prompt();
 
       if (!phenotipsLink) {
         return;
@@ -428,23 +428,23 @@ export default {
 
       try {
         const updatedAnalysis = await Analyses.attachThirdPartyLink(
-          this.analysis_name,
-          "phenotips_com",
-          phenotipsLink.data
+            this.analysis_name,
+            'phenotips_com',
+            phenotipsLink.data,
         );
 
-        this.analysis = { ...this.analysis, ...updatedAnalysis };
+        this.analysis = {...this.analysis, ...updatedAnalysis};
       } catch (error) {
-        console.error("Updating the analysis did not work", error);
+        console.error('Updating the analysis did not work', error);
       }
     },
     async markReady() {
       try {
         const updatedAnalysis = await Analyses.markAnalysisReady(this.analysis_name);
-        this.analysis = { ...this.analysis, ...updatedAnalysis };
-        toast.success("Analysis marked as ready.");
+        this.analysis = {...this.analysis, ...updatedAnalysis};
+        toast.success('Analysis marked as ready.');
       } catch (error) {
-        toast.error("Error marking analysis as ready.");
+        toast.error('Error marking analysis as ready.');
       }
     },
   },

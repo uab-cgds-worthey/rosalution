@@ -82,7 +82,6 @@ export default {
       return (this.attachmentField.length > 0);
     },
     sectionImageExist() {
-      console.log('section image existing?')
       for ( const rowContent of this.contentList ) {
         if (rowContent.dataset && rowContent.dataset === this.attachmentField) {
           return rowContent.value > 0;

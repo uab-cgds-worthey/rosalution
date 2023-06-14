@@ -170,35 +170,6 @@ class AnalysisCollection:
 
         return updated_document
 
-    def add_section_image(self, analysis_name: str, section_name: str, field_name: str, file_id: str):
-        """
-        Adds an image to a section within an analysis specified by the the name of the section (the header) and
-        """
-        updated_document = self.collection.find_one({"name": analysis_name})
-        if "_id" in updated_document:
-            updated_document.pop("_id", None)
-
-        updated_section = None
-        for section in updated_document['sections']:
-            if section_name == section['header']:
-                updated_section = section
-
-        if None is updated_section:
-            raise ValueError(f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach image to '{field_name}' field in section '{section_name}")
-
-        for content_row in updated_section['content']:
-            if content_row["dataset"] and content_row["dataset"] == field_name:
-                content_row["value"].append({'file_id': str(file_id)})
-
-        self.collection.find_one_and_update(
-            {"name": analysis_name},
-            {'$set': updated_document},
-        )
-
-        print(updated_document)
-
-        return updated_section
-
     def get_genomic_units(self, analysis_name: str):
         """ Returns the genomic units for an analysis with variants displayed in the HGVS Nomenclature """
         genomic_units_return = {"genes": {}, "variants": []}
@@ -263,6 +234,35 @@ class AnalysisCollection:
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
         return updated_document
+
+    def add_section_image(self, analysis_name: str, section_name: str, field_name: str, file_id: str):
+        """
+        Adds an image to a section within an analysis specified by the the name of the section (the header) and
+        """
+        updated_document = self.collection.find_one({"name": analysis_name})
+        if "_id" in updated_document:
+            updated_document.pop("_id", None)
+
+        updated_section = None
+        for section in updated_document['sections']:
+            if section_name == section['header']:
+                updated_section = section
+
+        if None is updated_section:
+            raise ValueError(f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach image to '{field_name}' field in section '{section_name}")
+
+        for content_row in updated_section['content']:
+            if content_row["dataset"] and content_row["dataset"] == field_name:
+                content_row["value"].append({'file_id': str(file_id)})
+
+        self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {'$set': updated_document},
+        )
+
+        print(updated_document)
+
+        return updated_section
 
     def get_pedigree_file_id(self, analysis_name: str):
         """ Returns the pedigree file id for an analysis """
