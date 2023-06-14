@@ -1,63 +1,18 @@
 <template>
   <div class="legend">
-    <!-- Annotating -->
-    <div class="status" @click="toggleFilter('annotation')">
-      <font-awesome-icon icon="asterisk" size="lg" :style="{
-        color: isFiltered('annotation')
-          ? 'var(--rosalution-grey-300)'
-          : 'var(--rosalution-status-annotation)'
+    <div v-for="status in statuses" :key="status.name" class="status" @click="toggleFilter(status.name)">
+      <font-awesome-icon :icon="status.icon" size="lg" :style="{
+        color: isFiltered(status.name)
+          ? `var(--rosalution-status-${status.name})`
+          : 'var(--rosalution-grey-300)',
       }" />
-      <p :style="{ color: isFiltered('annotation') ? 'var(--rosalution-grey-300)' : '' }">Annotating</p>
-    </div>
-
-    <!-- Ready -->
-    <div class="status" @click="toggleFilter('ready')">
-      <font-awesome-icon icon="clipboard-check" size="lg" :style="{
-        color: isFiltered('ready')
-          ? 'var(--rosalution-grey-300)'
-          : 'var(--rosalution-status-ready)'
-      }" />
-      <p :style="{ color: isFiltered('ready') ? 'var(--rosalution-grey-300)' : '' }">Ready</p>
-    </div>
-
-    <!-- Active -->
-    <div class="status" @click="toggleFilter('active')">
-      <font-awesome-icon icon="book-open" size="lg" :style="{
-        color: isFiltered('active')
-          ? 'var(--rosalution-grey-300)'
-          : 'var(--rosalution-status-active)'
-      }" />
-      <p :style="{ color: isFiltered('active') ? 'var(--rosalution-grey-300)' : '' }">Active</p>
-    </div>
-
-    <!-- On Hold -->
-    <div class="status" @click="toggleFilter('on-hold')">
-      <font-awesome-icon icon="pause" size="lg" :style="{
-        color: isFiltered('on-hold')
-          ? 'var(--rosalution-grey-300)'
-          : 'var(--rosalution-status-on-hold)'
-      }" />
-      <p :style="{ color: isFiltered('on-hold') ? 'var(--rosalution-grey-300)' : '' }">On Hold</p>
-    </div>
-
-    <!-- Approved -->
-    <div class="status" @click="toggleFilter('approved')">
-      <font-awesome-icon icon="check" size="lg" :style="{
-        color: isFiltered('approved')
-          ? 'var(--rosalution-grey-300)'
-          : 'var(--rosalution-status-approved)'
-      }" />
-      <p :style="{ color: isFiltered('approved') ? 'var(--rosalution-grey-300)' : '' }">Approved</p>
-    </div>
-
-    <!-- Declined -->
-    <div class="status" @click="toggleFilter('declined')">
-      <font-awesome-icon icon="x" size="lg" :style="{
-        color: isFiltered('declined')
-          ? 'var(--rosalution-grey-300)'
-          : 'var(--rosalution-status-declined)'
-      }" />
-      <p :style="{ color: isFiltered('declined') ? 'var(--rosalution-grey-300)' : '' }">Declined</p>
+      <p :style="{
+        color: isFiltered(status.name)
+          ? ''
+          : 'var(--rosalution-grey-300)',
+      }">
+        {{ status.displayName }}
+      </p>
     </div>
   </div>
 </template>
@@ -73,23 +28,35 @@ export default {
   },
   data() {
     return {
-      filteredStatuses: [],
+      activeFilters: [],
+      statuses: [
+        {name: 'annotation', displayName: 'Annotating', icon: 'asterisk'},
+        {name: 'ready', displayName: 'Ready', icon: 'clipboard-check'},
+        {name: 'active', displayName: 'Active', icon: 'book-open'},
+        {name: 'on-hold', displayName: 'On Hold', icon: 'pause'},
+        {name: 'approved', displayName: 'Approved', icon: 'check'},
+        {name: 'declined', displayName: 'Declined', icon: 'times'},
+      ],
     };
   },
   methods: {
     toggleFilter(status) {
-      if (this.isFiltered(status)) {
-        const index = this.filteredStatuses.indexOf(status);
-        if (index !== -1) {
-          this.filteredStatuses.splice(index, 1);
-        }
+      const index = this.activeFilters.indexOf(status);
+
+      if (index !== -1) {
+        this.activeFilters.splice(index, 1);
       } else {
-        this.filteredStatuses.push(status);
+        this.activeFilters.push(status);
       }
-      this.$emit('filtered-statuses', this.filteredStatuses);
+
+      if (this.activeFilters.length === this.statuses.length) {
+        this.activeFilters = [];
+      }
+
+      this.$emit('filtered-statuses', this.activeFilters);
     },
     isFiltered(status) {
-      return this.filteredStatuses.includes(status);
+      return this.activeFilters.includes(status) || this.activeFilters.length === 0;
     },
   },
 };

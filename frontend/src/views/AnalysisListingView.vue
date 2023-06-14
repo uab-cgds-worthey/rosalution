@@ -70,25 +70,25 @@ export default {
       return this.store.state.username;
     },
     filteredAnalysisListing() {
-      return this.analysisList.filter(analysis => {
-        return !this.filteredStatuses.includes(analysis.latest_status.toLowerCase());
-
+      return this.analysisList.filter((analysis) => {
+        return this.filteredStatuses.length === 0 ||
+          this.filteredStatuses.includes(analysis.latest_status.toLowerCase());
       });
     },
     searchedAnalysisListing() {
       const lowerCaseSearchText = this.searchText.toLowerCase();
 
-      return this.searchText === '' ? this.filteredAnalysisListing : this.filteredAnalysisListing.filter(analysis => {
+      return this.searchText === '' ? this.filteredAnalysisListing : this.filteredAnalysisListing.filter((analysis) => {
         return [analysis.name,
-        analysis.created_date,
-        analysis.last_modified_date,
-        analysis.nominated_by,
-        ].some(content => content.toLowerCase().includes(lowerCaseSearchText)) ||
-          analysis.genomic_units.some(unit => {
+          analysis.created_date,
+          analysis.last_modified_date,
+          analysis.nominated_by,
+        ].some((content) => content.toLowerCase().includes(lowerCaseSearchText)) ||
+          analysis.genomic_units.some((unit) => {
             return (unit.gene && unit.gene.toLowerCase().includes(lowerCaseSearchText)) ||
               (unit.transcripts &&
-                unit.transcripts.some(transcript => transcript.toLowerCase().includes(lowerCaseSearchText))) ||
-              (unit.variants && unit.variants.some(variant => variant.toLowerCase().includes(lowerCaseSearchText)));
+                unit.transcripts.some((transcript) => transcript.toLowerCase().includes(lowerCaseSearchText))) ||
+              (unit.variants && unit.variants.some((variant) => variant.toLowerCase().includes(lowerCaseSearchText)));
           });
       });
     },
@@ -97,8 +97,8 @@ export default {
     this.getListing();
   },
   methods: {
-    updateFilter(filter) {
-      this.filteredStatuses = filter;
+    updateFilter(filteredStatuses) {
+      this.filteredStatuses = filteredStatuses;
     },
     async getListing() {
       this.analysisList.length = 0;
