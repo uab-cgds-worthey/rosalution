@@ -70,9 +70,9 @@ export default {
       return this.store.state.username;
     },
     filteredAnalysisListing() {
-      console.log(this.filteredStatuses)
       return this.analysisList.filter(analysis => {
-        return !this.filteredStatuses.includes(analysis.latest_status);
+        return !this.filteredStatuses.includes(analysis.latest_status.toLowerCase());
+
       });
     },
     searchedAnalysisListing() {

@@ -1,13 +1,13 @@
 <template>
   <div class="legend">
     <!-- Annotating -->
-    <div class="status" @click="toggleFilter('annotating')">
+    <div class="status" @click="toggleFilter('annotation')">
       <font-awesome-icon icon="asterisk" size="lg" :style="{
-        color: isFiltered('annotating')
+        color: isFiltered('annotation')
           ? 'var(--rosalution-grey-300)'
           : 'var(--rosalution-status-annotation)'
       }" />
-      <p :style="{ color: isFiltered('annotating') ? 'var(--rosalution-grey-300)' : '' }">Annotating</p>
+      <p :style="{ color: isFiltered('annotation') ? 'var(--rosalution-grey-300)' : '' }">Annotating</p>
     </div>
 
     <!-- Ready -->
@@ -31,13 +31,13 @@
     </div>
 
     <!-- On Hold -->
-    <div class="status" @click="toggleFilter('onHold')">
+    <div class="status" @click="toggleFilter('on-hold')">
       <font-awesome-icon icon="pause" size="lg" :style="{
-        color: isFiltered('onHold')
+        color: isFiltered('on-hold')
           ? 'var(--rosalution-grey-300)'
           : 'var(--rosalution-status-on-hold)'
       }" />
-      <p :style="{ color: isFiltered('onHold') ? 'var(--rosalution-grey-300)' : '' }">On Hold</p>
+      <p :style="{ color: isFiltered('on-hold') ? 'var(--rosalution-grey-300)' : '' }">On Hold</p>
     </div>
 
     <!-- Approved -->
@@ -79,20 +79,16 @@ export default {
   methods: {
     toggleFilter(status) {
       if (this.isFiltered(status)) {
-        // If the status is already filtered, remove it from the array
         const index = this.filteredStatuses.indexOf(status);
         if (index !== -1) {
           this.filteredStatuses.splice(index, 1);
         }
       } else {
-        // If the status is not filtered, add it to the array
         this.filteredStatuses.push(status);
       }
-      // Emit the filtered statuses
       this.$emit('filtered-statuses', this.filteredStatuses);
     },
     isFiltered(status) {
-      // A status is filtered if it's in the array
       return this.filteredStatuses.includes(status);
     },
   },
