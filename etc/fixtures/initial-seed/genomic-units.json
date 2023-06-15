@@ -1,7 +1,4 @@
 [{
-	"_id": {
-		"$oid": "648b28ed1b75216ed353097f"
-	},
 	"gene_symbol": "VMA21",
 	"gene": "VMA21",
 	"annotations": [
@@ -241,9 +238,6 @@
 	]
 },
 {
-	"_id": {
-		"$oid": "648b28ed1b75216ed3530980"
-	},
 	"hgvs_variant": "NM_005249.5:c.924G>A",
 	"transcripts": [
 		{
@@ -603,9 +597,6 @@
 	]
 },
 {
-	"_id": {
-		"$oid": "648b28ed1b75216ed3530981"
-	},
 	"hgvs_variant": "NM_001017980.3:c.164G>T",
 	"transcripts": [
 		{
@@ -782,9 +773,6 @@
 	]
 },
 {
-	"_id": {
-		"$oid": "648b28ed1b75216ed3530982"
-	},
 	"hgvs_variant": "NM_170707.3:c.745C>T",
 	"transcripts": [
 		{
@@ -1318,17 +1306,11 @@
 	]
 },
 {
-	"_id": {
-		"$oid": "648b28ed1b75216ed3530983"
-	},
 	"gene_symbol": "DMD",
 	"gene": "DMD",
 	"annotations": []
 },
 {
-	"_id": {
-		"$oid": "648b28ed1b75216ed3530984"
-	},
 	"hgvs_variant": "NM_153818.2:c.28dup",
 	"transcripts": [
 		{
@@ -1766,9 +1748,6 @@
 	]
 },
 {
-	"_id": {
-		"$oid": "648b28ed1b75216ed3530985"
-	},
 	"hgvs_variant": "NM_005249.5:c.256dup",
 	"transcripts": [
 		{
@@ -1925,9 +1904,6 @@
 	]
 },
 {
-	"_id": {
-		"$oid": "648b28ed1b75216ed3530986"
-	},
 	"hgvs_variant": "NM_002972.2:c.5474_5475delTG",
 	"transcripts": [
 		{
@@ -2994,9 +2970,6 @@
 	]
 },
 {
-	"_id": {
-		"$oid": "648b28ed1b75216ed3530987"
-	},
 	"hgvs_variant": "NM_153818.2:c.928C>G",
 	"transcripts": [
 		{
@@ -3521,9 +3494,6 @@
 	]
 },
 {
-	"_id": {
-		"$oid": "648b28ed1b75216ed3530988"
-	},
 	"gene_symbol": "PEX10",
 	"gene": "PEX10",
 	"annotations": [
@@ -4117,9 +4087,6 @@
 	]
 },
 {
-	"_id": {
-		"$oid": "648b28ed1b75216ed3530989"
-	},
 	"hgvs_variant": "NM_002972.2:c.3493_3494dupTA",
 	"transcripts": [
 		{
@@ -4278,9 +4245,6 @@
 	]
 },
 {
-	"_id": {
-		"$oid": "648b28ed1b75216ed353098a"
-	},
 	"gene_symbol": "SBF1",
 	"gene": "SBF1",
 	"annotations": [
@@ -5157,9 +5121,6 @@
 	]
 },
 {
-	"_id": {
-		"$oid": "648b28ed1b75216ed353098b"
-	},
 	"gene_symbol": "DLG4",
 	"gene": "DLG4",
 	"annotations": [
@@ -6436,9 +6397,6 @@
 	]
 },
 {
-	"_id": {
-		"$oid": "648b28ed1b75216ed353098c"
-	},
 	"hgvs_variant": "NM_001360016.2:c.563C>T",
 	"chromosome": "",
 	"position": "",
@@ -6688,9 +6646,6 @@
 	]
 },
 {
-	"_id": {
-		"$oid": "648b28ed1b75216ed353098d"
-	},
 	"hgvs_variant": "NM_001365.4:c.1039del",
 	"chromosome": "",
 	"position": "",
@@ -7272,9 +7227,6 @@
 	]
 },
 {
-	"_id": {
-		"$oid": "648b28ed1b75216ed353098e"
-	},
 	"gene_symbol": "G6PD",
 	"gene": "G6PD",
 	"annotations": [
@@ -8183,9 +8135,6 @@
 	]
 },
 {
-	"_id": {
-		"$oid": "648b28ed1b75216ed353098f"
-	},
 	"gene_symbol": "FOXG1",
 	"gene": "FOXG1",
 	"annotations": [
@@ -13885,9 +13834,6 @@
 	]
 },
 {
-	"_id": {
-		"$oid": "648b28ed1b75216ed3530990"
-	},
 	"gene_symbol": "LMNA",
 	"gene": "LMNA",
 	"annotations": [
