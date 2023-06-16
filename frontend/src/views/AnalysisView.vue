@@ -30,12 +30,25 @@
         :analysis_name="this.analysis_name"
         :header="section.header"
         :attachmentField="section.attachment_field"
-        :content="section.content"
         :edit="this.edit"
         @attach-image="this.attachSectionImage"
-        @update-image="this.updateSectionImage"
         @update:content-row="this.onAnalysisContentUpdated"
-      />
+      >
+        <template #default>
+          <component
+            v-for="(contentRow, index) in section.content"
+            :key="`${contentRow.field}-${index}`"
+            :is="contentRow.type"
+            :editable="this.edit"
+            :field="contentRow.field"
+            :dataSet="contentRow.dataset"
+            :value="contentRow.value"
+            :data-test="contentRow.field"
+            @update-annotation-image="this.updateSectionImage"
+            @update:section-text="this.onContentChanged"
+          />
+        </template>
+      </SectionBox>
       <SupplementalFormList
         id="Supporting_Evidence"
         :attachments="this.attachments"
@@ -66,6 +79,8 @@ import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import Toast from '@/components/Dialogs/Toast.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
 import SaveModal from '@/components/AnalysisView/SaveModal.vue';
+import ImagesDataset from '@/components/AnnotationView/ImagesDataset.vue';
+import SectionText from '@/components/AnalysisView/SectionText.vue';
 
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
@@ -84,6 +99,8 @@ export default {
     Toast,
     SupplementalFormList,
     SaveModal,
+    SectionText,
+    ImagesDataset,
   },
   props: ['analysis_name'],
   data: function() {
@@ -109,7 +126,6 @@ export default {
       sections.push('Supporting Evidence');
       return sections;
     },
-
     menuActions() {
       const actionChoices = [];
 
@@ -183,6 +199,15 @@ export default {
     async getAnalysis() {
       this.analysis = await Analyses.getAnalysis(this.analysis_name);
     },
+    onContentChanged(sectionText) {
+      const contentRow = {
+        header: this.header,
+        ...sectionText,
+      };
+      console.log(contentRow);
+      console.log('content row');
+      this.$emit('update:contentRow', contentRow);
+    },
     async attachSectionImage(sectionName, field) {
       const includeComments = false;
       console.log(sectionName);
@@ -213,8 +238,9 @@ export default {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
-    async updateSectionImage(sectionName) {
-      console.log(sectionName);
+    async updateSectionImage(fileId, dataSet) {
+      console.log(fileId);
+      console.log(dataSet);
 
       const includeComments = false;
       const attachment = await inputDialog
@@ -238,7 +264,9 @@ export default {
       try {
         const updatedSection = await Analyses.updateSectionImage(
             this.analysis_name,
-            sectionName,
+            dataSet,
+            'Images',
+            fileId,
             attachment.data,
         );
         this.replaceAnalysisSection(updatedSection);

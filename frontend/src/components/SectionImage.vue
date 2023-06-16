@@ -6,6 +6,8 @@
       <a href="#_" class="lightbox" :id="imageId">
         <span :style="{backgroundImage: `url(${this.imageSrc})`}"></span>
       </a>
+      <!-- TODO: Since both AnalysisView and AnnotationView are using this component, 
+        change the emit to be update-image -->
         <button
           class="edit-icon"
           @click="$emit('update-annotation-image', imageId, dataSet, genomicType)"
@@ -52,7 +54,7 @@ export default {
     async sectionImageUpdate() {
       const loadingImage = await FileRequests.getImage(this.imageId);
       this.imageSrc = loadingImage;
-    },
+    }
   },
 };
 </script>

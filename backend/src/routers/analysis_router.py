@@ -126,7 +126,7 @@ def download(analysis_name: str, file_name: str, repositories=Depends(database))
     return StreamingResponse(repositories['bucket'].stream_analysis_file_by_id(file['attachment_id']))
 
 
-@router.post("/{analysis_name}/section/attach/image/", response_model=Section, response_model_exclude_none=True)
+@router.post("/{analysis_name}/section/attach/image", response_model=Section, response_model_exclude_none=True)
 def upload_section_image(
     response: Response,
     analysis_name: str,
@@ -151,7 +151,7 @@ def upload_section_image(
     return updated_section
 
 
-@router.post("/{analysis_name}/section/update/{old_file_id}", response_model=Section)
+@router.put("/{analysis_name}/section/update/{old_file_id}", response_model=Section)
 def replace_analysis_section_image(
     analysis_name: str,
     old_file_id: str,
@@ -161,22 +161,36 @@ def replace_analysis_section_image(
     repositories=Depends(database)
 ):
     """ Replaces the existing image by the file identifier with the uploaded one. """
-    try:
-        pedigree_file_id = repositories["analysis"].get_pedigree_file_id(analysis_name)
-    except ValueError as exception:
-        warnings.warn(str(exception))
-        pedigree_file_id = None
-    try:
-        repositories["bucket"].delete_file(pedigree_file_id)
-        repositories["analysis"].remove_pedigree_file(analysis_name)
-    except ValueError as exception:
-        raise HTTPException(status_code=404, detail=str(exception)) from exception
-    new_file_object_id = repositories["bucket"].save_file(
-        upload_file.file, upload_file.filename, upload_file.content_type
-    )
 
-    updated_section = repositories["analysis"].add_pedigree_file(analysis_name, new_file_object_id)
-    return updated_section
+    print("==========================")
+    print(analysis_name)
+    print(old_file_id)
+    print(upload_file.filename)
+    print(section_name)
+    print(field_name)
+    print("==========================")
+
+    new_file_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_type)
+
+    
+
+
+    # try:
+    #     section_file_id = repositories["analysis"].get_pedigree_file_id(analysis_name)
+    # except ValueError as exception:
+    #     warnings.warn(str(exception))
+    #     pedigree_file_id = None
+    # try:
+    #     repositories["bucket"].delete_file(pedigree_file_id)
+    #     repositories["analysis"].remove_pedigree_file(analysis_name)
+    # except ValueError as exception:
+    #     raise HTTPException(status_code=404, detail=str(exception)) from exception
+    # new_file_object_id = repositories["bucket"].save_file(
+    #     upload_file.file, upload_file.filename, upload_file.content_type
+    # )
+
+    # updated_section = repositories["analysis"].add_pedigree_file(analysis_name, new_file_object_id)
+    # return updated_section
 
 
 @router.delete("/{analysis_name}/remove/section/{file_id}")

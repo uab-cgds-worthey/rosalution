@@ -29,30 +29,14 @@
         </span>
       </div>
       <div class="rosalution-section-seperator"></div>
-      <component
-        v-for="(contentRow, index) in this.contentList"
-        :key="`${contentRow.field}-${index}`"
-        :is="contentRow.type"
-        :editable="this.edit"
-        :field="contentRow.field"
-        :value="contentRow.value"
-        :data-test="contentRow.field"
-        @update:section-text="this.onContentChanged"
-      />
+      <slot></slot>
     </div>
   </div>
 </template>
 
 <script>
-import ImagesDataset from '@/components/AnnotationView/ImagesDataset.vue';
-import SectionText from '@/components/AnalysisView/SectionText.vue';
-
 export default {
   name: 'section-box',
-  components: {
-    SectionText,
-    ImagesDataset,
-  },
   emits: ['update:contentRow', 'attach-image', 'update-image'],
   props: {
     analysis_name: {
@@ -94,17 +78,6 @@ export default {
       }
 
       return false;
-    },
-  },
-  methods: {
-    onContentChanged(sectionText) {
-      const contentRow = {
-        header: this.header,
-        ...sectionText,
-      };
-      console.log(contentRow);
-      console.log('content row');
-      this.$emit('update:contentRow', contentRow);
     },
   },
 };

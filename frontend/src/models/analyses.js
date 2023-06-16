@@ -74,8 +74,6 @@ export default {
       'field_name': field,
     };
 
-    console.log(attachmentForm);
-
     return await Requests.postForm(url, attachmentForm);
   },
 
