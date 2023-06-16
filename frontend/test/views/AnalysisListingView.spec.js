@@ -7,6 +7,7 @@ import Analyses from '@/models/analyses.js';
 import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
 import AnalysisCreateCard from '@/components/AnalysisListing/AnalysisCreateCard.vue';
 import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
+import AnalysisListingLegend from '@/components/AnalysisListing/AnalysisListingLegend.vue';
 import AnalysisListingView from '@/views/AnalysisListingView.vue';
 
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
@@ -134,6 +135,14 @@ describe('AnalysisListingView', () => {
     await header.vm.$nextTick();
 
     expect(wrapper.vm.$router.push.called).to.be.true;
+  });
+
+  it('should update the filter when the analysis listing header emits the update event', async () => {
+    const legend = wrapper.findComponent(AnalysisListingLegend);
+    legend.vm.$emit('filtered-statuses', ['Approved']);
+    await legend.vm.$nextTick();
+
+    expect(wrapper.vm.filteredStatuses).to.contain('Approved');
   });
 });
 
