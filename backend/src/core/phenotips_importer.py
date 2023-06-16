@@ -77,9 +77,6 @@ class PhenotipsImporter:
                     {"field": 'Nominator', "value": []},
                     {"field": 'Participant', "value": []},
                     {"field": 'Phenotype', "value": []},
-                    {"field": 'Model of Interest', "value": []},
-                    {"field": 'Goals', "value": []},
-                    {"field": 'Proposed Model/Project', "value": []},
                 ]
             }, {
                 "header": 'Clinical History', "content": [
@@ -91,7 +88,24 @@ class PhenotipsImporter:
                     {"field": 'HPO Terms', "value": [self.extract_hpo_terms(phenotips_json_data["features"])]},
                     {"field": 'Additional Details', "value": []},
                 ]
-            }, {"header": 'Pedigree', "content": []}]
+            }, {"header": 'Pedigree', "content": [
+            ]},{
+                "header": str(phenotips_json_data["gene"] + "Gene to Phenotype (like pedigree)"), "content":[]
+            }, {
+                "header": str(phenotips_json_data["gene"] + "Molecular Mechanism"), "content":[
+                    {"field": 'Function', "value": []}
+                ]
+            },{
+                "header": str(phenotips_json_data["gene"] + "Function"), "content":[]
+            },{
+                "header": 'Model Goals', "content": [
+                    {"field": 'Model of Interest', "value": []},
+                    {"field": 'Goals', "value": []},
+                    {"field": 'Proposed Model/Project', "value": []},
+                    {"field": 'Existing Collaborations', "value": []},
+                    {"field": 'Existing Funding', "value": []},
+            ]
+            }]
         }
 
         for phenotips_gene in phenotips_genes:
