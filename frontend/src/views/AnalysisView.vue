@@ -184,8 +184,6 @@ export default {
     },
     async attachSectionImage(sectionName, field) {
       const includeComments = false;
-      console.log(sectionName);
-      console.log(field);
 
       const attachment = await inputDialog
           .confirmText('Attach')
@@ -213,11 +211,6 @@ export default {
       }
     },
     async updateSectionImage(fileId, sectionName, field) {
-      console.log('Update image clicked');
-      console.log(fileId);
-      console.log(sectionName);
-      console.log(field);
-
       const includeComments = false;
       const attachment = await inputDialog
           .confirmText('Update')
@@ -233,7 +226,6 @@ export default {
 
       if ('DELETE' == attachment) {
         await this.removeSectionImage(fileId, sectionName, field);
-        this.uptickSectionKeyToForceReRender();
         return;
       }
 
@@ -269,7 +261,19 @@ export default {
 
       try {
         await Analyses.removeSectionImage(this.analysis_name, sectionName, field, fileId);
-        this.replaceAnalysisSection({header: sectionName, content: []});
+
+        let updatedSection = this.sectionsList.find(section => {
+          return section.header == sectionName
+        });
+
+        updatedSection.content.forEach(obj => {
+          obj.value = obj.value.filter(value => {
+            return value.file_id != fileId; 
+          });
+        })
+          
+        this.replaceAnalysisSection(updatedSection);
+        this.uptickSectionKeyToForceReRender();
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }

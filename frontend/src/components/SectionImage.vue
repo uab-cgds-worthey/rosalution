@@ -48,8 +48,6 @@ export default {
     };
   },
   created() {
-    console.log(this.imageId);
-    console.log(this.dataSet);
     this.sectionImageUpdate();
   },
   methods: {
