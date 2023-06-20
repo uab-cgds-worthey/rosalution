@@ -183,6 +183,7 @@ export default {
     },
 
     sectionsList() {
+      console.log(this.analysis.sections)
       return this.analysis.sections;
     },
     attachments() {
@@ -256,16 +257,17 @@ export default {
 
 
       if ('DELETE' == attachment) {
-        await this.removeSectionImage(sectionName);
+        await this.removeSectionImage(fileId, dataSet);
         this.uptickSectionKeyToForceReRender();
         return;
       }
 
       try {
+        // TODO: Update this to use SectionName and FieldName instead of dataSet dataSet
         const updatedSection = await Analyses.updateSectionImage(
             this.analysis_name,
             dataSet,
-            'Images',
+            dataSet,
             fileId,
             attachment.data,
         );
@@ -278,9 +280,9 @@ export default {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
-    async removeSectionImage(sectionName) {
+    async removeSectionImage(fileId, dataSet) {
       const confirmedDelete = await notificationDialog
-          .title(`Remove ${sectionName} attachment`)
+          .title(`Remove ${dataSet} attachment`)
           .confirmText('Remove')
           .cancelText('Cancel')
           .confirm(
@@ -292,8 +294,8 @@ export default {
       }
 
       try {
-        await Analyses.removeSectionImage(this.analysis_name, sectionName);
-        this.replaceAnalysisSection({header: sectionName, content: []});
+        await Analyses.removeSectionImage(this.analysis_name, dataSet, dataSet, fileId)
+        this.replaceAnalysisSection({header: dataSet, content: []});
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }

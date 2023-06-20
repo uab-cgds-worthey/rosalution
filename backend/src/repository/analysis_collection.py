@@ -264,6 +264,64 @@ class AnalysisCollection:
 
         return updated_section
 
+    def update_section_image(self, analysis_name: str, section_name: str, field_name: str, file_id: str, file_id_old: str):
+        updated_document = self.collection.find_one({"name": analysis_name})
+        
+        if "_id" in updated_document:
+            updated_document.pop("_id", None)
+
+        updated_section = None
+        for section in updated_document['sections']:
+            if section_name == section['header']:
+                updated_section = section
+
+        if None is updated_section:
+            raise ValueError(f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach image to '{field_name}' field in section '{section_name}")
+        
+        for content_row in updated_section['content']:
+            if content_row['field'] and content_row['field'] == field_name:
+                for i in range(len(content_row['value'])):
+                    if content_row['value'][i]['file_id'] == file_id_old:
+                        content_row['value'].pop(i)
+                        content_row["value"].append({'file_id': str(file_id)})
+                        break
+        
+        self.collection.find_one_and_update(
+            {'name': analysis_name},
+            {'$set': updated_document}
+        )
+
+        return updated_section
+
+    def remove_genomic_unit_file_annotation(self, analysis_name: str, section_name: str, field_name: str, file_id: str):
+        updated_document = self.collection.find_one({"name": analysis_name})
+        
+        if "_id" in updated_document:
+            updated_document.pop("_id", None)
+
+        updated_section = None
+        for section in updated_document['sections']:
+            if section_name == section['header']:
+                updated_section = section
+
+        if None is updated_section:
+            raise ValueError(f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach image to '{field_name}' field in section '{section_name}")
+
+        for content_row in updated_section['content']:
+            if content_row['field'] and content_row['field'] == field_name:
+                for i in range(len(content_row['value'])):
+                    if content_row['value'][i]['file_id'] == file_id:
+                        content_row['value'].pop(i)
+                        break
+
+        self.collection.find_one_and_update(
+            {'name': analysis_name},
+            {'$set': updated_document}
+        )
+
+        return updated_section
+
+
     def get_pedigree_file_id(self, analysis_name: str):
         """ Returns the pedigree file id for an analysis """
         analysis = self.collection.find_one({"name": analysis_name})

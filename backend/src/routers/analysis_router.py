@@ -153,6 +153,7 @@ def upload_section_image(
 
 @router.put("/{analysis_name}/section/update/{old_file_id}", response_model=Section)
 def replace_analysis_section_image(
+    response: Response,
     analysis_name: str,
     old_file_id: str,
     upload_file: UploadFile = File(...),
@@ -162,38 +163,16 @@ def replace_analysis_section_image(
 ):
     """ Replaces the existing image by the file identifier with the uploaded one. """
 
-    print("==========================")
-    print(analysis_name)
-    print(old_file_id)
-    print(upload_file.filename)
-    print(section_name)
-    print(field_name)
-    print("==========================")
-
+    # This needs try catch like in annotation router
     new_file_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_type)
 
-    
+    updated_section = repositories['analysis'].update_section_image(analysis_name, section_name, field_name, new_file_id, old_file_id)
 
+    response.status_code = status.HTTP_201_CREATED
 
-    # try:
-    #     section_file_id = repositories["analysis"].get_pedigree_file_id(analysis_name)
-    # except ValueError as exception:
-    #     warnings.warn(str(exception))
-    #     pedigree_file_id = None
-    # try:
-    #     repositories["bucket"].delete_file(pedigree_file_id)
-    #     repositories["analysis"].remove_pedigree_file(analysis_name)
-    # except ValueError as exception:
-    #     raise HTTPException(status_code=404, detail=str(exception)) from exception
-    # new_file_object_id = repositories["bucket"].save_file(
-    #     upload_file.file, upload_file.filename, upload_file.content_type
-    # )
+    return updated_section
 
-    # updated_section = repositories["analysis"].add_pedigree_file(analysis_name, new_file_object_id)
-    # return updated_section
-
-
-@router.delete("/{analysis_name}/remove/section/{file_id}")
+@router.delete("/{analysis_name}/section/remove/{file_id}")
 def remove_pedigree(
     analysis_name: str,
     file_id: str,
@@ -203,17 +182,14 @@ def remove_pedigree(
 ):
     """ Removes the image from an analysis section's field by its file_id """
     try:
-        pedigree_file_id = repositories["analysis"].get_pedigree_file_id(analysis_name)
-    except ValueError as exception:
-        warnings.warn(str(exception))
-        pedigree_file_id = None
-
+        repositories['analysis'].remove_genomic_unit_file_annotation(analysis_name, section_name, field_name, file_id)
+    except Exception as exception:
+        raise HTTPException(status_code=500, detail=str(exception)) from exception
+    
     try:
-        repositories["bucket"].delete_file(pedigree_file_id)
-        return repositories["analysis"].remove_pedigree_file(analysis_name)
-    except ValueError as exception:
-        raise HTTPException(status_code=404, detail=str(exception)) from exception
-
+        return repositories["bucket"].delete_file(file_id)
+    except Exception as exception:
+        raise HTTPException(status_code=500, detail=str(exception)) from exception
 
 @router.post("/{analysis_name}/attach/file")
 def attach_supporting_evidence_file(
