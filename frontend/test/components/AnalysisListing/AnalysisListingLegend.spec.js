@@ -54,8 +54,8 @@ describe('AnalysisListingLegend.vue', () => {
     let readyStatus;
 
     for (let i = 0; i < statusElements.length; i++) {
-      if (statusElements.at(i).text() === 'Ready') {
-        readyStatus = statusElements.at(i);
+      if (statusElements[i].text() === 'Ready') {
+        readyStatus = statusElements[i];
       }
     }
 
@@ -78,8 +78,8 @@ describe('AnalysisListingLegend.vue', () => {
     let readyStatus;
 
     for (let i = 0; i < statusElements.length; i++) {
-      if (statusElements.at(i).text() === 'Ready') {
-        readyStatus = statusElements.at(i);
+      if (statusElements[i].text() === 'Ready') {
+        readyStatus = statusElements[i];
       }
     }
 
