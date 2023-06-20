@@ -136,7 +136,6 @@
         "attachment_field": "Pedigree",
         "content": [{
           "type": "images-dataset",
-          "dataset": "Pedigree",
           "field": "Pedigree",
           "value": []
         }]

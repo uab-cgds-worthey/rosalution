@@ -29,26 +29,13 @@
         :key="`${section.header}-${index}-${forceRenderComponentKey}`"
         :analysis_name="this.analysis_name"
         :header="section.header"
+        :content="section.content"
         :attachmentField="section.attachment_field"
         :edit="this.edit"
         @attach-image="this.attachSectionImage"
+        @update-image="this.updateSectionImage"
         @update:content-row="this.onAnalysisContentUpdated"
-      >
-        <template #default>
-          <component
-            v-for="(contentRow, index) in section.content"
-            :key="`${contentRow.field}-${index}`"
-            :is="contentRow.type"
-            :editable="this.edit"
-            :field="contentRow.field"
-            :dataSet="contentRow.dataset"
-            :value="contentRow.value"
-            :data-test="contentRow.field"
-            @update-annotation-image="this.updateSectionImage"
-            @update:section-text="this.onContentChanged"
-          />
-        </template>
-      </SectionBox>
+      />
       <SupplementalFormList
         id="Supporting_Evidence"
         :attachments="this.attachments"
@@ -79,8 +66,6 @@ import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import Toast from '@/components/Dialogs/Toast.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
 import SaveModal from '@/components/AnalysisView/SaveModal.vue';
-import ImagesDataset from '@/components/AnnotationView/ImagesDataset.vue';
-import SectionText from '@/components/AnalysisView/SectionText.vue';
 
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
@@ -99,8 +84,6 @@ export default {
     Toast,
     SupplementalFormList,
     SaveModal,
-    SectionText,
-    ImagesDataset,
   },
   props: ['analysis_name'],
   data: function() {
@@ -183,7 +166,6 @@ export default {
     },
 
     sectionsList() {
-      console.log(this.analysis.sections)
       return this.analysis.sections;
     },
     attachments() {
@@ -199,15 +181,6 @@ export default {
   methods: {
     async getAnalysis() {
       this.analysis = await Analyses.getAnalysis(this.analysis_name);
-    },
-    onContentChanged(sectionText) {
-      const contentRow = {
-        header: this.header,
-        ...sectionText,
-      };
-      console.log(contentRow);
-      console.log('content row');
-      this.$emit('update:contentRow', contentRow);
     },
     async attachSectionImage(sectionName, field) {
       const includeComments = false;
@@ -239,9 +212,11 @@ export default {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
-    async updateSectionImage(fileId, dataSet) {
+    async updateSectionImage(fileId, sectionName, field) {
+      console.log('Update image clicked');
       console.log(fileId);
-      console.log(dataSet);
+      console.log(sectionName);
+      console.log(field);
 
       const includeComments = false;
       const attachment = await inputDialog
@@ -257,17 +232,16 @@ export default {
 
 
       if ('DELETE' == attachment) {
-        await this.removeSectionImage(fileId, dataSet);
+        await this.removeSectionImage(fileId, sectionName, field);
         this.uptickSectionKeyToForceReRender();
         return;
       }
 
       try {
-        // TODO: Update this to use SectionName and FieldName instead of dataSet dataSet
         const updatedSection = await Analyses.updateSectionImage(
             this.analysis_name,
-            dataSet,
-            dataSet,
+            sectionName,
+            field,
             fileId,
             attachment.data,
         );
@@ -280,9 +254,9 @@ export default {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
-    async removeSectionImage(fileId, dataSet) {
+    async removeSectionImage(fileId, sectionName, field) {
       const confirmedDelete = await notificationDialog
-          .title(`Remove ${dataSet} attachment`)
+          .title(`Remove ${field} attachment`)
           .confirmText('Remove')
           .cancelText('Cancel')
           .confirm(
@@ -294,8 +268,8 @@ export default {
       }
 
       try {
-        await Analyses.removeSectionImage(this.analysis_name, dataSet, dataSet, fileId)
-        this.replaceAnalysisSection({header: dataSet, content: []});
+        await Analyses.removeSectionImage(this.analysis_name, sectionName, field, fileId);
+        this.replaceAnalysisSection({header: sectionName, content: []});
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }

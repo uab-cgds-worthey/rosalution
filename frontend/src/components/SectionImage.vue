@@ -6,7 +6,7 @@
       <a href="#_" class="lightbox" :id="imageId">
         <span :style="{backgroundImage: `url(${this.imageSrc})`}"></span>
       </a>
-      <!-- TODO: Since both AnalysisView and AnnotationView are using this component, 
+      <!-- TODO: Since both AnalysisView and AnnotationView are using this component,
         change the emit to be update-image -->
         <button
           class="edit-icon"
@@ -48,13 +48,15 @@ export default {
     };
   },
   created() {
+    console.log(this.imageId);
+    console.log(this.dataSet);
     this.sectionImageUpdate();
   },
   methods: {
     async sectionImageUpdate() {
       const loadingImage = await FileRequests.getImage(this.imageId);
       this.imageSrc = loadingImage;
-    }
+    },
   },
 };
 </script>

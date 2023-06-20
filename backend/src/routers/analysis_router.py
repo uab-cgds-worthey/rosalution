@@ -136,18 +136,20 @@ def upload_section_image(
     repositories=Depends(database)
 ):
     """ Saves the uploaded image it to the specified field_name in the analysis's section."""
-    
+
     try:
-      new_file_object_id = repositories["bucket"].save_file(
-          upload_file.file, upload_file.filename, upload_file.content_type
-      )
+        new_file_object_id = repositories["bucket"].save_file(
+            upload_file.file, upload_file.filename, upload_file.content_type
+        )
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
-    updated_section = repositories["analysis"].add_section_image(analysis_name, section_name, field_name, new_file_object_id)
-    
+    updated_section = repositories["analysis"].add_section_image(
+        analysis_name, section_name, field_name, new_file_object_id
+    )
+
     response.status_code = status.HTTP_201_CREATED
-    
+
     return updated_section
 
 
@@ -166,11 +168,14 @@ def replace_analysis_section_image(
     # This needs try catch like in annotation router
     new_file_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_type)
 
-    updated_section = repositories['analysis'].update_section_image(analysis_name, section_name, field_name, new_file_id, old_file_id)
+    updated_section = repositories['analysis'].update_section_image(
+        analysis_name, section_name, field_name, new_file_id, old_file_id
+    )
 
     response.status_code = status.HTTP_201_CREATED
 
     return updated_section
+
 
 @router.delete("/{analysis_name}/section/remove/{file_id}")
 def remove_pedigree(
@@ -185,11 +190,12 @@ def remove_pedigree(
         repositories['analysis'].remove_genomic_unit_file_annotation(analysis_name, section_name, field_name, file_id)
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
-    
+
     try:
         return repositories["bucket"].delete_file(file_id)
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
+
 
 @router.post("/{analysis_name}/attach/file")
 def attach_supporting_evidence_file(

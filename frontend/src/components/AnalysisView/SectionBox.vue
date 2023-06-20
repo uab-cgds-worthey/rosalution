@@ -29,15 +29,33 @@
         </span>
       </div>
       <div class="rosalution-section-seperator"></div>
-      <slot></slot>
+      <component
+        v-for="(contentRow, index) in this.contentList"
+        :key="`${contentRow.field}-${index}`"
+        :is="contentRow.type"
+        :editable="this.edit"
+        :field="contentRow.field"
+        :dataSet="contentRow.field"
+        :value="contentRow.value"
+        :data-test="contentRow.field"
+        @update-annotation-image="this.onUpdateImageEmit"
+        @update:section-text="this.onContentChanged"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import ImagesDataset from '@/components/AnnotationView/ImagesDataset.vue';
+import SectionText from '@/components/AnalysisView/SectionText.vue';
+
 export default {
   name: 'section-box',
   emits: ['update:contentRow', 'attach-image', 'update-image'],
+  components: {
+    SectionText,
+    ImagesDataset,
+  },
   props: {
     analysis_name: {
       type: String,
@@ -62,10 +80,6 @@ export default {
       section_toggle: this.header.toLowerCase() + '_collapse',
     };
   },
-  created() {
-    console.log(this.contentList);
-    console.log('on created');
-  },
   computed: {
     hasAttachmentContent() {
       return this.attachmentField.length > 0;
@@ -78,6 +92,18 @@ export default {
       }
 
       return false;
+    },
+  },
+  methods: {
+    onContentChanged(sectionText) {
+      const contentRow = {
+        header: this.header,
+        ...sectionText,
+      };
+      this.$emit('update:contentRow', contentRow);
+    },
+    onUpdateImageEmit(imageId, field) {
+      this.$emit('update-image', imageId, this.header, field);
     },
   },
 };
