@@ -27,7 +27,7 @@
   <app-footer>
     <InputDialog data-test="phenotips-import-dialog"/>
     <NotificationDialog data-test="notification-dialog" />
-    <AnalysisListingLegend @filtered-statuses="updateFilter"/>
+    <AnalysisListingLegend @filtered-changed="filteredUpdated"/>
   </app-footer>
 </div>
 </template>
@@ -62,7 +62,7 @@ export default {
       store: authStore,
       searchText: '',
       analysisList: [],
-      filteredStatuses: [],
+      filteredChanged: [],
     };
   },
   computed: {
@@ -71,8 +71,8 @@ export default {
     },
     filteredAnalysisListing() {
       return this.analysisList.filter((analysis) => {
-        return this.filteredStatuses.length === 0 ||
-          this.filteredStatuses.includes(analysis.latest_status.toLowerCase());
+        return this.filteredChanged.length === 0 ||
+          this.filteredChanged.includes(analysis.latest_status.toLowerCase());
       });
     },
     searchedAnalysisListing() {
@@ -97,8 +97,8 @@ export default {
     this.getListing();
   },
   methods: {
-    updateFilter(filteredStatuses) {
-      this.filteredStatuses = filteredStatuses;
+    filteredUpdated(filteredChanged) {
+      this.filteredChanged = filteredChanged;
     },
     async getListing() {
       this.analysisList.length = 0;

@@ -139,10 +139,10 @@ describe('AnalysisListingView', () => {
 
   it('should update the filter when the analysis listing header emits the update event', async () => {
     const legend = wrapper.findComponent(AnalysisListingLegend);
-    legend.vm.$emit('filtered-statuses', ['Approved']);
+    legend.vm.$emit('filtered-changed', ['Approved']);
     await legend.vm.$nextTick();
 
-    expect(wrapper.vm.filteredStatuses).to.contain('Approved');
+    expect(wrapper.vm.filteredChanged).to.contain('Approved');
   });
 });
 

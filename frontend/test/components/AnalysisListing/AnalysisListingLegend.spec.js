@@ -72,7 +72,7 @@ describe('AnalysisListingLegend.vue', () => {
     }
   });
 
-  it('should emit a filtered-statuses event when a status is clicked', async () => {
+  it('should emit a filtered-changed event when a status is clicked', async () => {
     const wrapper = getMountedComponent();
     const statusElements = wrapper.findAll('.status');
     let readyStatus;
@@ -85,8 +85,8 @@ describe('AnalysisListingLegend.vue', () => {
 
     if (readyStatus) {
       await readyStatus.trigger('click');
-      expect(wrapper.emitted()).to.have.property('filtered-statuses');
-      expect(wrapper.emitted()['filtered-statuses'][0][0]).to.contains('ready');
+      expect(wrapper.emitted()).to.have.property('filtered-changed');
+      expect(wrapper.emitted()['filtered-changed'][0][0]).to.contains('ready');
     } else {
       throw new Error('Ready status not found');
     }

@@ -22,7 +22,7 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 export default {
   name: 'analysis-listing-legend',
-  emits: ['filtered-statuses'],
+  emits: ['filtered-changed'],
   components: {
     'font-awesome-icon': FontAwesomeIcon,
   },
@@ -53,7 +53,7 @@ export default {
         this.activeFilters = [];
       }
 
-      this.$emit('filtered-statuses', this.activeFilters);
+      this.$emit('filtered-changed', this.activeFilters);
     },
     isFiltered(status) {
       return this.activeFilters.includes(status) || this.activeFilters.length === 0;
