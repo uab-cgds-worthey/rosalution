@@ -1,6 +1,16 @@
 name: Markdown, Docker, and Shell Static Analysis
 
-on: [push, pull_request, workflow_dispatch]
+name: system_testing
+on:
+  push:
+  pull_request:
+    types:
+      - opened
+      # - synchronize
+      - reopened
+      - ready_for_review
+      - converted_to_draft
+  workflow_dispatch:
 
 env:
   MARKDOWNLINT_CONFIG: etc/static-analysis/markdownlint.json

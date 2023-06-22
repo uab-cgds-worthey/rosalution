@@ -48,6 +48,10 @@ Rosalution facilitates three aspects of the collaborative case review process.
     - [Clone Repository](#clone-repository)
     - [Environment Setup](#environment-setup)
 
+:D :D :D :D :D :D :D :D :D :D :D :D :D :D
+This is only for experimenting to see if a PR from a fork still properly triggers CI/CD on a PR without the
+synchronization event happening.
+
 ### Prerequisites
 
 The following pre-requisites are required to be installed in the target *NIX environment for
