@@ -254,7 +254,7 @@ class AnalysisCollection:
             )
 
         for content_row in updated_section['content']:
-            if content_row["dataset"] and content_row["dataset"] == field_name:
+            if content_row["field"] and content_row["field"] == field_name:
                 content_row["value"].append({'file_id': str(file_id)})
 
         self.collection.find_one_and_update(
