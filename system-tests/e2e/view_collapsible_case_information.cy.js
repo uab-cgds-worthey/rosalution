@@ -6,9 +6,9 @@ describe('view_collapsible_case_information.cy.js', () => {
   });
 
   it('can view the case information when expanded and not when its collapsed', () => {
-    cy.get('#Brief > tbody > :nth-child(4) > :nth-child(1) > .field').should('be.visible');
-    cy.get('#Brief > tbody > :nth-child(5) > .values > [data-test="value-row"]').should('be.visible');
-    cy.get('#Clinical_History > tbody > :nth-child(4) > :nth-child(1) > .field').should('be.visible');
+    cy.get('#Brief > div > [data-test="Goals"] > .section-content').should('be.visible');
+    cy.get('#Brief > div > [data-test="Proposed Model/Project"] > .section-content').should('be.visible');
+    cy.get('#Clinical_History > div > [data-test="Testing"] > .section-content').should('be.visible');
     cy.get(':nth-child(10) > .values > :nth-child(3)').should('be.visible');
     cy.get('#Brief > tbody > .section-header > .section-header-content > .collapsable-logo > .svg-inline--fa').click();
     cy.get(

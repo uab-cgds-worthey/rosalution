@@ -6,6 +6,7 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
         .find(':contains(CPAM0002)')
         .find('.case-name').click();
   });
+
   it('should allow the user to navigate the analysis via the logo, header, and section anchor links', () => {
 
     const anchorLinks = ['Brief', 'Clinical History', 'Pedigree', 'Supporting Evidence'];
