@@ -22,7 +22,7 @@ fi
 
 # Environment variables
 CLIENT_ID="3bghhsmnyqi6uxovazy07ryn9q1tqbnt"
-CLIENT_SECRET="QDe9baY73q5ljt4XUfEgUSBAisvBrpYB"
+CLIENT_SECRET="SX55oH9xBIwYtlZJoRLMvVZ1BJvRDhzA"
 
 while getopts ":h" opt; do
   case $opt in
@@ -33,7 +33,7 @@ done
 
 echo "Fetching valid authentication token..."
 
-AUTH_TOKEN=$(curl -X 'POST' \
+AUTH_TOKEN=$(curl -s -X 'POST' \
   "http://local.rosalution.cgds/rosalution/api/auth/token" \
   -H "accept: application/json" \
   -H "Content-Type: application/x-www-form-urlencoded" \
@@ -41,7 +41,7 @@ AUTH_TOKEN=$(curl -X 'POST' \
 
 echo "Fetching existing analyses in Rosalution..."
 
-RESPONSE=$(curl -X "GET" \
+RESPONSE=$(curl -s -X "GET" \
   "http://local.rosalution.cgds/rosalution/api/analysis/" \
   -H "accept: application/json" \
   -H "Authorization: Bearer $AUTH_TOKEN")
@@ -50,10 +50,11 @@ ANALYSES=(`echo $RESPONSE | jq -c '[.[].name]'`)
 
 echo $ANALYSES | jq -r '.[]' | while read ANALYSIS; do
   echo "Starting annotations for analysis $ANALYSIS..."
-  curl -X "POST" \
+  curl -s -X "POST" \
       "http://local.rosalution.cgds/rosalution/api/annotate/$ANALYSIS" \
       -H "accept: application/json" \
-      -H "Authorization: Bearer $AUTH_TOKEN"
+      -H "Authorization: Bearer $AUTH_TOKEN" \
+      > /dev/null
 done
 
 echo "Done. Exiting."
