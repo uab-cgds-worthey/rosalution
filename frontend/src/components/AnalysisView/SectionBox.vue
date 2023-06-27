@@ -8,24 +8,24 @@
         </h2>
         <span class="rosalution-section-center"></span>
         <span class="rosalution-header-right-icons">
-          <label v-if="this.attachmentField" class="attach-logo"
-            @click="$emit('attach-image', this.header, this.attachmentField)"
-          >
-            <font-awesome-layers class="fa-md">
-              <font-awesome-icon :icon="['fa', 'file-circle-plus']" />
-              <font-awesome-icon
-                transform="shrink-9.5 left-4.5 down-3"
-                inverse
-                :icon="['fa', 'mountain-sun']"
-              />
-            </font-awesome-layers>
-          </label>
-          <label v-if="this.edit" class="edit-logo" id="edit-logo">
-            <font-awesome-icon icon="pencil" size="lg" />
-          </label>
-          <label v-else class="collapsable-logo" v-bind:for="section_toggle">
-            <font-awesome-icon icon="chevron-down" size="lg" />
-          </label>
+        <label v-if="this.attachmentField" class="attach-logo"
+          @click="$emit('attach-image', this.header, this.attachmentField)"
+        >
+          <font-awesome-layers class="fa-md">
+            <font-awesome-icon :icon="['fa', 'file-circle-plus']" />
+            <font-awesome-icon
+              transform="shrink-9.5 left-4.5 down-3"
+              inverse
+              :icon="['fa', 'mountain-sun']"
+            />
+          </font-awesome-layers>
+        </label>
+        <label v-if="this.edit" class="edit-logo" id="edit-logo">
+          <font-awesome-icon icon="pencil" size="lg" />
+        </label>
+        <label v-else class="collapsable-logo" v-bind:for="section_toggle">
+          <font-awesome-icon icon="chevron-down" size="lg" />
+        </label>
         </span>
       </div>
       <div class="rosalution-section-seperator"></div>
@@ -134,7 +134,7 @@ input[type="checkbox"] {
   display: none;
 }
 
-.rosalution-section-container input[type="checkbox"]:checked ~ .field-value-row {
+.rosalution-section-container input[type="checkbox"]:checked ~ .section-row {
   display: none;
 }
 
@@ -142,7 +142,11 @@ input[type="checkbox"] {
   display: none;
 }
 
-input[type="checkbox"]:checked ~ tr > td > label.collapsable-logo {
+/* input[type="checkbox"]:checked ~ tr > td > label.collapsable-logo {
+  transform: scaleY(-1);
+} */
+
+input[type="checkbox"]:checked ~ .rosalution-section-header > span > label.collapsable-logo {
   transform: scaleY(-1);
 }
 </style>
