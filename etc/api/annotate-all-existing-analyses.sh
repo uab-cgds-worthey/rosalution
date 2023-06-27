@@ -22,7 +22,7 @@ fi
 
 # Environment variables
 CLIENT_ID="3bghhsmnyqi6uxovazy07ryn9q1tqbnt"
-CLIENT_SECRET="C5hQjQSzVAJZvOrlqqPV12vx09OncxEy"
+CLIENT_SECRET="QDe9baY73q5ljt4XUfEgUSBAisvBrpYB"
 
 while getopts ":h" opt; do
   case $opt in
