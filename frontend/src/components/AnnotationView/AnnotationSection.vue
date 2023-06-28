@@ -1,5 +1,6 @@
 <template>
   <div class="rosalution-section-container">
+    <input type="checkbox" v-bind:id="section_toggle" />
     <div class="rosalution-section-header">
       <h2 class="rosalution-section-header-text">
         {{header}}
@@ -41,6 +42,11 @@ export default {
       default: '',
     },
   },
+  data() {
+    return {
+      section_toggle: this.header.toLowerCase() + '_collapse',
+    };
+  },
   computed: {
     allowAttach() {
       if (this.genomicAttachmentType == '') {
@@ -68,4 +74,22 @@ export default {
   cursor: pointer;
 }
 
+
+input[type="checkbox"] {
+  display: none;
+}
+
+.rosalution-section-container input[type="checkbox"]:checked ~ .field-value-row {
+  display: none;
+}
+
+.rosalution-section-container input[type="checkbox"]:checked ~ img {
+  display: none;
+}
+
+input[type="checkbox"]:checked ~ tr > td > label.collapsable-logo {
+  transform: scaleY(-1);
+}
 </style>
+
+

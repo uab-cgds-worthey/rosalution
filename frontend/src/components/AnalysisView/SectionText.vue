@@ -75,19 +75,17 @@ export default {
   display: flex;
   flex-direction: row;
   gap: var(--p-10);
-  /* margin: var(--p-10) var(--p-1) var(--p-10) var(--p-1); */
+  padding: var(--p-1);
   background-color: hotpink;
 }
 
 .section-field {
-  width: 11.25rem;
+  flex: 0 0 11.25rem;
   font-weight: 600;
-  text-align: left;
   background-color: gold;
 }
 
 .section-content {
-  text-align: left;
   color: var(--rosalution-black);
   display: block;
 }

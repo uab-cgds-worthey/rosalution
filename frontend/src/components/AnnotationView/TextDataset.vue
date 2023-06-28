@@ -61,7 +61,8 @@ export default {
 .dataset-label {
   flex: 0 0 130px;
   font-weight: 600;
-  color: v-bind(dataAvailabilityColour)
+  color: v-bind(dataAvailabilityColour);
+  background-color: gold;
 };
 
 a:hover {

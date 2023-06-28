@@ -26,7 +26,7 @@
       <SectionBox
         v-for="(section, index) in sectionsList"
         :id="section.header.replace(' ', '_')"
-        :key="`${section.header}-${index}-${forceRenderComponentKey}`"
+        :key="`${section.header}-${index}`"
         :analysis_name="this.analysis_name"
         :header="section.header"
         :content="section.content"
@@ -95,7 +95,6 @@ export default {
       },
       updatedContent: {},
       edit: false,
-      forceRenderComponentKey: 0,
     };
   },
   computed: {
@@ -203,9 +202,6 @@ export default {
             attachment.data,
         );
         this.replaceAnalysisSection(updatedSection);
-        // Needed to create this uptick because the replaced element wasn't getting detected to
-        // cause it to update this still make cause issue with the edit mode and will need to re-evaluate
-        this.uptickSectionKeyToForceReRender();
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
@@ -238,10 +234,6 @@ export default {
             attachment.data,
         );
         this.replaceAnalysisSection(updatedSection);
-
-        // Needed to create this uptick because the replaced element wasn't getting detected to
-        // cause it to update this still make cause issue with the edit mode and will need to re-evaluate
-        this.uptickSectionKeyToForceReRender();
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
@@ -263,17 +255,16 @@ export default {
         await Analyses.removeSectionImage(this.analysis_name, sectionName, field, fileId);
 
         let updatedSection = this.sectionsList.find(section => {
-          return section.header == sectionName
+          return section.header == sectionName;
         });
 
         updatedSection.content.forEach(obj => {
           obj.value = obj.value.filter(value => {
-            return value.file_id != fileId; 
+            return value.file_id != fileId;
           });
-        })
-          
+        });
+
         this.replaceAnalysisSection(updatedSection);
-        this.uptickSectionKeyToForceReRender();
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
@@ -368,7 +359,6 @@ export default {
       this.analysis.sections.push(...updatedAnalysis.sections);
       this.updatedContent = {};
       this.edit = false;
-      this.uptickSectionKeyToForceReRender();
       toast.success('Analysis updated successfully.');
     },
     cancelAnalysisChanges() {
@@ -378,9 +368,6 @@ export default {
     },
     async onLogout() {
       this.$router.push({name: 'logout'});
-    },
-    uptickSectionKeyToForceReRender() {
-      this.forceRenderComponentKey += 1;
     },
     onAnalysisContentUpdated(contentRow) {
       if (!(contentRow.header in this.updatedContent)) {
