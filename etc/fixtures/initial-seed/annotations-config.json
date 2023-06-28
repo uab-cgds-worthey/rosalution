@@ -325,9 +325,9 @@
   {
     "data_set": "Rat_Alliance_Genome_url",
     "data_source": "Rosalution",
-    "annotation_source_type": "forge",
     "genomic_unit_type": "gene",
-    "url": "https://www.alliancegenome.org/gene/{Rat Gene Identifier}",
+    "annotation_source_type": "forge",
+    "base_string": "https://www.alliancegenome.org/gene/{Rat Gene Identifier}",
     "attribute": "{ \"Rat_Alliance_Genome_url\": .Rat_Alliance_Genome_url }",
     "dependencies": ["Rat Gene Identifier"]
   },
@@ -343,9 +343,9 @@
   {
     "data_set": "Mouse_Alliance_Genome_url",
     "data_source": "Rosalution",
-    "annotation_source_type": "forge",
     "genomic_unit_type": "gene",
-    "url": "https://www.alliancegenome.org/gene/{Mouse Gene Identifier}",
+    "annotation_source_type": "forge",
+    "base_string": "https://www.alliancegenome.org/gene/{Mouse Gene Identifier}",
     "attribute": "{ \"Mouse_Alliance_Genome_url\": .Mouse_Alliance_Genome_url }",
     "dependencies": ["Mouse Gene Identifier"]
   },
@@ -361,9 +361,9 @@
   {
     "data_set": "Zebrafish_Alliance_Genome_url",
     "data_source": "Rosalution",
-    "annotation_source_type": "forge",
     "genomic_unit_type": "gene",
-    "url": "https://www.alliancegenome.org/gene/{Zebrafish Gene Identifier}",
+    "annotation_source_type": "forge",
+    "base_string": "https://www.alliancegenome.org/gene/{Zebrafish Gene Identifier}",
     "attribute": "{ \"Zebrafish_Alliance_Genome_url\": .Zebrafish_Alliance_Genome_url }",
     "dependencies": ["Zebrafish Gene Identifier"]
   },
@@ -379,9 +379,9 @@
   {
     "data_set": "C-Elegens_Alliance_Genome_url",
     "data_source": "Rosalution",
-    "annotation_source_type": "forge",
     "genomic_unit_type": "gene",
-    "url": "https://www.alliancegenome.org/gene/{C-Elegens Gene Identifier}",
+    "annotation_source_type": "forge",
+    "base_string": "https://www.alliancegenome.org/gene/{C-Elegens Gene Identifier}",
     "attribute": "{ \"C-Elegens_Alliance_Genome_url\": .C-Elegens_Alliance_Genome_url }",
     "dependencies": ["C-Elegens Gene Identifier"]
   },

@@ -127,6 +127,8 @@ class ForgeAnnotationTask(AnnotationTaskInterface):
         of the genomic unit and its dataset depedencies to generate the new dataset.  Will be returned within
         an object that has the name of the dataset as the attribute.
         """
+        print("====================")
+        print(self.dataset)
         return {self.dataset['data_set']: self.aggregate_string_replacements(self.dataset['base_string'])}
 
 

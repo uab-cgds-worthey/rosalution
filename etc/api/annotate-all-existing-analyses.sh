@@ -22,7 +22,7 @@ fi
 
 # Environment variables
 CLIENT_ID="3bghhsmnyqi6uxovazy07ryn9q1tqbnt"
-CLIENT_SECRET="SX55oH9xBIwYtlZJoRLMvVZ1BJvRDhzA"
+CLIENT_SECRET="i1y0ESKVt3ZWLrxL7wiVkokS1gYrchXX"
 
 while getopts ":h" opt; do
   case $opt in
@@ -55,6 +55,7 @@ echo $ANALYSES | jq -r '.[]' | while read ANALYSIS; do
       -H "accept: application/json" \
       -H "Authorization: Bearer $AUTH_TOKEN" \
       > /dev/null
+  sleep 5
 done
 
 echo "Done. Exiting."
