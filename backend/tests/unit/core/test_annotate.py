@@ -52,9 +52,9 @@ def test_processing_cpam0046_annotation_tasks(
     AnnotationService.process_tasks(cpam0046_annotation_queue, mock_genomic_unit_collection)
     assert cpam0046_annotation_queue.empty()
 
-    assert http_task_annotate.call_count == 31
+    assert http_task_annotate.call_count == 35
     assert none_task_annotate.call_count == 0
-    assert forge_task_annotate.call_count == 6
+    assert forge_task_annotate.call_count == 10
 
     assert annotate_extract_mock.call_count == 45
 
@@ -87,7 +87,7 @@ def test_processing_cpam0002_annotations_tasks(
     AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
 
     assert http_task_annotate.call_count == 35
-    assert forge_task_annotate.call_count == 6
+    assert forge_task_annotate.call_count == 10
     assert none_task_annotate.call_count == 0
 
     assert annotate_extract_mock.call_count == 45
