@@ -127,7 +127,7 @@ def download(analysis_name: str, file_name: str, repositories=Depends(database))
     return StreamingResponse(repositories['bucket'].stream_analysis_file_by_id(file['attachment_id']))
 
 
-@router.post("/{analysis_name}/section/attach/image", response_model=Section, response_model_exclude_none=True)
+@router.post("/{analysis_name}/section/attach/image")
 def upload_section_image(
     response: Response,
     analysis_name: str,
@@ -145,17 +145,18 @@ def upload_section_image(
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
-    updated_section = repositories["analysis"].add_section_image(
+    repositories["analysis"].add_section_image(
         analysis_name, section_name, field_name, new_file_object_id
     )
 
     response.status_code = status.HTTP_201_CREATED
 
-    return updated_section
+    return {'section': section_name, 'field': field_name, 'image_id': str(new_file_object_id)}
 
 
-@router.put("/{analysis_name}/section/update/{old_file_id}", response_model=Section)
+@router.put("/{analysis_name}/section/update/{old_file_id}")
 def replace_analysis_section_image(
+    response: Response,
     analysis_name: str,
     old_file_id: str,
     upload_file: UploadFile = File(...),
@@ -168,11 +169,15 @@ def replace_analysis_section_image(
     # This needs try catch like in annotation router
     new_file_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_type)
 
-    updated_section = repositories['analysis'].update_section_image(
+    repositories['analysis'].update_section_image(
         analysis_name, section_name, field_name, new_file_id, old_file_id
     )
 
-    return updated_section
+    response.status_code = status.HTTP_201_CREATED
+
+    print(new_file_id)
+
+    return {'section': section_name, 'field': field_name, 'image_id': str(new_file_id)}
 
 
 @router.delete("/{analysis_name}/section/remove/{file_id}")

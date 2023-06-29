@@ -22,7 +22,7 @@ class GenomicUnit(BaseModel):
     variants: List = []
 
 
-class Section(BaseModel):
+class Section(BaseModel, frozen=True):
     """The sections of case notes associated with an analysis"""
 
     header: str

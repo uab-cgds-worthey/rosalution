@@ -24,7 +24,7 @@
         :variants="genomicUnit.variants"
       />
       <SectionBox
-        v-for="(section, index) in sectionsList"
+        v-for="(section) in sectionsList"
         :id="section.header.replace(' ', '_')"
         :key="`${section.header}-${index}`"
         :analysis_name="this.analysis_name"
@@ -195,12 +195,23 @@ export default {
       }
 
       try {
-        const updatedSection = await Analyses.attachSectionImage(
+        const updatedSectionImage = await Analyses.attachSectionImage(
             this.analysis_name,
             sectionName,
             field,
             attachment.data,
         );
+
+        const updatedSection = this.sectionsList.find((section) => {
+          return section.header == sectionName;
+        });
+
+        const updatedField = updatedSection.content.find((row) => {
+          return row.field == field;
+        });
+
+        updatedField.value.push({file_id: updatedSectionImage['image_id']});
+
         this.replaceAnalysisSection(updatedSection);
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
@@ -226,13 +237,29 @@ export default {
       }
 
       try {
-        const updatedSection = await Analyses.updateSectionImage(
+        const updatedSectionImage = await Analyses.updateSectionImage(
             this.analysis_name,
             sectionName,
             field,
             fileId,
             attachment.data,
         );
+
+
+        const updatedSection = this.sectionsList.find((section) => {
+          return section.header == sectionName;
+        });
+
+        const updatedField = updatedSection.content.find((row) => {
+          return row.field == field;
+        });
+
+        updatedField.value.forEach((imageFile) => {
+          if (imageFile['file_id'] == fileId) {
+            imageFile['file_id'] = updatedSectionImage['image_id'];
+          }
+        });
+
         this.replaceAnalysisSection(updatedSection);
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
@@ -254,12 +281,12 @@ export default {
       try {
         await Analyses.removeSectionImage(this.analysis_name, sectionName, field, fileId);
 
-        let updatedSection = this.sectionsList.find(section => {
+        const updatedSection = this.sectionsList.find((section) => {
           return section.header == sectionName;
         });
 
-        updatedSection.content.forEach(obj => {
-          obj.value = obj.value.filter(value => {
+        updatedSection.content.forEach((obj) => {
+          obj.value = obj.value.filter((value) => {
             return value.file_id != fileId;
           });
         });
@@ -378,9 +405,11 @@ export default {
       console.log(this.updatedContent);
     },
     replaceAnalysisSection(sectionToReplace) {
-      const originalSectionIndex = this.sectionsList.findIndex(
+      const originalSectionIndex = this.analysis.sections.findIndex(
           (section) => section.header == sectionToReplace.header,
       );
+      console.log(originalSectionIndex);
+      console.log(sectionToReplace);
       this.analysis.sections.splice(originalSectionIndex, 1, sectionToReplace);
     },
     async addMondayLink() {

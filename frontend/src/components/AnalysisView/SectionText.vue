@@ -106,8 +106,6 @@ export default {
   border-right: none;
   border-left: none;
   border-bottom: 2px solid var(--rosalution-purple-200);
-  font-family: inherit;
-  font-size: inherit;
 }
 
 span:focus {
