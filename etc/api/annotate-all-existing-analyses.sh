@@ -9,20 +9,14 @@ usage() {
   echo " "
   echo "Kicks off annotation jobs for all the existing analyses in Rosalution"
   echo " "
+  echo "To run the annotations, please log in to Rosalution to retrieve the"
+  echo "Client ID and Client Secret credentials. These can be found by"
+  echo "clicking on your username or going to: <rosalution url>/rosalution/account"
+  echo " "
   echo "Please install jq for this script to work. https://stedolan.github.io/jq/"
   echo " "
   exit
 }
-
-if ! jq --version &> /dev/null
-then
-    echo "Error: jq could not be found. Exiting."
-    usage
-fi
-
-# Environment variables
-CLIENT_ID="3bghhsmnyqi6uxovazy07ryn9q1tqbnt"
-CLIENT_SECRET="i1y0ESKVt3ZWLrxL7wiVkokS1gYrchXX"
 
 while getopts ":h" opt; do
   case $opt in
@@ -30,6 +24,24 @@ while getopts ":h" opt; do
     \?) echo "Invalid option -$OPTARG" && exit 127;;
   esac
 done
+
+if ! jq --version &> /dev/null
+then
+    echo "Error: jq could not be found. Exiting."
+    usage
+fi
+
+echo "Please enter your Client Id";
+read -r CLIENT_ID;
+
+echo "Please enter your Client Secret";
+read -r -s CLIENT_SECRET;
+
+if [ -z "${CLIENT_ID}" ] || [ -z "${CLIENT_SECRET}" ]; then
+  echo " "
+  echo "Please enter required credentials."
+  usage
+fi
 
 echo "Fetching valid authentication token..."
 
@@ -46,9 +58,10 @@ RESPONSE=$(curl -s -X "GET" \
   -H "accept: application/json" \
   -H "Authorization: Bearer $AUTH_TOKEN")
 
-ANALYSES=(`echo $RESPONSE | jq -c '[.[].name]'`)
+ANALYSES=()
+while IFS='' read -r line; do ANALYSES+=("$line"); done < <(echo "$RESPONSE" | jq -c '[.[].name]')
 
-echo $ANALYSES | jq -r '.[]' | while read ANALYSIS; do
+echo "${ANALYSES[@]}" | jq -r '.[]' | while read -r ANALYSIS; do
   echo "Starting annotations for analysis $ANALYSIS..."
   curl -s -X "POST" \
       "http://local.rosalution.cgds/rosalution/api/annotate/$ANALYSIS" \
