@@ -250,7 +250,8 @@ class AnalysisCollection:
 
         if None is updated_section:
             raise ValueError(
-                f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach image to '{field_name}' field in section '{section_name}"
+                f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach image to '{field_name}' \
+                field in section '{section_name}"
             )
 
         for content_row in updated_section['content']:
@@ -269,6 +270,7 @@ class AnalysisCollection:
     def update_section_image(
         self, analysis_name: str, section_name: str, field_name: str, file_id: str, file_id_old: str
     ):
+        """ Accepts a new and old file id then updates the section image """
         updated_document = self.collection.find_one({"name": analysis_name})
 
         if "_id" in updated_document:
@@ -281,7 +283,8 @@ class AnalysisCollection:
 
         if None is updated_section:
             raise ValueError(
-                f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach image to '{field_name}' field in section '{section_name}"
+                f"'{section_name}' does not exist within '{analysis_name}'. \
+                Unable to attach image to '{field_name}' field in section '{section_name}"
             )
 
         for content_row in updated_section['content']:
@@ -296,7 +299,8 @@ class AnalysisCollection:
 
         return updated_section
 
-    def remove_genomic_unit_file_annotation(self, analysis_name: str, section_name: str, field_name: str, file_id: str):
+    def remove_analysis_section_file(self, analysis_name: str, section_name: str, field_name: str, file_id: str):
+        """ Accepts a file id and removes the reference from corresponding analysis section """
         updated_document = self.collection.find_one({"name": analysis_name})
 
         if "_id" in updated_document:
@@ -309,7 +313,8 @@ class AnalysisCollection:
 
         if None is updated_section:
             raise ValueError(
-                f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach image to '{field_name}' field in section '{section_name}"
+                f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach image to '{field_name}' \
+                field in section '{section_name}"
             )
 
         for content_row in updated_section['content']:

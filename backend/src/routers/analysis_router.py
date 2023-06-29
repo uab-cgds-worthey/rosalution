@@ -1,10 +1,11 @@
 """ Analysis endpoint routes that serve up information regarding anaysis cases for rosalution """
-import warnings
 import json
 
 from typing import List, Optional, Union
 
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, File, status, UploadFile, Form, Response, Security
+from fastapi import (
+    APIRouter, BackgroundTasks, Depends, HTTPException, File, status, UploadFile, Form, Response, Security
+)
 from fastapi.responses import StreamingResponse
 
 from ..core.annotation import AnnotationService
@@ -155,7 +156,6 @@ def upload_section_image(
 
 @router.put("/{analysis_name}/section/update/{old_file_id}", response_model=Section)
 def replace_analysis_section_image(
-    response: Response,
     analysis_name: str,
     old_file_id: str,
     upload_file: UploadFile = File(...),
@@ -172,13 +172,11 @@ def replace_analysis_section_image(
         analysis_name, section_name, field_name, new_file_id, old_file_id
     )
 
-    response.status_code = status.HTTP_201_CREATED
-
     return updated_section
 
 
 @router.delete("/{analysis_name}/section/remove/{file_id}")
-def remove_pedigree(
+def remove_analysis_section_image(
     analysis_name: str,
     file_id: str,
     section_name: str = Form(...),
@@ -187,7 +185,7 @@ def remove_pedigree(
 ):
     """ Removes the image from an analysis section's field by its file_id """
     try:
-        repositories['analysis'].remove_genomic_unit_file_annotation(analysis_name, section_name, field_name, file_id)
+        repositories['analysis'].remove_analysis_section_file(analysis_name, section_name, field_name, file_id)
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
