@@ -1,6 +1,7 @@
 describe('As a Clinical Analyst using Rosalution for analysis', () => {
   beforeEach(() => {
     cy.resetDatabase();
+    cy.intercept('/rosalution/api/analysis/CPAM0002').as('analysisLoad');
     cy.visit('/');
     cy.get('.analysis-card')
         .find(':contains(CPAM0002)')
@@ -13,12 +14,15 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
     const expectedHeaderLinks =
       ['CPAM0002', 'LOGIN', ...anchorLinks];
 
-    cy.get('div.content').get('div > a')
-      .filter(':not([data-test="status-icon"], [data-test="third-party-link"])')
+    cy.wait('@analysisLoad');
+    cy.get('[data-test="primary-content"] > div > a')
       .each(($el) => {
+        console.log("HELLO!!!!")
+        console.log($el);
       cy.wrap($el).invoke('text').should('be.oneOf', expectedHeaderLinks).then((text) => {
         if (anchorLinks.includes(text)) {
           const anchorLink = `#${text.replace(' ', '_')}`;
+          console.log(anchorLink)
           cy.wrap($el).click().url().should('contain', `analysis/CPAM0002${anchorLink}`);
           cy.get(anchorLink);
         }
