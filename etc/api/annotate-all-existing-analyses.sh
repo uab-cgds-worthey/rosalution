@@ -13,6 +13,9 @@ usage() {
   echo "Client ID and Client Secret credentials. These can be found by"
   echo "clicking on your username or going to: <rosalution url>/rosalution/account"
   echo " "
+  echo "Note: This script may need to be run multiple times due to the Rosalution "
+  echo "annotation system not being built for large sets of annotations queued."
+  echo " "
   echo "Please install jq for this script to work. https://stedolan.github.io/jq/"
   echo " "
   exit
