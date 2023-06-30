@@ -11,7 +11,7 @@ from fastapi.responses import StreamingResponse
 from ..core.annotation import AnnotationService
 from ..core.phenotips_importer import PhenotipsImporter
 from ..dependencies import database, annotation_queue
-from ..models.analysis import Analysis, AnalysisSummary, Section
+from ..models.analysis import Analysis, AnalysisSummary
 from ..models.event import Event
 from ..enums import ThirdPartyLinkType
 from ..models.phenotips_json import BasePhenotips
@@ -156,7 +156,6 @@ def upload_section_image(
 
 @router.put("/{analysis_name}/section/update/{old_file_id}")
 def replace_analysis_section_image(
-    response: Response,
     analysis_name: str,
     old_file_id: str,
     upload_file: UploadFile = File(...),
@@ -172,10 +171,6 @@ def replace_analysis_section_image(
     repositories['analysis'].update_section_image(
         analysis_name, section_name, field_name, new_file_id, old_file_id
     )
-
-    response.status_code = status.HTTP_201_CREATED
-
-    print(new_file_id)
 
     return {'section': section_name, 'field': field_name, 'image_id': str(new_file_id)}
 
