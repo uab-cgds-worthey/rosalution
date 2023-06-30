@@ -145,9 +145,7 @@ def upload_section_image(
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
-    repositories["analysis"].add_section_image(
-        analysis_name, section_name, field_name, new_file_object_id
-    )
+    repositories["analysis"].add_section_image(analysis_name, section_name, field_name, new_file_object_id)
 
     response.status_code = status.HTTP_201_CREATED
 
@@ -168,9 +166,7 @@ def replace_analysis_section_image(
     # This needs try catch like in annotation router
     new_file_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_type)
 
-    repositories['analysis'].update_section_image(
-        analysis_name, section_name, field_name, new_file_id, old_file_id
-    )
+    repositories['analysis'].update_section_image(analysis_name, section_name, field_name, new_file_id, old_file_id)
 
     return {'section': section_name, 'field': field_name, 'image_id': str(new_file_id)}
 
