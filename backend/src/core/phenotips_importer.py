@@ -74,37 +74,23 @@ class PhenotipsImporter:
             "name": str(phenotips_json_data["external_id"]).replace("-", ""), "description": "", "nominated_by": "",
             "genomic_units": [], "sections": [{
                 "header": 'Brief', "content": [
-                    {"field": 'Nominator', "value": []},
-                    {"field": 'Participant', "value": []},
-                    {"field": 'Phenotype', "value": []},
+                    {"type": "section-text", "field": 'Nominator', "value": []},
+                    {"type": "section-text", "field": 'Participant', "value": []},
+                    {"type": "section-text", "field": 'Phenotype', "value": []},
                 ]
             }, {
                 "header": 'Clinical History', "content": [
-                    {"field": 'Clinical Diagnosis', "value": []},
-                    {"field": 'Affected Individuals Identified', "value": []},
-                    {"field": 'Sequencing', "value": []},
-                    {"field": 'Testing', "value": []},
-                    {"field": 'Systems', "value": []},
-                    {"field": 'HPO Terms', "value": [self.extract_hpo_terms(phenotips_json_data["features"])]},
-                    {"field": 'Additional Details', "value": []},
+                    {"type": "section-text", "field": 'Clinical Diagnosis', "value": []},
+                    {"type": "section-text", "field": 'Affected Individuals Identified', "value": []},
+                    {"type": "section-text", "field": 'Sequencing', "value": []},
+                    {"type": "section-text", "field": 'Testing', "value": []},
+                    {"type": "section-text", "field": 'Systems', "value": []},
+                    {"type": "section-text", "field": 'Additional Details', "value": []},
                 ]
-            }, {"header": 'Pedigree', "content": [
-            ]},{
-                "header": str(phenotips_json_data["gene"] + "Gene to Phenotype (like pedigree)"), "content":[]
             }, {
-                "header": str(phenotips_json_data["gene"] + "Molecular Mechanism"), "content":[
-                    {"field": 'Function', "value": []}
+                "header": 'Pedigree', "content": [
+                    {"type": "images-dataset", "field": "Pedigree", "value": []}
                 ]
-            },{
-                "header": str(phenotips_json_data["gene"] + "Function"), "content":[]
-            },{
-                "header": 'Model Goals', "content": [
-                    {"field": 'Model of Interest', "value": []},
-                    {"field": 'Goals', "value": []},
-                    {"field": 'Proposed Model/Project', "value": []},
-                    {"field": 'Existing Collaborations', "value": []},
-                    {"field": 'Existing Funding', "value": []},
-            ]
             }]
         }
 
@@ -130,6 +116,37 @@ class PhenotipsImporter:
                         analysis_unit['transcripts'].append(new_transcript)
 
             analysis_data['genomic_units'].append(analysis_unit)
+
+
+        for genomic_unit in analysis_data['genomic_units']:
+            if genomic_unit['gene']:
+                new_sections = [
+                    {
+                        "header": str(genomic_unit["gene"] + " Gene to Phenotype"), "content":[
+                            {"type": "images-dataset", "field": 'Gene to Phenotype', "value": []},
+                            {"type": "section-text", "field": 'HPO Terms', "value": [self.extract_hpo_terms(phenotips_json_data["features"])]},
+                        ]
+                    }, {
+                        "header": str(genomic_unit["gene"] + " Molecular Mechanism"), "content":[
+                            {"type": "section-text", "field": 'Function Overview', "value": []}
+                        ]
+                    },{
+                        "header": str(genomic_unit["gene"] + " Function"), "content":[
+                            {"type": "images-dataset", "field": 'Function', "value": []},
+                        ]
+                    }]
+                analysis_data['sections'].extend(new_sections)
+        
+        model_goals_section = {
+            "header": 'Model Goals', "content": [
+                {"type": "section-text", "field": 'Model of Interest', "value": []},
+                {"type": "section-text", "field": 'Goals', "value": []},
+                {"type": "section-text", "field": 'Proposed Model/Project', "value": []},
+                {"type": "section-text", "field": 'Existing Collaborations', "value": []},
+                {"type": "section-text", "field": 'Existing Funding', "value": []},
+            ]
+        }
+        analysis_data['sections'].append(model_goals_section)
 
         return analysis_data
 
