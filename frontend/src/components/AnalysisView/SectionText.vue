@@ -86,20 +86,15 @@ export default {
 }
 
 .section-content {
-  color: var(--rosalution-black);
-  display: block;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
 }
 
 .section-content-values {
-  font-size: 1.125rem;
-  color: var(--rosalution-black);
-  display: block;
-  width: 100%;
 }
 
 .editable-section-content-values {
-  display: block;
-  width: 100%;
   overflow: hidden;
   resize: both;
   border-top: none;

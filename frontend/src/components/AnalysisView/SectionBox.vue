@@ -142,10 +142,6 @@ input[type="checkbox"] {
   display: none;
 }
 
-/* input[type="checkbox"]:checked ~ tr > td > label.collapsable-logo {
-  transform: scaleY(-1);
-} */
-
 input[type="checkbox"]:checked ~ .rosalution-section-header > span > label.collapsable-logo {
   transform: scaleY(-1);
 }
