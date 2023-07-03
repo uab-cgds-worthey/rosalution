@@ -114,7 +114,12 @@
         },
         {
             "header": "Pedigree",
-            "content": []
+            "attachment_field": "Pedigree",
+            "content": [{
+              "type": "images-dataset",
+              "field": "Pedigree",
+              "value": []
+            }]
         },
         {
             "header": "Case Information",
