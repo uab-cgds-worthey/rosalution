@@ -1,6 +1,6 @@
 <template>
   <div class="rosalution-section-container">
-    <div style="background-color: red">
+    <div>
       <input v-if="!this.edit" type="checkbox" v-bind:id="section_toggle" />
       <div class="rosalution-section-header">
         <h2 class="rosalution-section-header-text">

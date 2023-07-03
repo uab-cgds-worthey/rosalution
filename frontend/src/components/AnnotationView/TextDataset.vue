@@ -55,14 +55,13 @@ export default {
 .dataset-container {
   display: flex;
   padding: var(--p-1);
-  line-height: 24px; /**temproary until I see how things look */
+  line-height: 24px;
 }
 
 .dataset-label {
   flex: 0 0 130px;
   font-weight: 600;
   color: v-bind(dataAvailabilityColour);
-  background-color: gold;
 };
 
 a:hover {

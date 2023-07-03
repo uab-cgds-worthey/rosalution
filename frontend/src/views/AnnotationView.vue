@@ -291,7 +291,6 @@ export default {
 
 app-content {
   display: flex;
-  background-color: blueviolet;
 }
 
 app-header {
@@ -301,7 +300,6 @@ app-header {
 }
 
 .sections {
-  background-color: orange;
   display: flex;
   flex-direction: column;
 }
@@ -311,7 +309,6 @@ app-header {
   height: 90vh;
   top: 4rem;
   flex: 1 0 12.5rem;
-  background-color: pink;
 }
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <table class="supplemental-container">
+  <table class="rosalution-section-container">
     <input type="checkbox" id="supporting_toggle"/>
     <tbody>
       <tr class="supplemental-header">

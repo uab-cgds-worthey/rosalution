@@ -477,7 +477,6 @@ app-content {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  background-color: blueviolet;
 }
 
 app-header {

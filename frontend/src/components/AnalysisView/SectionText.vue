@@ -74,22 +74,17 @@ export default {
   flex-direction: row;
   gap: var(--p-10);
   padding: var(--p-1);
-  background-color: hotpink;
 }
 
 .section-field {
   flex: 0 0 11.25rem;
   font-weight: 600;
-  background-color: gold;
 }
 
 .section-content {
   display: flex;
   flex-direction: column;
   flex: 1 0 auto;
-}
-
-.section-content-values {
 }
 
 .editable-section-content-values {
