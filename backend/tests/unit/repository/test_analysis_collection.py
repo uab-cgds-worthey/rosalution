@@ -189,6 +189,24 @@ def test_add_image_to_pedigree_section(analysis_collection, empty_pedigree):
     analysis_collection.add_section_image("CPAM0002", "Pedigree", "Pedigree", "63505be22888347cf1c275db")
     analysis_collection.collection.find_one_and_update.assert_called_with({"name": "CPAM0002"}, {"$set": expected})
 
+def test_add_an_additional_image_to_pedigree_section(analysis_collection):
+    """ Tests adding another image to the pedigree section of the CPAM0002 analysis """
+
+    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+
+    expected = {
+        'header': 'Pedigree',
+        'attachment_field': 'Pedigree',
+        'content': [{'type': 'images-dataset', 'field': 'Pedigree', 'value': [
+            {"file_id": "63505be22888347cf1c275db"}, {"file_id": "second-fake-file-id"}]
+        }]
+    }
+
+    actual = analysis_collection.add_section_image("CPAM0002", "Pedigree", "Pedigree", "second-fake-file-id")
+
+    assert actual == expected
+
+
 def test_update_existing_image_in_pedigree_section(analysis_collection):
     """ Tests updating an image in the pedigree section and receiving a new section with the updated image id """
 

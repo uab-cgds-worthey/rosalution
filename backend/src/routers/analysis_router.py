@@ -128,7 +128,7 @@ def download(analysis_name: str, file_name: str, repositories=Depends(database))
 
 
 @router.post("/{analysis_name}/section/attach/image")
-def upload_section_image(
+def attach_section_image(
     response: Response,
     analysis_name: str,
     upload_file: UploadFile = File(...),
@@ -153,7 +153,7 @@ def upload_section_image(
 
 
 @router.put("/{analysis_name}/section/update/{old_file_id}")
-def replace_analysis_section_image(
+def update_analysis_section_image(
     analysis_name: str,
     old_file_id: str,
     upload_file: UploadFile = File(...),
