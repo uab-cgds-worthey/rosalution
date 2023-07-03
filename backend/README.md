@@ -187,7 +187,12 @@ docker run -v <absolute_path_to_backend>/:/app/ -p 127.0.0.1:8000:8000 <image_id
 The backend service uses `pytest` as a testing framework for the Python code. The tests are broken out into unit,
 integration, and system tests.
 
-Note: The `-s` flag for the pytest routes the standard out to the console. It allows the `print()` statement to log
+Notes:
+
+- In order for Rosalution to work, it requires a ROSALUTION_KEY environment variable to be set. Since the tests are not
+actually running Rosalution, this needs to be manually done each time when running pytest.
+
+- The `-s` flag for the pytest routes the standard out to the console. It allows the `print()` statement to log
 output of variables for development purposes.
 
 From the root `./` directory of the project:
@@ -195,13 +200,13 @@ From the root `./` directory of the project:
 Unit Tests:
 
 ```bash
-pytest -s tests/unit
+ROSALUTION_KEY="fake-rosalution-key-used-in-pytest" pytest -s tests/unit
 ```
 
 Integration Tests:
 
 ```bash
-pytest -s tests/integration
+ROSALUTION_KEY="fake-rosalution-key-used-in-pytest" pytest -s tests/integration
 ```
 
 ### Code Coverage
@@ -218,5 +223,5 @@ Read <https://pytest-cov.readthedocs.io/en/latest/config.html> to learn more abo
 tool configuration.
 
 ```bash
-pytest --cov=src --cov-fail-under=80 --cov-branch --cov-report=term tests/unit/
+ROSALUTION_KEY="fake-rosalution-key-used-in-pytest" pytest --cov=src --cov-fail-under=80 --cov-branch --cov-report=term tests/unit/
 ```
