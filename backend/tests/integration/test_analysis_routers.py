@@ -231,6 +231,7 @@ def test_remove_supporting_evidence_link(client, mock_access_token, mock_reposit
     assert response.status_code == 200
     assert response.json() == expected
 
+
 def test_attach_image_to_pedigree_section(client, mock_access_token, mock_repositories):
     """ Testing attaching an image to the Pedigree section of an analysis """
     mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0112.json")
@@ -315,6 +316,7 @@ def test_remove_existing_pedigree_section_image(client, mock_access_token, mock_
     mock_repositories["bucket"].bucket.delete.assert_called_with(ObjectId("63505be22888347cf1c275db"))
 
     assert response.status_code == 200
+
 
 def test_attach_third_party_link(client, mock_access_token, mock_repositories):
     """ Testing the attach third party link endpoint """

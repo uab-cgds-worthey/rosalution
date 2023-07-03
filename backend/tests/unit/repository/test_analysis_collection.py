@@ -238,6 +238,7 @@ def test_remove_image_from_pedigree_section(analysis_collection):
     )
     assert actual == expected
 
+
 def test_attach_third_party_link_monday(analysis_collection):
     """Tests the attach_third_party_link function"""
     analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
