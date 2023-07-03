@@ -187,7 +187,7 @@ docker run -v <absolute_path_to_backend>/:/app/ -p 127.0.0.1:8000:8000 <image_id
 The backend service uses `pytest` as a testing framework for the Python code. The tests are broken out into unit,
 integration, and system tests.
 
-Notes:
+Pytest notes:
 
 - In order for Rosalution to work, it requires a ROSALUTION_KEY environment variable to be set. Since the tests are not
 actually running Rosalution, this needs to be manually done each time when running pytest.
