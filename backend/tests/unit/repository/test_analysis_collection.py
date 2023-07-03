@@ -181,9 +181,6 @@ def test_remove_supporting_evidence(analysis_collection):
     assert actual == expected
 
 
-# HERE ARE THE PEDIGREE TESTS
-
-
 def test_add_image_to_pedigree_section(analysis_collection, empty_pedigree):
     """Tests adding an image to the pedigree section of the CPAM0002 analysis"""
     analysis_collection.collection.find_one.return_value = empty_pedigree
@@ -240,10 +237,6 @@ def test_remove_image_from_pedigree_section(analysis_collection):
         "CPAM0002", "Pedigree", "Pedigree", "63505be22888347cf1c275db"
     )
     assert actual == expected
-
-
-# END OF THE PEDIGREE TESTS
-
 
 def test_attach_third_party_link_monday(analysis_collection):
     """Tests the attach_third_party_link function"""
