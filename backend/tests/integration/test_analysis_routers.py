@@ -1,11 +1,11 @@
 """Analysis Routes Integration test"""
 
-import warnings
 import json
 import os
 import datetime
-from bson import ObjectId
+
 from unittest.mock import patch
+from bson import ObjectId
 
 import pytest
 from fastapi import BackgroundTasks
@@ -137,6 +137,7 @@ def test_update_analysis_section(client, mock_access_token, mock_repositories, u
 
 #     assert response
 
+
 def test_attaching_supporting_evidence_link_to_analysis(
     client, mock_access_token, mock_repositories, cpam0002_analysis_json
 ):
@@ -230,7 +231,9 @@ def test_remove_supporting_evidence_link(client, mock_access_token, mock_reposit
     assert response.status_code == 200
     assert response.json() == expected
 
+
 # HERE ARE THE PEDIGREE TESTS
+
 
 def test_attach_image_to_pedigree_section(client, mock_access_token, mock_repositories):
     """ Testing attaching an image to the Pedigree section of an analysis """
@@ -266,8 +269,9 @@ def test_attach_image_to_pedigree_section(client, mock_access_token, mock_reposi
 
     mock_repositories["analysis"].collection.find_one_and_update.assert_called_with({"name": "CPAM0112"},
                                                                                     {"$set": expected})
-    
+
     assert response.status_code == 201
+
 
 def test_update_existing_pedigree_section_image(client, mock_access_token, mock_repositories):
     """ Testing the update pedigree attachment endpoint """
@@ -300,6 +304,7 @@ def test_update_existing_pedigree_section_image(client, mock_access_token, mock_
     assert expected == response.json()
     assert response.status_code == 200
 
+
 def test_remove_existing_pedigree_section_image(client, mock_access_token, mock_repositories):
     """ Tests removing an existing image from the pedigree section of CPAM0002 """
     mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
@@ -315,7 +320,9 @@ def test_remove_existing_pedigree_section_image(client, mock_access_token, mock_
 
     assert response.status_code == 200
 
+
 # END OF THE PEDIGREE TESTS
+
 
 def test_attach_third_party_link(client, mock_access_token, mock_repositories):
     """ Testing the attach third party link endpoint """

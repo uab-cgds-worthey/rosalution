@@ -133,6 +133,7 @@ def test_attach_file_supporting_evidence(analysis_collection, cpam0002_analysis_
     assert 'attachment_id' in new_evidence
     assert new_evidence['attachment_id'] == 'Fake-Mongo-Object-ID-2'
 
+
 def test_get_genomic_units(analysis_collection):
     """Tests the get_genomic_units function"""
     analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
@@ -179,7 +180,9 @@ def test_remove_supporting_evidence(analysis_collection):
     actual = analysis_collection.remove_supporting_evidence("CPAM0002", "633afb87fb250a6ea1569555")
     assert actual == expected
 
+
 # HERE ARE THE PEDIGREE TESTS
+
 
 def test_add_image_to_pedigree_section(analysis_collection, empty_pedigree):
     """Tests adding an image to the pedigree section of the CPAM0002 analysis"""
@@ -189,16 +192,16 @@ def test_add_image_to_pedigree_section(analysis_collection, empty_pedigree):
     analysis_collection.add_section_image("CPAM0002", "Pedigree", "Pedigree", "63505be22888347cf1c275db")
     analysis_collection.collection.find_one_and_update.assert_called_with({"name": "CPAM0002"}, {"$set": expected})
 
+
 def test_add_an_additional_image_to_pedigree_section(analysis_collection):
     """ Tests adding another image to the pedigree section of the CPAM0002 analysis """
 
     analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
 
     expected = {
-        'header': 'Pedigree',
-        'attachment_field': 'Pedigree',
-        'content': [{'type': 'images-dataset', 'field': 'Pedigree', 'value': [
-            {"file_id": "63505be22888347cf1c275db"}, {"file_id": "second-fake-file-id"}]
+        'header': 'Pedigree', 'attachment_field': 'Pedigree', 'content': [{
+            'type': 'images-dataset', 'field': 'Pedigree', 'value': [{"file_id": "63505be22888347cf1c275db"},
+                                                                     {"file_id": "second-fake-file-id"}]
         }]
     }
 
@@ -213,8 +216,7 @@ def test_update_existing_image_in_pedigree_section(analysis_collection):
     analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
 
     expected = {
-        'header': 'Pedigree',
-        'attachment_field': 'Pedigree',
+        'header': 'Pedigree', 'attachment_field': 'Pedigree',
         'content': [{'type': 'images-dataset', 'field': 'Pedigree', 'value': [{"file_id": "new-fake-file-id"}]}]
     }
 
@@ -224,13 +226,13 @@ def test_update_existing_image_in_pedigree_section(analysis_collection):
 
     assert actual == expected
 
-def test_remove_image_from_pedigree_section(analysis_collection, empty_pedigree):
+
+def test_remove_image_from_pedigree_section(analysis_collection):
     """Tests removing an image from the pedigree section of the CPAM0002 analysis"""
 
     analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
     expected = {
-        'header': 'Pedigree',
-        'attachment_field': 'Pedigree',
+        'header': 'Pedigree', 'attachment_field': 'Pedigree',
         'content': [{'type': 'images-dataset', 'field': 'Pedigree', 'value': []}]
     }
     analysis_collection.collection.find_one_and_update.return_value = expected
@@ -239,7 +241,9 @@ def test_remove_image_from_pedigree_section(analysis_collection, empty_pedigree)
     )
     assert actual == expected
 
+
 # END OF THE PEDIGREE TESTS
+
 
 def test_attach_third_party_link_monday(analysis_collection):
     """Tests the attach_third_party_link function"""
