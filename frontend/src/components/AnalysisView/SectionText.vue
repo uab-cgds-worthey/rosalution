@@ -62,8 +62,6 @@ export default {
         field: this.field,
         value: event.target.innerText.split('\n'),
       };
-      console.log(contentRow);
-      console.log('section text');
       this.$emit('update:sectionText', contentRow);
     },
   },

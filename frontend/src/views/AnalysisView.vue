@@ -26,7 +26,7 @@
       <SectionBox
         v-for="(section) in sectionsList"
         :id="section.header.replace(' ', '_')"
-        :key="`${section.header}-${index}`"
+        :key="`${section.header}`"
         :analysis_name="this.analysis_name"
         :header="section.header"
         :content="section.content"
@@ -230,7 +230,6 @@ export default {
         return;
       }
 
-
       if ('DELETE' == attachment) {
         await this.removeSectionImage(fileId, sectionName, field);
         return;
@@ -402,14 +401,11 @@ export default {
       }
 
       this.updatedContent[contentRow.header][contentRow.field] = contentRow.value;
-      console.log(this.updatedContent);
     },
     replaceAnalysisSection(sectionToReplace) {
       const originalSectionIndex = this.analysis.sections.findIndex(
           (section) => section.header == sectionToReplace.header,
       );
-      console.log(originalSectionIndex);
-      console.log(sectionToReplace);
       this.analysis.sections.splice(originalSectionIndex, 1, sectionToReplace);
     },
     async addMondayLink() {

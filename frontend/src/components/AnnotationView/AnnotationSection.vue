@@ -5,7 +5,7 @@
       <h2 class="rosalution-section-header-text">
         {{header}}
       </h2>
-      <span class="rosalution-section-center">
+      <span class="rosalution-section-center" data-test="header-datasets">
         <slot name="headerDatasets"></slot>
       </span>
       <button

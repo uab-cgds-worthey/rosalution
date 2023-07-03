@@ -138,7 +138,7 @@ describe('AnnotationView', () => {
 
     beforeAll(() => {
       geneSection = wrapper.find('#Gene');
-      geneSectionHeader = geneSection.get('.annotations');
+      geneSectionHeader = geneSection.get('[data-test=header-datasets]');
       linkoutElements = geneSectionHeader.findAll('a');
     });
 
@@ -148,7 +148,7 @@ describe('AnnotationView', () => {
 
     it('should not render any linkouts if none provided', () => {
       const variantSection = wrapper.find('#Variant');
-      const variantSectionHeader = variantSection.get('.annotations');
+      const variantSectionHeader = variantSection.get('[data-test=header-datasets]');
       const noLinkouteElements = variantSectionHeader.findAll('a');
       expect(noLinkouteElements.length).to.equal(0);
     });

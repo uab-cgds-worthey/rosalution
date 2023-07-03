@@ -79,9 +79,9 @@ async function getMockedWrapper(latestStatus, mockedData) {
 
 describe('AnalysisView', () => {
   let mockedData;
-  let pedigreeAttachMock;
-  let pedigreeUpdateMock;
-  let pedigreeRemoveMock;
+  let attachSectionImageMock;
+  let updateSectionImageMock;
+  let removeSectionImageMock;
   let mockedAttachSupportingEvidence;
   let mockedRemoveSupportingEvidence;
   let mockedAttachThirdPartyLink;
@@ -96,9 +96,9 @@ describe('AnalysisView', () => {
     mockedData = sandbox.stub(Analyses, 'getAnalysis');
     mockedData.returns(fixtureData());
 
-    pedigreeAttachMock = sandbox.stub(Analyses, 'attachSectionImage');
-    pedigreeUpdateMock = sandbox.stub(Analyses, 'updateSectionImage');
-    pedigreeRemoveMock = sandbox.stub(Analyses, 'removeSectionImage');
+    attachSectionImageMock = sandbox.stub(Analyses, 'attachSectionImage');
+    updateSectionImageMock = sandbox.stub(Analyses, 'updateSectionImage');
+    removeSectionImageMock = sandbox.stub(Analyses, 'removeSectionImage');
 
     mockedAttachSupportingEvidence = sandbox.stub(Analyses, 'attachSupportingEvidence');
     mockedRemoveSupportingEvidence = sandbox.stub(Analyses, 'removeSupportingEvidence');
@@ -170,7 +170,7 @@ describe('AnalysisView', () => {
       try {
         await triggerAction(wrapper, 'Mark Ready');
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
       expect(toast.state.active).to.be.true;
       expect(toast.state.type).to.equal('error');
@@ -411,15 +411,11 @@ describe('AnalysisView', () => {
     describe('when an image section does not have an image', () => {
       it('accepts an image render as content', async () => {
         const newPedigreeSection = {
-          header: 'Pedigree',
-          content: [
-            {
-              field: 'image',
-              value: ['fakeimagefileid'],
-            },
-          ],
+          section: 'Pedigree',
+          field: 'Pedigree',
+          image_id: '64a2f06a4d4d29b8dc93c2d8',
         };
-        pedigreeAttachMock.returns(newPedigreeSection);
+        attachSectionImageMock.returns(newPedigreeSection);
 
         const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
         pedigreeSection.vm.$emit('attach-image', 'Pedigree');
@@ -443,7 +439,12 @@ describe('AnalysisView', () => {
       beforeEach(() => {
         const imageSection = {
           header: 'Pedigree',
-          content: [{field: 'image', value: ['635a89aea7b2f21802b74539']}],
+          attachment_field: 'Pedigree',
+          content: [{
+            type: 'images-dataset',
+            field: 'Pedigree',
+            value: [{file_id: '635a89aea7b2f21802b74539'}],
+          }],
         };
         const analysisWithNewEvidence = fixtureData();
         const pedigreeSectionIndex =
@@ -454,36 +455,40 @@ describe('AnalysisView', () => {
       });
 
       it('updates section image content with input dialog', async () => {
-        pedigreeUpdateMock.returns({
-          header: 'Pedigree',
-          content: [{field: 'image', value: ['different-image-635a89aea7b2f21802b74539']}],
+        updateSectionImageMock.returns({
+          section: 'Pedigree',
+          field: 'Pedigree',
+          image_id: 'different-image-635a89aea7b2f21802b74539',
         });
 
         const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
-        pedigreeSection.vm.$emit('update-image', 'Pedigree');
+        pedigreeSection.vm.$emit('update-image', '635a89aea7b2f21802b74539', 'Pedigree', 'Pedigree');
         await wrapper.vm.$nextTick();
 
         const fakeImageForUpdate = {data: 'fakeImage.png'};
         inputDialog.confirmation(fakeImageForUpdate);
 
+        await wrapper.vm.$nextTick();
         await wrapper.vm.$nextTick();
 
         const reRenderedPedigreeSection = wrapper.findComponent('[id=Pedigree]');
 
-        expect(pedigreeUpdateMock.called).to.be.true;
-        expect(reRenderedPedigreeSection.props('content').length).to.equal(1);
+        expect(updateSectionImageMock.called).to.be.true;
+        expect(reRenderedPedigreeSection.props().content[0].value[0].file_id)
+            .to.equal('different-image-635a89aea7b2f21802b74539');
       });
 
       it('notifies user when updating section image content fails', async () => {
-        pedigreeUpdateMock.throws('failure happened');
+        updateSectionImageMock.throws('failure happened');
 
         const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
-        pedigreeSection.vm.$emit('update-image', 'Pedigree');
+        pedigreeSection.vm.$emit('update-image', '635a89aea7b2f21802b74539', 'Pedigree', 'Pedigree');
         await wrapper.vm.$nextTick();
 
         const fakeImageForUpdate = {data: 'fakeImage.png'};
         inputDialog.confirmation(fakeImageForUpdate);
 
+        await wrapper.vm.$nextTick();
         await wrapper.vm.$nextTick();
 
         const reRenderedPedigreeSection = wrapper.findComponent('[id=Pedigree]');
@@ -491,19 +496,20 @@ describe('AnalysisView', () => {
         const failureDialog = wrapper.findComponent(NotificationDialog);
         expect(failureDialog.exists()).to.be.true;
 
-        expect(pedigreeUpdateMock.called).to.be.true;
+        expect(updateSectionImageMock.called).to.be.true;
         expect(reRenderedPedigreeSection.props('content').length).to.equal(1);
       });
 
       it('allows user to remove image content with input dialog with confirmation', async () => {
-        pedigreeRemoveMock.resolves();
+        removeSectionImageMock.resolves();
 
         const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
-        pedigreeSection.vm.$emit('update-image', 'Pedigree');
+        pedigreeSection.vm.$emit('update-image', '635a89aea7b2f21802b74539', 'Pedigree', 'Pedigree');
         await wrapper.vm.$nextTick();
 
         inputDialog.delete();
 
+        await wrapper.vm.$nextTick();
         await wrapper.vm.$nextTick();
 
         const confirmationDialog = wrapper.findComponent(NotificationDialog);
@@ -518,12 +524,12 @@ describe('AnalysisView', () => {
 
         const reRenderedPedigreeSection = wrapper.findComponent('[id=Pedigree]');
 
-        expect(pedigreeRemoveMock.called).to.be.true;
-        expect(reRenderedPedigreeSection.props('content').length).to.equal(0);
+        expect(removeSectionImageMock.called).to.be.true;
+        expect(reRenderedPedigreeSection.props('content')[0].value.length).to.equal(0);
       });
 
       it('notifies the user when the image content fails to be removed', async () => {
-        pedigreeRemoveMock.throws('sad-it-did not remove');
+        removeSectionImageMock.throws('sad-it-did not remove');
 
         const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
         pedigreeSection.vm.$emit('update-image', 'Pedigree');
@@ -625,12 +631,14 @@ function fixtureData() {
         header: 'Brief',
         content: [
           {
+            type: 'section-text',
             field: 'Nominated',
             value: [
               'Dr. Person Two (Local) - working with Dr. Person Three in Person Four Lab',
             ],
           },
           {
+            type: 'section-text',
             field: 'Reason',
             value: [
               'Contribute a dominant negative patient-variant model to the existing zebrafish model (LOF; in-progress)',
@@ -638,6 +646,7 @@ function fixtureData() {
             ],
           },
           {
+            type: 'section-text',
             field: 'Desired Outcomes',
             value: ['Functional impact confirmation (animal/cell modeling)'],
           },
@@ -647,10 +656,12 @@ function fixtureData() {
         header: 'Medical Summary',
         content: [
           {
+            type: 'section-text',
             field: 'Clinical Diagnosis',
             value: ['LMNA-related congenital muscular dystropy'],
           },
           {
+            type: 'section-text',
             field: 'Affected Individuals Identified',
             value: ['Male, YOB: 2019'],
           },
@@ -658,24 +669,32 @@ function fixtureData() {
       },
       {
         header: 'Pedigree',
-        content: [],
+        attachment_field: 'Pedigree',
+        content: [{
+          type: 'images-dataset',
+          field: 'Pedigree',
+          value: [],
+        }],
       },
       {
         header: 'Case Information',
         content: [
           {
+            type: 'section-text',
             field: 'Systems',
             value: [
               'Growth Parameters; Craniofacial; Musculoskeletal; Gastrointestinal; Behavior, Cognition;',
             ],
           },
           {
+            type: 'section-text',
             field: 'HPO Terms',
             value: [
               'HP:0001508; HP:0001357; HP:0000473; HP:0003560; HP:0003701; HP:0009062; HP:0012389; HP: 0003236;',
             ],
           },
           {
+            type: 'section-text',
             field: 'Additional Details',
             value: [
               'Review of VUSes (Why not considered)',
@@ -685,10 +704,12 @@ function fixtureData() {
             ],
           },
           {
+            type: 'section-text',
             field: 'Experimental Design',
             value: [],
           },
           {
+            type: 'section-text',
             field: 'Prior Testing',
             value: ['WES - February  2020;'],
           },

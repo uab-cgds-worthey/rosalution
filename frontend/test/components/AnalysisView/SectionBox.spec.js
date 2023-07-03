@@ -1,11 +1,11 @@
 import {expect, describe, it, beforeAll, afterAll} from 'vitest';
-import {config, shallowMount} from '@vue/test-utils';
+import {config, mount} from '@vue/test-utils';
 
 import Analyses from '@/models/analyses.js';
 
 import SectionBox from '@/components/AnalysisView/SectionBox.vue';
 
-import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import {FontAwesomeIcon, FontAwesomeLayers} from '@fortawesome/vue-fontawesome';
 import sinon from 'sinon';
 
 
@@ -20,12 +20,14 @@ function getMountedComponent(props) {
     header: 'Brief',
     content: [
       {
+        type: 'section-text',
         field: 'Nominated',
         value: [
           'Dr. Person Two (Local) - working with Dr. Person Three in Person Four Lab',
         ],
       },
       {
+        type: 'section-text',
         field: 'Reason',
         value: [
           'Contribute a dominant negative patient-variant model to the existing zebrafish model (LOF; in-progress)',
@@ -33,6 +35,7 @@ function getMountedComponent(props) {
         ],
       },
       {
+        type: 'section-text',
         field: 'Desired Outcomes',
         value: [
           'Functional impact confirmation (animal/cell modeling)',
@@ -44,11 +47,17 @@ function getMountedComponent(props) {
     edit: false,
   };
 
-  return shallowMount(SectionBox, {
+  return mount(SectionBox, {
     props: {...defaultProps, ...props},
     global: {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
+        'font-awesome-layers': FontAwesomeLayers,
+      },
+      stubs: {
+        AnnotationViewHeader: true,
+        FontAwesomeIcon: true,
+        FontAwesomeLayers: true,
       },
     },
   });
