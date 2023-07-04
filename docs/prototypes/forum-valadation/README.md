@@ -1,14 +1,13 @@
 # Forum Validation Prototype Implementation
 
-This README provides instructions on how to incorporate files related to a forum validation implementation into the main
-project.
+This README provides instructions on how to incorporate files related to a forum validation prototype implementation into the main project.
 
 ## File Structure
 
 The files are organized in the following way:
 
-- Frontend JavaScript and Vue components and their corresponding test files
-- End-to-end system test files
+- Frontend JavaScript, Vue components, CSS styles, and their corresponding test files.
+- End-to-end system test files.
 
 ## Instructions
 
@@ -16,8 +15,12 @@ The files are organized in the following way:
     - `inputDialog.js` should be placed directly under your project's `frontend/src` directory.
 
     - The Vue components `InputDialog.vue`, `InputDialogAttachUrl.vue`, and `InputDialogUploadFile.vue` should be placed
-    inside the directory `src/components/Dialogs/` under your project's `frontend` directory. The path should look
-    like: `frontend/src/components/Dialogs/`.
+    inside the directory `src/components/Dialogs/` under your project's `frontend` directory. The path should look like:
+    `frontend/src/components/Dialogs/`.
+
+    - CSS styles related to the frontend should be placed in the `styles` directory under your project's `frontend/src`
+    directory. The path should look like: `frontend/src/styles/`. Specifically, the file `main.css` should be located
+    there.
 
     - Test files for these components `InputDialog.spec.js`, `InputDialogAttachUrl.spec.js`,
     `InputDialogUploadFile.spec.js` should be placed in `test/components/Dialogs/` under your project's `frontend`

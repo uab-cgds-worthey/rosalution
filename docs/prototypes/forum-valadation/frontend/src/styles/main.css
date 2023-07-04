@@ -1,0 +1,235 @@
+/** || Variables **/
+
+html {
+  --cgds-blue-100: #CED2FE; /** delphi-blue-100 within figma documentation **/
+  --cgds-red-100: #F7AEAE;
+  --cgds-red-200: #FF555D; /** delphi-red-200 within figma documentation **/
+  --cgds-yellow-100: #F7EFAE;  /** delphi-yellow-100 within figma documentation **/
+  
+  --rosalution-red-300: #A00000;
+  --rosalution-red-200: #DC0000;
+  --rosalution-red-100: #FF0100;
+  --rosalution-blue-300: #003F9D;
+  --rosalution-blue-200: #0066FF;
+  --rosalution-blue-150: #19A3CF;
+  --rosalution-blue-100: #0BC3FF;
+  --rosalution-green-200: #00C036;
+  --rosalution-purple-100: #D9C2FF;
+  --rosalution-purple-200: #7E64A9;
+  --rosalution-purple-300:#451C89;
+  --rosalution-teal-200: #13CEC3;
+  --rosalution-yellow-100: #FEE353; 
+  --rosalution-yellow-200: #FECA0F;
+  --rosalution-yellow-300: #DEA000;
+  --rosalution-orange-100: #FFC56F; 
+  --rosalution-orange-200: #FFA41B;
+  --rosalution-orange-300: #FF7B07;
+  --rosalution-grey-200: #C4C4C4; 
+  --rosalution-grey-300: #A1A1A1;
+  --rosalution-grey-100: #E7E6E6;
+  --rosalution-grey-50: #F6F6F6;
+  --rosalution-grey-000: #F1F1F1;
+  --rosalution-black: black;
+  --rosalution-white: white;
+  
+  --primary-background-color: #F3F5F9;
+  --secondary-background-color: var(--rosalution-white);
+  
+  --content-border-radius: 10px;
+  --input-border-radius: 15px;
+  --button-border-radius: 25px;
+
+  --modal-background-z-index: 10;
+  --modal-container-z-index: 999;
+  
+  --p-0: 0rem;
+  --p-1: 0.25rem;
+  --p-5: 0.313rem;
+  --p-8: 0.5rem;
+  --p-10: 0.625rem;
+  --p-16: 1rem;
+
+  scroll-padding-top: 4rem;
+}
+
+/** || General Styles **/
+
+body {
+  font-family: "proxima-nova", sans-serif;
+  font-size: 1.125rem; /* 18px */
+  background-color: var(--primary-background-color);
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+h2 { 
+  font-size: 1.5rem; /* 24px */
+  font-weight: 700;
+  color: var(--rosalution-black);
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active { 
+  text-decoration: none;
+  color: var(--rosalution-purple-200)
+}
+
+/* 
+a {
+  color: var(--rosalution-purple-300);
+}
+
+a:hover {
+  color: var(--rosalution-purple-200);
+}
+
+a:active {
+  color: var(--rosalution-purple-100);
+} */
+
+input,
+textarea {
+  font-family: "Proxima Nova", sans-serif;
+  font-size: 1.125rem; /* 18px */
+  border-radius: var(--input-border-radius);
+  padding: var(--p-10);
+  border: 2px solid var(--rosalution-grey-100);
+  background-color: var(--secondary-background-color);
+  outline: none;
+}
+
+input:placeholder,
+textarea::placeholder {
+  color: var(--rosalution-grey-100);
+}
+
+input:hover,
+input:focus,
+textarea:hover,
+textarea:focus {
+  border: 2px solid var(--rosalution-purple-300);
+  box-shadow:  0px 0 0 4px rgba(69, 28, 137, 0.10);
+}
+
+/** || Primary Grid Site Layout **/
+
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-auto-columns: 1fr;
+  color: #444;
+  padding: 0.625rem;
+}
+
+app-header {
+  grid-column: 1;
+}
+
+app-content {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+app-footer {
+  grid-column: 1;
+  grid-row: 3;
+  height: 3rem;
+}
+
+/** Design System **/
+.modal-background {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: var(--modal-background-z-index);
+  background-color: rgba(192, 192, 192, 0.25);
+}
+
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: var(--modal-container-z-index);
+  background-color: var(--rosalution-white);
+  border-radius: var(--content-border-radius);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+
+/** LIGHTBOX MARKUP **/
+
+.lightbox {
+  display: none;
+
+  /* Overlay entire screen */
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  padding: 1em;
+
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.lightbox:target {
+  display: block;
+  outline: none;
+}
+
+.lightbox span {
+  /* Full width and height */
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  /* Size and position background image */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+/** || Typography **/
+
+.title {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+}
+
+.header-text {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+}
+
+.invalid-input-highlight{
+  border: 2px solid var(--rosalution-red-100);
+}
+
+.invalid-input-highlight:hover, .invalid-input-highlight:focus{
+  border: 2px solid var(--rosalution-red-100);
+  box-shadow:  0px 0 0 4px rgba(255, 0, 0, 0.1);
+}
