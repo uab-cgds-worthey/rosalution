@@ -11,7 +11,7 @@ The files are organized in the following way:
 
 ## Instructions
 
-1. **Frontend**
+1. **Replacing the Frontend files**
     - `inputDialog.js` should be placed directly under your project's `frontend/src` directory.
 
     - The Vue components `InputDialog.vue`, `InputDialogAttachUrl.vue`, and `InputDialogUploadFile.vue` should be placed
@@ -26,7 +26,7 @@ The files are organized in the following way:
     `InputDialogUploadFile.spec.js` should be placed in `test/components/Dialogs/` under your project's `frontend`
     directory. The path should look like: `frontend/test/components/Dialogs/`.
 
-2. **System-tests**
+2. **Replacing the System-tests files**
     - End-to-end test files `case_supporting_evidence.cy.js` and `import_new_case.cy.js` should be placed inside the
     `e2e` directory under the `system-tests` directory in your main project.
     The path should look like: `system-tests/e2e/`.
@@ -40,5 +40,6 @@ Please ensure you maintain this directory structure for the application to funct
 
 ## Notes
 
-- After adding these files, you might need to rebuild the docker containers based on your development environment.
-- Make sure to run all the tests to ensure the integration went smoothly.
+- After adding these files, you might need to rebuild the docker containers based on your development environment, or
+refresh the page in your browser.
+- Make sure to run all the tests to ensure the replacement of the files went smoothly.
