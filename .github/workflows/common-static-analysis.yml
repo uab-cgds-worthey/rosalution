@@ -1,5 +1,4 @@
 name: Markdown, Docker, and Shell Static Analysis
-
 on: [push, pull_request, workflow_dispatch]
 
 env:
@@ -10,7 +9,8 @@ env:
 
 jobs:
   docker-shell-markdown-static-analysis:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
       
     steps:
     - uses: actions/checkout@v3

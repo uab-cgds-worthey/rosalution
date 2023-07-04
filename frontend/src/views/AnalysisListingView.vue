@@ -27,7 +27,7 @@
   <app-footer>
     <InputDialog data-test="phenotips-import-dialog"/>
     <NotificationDialog data-test="notification-dialog" />
-    <AnalysisListingLegend/>
+    <AnalysisListingLegend @filtered-changed="filteredUpdated"/>
   </app-footer>
 </div>
 </template>
@@ -62,16 +62,23 @@ export default {
       store: authStore,
       searchText: '',
       analysisList: [],
+      filteredChanged: [],
     };
   },
   computed: {
     username() {
       return this.store.state.username;
     },
+    filteredAnalysisListing() {
+      return this.analysisList.filter((analysis) => {
+        return this.filteredChanged.length === 0 ||
+          this.filteredChanged.includes(analysis.latest_status.toLowerCase());
+      });
+    },
     searchedAnalysisListing() {
       const lowerCaseSearchText = this.searchText.toLowerCase();
 
-      return this.searchText === '' ? this.analysisList : this.analysisList.filter( (analysis) => {
+      return this.searchText === '' ? this.filteredAnalysisListing : this.filteredAnalysisListing.filter((analysis) => {
         return [analysis.name,
           analysis.created_date,
           analysis.last_modified_date,
@@ -79,17 +86,20 @@ export default {
         ].some((content) => content.toLowerCase().includes(lowerCaseSearchText)) ||
           analysis.genomic_units.some((unit) => {
             return (unit.gene && unit.gene.toLowerCase().includes(lowerCaseSearchText)) ||
-                (unit.transcripts &&
-                    unit.transcripts.some((transcript) => transcript.toLowerCase().includes(lowerCaseSearchText))) ||
-                (unit.variants && unit.variants.some((variant) => variant.toLowerCase().includes(lowerCaseSearchText)));
+              (unit.transcripts &&
+                unit.transcripts.some((transcript) => transcript.toLowerCase().includes(lowerCaseSearchText))) ||
+              (unit.variants && unit.variants.some((variant) => variant.toLowerCase().includes(lowerCaseSearchText)));
           });
-      } );
+      });
     },
   },
   created() {
     this.getListing();
   },
   methods: {
+    filteredUpdated(filteredChanged) {
+      this.filteredChanged = filteredChanged;
+    },
     async getListing() {
       this.analysisList.length = 0;
       const analyses = await Analyses.all();

@@ -1,44 +1,88 @@
 <template>
   <div class="legend">
-    <font-awesome-icon icon="asterisk" size="lg" style="color: var(--rosalution-status-annotation);"/>
-    <p>Annotating</p>
-    <font-awesome-icon icon="clipboard-check" size="lg" style="color: var(--rosalution-status-ready);"/>
-    <p>Ready</p>
-    <font-awesome-icon icon="book-open" size="lg" style="color: var(--rosalution-status-active)"/>
-    <p>Active</p>
-    <font-awesome-icon icon="pause" size="lg" style="color: var(--rosalution-status-on-hold)"/>
-    <p>On Hold</p>
-    <font-awesome-icon icon="check" size="lg" style="color: var(--rosalution-status-approved)"/>
-    <p>Approved</p>
-    <font-awesome-icon icon="x" size="lg" style="color: var(--rosalution-status-declined)"/>
-    <p>Declined</p>
+    <div v-for="status in statuses" :key="status.name" class="status" @click="toggleFilter(status.name)">
+      <font-awesome-icon :icon="status.icon" size="lg" :style="{
+        color: isFiltered(status.name)
+          ? `var(--rosalution-status-${status.name})`
+          : 'var(--rosalution-grey-300)',
+      }" />
+      <p :style="{
+        color: isFiltered(status.name)
+          ? ''
+          : 'var(--rosalution-grey-300)',
+      }">
+        {{ status.displayName }}
+      </p>
+    </div>
   </div>
 </template>
 
-<style scoped>
+<script>
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
+export default {
+  name: 'analysis-listing-legend',
+  emits: ['filtered-changed'],
+  components: {
+    'font-awesome-icon': FontAwesomeIcon,
+  },
+  data() {
+    return {
+      activeFilters: [],
+      statuses: [
+        {name: 'annotation', displayName: 'Annotating', icon: 'asterisk'},
+        {name: 'ready', displayName: 'Ready', icon: 'clipboard-check'},
+        {name: 'active', displayName: 'Active', icon: 'book-open'},
+        {name: 'on-hold', displayName: 'On Hold', icon: 'pause'},
+        {name: 'approved', displayName: 'Approved', icon: 'check'},
+        {name: 'declined', displayName: 'Declined', icon: 'times'},
+      ],
+    };
+  },
+  methods: {
+    toggleFilter(status) {
+      const index = this.activeFilters.indexOf(status);
+
+      if (index !== -1) {
+        this.activeFilters.splice(index, 1);
+      } else {
+        this.activeFilters.push(status);
+      }
+
+      if (this.activeFilters.length === this.statuses.length) {
+        this.activeFilters = [];
+      }
+
+      this.$emit('filtered-changed', this.activeFilters);
+    },
+    isFiltered(status) {
+      return this.activeFilters.includes(status) || this.activeFilters.length === 0;
+    },
+  },
+};
+</script>
+
+<style scoped>
 .legend {
   display: flex;
   flex-grow: 0;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: var(--p-10);
   border-radius: var(--content-border-radius);
   padding: var(--p-8);
   background-color: var(--secondary-background-color);
 }
 
-.legend p {
-  line-height: .245rem;
-  padding-right: var(--p-10);
+.status {
+  display: flex;
+  align-items: center;
+  user-select: none;
 }
 
+.legend p {
+  line-height: .245rem;
+  padding-left: var(--p-10);
+}
 </style>
-
-
-<script>
-export default {
-  name: 'analysis-listing-legend',
-};
-</script>

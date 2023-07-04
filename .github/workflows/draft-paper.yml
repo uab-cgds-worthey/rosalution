@@ -11,7 +11,7 @@ on:
 
 jobs:
   paper:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     name: JOSS pandoc paper draft
     steps:
       - name: Checkout
