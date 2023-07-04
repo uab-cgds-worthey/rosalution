@@ -1,6 +1,7 @@
 # Forum Validation Prototype Implementation
 
-This README provides instructions on how to incorporate files related to a forum validation prototype implementation into the main project.
+This README provides instructions on how to incorporate files related to a forum validation prototype implementation
+into the main project.
 
 ## File Structure
 
