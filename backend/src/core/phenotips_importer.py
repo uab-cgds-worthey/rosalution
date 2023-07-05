@@ -14,8 +14,7 @@ class PhenotipsImporter:
 
     def import_phenotips_json(self, phenotips_json_data):
         """Imports the phenotips json data into the database"""
-        if not isinstance(phenotips_json_data, dict):
-            phenotips_json_data = phenotips_json_data.dict()
+
         phenotips_variants = []
         variant_annotations = [
             "inheritance", "zygosity", "interpretation", "transcript", "cdna", "reference_genome", "protein", "gene"
@@ -63,7 +62,7 @@ class PhenotipsImporter:
         elif data_format == "gene":
             genomic_data = {"gene_symbol": data['gene'], "gene": data['gene'], "annotations": []}
         else:
-            warnings.warn("Invalid data format for import_genomic_unit_collection_data method")
+            warnings.warn("Invalid data format for import_genomic_unit_collection_data method", UserWarning)
             return None
         return genomic_data
 

@@ -22,6 +22,15 @@ def test_import_genomic_unit_data_gene(phenotips_importer):
     assert actual == {"gene": "BRCA1", "gene_symbol": "BRCA1", "annotations": []}
 
 
+def test_import_genomic_unit_data_incorrect_format(phenotips_importer):
+    """Tests that a warning will be given if the incorrect format is given for the format_genomic_unit_data function"""
+    data = {"fake-genomic_unit": "value"}
+    with pytest.warns(UserWarning) as warn_record:
+        actual = phenotips_importer.import_genomic_unit_collection_data(data, "fake-format")
+        assert len(warn_record) == 1
+        assert actual is None
+
+
 def test_import_analysis_data(phenotips_importer, exported_phenotips_to_import_json):
     """Tests the import_analyses_data function"""
 
