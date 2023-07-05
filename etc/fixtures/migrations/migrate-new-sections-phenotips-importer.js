@@ -24,8 +24,6 @@ if (typeof databaseName === 'undefined') {
     quit(1);
 }
 
-db = db.getSiblingDB(databaseName);
-
 // use new sections in phenotips importer in import_analysis_data to reconfigure database and move the data
 // can we just use the config in phenotips importer? without creating an array/object here?
 // const newSectionsRename = [
@@ -48,24 +46,45 @@ db = db.getSiblingDB(databaseName);
 //   }
 // ]
 
+db = db.getSiblingDB(databaseName);
+
 try {
   const analyses = db.analyses.find();
   analyses.forEach(element => {
-    element.sections.forEach(section => {
-        const value = Object.values(section)
-        
-        print(value)
-        // add new sections to sections[] in each element
-        // check if field already exists in analyses sections 
-        //move field data
-        // update
+    // print(element)
 
-          
-          // db.genomic_units.update(
-          //   {'_id': element._id},
-          //   {'$set': element}
-          // )
+    // from each analysis get each gene for the gene specific sections
+    // maybe store it in an array? 
+    genes = []
+    element.genomic_units.forEach(unit => {
+      if (unit.gene) {
+        genes.push(unit.gene)
+      }
     })
+    print(genes)
+
+    //iterating through the genes array to append the gene sections here
+    genes.forEach(gene => {
+      print ("APPENDING GENE SECTIONS HERE TO element.sections")
+    })
+
+    element.sections.forEach(section => {
+      const value = Object.values(section)
+      
+      // print(value)
+
+      
+      // add new sections to sections[] in each element
+      // check if field already exists in analyses sections 
+      //move field data -- how????
+
+    })
+
+    // update       
+    // db.analyses.update(
+    //   {'_id': element._id},
+    //   {'$set': element}
+    // )
   });
 } catch (err) {
   console.log(err.stack);
