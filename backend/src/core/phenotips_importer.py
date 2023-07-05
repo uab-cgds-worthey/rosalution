@@ -87,11 +87,7 @@ class PhenotipsImporter:
                     {"type": "section-text", "field": 'Systems', "value": []},
                     {"type": "section-text", "field": 'Additional Details', "value": []},
                 ]
-            }, {
-                "header": 'Pedigree', "content": [
-                    {"type": "images-dataset", "field": "Pedigree", "value": []}
-                ]
-            }]
+            }, {"header": 'Pedigree', "content": [{"type": "images-dataset", "field": "Pedigree", "value": []}]}]
         }
 
         for phenotips_gene in phenotips_genes:
@@ -117,26 +113,25 @@ class PhenotipsImporter:
 
             analysis_data['genomic_units'].append(analysis_unit)
 
-
         for genomic_unit in analysis_data['genomic_units']:
             if genomic_unit['gene']:
-                new_sections = [
-                    {
-                        "header": str(genomic_unit["gene"] + " Gene to Phenotype"), "content":[
-                            {"type": "images-dataset", "field": 'Gene to Phenotype', "value": []},
-                            {"type": "section-text", "field": 'HPO Terms', "value": [self.extract_hpo_terms(phenotips_json_data["features"])]},
-                        ]
-                    }, {
-                        "header": str(genomic_unit["gene"] + " Molecular Mechanism"), "content":[
-                            {"type": "section-text", "field": 'Function Overview', "value": []}
-                        ]
-                    },{
-                        "header": str(genomic_unit["gene"] + " Function"), "content":[
-                            {"type": "images-dataset", "field": 'Function', "value": []},
-                        ]
-                    }]
+                new_sections = [{
+                    "header": str(genomic_unit["gene"] + " Gene to Phenotype"), "content": [
+                        {"type": "images-dataset", "field": 'Gene to Phenotype', "value": []},
+                        {
+                            "type": "section-text", "field": 'HPO Terms',
+                            "value": [self.extract_hpo_terms(phenotips_json_data["features"])]
+                        },
+                    ]
+                }, {
+                    "header": str(genomic_unit["gene"] + " Molecular Mechanism"),
+                    "content": [{"type": "section-text", "field": 'Function Overview', "value": []}]
+                }, {
+                    "header": str(genomic_unit["gene"] + " Function"),
+                    "content": [{"type": "images-dataset", "field": 'Function', "value": []},]
+                }]
                 analysis_data['sections'].extend(new_sections)
-        
+
         model_goals_section = {
             "header": 'Model Goals', "content": [
                 {"type": "section-text", "field": 'Model of Interest', "value": []},
