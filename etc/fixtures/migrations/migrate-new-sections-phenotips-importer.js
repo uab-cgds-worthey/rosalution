@@ -83,11 +83,11 @@ try {
               newValues.push( {file_id:imageId});
             });
             updatedContent.push({
+              type: 'images-dataset',
               field: section.header,
               value: newValues
             })
           })
-
           section.content = updatedContent
          }
       } else if (section.header === 'Clinical History') { 
@@ -117,7 +117,9 @@ try {
       genes.forEach(gene => {
 
         newGeneSections = [{
-            "header": gene.concat(" Gene to Phenotype"), "content": [
+            "header": gene.concat(" Gene to Phenotype"), 
+            "attachment_field": gene.concat(" Gene to Phenotype"),
+            "content": [
                 {"type": "images-dataset", "field": 'Gene to Phenotype', "value": []},
                 {
                     "type": "section-text", "field": 'HPO Terms',
@@ -129,6 +131,7 @@ try {
             "content": [{"type": "section-text", "field": 'Function Overview', "value": []}]
         }, {
             "header": gene.concat(" Function"),
+            "attachment_field": gene.concat(" Function"),
             "content": [{"type": "images-dataset", "field": 'Function', "value": []},]
         }]
       })
