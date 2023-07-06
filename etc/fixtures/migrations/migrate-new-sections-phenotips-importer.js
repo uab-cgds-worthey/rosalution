@@ -80,7 +80,7 @@ try {
           section.content.forEach((image) => {
             let newValues = [];
             image.value.forEach(imageId => {
-              newValues.push( {file_id:imageId});
+              newValues.push( {file_id: str(imageId)});
             });
             updatedContent.push({
               type: 'images-dataset',
@@ -120,7 +120,7 @@ try {
             "header": gene.concat(" Gene to Phenotype"), 
             "attachment_field": gene.concat(" Gene to Phenotype"),
             "content": [
-                {"type": "images-dataset", "field": 'Gene to Phenotype', "value": []},
+                {"type": "images-dataset", "field": gene.concat(" Gene to Phenotype"), "value": []},
                 {
                     "type": "section-text", "field": 'HPO Terms',
                     "value": HPOTermsValues
@@ -128,11 +128,11 @@ try {
             ]
         }, {
             "header": gene.concat(" Molecular Mechanism"),
-            "content": [{"type": "section-text", "field": 'Function Overview', "value": []}]
+            "content": [{"type": "section-text", "field": gene.concat(" Molecular Mechanism"), "value": []}]
         }, {
             "header": gene.concat(" Function"),
             "attachment_field": gene.concat(" Function"),
-            "content": [{"type": "images-dataset", "field": 'Function', "value": []},]
+            "content": [{"type": "images-dataset", "field": gene.concat(" Function"), "value": []},]
         }]
       })
 
