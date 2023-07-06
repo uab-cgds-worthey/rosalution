@@ -6,17 +6,17 @@ describe('view_collapsible_case_information.cy.js', () => {
   });
 
   it('can view the case information when expanded and not when its collapsed', () => {
-    cy.get('#Brief > div > [data-test="Goals"] > .section-content').should('be.visible');
-    cy.get('#Brief > div > [data-test="Proposed Model/Project"] > .section-content').should('be.visible');
+    cy.get('#Brief > div > [data-test="Nominator"] > .section-content').should('be.visible');
+    cy.get('#Brief > div > [data-test="Participant"] > .section-content').should('be.visible');
     cy.get('#Clinical_History > div > [data-test="Testing"] > .section-content').should('be.visible');
-    
-    cy.get('#Brief > div > .rosalution-section-header > .rosalution-header-right-icons > .collapsable-logo > .svg-inline--fa').click();
-    cy.get('#Clinical_History > div > .rosalution-section-header > .rosalution-header-right-icons > .collapsable-logo > .svg-inline--fa')
-        .click();
 
-    cy.get('#Brief > div > [data-test="Goals"] > .section-content').should('not.be.visible');
-    cy.get('#Brief > div > [data-test="Proposed Model/Project"] > .section-content').should('not.be.visible');
-    
+    cy.get('#Brief > div > .rosalution-section-header > .rosalution-header-right-icons > .collapsable-logo > .svg-inline--fa').click({force:true});
+    cy.get('#Clinical_History > div > .rosalution-section-header > .rosalution-header-right-icons > .collapsable-logo > .svg-inline--fa')
+        .click({force:true});
+
+    cy.get('#Brief > div > [data-test="Nominator"] > .section-content').should('not.be.visible');
+    cy.get('#Brief > div > [data-test="Participant"] > .section-content').should('not.be.visible');
+
     cy.get('#Clinical_History > div > [data-test="Testing"] > .section-content').should('not.be.visible');
   });
 });
