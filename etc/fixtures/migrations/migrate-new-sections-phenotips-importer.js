@@ -83,9 +83,20 @@ try {
             'value': []
           }]
         } else {
-          // print(section);
-          // TODO For the pedigree image if it already exists, take the existing value of pedigree and put it in the new object format and
-        }
+          let updatedContent = []
+          section.content.forEach((image) => {
+            let newValues = [];
+            image.value.forEach(imageId => {
+              newValues.push( {file_id:imageId});
+            });
+            updatedContent.push({
+              field: section.header,
+              value: newValues
+            })
+          })
+
+          section.content = updatedContent
+         }
       } else if (section.header === 'Clinical History') { 
         section.content.forEach(contentItem => {
           print("REached clinical history")
