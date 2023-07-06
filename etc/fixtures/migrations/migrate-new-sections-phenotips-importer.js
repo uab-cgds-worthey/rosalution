@@ -56,7 +56,7 @@ try {
     let briefToModelGoalsFields = [];
     let clinicalToGeneToPhenotype = [];
     let namesOfFieldsToMove = ['Model of Interest', 'Goals', 'Proposed Model/Project']
-    let HPOTermsValues = {};
+    let HPOTermsValues = [];
     element.sections.forEach(section => {
       // print('---------')
       // print(section)
@@ -74,17 +74,6 @@ try {
         section.content = section.content.filter((contentItem) => {
           return !namesOfFieldsToMove.includes(contentItem.field);
         });
-      } else if (section.header === 'Clinical History') {
-        section.content.forEach(contentItem => {
-          contentItem['type'] = 'section-text';
-          if(contentItem.field === 'HPO Terms') {
-            clinicalToGeneToPhenotype.push(contentItem);
-          }
-        })
-
-        section.content = section.content.filter((contentItem) => {
-          return !contentItem.field === 'HPO Terms';
-        });
       } else if (section.header === 'Pedigree') {
         section['attachment_field'] = 'Pedigree';
         if(section.content.length == 0) {
@@ -99,9 +88,13 @@ try {
         }
       } else if (section.header === 'Clinical History') { 
         section.content.forEach(contentItem => {
+          print("REached clinical history")
           contentItem['type'] = 'section-text';
-          if(contentItem.field == 'HPO Terms') {
+          if(contentItem.field === 'HPO Terms') {
             HPOTermsValues = contentItem.value;
+            print(HPOTermsValues)
+            print(contentItem.value)
+            print("SOMETHING IS HAPPENING HERE??????????")
           }
         });
       } else {
