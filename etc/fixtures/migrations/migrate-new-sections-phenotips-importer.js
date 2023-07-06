@@ -51,17 +51,10 @@ db = db.getSiblingDB(databaseName);
 try {
   const analyses = db.analyses.find();
   analyses.forEach(element => {
-    // print(element)
-
     let briefToModelGoalsFields = [];
-    let clinicalToGeneToPhenotype = [];
     let namesOfFieldsToMove = ['Model of Interest', 'Goals', 'Proposed Model/Project']
     let HPOTermsValues = [];
     element.sections.forEach(section => {
-      // print('---------')
-      // print(section)
-      // print('new section above')
-      const value = Object.values(section)
 
       if(section.header === 'Brief') {
         section.content.forEach(contentItem => {
@@ -99,18 +92,12 @@ try {
          }
       } else if (section.header === 'Clinical History') { 
         section.content.forEach(contentItem => {
-          print("REached clinical history")
           contentItem['type'] = 'section-text';
           if(contentItem.field === 'HPO Terms') {
             HPOTermsValues = contentItem.value;
-            print(HPOTermsValues)
-            print(contentItem.value)
-            print("SOMETHING IS HAPPENING HERE??????????")
           }
         });
       } else {
-        // print(section.header)
-        // print('adding section text to each item'[]
         if(!['Function', 'Molecular', 'Gene'].some(element => section.header.includes(element))) {
           section.content.forEach(contentItem => { 
             contentItem['type'] = 'section-text';
@@ -128,7 +115,7 @@ try {
 
     if (genes.length > 0) {
       genes.forEach(gene => {
-        print (`${gene} APPENDING GENE SECTIONS HERE TO element.sections`)
+
         newGeneSections = [{
             "header": gene.concat(" Gene to Phenotype"), "content": [
                 {"type": "images-dataset", "field": 'Gene to Phenotype', "value": []},
@@ -157,14 +144,13 @@ try {
       ]
     })
 
-    // print(briefToModelGoalsFields)
-    // print(element.sections);
+    print(element.sections);
 
     // update       
-    // db.analyses.update(
-    //   {'_id': element._id},
-    //   {'$set': element}
-    // )
+    db.analyses.update(
+      {'_id': element._id},
+      {'$set': element}
+    )
   });
 } catch (err) {
   console.log(err.stack);
