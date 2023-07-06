@@ -80,7 +80,7 @@ try {
           section.content.forEach((image) => {
             let newValues = [];
             image.value.forEach(imageId => {
-              newValues.push( {file_id: str(imageId)});
+              newValues.push( {file_id: imageId});
             });
             updatedContent.push({
               type: 'images-dataset',
