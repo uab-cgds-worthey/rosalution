@@ -116,7 +116,8 @@ class PhenotipsImporter:
             if genomic_unit['gene']:
                 new_sections = [{
                     "header": str(genomic_unit["gene"] + " Gene to Phenotype"), "content": [
-                        {"type": "images-dataset", "field": str(genomic_unit["gene"] + " Gene to Phenotype"), "value": []},
+                        {"type": "images-dataset", "field": str(genomic_unit["gene"] + " Gene to Phenotype"),
+                         "value": []},
                         {
                             "type": "section-text", "field": 'HPO Terms',
                             "value": [self.extract_hpo_terms(phenotips_json_data["features"])]
@@ -124,10 +125,12 @@ class PhenotipsImporter:
                     ]
                 }, {
                     "header": str(genomic_unit["gene"] + " Molecular Mechanism"),
-                    "content": [{"type": "section-text", "field": str(genomic_unit["gene"] + " Molecular Mechanism"), "value": []}]
+                    "content": [{"type": "section-text", "field": str(genomic_unit["gene"] + " Molecular Mechanism"),
+                                 "value": []}]
                 }, {
                     "header": str(genomic_unit["gene"] + " Function"),
-                    "content": [{"type": "images-dataset", "field": str(genomic_unit["gene"] + " Function"), "value": []},]
+                    "content": [{"type": "images-dataset", "field": str(genomic_unit["gene"] + " Function"),
+                                 "value": []},]
                 }]
                 analysis_data['sections'].extend(new_sections)
 
