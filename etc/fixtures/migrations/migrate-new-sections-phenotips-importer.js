@@ -53,49 +53,15 @@ try {
   analyses.forEach(element => {
     // print(element)
 
-    // from each analysis get each gene for the gene specific sections
-    // maybe store it in an array? 
-    genes = []
-    element.genomic_units.forEach(unit => {
-      if (unit.gene) {
-        genes.push(unit.gene)
-      }
-    })
-
-    //iterating through the genes array to create the gene sections here
-    if (genes.length > 0) {
-      genes.forEach(gene => {
-        print (`${gene} APPENDING GENE SECTIONS HERE TO element.sections`)
-        newGeneSections = [{
-            "header": gene.concat(" Gene to Phenotype"), "content": [
-                {"type": "images-dataset", "field": 'Gene to Phenotype', "value": []},
-                {
-                    "type": "section-text", "field": 'HPO Terms',
-                    // move HPO TERMS HERE HOW???
-                    // Need to get it from Clinical History
-                    "value": "HPO TERMS TO BE MOVED HERE FROM CLINICAL HISTORY"
-                },
-            ]
-        }, {
-            "header": gene.concat(" Molecular Mechanism"),
-            "content": [{"type": "section-text", "field": 'Function Overview', "value": []}]
-        }, {
-            "header": gene.concat(" Function"),
-            "content": [{"type": "images-dataset", "field": 'Function', "value": []},]
-        }]
-      })
-
-      element.sections.push(newGeneSections)
-    }
-    
-
     let briefToModelGoalsFields = [];
+    let clinicalToGeneToPhenotype = [];
     let namesOfFieldsToMove = ['Model of Interest', 'Goals', 'Proposed Model/Project']
+    let HPOTermsValues = {};
     element.sections.forEach(section => {
+      // print('---------')
       // print(section)
+      // print('new section above')
       const value = Object.values(section)
-      
-      // print(value)
 
       if(section.header === 'Brief') {
         section.content.forEach(contentItem => {
@@ -108,6 +74,17 @@ try {
         section.content = section.content.filter((contentItem) => {
           return !namesOfFieldsToMove.includes(contentItem.field);
         });
+      } else if (section.header === 'Clinical History') {
+        section.content.forEach(contentItem => {
+          contentItem['type'] = 'section-text';
+          if(contentItem.field === 'HPO Terms') {
+            clinicalToGeneToPhenotype.push(contentItem);
+          }
+        })
+
+        section.content = section.content.filter((contentItem) => {
+          return !contentItem.field === 'HPO Terms';
+        });
       } else if (section.header === 'Pedigree') {
         section['attachment_field'] = 'Pedigree';
         if(section.content.length == 0) {
@@ -117,21 +94,56 @@ try {
             'value': []
           }]
         } else {
-          print('pedigree section values');
-          // take the existing value and put it in the new object format and
-          // replace it in the field
+          // print(section);
+          // TODO For the pedigree image if it already exists, take the existing value of pedigree and put it in the new object format and
         }
-      } else {
-        section.content.forEach(contentItem => { 
+      } else if (section.header === 'Clinical History') { 
+        section.content.forEach(contentItem => {
           contentItem['type'] = 'section-text';
+          if(contentItem.field == 'HPO Terms') {
+            HPOTermsValues = contentItem.value;
+          }
         });
+      } else {
+        // print(section.header)
+        // print('adding section text to each item'[]
+        if(!['Function', 'Molecular', 'Gene'].some(element => section.header.includes(element))) {
+          section.content.forEach(contentItem => { 
+            contentItem['type'] = 'section-text';
+          });
+        }
       }
-      
-      // add new sections to sections[] in each element
-      // check if field already exists in analyses sections 
-      //move field data -- how????
-
     })
+
+    genes = []
+    element.genomic_units.forEach(unit => {
+      if (unit.gene) {
+        genes.push(unit.gene)
+      }
+    })
+
+    if (genes.length > 0) {
+      genes.forEach(gene => {
+        print (`${gene} APPENDING GENE SECTIONS HERE TO element.sections`)
+        newGeneSections = [{
+            "header": gene.concat(" Gene to Phenotype"), "content": [
+                {"type": "images-dataset", "field": 'Gene to Phenotype', "value": []},
+                {
+                    "type": "section-text", "field": 'HPO Terms',
+                    "value": HPOTermsValues
+                },
+            ]
+        }, {
+            "header": gene.concat(" Molecular Mechanism"),
+            "content": [{"type": "section-text", "field": 'Function Overview', "value": []}]
+        }, {
+            "header": gene.concat(" Function"),
+            "content": [{"type": "images-dataset", "field": 'Function', "value": []},]
+        }]
+      })
+
+      element.sections.push(...newGeneSections)
+    }
 
     element.sections.push({
       header: 'Model Goals', 'content': [
@@ -142,7 +154,7 @@ try {
     })
 
     // print(briefToModelGoalsFields)
-    print(element.sections);
+    // print(element.sections);
 
     // update       
     // db.analyses.update(
