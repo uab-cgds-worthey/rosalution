@@ -114,11 +114,15 @@
     },
     {
       "header": "Pedigree",
+      "attachment_field": "Pedigree",
       "content": [
         {
-          "field": "image",
+          "type": "images-dataset",
+          "field": "Pedigree",
           "value": [
-            "63505be22888347cf1c275db"
+            {
+              "file_id": "63505be22888347cf1c275db"
+            }
           ]
         }
       ]

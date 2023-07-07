@@ -1,31 +1,28 @@
 <template>
-  <table class="section-box-container">
-    <tbody>
-      <tr class="section-header">
-        <td>
-          <h2 class="section-name">
-            {{header}}
-          </h2>
-        </td>
-        <td class="annotations">
-          <slot name="headerDatasets"></slot>
-        </td>
-        <button
-          v-if="allowAttach"
-          class="attach-logo"
-          @click="$emit('attach-image', attachmentDataset, genomicAttachmentType)"
-          data-test="attach-logo"
-        >
+  <div class="rosalution-section-container">
+    <input type="checkbox" v-bind:id="section_toggle" />
+    <div class="rosalution-section-header">
+      <h2 class="rosalution-section-header-text">
+        {{header}}
+      </h2>
+      <span class="rosalution-section-center" data-test="header-datasets">
+        <slot name="headerDatasets"></slot>
+      </span>
+      <button
+        v-if="allowAttach"
+        class="attach-logo"
+        @click="$emit('attach-image', attachmentDataset, genomicAttachmentType)"
+        data-test="attach-logo"
+      >
         <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
-        </button>
-        <label class="collapsable-icon">
-          <font-awesome-icon icon="chevron-down" size="lg"/>
-        </label>
-      </tr>
-      <div class="seperator"></div>
-      <slot></slot>
-    </tbody>
-  </table>
+      </button>
+      <label class="collapsable-icon">
+        <font-awesome-icon icon="chevron-down" size="lg"/>
+      </label>
+    </div>
+    <div class="rosalution-section-seperator"></div>
+    <slot></slot>
+  </div>
 </template>
 
 <script>
@@ -45,6 +42,11 @@ export default {
       default: '',
     },
   },
+  data() {
+    return {
+      section_toggle: this.header.toLowerCase() + '_collapse',
+    };
+  },
   computed: {
     allowAttach() {
       if (this.genomicAttachmentType == '') {
@@ -58,33 +60,6 @@ export default {
 </script>
 
 <style scoped>
-table {
-  width:100%;
-}
-
-.section-box-container {
-  display: flex;
-  flex-direction: column;
-  padding: var(--p-10);
-  margin: var(--p-10);
-  gap: var(--p-10);
-  border-radius: var(--content-border-radius);
-  background-color: var(--rosalution-white);
-}
-
-.section-header {
-  height: 2rem;
-  display: flex;
-}
-
-.section-name {
-  margin: var(--p-1) var(--p-1) 0 var(--p-1);
-}
-
-.annotations {
-  flex-grow: 2;
-  justify-content: flex-start;
-}
 
 .collapsable-icon {
   color: var(--rosalution-grey-200);
@@ -99,14 +74,22 @@ table {
   cursor: pointer;
 }
 
-.seperator {
-  height: .125rem;
-  background-color: var(--rosalution-grey-100);
-  border: solid .0469rem var(--rosalution-grey-100);
+
+input[type="checkbox"] {
+  display: none;
 }
 
-.annotation-image {
-  max-height: 31.25rem;
+.rosalution-section-container input[type="checkbox"]:checked ~ .field-value-row {
+  display: none;
 }
 
+.rosalution-section-container input[type="checkbox"]:checked ~ img {
+  display: none;
+}
+
+input[type="checkbox"]:checked ~ tr > td > label.collapsable-logo {
+  transform: scaleY(-1);
+}
 </style>
+
+

@@ -40,27 +40,18 @@
         "header": "Brief",
         "content": [
           {
+            "type": "section-text",
             "field": "Nominator",
             "value": ["Dr. Person One"]
           },
           {
+            "type": "section-text",
             "field": "Participant",
             "value": ["1 patient, carrier mother"]
           },
           {
-            "field": "Model of Interest",
-            "value": []
-          },
-          {
-            "field": "Goals",
-            "value": [
-              "Review of ACMG classification",
-              "Functional impact study (in silico/animal/cell modeling)",
-              "Therapeutic predictions (in silico predictions)"
-            ]
-          },
-          {
-            "field": "Proposed Model/Project",
+            "type": "section-text",
+            "field": "Phenotype",
             "value": []
           }
         ]
@@ -69,12 +60,14 @@
         "header": "Clinical History",
         "content": [
           {
+            "type": "section-text",
             "field": "Clinical Diagnosis",
             "value": [
               "Vacuolor myopathy with autophagy, X-linked vacuolor myopathy with autophagy"
             ]
           },
           {
+            "type": "section-text",
             "field": "Affected Individuals Identified",
             "value": [
               "1 patient, carrier mother",
@@ -84,10 +77,12 @@
             ]
           },
           {
+            "type": "section-text",
             "field": "Sequencing",
             "value": []
           },
           {
+            "type": "section-text",
             "field": "Testing",
             "value": [
               "- DMD, LAMP2, myofibrillar myopathy panel performed testing for BAG3, crystalline B, desmin, DNAJB6, FLH1, LDB3, and myotilin. Non diagnostic.",
@@ -96,16 +91,12 @@
             ]
           },
           {
+            "type": "section-text",
             "field": "Systems",
             "value": ["Musculoskeletal and orthopedics"]
           },
           {
-            "field": "HPO Terms",
-            "value": [
-              "HP:0003198; HP:0003797; HP:0003325; HP:0008997; HP:0008994; HP:0001288; HP:0009060; HP:0004303; HP:0012103; HP:0003736"
-            ]
-          },
-          {
+            "type": "section-text",
             "field": "Additional Details",
             "value": [
               "8 yo male at time of testing. Ambulatory. Myopathy starting from 2 years of age with falls, elevated CK, and myopathic muscle biopsy. Clinical course is slowly progressive.",
@@ -121,7 +112,81 @@
       },
       {
         "header": "Pedigree",
-        "content": []
+        "attachment_field": "Pedigree",
+        "content": [{
+          "type": "images-dataset",
+          "field": "Pedigree",
+          "value": []
+        }]
+      },
+      {
+        "header": "VMA21 Gene To Phenotype",
+        "attachment_field": "VMA21 Gene To Phenotype",
+        "content": [{
+            "type": "images-dataset",
+            "field": "VMA21 Gene To Phenotype",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "HPO Terms",
+            "value": [
+              "HP:0003198; HP:0003797; HP:0003325; HP:0008997; HP:0008994; HP:0001288; HP:0009060; HP:0004303; HP:0012103; HP:0003736"
+            ]
+          }
+        ]
+      },
+      {
+        "header": "VMA21 Molecular Mechanism",
+        "content": [
+          {
+            "type": "section-text",
+            "field": "Function Overview",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "VMA21 Function",
+        "attachment_field": "VMA21 Function",
+        "content": [{
+            "type": "images-dataset",
+            "field": "VMA21 Function",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "Model Goals",
+        "content": [{
+          "type": "section-text",
+          "field": "Model of Interest",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Goals",
+          "value": [
+            "Review of ACMG classification",
+            "Functional impact study (in silico/animal/cell modeling)",
+            "Therapeutic predictions (in silico predictions)"
+          ]
+        },
+        {
+          "type": "section-text",
+          "field": "Proposed Model/Project",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Existing Collaborations",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Existing Funding",
+          "value": []
+        }]
       }
     ],
     "supporting_evidence_files": [],
@@ -201,25 +266,6 @@
           {
             "field": "Phenotype",
             "value": []
-          },
-          {
-            "field": "Model of Interest",
-            "value": ["Zebrafish"]
-          },
-          {
-            "field": "Goals",
-            "value": [
-              "Functional impact confirmation (animal/cell modeling)",
-              "Therapeutic predictions (in-silico predictions)",
-              "Downstream applications (sharing model to conduct larger drug screens)"
-            ]
-          },
-          {
-            "field": "Proposed Model/Project",
-            "value": [
-              "Contribute a dominant negative patient-variant model to the existing zebrafish model (LOF; in-progress)",
-              "Will be used in NBL 240: a research-based undergraduate course at UAB"
-            ]
           }
         ]
       },
@@ -227,34 +273,34 @@
         "header": "Clinical History",
         "content": [
           {
+            "type": "section-text",
             "field": "Clinical Diagnosis",
             "value": ["LMNA-related congenital muscular dystropy"]
           },
           {
+            "type": "section-text",
             "field": "Affected Individuals Identified",
             "value": ["Male, YOB: 2019"]
           },
           {
+            "type": "section-text",
             "field": "Sequencing",
             "value": ["WES"]
           },
           {
+            "type": "section-text",
             "field": "Testing",
             "value": ["WES - February  2020;"]
           },
           {
+            "type": "section-text",
             "field": "Systems",
             "value": [
               "Growth Parameters; Craniofacial; Musculoskeletal; Gastrointestinal; Behavior, Cognition and Development; Neurological"
             ]
           },
           {
-            "field": "HPO Terms",
-            "value": [
-              "HP:0001508:Failure to thrive; HP:0001357:Plagiocephaly; HP:0000473:Torticollis; HP:0003560:Muscular dystrophy; HP:0003701:Proximal muscle weakness; HP:0009062:Infantile axial hypotonia; HP:0012389:Appendicular hypotonia; HP: 0003236:Elevated serum creatine kinase; HP:0002020:Gastroesophageal reflux; HP:0011471:Gastrostomy tube feeding in infancy; HP:0011968:Feeding difficulties; HP:0001263:Global developmental delay; HP:0001265:Hyproflexia; HP:0032988:Persistent head lag; HP:0000960:Sacral dimple;"
-            ]
-          },
-          {
+            "type": "section-text",
             "field": "Additional Details",
             "value": [
               "Review of VUSes (Why not considered)",
@@ -276,7 +322,84 @@
       },
       {
         "header": "Pedigree",
-        "content": []
+        "attachment_field": "Pedigree",
+        "content": [{
+          "type": "images-dataset",
+          "field": "Pedigree",
+          "value": []
+        }]
+      },
+      {
+        "header": "LMNA Gene To Phenotype",
+        "attachment_field": "LMNA Gene To Phenotype",
+        "content": [{
+            "type": "images-dataset",
+            "field": "LMNA Gene To Phenotype",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "HPO Terms",
+            "value": [
+              "HP:0001508:Failure to thrive; HP:0001357:Plagiocephaly; HP:0000473:Torticollis; HP:0003560:Muscular dystrophy; HP:0003701:Proximal muscle weakness; HP:0009062:Infantile axial hypotonia; HP:0012389:Appendicular hypotonia; HP: 0003236:Elevated serum creatine kinase; HP:0002020:Gastroesophageal reflux; HP:0011471:Gastrostomy tube feeding in infancy; HP:0011968:Feeding difficulties; HP:0001263:Global developmental delay; HP:0001265:Hyproflexia; HP:0032988:Persistent head lag; HP:0000960:Sacral dimple;"
+            ]
+          }
+        ]
+      },
+      {
+        "header": "LMNA Molecular Mechanism",
+        "content": [
+          {
+            "type": "section-text",
+            "field": "Function Overview",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "LMNA Function",
+        "attachment_field": "LMNA Function",
+        "content": [{
+            "type": "images-dataset",
+            "field": "LMNA Function",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "Model Goals",
+        "content": [{
+          "type": "section-text",
+          "field": "Model of Interest",
+          "value": ["Zebrafish"]
+        },
+        {
+          "type": "section-text",
+          "field": "Goals",
+            "value": [
+              "Functional impact confirmation (animal/cell modeling)",
+              "Therapeutic predictions (in-silico predictions)",
+              "Downstream applications (sharing model to conduct larger drug screens)"
+            ]
+        },
+        {
+          "type": "section-text",
+          "field": "Proposed Model/Project",
+          "value": [
+            "Contribute a dominant negative patient-variant model to the existing zebrafish model (LOF; in-progress)",
+            "Will be used in NBL 240: a research-based undergraduate course at UAB"
+          ]
+        },
+        {
+          "type": "section-text",
+          "field": "Existing Collaborations",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Existing Funding",
+          "value": []
+        }]
       }
     ],
     "timeline": [
@@ -337,27 +460,18 @@
         "header": "Brief",
         "content": [
           {
+            "type": "section-text",
             "field": "Nominator",
             "value": ["CMT4B3 Foundation"]
           },
           {
+            "type": "section-text",
             "field": "Participant",
             "value": []
           },
           {
+            "type": "section-text",
             "field": "Phenotype",
-            "value": []
-          },
-          {
-            "field": "Model of Interest",
-            "value": []
-          },
-          {
-            "field": "Goals",
-            "value": []
-          },
-          {
-            "field": "Proposed Model/Project",
             "value": []
           }
         ]
@@ -366,6 +480,7 @@
         "header": "Clinical History",
         "content": [
           {
+            "type": "section-text",
             "field": "Clinical Diagnosis",
             "value": [
                 "Mild Zellweger Spectrum Disorder (a Peroxisome Biogenesis Disorder)",
@@ -373,26 +488,27 @@
             ]
           },
           {
+            "type": "section-text",
             "field": "Affected Individuals Identified",
             "value": []
           },
           {
+            "type": "section-text",
             "field": "Sequencing",
             "value": []
           },
           {
+            "type": "section-text",
             "field": "Testing",
             "value": [" - Invitae Boosted Exome in 2019"]
           },
           {
+            "type": "section-text",
             "field": "Systems",
             "value": ["Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"]
           },
           {
-            "field": "HPO Terms",
-            "value": []
-          },
-          {
+            "type": "section-text",
             "field": "Additional Details",
             "value": ["Symptoms: postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus "]
           }
@@ -400,7 +516,75 @@
       },
       {
         "header": "Pedigree",
-        "content": []
+        "attachment_field": "Pedigree",
+        "content": [{
+          "type": "images-dataset",
+          "field": "Pedigree",
+          "value": []
+        }]
+      },
+      {
+        "header": "SBF1 Gene To Phenotype",
+        "attachment_field": "SBF1 Gene To Phenotype",
+        "content": [{
+            "type": "images-dataset",
+            "field": "SBF1 Gene To Phenotype",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "HPO Terms",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "SBF1 Molecular Mechanism",
+        "content": [
+          {
+            "type": "section-text",
+            "field": "Function Overview",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "SBF1 Function",
+        "attachment_field": "SBF1 Function",
+        "content": [{
+            "type": "images-dataset",
+            "field": "SBF1 Function",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "Model Goals",
+        "content": [{
+          "type": "section-text",
+          "field": "Model of Interest",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Goals",
+            "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Proposed Model/Project",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Existing Collaborations",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Existing Funding",
+          "value": []
+        }]
       }
     ],
     "timeline": [
@@ -491,51 +675,23 @@
         "header": "Brief",
         "content": [
           {
+            "type": "section-text",
             "field": "Nominator",
             "value": [
                 "Precision Medicine Institute"
             ]
           },
           {
+            "type": "section-text",
             "field": "Participant",
             "value": [
                 "Pediatric male (YOB: 2017), Local Participant"
             ]
           },
           {
+            "type": "section-text",
             "field": "Phenotype",
             "value": ["Postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus "]
-          },
-          {
-            "field": "Model of Interest",
-            "value": ["Zebrafish"]
-          },
-          {
-            "field": "Goals",
-            "value": [
-              "Functional impact confirmation (animal/cell modeling)",
-              "Therapeutic predictions (in-silico predictions)",
-              "Downstream applications",
-              " - Downstream applications"
-            ]
-          },
-          {
-            "field": "Proposed Model/Project",
-            "value": [
-                "Parental fibroblasts and iPSCs in process",
-                "S. Cerevisiae: no meaningful phenotype found for H303D (human H310D)",
-                "C Elegans: InVivo made model but there looks to be off-target mutations; Andy Golden (NIH) is planning to make another one",
-                "Mice: JAX models in process",
-                "H288D mice have phenotype (personal communication)",
-                "B6 mice",
-                "Conditional KOMP B6",
-                "5050 B6 and 129",
-                "Previous mice models C294Y (human C316Y; same RING finger domain) – homozygous and heterozygous have phenotype",
-                "    http://www.informatics.jax.org/allele/MGI:5638060",
-                "H. Polymorpha: in process",
-                "Drosophila: in process",
-                "Zebrafish: in negotiations (ensures if a model is created by CPAM, there will be collaborator lined up)"
-            ]
           }
         ]
       },
@@ -543,6 +699,7 @@
         "header": "Clinical History",
         "content": [
           {
+            "type": "section-text",
             "field": "Clinical Diagnosis",
             "value": [
               "Mild Zellweger Spectrum Disorder (a Peroxisome Biogenesis Disorder)",
@@ -550,26 +707,27 @@
             ]
           },
           {
+            "type": "section-text",
             "field": "Affected Individuals Identified",
             "value": ["Pediatric Male (YOB: 2017) Local Participant"]
           },
           {
+            "type": "section-text",
             "field": "Sequencing",
             "value": []
           },
           {
+            "type": "section-text",
             "field": "Testing",
             "value": [" - Invitae Boosted Exome in 2019"]
           },
           {
+            "type": "section-text",
             "field": "Systems",
             "value": ["Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"]
           },
           {
-            "field": "HPO Terms",
-            "value": ["Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"]
-          },
-          {
+            "type": "section-text",
             "field": "Additional Details",
             "value": ["Symptoms: postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus"]
           }
@@ -577,7 +735,94 @@
       },
       {
         "header": "Pedigree",
-        "content": []
+        "attachment_field": "Pedigree",
+        "content": [{
+          "type": "images-dataset",
+          "field": "Pedigree",
+          "value": []
+        }]
+      },
+      {
+        "header": "PEX10 Gene To Phenotype",
+        "attachment_field": "PEX10 Gene To Phenotype",
+        "content": [{
+            "type": "images-dataset",
+            "field": "PEX10 Gene To Phenotype",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "HPO Terms",
+            "value": ["Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"]
+          }
+        ]
+      },
+      {
+        "header": "PEX10 Molecular Mechanism",
+        "content": [
+          {
+            "type": "section-text",
+            "field": "Function Overview",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "PEX10 Function",
+        "attachment_field": "PEX10 Function",
+        "content": [{
+            "type": "images-dataset",
+            "field": "PEX10 Function",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "Model Goals",
+        "content": [{
+          "type": "section-text",
+          "field": "Model of Interest",
+          "value": ["Zebrafish"]
+        },
+        {
+          "type": "section-text",
+          "field": "Goals",
+            "value": [
+              "Functional impact confirmation (animal/cell modeling)",
+              "Therapeutic predictions (in-silico predictions)",
+              "Downstream applications",
+              " - Downstream applications"
+            ]
+        },
+        {
+          "type": "section-text",
+          "field": "Proposed Model/Project",
+          "value": [
+            "Parental fibroblasts and iPSCs in process",
+            "S. Cerevisiae: no meaningful phenotype found for H303D (human H310D)",
+            "C Elegans: InVivo made model but there looks to be off-target mutations; Andy Golden (NIH) is planning to make another one",
+            "Mice: JAX models in process",
+            "H288D mice have phenotype (personal communication)",
+            "B6 mice",
+            "Conditional KOMP B6",
+            "5050 B6 and 129",
+            "Previous mice models C294Y (human C316Y; same RING finger domain) – homozygous and heterozygous have phenotype",
+            "    http://www.informatics.jax.org/allele/MGI:5638060",
+            "H. Polymorpha: in process",
+            "Drosophila: in process",
+            "Zebrafish: in negotiations (ensures if a model is created by CPAM, there will be collaborator lined up)"
+        ]
+        },
+        {
+          "type": "section-text",
+          "field": "Existing Collaborations",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Existing Funding",
+          "value": []
+        }]
       }
     ],
     "timeline": [
@@ -628,28 +873,18 @@
         "header": "Brief",
         "content": [
           {
+            "type": "section-text",
             "field": "Nominator",
             "value": ["Believe in a Cure Foundation (nonprofit, FOXG1 syndrome)"]
           },
           {
+            "type": "section-text",
             "field": "Participant",
             "value": []
           },
           {
+            "type": "section-text",
             "field": "Phenotype",
-            "value": []
-          },
-          {
-            "field": "Model of Interest",
-            "value": []
-          },
-          {
-            "field": "Goals",
-            "value": [" - Therapeutic predictions (in silico predictions)",
-          " - Downstream applications (studies funded out with C-PAM to generate downstream findings)"]
-          },
-          {
-            "field": "Proposed Model/Project",
             "value": []
           }
         ]
@@ -658,32 +893,33 @@
         "header": "Clinical History",
         "content": [
           {
+            "type": "section-text",
             "field": "Clinical Diagnosis",
             "value": []
           },
           {
+            "type": "section-text",
             "field": "Affected Individuals Identified",
             "value": [" - Frameshift – 3 published cases (Ellaway et al 2013, Takahashi et al 2012, Le Guen et al 2011)",
           " - Nonsense – 1 published case (Philippe et al 2010)"]
           },
           {
+            "type": "section-text",
             "field": "Sequencing",
             "value": []
           },
           {
+            "type": "section-text",
             "field": "Testing",
             "value": []
           },
           {
+            "type": "section-text",
             "field": "Systems",
             "value": ["Growth Parameters, Craniofacial. Eye Defects, Musculoskeletal, Behavior, Cognition, and Development, Digestive System, Neurological"]
           },
           {
-            "field": "HPO Terms",
-            "value": ["Microcephaly; Protruding tongue; Strabismus; Scoliosis; Absent speech; Feeding difficulties; Generalized hypotonia; Seizure; Irritability; Poor eye contact; Encephalopathy; Dysphagia; Hypoplasia of the corpus callosum; Sleep disturbance; Hyperkinetic movements;",
-          "Axial dystonia; Bruxism; Generalized dystonia; Hypoplasia of the frontal lobes; Generalized tonic seizure; Stereotypical hand wringing; Delayed myelination; Psychomotor impairment; Dyskinesia; Opisthotonus;"]
-          },
-          {
+            "type": "section-text",
             "field": "Additional Details",
             "value": []
           }
@@ -691,7 +927,81 @@
       },
       {
         "header": "Pedigree",
-        "content": []
+        "attachment_field": "Pedigree",
+        "content": [{
+          "type": "images-dataset",
+          "field": "Pedigree",
+          "value": []
+        }]
+      },
+      {
+        "header": "FOXG1 Gene To Phenotype",
+        "attachment_field": "FOXG1 Gene To Phenotype",
+        "content": [{
+            "type": "images-dataset",
+            "field": "FOXG1 Gene To Phenotype",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "HPO Terms",
+            "value": [
+              "Microcephaly; Protruding tongue; Strabismus; Scoliosis; Absent speech; Feeding difficulties; Generalized hypotonia; Seizure; Irritability; Poor eye contact; Encephalopathy; Dysphagia; Hypoplasia of the corpus callosum; Sleep disturbance; Hyperkinetic movements;",
+              "Axial dystonia; Bruxism; Generalized dystonia; Hypoplasia of the frontal lobes; Generalized tonic seizure; Stereotypical hand wringing; Delayed myelination; Psychomotor impairment; Dyskinesia; Opisthotonus;"
+            ]
+          }
+        ]
+      },
+      {
+        "header": "FOXG1 Molecular Mechanism",
+        "content": [
+          {
+            "type": "section-text",
+            "field": "Function Overview",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "FOXG1 Function",
+        "attachment_field": "FOXG1 Function",
+        "content": [{
+            "type": "images-dataset",
+            "field": "FOXG1 Function",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "Model Goals",
+        "content": [{
+          "type": "section-text",
+          "field": "Model of Interest",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Goals",
+            "value": [
+              " - Therapeutic predictions (in silico predictions)",
+              " - Downstream applications (studies funded out with C-PAM to generate downstream findings)"
+            ]
+        },
+        {
+          "type": "section-text",
+          "field": "Proposed Model/Project",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Existing Collaborations",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Existing Funding",
+          "value": []
+        }]
       }
     ],
     "timeline": [
@@ -814,27 +1124,18 @@
         "header": "Brief",
         "content": [
           {
+            "type": "section-text",
             "field": "Nominator",
             "value": []
           },
           {
+            "type": "section-text",
             "field": "Participant",
             "value": []
           },
           {
+            "type": "section-text",
             "field": "Phenotype",
-            "value": []
-          },
-          {
-            "field": "Model of Interest",
-            "value": []
-          },
-          {
-            "field": "Goals",
-            "value": []
-          },
-          {
-            "field": "Proposed Model/Project",
             "value": []
           }
         ]
@@ -843,32 +1144,32 @@
         "header": "Clinical History",
         "content": [
           {
+            "type": "section-text",
             "field": "Clinical Diagnosis",
             "value": []
           },
           {
+            "type": "section-text",
             "field": "Affected Individuals Identified",
             "value": []
           },
           {
+            "type": "section-text",
             "field": "Sequencing",
             "value": []
           },
           {
+            "type": "section-text",
             "field": "Testing",
             "value": []
           },
           {
+            "type": "section-text",
             "field": "Systems",
             "value": []
           },
           {
-            "field": "HPO Terms",
-            "value": [
-              "HP:0000739: Anxiety; HP:0000750: Delayed speech and language development; HP:0001249: Intellectual disability; HP:0001260: Dysarthria; HP:0001290: Generalized hypotonia; HP:0001298: Encephalopathy; HP:0002194: Delayed gross motor development; HP:0002370: Poor coordination; HP:0002425: Anarthria; HP:0007018: Attention deficit hyperactivity disorder; HP:0012758: Neurodevelopmental delay; HP:0100702: Arachnoid cyst"
-            ]
-          },
-          {
+            "type": "section-text",
             "field": "Additional Details",
             "value": []
           }
@@ -876,7 +1177,114 @@
       },
       {
         "header": "Pedigree",
-        "content": []
+        "attachment_field": "Pedigree",
+        "content": [{
+          "type": "images-dataset",
+          "field": "Pedigree",
+          "value": []
+        }]
+      },
+      {
+        "header": "DLG4 Gene To Phenotype",
+        "attachment_field": "DLG4 Gene To Phenotype",
+        "content": [{
+            "type": "images-dataset",
+            "field": "DLG4 Gene To Phenotype",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "HPO Terms",
+            "value": [
+              "HP:0000739: Anxiety; HP:0000750: Delayed speech and language development; HP:0001249: Intellectual disability; HP:0001260: Dysarthria; HP:0001290: Generalized hypotonia; HP:0001298: Encephalopathy; HP:0002194: Delayed gross motor development; HP:0002370: Poor coordination; HP:0002425: Anarthria; HP:0007018: Attention deficit hyperactivity disorder; HP:0012758: Neurodevelopmental delay; HP:0100702: Arachnoid cyst"
+            ]
+          }
+        ]
+      },
+      {
+        "header": "DLG4 Molecular Mechanism",
+        "content": [
+          {
+            "type": "section-text",
+            "field": "Function Overview",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "DLG4 Function",
+        "attachment_field": "DLG4 Function",
+        "content": [{
+            "type": "images-dataset",
+            "field": "DLG4 Function",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "G6PD Gene To Phenotype",
+        "attachment_field": "G6PD Gene To Phenotype",
+        "content": [{
+            "type": "images-dataset",
+            "field": "G6PD Gene To Phenotype",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "HPO Terms",
+            "value": [
+              "HP:0000739: Anxiety; HP:0000750: Delayed speech and language development; HP:0001249: Intellectual disability; HP:0001260: Dysarthria; HP:0001290: Generalized hypotonia; HP:0001298: Encephalopathy; HP:0002194: Delayed gross motor development; HP:0002370: Poor coordination; HP:0002425: Anarthria; HP:0007018: Attention deficit hyperactivity disorder; HP:0012758: Neurodevelopmental delay; HP:0100702: Arachnoid cyst"
+            ]
+          }
+        ]
+      },
+      {
+        "header": "G6PD Molecular Mechanism",
+        "content": [
+          {
+            "type": "section-text",
+            "field": "Function Overview",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "G6PD Function",
+        "attachment_field": "G6PD Function",
+        "content": [{
+            "type": "images-dataset",
+            "field": "G6PD Function",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "Model Goals",
+        "content": [{
+          "type": "section-text",
+          "field": "Model of Interest",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Goals",
+            "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Proposed Model/Project",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Existing Collaborations",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Existing Funding",
+          "value": []
+        }]
       }
     ],
     "supporting_evidence_files": []

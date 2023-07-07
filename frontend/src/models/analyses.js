@@ -65,41 +65,40 @@ export default {
     return await Requests.getImage(url);
   },
 
-  async attachSectionImage(analysisName, sectionName, image) {
-    if ('Pedigree' != sectionName) {
-      throw Error(`Only support for removing Pedigree. Failed to remove image for section '${sectionName}'.`);
-    }
-
-    const url = `/rosalution/api/analysis/${analysisName}/attach/pedigree`;
+  async attachSectionImage(analysisName, sectionName, field, image) {
+    const url = `/rosalution/api/analysis/${analysisName}/section/attach/image`;
 
     const attachmentForm = {
       'upload_file': image,
+      'section_name': sectionName,
+      'field_name': field,
     };
 
     return await Requests.postForm(url, attachmentForm);
   },
 
-  async updateSectionImage(analysisName, sectionName, image) {
-    if ('Pedigree' != sectionName) {
-      throw Error(`Only support for removing Pedigree. Failed to remove image for section '${sectionName}'.`);
-    }
-
-    const url = `/rosalution/api/analysis/${analysisName}/update/pedigree`;
+  async updateSectionImage(analysisName, sectionName, field, oldFileId, image) {
+    const url = `/rosalution/api/analysis/${analysisName}/section/update/${oldFileId}`;
 
     const updateForm = {
       'upload_file': image,
+      'section_name': sectionName,
+      'field_name': field,
     };
 
     return await Requests.putForm(url, updateForm);
   },
 
-  async removeSectionImage(analysisName, sectionName) {
-    if ('Pedigree' != sectionName) {
-      throw Error(`Only support for removing Pedigree. Failed to remove image for section '${sectionName}'.`);
-    }
+  async removeSectionImage(analysisName, sectionName, field, oldFileId) {
+    const attachmentForm = {
+      'section_name': sectionName,
+      'field_name': field,
+    };
 
-    const url = `/rosalution/api/analysis/${analysisName}/remove/pedigree`;
-    const success = await Requests.delete(url);
+    const success = await Requests.deleteForm(
+        `/rosalution/api/analysis/${analysisName}/section/remove/${oldFileId}`, attachmentForm,
+    );
+
     return success;
   },
 

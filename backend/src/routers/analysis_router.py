@@ -1,16 +1,17 @@
 """ Analysis endpoint routes that serve up information regarding anaysis cases for rosalution """
-import warnings
 import json
 
 from typing import List, Optional, Union
 
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, File, UploadFile, Form, Security
+from fastapi import (
+    APIRouter, BackgroundTasks, Depends, HTTPException, File, status, UploadFile, Form, Response, Security
+)
 from fastapi.responses import StreamingResponse
 
 from ..core.annotation import AnnotationService
 from ..core.phenotips_importer import PhenotipsImporter
 from ..dependencies import database, annotation_queue
-from ..models.analysis import Analysis, AnalysisSummary, Section
+from ..models.analysis import Analysis, AnalysisSummary
 from ..models.event import Event
 from ..enums import ThirdPartyLinkType
 from ..models.phenotips_json import BasePhenotips
@@ -42,7 +43,7 @@ def get_analysis_summary_by_name(analysis_name: str, repositories=Depends(databa
     return repositories["analysis"].summary_by_name(analysis_name)
 
 
-@router.get("/{analysis_name}", response_model=Analysis)
+@router.get("/{analysis_name}", response_model=Analysis, response_model_exclude_none=True)
 def get_analysis_by_name(analysis_name: str, repositories=Depends(database)):
     """Returns analysis case data by calling method to find case by it's analysis_name"""
     return repositories["analysis"].find_by_name(analysis_name)
@@ -55,32 +56,6 @@ def get_genomic_units(analysis_name: str, repositories=Depends(database)):
         return repositories["analysis"].get_genomic_units(analysis_name)
     except ValueError as exception:
         raise HTTPException(status_code=404, detail=str(exception)) from exception
-
-
-@router.post("/import", response_model=Analysis)
-async def import_phenotips_json(
-    background_tasks: BackgroundTasks,
-    phenotips_input: BasePhenotips,
-    repositories=Depends(database),
-    annotation_task_queue=Depends(annotation_queue),
-    username: VerifyUser = Security(get_current_user)
-):
-    """Imports the phenotips.json file into the database"""
-    phenotips_importer = PhenotipsImporter(repositories["analysis"], repositories["genomic_unit"])
-    try:
-        new_analysis = phenotips_importer.import_phenotips_json(phenotips_input)
-        new_analysis['timeline'].append(Event.timestamp_create_event(username).dict())
-        repositories['analysis'].create_analysis(new_analysis)
-
-    except ValueError as exception:
-        raise HTTPException(status_code=409) from exception
-
-    analysis = Analysis(**new_analysis)
-    annotation_service = AnnotationService(repositories["annotation_config"])
-    annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
-    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, repositories['genomic_unit'])
-
-    return new_analysis
 
 
 @router.post("/import_file", response_model=Analysis)
@@ -97,7 +72,7 @@ async def create_file(
 
     phenotips_importer = PhenotipsImporter(repositories["analysis"], repositories["genomic_unit"])
     try:
-        new_analysis = phenotips_importer.import_phenotips_json(phenotips_input)
+        new_analysis = phenotips_importer.import_phenotips_json(phenotips_input.dict())
         new_analysis['timeline'].append(Event.timestamp_create_event(username).dict())
         repositories['analysis'].create_analysis(new_analysis)
 
@@ -152,53 +127,68 @@ def download(analysis_name: str, file_name: str, repositories=Depends(database))
     return StreamingResponse(repositories['bucket'].stream_analysis_file_by_id(file['attachment_id']))
 
 
-@router.post("/{analysis_name}/attach/pedigree", response_model=Section)
-def upload_pedigree(analysis_name: str, upload_file: UploadFile = File(...), repositories=Depends(database)):
-    """ Specifically accepts a file to save a pedigree image file to mongo """
-    new_file_object_id = repositories["bucket"].save_file(
-        upload_file.file, upload_file.filename, upload_file.content_type
-    )
-
-    updated_section = repositories["analysis"].add_pedigree_file(analysis_name, new_file_object_id)
-    return updated_section
-
-
-@router.put("/{analysis_name}/update/pedigree", response_model=Section)
-def update_pedigree(analysis_name: str, upload_file: UploadFile = File(...), repositories=Depends(database)):
-    """ Removes a pedigree file from an analysis and Specifically
-     accepts a file to save a pedigree image file to mongo """
-    try:
-        pedigree_file_id = repositories["analysis"].get_pedigree_file_id(analysis_name)
-    except ValueError as exception:
-        warnings.warn(str(exception))
-        pedigree_file_id = None
-    try:
-        repositories["bucket"].delete_file(pedigree_file_id)
-        repositories["analysis"].remove_pedigree_file(analysis_name)
-    except ValueError as exception:
-        raise HTTPException(status_code=404, detail=str(exception)) from exception
-    new_file_object_id = repositories["bucket"].save_file(
-        upload_file.file, upload_file.filename, upload_file.content_type
-    )
-
-    updated_section = repositories["analysis"].add_pedigree_file(analysis_name, new_file_object_id)
-    return updated_section
-
-
-@router.delete("/{analysis_name}/remove/pedigree")
-def remove_pedigree(analysis_name: str, repositories=Depends(database)):
-    """ Removes a pedigree file from an analysis """
-    try:
-        pedigree_file_id = repositories["analysis"].get_pedigree_file_id(analysis_name)
-    except ValueError as exception:
-        warnings.warn(str(exception))
-        pedigree_file_id = None
+@router.post("/{analysis_name}/section/attach/image")
+def attach_section_image(
+    response: Response,
+    analysis_name: str,
+    upload_file: UploadFile = File(...),
+    section_name: str = Form(...),
+    field_name: str = Form(...),
+    repositories=Depends(database)
+):
+    """ Saves the uploaded image it to the specified field_name in the analysis's section."""
 
     try:
-        repositories["bucket"].delete_file(pedigree_file_id)
-        return repositories["analysis"].remove_pedigree_file(analysis_name)
-    except ValueError as exception:
-        raise HTTPException(status_code=404, detail=str(exception)) from exception
+        new_file_object_id = repositories["bucket"].save_file(
+            upload_file.file, upload_file.filename, upload_file.content_type
+        )
+    except Exception as exception:
+        raise HTTPException(status_code=500, detail=str(exception)) from exception
+
+    repositories["analysis"].add_section_image(analysis_name, section_name, field_name, new_file_object_id)
+
+    response.status_code = status.HTTP_201_CREATED
+
+    return {'section': section_name, 'field': field_name, 'image_id': str(new_file_object_id)}
+
+
+@router.put("/{analysis_name}/section/update/{old_file_id}")
+def update_analysis_section_image(
+    analysis_name: str,
+    old_file_id: str,
+    upload_file: UploadFile = File(...),
+    section_name: str = Form(...),
+    field_name: str = Form(...),
+    repositories=Depends(database)
+):
+    """ Replaces the existing image by the file identifier with the uploaded one. """
+
+    # This needs try catch like in annotation router
+    new_file_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_type)
+
+    repositories['analysis'].update_section_image(analysis_name, section_name, field_name, new_file_id, old_file_id)
+
+    return {'section': section_name, 'field': field_name, 'image_id': str(new_file_id)}
+
+
+@router.delete("/{analysis_name}/section/remove/{file_id}")
+def remove_analysis_section_image(
+    analysis_name: str,
+    file_id: str,
+    section_name: str = Form(...),
+    field_name: str = Form(...),
+    repositories=Depends(database)
+):
+    """ Removes the image from an analysis section's field by its file_id """
+    try:
+        repositories['analysis'].remove_analysis_section_file(analysis_name, section_name, field_name, file_id)
+    except Exception as exception:
+        raise HTTPException(status_code=500, detail=str(exception)) from exception
+
+    try:
+        return repositories["bucket"].delete_file(file_id)
+    except Exception as exception:
+        raise HTTPException(status_code=500, detail=str(exception)) from exception
 
 
 @router.post("/{analysis_name}/attach/file")

@@ -1,58 +1,58 @@
 <template>
   <div>
-      <app-header>
-        <AnalysisViewHeader
-          :actions="this.menuActions"
-          :titleText="analysis.name"
-          :sectionAnchors="this.sectionsHeaders"
-          :username="username"
-          :workflow_status="analysis.latest_status"
-          @logout="this.onLogout"
-          :third_party_links="analysis.third_party_links"
-          data-test="analysis-view-header">
-        </AnalysisViewHeader>
-        <Toast data-test="toast"/>
-      </app-header>
-      <app-content>
-        <GeneBox
-          v-for="genomicUnit in genomicUnitsList"
-          :key="genomicUnit.id"
-          :name="this.analysis_name"
-          :gene="genomicUnit.gene"
-          :transcripts="genomicUnit.transcripts"
-          :variants="genomicUnit.variants"
-        />
-        <SectionBox
-          v-for="(section, index) in sectionsList"
-          :id="section.header.replace(' ', '_')"
-          :key="`${section.header}-${index}-${forceRenderComponentKey}`"
-          :analysis_name="this.analysis_name"
-          :header="section.header"
-          :content="section.content"
-          :edit = "this.edit"
-          @attach-image="this.attachSectionImage"
-          @update-image="this.updateSectionImage"
-          @update:content-row="this.onAnalysisContentUpdated"
-        />
-        <SupplementalFormList
-          id="Supporting_Evidence"
-          :attachments="this.attachments"
-          @open-modal="this.addSupportingEvidence"
-          @delete="this.removeSupportingEvidence"
-          @edit="this.editSupportingEvidence"
-          @download="this.downloadSupportingEvidence"
-        />
-        <InputDialog />
-        <NotificationDialog
-          data-test="notification-dialog"
-        />
-        <SaveModal
-          class="save-modal"
-          v-if="this.edit"
-          @canceledit="this.cancelAnalysisChanges"
-          @save="this.saveAnalysisChanges"
-        />
-      </app-content>
+    <app-header>
+      <AnalysisViewHeader
+        :actions="this.menuActions"
+        :titleText="analysis.name"
+        :sectionAnchors="this.sectionsHeaders"
+        :username="username"
+        :workflow_status="analysis.latest_status"
+        @logout="this.onLogout"
+        :third_party_links="analysis.third_party_links"
+        data-test="analysis-view-header"
+      >
+      </AnalysisViewHeader>
+      <Toast data-test="toast" />
+    </app-header>
+    <app-content>
+      <GeneBox
+        v-for="genomicUnit in genomicUnitsList"
+        :key="genomicUnit.id"
+        :name="this.analysis_name"
+        :gene="genomicUnit.gene"
+        :transcripts="genomicUnit.transcripts"
+        :variants="genomicUnit.variants"
+      />
+      <SectionBox
+        v-for="(section) in sectionsList"
+        :id="section.header.replace(' ', '_')"
+        :key="`${section.header}`"
+        :analysis_name="this.analysis_name"
+        :header="section.header"
+        :content="section.content"
+        :attachmentField="section.attachment_field"
+        :edit="this.edit"
+        @attach-image="this.attachSectionImage"
+        @update-image="this.updateSectionImage"
+        @update:content-row="this.onAnalysisContentUpdated"
+      />
+      <SupplementalFormList
+        id="Supporting_Evidence"
+        :attachments="this.attachments"
+        @open-modal="this.addSupportingEvidence"
+        @delete="this.removeSupportingEvidence"
+        @edit="this.editSupportingEvidence"
+        @download="this.downloadSupportingEvidence"
+      />
+      <InputDialog />
+      <NotificationDialog data-test="notification-dialog" />
+      <SaveModal
+        class="save-modal"
+        v-if="this.edit"
+        @canceledit="this.cancelAnalysisChanges"
+        @save="this.saveAnalysisChanges"
+      />
+    </app-content>
   </div>
 </template>
 
@@ -95,7 +95,6 @@ export default {
       },
       updatedContent: {},
       edit: false,
-      forceRenderComponentKey: 0,
     };
   },
   computed: {
@@ -109,55 +108,58 @@ export default {
       sections.push('Supporting Evidence');
       return sections;
     },
-
     menuActions() {
       const actionChoices = [];
 
-      actionChoices.push(
-          {icon: 'pencil', text: 'Edit', operation: () => {
-            if (!this.edit) {
-              toast.success('Edit mode has been enabled.');
-            } else {
-              toast.info('Edit mode has been disabled and changes have not been saved.');
-            }
-            this.edit = !this.edit;
-          }},
-      );
+      actionChoices.push({
+        icon: 'pencil',
+        text: 'Edit',
+        operation: () => {
+          if (!this.edit) {
+            toast.success('Edit mode has been enabled.');
+          } else {
+            toast.info('Edit mode has been disabled and changes have not been saved.');
+          }
+          this.edit = !this.edit;
+        },
+      });
 
       if (this.analysis.latest_status === 'Annotation') {
-        actionChoices.push(
-            {icon: 'clipboard-check', text: 'Mark Ready', operation: this.markReady},
-        );
+        actionChoices.push({
+          icon: 'clipboard-check',
+          text: 'Mark Ready',
+          operation: this.markReady,
+        });
       }
 
       if (this.analysis.latest_status === 'Ready') {
-        actionChoices.push(
-            {icon: 'book-open', text: 'Mark Active', operation: () => {
-              Analyses.markAnalysisActive(this.analysis_name);
-              toast.info('The Mark Ready feature is not yet implemented.');
-            }},
-        );
+        actionChoices.push({
+          icon: 'book-open',
+          text: 'Mark Active',
+          operation: () => {
+            Analyses.markAnalysisActive(this.analysis_name);
+            toast.info('The Mark Ready feature is not yet implemented.');
+          },
+        });
       }
 
       actionChoices.push({divider: true});
 
-      actionChoices.push(
-          {icon: 'paperclip', text: 'Attach', operation: this.addSupportingEvidence},
-      );
+      actionChoices.push({
+        icon: 'paperclip',
+        text: 'Attach',
+        operation: this.addSupportingEvidence,
+      });
 
-      actionChoices.push(
-          {
-            text: 'Attach Monday.com',
-            operation: this.addMondayLink,
-          },
-      );
+      actionChoices.push({
+        text: 'Attach Monday.com',
+        operation: this.addMondayLink,
+      });
 
-      actionChoices.push(
-          {
-            text: 'Connect PhenoTips',
-            operation: this.addPhenotipsLink,
-          },
-      );
+      actionChoices.push({
+        text: 'Connect PhenoTips',
+        operation: this.addPhenotipsLink,
+      });
 
       return actionChoices;
     },
@@ -179,8 +181,9 @@ export default {
     async getAnalysis() {
       this.analysis = await Analyses.getAnalysis(this.analysis_name);
     },
-    async attachSectionImage(sectionName) {
+    async attachSectionImage(sectionName, field) {
       const includeComments = false;
+
       const attachment = await inputDialog
           .confirmText('Attach')
           .cancelText('Cancel')
@@ -192,19 +195,29 @@ export default {
       }
 
       try {
-        const updatedSection = await Analyses.attachSectionImage(this.analysis_name, sectionName, attachment.data);
+        const updatedSectionImage = await Analyses.attachSectionImage(
+            this.analysis_name,
+            sectionName,
+            field,
+            attachment.data,
+        );
+
+        const updatedSection = this.sectionsList.find((section) => {
+          return section.header == sectionName;
+        });
+
+        const updatedField = updatedSection.content.find((row) => {
+          return row.field == field;
+        });
+
+        updatedField.value.push({file_id: updatedSectionImage['image_id']});
+
         this.replaceAnalysisSection(updatedSection);
-        // Needed to create this uptick because the replaced element wasn't getting detected to
-        // cause it to update this still make cause issue with the edit mode and will need to re-evaluate
-        this.uptickSectionKeyToForceReRender();
       } catch (error) {
-        await notificationDialog
-            .title('Failure')
-            .confirmText('Ok')
-            .alert(error);
+        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
-    async updateSectionImage(sectionName) {
+    async updateSectionImage(fileId, sectionName, field) {
       const includeComments = false;
       const attachment = await inputDialog
           .confirmText('Update')
@@ -217,45 +230,69 @@ export default {
         return;
       }
 
-      if ('DELETE' == attachment ) {
-        await this.removeSectionImage(sectionName);
-        this.uptickSectionKeyToForceReRender();
+      if ('DELETE' == attachment) {
+        await this.removeSectionImage(fileId, sectionName, field);
         return;
       }
 
       try {
-        const updatedSection = await Analyses.updateSectionImage(this.analysis_name, sectionName, attachment.data);
-        this.replaceAnalysisSection(updatedSection);
+        const updatedSectionImage = await Analyses.updateSectionImage(
+            this.analysis_name,
+            sectionName,
+            field,
+            fileId,
+            attachment.data,
+        );
 
-        // Needed to create this uptick because the replaced element wasn't getting detected to
-        // cause it to update this still make cause issue with the edit mode and will need to re-evaluate
-        this.uptickSectionKeyToForceReRender();
+
+        const updatedSection = this.sectionsList.find((section) => {
+          return section.header == sectionName;
+        });
+
+        const updatedField = updatedSection.content.find((row) => {
+          return row.field == field;
+        });
+
+        updatedField.value.forEach((imageFile) => {
+          if (imageFile['file_id'] == fileId) {
+            imageFile['file_id'] = updatedSectionImage['image_id'];
+          }
+        });
+
+        this.replaceAnalysisSection(updatedSection);
       } catch (error) {
-        await notificationDialog
-            .title('Failure')
-            .confirmText('Ok')
-            .alert(error);
+        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
-    async removeSectionImage(sectionName) {
+    async removeSectionImage(fileId, sectionName, field) {
       const confirmedDelete = await notificationDialog
-          .title(`Remove ${sectionName} attachment`)
+          .title(`Remove ${field} attachment`)
           .confirmText('Remove')
           .cancelText('Cancel')
-          .confirm('This operation will permanently remove the image. Are you sure you want to remove?');
+          .confirm(
+              'This operation will permanently remove the image. Are you sure you want to remove?',
+          );
 
       if (!confirmedDelete) {
         return;
       }
 
       try {
-        await Analyses.removeSectionImage(this.analysis_name, sectionName);
-        this.replaceAnalysisSection({'header': sectionName, 'content': []});
+        await Analyses.removeSectionImage(this.analysis_name, sectionName, field, fileId);
+
+        const updatedSection = this.sectionsList.find((section) => {
+          return section.header == sectionName;
+        });
+
+        updatedSection.content.forEach((obj) => {
+          obj.value = obj.value.filter((value) => {
+            return value.file_id != fileId;
+          });
+        });
+
+        this.replaceAnalysisSection(updatedSection);
       } catch (error) {
-        await notificationDialog
-            .title('Failure')
-            .confirmText('Ok')
-            .alert(error);
+        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
     async addSupportingEvidence() {
@@ -273,9 +310,14 @@ export default {
       }
 
       try {
-        const updatedAnalysis = await Analyses.attachSupportingEvidence(this.analysis_name, attachment);
+        const updatedAnalysis = await Analyses.attachSupportingEvidence(
+            this.analysis_name,
+            attachment,
+        );
         this.analysis.supporting_evidence_files.splice(0);
-        this.analysis.supporting_evidence_files.push(...updatedAnalysis.supporting_evidence_files);
+        this.analysis.supporting_evidence_files.push(
+            ...updatedAnalysis.supporting_evidence_files,
+        );
       } catch (error) {
         console.error('Updating the analysis did not work');
       }
@@ -292,9 +334,14 @@ export default {
       }
 
       try {
-        const updatedAnalysis = await Analyses.updateSupportingEvidence(this.analysis_name, updatedAttachment);
+        const updatedAnalysis = await Analyses.updateSupportingEvidence(
+            this.analysis_name,
+            updatedAttachment,
+        );
         this.analysis.supporting_evidence_files.splice(0);
-        this.analysis.supporting_evidence_files.push(...updatedAnalysis.supporting_evidence_files);
+        this.analysis.supporting_evidence_files.push(
+            ...updatedAnalysis.supporting_evidence_files,
+        );
       } catch (error) {
         console.error('Updating the analysis did not work');
       }
@@ -311,50 +358,54 @@ export default {
       }
 
       try {
-        await Analyses.removeSupportingEvidence(this.analysis_name, attachmentToDelete.attachment_id);
+        await Analyses.removeSupportingEvidence(
+            this.analysis_name,
+            attachmentToDelete.attachment_id,
+        );
         const attachmentIndex = this.attachments.findIndex((attachment) => {
           return attachment.name == attachmentToDelete.name;
         });
         this.analysis.supporting_evidence_files.splice(attachmentIndex, 1);
       } catch (error) {
-        await notificationDialog
-            .title('Failure')
-            .confirmText('Ok')
-            .alert(error);
+        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
     downloadSupportingEvidence(attachmentToDownload) {
-      Analyses.downloadSupportingEvidence(attachmentToDownload.attachment_id, attachmentToDownload.name);
+      Analyses.downloadSupportingEvidence(
+          attachmentToDownload.attachment_id,
+          attachmentToDownload.name,
+      );
     },
     async saveAnalysisChanges() {
-      const updatedAnalysis = await Analyses.updateAnalysisSections(this.analysis_name, this.updatedContent);
+      const updatedAnalysis = await Analyses.updateAnalysisSections(
+          this.analysis_name,
+          this.updatedContent,
+      );
       this.analysis.sections.splice(0);
       this.analysis.sections.push(...updatedAnalysis.sections);
       this.updatedContent = {};
-      this.edit=false;
-      this.uptickSectionKeyToForceReRender();
+      this.edit = false;
       toast.success('Analysis updated successfully.');
     },
     cancelAnalysisChanges() {
-      this.edit=false;
+      this.edit = false;
       this.updatedContent = {};
       toast.info('Edit mode has been disabled and changes have not been saved.');
     },
     async onLogout() {
       this.$router.push({name: 'logout'});
     },
-    uptickSectionKeyToForceReRender() {
-      this.forceRenderComponentKey += 1;
-    },
     onAnalysisContentUpdated(contentRow) {
-      if ( !(contentRow.header in this.updatedContent) ) {
+      if (!(contentRow.header in this.updatedContent)) {
         this.updatedContent[contentRow.header] = {};
       }
 
       this.updatedContent[contentRow.header][contentRow.field] = contentRow.value;
     },
     replaceAnalysisSection(sectionToReplace) {
-      const originalSectionIndex = this.sectionsList.findIndex((section) => section.header == sectionToReplace.header);
+      const originalSectionIndex = this.analysis.sections.findIndex(
+          (section) => section.header == sectionToReplace.header,
+      );
       this.analysis.sections.splice(originalSectionIndex, 1, sectionToReplace);
     },
     async addMondayLink() {
@@ -371,7 +422,11 @@ export default {
       }
 
       try {
-        const updatedAnalysis = await Analyses.attachThirdPartyLink(this.analysis_name, 'monday_com', mondayLink.data);
+        const updatedAnalysis = await Analyses.attachThirdPartyLink(
+            this.analysis_name,
+            'monday_com',
+            mondayLink.data,
+        );
 
         this.analysis = {...this.analysis, ...updatedAnalysis};
       } catch (error) {
@@ -395,7 +450,8 @@ export default {
         const updatedAnalysis = await Analyses.attachThirdPartyLink(
             this.analysis_name,
             'phenotips_com',
-            phenotipsLink.data);
+            phenotipsLink.data,
+        );
 
         this.analysis = {...this.analysis, ...updatedAnalysis};
       } catch (error) {
@@ -417,26 +473,20 @@ export default {
 
 <style scoped>
 
-div {
-  font-family: "Proxima Nova", sans-serif;
-}
-
 app-content {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  height: 100%;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 app-header {
   position: sticky;
-  top:0px;
+  top: 0px;
   z-index: 10;
 }
 
 .save-modal {
-  position:sticky;
+  position: sticky;
   bottom: 0;
 }
-
 </style>

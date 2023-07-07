@@ -1,19 +1,24 @@
 describe('As a Clinical Analyst using Rosalution for analysis', () => {
   beforeEach(() => {
     cy.resetDatabase();
+    cy.intercept('/rosalution/api/analysis/CPAM0002').as('analysisLoad');
     cy.visit('/');
     cy.get('.analysis-card')
         .find(':contains(CPAM0002)')
         .find('.case-name').click();
   });
+
   it('should allow the user to navigate the analysis via the logo, header, and section anchor links', () => {
 
-    const anchorLinks = ['Brief', 'Clinical History', 'Pedigree', 'Supporting Evidence'];
+    const anchorLinks = [
+      'Brief', 'Clinical History', 'Pedigree', 'Supporting Evidence', 'VMA21 Gene To Phenotype',
+      'VMA21 Molecular Mechanism', 'VMA21 Function', 'Model Goals',
+    ];
     const expectedHeaderLinks =
       ['CPAM0002', 'LOGIN', ...anchorLinks];
 
-    cy.get('div.content').get('div > a')
-      .filter(':not([data-test="status-icon"], [data-test="third-party-link"])')
+    cy.wait('@analysisLoad');
+    cy.get('[data-test="primary-content"] > div > a')
       .each(($el) => {
       cy.wrap($el).invoke('text').should('be.oneOf', expectedHeaderLinks).then((text) => {
         if (anchorLinks.includes(text)) {

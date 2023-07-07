@@ -1,59 +1,72 @@
 <template>
-  <table class="section-box-container">
-    <tbody>
-      <input v-if="!this.edit" type="checkbox" v-bind:id="section_toggle"/>
-      <tr class="section-header">
-        <td class="section-header-content">
-          <h2 class="section-name">
-            {{header}}
-          </h2>
-          <button v-if="isSectionImage" class="attach-logo" @click="$emit(this.sectionImageOperation, header)">
-            <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
-          </button>
-          <label v-if="this.edit" class="edit-logo" id="edit-logo">
-            <font-awesome-icon icon="pencil" size="lg"/>
-          </label>
-          <label v-else class="collapsable-logo" v-bind:for="section_toggle">
-            <font-awesome-icon icon="chevron-down" size="lg"/>
-          </label>
-        </td>
-      </tr>
-      <div class="separator"></div>
-        <tr class="field-value-row" v-for="content in contentList" :key="content">
-          <td v-if="!this.sectionImageExist">
-            <label class="field"
-            v-bind:style="[content.value.length === 0 && !this.edit ? 'color: var(--rosalution-grey-300);'
-            : 'color: var(--rosalution-black);']">
-              {{content.field}}
-            </label>
-          </td>
-          <td class="values" v-if="!this.sectionImageExist">
-            <span v-if="this.edit" role="textbox" class="editable-values" contenteditable
-            data-test="editable-value" @input="onContentChanged(header, content.field, $event)">
-              {{content.value.join('\r\n')}}
-            </span>
-            <tr v-else v-for="value in content.value" :key="value" class="value-row" data-test="value-row">
-              {{value}}
-            </tr>
-          </td>
-        </tr>
-        <img class="section-image" :src="this.sectionImage"/>
-    </tbody>
-  </table>
+  <div class="rosalution-section-container">
+    <div>
+      <input v-if="!this.edit" type="checkbox" v-bind:id="section_toggle" />
+      <div class="rosalution-section-header">
+        <h2 class="rosalution-section-header-text">
+          {{ header }}
+        </h2>
+        <span class="rosalution-section-center"></span>
+        <span class="rosalution-header-right-icons">
+        <label v-if="this.attachmentField" class="attach-logo"
+          @click="$emit('attach-image', this.header, this.attachmentField)"
+          :data-test="`attach-logo-${header}`"
+        >
+          <font-awesome-layers class="fa-md">
+            <font-awesome-icon :icon="['fa', 'file-circle-plus']" />
+            <font-awesome-icon
+              transform="shrink-9.5 left-4.5 down-3"
+              inverse
+              :icon="['fa', 'mountain-sun']"
+            />
+          </font-awesome-layers>
+        </label>
+        <label v-if="this.edit" class="edit-logo" id="edit-logo">
+          <font-awesome-icon icon="pencil" size="lg" />
+        </label>
+        <label v-else class="collapsable-logo" v-bind:for="section_toggle">
+          <font-awesome-icon icon="chevron-down" size="lg" />
+        </label>
+        </span>
+      </div>
+      <div class="rosalution-section-seperator"></div>
+      <component
+        v-for="(contentRow, index) in this.contentList"
+        :key="`${contentRow.field}-${index}`"
+        :is="contentRow.type"
+        :editable="this.edit"
+        :field="contentRow.field"
+        :dataSet="contentRow.field"
+        :value="contentRow.value"
+        :data-test="contentRow.field"
+        @update-annotation-image="this.onUpdateImageEmit"
+        @update:section-text="this.onContentChanged"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
-import Analyses from '../../models/analyses';
+import ImagesDataset from '@/components/AnnotationView/ImagesDataset.vue';
+import SectionText from '@/components/AnalysisView/SectionText.vue';
 
 export default {
   name: 'section-box',
   emits: ['update:contentRow', 'attach-image', 'update-image'],
+  components: {
+    SectionText,
+    ImagesDataset,
+  },
   props: {
     analysis_name: {
       type: String,
     },
     header: {
       type: String,
+    },
+    attachmentField: {
+      type: String,
+      default: '',
     },
     content: {
       type: Array,
@@ -66,88 +79,40 @@ export default {
     return {
       contentList: this.content,
       section_toggle: this.header.toLowerCase() + '_collapse',
-      sectionImage: '',
     };
   },
-  created() {
-    this.pedigreeImage();
-  },
   computed: {
-    isSectionImage() {
-      return this.header == 'Pedigree';
+    hasAttachmentContent() {
+      return this.attachmentField.length > 0;
     },
     sectionImageExist() {
-      return (this.isSectionImage && this.contentList.length > 0);
-    },
-    sectionImageOperation() {
-      if (this.sectionImageExist) {
-        return 'update-image';
+      for (const rowContent of this.contentList) {
+        if (rowContent.dataset && rowContent.dataset === this.attachmentField) {
+          return rowContent.value > 0;
+        }
       }
-      return 'attach-image';
+
+      return false;
     },
   },
   methods: {
-    onContentChanged(header, contentField, event) {
+    onContentChanged(sectionText) {
       const contentRow = {
-        header: header,
-        field: contentField,
-        value: event.target.innerText.split('\n'),
+        header: this.header,
+        ...sectionText,
       };
       this.$emit('update:contentRow', contentRow);
     },
-    async pedigreeImage() {
-      if (this.header == 'Pedigree' && this.contentList.length > 0) {
-        const fileId = this.contentList[0].value[0];
-        const image = await Analyses.getSectionImage(fileId);
-        this.sectionImage = image;
-      }
+    onUpdateImageEmit(imageId, field) {
+      this.$emit('update-image', imageId, this.header, field);
     },
   },
 };
 </script>
 
 <style scoped>
-div {
-  font-family: "Proxima Nova", sans-serif;
-  padding: var(--p-0);
-}
-
-.section-box-container {
-  display: flex;
-  flex-direction: column;
-  padding: var(--p-10);
-  margin: var(--p-10);
-  width: 100%;
-  gap: var(--p-10);
-  border-radius: 1.25rem;
-  background-color: var(--rosalution-white);
-}
-
-.section-header {
-  height: 1.75rem;
-  display: flex;
-}
-
-.section-header-content {
-  display: flex;
-  align-items: center;
-  flex: 1 0 auto;
-}
-
-.section-name {
-  height: 1.75rem;
-  margin: .125rem .125rem 0 .125rem;
-  flex: 1 0 auto;
-}
-
-.section-image {
-  max-height: 31.25rem;
-}
-
 .attach-logo {
   color: var(--rosalution-purple-300);
-  background: none;
-  border: none;
   cursor: pointer;
 }
 
@@ -156,66 +121,8 @@ div {
   cursor: pointer;
 }
 
-.logo-attach-edit {
-  color: var(--rosalution-purple-300);
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.separator {
-  height: .125rem;
-  background-color: var(--rosalution-grey-100);
-  border: solid .0469rem var(--rosalution-grey-100);
-}
-
-.field-value-row {
-  display: flex;
-  flex-direction: row;
-  gap: .625rem;
-  margin: 0.625rem 0.250rem 0.625rem 0.250rem;
-}
-
-.field {
-  display: inline-block;
-  width: 11.25rem;
-  height: 1.375rem;
-  margin: 0 1.1875rem .0063rem 0;
-  font-size: 1.125rem;
-  font-weight: 600;
-  text-align: left;
-}
-
-.values {
-  font-size: 1.125rem;
-  text-align: left;
-  color: var(--rosalution-black);
-  width: 100%;
-  display: block;
-}
-
-.value-row {
-  font-size: 1.125rem;
-  color: var(--rosalution-black);
-  display: block;
-  width: 100%;
-}
-
 .edit-logo {
   color: var(--rosalution-purple-100);
-}
-
-.editable-values {
-  display: block;
-  width: 100%;
-  overflow: hidden;
-  resize: both;
-  border-top: none;
-  border-right: none;
-  border-left: none;
-  border-bottom: 2px solid var(--rosalution-purple-200);
-  font-family: inherit;
-  font-size: inherit;
 }
 
 span:focus {
@@ -228,15 +135,15 @@ input[type="checkbox"] {
   display: none;
 }
 
-.section-box-container input[type="checkbox"]:checked ~ .field-value-row {
+.rosalution-section-container input[type="checkbox"]:checked ~ .section-row {
   display: none;
 }
 
-.section-box-container input[type="checkbox"]:checked ~ img {
+.rosalution-section-container input[type="checkbox"]:checked ~ img {
   display: none;
 }
 
-input[type="checkbox"]:checked ~ tr > td > .collapsable-logo {
+input[type="checkbox"]:checked ~ .rosalution-section-header > span > label.collapsable-logo {
   transform: scaleY(-1);
 }
 </style>

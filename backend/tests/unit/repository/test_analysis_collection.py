@@ -134,15 +134,6 @@ def test_attach_file_supporting_evidence(analysis_collection, cpam0002_analysis_
     assert new_evidence['attachment_id'] == 'Fake-Mongo-Object-ID-2'
 
 
-def test_add_pedigree_file(analysis_collection, empty_pedigree):
-    """Tests adding pedigree file to an analysis and return an updated analysis"""
-    analysis_collection.collection.find_one.return_value = empty_pedigree
-    expected = read_test_fixture("analysis-CPAM0002.json")
-
-    analysis_collection.add_pedigree_file("CPAM0002", "63505be22888347cf1c275db")
-    analysis_collection.collection.find_one_and_update.assert_called_with({"name": "CPAM0002"}, {"$set": expected})
-
-
 def test_get_genomic_units(analysis_collection):
     """Tests the get_genomic_units function"""
     analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
@@ -190,52 +181,61 @@ def test_remove_supporting_evidence(analysis_collection):
     assert actual == expected
 
 
-def test_get_pedigree_file_id(analysis_collection):
-    """Tests the get_pedigree_file_id function"""
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
-    actual = analysis_collection.get_pedigree_file_id("CPAM0002")
-    assert actual == "63505be22888347cf1c275db"
-
-
-def test_get_pedigree_file_id_pedigree_empty(analysis_collection, empty_pedigree):
-    """Tests the get_pedigree_file_id function"""
+def test_add_image_to_pedigree_section(analysis_collection, empty_pedigree):
+    """Tests adding an image to the pedigree section of the CPAM0002 analysis"""
     analysis_collection.collection.find_one.return_value = empty_pedigree
-    try:
-        analysis_collection.get_pedigree_file_id("CPAM0002")
-    except ValueError as error:
-        assert isinstance(error, ValueError)
-        assert str(error) == "Analysis CPAM0002 does not have a pedigree file"
-
-
-def test_get_pedigree_file_id_analysis_does_not_exist(analysis_collection):
-    """Tests the get_pedigree_file_id function"""
-    analysis_collection.collection.find_one.return_value = None
-    try:
-        analysis_collection.get_pedigree_file_id("CPAM2222")
-    except ValueError as error:
-        assert isinstance(error, ValueError)
-        assert str(error) == "Analysis with name CPAM2222 does not exist"
-
-
-def test_get_pedigree_file_id_pedigree_section_does_not_exist(analysis_collection):
-    """Tests the get_pedigree_file_id function"""
-    missing_pedigree_section = read_test_fixture("analysis-CPAM0002.json")
-    del missing_pedigree_section["sections"][2]
-    analysis_collection.collection.find_one.return_value = missing_pedigree_section
-    try:
-        analysis_collection.get_pedigree_file_id("CPAM0002")
-    except ValueError as error:
-        assert isinstance(error, ValueError)
-        assert str(error) == "Analysis CPAM0002 does not have a pedigree section"
-
-
-def test_remove_pedigree_file_id(analysis_collection):
-    """Tests the remove_pedigree_file_id function"""
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
     expected = read_test_fixture("analysis-CPAM0002.json")
-    expected["sections"][2]["content"] = []
+
+    analysis_collection.add_section_image("CPAM0002", "Pedigree", "Pedigree", "63505be22888347cf1c275db")
+    analysis_collection.collection.find_one_and_update.assert_called_with({"name": "CPAM0002"}, {"$set": expected})
+
+
+def test_add_an_additional_image_to_pedigree_section(analysis_collection):
+    """ Tests adding another image to the pedigree section of the CPAM0002 analysis """
+
+    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+
+    expected = {
+        'header': 'Pedigree', 'attachment_field': 'Pedigree', 'content': [{
+            'type': 'images-dataset', 'field': 'Pedigree', 'value': [{"file_id": "63505be22888347cf1c275db"},
+                                                                     {"file_id": "second-fake-file-id"}]
+        }]
+    }
+
+    actual = analysis_collection.add_section_image("CPAM0002", "Pedigree", "Pedigree", "second-fake-file-id")
+
+    assert actual == expected
+
+
+def test_update_existing_image_in_pedigree_section(analysis_collection):
+    """ Tests updating an image in the pedigree section and receiving a new section with the updated image id """
+
+    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+
+    expected = {
+        'header': 'Pedigree', 'attachment_field': 'Pedigree',
+        'content': [{'type': 'images-dataset', 'field': 'Pedigree', 'value': [{"file_id": "new-fake-file-id"}]}]
+    }
+
+    actual = analysis_collection.update_section_image(
+        "CPAM0002", "Pedigree", "Pedigree", "new-fake-file-id", "63505be22888347cf1c275db"
+    )
+
+    assert actual == expected
+
+
+def test_remove_image_from_pedigree_section(analysis_collection):
+    """Tests removing an image from the pedigree section of the CPAM0002 analysis"""
+
+    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    expected = {
+        'header': 'Pedigree', 'attachment_field': 'Pedigree',
+        'content': [{'type': 'images-dataset', 'field': 'Pedigree', 'value': []}]
+    }
     analysis_collection.collection.find_one_and_update.return_value = expected
-    actual = analysis_collection.remove_pedigree_file("CPAM0002")
+    actual = analysis_collection.remove_analysis_section_file(
+        "CPAM0002", "Pedigree", "Pedigree", "63505be22888347cf1c275db"
+    )
     assert actual == expected
 
 

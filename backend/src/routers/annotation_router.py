@@ -152,7 +152,7 @@ def update_annotation_image(
     """ Updates and replaces an annotation image with a new image  """
 
     try:
-        new_file_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_type)
+        new_file_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_typ)
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 

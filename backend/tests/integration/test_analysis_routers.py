@@ -1,10 +1,11 @@
 """Analysis Routes Integration test"""
 
-import warnings
 import json
 import os
 import datetime
+
 from unittest.mock import patch
+from bson import ObjectId
 
 import pytest
 from fastapi import BackgroundTasks
@@ -50,43 +51,6 @@ def test_get_summary_by_name(client, mock_access_token, mock_repositories):
 
     assert response.status_code == 200
     assert response.json()["name"] == "CPAM0002"
-
-
-def test_import_analysis_from_phenotips_json(
-    client,
-    mock_access_token,
-    mock_repositories,
-    exported_phenotips_to_import_json,
-    mock_annotation_queue,
-    mock_security_get_current_user,  # pylint: disable=unused-argument
-):
-    """Testing if the create analysis endpoint creates a new analysis"""
-    mock_repositories["analysis"].collection.insert_one.return_value = True
-    mock_repositories["analysis"].collection.find_one.return_value = None
-    mock_repositories["genomic_unit"].collection.find_one.return_value = None
-    mock_repositories['genomic_unit'].collection.find.return_value = read_database_fixture("genomic-units.json")
-    mock_repositories['annotation_config'].collection.find.return_value = read_database_fixture(
-        "annotations-config.json"
-    )
-
-    with patch.object(BackgroundTasks, "add_task", return_value=None) as mock_background_add_task:
-        response = client.post(
-            "/analysis/import",
-            headers={"Authorization": "Bearer " + mock_access_token, "Content-Type": "application/json"},
-            json=exported_phenotips_to_import_json,
-        )
-
-        assert mock_annotation_queue.put.call_count == 29
-
-        mock_background_add_task.assert_called_once_with(
-            AnnotationService.process_tasks, mock_annotation_queue, mock_repositories['genomic_unit']
-        )
-
-    assert response.status_code == 200
-
-    response_data = json.loads(response.text)
-    assert response_data['latest_status'] == "Annotation"
-    assert response_data['timeline'][0]['username'] == 'johndoe'
 
 
 def test_import_analysis_with_phenotips_json(
@@ -172,40 +136,6 @@ def test_update_analysis_section(client, mock_access_token, mock_repositories, u
 #     )
 
 #     assert response
-
-
-def test_attach_pedigree_image(client, mock_access_token, mock_repositories):
-    """ Testing if the create analysis function works with file upload """
-    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0112.json")
-    expected = read_test_fixture("analysis-CPAM0112.json")
-    for section in expected["sections"]:
-        if section["header"] == "Pedigree":
-            section["content"] = [{'field': 'image', 'value': ["633afb87fb250a6ea1569555"]}]
-    mock_repositories['analysis'].collection.find_one_and_update.return_value = expected
-    mock_repositories['bucket'].bucket.put.return_value = "633afb87fb250a6ea1569555"
-
-    # This is used here because the 'read_fixture' returns a json dict rather than raw binary
-    # We actually want to send a binary file through the endpoint to simulate a file being sent
-    # then json.loads is used on the other end in the repository.
-    # This'll get updated and broken out in the test_utils in the future
-    path_to_current_file = os.path.realpath(__file__)
-    current_directory = os.path.split(path_to_current_file)[0]
-    path_to_file = os.path.join(current_directory, '../fixtures/' + 'pedigree-fake.jpg')
-
-    with open(path_to_file, "rb") as phenotips_file:
-        pedigree_image = phenotips_file.read()
-        pedigree_bytes = bytearray(pedigree_image)
-        response = client.post(
-            "/analysis/CPAM0112/attach/pedigree",
-            headers={"Authorization": "Bearer " + mock_access_token},
-            files={"upload_file": ("pedigree-fake.jpg", pedigree_bytes)}
-        )
-
-        phenotips_file.close()
-
-    mock_repositories["analysis"].collection.find_one_and_update.assert_called_with({"name": "CPAM0112"},
-                                                                                    {"$set": expected})
-    assert response.status_code == 200
 
 
 def test_attaching_supporting_evidence_link_to_analysis(
@@ -302,45 +232,50 @@ def test_remove_supporting_evidence_link(client, mock_access_token, mock_reposit
     assert response.json() == expected
 
 
-def test_remove_pedigree(client, mock_access_token, mock_repositories):
-    """ Testing the remove pedigree attachment endpoint """
-    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
-    expected = read_test_fixture("analysis-CPAM0002.json")
-    expected["sections"] = [{"header": "Pedigree", "content": []}]
-    mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
+def test_attach_image_to_pedigree_section(client, mock_access_token, mock_repositories):
+    """ Testing attaching an image to the Pedigree section of an analysis """
+    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0112.json")
+    expected = read_test_fixture("analysis-CPAM0112.json")
+    for section in expected["sections"]:
+        if section["header"] == "Pedigree":
+            for content in section["content"]:
+                if content["type"] == "images-dataset":
+                    content["value"].append({"file_id": "633afb87fb250a6ea1569555"})
+    mock_repositories['analysis'].collection.find_one_and_update.return_value = expected
+    mock_repositories['bucket'].bucket.put.return_value = "633afb87fb250a6ea1569555"
 
-    response = client.delete(
-        "/analysis/CPAM0002/remove/pedigree", headers={"Authorization": "Bearer " + mock_access_token}
-    )
+    # This is used here because the 'read_fixture' returns a json dict rather than raw binary
+    # We actually want to send a binary file through the endpoint to simulate a file being sent
+    # then json.loads is used on the other end in the repository.
+    # This'll get updated and broken out in the test_utils in the future
+    path_to_current_file = os.path.realpath(__file__)
+    current_directory = os.path.split(path_to_current_file)[0]
+    path_to_file = os.path.join(current_directory, '../fixtures/' + 'pedigree-fake.jpg')
 
-    assert response.status_code == 200
-    assert response.json() == expected
-
-
-def test_remove_pedigree_empty_pedigree(client, mock_access_token, mock_repositories, empty_pedigree):
-    """ Testing the remove pedigree attachment endpoint """
-    mock_repositories["analysis"].collection.find_one.return_value = empty_pedigree
-    expected = read_test_fixture("analysis-CPAM0002.json")
-    expected["sections"] = [{"header": "Pedigree", "content": []}]
-    mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
-
-    with warnings.catch_warnings(record=True) as warning:
-        response = client.delete(
-            "/analysis/CPAM0002/remove/pedigree", headers={"Authorization": "Bearer " + mock_access_token}
+    with open(path_to_file, "rb") as phenotips_file:
+        pedigree_image = phenotips_file.read()
+        pedigree_bytes = bytearray(pedigree_image)
+        response = client.post(
+            "/analysis/CPAM0112/section/attach/image",
+            headers={"Authorization": "Bearer " + mock_access_token},
+            files={"upload_file": ("pedigree-fake.jpg", pedigree_bytes)},
+            data=({"section_name": "Pedigree", "field_name": "Pedigree"})
         )
-        assert len(warning) == 1
-        assert issubclass(warning[-1].category, UserWarning)
-        assert "does not have a pedigree file" in str(warning[-1].message)
-        assert response.status_code == 200
+
+        phenotips_file.close()
+
+    mock_repositories["analysis"].collection.find_one_and_update.assert_called_with({"name": "CPAM0112"},
+                                                                                    {"$set": expected})
+
+    assert response.status_code == 201
 
 
-def test_update_pedigree(client, mock_access_token, mock_repositories):
+def test_update_existing_pedigree_section_image(client, mock_access_token, mock_repositories):
     """ Testing the update pedigree attachment endpoint """
     mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
     mock_repositories['bucket'].bucket.put.return_value = "633afb87fb250a6ea1569555"
-    expected = read_test_fixture("analysis-CPAM0002.json")
-    expected["sections"] = [{"header": "Pedigree", "content": ["633afb87fb250a6ea1569555"]}]
-    mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
+    mock_analysis = read_test_fixture("analysis-CPAM0002.json")
+    mock_repositories["analysis"].collection.find_one_and_update.return_value = mock_analysis
 
     # This is used here because the 'read_fixture' returns a json dict rather than raw binary
     # We actually want to send a binary file through the endpoint to simulate a file being sent
@@ -354,44 +289,31 @@ def test_update_pedigree(client, mock_access_token, mock_repositories):
         pedigree_image = file.read()
         pedigree_bytes = bytearray(pedigree_image)
         response = client.put(
-            "/analysis/CPAM0002/update/pedigree",
+            "/analysis/CPAM0002/section/update/633afb87fb250a6ea1569555",
             headers={"Authorization": "Bearer " + mock_access_token},
-            files={"upload_file": ("pedigree-fake.jpg", pedigree_bytes)}
+            files={"upload_file": ("pedigree-fake.jpg", pedigree_bytes)},
+            data=({"section_name": "Pedigree", "field_name": "Pedigree"})
         )
         file.close()
 
+    expected = {'section': 'Pedigree', 'field': 'Pedigree', 'image_id': '633afb87fb250a6ea1569555'}
+
+    assert expected == response.json()
     assert response.status_code == 200
 
 
-def test_update_pedigree_empty_pedigree(client, mock_access_token, mock_repositories, empty_pedigree):
-    """ Testing the update pedigree attachment endpoint """
-    mock_repositories["analysis"].collection.find_one.return_value = empty_pedigree
-    mock_repositories['bucket'].bucket.put.return_value = "633afb87fb250a6ea1569555"
-    expected = read_test_fixture("analysis-CPAM0002.json")
-    expected["sections"] = [{"header": "Pedigree", "content": ["633afb87fb250a6ea1569555"]}]
-    mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
+def test_remove_existing_pedigree_section_image(client, mock_access_token, mock_repositories):
+    """ Tests removing an existing image from the pedigree section of CPAM0002 """
+    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    mock_repositories["bucket"].bucket.delete.return_value = None
 
-    # This is used here because the 'read_fixture' returns a json dict rather than raw binary
-    # We actually want to send a binary file through the endpoint to simulate a file being sent
-    # then json.loads is used on the other end in the repository.
-    # This'll get updated and broken out in the test_utils in the future
-    path_to_current_file = os.path.realpath(__file__)
-    current_directory = os.path.split(path_to_current_file)[0]
-    path_to_file = os.path.join(current_directory, '../fixtures/' + 'pedigree-fake.jpg')
+    response = client.delete(
+        "/analysis/CPAM0002/section/remove/63505be22888347cf1c275db",
+        headers={"Authorization": "Bearer " + mock_access_token},
+        data=({"section_name": "Pedigree", "field_name": "Pedigree"})
+    )
 
-    with warnings.catch_warnings(record=True) as warning:
-        with open(path_to_file, 'rb') as file:
-            pedigree_image = file.read()
-            pedigree_bytes = bytearray(pedigree_image)
-            response = client.put(
-                "/analysis/CPAM0002/update/pedigree",
-                headers={"Authorization": "Bearer " + mock_access_token},
-                files={"upload_file": ("pedigree-fake.jpg", pedigree_bytes)}
-            )
-            file.close()
-        assert len(warning) == 1
-        assert issubclass(warning[-1].category, UserWarning)
-        assert "does not have a pedigree file" in str(warning[-1].message)
+    mock_repositories["bucket"].bucket.delete.assert_called_with(ObjectId("63505be22888347cf1c275db"))
 
     assert response.status_code == 200
 

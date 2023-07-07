@@ -72,3 +72,37 @@ html {
 .rosalution-input::placeholder {
   color: var(--rosalution-grey-300);
 }
+
+.rosalution-section-container {
+  display: flex;
+  flex-direction: column;
+  padding: var(--p-10);
+  margin: var(--p-10);
+  border-radius: var(--content-border-radius);
+  background-color: var(--rosalution-white);
+}
+
+.rosalution-section-seperator {
+  height: var(--p-05);
+  background-color: var(--rosalution-grey-100);
+  border: solid .0469rem var(--rosalution-grey-100);
+}
+
+.rosalution-section-header {
+  display: flex;
+  align-items: flex-end;
+}
+
+.rosalution-header-right-icons {
+  gap: var(--p-8);
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.rosalution-section-center {
+  flex-grow: 2;
+}
+
+.rosalution-section-header-text {
+  margin: var(--p-05) var(--p-05) var(--p-0) var(--p-05);
+}

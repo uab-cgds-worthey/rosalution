@@ -14,8 +14,8 @@ export default {
   name: 'not-found-view',
   created: function() {
     const currentUrl = window.location.pathname;
-    console.log(currentUrl);
-    console.log(this.$route);
+    console.error(currentUrl);
+    console.error(this.$route);
   },
 };
 

@@ -18,22 +18,23 @@ import './styles/rosalution.css';
 
 import {authStore} from '@/stores/authStore.js';
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import {FontAwesomeIcon, FontAwesomeLayers} from '@fortawesome/vue-fontawesome';
 import {
   faAsterisk, faPause, faCheck, faX, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList, faLayerGroup,
   faBoxArchive, faQuestion, faClock, faClipboardCheck, faMagnifyingGlass, faChevronDown, faChevronRight,
   faUpRightFromSquare, faCirclePlus, faPencil, faEllipsisVertical, faLink, faXmark, faUserDoctor, faPaperclip, faPlus,
-  faAnglesRight,
+  faAnglesRight, faFileImage, faFileCirclePlus, faMountainSun,
 } from '@fortawesome/free-solid-svg-icons';
 import {
-  faCopy, faFile, faComment, faCircleCheck, faCircleQuestion, faCircleXmark,
+  faCopy, faFile, faComment, faCircleCheck, faCircleQuestion, faCircleXmark, faImages,
 } from '@fortawesome/free-regular-svg-icons';
 
 library.add(
     faAsterisk, faPause, faCheck, faX, faMagnifyingGlass, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList,
     faLayerGroup, faBoxArchive, faQuestion, faClock, faClipboardCheck, faChevronDown, faChevronRight,
     faUpRightFromSquare, faCopy, faCirclePlus, faFile, faComment, faPencil, faEllipsisVertical, faLink, faXmark,
-    faUserDoctor, faPaperclip, faPlus, faAnglesRight, faCircleCheck, faCircleQuestion, faCircleXmark);
+    faUserDoctor, faPaperclip, faPlus, faAnglesRight, faCircleCheck, faCircleQuestion, faCircleXmark, faImages,
+    faFileImage, faFileCirclePlus, faMountainSun);
 
 // The NotFoundView should always be last because it's an ordered array.
 /* Placeholder route, name subject to change */
@@ -90,5 +91,6 @@ const app = createApp(App);
 
 app.use(router);
 app.component('font-awesome-icon', FontAwesomeIcon);
+app.component('font-awesome-layers', FontAwesomeLayers);
 app.component('AppFooter', footer);
 app.mount('#app');
