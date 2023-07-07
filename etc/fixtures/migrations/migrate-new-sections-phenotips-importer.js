@@ -104,7 +104,7 @@ try {
         });
 
         section.content = section.content.filter((contentItem) => {
-          return !contentItem.field === 'HPO Terms';
+          return contentItem.field !== 'HPO Terms';
         });
         print(`  - Removing HPO Terms From Clinical History...`)
       } else {
