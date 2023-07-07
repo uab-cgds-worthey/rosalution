@@ -51,6 +51,8 @@ db = db.getSiblingDB(databaseName);
 try {
   const analyses = db.analyses.find();
   analyses.forEach(element => {
+    print(`Migrating case ${element.name} -----`)
+
     let briefToModelGoalsFields = [];
     let namesOfFieldsToMove = ['Model of Interest', 'Goals', 'Proposed Model/Project']
     let HPOTermsValues = [];
@@ -67,6 +69,7 @@ try {
         section.content = section.content.filter((contentItem) => {
           return !namesOfFieldsToMove.includes(contentItem.field);
         });
+        print(`  - Removing sections from Brief to go to Model Goals...`)
       } else if (section.header === 'Pedigree') {
         section['attachment_field'] = 'Pedigree';
         if(section.content.length == 0) {
@@ -75,6 +78,7 @@ try {
             'field': 'Pedigree',
             'value': []
           }]
+          print(`  - Creating image dataset for empty pedigree...`)
         } else {
           let updatedContent = []
           section.content.forEach((image) => {
@@ -88,6 +92,7 @@ try {
               value: newValues
             })
           })
+          print(`  - Migrateing image dataset for for pedigree...`)
           section.content = updatedContent
          }
       } else if (section.header === 'Clinical History') { 
@@ -97,6 +102,11 @@ try {
             HPOTermsValues = contentItem.value;
           }
         });
+
+        section.content = section.content.filter((contentItem) => {
+          return !contentItem.field === 'HPO Terms';
+        });
+        print(`  - Removing HPO Terms From Clinical History...`)
       } else {
         if(!['Function', 'Molecular', 'Gene'].some(element => section.header.includes(element))) {
           section.content.forEach(contentItem => { 
@@ -106,6 +116,7 @@ try {
       }
     })
 
+    // Adding new sections for each gene
     genes = []
     element.genomic_units.forEach(unit => {
       if (unit.gene) {
@@ -115,7 +126,6 @@ try {
 
     if (genes.length > 0) {
       genes.forEach(gene => {
-
         newGeneSections = [{
             "header": gene.concat(" Gene to Phenotype"), 
             "attachment_field": gene.concat(" Gene to Phenotype"),
@@ -134,11 +144,13 @@ try {
             "attachment_field": gene.concat(" Function"),
             "content": [{"type": "images-dataset", "field": gene.concat(" Function"), "value": []},]
         }]
+        print(`  - Adding Moving HPO terms from Clinical History...`)
+        print(`  - Adding new sections for ${gene}...`)
+        element.sections.push(...newGeneSections)
       })
-
-      element.sections.push(...newGeneSections)
     }
 
+    // Adding model goals section
     element.sections.push({
       header: 'Model Goals', 'content': [
        ...briefToModelGoalsFields,
@@ -146,14 +158,14 @@ try {
         {'field': 'Existing Funding', 'value': [], type: 'section-text'},
       ]
     })
-
-    print(element.sections);
+    print(`  - Copyed sections from brief into Model Goals...`)
 
     // update       
     db.analyses.update(
       {'_id': element._id},
       {'$set': element}
     )
+    print(`Updated ${element.name} -----`)
   });
 } catch (err) {
   console.log(err.stack);
