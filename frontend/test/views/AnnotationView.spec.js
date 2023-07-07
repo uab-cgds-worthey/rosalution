@@ -102,7 +102,7 @@ describe('AnnotationView', () => {
 
   it('renders expected number of sections ', () => {
     const sections = wrapper.findAllComponents(AnnotationSection);
-    expect(sections.length).to.equal(7);
+    expect(sections.length).to.equal(17);
   });
 
   it('renders each section with an Id to be used for an achor', () => {
@@ -114,7 +114,7 @@ describe('AnnotationView', () => {
 
   it('renders text datasets according to configuration', () => {
     const textDatasets = wrapper.findAllComponents(TextDataset);
-    expect(textDatasets.length).to.equal(9);
+    expect(textDatasets.length).to.equal(12);
   });
 
   // Enable this test when tag datasets are added to the configuration

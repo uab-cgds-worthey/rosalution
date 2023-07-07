@@ -218,7 +218,7 @@ const annotationRenderingTemporary = [
         'datasets': [
           {
             'dataset': 'HPO',
-            'type': 'text-dataset',
+            'type': 'tag-dataset',
             'linkout_dataset': 'HPO_gene_search_url',
             'props': {
               'label': 'HPO',
@@ -310,6 +310,90 @@ const annotationRenderingTemporary = [
   {
     'type': 'section',
     'class': '',
+    'header': 'Chromosomal Localization',
+    'anchor': 'Chromosomal_Localization',
+    'header_datasets': [],
+    'props': {
+      'attachmentDataset': 'Chromosomal_Localization',
+      'genomicAttachmentType': 'hgvs_variant',
+    },
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Chromosomal_Localization',
+          'genomicType': 'hgvs_variant',
+          'type': 'images-dataset',
+        },
+      ],
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
+    'header': 'Secondary Structure',
+    'anchor': 'Secondary_Structure',
+    'header_datasets': [],
+    'props': {
+      'attachmentDataset': 'Secondary_Structure',
+      'genomicAttachmentType': 'hgvs_variant',
+    },
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Secondary_Structure',
+          'genomicType': 'hgvs_variant',
+          'type': 'images-dataset',
+        },
+      ],
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
+    'header': 'Causal Variant In This Locus (ClinVar)',
+    'anchor': 'Causal_Variant',
+    'header_datasets': [],
+    'props': {
+      'attachmentDataset': 'Causal_Variant_In_This_Locus_ClinVar',
+      'genomicAttachmentType': 'hgvs_variant',
+    },
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Causal_Variant_In_This_Locus_ClinVar',
+          'genomicType': 'hgvs_variant',
+          'type': 'images-dataset',
+        },
+      ],
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
+    'header': 'Variant Publications',
+    'anchor': 'Variant_Publications',
+    'header_datasets': [],
+    'props': {
+      'attachmentDataset': 'Variant_Publications',
+      'genomicAttachmentType': 'hgvs_variant',
+    },
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Variant_Publications',
+          'genomicType': 'hgvs_variant',
+          'type': 'images-dataset',
+        },
+      ],
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
     'header': 'Gene Homology/Multi-Sequence Alignment',
     'anchor': 'Gene_Homology',
     'header_datasets': [],
@@ -331,20 +415,203 @@ const annotationRenderingTemporary = [
   {
     'type': 'section',
     'class': '',
-    'header': 'Protein Expression',
-    'anchor': 'Protein_Expression',
+    'header': 'Human Gene Expression',
+    'anchor': 'Human_Gene_Expression',
     'header_datasets': [],
     'props': {
-      'attachmentDataset': 'Protein Expression',
+      'attachmentDataset': 'Human_Gene_Expression',
       'genomicAttachmentType': 'gene',
     },
     'rows': [{
       'class': '',
       'datasets': [
         {
-          'dataset': 'Protein Expression',
+          'dataset': 'Human_Gene_Expression',
           'genomicType': 'gene',
           'type': 'images-dataset',
+        },
+      ],
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
+    'header': 'Human Gene versus Protein Expression Profile',
+    'anchor': 'Human_Gene_versus_Protein_Expression',
+    'header_datasets': [],
+    'props': {
+      'attachmentDataset': 'Human_Gene_versus_Protein_Expression_Profile',
+      'genomicAttachmentType': 'gene',
+    },
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Human_Gene_versus_Protein_Expression_Profile',
+          'genomicType': 'gene',
+          'type': 'images-dataset',
+        },
+      ],
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
+    'header': 'Model System Expression Profiles',
+    'anchor': 'Expression_Profiles',
+    'header_datasets': [],
+    'props': {
+      'attachmentDataset': 'Model_System_Expression_Profiles',
+      'genomicAttachmentType': 'gene',
+    },
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Model_System_Expression_Profiles',
+          'genomicType': 'gene',
+          'type': 'images-dataset',
+        },
+      ],
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
+    'header': 'Orthology',
+    'anchor': 'Orthology',
+    'header_datasets': [],
+    'props': {
+      'attachmentDataset': 'Orthology',
+      'genomicAttachmentType': 'gene',
+    },
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Orthology',
+          'genomicType': 'gene',
+          'type': 'images-dataset',
+        },
+      ],
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
+    'header': 'Rattus norvegicus (Rat) Model System',
+    'anchor': 'Rattus_norvegicus_Model_System',
+    'header_datasets': [],
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Rat_Alliance_Genome_Automated_Summary',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'AG Summary',
+          },
+        },
+        {
+          'dataset': 'Rat_Alliance_Genome_RGD_Summary',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'RGD Summary',
+          },
+        },
+        {
+          'dataset': 'Rat_Alliance_Genome_Models',
+          'type': 'card-dataset',
+        },
+      ],
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
+    'header': 'Mus musculus (Mouse) Model System',
+    'anchor': 'Mus_musculus_Model_System',
+    'header_datasets': [],
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Mouse_Alliance_Genome_Automated_Summary',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'AG Summary',
+          },
+        },
+        {
+          'dataset': 'Mouse_Alliance_Genome_MGI_Summary',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'MGI Summary',
+          },
+        },
+        {
+          'dataset': 'Mouse_Alliance_Genome_Models',
+          'type': 'card-dataset',
+        },
+      ],
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
+    'header': 'Danio rerio (Zebrafish) Model System',
+    'anchor': 'Danio_rerio_Model_System',
+    'header_datasets': [],
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'Zebrafish_Alliance_Genome_Automated_Summary',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'AG Summary',
+          },
+        },
+        {
+          'dataset': 'Zebrafish_Alliance_Genome_ZFIN_Summary',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'ZFIN Summary',
+          },
+        },
+        {
+          'dataset': 'Zebrafish_Alliance_Genome_Models',
+          'type': 'card-dataset',
+        },
+      ],
+    }],
+  },
+  {
+    'type': 'section',
+    'class': '',
+    'header': 'C. Elegens (Roundworm) Model System',
+    'anchor': 'C_Elegens_Model_System',
+    'header_datasets': [],
+    'rows': [{
+      'class': '',
+      'datasets': [
+        {
+          'dataset': 'C-Elegens_Alliance_Genome_Automated_Summary',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'AG Summary',
+          },
+        },
+        {
+          'dataset': 'C-Elegens_Alliance_Genome_WB_Summary',
+          'type': 'text-dataset',
+          'props': {
+            'label': 'WB Summary',
+          },
+        },
+        {
+          'dataset': 'C-Elegens_Alliance_Genome_Models',
+          'type': 'card-dataset',
         },
       ],
     }],
@@ -366,59 +633,6 @@ const annotationRenderingTemporary = [
           'dataset': 'Modelability',
           'genomicType': 'gene',
           'type': 'images-dataset',
-        },
-      ],
-    }],
-  },
-  {
-    'type': 'section',
-    'class': '',
-    'header': 'Model Systems',
-    'anchor': 'Model_Systems',
-    'header_datasets': [],
-    'rows': [{
-      'class': '',
-      'datasets': [
-        {
-          'dataset': 'Model Systems - Rat',
-          'type': 'text-dataset',
-          'props': {
-            'label': 'Rat',
-          },
-        },
-      ],
-    },
-    {
-      'class': '',
-      'datasets': [
-        {
-          'dataset': 'Model Systems - Mouse - Automated',
-          'type': 'text-dataset',
-          'props': {
-            'label': 'Mouse - Automated',
-          },
-        },
-      ],
-    }, {
-      'class': '',
-      'datasets': [
-        {
-          'dataset': 'Model Systems - Zebrafish - Automated',
-          'type': 'text-dataset',
-          'props': {
-            'label': 'Zebrafish - Automated',
-          },
-        },
-      ],
-    }, {
-      'class': '',
-      'datasets': [
-        {
-          'dataset': 'Model Systems - C-Elegens - Automated',
-          'type': 'text-dataset',
-          'props': {
-            'label': 'C-Elegens - Automated',
-          },
         },
       ],
     }],

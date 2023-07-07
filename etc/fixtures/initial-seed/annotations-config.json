@@ -111,21 +111,39 @@
     "attribute": "{ \"HPO_gene_search_url\": .HPO_gene_search_url }"
   },
   {
-    "data_set": "Model Systems - Rat",
-    "data_source": "Aliance Genome",
-    "genomic_unit_type": "gene",
-    "annotation_source_type": "http",
-    "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}",
-    "attribute": "{ \"Model Systems - Rat\": .geneSynopsis}",
-    "dependencies": ["Rat Gene Identifier"]
-  },
-  {
     "data_set": "Rat Gene Identifier",
     "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
-    "attribute": ".results[] | select( .primaryKey | contains(\"RGD\")) | { \"Rat Gene Identifier\": .primaryKey }"
+    "attribute": ".results[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Rno)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"Rat Gene Identifier\": .primaryKey }"
+  },
+  {
+    "data_set": "Rat_Alliance_Genome_Automated_Summary",
+    "data_source": "Alliance Genome",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}",
+    "attribute": "{ \"Rat_Alliance_Genome_Automated_Summary\": .automatedGeneSynopsis }",
+    "dependencies": ["Rat Gene Identifier"]
+  },
+  {
+    "data_set": "Rat_Alliance_Genome_RGD_Summary",
+    "data_source": "Alliance Genome",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}",
+    "attribute": "{ \"Rat_Alliance_Genome_RGD_Summary\": .geneSynopsis}",
+    "dependencies": ["Rat Gene Identifier"]
+  },
+  {
+    "data_set": "Rat_Alliance_Genome_Models",
+    "data_source": "Alliance Genome",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}/models?limit=100",
+    "attribute": "{ \"Rat_Alliance_Genome_Models\": [.results[]] }",
+    "dependencies": ["Rat Gene Identifier"]
   },
   {
     "data_set": "Mouse Gene Identifier",
@@ -133,15 +151,33 @@
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
-    "attribute": ".results[] | select( .primaryKey | contains(\"MGI\")) | select( .name | contains(\"-\") | not ) |{ \"Mouse Gene Identifier\": .primaryKey }"
+    "attribute": ".results[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Mmu)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"Mouse Gene Identifier\": .primaryKey }"
   },
   {
-    "data_set": "Model Systems - Mouse - Automated",
-    "data_source": "Aliance Genome",
+    "data_set": "Mouse_Alliance_Genome_Automated_Summary",
+    "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/gene/{Mouse Gene Identifier}",
-    "attribute": "{ \"Model Systems - Mouse\": .automatedGeneSynopsis}",
+    "attribute": "{ \"Mouse_Alliance_Genome_Automated_Summary\": .automatedGeneSynopsis }",
+    "dependencies": ["Mouse Gene Identifier"]
+  },
+  {
+    "data_set": "Mouse_Alliance_Genome_MGI_Summary",
+    "data_source": "Alliance Genome",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/gene/{Mouse Gene Identifier}",
+    "attribute": "{ \"Mouse_Alliance_Genome_MGI_Summary\": .geneSynopsis }",
+    "dependencies": ["Mouse Gene Identifier"]
+  },
+  {
+    "data_set": "Mouse_Alliance_Genome_Models",
+    "data_source": "Alliance Genome",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/gene/{Mouse Gene Identifier}/models?limit=100",
+    "attribute": "{ \"Mouse_Alliance_Genome_Models\": [.results[]] }",
     "dependencies": ["Mouse Gene Identifier"]
   },
   {
@@ -150,15 +186,33 @@
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
-    "attribute": ".results[] | select( .primaryKey | contains(\"ZFIN\")) | select( .name | contains(\"-\") | not ) |{ \"Zebrafish Gene Identifier\": .primaryKey }"
+    "attribute": ".results[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Dre)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"Zebrafish Gene Identifier\": .primaryKey }"
   },
   {
-    "data_set": "Model Systems - Zebrafish - Automated",
+    "data_set": "Zebrafish_Alliance_Genome_Automated_Summary",
     "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/gene/{Zebrafish Gene Identifier}",
-    "attribute": "{ \"Model Systems - Zebrafish\": .automatedGeneSynopsis}",
+    "attribute": "{ \"Zebrafish_Alliance_Genome_Automated_Summary\": .automatedGeneSynopsis }",
+    "dependencies": ["Zebrafish Gene Identifier"]
+  },
+  {
+    "data_set": "Zebrafish_Alliance_Genome_ZFIN_Summary",
+    "data_source": "Alliance Genome",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/gene/{Zebrafish Gene Identifier}",
+    "attribute": "{ \"Zebrafish_Alliance_Genome_ZFIN_Summary\": .geneSynopsis }",
+    "dependencies": ["Zebrafish Gene Identifier"]
+  },
+  {
+    "data_set": "Zebrafish_Alliance_Genome_Models",
+    "data_source": "Alliance Genome",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/gene/{Zebrafish Gene Identifier}/models?limit=100",
+    "attribute": "{ \"Zebrafish_Alliance_Genome_Models\": [.results[]] }",
     "dependencies": ["Zebrafish Gene Identifier"]
   },
   {
@@ -167,15 +221,33 @@
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
-    "attribute": ".results[] | select( .primaryKey | contains(\"WB\")) | select( .name | contains(\"-\") | not ) |{ \"C-Elegens Gene Identifier\": .primaryKey }"
+    "attribute": ".results[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Cel)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"C-Elegens Gene Identifier\": .primaryKey }"
   },
   {
-    "data_set": "Model Systems - C-Elegens - Automated",
+    "data_set": "C-Elegens_Alliance_Genome_Automated_Summary",
     "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/gene/{C-Elegens Gene Identifier}",
-    "attribute": "{ \"Model Systems - C-Elegens\": .automatedGeneSynopsis}",
+    "attribute": "{ \"C-Elegens_Alliance_Genome_Automated_Summary\": .automatedGeneSynopsis }",
+    "dependencies": ["C-Elegens Gene Identifier"]
+  },
+  {
+    "data_set": "C-Elegens_Alliance_Genome_WB_Summary",
+    "data_source": "Alliance Genome",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/gene/{C-Elegens Gene Identifier}",
+    "attribute": "{ \"C-Elegens_Alliance_Genome_WB_Summary\": .geneSynopsis }",
+    "dependencies": ["C-Elegens Gene Identifier"]
+  },
+  {
+    "data_set": "C-Elegens_Alliance_Genome_Models",
+    "data_source": "Alliance Genome",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/gene/{C-Elegens Gene Identifier}/models?limit=100",
+    "attribute": "{ \"C-Elegens_Alliance_Genome_Models\": [.results[]] }",
     "dependencies": ["C-Elegens Gene Identifier"]
   },
   {
@@ -249,5 +321,77 @@
     "annotation_source_type": "http",
     "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;refseq=1;",
     "attribute": ".[].transcript_consequences[] | { impact: .impact, transcript_id: .transcript_id }"
+  },
+  {
+    "data_set": "Rat_Alliance_Genome_url",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "forge",
+    "base_string": "https://www.alliancegenome.org/gene/{Rat Gene Identifier}",
+    "attribute": "{ \"Rat_Alliance_Genome_url\": .Rat_Alliance_Genome_url }",
+    "dependencies": ["Rat Gene Identifier"]
+  },
+  {
+    "data_set": "Rat_Rat_Genome_Database_url",
+    "data_source": "Alliance genome",
+    "annotation_source_type": "http",
+    "genomic_unit_type": "gene",
+    "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}",
+    "attribute": "{ \"Rat_Rat_Genome_Database_url\": .modCrossRefCompleteUrl }",
+    "dependencies": ["Rat Gene Identifier"]
+  },
+  {
+    "data_set": "Mouse_Alliance_Genome_url",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "forge",
+    "base_string": "https://www.alliancegenome.org/gene/{Mouse Gene Identifier}",
+    "attribute": "{ \"Mouse_Alliance_Genome_url\": .Mouse_Alliance_Genome_url }",
+    "dependencies": ["Mouse Gene Identifier"]
+  },
+  {
+    "data_set": "Mouse_Mouse_Genome_Database_url",
+    "data_source": "Alliance genome",
+    "annotation_source_type": "http",
+    "genomic_unit_type": "gene",
+    "url": "https://www.alliancegenome.org/api/gene/{Mouse Gene Identifier}",
+    "attribute": "{ \"Mouse_Mouse_Genome_Database_url\": .modCrossRefCompleteUrl }",
+    "dependencies": ["Mouse Gene Identifier"]
+  },
+  {
+    "data_set": "Zebrafish_Alliance_Genome_url",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "forge",
+    "base_string": "https://www.alliancegenome.org/gene/{Zebrafish Gene Identifier}",
+    "attribute": "{ \"Zebrafish_Alliance_Genome_url\": .Zebrafish_Alliance_Genome_url }",
+    "dependencies": ["Zebrafish Gene Identifier"]
+  },
+  {
+    "data_set": "Zebrafish_Zebrafish_Information_Network_url",
+    "data_source": "Alliance genome",
+    "annotation_source_type": "http",
+    "genomic_unit_type": "gene",
+    "url": "https://www.alliancegenome.org/api/gene/{Zebrafish Gene Identifier}",
+    "attribute": "{ \"Zebrafish_Zebrafish_Information_Network_url\": .modCrossRefCompleteUrl }",
+    "dependencies": ["Zebrafish Gene Identifier"]
+  },
+  {
+    "data_set": "C-Elegens_Alliance_Genome_url",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "forge",
+    "base_string": "https://www.alliancegenome.org/gene/{C-Elegens Gene Identifier}",
+    "attribute": "{ \"C-Elegens_Alliance_Genome_url\": .C-Elegens_Alliance_Genome_url }",
+    "dependencies": ["C-Elegens Gene Identifier"]
+  },
+  {
+    "data_set": "C-Elegens_Worm_Base_url",
+    "data_source": "Alliance genome",
+    "annotation_source_type": "http",
+    "genomic_unit_type": "gene",
+    "url": "https://www.alliancegenome.org/api/gene/{C-Elegens Gene Identifier}",
+    "attribute": "{ \"C-Elegens_Worm_Base_url\": .modCrossRefCompleteUrl }",
+    "dependencies": ["C-Elegens Gene Identifier"]
   }
 ]
