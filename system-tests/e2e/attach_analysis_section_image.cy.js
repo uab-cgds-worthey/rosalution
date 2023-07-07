@@ -7,7 +7,7 @@ describe('attach_pedigree_image', () => {
 
   it('should attach a jpg pedigree image', () => {
     cy.get('[href="#Pedigree"]').click();
-    cy.get('.attach-logo').click();
+    cy.get('[data-test="attach-logo-Pedigree"]').click({force: true});
     cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/pedigree-fake.jpg', {
       action: 'drag-drop',
     });
@@ -18,7 +18,7 @@ describe('attach_pedigree_image', () => {
 
   it('should attach a png pedigree image', () => {
     cy.get('[href="#Pedigree"]').click();
-    cy.get('.attach-logo').click();
+    cy.get('[data-test="attach-logo-Pedigree"]').click({force: true});
     cy.get('.drop-file-box-content').selectFile('../frontend/src/assets/gnomad-logo.png', {
       action: 'drag-drop',
     });
@@ -30,7 +30,7 @@ describe('attach_pedigree_image', () => {
   it('should attach two images to the pedigree section', () => {
     // First image - jpg
     cy.get('[href="#Pedigree"]').click();
-    cy.get('.attach-logo').click();
+    cy.get('[data-test="attach-logo-Pedigree"]').click({force: true});
     cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/pedigree-fake.jpg', {
       action: 'drag-drop',
     });
@@ -38,7 +38,7 @@ describe('attach_pedigree_image', () => {
 
     // Second image - png
     cy.get('[href="#Pedigree"]').click();
-    cy.get('.attach-logo').click();
+    cy.get('[data-test="attach-logo-Pedigree"]').click({force: true});
     cy.get('.drop-file-box-content').selectFile('../frontend/src/assets/gnomad-logo.png', {
       action: 'drag-drop',
     });
@@ -49,7 +49,7 @@ describe('attach_pedigree_image', () => {
 
   it('should attach an image and then updates the image to another image ', () => {
     cy.get('[href="#Pedigree"]').click();
-    cy.get('.attach-logo').click();
+    cy.get('[data-test="attach-logo-Pedigree"]').click({force: true});
     cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/pedigree-fake.jpg', {
       action: 'drag-drop',
     });
@@ -57,7 +57,7 @@ describe('attach_pedigree_image', () => {
 
     cy.get('[field="Pedigree"] > .image-row > .lightbox').invoke('attr', 'id').then((old_file_id) => {
 
-      cy.get('[data-test=annotation-edit-icon]').click();
+      cy.get('[data-test=annotation-edit-icon]').click({force: true});
       cy.get('.drop-file-box-content').selectFile('../frontend/src/assets/gnomad-logo.png', {
         action: 'drag-drop',
       });
@@ -69,13 +69,13 @@ describe('attach_pedigree_image', () => {
 
   it('should upload an image to Pedigree and then remove the image', () => {
     cy.get('[href="#Pedigree"]').click();
-    cy.get('.attach-logo').click();
+    cy.get('[data-test="attach-logo-Pedigree"]').click({force: true});
     cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/pedigree-fake.jpg', {
       action: 'drag-drop',
     });
     cy.get('[data-test="confirm"]').click();
 
-    cy.get('[data-test=annotation-edit-icon]').click();
+    cy.get('[data-test=annotation-edit-icon]').click({force: true});
     cy.get('[data-test="delete"]').click();
     cy.get('[data-test="confirm-button"').click();
 

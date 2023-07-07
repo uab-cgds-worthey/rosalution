@@ -16,7 +16,7 @@
       >
         {{ value.join("\r\n") }}
       </span>
-      <span v-else v-for="(rowValue, index) in value" :key="index" class="section-content-values" data-test="value-row">
+      <span v-else v-for="(rowValue, index) in value" :key="index" data-test="value-row">
         {{ rowValue }}
       </span>
     </span>
@@ -84,7 +84,7 @@ export default {
 .section-content {
   display: flex;
   flex-direction: column;
-  flex: 1 0 auto;
+  flex: 1 0 0;
 }
 
 .editable-section-content-values {
