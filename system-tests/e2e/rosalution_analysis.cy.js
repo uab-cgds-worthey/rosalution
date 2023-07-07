@@ -12,7 +12,7 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
 
     const anchorLinks = [
       'Brief', 'Clinical History', 'Pedigree', 'Supporting Evidence', 'VMA21 Gene To Phenotype',
-      'VMA21 Molecular Mechanism', 'VMA21 Function', 'Model Goals',
+      'VMA21_Molecular Mechanism', 'VMA21_Function', 'Model_Goals',
     ];
     const expectedHeaderLinks =
       ['CPAM0002', 'LOGIN', ...anchorLinks];
