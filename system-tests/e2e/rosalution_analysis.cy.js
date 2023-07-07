@@ -10,19 +10,19 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
 
   it('should allow the user to navigate the analysis via the logo, header, and section anchor links', () => {
 
-    const anchorLinks = ['Brief', 'Clinical History', 'Pedigree', 'Supporting Evidence'];
+    const anchorLinks = [
+      'Brief', 'Clinical History', 'Pedigree', 'Supporting Evidence', 'VMA21 Gene To Phenotype',
+      'VMA21 Molecular Mechanism', 'VMA21 Function', 'Model Goals',
+    ];
     const expectedHeaderLinks =
       ['CPAM0002', 'LOGIN', ...anchorLinks];
 
     cy.wait('@analysisLoad');
     cy.get('[data-test="primary-content"] > div > a')
       .each(($el) => {
-        console.log("HELLO!!!!")
-        console.log($el);
       cy.wrap($el).invoke('text').should('be.oneOf', expectedHeaderLinks).then((text) => {
         if (anchorLinks.includes(text)) {
           const anchorLink = `#${text.replace(' ', '_')}`;
-          console.log(anchorLink)
           cy.wrap($el).click().url().should('contain', `analysis/CPAM0002${anchorLink}`);
           cy.get(anchorLink);
         }
