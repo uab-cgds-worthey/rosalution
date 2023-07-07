@@ -114,7 +114,7 @@ describe('AnnotationView', () => {
 
   it('renders text datasets according to configuration', () => {
     const textDatasets = wrapper.findAllComponents(TextDataset);
-    expect(textDatasets.length).to.equal(13);
+    expect(textDatasets.length).to.equal(12);
   });
 
   // Enable this test when tag datasets are added to the configuration
