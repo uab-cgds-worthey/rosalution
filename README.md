@@ -132,12 +132,20 @@ Restart-Service LxssManager*
 - [Production](#production)
     - [Using the Build Script](#using-the-build-script)
     - [Local Deployment of a Production Build](#local-deployment-of-a-production-build)
+- [Common Deployment Troubleshooting](#common-deployment-troubleshooting)
 
 ### Deploying With Docker Compose
 
-Deploy Rosalution from the project's root directory using `docker compose`.
-Be sure that `./setup.sh` has been run recently for any recent dependency updates
-to be installed in all of the subdirectories.
+Deploy Rosalution from the project's root directory using `docker compose` in
+your terminal. Be sure that `./setup.sh` has been run recently for any
+recent dependency updates to be installed in all of the subdirectories.
+
+After following one the deployment commands in the below in the terminal,
+
+- Visit <http://local.rosalution.cgds/rosalution/> for the main rosalution Application
+- Visit <http://local.rosalution.cgds/rosalution/api/docs> for accessing the API
+
+For deployment troubleshooting, visit [Common Deployment Troubleshooting](#common-deployment-troubleshooting).
 
 ```bash
 # deploy rosalution services within this session
@@ -309,6 +317,23 @@ docker-compose -f docker-compose.local-production.yml up --build
 
 To access the locally deployed Rosalution application after running `docker compose up`,
 visit the [http://local.rosalution.cgds/rosalution/](http://local.rosalution.cgds/rosalution/) URL in your browser.
+
+### Common Deployment Troubleshooting
+
+> When I navigate to localhost:80 in the browser I see a 404 error page.
+
+The local application deployment relies on the reverse proxy routing localhost
+requests from the base URL <http://local.rosalution.cgds/rosalution>.
+ `./setup.sh` must also have been run in advance to properly setup the
+ routing.
+
+> When I navigate to local.rosalution.cgds/rosalution in the browser I see
+> a 404 error page.
+
+There could be two issues when this is happening. First, verify the frontend
+and reverse proxy docker containers by running `docker ps` in your terminal.
+If both containers are running, then re-run the `.setup.sh` script in the
+project's root directory to verify no errors are occur while running.
 
 ---
 
