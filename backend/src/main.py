@@ -1,8 +1,17 @@
 """
 End points for backend
 """
+import logging
+import logging.config
+
+import random
+import string
+import time
+
+from os import path
+
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 
 from .routers import analysis_router, annotation_router, auth_router
 
@@ -36,11 +45,18 @@ tags_metadata = [
 ## CORS Policy ##
 origins = ["http://dev.cgds.uab.edu", "https://padlockdev.idm.uab.edu"]
 
+log_file_path = path.join(path.dirname(path.abspath(__file__)), 'logging.conf')
+logging.config.fileConfig(log_file_path)
+
+# create logger
+logger = logging.getLogger('simpleExample')
+
+
 app = FastAPI(
     title="rosalution API",
     description=DESCRIPTION,
     openapi_tags=tags_metadata,
-    root_path="/rosalution/api/",
+    root_path="/rosalution/api/"
 )
 
 app.include_router(analysis_router.router)
@@ -59,8 +75,28 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    idem = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+    logger.info(f"rid={idem} start request path={request.url.path}")
+    start_time = time.time()
+    
+    response = await call_next(request)
+    
+    process_time = (time.time() - start_time) * 1000
+    formatted_process_time = '{0:.2f}'.format(process_time)
+    logger.info(f"rid={idem} completed_in={formatted_process_time}ms status_code={response.status_code}")
+    
+    return response
 
 @app.get("/heart-beat", tags=["lifecycle"])
 def heartbeat():
     """Returns a heart-beat that orchestration services can use to determine if the application is running"""
+
+    logger.debug('debug message')
+    logger.info('info message')
+    logger.warning('warn message')
+    logger.error('error message')
+    logger.critical('critical message')
+    
     return "thump-thump"
