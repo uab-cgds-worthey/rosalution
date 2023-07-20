@@ -86,7 +86,10 @@ class PhenotipsImporter:
                     {"type": "section-text", "field": 'Systems', "value": []},
                     {"type": "section-text", "field": 'Additional Details', "value": []},
                 ]
-            }, {"header": 'Pedigree', "content": [{"type": "images-dataset", "field": "Pedigree", "value": []}]}]
+            }, {
+                "header": 'Pedigree', "attachment_field": "Pedigree",
+                "content": [{"type": "images-dataset", "field": "Pedigree", "value": []}]
+            }]
         }
 
         for phenotips_gene in phenotips_genes:
@@ -115,9 +118,11 @@ class PhenotipsImporter:
         for genomic_unit in analysis_data['genomic_units']:
             if genomic_unit['gene']:
                 new_sections = [{
-                    "header": str(genomic_unit["gene"] + " Gene to Phenotype"), "content": [
+                    "header": str(genomic_unit["gene"] + " Gene To Phenotype"),
+                    "attachment_field": str(genomic_unit["gene"] + " Gene To Phenotype"),
+                    "content": [
                         {
-                            "type": "images-dataset", "field": str(genomic_unit["gene"] + " Gene to Phenotype"),
+                            "type": "images-dataset", "field": str(genomic_unit["gene"] + " Gene To Phenotype"),
                             "value": []
                         },
                         {
@@ -130,7 +135,8 @@ class PhenotipsImporter:
                         "type": "section-text", "field": str(genomic_unit["gene"] + " Molecular Mechanism"), "value": []
                     }]
                 }, {
-                    "header": str(genomic_unit["gene"] + " Function"), "content": [
+                    "header": str(genomic_unit["gene"] + " Function"),
+                    "attachment_field": str(genomic_unit["gene"] + " Function"), "content": [
                         {"type": "images-dataset", "field": str(genomic_unit["gene"] + " Function"), "value": []},
                     ]
                 }]
