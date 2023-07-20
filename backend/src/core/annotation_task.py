@@ -7,8 +7,11 @@ import time
 # pylint: disable=too-few-public-methods
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 import jq
+import logging
 import requests
 
+# create logger
+logger = logging.getLogger(__name__)
 
 def empty_gen():
     """
@@ -27,7 +30,6 @@ def log_to_file(string):
     with open("rosalution-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
         log_file.write(string)
     print(string)
-
 
 class AnnotationTaskInterface:
     """Abstract class to define the interface for the the types of Annotation Task"""
@@ -82,11 +84,16 @@ class AnnotationTaskInterface:
             try:
                 jq_results = iter(jq.compile(replaced_attributes).input(json_result).all())
             except ValueError as value_error:
-                log_to_file((
+                logger.info((
                     f"Failed to annotate '{annotation_unit['data_set']}' "
                     f"from '{annotation_unit['data_source']}' "
                     f"on {json.dumps(json_result)} with error '{value_error}'"
                 ))
+                # log_to_file((
+                #     f"Failed to annotate '{annotation_unit['data_set']}' "
+                #     f"from '{annotation_unit['data_source']}' "
+                #     f"on {json.dumps(json_result)} with error '{value_error}'"
+                # ))
             jq_result = next(jq_results, None)
             while jq_result is not None:
                 result_keys = list(jq_result.keys())

@@ -4,14 +4,10 @@ End points for backend
 import logging
 import logging.config
 
-import random
-import string
-import time
-
 from os import path
 
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 
 from .routers import analysis_router, annotation_router, auth_router
 
@@ -46,11 +42,10 @@ tags_metadata = [
 origins = ["http://dev.cgds.uab.edu", "https://padlockdev.idm.uab.edu"]
 
 log_file_path = path.join(path.dirname(path.abspath(__file__)), 'logging.conf')
-logging.config.fileConfig(log_file_path)
+logging.config.fileConfig(log_file_path, disable_existing_loggers=False)
 
 # create logger
-logger = logging.getLogger('simpleExample')
-
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="rosalution API",
@@ -84,5 +79,11 @@ def heartbeat():
     logger.warning('warn message')
     logger.error('error message')
     logger.critical('critical message')
+
     
     return "thump-thump"
+
+@app.get("/test", tags=["lifecycle"])
+def test():
+    logger.debug('debug message')
+    return "test"
