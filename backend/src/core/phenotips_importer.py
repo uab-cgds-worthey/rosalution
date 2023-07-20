@@ -119,8 +119,7 @@ class PhenotipsImporter:
             if genomic_unit['gene']:
                 new_sections = [{
                     "header": str(genomic_unit["gene"] + " Gene To Phenotype"),
-                    "attachment_field": str(genomic_unit["gene"] + " Gene To Phenotype"),
-                    "content": [
+                    "attachment_field": str(genomic_unit["gene"] + " Gene To Phenotype"), "content": [
                         {
                             "type": "images-dataset", "field": str(genomic_unit["gene"] + " Gene To Phenotype"),
                             "value": []
