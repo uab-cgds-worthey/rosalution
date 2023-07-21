@@ -161,6 +161,10 @@ docker images
 docker run -v <absolute_path_to_backend>/:/app/ -p 127.0.0.1:8000:8000 <image_id>
 ```
 
+### Logging
+
+Logging can be found at "./logging.conf"
+
 ### Endpoints
 
 #### **rosalution Endpoints**

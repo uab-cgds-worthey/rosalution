@@ -69,11 +69,5 @@ app.add_middleware(
 @app.get("/heart-beat", tags=["lifecycle"])
 def heartbeat():
     """Returns a heart-beat that orchestration services can use to determine if the application is running"""
-
-    logger.debug('debug message')
-    logger.info('info message')
-    logger.warning('warn message')
-    logger.error('error message')
-    logger.critical('critical message')
-
+    
     return "thump-thump"
