@@ -10,6 +10,7 @@ from ..repository.annotation_config_collection import AnnotationConfigCollection
 # create logger
 logger = logging.getLogger(__name__)
 
+
 class AnnotationQueue:
     """Wrapper for the queue to processes annotation tasks"""
 
@@ -67,7 +68,9 @@ class AnnotationService:
                 genomic_unit, dataset_json = annotation_queue.get()
                 if genomic_unit_collection.annotation_exist(genomic_unit, dataset_json):
                     # logger.info(f"Annotation: {genomic_unit['unit']} for {dataset_json['data_set']} Annotation Exists...")
-                    logger.info(f'''{f"Annotation: {genomic_unit['unit']} for {dataset_json['data_set']}" :<75} Annotation Exists...''')
+                    logger.info(
+                        f'''{f"Annotation: {genomic_unit['unit']} for {dataset_json['data_set']}" :<75} Annotation Exists...'''
+                    )
                     continue
 
                 ready = True
@@ -94,18 +97,24 @@ class AnnotationService:
                         #     f"Annotation: {genomic_unit['unit']} for {dataset_json['data_set']} \
                         #     - Delaying Annotation, Missing Dependency..."
                         # )
-                        logger.info(f'''{f"Annotation: {genomic_unit['unit']:} for {dataset_json['data_set']}" :<75} Delaying Annotation, Missing Dependency...''')
+                        logger.info(
+                            f'''{f"Annotation: {genomic_unit['unit']:} for {dataset_json['data_set']}" :<75} Delaying Annotation, Missing Dependency...'''
+                        )
                         annotation_queue.put((genomic_unit, dataset_json))
                     else:
                         missing_dependencies = [
                             dependency for dependency in dataset_json['dependencies'] if dependency not in genomic_unit
                         ]
-                        logger.info(f'''{f"Annotation: {genomic_unit['unit']} for {dataset_json['data_set']}" :<75} Canceling Annotation, Missing {missing_dependencies} ...''')
+                        logger.info(
+                            f'''{f"Annotation: {genomic_unit['unit']} for {dataset_json['data_set']}" :<75} Canceling Annotation, Missing {missing_dependencies} ...'''
+                        )
 
                     continue
 
                 task = AnnotationTaskFactory.create(genomic_unit, dataset_json)
-                logger.info(f'''{f"Annotation: {genomic_unit['unit']} for {dataset_json['data_set']}" :<75} Creating Task To Annotate...''')
+                logger.info(
+                    f'''{f"Annotation: {genomic_unit['unit']} for {dataset_json['data_set']}" :<75} Creating Task To Annotate...'''
+                )
 
                 annotation_task_futures[executor.submit(task.annotate)] = (
                     genomic_unit,
@@ -114,13 +123,17 @@ class AnnotationService:
 
                 for future in concurrent.futures.as_completed(annotation_task_futures):
                     genomic_unit, annotation_task = annotation_task_futures[future]
-                    logger.info(f'''{f"Annotation: {genomic_unit['unit']} for {dataset_json['data_set']}" :<75} Query completed...''')
+                    logger.info(
+                        f'''{f"Annotation: {genomic_unit['unit']} for {dataset_json['data_set']}" :<75} Query completed...'''
+                    )
 
                     try:
                         result_temp = future.result()
 
                         for annotation in annotation_task.extract(result_temp):
-                            logger.info(f'''{f"Annotation: {genomic_unit['unit']} for {annotation_task.dataset['data_set']}" :<75} Saving {annotation['value']}...''')
+                            logger.info(
+                                f'''{f"Annotation: {genomic_unit['unit']} for {annotation_task.dataset['data_set']}" :<75} Saving {annotation['value']}...'''
+                            )
                             genomic_unit_collection.annotate_genomic_unit(annotation_task.genomic_unit, annotation)
 
                     except FileNotFoundError as error:

@@ -93,10 +93,7 @@ def test_annotation_extraction_for_genomic_unit(http_annotation_task_gene, hpo_a
 # removed once that helper method is no longer needed for the development
 
 
-@patch("src.core.annotation_task.log_to_file")
-def test_annotation_extraction_value_error_exception(
-    log_to_file_mock, http_annotation_task_gene, hpo_annotation_response
-):  # pylint: disable=unused-argument
+def test_annotation_extraction_value_error_exception(http_annotation_task_gene, hpo_annotation_response):
     """Verifying annotation failure does not cause crash in application during extraction"""
 
     # Removing the expected value in the json to force a jq parse error to more closely

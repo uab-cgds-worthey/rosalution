@@ -6,12 +6,13 @@ import time
 
 # pylint: disable=too-few-public-methods
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
-import jq
 import logging
+import jq
 import requests
 
 # create logger
 logger = logging.getLogger(__name__)
+
 
 def empty_gen():
     """
@@ -20,6 +21,7 @@ def empty_gen():
     using jq.
     """
     yield from ()
+
 
 class AnnotationTaskInterface:
     """Abstract class to define the interface for the the types of Annotation Task"""

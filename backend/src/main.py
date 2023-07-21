@@ -47,12 +47,7 @@ logging.config.fileConfig(log_file_path, disable_existing_loggers=False)
 # create logger
 logger = logging.getLogger(__name__)
 
-app = FastAPI(
-    title="rosalution API",
-    description=DESCRIPTION,
-    openapi_tags=tags_metadata,
-    root_path="/rosalution/api/"
-)
+app = FastAPI(title="rosalution API", description=DESCRIPTION, openapi_tags=tags_metadata, root_path="/rosalution/api/")
 
 app.include_router(analysis_router.router)
 app.include_router(annotation_router.router)
@@ -70,6 +65,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/heart-beat", tags=["lifecycle"])
 def heartbeat():
     """Returns a heart-beat that orchestration services can use to determine if the application is running"""
@@ -81,4 +77,3 @@ def heartbeat():
     logger.critical('critical message')
 
     return "thump-thump"
-
