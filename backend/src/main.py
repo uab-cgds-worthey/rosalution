@@ -41,7 +41,7 @@ tags_metadata = [
 ## CORS Policy ##
 origins = ["http://dev.cgds.uab.edu", "https://padlockdev.idm.uab.edu"]
 
-log_file_path = path.join(path.dirname(path.abspath(__file__)), 'logging.conf')
+log_file_path = path.join(path.dirname(path.abspath(__file__)), '../logging.conf')
 logging.config.fileConfig(log_file_path, disable_existing_loggers=False)
 
 # create logger
@@ -80,10 +80,5 @@ def heartbeat():
     logger.error('error message')
     logger.critical('critical message')
 
-    
     return "thump-thump"
 
-@app.get("/test", tags=["lifecycle"])
-def test():
-    logger.debug('debug message')
-    return "test"

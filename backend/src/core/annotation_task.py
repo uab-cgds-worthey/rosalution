@@ -21,16 +21,6 @@ def empty_gen():
     """
     yield from ()
 
-
-def log_to_file(string):
-    """
-    Temprorary utility function for development purposes abstracted for testing.
-    Will remove once feature is completed.
-    """
-    with open("rosalution-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
-        log_file.write(string)
-    print(string)
-
 class AnnotationTaskInterface:
     """Abstract class to define the interface for the the types of Annotation Task"""
 
@@ -89,11 +79,6 @@ class AnnotationTaskInterface:
                     f"from '{annotation_unit['data_source']}' "
                     f"on {json.dumps(json_result)} with error '{value_error}'"
                 ))
-                # log_to_file((
-                #     f"Failed to annotate '{annotation_unit['data_set']}' "
-                #     f"from '{annotation_unit['data_source']}' "
-                #     f"on {json.dumps(json_result)} with error '{value_error}'"
-                # ))
             jq_result = next(jq_results, None)
             while jq_result is not None:
                 result_keys = list(jq_result.keys())
@@ -148,7 +133,7 @@ class NoneAnnotationTask(AnnotationTaskInterface):
         """Creates a fake 'annotation' using a randomly generated pause time to a query io operation"""
         value = randint(0, 10)
         time.sleep(value)
-        # log_to_file(f'Slept: {value} - Fake annotation for {self.genomic_unit["unit"]}'
+        # logger.info(f'Slept: {value} - Fake annotation for {self.genomic_unit["unit"]}'
         #             f' for dataset {self.dataset["data_set"]} from {self.dataset["data_source"]}\n')
 
         result = {'not-real': self.dataset["data_set"]}
