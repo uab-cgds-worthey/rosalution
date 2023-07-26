@@ -501,7 +501,23 @@ const annotationRenderingTemporary = [
     'class': '',
     'header': 'Rattus norvegicus (Rat) Model System',
     'anchor': 'Rattus_norvegicus_Model_System',
-    'header_datasets': [],
+    'header_datasets': [
+      {
+        'dataset': 'Rat_Alliance_Genome_url',
+        'type': 'icon-linkout-dataset',
+        'props': {
+          'imageFilename': 'alliance-genome-logo.png',
+          'altText': 'Alliance Genome Linkout',
+        },
+      }, {
+        'dataset': 'Rat_Rat_Genome_Database_url',
+        'type': 'icon-linkout-dataset',
+        'props': {
+          'imageFilename': 'rat-dataset-logo.png',
+          'altText': 'Rat Genome Database Linkout',
+        },
+      },
+    ],
     'rows': [{
       'class': '',
       'datasets': [
@@ -531,7 +547,23 @@ const annotationRenderingTemporary = [
     'class': '',
     'header': 'Mus musculus (Mouse) Model System',
     'anchor': 'Mus_musculus_Model_System',
-    'header_datasets': [],
+    'header_datasets': [
+      {
+        'dataset': 'Mouse_Alliance_Genome_url',
+        'type': 'icon-linkout-dataset',
+        'props': {
+          'imageFilename': 'alliance-genome-logo.png',
+          'altText': 'Alliance Genome Linkout',
+        },
+      }, {
+        'dataset': 'Mouse_Mouse_Genome_Database_url',
+        'type': 'icon-linkout-dataset',
+        'props': {
+          'imageFilename': 'mouse-dataset-logo.png',
+          'altText': 'Mouse Genome Informatics Linkout',
+        },
+      },
+    ],
     'rows': [{
       'class': '',
       'datasets': [
@@ -561,7 +593,23 @@ const annotationRenderingTemporary = [
     'class': '',
     'header': 'Danio rerio (Zebrafish) Model System',
     'anchor': 'Danio_rerio_Model_System',
-    'header_datasets': [],
+    'header_datasets': [
+      {
+        'dataset': 'Zebrafish_Alliance_Genome_url',
+        'type': 'icon-linkout-dataset',
+        'props': {
+          'imageFilename': 'alliance-genome-logo.png',
+          'altText': 'Alliance Genome Linkout',
+        },
+      }, {
+        'dataset': 'Zebrafish_Zebrafish_Information_Network_url',
+        'type': 'icon-linkout-dataset',
+        'props': {
+          'imageFilename': 'zebrafish-dataset-logo.png',
+          'altText': 'Zebrafish Information Network Linkout',
+        },
+      },
+    ],
     'rows': [{
       'class': '',
       'datasets': [
@@ -591,7 +639,23 @@ const annotationRenderingTemporary = [
     'class': '',
     'header': 'C. Elegens (Roundworm) Model System',
     'anchor': 'C_Elegens_Model_System',
-    'header_datasets': [],
+    'header_datasets': [
+      {
+        'dataset': 'C-Elegens_Alliance_Genome_url',
+        'type': 'icon-linkout-dataset',
+        'props': {
+          'imageFilename': 'alliance-genome-logo.png',
+          'altText': 'Alliance Genome Linkout',
+        },
+      }, {
+        'dataset': 'C-Elegens_Worm_Base_url',
+        'type': 'icon-linkout-dataset',
+        'props': {
+          'imageFilename': 'c-elegens-dataset-logo.png',
+          'altText': 'WormBase Linkout',
+        },
+      },
+    ],
     'rows': [{
       'class': '',
       'datasets': [
