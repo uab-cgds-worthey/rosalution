@@ -163,7 +163,13 @@ docker run -v <absolute_path_to_backend>/:/app/ -p 127.0.0.1:8000:8000 <image_id
 
 ### Logging
 
-Logging can be found at "./logging.conf"
+Logging can be found at "./logging.conf".
+
+As of now the logging is simple and only provides the logging level and the log message. If more information is desired
+for debugging, the `logging.conf` has a more detailed logger format available. This contains the level name, function
+name where the logger was called, the line in the file where the logger was called, and the logger message.
+
+Just comment out the less detailed one and uncomment the more detailed to use.
 
 ### Endpoints
 
