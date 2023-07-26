@@ -77,9 +77,8 @@ class AnnotationTaskInterface:
                 jq_results = iter(jq.compile(replaced_attributes).input(json_result).all())
             except ValueError as value_error:
                 logger.info((
-                    f"Failed to annotate '{annotation_unit['data_set']}' "
-                    f"from '{annotation_unit['data_source']}' "
-                    f"on {json.dumps(json_result)} with error '{value_error}'"
+                    'Failed to annotate "%s" from "%s" on %s with error "%s"', annotation_unit['data_set'],
+                    annotation_unit['data_source'], json.dumps(json_result), value_error
                 ))
             jq_result = next(jq_results, None)
             while jq_result is not None:

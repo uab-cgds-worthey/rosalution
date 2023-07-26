@@ -69,5 +69,5 @@ app.add_middleware(
 @app.get("/heart-beat", tags=["lifecycle"])
 def heartbeat():
     """Returns a heart-beat that orchestration services can use to determine if the application is running"""
-    
+
     return "thump-thump"

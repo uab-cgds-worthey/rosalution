@@ -1,5 +1,4 @@
 """Tests Annotation Tasks and the creation of them"""
-from unittest.mock import patch
 import pytest
 
 from src.core.annotation_task import AnnotationTaskFactory, ForgeAnnotationTask, HttpAnnotationTask
