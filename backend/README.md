@@ -169,7 +169,8 @@ As of now the logging is simple and only provides the logging level and the log 
 for debugging, the `logging.conf` has a more detailed logger format available. This contains the level name, function
 name where the logger was called, the line in the file where the logger was called, and the logger message.
 
-Just comment out the less detailed one and uncomment the more detailed to use.
+Just comment out the less detailed one and uncomment the more detailed to use. The backend server will need to be
+restarted to reflect this change as FastAPI is not monitoring changes for this file.
 
 ### Endpoints
 

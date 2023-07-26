@@ -1,4 +1,6 @@
 """ FastAPI Authentication router file that handles the auth lifecycle of the application """
+import logging
+
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Security, Response, status
@@ -20,6 +22,9 @@ router = APIRouter(
     dependencies=[Depends(database)],
 )
 
+# create logger
+logger = logging.getLogger(__name__)
+
 # URLs for interacting with UAB CAS Padlock system for BlazerID
 cas_client = CASClient(
     version=3,
@@ -34,7 +39,7 @@ token_scheme = HTTPBasicClientCredentials(auto_error=False, scheme_name="oAuth2C
 @router.get("/dev_only_test")
 def test(authorized=Security(get_authorization, scopes=["developer"])):
     """ Only developers can hit this endpoint """
-    print(authorized)
+    logger.info(authorized)
     return {
         "Ka": ["Boom", "Blammo", "Pow"],
     }
@@ -61,7 +66,7 @@ async def login(
     cas_user, attributes, pgtiou = cas_client.verify_ticket(ticket)
 
     if not cas_user:
-        print("Failed Padlock ticket user verification, redirect back to login page")
+        logging.info("Failed Padlock ticket user verification, redirect back to login page")
         # Failed ticket verification, this should be an error page of some kind maybe?
 
         redirect_frontend_route_response = settings.web_base_url + settings.auth_web_failure_redirect_route

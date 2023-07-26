@@ -2,10 +2,14 @@
 Manages the annotation configuration of various genomic units according to the
 type of Genomic Unit.
 """
+import logging
 
 # pylint: disable=too-few-public-methods
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 from bson import ObjectId
+
+# create logger
+logger = logging.getLogger(__name__)
 
 
 class GenomicUnitCollection:
@@ -194,6 +198,7 @@ class GenomicUnitCollection:
 
         # Make sure the genomic unit doesn't already exist
         if self.collection.find_one(genomic_unit):
-            print("Genomic unit already exists, skipping creation")
+            logging.info("Genomic unit already exists, skipping creation")
+
         self.collection.insert_one(genomic_unit)
         return

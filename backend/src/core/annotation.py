@@ -143,4 +143,4 @@ class AnnotationService:
 
                     del annotation_task_futures[future]
 
-            logger.info("%s ...after for loop for waiting for all of the futures to finish", annotation_log_label())
+            logger.info("%s Processing annotation tasks queue complete", annotation_log_label())
