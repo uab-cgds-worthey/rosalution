@@ -1,6 +1,11 @@
 """
 End points for backend
 """
+import logging
+import logging.config
+
+from os import path
+
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
@@ -36,12 +41,13 @@ tags_metadata = [
 ## CORS Policy ##
 origins = ["http://dev.cgds.uab.edu", "https://padlockdev.idm.uab.edu"]
 
-app = FastAPI(
-    title="rosalution API",
-    description=DESCRIPTION,
-    openapi_tags=tags_metadata,
-    root_path="/rosalution/api/",
-)
+log_file_path = path.join(path.dirname(path.abspath(__file__)), '../logging.conf')
+logging.config.fileConfig(log_file_path, disable_existing_loggers=False)
+
+# create logger
+logger = logging.getLogger(__name__)
+
+app = FastAPI(title="rosalution API", description=DESCRIPTION, openapi_tags=tags_metadata, root_path="/rosalution/api/")
 
 app.include_router(analysis_router.router)
 app.include_router(annotation_router.router)
@@ -63,4 +69,5 @@ app.add_middleware(
 @app.get("/heart-beat", tags=["lifecycle"])
 def heartbeat():
     """Returns a heart-beat that orchestration services can use to determine if the application is running"""
+
     return "thump-thump"

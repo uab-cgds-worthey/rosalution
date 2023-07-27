@@ -1,22 +1,15 @@
 """Supports the queueing and processing of genomic unit annotation"""
 import concurrent
+import logging
 import queue
 
+from .annotation_logging import annotation_log_label, annotation_unit_string
 from .annotation_task import AnnotationTaskFactory
 from ..models.analysis import Analysis
 from ..repository.annotation_config_collection import AnnotationConfigCollection
 
-
-# Creating a callable wrapper for an instance for FastAPI dependency injection
-# pylint: disable=too-few-public-methods
-def log_to_file(string):
-    """
-    Temprorary utility function for development purposes abstracted for testing.
-    Will remove once feature is completed.
-    """
-    with open("rosalution-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
-        log_file.write(string)
-    print(string)
+# create logger
+logger = logging.getLogger(__name__)
 
 
 class AnnotationQueue:
@@ -68,14 +61,17 @@ class AnnotationService:
     @staticmethod
     def process_tasks(annotation_queue, genomic_unit_collection):  # pylint: disable=too-many-locals
         """Processes items that have been added to the queue"""
-        log_to_file("Running annotations for ...\n")
+        logger.info("%s Processing annotation tasks queue ...", annotation_log_label())
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
             annotation_task_futures = {}
             while not annotation_queue.empty():
                 genomic_unit, dataset_json = annotation_queue.get()
                 if genomic_unit_collection.annotation_exist(genomic_unit, dataset_json):
-                    log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} - Annotation Exists...\n")
+                    logger.info(
+                        '%s Annotation Exists...',
+                        annotation_unit_string(genomic_unit['unit'], dataset_json['data_set'])
+                    )
                     continue
 
                 ready = True
@@ -98,46 +94,53 @@ class AnnotationService:
                     dataset_json['delay_count'] = delay_count
 
                     if dataset_json['delay_count'] < 10:
-                        log_to_file(
-                            f"{genomic_unit['unit']} for {dataset_json['data_set']} \
-                            - Delaying Annotation, Missing Dependency...\n"
+                        logger.info(
+                            '%s Delaying Annotation, Missing Dependency...',
+                            annotation_unit_string(genomic_unit['unit'], dataset_json['data_set'])
                         )
                         annotation_queue.put((genomic_unit, dataset_json))
                     else:
                         missing_dependencies = [
                             dependency for dependency in dataset_json['dependencies'] if dependency not in genomic_unit
                         ]
-                        log_to_file(
-                            f"{genomic_unit['unit']} for {dataset_json['data_set']} \
-                            - Canceling Annotation, Missing {missing_dependencies} ...\n"
+                        logger.info(
+                            '%s Canceling Annotation, Missing %s ...',
+                            annotation_unit_string(genomic_unit['unit'], dataset_json['data_set']), missing_dependencies
                         )
+
                     continue
 
                 task = AnnotationTaskFactory.create(genomic_unit, dataset_json)
-                log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} - Creating Task To Annotate...\n")
-
-                annotation_task_futures[executor.submit(task.annotate)] = (
-                    genomic_unit,
-                    task,
+                logger.info(
+                    '%s Creating Task To Annotate...',
+                    annotation_unit_string(genomic_unit['unit'], dataset_json['data_set'])
                 )
+
+                annotation_task_futures[executor.submit(task.annotate)] = (genomic_unit, task)
 
                 for future in concurrent.futures.as_completed(annotation_task_futures):
                     genomic_unit, annotation_task = annotation_task_futures[future]
-                    log_to_file(f"{genomic_unit['unit']} for {dataset_json['data_set']} - Query completed...\n")
+                    logger.info(
+                        '%s Query completed...', annotation_unit_string(genomic_unit['unit'], dataset_json['data_set'])
+                    )
+
                     try:
                         result_temp = future.result()
 
                         for annotation in annotation_task.extract(result_temp):
-                            log_to_file(
-                                f"{genomic_unit['unit']} for {annotation_task.dataset['data_set']} - \
-                                Saving {annotation['value']}...\n"
+                            logger.info(
+                                '%s Saving %s...',
+                                annotation_unit_string(genomic_unit['unit'], annotation_task.dataset['data_set']),
+                                annotation['value']
                             )
                             genomic_unit_collection.annotate_genomic_unit(annotation_task.genomic_unit, annotation)
 
                     except FileNotFoundError as error:
-                        log_to_file(f"exception happened {error} with {genomic_unit} and {annotation_task}\n")
+                        logger.info(
+                            '%s exception happened %s with %s and %s', annotation_log_label(), error, genomic_unit,
+                            annotation_task
+                        )
 
-                    log_to_file("\n")
                     del annotation_task_futures[future]
 
-            log_to_file("after for loop for waiting for all of the futures to finish\n\n")
+            logger.info("%s Processing annotation tasks queue complete", annotation_log_label())

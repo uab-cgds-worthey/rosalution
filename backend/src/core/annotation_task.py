@@ -6,8 +6,12 @@ import time
 
 # pylint: disable=too-few-public-methods
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
+import logging
 import jq
 import requests
+
+# create logger
+logger = logging.getLogger(__name__)
 
 
 def empty_gen():
@@ -17,16 +21,6 @@ def empty_gen():
     using jq.
     """
     yield from ()
-
-
-def log_to_file(string):
-    """
-    Temprorary utility function for development purposes abstracted for testing.
-    Will remove once feature is completed.
-    """
-    with open("rosalution-annotation-log.txt", mode="a", encoding="utf-8") as log_file:
-        log_file.write(string)
-    print(string)
 
 
 class AnnotationTaskInterface:
@@ -82,10 +76,9 @@ class AnnotationTaskInterface:
             try:
                 jq_results = iter(jq.compile(replaced_attributes).input(json_result).all())
             except ValueError as value_error:
-                log_to_file((
-                    f"Failed to annotate '{annotation_unit['data_set']}' "
-                    f"from '{annotation_unit['data_source']}' "
-                    f"on {json.dumps(json_result)} with error '{value_error}'"
+                logger.info((
+                    'Failed to annotate "%s" from "%s" on %s with error "%s"', annotation_unit['data_set'],
+                    annotation_unit['data_source'], json.dumps(json_result), value_error
                 ))
             jq_result = next(jq_results, None)
             while jq_result is not None:
@@ -141,7 +134,7 @@ class NoneAnnotationTask(AnnotationTaskInterface):
         """Creates a fake 'annotation' using a randomly generated pause time to a query io operation"""
         value = randint(0, 10)
         time.sleep(value)
-        # log_to_file(f'Slept: {value} - Fake annotation for {self.genomic_unit["unit"]}'
+        # logger.info(f'Slept: {value} - Fake annotation for {self.genomic_unit["unit"]}'
         #             f' for dataset {self.dataset["data_set"]} from {self.dataset["data_source"]}\n')
 
         result = {'not-real': self.dataset["data_set"]}
