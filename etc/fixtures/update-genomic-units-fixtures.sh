@@ -29,7 +29,7 @@ usage() {
 # Parent file of this script. 
 # This is found so the Rosalution genomic_units.js fixture
 # can be updated regardless of where this script is run.
-PARENT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+PARENT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" || exit; pwd -P)
 
 MONGODB_CONNECTION_STRING="localhost:27017"
 MONGODB_DATABASE_NAME="rosalution_db"
@@ -43,13 +43,13 @@ while getopts "d:c:m:h" opt; do
     d) DOCKER_CONTAINER_NAME=$OPTARG && DOCKER_EXEC_PREFIX="docker exec $DOCKER_CONTAINER_NAME";;
     c) MONGODB_CONNECTION_STRING=$OPTARG;;
     m) MONGODB_DATABASE_NAME=$OPTARG;;
-    h) usage && exit;;
+    h) usage;;
     \?) echo "Invalid option -$OPTARG" && exit 127;;
   esac
 done
 
-MONGO_CONNECTION_HOST=$(echo "$connection_string" | cut -d: -f1)
-MONGO_CONNECTION_PORT=$(echo "$connection_string" | cut -d: -f2)
+MONGO_CONNECTION_HOST=$(echo "$MONGODB_CONNECTION_STRING" | cut -d: -f1)
+MONGO_CONNECTION_PORT=$(echo "$MONGODB_CONNECTION_STRING" | cut -d: -f2)
 
 ${DOCKER_EXEC_PREFIX} mongoexport --host "$MONGO_CONNECTION_HOST" --port "$MONGO_CONNECTION_PORT" --jsonArray --collection="$MONGODB_COLLECTION" --db="$MONGODB_DATABASE_NAME" --out=/tmp/genomic-units.json --pretty
 
@@ -64,11 +64,3 @@ jq 'del(.[]._id)' /tmp/genomic-units.json > /tmp/genomic-units.tmp && mv /tmp/ge
 rm /tmp/genomic-units.json
 
 echo "Done. Exiting."
-
-###
-
-# docker exec -it "$DOCKER_CONTAINER" mongoexport --jsonArray --collection="$MONGODB_COLLECTION" --db="$MONGODB_DATABASE_NAME" --out=genomic-units.json --pretty
-# docker cp "$DOCKER_CONTAINER":genomic-units.json /tmp/
-# jq 'del(.[]._id)' /tmp/genomic-units.json > /tmp/genomic-units.tmp && mv /tmp/genomic-units.tmp "$PARENT_PATH"/initial-seed/genomic-units.json
-# rm /tmp/genomic-units.json
-# echo "Done. Exiting."
