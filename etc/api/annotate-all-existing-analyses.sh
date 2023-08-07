@@ -52,7 +52,7 @@ echo "   / /\ \ | '_ \| '_ \ / _ \| __/ _\` | __| |/ _ \| '_ \ "
 echo "  / ____ \| | | | | | | (_) | || (_| | |_| | (_) | | | |"
 echo " /_/    \_\_| |_|_| |_|\___/ \__\__,_|\__|_|\___/|_| |_|"
 
-echo "Annotationg Rosalution: $BASE_URL..."
+echo "Rosalution URL: $BASE_URL..."
 echo ""
 
 echo "Please enter your Client Id";
