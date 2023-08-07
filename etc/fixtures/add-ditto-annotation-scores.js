@@ -1,3 +1,5 @@
+// docker exec -it rosalution-rosalution-db-1 mongosh /tmp/fixtures/add-ditto-annotation-scores.js
+
 const fs = require('fs');
 
 const inputPath = `/tmp/fixtures/simplifiedDittoScores.csv`
