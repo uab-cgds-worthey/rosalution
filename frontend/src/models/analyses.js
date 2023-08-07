@@ -243,13 +243,27 @@ const annotationRenderingTemporary = [
             'type': 'score-dataset',
             'props': {
               'label': 'CADD',
-              'minimum': -10,
+              'minimum': 0,
               'maximum': 99,
               'bounds': {
-                'lowerBounds': 0.9,
-                'upperBounds': 1.33,
+                'lowerBound': 9,
+                'upperBound': 19,
               },
-              'cutoff': 15,
+              'cutoff': 1,
+            },
+          },
+          {
+            'dataset': 'DITTO',
+            'type': 'score-dataset',
+            'props': {
+              'label': 'DITTO',
+              'minimum': 0,
+              'maximum': 1,
+              'bounds': {
+                'lowerBound': 0.5,
+                'upperBound': 0.79,
+              },
+              'cutoff': 1,
             },
           },
           // {
