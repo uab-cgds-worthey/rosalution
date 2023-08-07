@@ -11,7 +11,7 @@ def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_col
     annotation_service = AnnotationService(annotation_collection)
     mock_queue = Mock()
     annotation_service.queue_annotation_tasks(cpam0046_analysis, mock_queue)
-    assert mock_queue.put.call_count == 45
+    assert mock_queue.put.call_count == 49
 
 
 # The patched method sare done provided in reverse order within the test param arguments.  Was accidently getting
@@ -48,9 +48,9 @@ def test_processing_cpam0046_annotation_tasks(
 
     assert http_task_annotate.call_count == 35
     assert none_task_annotate.call_count == 0
-    assert forge_task_annotate.call_count == 10
+    assert forge_task_annotate.call_count == 14
 
-    assert annotate_extract_mock.call_count == 45
+    assert annotate_extract_mock.call_count == 49
 
 
 @patch(
@@ -79,10 +79,10 @@ def test_processing_cpam0002_annotations_tasks(
     AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
 
     assert http_task_annotate.call_count == 35
-    assert forge_task_annotate.call_count == 10
+    assert forge_task_annotate.call_count == 14
     assert none_task_annotate.call_count == 0
 
-    assert annotate_extract_mock.call_count == 45
+    assert annotate_extract_mock.call_count == 49
 
     mock_genomic_unit_collection.annotate_genomic_unit.assert_called()
 

@@ -323,6 +323,15 @@
     "attribute": ".[].transcript_consequences[] | { impact: .impact, transcript_id: .transcript_id }"
   },
   {
+    "data_set": "Human_Alliance_Genome_url",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "forge",
+    "base_string": "https://www.alliancegenome.org/gene/{HGNC_ID}",
+    "attribute": "{ \"Human_Alliance_Genome_url\": .Human_Alliance_Genome_url }",
+    "dependencies": ["HGNC_ID"]
+  },
+  {
     "data_set": "Rat_Alliance_Genome_url",
     "data_source": "Rosalution",
     "genomic_unit_type": "gene",
@@ -393,5 +402,29 @@
     "url": "https://www.alliancegenome.org/api/gene/{C-Elegens Gene Identifier}",
     "attribute": "{ \"C-Elegens_Worm_Base_url\": .modCrossRefCompleteUrl }",
     "dependencies": ["C-Elegens Gene Identifier"]
+  },
+  {
+    "data_set": "GTEx_Human_Gene_Expression_url",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "forge",
+    "base_string": "https://gtexportal.org/home/gene/{gene}",
+    "attribute": "{ \"GTEx_Human_Gene_Expression_url\": .GTEx_Human_Gene_Expression_url }"
+  },
+  {
+    "data_set": "Human_Protein_Atlas_Protein_Gene_Search_url",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "forge",
+    "base_string": "https://www.proteinatlas.org/search/{gene}",
+    "attribute": "{ \"Human_Protein_Atlas_Protein_Gene_Search_url\": .Human_Protein_Atlas_Protein_Gene_Search_url }"
+  },
+  {
+    "data_set": "Pharos_Target_url",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "forge",
+    "base_string": "https://pharos.nih.gov/targets/{gene}",
+    "attribute": "{ \"Pharos_Target_url\": .Pharos_Target_url }"
   }
 ]
