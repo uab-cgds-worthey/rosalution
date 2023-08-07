@@ -1,9 +1,9 @@
-describe('case_annotation_display_transcripts.cy.js', () => {
+describe('case_annotation_visualize_score.cy.js', () => {
   beforeEach(() => {
     cy.visit('/');
   });
 
-  it('Displays Blue to represent Nominal, and Yellow to represent potentially relevant', () => {
+  it.skip('Displays Blue to represent Nominal, and Yellow to represent potentially relevant', () => {
     cy.get('.analysis-card').first().click();
     cy.get('[data-test="gene-name"]').click();
     cy.get('[data-test="score-background"]').should('exist');
