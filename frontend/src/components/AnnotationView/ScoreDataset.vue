@@ -75,7 +75,7 @@ export default {
         fillColour: 'var(--rosalution-red-200)',
         backgroundColour: 'var(--rosalution-red-300)',
         borderColour: 'var(--rosalution-red-100)',
-        textColour: 'var--rosalution-red-300)',
+        textColour: 'var(--rosalution-red-300)',
       },
     };
   },
@@ -101,7 +101,6 @@ export default {
 
       if (this.cutoff) {
         score = this.value / this.cutoff;
-
         if (this.withinBounds(score)) {
           return this.closeToThresholdColours;
         }
