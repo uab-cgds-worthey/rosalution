@@ -417,7 +417,16 @@ const annotationRenderingTemporary = [
     'class': '',
     'header': 'Human Gene Expression',
     'anchor': 'Human_Gene_Expression',
-    'header_datasets': [],
+    'header_datasets': [
+      {
+        'dataset': 'GTEx_Human_Gene_Expression_url',
+        'type': 'icon-linkout-dataset',
+        'props': {
+          'imageFilename': 'gtex_logo.png',
+          'altText': 'GTEx Human Gene Expression URL',
+        },
+      },
+    ],
     'props': {
       'attachmentDataset': 'Human_Gene_Expression',
       'genomicAttachmentType': 'gene',
@@ -438,7 +447,16 @@ const annotationRenderingTemporary = [
     'class': '',
     'header': 'Human Gene versus Protein Expression Profile',
     'anchor': 'Human_Gene_versus_Protein_Expression',
-    'header_datasets': [],
+    'header_datasets': [
+      {
+        'dataset': 'Human_Protein_Atlas_Protein_Gene_Search_url',
+        'type': 'icon-linkout-dataset',
+        'props': {
+          'imageFilename': 'protein_atlas_icon.png',
+          'altText': 'Protein Atlas Gene Search URL',
+        },
+      },
+    ],
     'props': {
       'attachmentDataset': 'Human_Gene_versus_Protein_Expression_Profile',
       'genomicAttachmentType': 'gene',
@@ -459,7 +477,17 @@ const annotationRenderingTemporary = [
     'class': '',
     'header': 'Model System Expression Profiles',
     'anchor': 'Expression_Profiles',
-    'header_datasets': [],
+    'header_datasets': [
+      {
+        'dataset': 'CoSIA_url',
+        'type': 'icon-linkout-dataset',
+        'props': {
+          'imageFilename': 'CoSIA_logo.png',
+          'altText': 'COSIA_LINKOUT',
+          'value': 'https://lasseignelab.shinyapps.io/CoSIA/',
+        },
+      },
+    ],
     'props': {
       'attachmentDataset': 'Model_System_Expression_Profiles',
       'genomicAttachmentType': 'gene',
@@ -480,7 +508,14 @@ const annotationRenderingTemporary = [
     'class': '',
     'header': 'Orthology',
     'anchor': 'Orthology',
-    'header_datasets': [],
+    'header_datasets': [{
+      'dataset': 'Human_Alliance_Genome_url',
+      'type': 'icon-linkout-dataset',
+      'props': {
+        'imageFilename': 'alliance-genome-logo.png',
+        'altText': 'Human Alliance Genome Linkout',
+      },
+    }],
     'props': {
       'attachmentDataset': 'Orthology',
       'genomicAttachmentType': 'gene',
@@ -685,7 +720,17 @@ const annotationRenderingTemporary = [
     'class': '',
     'header': 'Modelability',
     'anchor': 'Modelability',
-    'header_datasets': [],
+    'header_datasets': [
+      {
+        'dataset': 'Gentar_url',
+        'type': 'icon-linkout-dataset',
+        'props': {
+          'imageFilename': 'gentar_logo.png',
+          'altText': 'Gentar URL for Modelability',
+          'value': 'https://www.gentar.org/',
+        },
+      },
+    ],
     'props': {
       'attachmentDataset': 'Modelability',
       'genomicAttachmentType': 'gene',
@@ -706,7 +751,14 @@ const annotationRenderingTemporary = [
     'class': '',
     'header': 'Druggability',
     'anchor': 'Druggability',
-    'header_datasets': [],
+    'header_datasets': [{
+      'dataset': 'Pharos_Target_url',
+      'type': 'icon-linkout-dataset',
+      'props': {
+        'imageFilename': 'pharos_logo.png',
+        'altText': 'Druggability Target in Pharos',
+      },
+    }],
     'props': {
       'attachmentDataset': 'Druggability',
       'genomicAttachmentType': 'gene',

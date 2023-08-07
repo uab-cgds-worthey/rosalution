@@ -5,6 +5,8 @@ usage() {
   echo " "
   echo "usage: $0"
   echo " "
+  echo " -u Base Rosalution URL"
+  echo "    (default) http://local.rosalution.cgds/rosalution"
   echo " -h Prints usage"
   echo " "
   echo "Kicks off annotation jobs for all the existing analyses in Rosalution"
@@ -21,8 +23,11 @@ usage() {
   exit
 }
 
-while getopts ":h" opt; do
+BASE_URL="http://local.rosalution.cgds/rosalution"
+
+while getopts ":u:h" opt; do
   case $opt in
+    u) BASE_URL="$OPTARG";;
     h) usage;;
     \?) echo "Invalid option -$OPTARG" && exit 127;;
   esac
@@ -33,6 +38,22 @@ then
     echo "Error: jq could not be found. Exiting."
     usage
 fi
+
+echo "  _____                 _       _   _                   "
+echo " |  __ \               | |     | | (_)                  "
+echo " | |__) |___  ___  __ _| |_   _| |_ _  ___  _ __        "
+echo " |  _  // _ \/ __|/ _\` | | | | | __| |/ _ \| '_ \       "
+echo " | | \ \ (_) \__ \ (_| | | |_| | |_| | (_) | | | |      "
+echo " |_|  \_\___/|___/\__,_|_|\__,_|\__|_|\___/|_| |_|      "
+echo "                             _        _   _             "
+echo "     /\                     | |      | | (_)            "
+echo "    /  \   _ __  _ __   ___ | |_ __ _| |_ _  ___  _ __  "
+echo "   / /\ \ | '_ \| '_ \ / _ \| __/ _\` | __| |/ _ \| '_ \ "
+echo "  / ____ \| | | | | | | (_) | || (_| | |_| | (_) | | | |"
+echo " /_/    \_\_| |_|_| |_|\___/ \__\__,_|\__|_|\___/|_| |_|"
+
+echo "Annotationg Rosalution: $BASE_URL..."
+echo ""
 
 echo "Please enter your Client Id";
 read -r CLIENT_ID;
@@ -49,7 +70,7 @@ fi
 echo "Fetching valid authentication token..."
 
 AUTH_TOKEN=$(curl -s -X 'POST' \
-  "http://local.rosalution.cgds/rosalution/api/auth/token" \
+  "$BASE_URL/api/auth/token" \
   -H "accept: application/json" \
   -H "Content-Type: application/x-www-form-urlencoded" \
   -d "grant_type=&scope=&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET" | jq -r '.access_token')
@@ -57,17 +78,22 @@ AUTH_TOKEN=$(curl -s -X 'POST' \
 echo "Fetching existing analyses in Rosalution..."
 
 RESPONSE=$(curl -s -X "GET" \
-  "http://local.rosalution.cgds/rosalution/api/analysis/" \
+  "$BASE_URL/api/analysis/" \
   -H "accept: application/json" \
   -H "Authorization: Bearer $AUTH_TOKEN")
 
 ANALYSES=()
 while IFS='' read -r line; do ANALYSES+=("$line"); done < <(echo "$RESPONSE" | jq -c '[.[].name]')
 
+# Hardcoding to encode the special characters that are commonly
+# known in cases being uploaded to Rosalution at this time
 echo "${ANALYSES[@]}" | jq -r '.[]' | while read -r ANALYSIS; do
   echo "Starting annotations for analysis $ANALYSIS..."
+  ANALYSIS=${ANALYSIS/\ /\%20}
+  ANALYSIS=${ANALYSIS/\(/\%28}
+  ANALYSIS=${ANALYSIS/\)/\%29}
   curl -s -X "POST" \
-      "http://local.rosalution.cgds/rosalution/api/annotate/$ANALYSIS" \
+      "$BASE_URL/api/annotate/$ANALYSIS" \
       -H "accept: application/json" \
       -H "Authorization: Bearer $AUTH_TOKEN" \
       > /dev/null

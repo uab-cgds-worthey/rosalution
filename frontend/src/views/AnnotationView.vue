@@ -24,8 +24,8 @@
               v-for="(headerDatasetConfig, index) in section.header_datasets"
               :key="`${headerDatasetConfig.dataset}-${index}`"
               :is="headerDatasetConfig.type"
-              v-bind="headerDatasetConfig.props"
               :value="annotations[headerDatasetConfig.dataset]"
+              v-bind="headerDatasetConfig.props"
               :data-test="headerDatasetConfig.dataset"
             />
         </template>
