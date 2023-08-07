@@ -26,6 +26,12 @@ usage() {
     exit
 }
 
+if ! jq --version &> /dev/null
+then
+    echo "Error: jq could not be found. Exiting."
+    usage
+fi
+
 # Parent file of this script. 
 # This is found so the Rosalution genomic_units.js fixture
 # can be updated regardless of where this script is run.
