@@ -32,10 +32,8 @@ html {
   --rosalution-black: black;
   --rosalution-white: white;
   
-  /* --primary-background-color: #F3F5F9; */
-  --primary-background-color: yellow;
-  /* --secondary-background-color: var(--rosalution-white); */
-  --secondary-background-color: pink;
+  --primary-background-color: #F3F5F9;
+  --secondary-background-color: var(--rosalution-white);
 
   
   --content-border-radius: 10px;
