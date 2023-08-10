@@ -1,6 +1,7 @@
 describe('upload_images_to_case_annotations.cy.js', () => {
   beforeEach(() => {
     cy.resetDatabase();
+    cy.login('user03');
     cy.visit('/');
     cy.get('[href="/rosalution/analysis/CPAM0047"]').click();
     cy.get('[data-test="gene-name"]').click();

@@ -18,17 +18,23 @@ Cypress.Commands.add('resetDatabase', () => {
 });
 
 Cypress.Commands.add('login', (username) => {
-  cy.request({
-    method: 'POST',
-    url: '/api/dev/loginDev',
-    form: true,
-    body: {
-      username: username,
-      password: 'secret',
-    },
-  });
+  const sessionAlias = username;
 
-  cy.getCookie('rosalution_TOKEN').should('exist');
+  cy.session(sessionAlias, () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/dev/loginDev',
+      form: true,
+      body: {
+        username: username,
+        password: 'secret',
+      },
+    });
+
+    cy.getCookie('rosalution_TOKEN').should('exist');
+  }, {
+    cacheAcrossSpecs: true,
+  });
 });
 //
 //
