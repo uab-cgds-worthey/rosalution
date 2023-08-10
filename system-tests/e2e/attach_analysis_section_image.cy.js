@@ -1,6 +1,7 @@
 describe('attach_pedigree_image', () => {
   beforeEach(() => {
     cy.resetDatabase();
+    cy.login('user03');
     cy.visit('/');
     cy.get('[href="/rosalution/analysis/CPAM0002"]').click();
   });

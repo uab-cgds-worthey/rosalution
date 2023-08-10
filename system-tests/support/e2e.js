@@ -16,12 +16,11 @@
 // Import commands.js using ES2015 syntax:
 import './commands';
 
+before( () => {
+  cy.login('user03');
+});
+
+
 beforeEach( () => {
-  const username = 'user01';
-  const sessionAlias = username;
-  cy.session(sessionAlias, () => {
-    cy.login(username);
-  }, {
-    cacheAcrossSpecs: true,
-  });
+  cy.login('user01');
 });
