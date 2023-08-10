@@ -1,4 +1,5 @@
 """ Analysis endpoint routes that serve up information regarding anaysis cases for rosalution """
+import logging
 import json
 
 from typing import List, Optional, Union
@@ -16,18 +17,22 @@ from ..models.event import Event
 from ..enums import ThirdPartyLinkType
 from ..models.phenotips_json import BasePhenotips
 from ..models.user import VerifyUser
-from ..security.security import get_current_user
+from ..security.security import get_authorization, get_current_user
 
 # This is temporarily changed as security is removed for the analysis endpoints to make development easier
 # dependencies=[Depends(database), Security(get_authorization, scopes=["write"])]
 # and add the following dependencies at the top:
-# from ..security.security import get_authorization
-router = APIRouter(prefix="/analysis", tags=["analysis"], dependencies=[Depends(database), Security(get_current_user)])
+
+logger = logging.getLogger(__name__)
+
+router = APIRouter(prefix="/analysis", tags=["analysis"], dependencies=[Depends(database)])
+
 
 
 @router.get("/", response_model=List[Analysis])
-def get_all_analyses(repositories=Depends(database)):
+def get_all_analyses(repositories=Depends(database), authorized=Security(get_authorization, scopes=["write"])):
     """Returns every analysis available"""
+    logger.info(authorized)
     return repositories["analysis"].all()
 
 

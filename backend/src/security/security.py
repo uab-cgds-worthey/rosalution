@@ -131,16 +131,19 @@ def get_authorization(
         client_id: str = payload.get("sub")
         if client_id is None:
             raise credentials_exception
-        token_scopes = payload.get("scopes", [])
-        token_data = TokenData(scopes=token_scopes, client_id=client_id)
+        user_scopes = payload.get("scopes", str)
+        print(user_scopes)
+        # token_data = TokenData(scopes=token_scopes, client_id=client_id)
+        # print(token_data)
     except (JWTError, ValidationError) as validation_exception:
         raise validation_exception
-    for scope in security_scopes.scopes:
-        if scope not in token_data.scopes:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Not enough permissions",
-                headers={"WWW-Authenticate": authenticate_value},
-            )
+    # for scope in security_scopes.scopes:
+    print(security_scopes.scopes)
+    if "write" in security_scopes.scopes and "write" not in user_scopes:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not enough permissions",
+            headers={"WWW-Authenticate": authenticate_value},
+        )
 
     return True
