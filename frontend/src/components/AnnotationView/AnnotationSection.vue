@@ -41,6 +41,10 @@ export default {
       type: String,
       default: '',
     },
+    attachmentVisible: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -49,7 +53,7 @@ export default {
   },
   computed: {
     allowAttach() {
-      if (this.genomicAttachmentType == '') {
+      if (this.genomicAttachmentType == '' || !this.attachmentVisible) {
         return false;
       }
 

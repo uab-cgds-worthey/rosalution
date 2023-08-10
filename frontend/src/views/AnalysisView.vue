@@ -5,7 +5,7 @@
         :actions="this.menuActions"
         :titleText="analysis.name"
         :sectionAnchors="this.sectionsHeaders"
-        :username="username"
+        :username="auth.getUsername()"
         :workflow_status="analysis.latest_status"
         @logout="this.onLogout"
         :third_party_links="analysis.third_party_links"
@@ -88,7 +88,7 @@ export default {
   props: ['analysis_name'],
   data: function() {
     return {
-      store: authStore,
+      auth: authStore,
       analysis: {
         name: '',
         sections: [],
@@ -98,9 +98,6 @@ export default {
     };
   },
   computed: {
-    username() {
-      return this.store.state.username;
-    },
     sectionsHeaders() {
       const sections = this.analysis.sections.map((section) => {
         return section.header;
@@ -111,7 +108,21 @@ export default {
     menuActions() {
       const actionChoices = [];
 
+
       actionChoices.push({
+        icon: 'paperclip',
+        text: 'Attach',
+        operation: this.addSupportingEvidence,
+      });
+
+
+      if ( !this.auth.hasWritePermissions() ) {
+        return actionChoices;
+      }
+
+      const prependingActions = [];
+
+      prependingActions.push({
         icon: 'pencil',
         text: 'Edit',
         operation: () => {
@@ -125,7 +136,7 @@ export default {
       });
 
       if (this.analysis.latest_status === 'Annotation') {
-        actionChoices.push({
+        prependingActions.push({
           icon: 'clipboard-check',
           text: 'Mark Ready',
           operation: this.markReady,
@@ -133,7 +144,7 @@ export default {
       }
 
       if (this.analysis.latest_status === 'Ready') {
-        actionChoices.push({
+        prependingActions.push({
           icon: 'book-open',
           text: 'Mark Active',
           operation: () => {
@@ -142,14 +153,8 @@ export default {
           },
         });
       }
-
-      actionChoices.push({divider: true});
-
-      actionChoices.push({
-        icon: 'paperclip',
-        text: 'Attach',
-        operation: this.addSupportingEvidence,
-      });
+      prependingActions.push({divider: true});
+      actionChoices.unshift(...prependingActions);
 
       actionChoices.push({
         text: 'Attach Monday.com',

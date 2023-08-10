@@ -30,6 +30,12 @@ const authStore = {
   getUser() {
     return {...this.state};
   },
+  getUsername() {
+    return this.state.username;
+  },
+  hasWritePermissions() {
+    return this.hasRole('write');
+  },
   getToken() {
     if (document.cookie == '') {
       return null;
@@ -44,7 +50,7 @@ const authStore = {
     return rosalutionCookie.split('=')[1];
   },
   hasRole(role) {
-    return this.state.roles.includes(role);
+    return this.state.roles.includes(role) || this.state.roles.includes('developer');
   },
   async loginUAB() {
     const baseUrl = '/rosalution/api/';

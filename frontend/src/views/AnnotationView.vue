@@ -1,7 +1,7 @@
 <template>
   <app-header>
     <AnnotationViewHeader
-      :username="username"
+      :username="auth.getUsername()"
       :workflow_status="summary.latest_status"
       :analysisName="this.analysis_name"
       :genes="this.genomicUnits['genes']"
@@ -18,6 +18,7 @@
         v-for="(section, index) in this.rendering" :key="`${section.type}-${section.anchor}-${index}`"
         :header="sectionHeader(section.header)" v-bind="section.props"
         :id="`${section.anchor}`" @attach-image="this.attachAnnotationImage"
+        :attachmentVisible="auth.hasWritePermissions()"
       >
         <template #headerDatasets>
           <component
@@ -113,7 +114,7 @@ export default {
   },
   data: function() {
     return {
-      store: authStore,
+      auth: authStore,
       rendering: [],
       annotations: {},
       active: {
@@ -128,9 +129,6 @@ export default {
     };
   },
   computed: {
-    username() {
-      return this.store.state.username;
-    },
     sectionAnchors() {
       return this.rendering.map((section) => {
         return section.anchor;
