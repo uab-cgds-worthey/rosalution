@@ -2,7 +2,7 @@
 <div>
   <app-header>
     <AnalysisListingHeader
-      :username="username"
+      :username="auth.getUsername()"
       v-model:searchText="searchText"
       @logout="this.onLogout"
     />
@@ -10,6 +10,7 @@
   <app-content>
     <AnalysisCreateCard
       @click="this.importPhenotipsAnalysis"
+      v-if="auth.hasWritePermissions()"
     />
     <AnalysisCard
       v-for="analysis in searchedAnalysisListing"
@@ -59,16 +60,13 @@ export default {
   },
   data: function() {
     return {
-      store: authStore,
+      auth: authStore,
       searchText: '',
       analysisList: [],
       filteredChanged: [],
     };
   },
   computed: {
-    username() {
-      return this.store.state.username;
-    },
     filteredAnalysisListing() {
       return this.analysisList.filter((analysis) => {
         return this.filteredChanged.length === 0 ||
