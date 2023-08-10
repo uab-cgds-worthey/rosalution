@@ -12,6 +12,7 @@ import AnalysisListingView from '@/views/AnalysisListingView.vue';
 
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 
+import {authStore} from '@/stores/authStore.js';
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
 
@@ -20,6 +21,7 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 describe('AnalysisListingView', () => {
   let mockedData;
   let mockedImport;
+  let mockAuthWritePermissions;
   let wrapper;
   let sandbox;
 
@@ -29,6 +31,8 @@ describe('AnalysisListingView', () => {
     mockedData.returns(fixtureData());
 
     mockedImport = sandbox.stub(Analyses, 'importPhenotipsAnalysis');
+    mockAuthWritePermissions = sandbox.stub(authStore, 'hasWritePermissions');
+    mockAuthWritePermissions.returns(true);
 
     wrapper = shallowMount(AnalysisListingView, {
       global: {
@@ -59,9 +63,88 @@ describe('AnalysisListingView', () => {
     expect(appContent.exists()).to.be.true;
   });
 
-  it('Contains an analysis create card', () => {
-    const createCard = wrapper.findComponent(AnalysisCreateCard);
-    expect(createCard.exists()).to.be.true;
+  describe('when a user has permissions to import an Analysis', () => {
+    it('Contains an analysis create card', () => {
+      const createCard = wrapper.findComponent(AnalysisCreateCard);
+      expect(createCard.exists()).to.be.true;
+    });
+
+    it('should allow file upload to import a phenotips json on prompt', async ()=> {
+      const createCard = wrapper.findComponent(AnalysisCreateCard);
+      await createCard.trigger('click');
+
+      const attachmentData = {
+        data: {
+          name: 'fake-import-phenotips.json',
+        },
+      };
+      inputDialog.confirmation(attachmentData);
+      await wrapper.vm.$nextTick();
+
+      expect(mockedImport.called).to.be.true;
+    });
+
+    it('should render notification with a sucessful upload', async () => {
+      const createCard = wrapper.findComponent(AnalysisCreateCard);
+      await createCard.trigger('click');
+
+      const attachmentData = {
+        data: {
+          name: 'fake-import-phenotips.json',
+        },
+      };
+      inputDialog.confirmation(attachmentData);
+      await wrapper.vm.$nextTick();
+
+      const dialogComponent = wrapper.findComponent(NotificationDialog);
+      expect(dialogComponent.exists()).to.be.true;
+    });
+
+    it('should render notification for a failed upload', async () => {
+      mockedImport.throws('broken import sad face');
+      const createCard = wrapper.findComponent(AnalysisCreateCard);
+      await createCard.trigger('click');
+
+      const attachmentData = {
+        data: {
+          name: 'fake-import-phenotips.json',
+        },
+      };
+      inputDialog.confirmation(attachmentData);
+      await wrapper.vm.$nextTick();
+
+      const dialogComponent = wrapper.findComponent(NotificationDialog);
+      expect(dialogComponent.exists()).to.be.true;
+      expect(notificationDialog.state.title).to.equal('Failed to import phenotips analysis');
+      expect(notificationDialog.state.message.toString()).to.equal('broken import sad face');
+    });
+  });
+
+  describe('when a user does not have permissions to import an Analysis', () => {
+    beforeEach(() => {
+      mockAuthWritePermissions.returns(false);
+
+      wrapper = shallowMount(AnalysisListingView, {
+        global: {
+          components: {
+            'font-awesome-icon': FontAwesomeIcon,
+          },
+          mocks: {
+            $route: {
+              push: sandbox.spy(),
+            },
+            $router: {
+              push: sandbox.spy(),
+            },
+          },
+        },
+      });
+    });
+
+    it('should not contain an analysis create card', () => {
+      const createCard = wrapper.findComponent(AnalysisCreateCard);
+      expect(createCard.exists()).to.be.false;
+    });
   });
 
   it('Contains listing of Analyses', () => {
@@ -79,55 +162,6 @@ describe('AnalysisListingView', () => {
     expect(cards).to.have.lengthOf(2);
   });
 
-  it('should allow file upload to import a phenotips json on prompt', async ()=> {
-    const createCard = wrapper.findComponent(AnalysisCreateCard);
-    await createCard.trigger('click');
-
-    const attachmentData = {
-      data: {
-        name: 'fake-import-phenotips.json',
-      },
-    };
-    inputDialog.confirmation(attachmentData);
-    await wrapper.vm.$nextTick();
-
-    expect(mockedImport.called).to.be.true;
-  });
-
-  it('should render notification with a sucessful upload', async () => {
-    const createCard = wrapper.findComponent(AnalysisCreateCard);
-    await createCard.trigger('click');
-
-    const attachmentData = {
-      data: {
-        name: 'fake-import-phenotips.json',
-      },
-    };
-    inputDialog.confirmation(attachmentData);
-    await wrapper.vm.$nextTick();
-
-    const dialogComponent = wrapper.findComponent(NotificationDialog);
-    expect(dialogComponent.exists()).to.be.true;
-  });
-
-  it('should render notification for a failed upload', async () => {
-    mockedImport.throws('broken import sad face');
-    const createCard = wrapper.findComponent(AnalysisCreateCard);
-    await createCard.trigger('click');
-
-    const attachmentData = {
-      data: {
-        name: 'fake-import-phenotips.json',
-      },
-    };
-    inputDialog.confirmation(attachmentData);
-    await wrapper.vm.$nextTick();
-
-    const dialogComponent = wrapper.findComponent(NotificationDialog);
-    expect(dialogComponent.exists()).to.be.true;
-    expect(notificationDialog.state.title).to.equal('Failed to import phenotips analysis');
-    expect(notificationDialog.state.message.toString()).to.equal('broken import sad face');
-  });
 
   it('should logout when the analysis listing header emits the logout event', async () => {
     const header = wrapper.findComponent(AnalysisListingHeader);
