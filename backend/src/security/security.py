@@ -128,11 +128,11 @@ def get_authorization(
 
     try:
         payload = jwt.decode(token, settings.rosalution_key, algorithms=[settings.oauth2_algorithm])
-        username: str = payload.get("sub")
-        if username is None:
+        client_id: str = payload.get("sub")
+        if client_id is None:
             raise credentials_exception
         token_scopes = payload.get("scopes", [])
-        token_data = TokenData(scopes=token_scopes, username=username)
+        token_data = TokenData(scopes=token_scopes, client_id=client_id)
     except (JWTError, ValidationError) as validation_exception:
         raise validation_exception
     for scope in security_scopes.scopes:
