@@ -9,6 +9,7 @@ import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
 import SaveModal from '@/components/AnalysisView/SaveModal.vue';
 
+import {authStore} from '@/stores/authStore.js';
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
 import toast from '@/toast.js';
@@ -88,6 +89,7 @@ describe('AnalysisView', () => {
   let markReadyMock;
   let markActiveMock;
   let updateAnalysisSectionsMock;
+  let mockAuthWritePermissions;
   let wrapper;
   let sandbox;
 
@@ -108,6 +110,9 @@ describe('AnalysisView', () => {
     markActiveMock = sandbox.stub(Analyses, 'markAnalysisActive');
 
     updateAnalysisSectionsMock = sandbox.stub(Analyses, 'updateAnalysisSections');
+
+    mockAuthWritePermissions = sandbox.stub(authStore, 'hasWritePermissions');
+    mockAuthWritePermissions.returns(true);
 
     wrapper = getMountedComponent();
   });
