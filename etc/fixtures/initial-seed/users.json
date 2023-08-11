@@ -28,25 +28,5 @@
       "disabled":false,
       "client_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
       "client_secret": ""
-   },
-   {
-      "username":"user01",
-      "full_name":"User One",
-      "email":"userone@example.com",
-      "scope":"write",
-      "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false,
-      "client_id": "umkpw123enzl1lklhlhiegbi073ry45l",
-      "client_secret": ""
-   },
-   {
-      "username":"user03",
-      "full_name":"User Three",
-      "email":"user03@uab.edu",
-      "scope":"read",
-      "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false,
-      "client_id": "5152vjh31k92zgwldv2d7tm65vyxnwec",
-      "client_secret": ""
    }
 ]

@@ -17,10 +17,10 @@
 import './commands';
 
 before( () => {
-  cy.login('user03');
+  cy.login('researcher');
 });
 
 
 beforeEach( () => {
-  cy.login('user01');
+  cy.login('vrr-prep');
 });
