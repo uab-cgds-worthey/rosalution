@@ -1,7 +1,7 @@
-describe('attach_pedigree_image', () => {
+describe('attach analysis section images', () => {
   beforeEach(() => {
     cy.resetDatabase();
-    cy.login('user01');
+    cy.login('vrr-prep');
     cy.visit('/');
     cy.get('[href="/rosalution/analysis/CPAM0002"]').click();
   });

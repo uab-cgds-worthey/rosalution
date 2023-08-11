@@ -5,7 +5,7 @@ describe('upload_images_to_case_annotations.cy.js', () => {
   });
 
   it('unable to upload for a user without permissions', () => {
-    cy.login('user03');
+    cy.login('researcher');
     cy.visit('/analysis/CPAM0047/annotation/');
     cy.get('[href="#Gene_Homology"]').click();
     cy.get('[data-test="Gene Homology/Multi-Sequence Alignment"]').should('not.have.descendants', 'button');
