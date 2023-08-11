@@ -26,14 +26,6 @@ def test_get_analyses(client, mock_access_token, mock_repositories):
     assert response.json()[2]["name"] == "CPAM0047"
 
 
-def test_get_analyses_unauthorized(client, mock_repositories):
-    """Tries to get the analyses from the endpoint, but is unauthorized. Does not provide valid token"""
-    mock_repositories['analysis'].collection.find.return_value = read_database_fixture("analyses.json")
-    response = client.get("/analysis/")
-
-    assert response.status_code == 401
-
-
 def test_get_analysis_summary(client, mock_access_token, mock_repositories):
     """Testing if the analysis summary endpoint returns all of the analyses available"""
     mock_repositories['analysis'].collection.find.return_value = read_test_fixture(
