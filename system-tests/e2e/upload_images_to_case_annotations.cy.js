@@ -1,10 +1,14 @@
 describe('upload_images_to_case_annotations.cy.js', () => {
   beforeEach(() => {
     cy.resetDatabase();
+    cy.visit('/analysis/CPAM0047/annotation/');
+  });
+
+  it('unable to upload for a user without permissions', () => {
     cy.login('user03');
-    cy.visit('/');
-    cy.get('[href="/rosalution/analysis/CPAM0047"]').click();
-    cy.get('[data-test="gene-name"]').click();
+    cy.visit('/analysis/CPAM0047/annotation/');
+    cy.get('[href="#Gene_Homology"]').click();
+    cy.get('[data-test="Gene Homology/Multi-Sequence Alignment"]').should('not.have.descendants', 'button');
   });
 
   it('uploads an image to the gene homology section', () => {
@@ -34,8 +38,8 @@ describe('upload_images_to_case_annotations.cy.js', () => {
     });
     cy.get('[data-test="confirm"]').click();
 
-    cy.get('[data-test="annotation-image"]').should('have.length', 2)
-  })
+    cy.get('[data-test="annotation-image"]').should('have.length', 2);
+  });
 
   it('uploads an image to the protein expression section and then updates the image with a different image', () => {
     cy.get('[href="#Modelability"]').click();
@@ -51,7 +55,7 @@ describe('upload_images_to_case_annotations.cy.js', () => {
     });
     cy.get('[data-test="confirm"').click();
     cy.get('[data-test="annotation-image"]').should('exist');
-    cy.get('[data-test="annotation-image"]').should('have.length', 1)
+    cy.get('[data-test="annotation-image"]').should('have.length', 1);
   });
 
   it('uploads an image to the Druggability section and then removes the image', () => {

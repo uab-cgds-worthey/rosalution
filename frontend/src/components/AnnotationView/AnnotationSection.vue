@@ -1,7 +1,7 @@
 <template>
   <div class="rosalution-section-container">
     <input type="checkbox" v-bind:id="section_toggle" />
-    <div class="rosalution-section-header">
+    <div class="rosalution-section-header" :data-test="this.header">
       <h2 class="rosalution-section-header-text">
         {{header}}
       </h2>
@@ -41,7 +41,7 @@ export default {
       type: String,
       default: '',
     },
-    attachmentVisible: {
+    attachPermissions: {
       type: Boolean,
       default: true,
     },
@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     allowAttach() {
-      if (this.genomicAttachmentType == '' || !this.attachmentVisible) {
+      if (this.genomicAttachmentType == '' || !this.attachPermissions) {
         return false;
       }
 
