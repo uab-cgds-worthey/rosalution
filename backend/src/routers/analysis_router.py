@@ -31,7 +31,6 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/analysis", tags=["analysis"], dependencies=[Depends(database)])
 
 
-
 @router.get("/", response_model=List[Analysis])
 def get_all_analyses(repositories=Depends(database), authorized=Security(get_authorization, scopes=["write"])):
     """Returns every analysis available"""
@@ -100,7 +99,8 @@ async def create_file(
 
 @router.put("/{analysis_name}/mark_ready", response_model=Analysis)
 def mark_ready(
-    analysis_name: str, repositories=Depends(database),
+    analysis_name: str,
+    repositories=Depends(database),
     username: VerifyUser = Security(get_current_user),
     authorized=Security(get_authorization, scopes=["write"])
 ):
@@ -115,7 +115,8 @@ def mark_ready(
 @router.put("/{analysis_name}/update/sections", response_model=Analysis)
 def update_analysis_sections(
     analysis_name: str,
-    updated_sections: dict, repositories=Depends(database),
+    updated_sections: dict,
+    repositories=Depends(database),
     authorized=Security(get_authorization, scopes=["write"])
 ):
     """Updates the sections that have changes"""
