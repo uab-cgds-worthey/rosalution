@@ -8,7 +8,7 @@
         </h2>
         <span class="rosalution-section-center"></span>
         <span class="rosalution-header-right-icons">
-        <label v-if="this.attachmentField" class="attach-logo"
+        <label v-if="this.allowAttach" class="attach-logo"
           @click="$emit('attach-image', this.header, this.attachmentField)"
           :data-test="`attach-logo-${header}`"
         >
@@ -68,6 +68,10 @@ export default {
       type: String,
       default: '',
     },
+    attachPermissions: {
+      type: Boolean,
+      default: true,
+    },
     content: {
       type: Array,
     },
@@ -82,6 +86,13 @@ export default {
     };
   },
   computed: {
+    allowAttach() {
+      if (this.attachmentField == '' || !this.attachPermissions) {
+        return false;
+      }
+
+      return true;
+    },
     hasAttachmentContent() {
       return this.attachmentField.length > 0;
     },

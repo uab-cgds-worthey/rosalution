@@ -31,6 +31,7 @@
         :header="section.header"
         :content="section.content"
         :attachmentField="section.attachment_field"
+        :attachPermissions="auth.hasWritePermissions()"
         :edit="this.edit"
         @attach-image="this.attachSectionImage"
         @update-image="this.updateSectionImage"

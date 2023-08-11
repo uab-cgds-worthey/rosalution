@@ -18,7 +18,7 @@
         v-for="(section, index) in this.rendering" :key="`${section.type}-${section.anchor}-${index}`"
         :header="sectionHeader(section.header)" v-bind="section.props"
         :id="`${section.anchor}`" @attach-image="this.attachAnnotationImage"
-        :attachmentVisible="auth.hasWritePermissions()"
+        :attachPermissions="auth.hasWritePermissions()"
       >
         <template #headerDatasets>
           <component
