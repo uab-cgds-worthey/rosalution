@@ -15,7 +15,7 @@ from passlib.context import CryptContext
 
 from ..dependencies import oauth2_scheme
 
-from ..models.token import TokenData
+# from ..models.token import TokenData
 from ..config import Settings, get_settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -128,19 +128,22 @@ def get_authorization(
 
     try:
         payload = jwt.decode(token, settings.rosalution_key, algorithms=[settings.oauth2_algorithm])
-        username: str = payload.get("sub")
-        if username is None:
+        client_id: str = payload.get("sub")
+        if client_id is None:
             raise credentials_exception
-        token_scopes = payload.get("scopes", [])
-        token_data = TokenData(scopes=token_scopes, username=username)
+        user_scopes = payload.get("scopes", str)
+        print(user_scopes)
+        # token_data = TokenData(scopes=token_scopes, client_id=client_id)
+        # print(token_data)
     except (JWTError, ValidationError) as validation_exception:
         raise validation_exception
-    for scope in security_scopes.scopes:
-        if scope not in token_data.scopes:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Not enough permissions",
-                headers={"WWW-Authenticate": authenticate_value},
-            )
+    # for scope in security_scopes.scopes:
+    print(security_scopes.scopes)
+    if "write" in security_scopes.scopes and "write" not in user_scopes:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not enough permissions",
+            headers={"WWW-Authenticate": authenticate_value},
+        )
 
     return True

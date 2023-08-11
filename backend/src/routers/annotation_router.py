@@ -1,4 +1,8 @@
+# pylint: disable=too-many-arguments
+# Due to adding scope checks, it's adding too many arguments (7/6) to functions, so diabling this for now.
+# Need to refactor later.
 """ Annotation endpoint routes that handle all things annotation within the application """
+import logging
 
 from datetime import date, datetime
 
@@ -11,13 +15,14 @@ from ..core.annotation import AnnotationService
 from ..dependencies import database, annotation_queue
 from ..models.analysis import Analysis
 
-from ..security.security import get_current_user
+from ..security.security import get_authorization
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(
     prefix="/annotate",
     tags=["annotation"],
-    dependencies=[Depends(database), Depends(annotation_queue),
-                  Security(get_current_user)],
+    dependencies=[Depends(database), Depends(annotation_queue)],
 )
 
 
@@ -108,9 +113,11 @@ def upload_annotation_section(
     data_set: str,
     genomic_unit_type: GenomicUnitType = Form(...),
     upload_file: UploadFile = File(...),
-    repositories=Depends(database)
+    repositories=Depends(database),
+    authorized=Security(get_authorization, scopes=["write"])
 ):
     """ This endpoint specifically handles annotation section image uploads """
+    logger.info(authorized)
     try:
         new_file_object_id = repositories["bucket"].save_file(
             upload_file.file, upload_file.filename, upload_file.content_type
@@ -147,10 +154,12 @@ def update_annotation_image(
     old_file_id: str,
     genomic_unit_type: GenomicUnitType = Form(...),
     upload_file: UploadFile = File(...),
-    repositories=Depends(database)
+    repositories=Depends(database),
+    authorized=Security(get_authorization, scopes=["write"])
 ):
     """ Updates and replaces an annotation image with a new image  """
 
+    logger.info(authorized)
     try:
         new_file_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_typ)
     except Exception as exception:
@@ -185,9 +194,11 @@ def remove_annotation_image(
     data_set: str,
     file_id: str,
     genomic_unit_type: GenomicUnitType = Form(...),
-    repositories=Depends(database)
+    repositories=Depends(database),
+    authorized=Security(get_authorization, scopes=["write"])
 ):
     """ This endpoint handles removing an annotation image for specified genomic unit """
+    logger.info(authorized)
     genomic_unit = {'unit': genomic_unit, 'type': genomic_unit_type}
 
     try:
