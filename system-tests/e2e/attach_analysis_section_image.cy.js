@@ -1,7 +1,7 @@
 describe('attach_pedigree_image', () => {
   beforeEach(() => {
     cy.resetDatabase();
-    cy.login('user03');
+    cy.login('user01');
     cy.visit('/');
     cy.get('[href="/rosalution/analysis/CPAM0002"]').click();
   });
@@ -13,7 +13,7 @@ describe('attach_pedigree_image', () => {
       action: 'drag-drop',
     });
     cy.get('[data-test="confirm"]').click();
-    
+
     cy.get('[field="Pedigree"] > .image-row').should('exist');
   });
 
@@ -24,7 +24,7 @@ describe('attach_pedigree_image', () => {
       action: 'drag-drop',
     });
     cy.get('[data-test="confirm"]').click();
-    
+
     cy.get('[field="Pedigree"] > .image-row').should('exist');
   });
 
