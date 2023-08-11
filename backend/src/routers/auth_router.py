@@ -36,9 +36,9 @@ token_scheme = HTTPBasicClientCredentials(auto_error=False, scheme_name="oAuth2C
 
 
 ## Test Route ##
-@router.get("/dev_only_test")
-def test(authorized=Security(get_authorization, scopes=["developer"])):
-    """ Only developers can hit this endpoint """
+@router.get("/write_only_test")
+def test(authorized=Security(get_authorization, scopes=["write"])):
+    """ Only writers can hit this endpoint """
     logger.info(authorized)
     return {
         "Ka": ["Boom", "Blammo", "Pow"],
