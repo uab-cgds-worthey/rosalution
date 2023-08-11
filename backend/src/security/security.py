@@ -15,7 +15,7 @@ from passlib.context import CryptContext
 
 from ..dependencies import oauth2_scheme
 
-from ..models.token import TokenData
+# from ..models.token import TokenData
 from ..config import Settings, get_settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

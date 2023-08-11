@@ -1,3 +1,6 @@
+# pylint: disable=too-many-arguments
+# Due to adding scope checks, it's adding too many arguments (7/6) to functions, so diabling this for now.
+# Need to refactor later.
 """ Analysis endpoint routes that serve up information regarding anaysis cases for rosalution """
 import logging
 import json
@@ -113,7 +116,7 @@ def mark_ready(
 def update_analysis_sections(
     analysis_name: str,
     updated_sections: dict, repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])    
+    authorized=Security(get_authorization, scopes=["write"])
 ):
     """Updates the sections that have changes"""
     logger.info(authorized)

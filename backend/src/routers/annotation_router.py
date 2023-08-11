@@ -1,3 +1,6 @@
+# pylint: disable=too-many-arguments
+# Due to adding scope checks, it's adding too many arguments (7/6) to functions, so diabling this for now.
+# Need to refactor later.
 """ Annotation endpoint routes that handle all things annotation within the application """
 import logging
 
@@ -12,7 +15,7 @@ from ..core.annotation import AnnotationService
 from ..dependencies import database, annotation_queue
 from ..models.analysis import Analysis
 
-from ..security.security import get_authorization, get_current_user
+from ..security.security import get_authorization
 
 logger = logging.getLogger(__name__)
 
