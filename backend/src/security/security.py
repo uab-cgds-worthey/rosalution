@@ -132,9 +132,6 @@ def get_authorization(
         if client_id is None:
             raise credentials_exception
         user_scopes = payload.get("scopes", str)
-        print(user_scopes)
-        # token_data = TokenData(scopes=token_scopes, client_id=client_id)
-        # print(token_data)
     except (JWTError, ValidationError) as validation_exception:
         raise validation_exception
     # for scope in security_scopes.scopes:
