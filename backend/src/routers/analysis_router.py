@@ -67,7 +67,7 @@ async def create_file(
     repositories=Depends(database),
     annotation_task_queue=Depends(annotation_queue),
     username: VerifyUser = Security(get_current_user),
-    authorized=Security(get_authorization, scopes=["write"]) #pylint: disable=unused-argument
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """ Imports a .json file for a phenotips case """
 
