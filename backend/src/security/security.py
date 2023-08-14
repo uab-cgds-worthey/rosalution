@@ -135,7 +135,6 @@ def get_authorization(
     except (JWTError, ValidationError) as validation_exception:
         raise validation_exception
     # for scope in security_scopes.scopes:
-    print(security_scopes.scopes)
     if "write" in security_scopes.scopes and "write" not in user_scopes:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
