@@ -6,6 +6,7 @@
             :imageId="sectionImage.id"
             :dataSet="dataSet"
             :genomicType="genomicType"
+            :writePermissions="writePermissions"
             v-bind="$attrs"
         />
     </div>
@@ -32,6 +33,10 @@ export default {
     genomicType: {
       type: String,
     },
+    writePermissions: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     sectionImages() {

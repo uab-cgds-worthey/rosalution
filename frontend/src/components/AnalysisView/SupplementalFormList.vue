@@ -42,7 +42,7 @@
             </button>
           </td>
           <td class="delete-button">
-            <button @click="$emit('delete', attachment)" data-test="delete-button">
+            <button v-if="writePermissions" @click="$emit('delete', attachment)" data-test="delete-button">
               <font-awesome-icon icon="xmark" size="xl"/>
             </button>
           </td>
@@ -63,6 +63,10 @@ export default {
         return [];
       },
     },
+    writePermissions: {
+      type: Boolean,
+      default: false
+    }
   },
 };
 </script>

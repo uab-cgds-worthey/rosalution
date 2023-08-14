@@ -8,7 +8,7 @@
       </a>
       <!-- TODO: Since both AnalysisView and AnnotationView are using this component,
         change the emit to be update-image -->
-        <button
+        <button v-if="this.writePermissions"
           class="edit-icon"
           @click="$emit('update-annotation-image', imageId, dataSet, genomicType)"
           data-test="annotation-edit-icon"
@@ -36,6 +36,10 @@ export default {
       type: String,
       default: '',
     },
+    writePermissions: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     domId() {

@@ -38,6 +38,7 @@
         :field="contentRow.field"
         :dataSet="contentRow.field"
         :value="contentRow.value"
+        :writePermissions="this.writePermissions"
         :data-test="contentRow.field"
         @update-annotation-image="this.onUpdateImageEmit"
         @update:section-text="this.onContentChanged"
@@ -68,7 +69,7 @@ export default {
       type: String,
       default: '',
     },
-    attachPermissions: {
+    writePermissions: {
       type: Boolean,
       default: true,
     },
@@ -87,7 +88,7 @@ export default {
   },
   computed: {
     allowAttach() {
-      if (this.attachmentField == '' || !this.attachPermissions) {
+      if (this.attachmentField == '' || !this.writePermissions) {
         return false;
       }
 
