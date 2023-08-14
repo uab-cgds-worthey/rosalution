@@ -501,6 +501,14 @@ const annotationRenderingTemporary = [
           'value': 'https://lasseignelab.shinyapps.io/CoSIA/',
         },
       },
+      {
+        'dataset': 'Frog_General_Xenbase_Database_url',
+        'type': 'icon-linkout-dataset',
+        'props': {
+          'imageFilename': 'xenbase_logo.png',
+          'altText': 'Xenbase Xenopus General Gene Linkout',
+        },
+      },
     ],
     'props': {
       'attachmentDataset': 'Model_System_Expression_Profiles',

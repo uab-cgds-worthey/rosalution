@@ -70,7 +70,6 @@ async def create_file(
     authorized=Security(get_authorization, scopes=["write"])
 ):
     """ Imports a .json file for a phenotips case """
-    logger.info(authorized)
 
     # Quick and dirty json loads
     phenotips_input = BasePhenotips(**json.loads(phenotips_file))

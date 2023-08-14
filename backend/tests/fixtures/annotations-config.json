@@ -404,14 +404,6 @@
     "dependencies": ["C-Elegens Gene Identifier"]
   },
   {
-    "data_set": "Frog_General_Xenbase_Database_url",
-    "data_source": "Alliance genome",
-    "annotation_source_type": "http",
-    "genomic_unit_type": "gene",
-    "url": "https://www.alliancegenome.org/api/search?q={gene}",
-    "attribute": "[.results[] | select ( .species | contains(\"Xenopus laevis\")) | .modCrossRefCompleteUrl][0] | { \"Frog_General_Xenbase_Database_url\": .}"
-  },
-  {
     "data_set": "GTEx_Human_Gene_Expression_url",
     "data_source": "Rosalution",
     "genomic_unit_type": "gene",
