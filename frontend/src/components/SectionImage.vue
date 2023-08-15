@@ -1,7 +1,7 @@
 <template>
     <div class="image-row">
       <a :href="domId">
-        <img class="section-image" :src="imageSrc" data-test="annotation-image"/>
+        <img class="section-image" :src="imageSrc" data-test="annotation-image" :id="imageId"/>
       </a>
       <a href="#_" class="lightbox" :id="imageId">
         <span :style="{backgroundImage: `url(${this.imageSrc})`}"></span>
