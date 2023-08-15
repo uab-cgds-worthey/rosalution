@@ -96,7 +96,7 @@ def mark_ready(
     analysis_name: str,
     repositories=Depends(database),
     username: VerifyUser = Security(get_current_user),
-    authorized=Security(get_authorization, scopes=["write"]) #pylint: disable=unused-argument
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """ Marks an analysis as ready for review """
     try:
@@ -110,7 +110,7 @@ def update_analysis_sections(
     analysis_name: str,
     updated_sections: dict,
     repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"]) #pylint: disable=unused-argument
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """Updates the sections that have changes"""
     for (header, field) in updated_sections.items():
@@ -149,7 +149,7 @@ def attach_section_image(
     section_name: str = Form(...),
     field_name: str = Form(...),
     repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"]) #pylint: disable=unused-argument
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """ Saves the uploaded image it to the specified field_name in the analysis's section."""
     try:
@@ -174,7 +174,7 @@ def update_analysis_section_image(
     section_name: str = Form(...),
     field_name: str = Form(...),
     repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"]) #pylint: disable=unused-argument
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """ Replaces the existing image by the file identifier with the uploaded one. """
     # This needs try catch like in annotation router
@@ -192,7 +192,7 @@ def remove_analysis_section_image(
     section_name: str = Form(...),
     field_name: str = Form(...),
     repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"]) #pylint: disable=unused-argument
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """ Removes the image from an analysis section's field by its file_id """
     try:
@@ -241,7 +241,7 @@ def attach_third_party_link(
     third_party_enum: ThirdPartyLinkType,
     link: str = Form(...),
     repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"]) #pylint: disable=unused-argument
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """ This endpoint attaches a third party link to an analysis. """
     try:
@@ -278,7 +278,7 @@ def remove_supporting_evidence(
     analysis_name: str,
     attachment_id: str,
     repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"]) #pylint: disable=unused-argument
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """ Removes a supporting evidence file from an analysis """
     if repositories["bucket"].id_exists(attachment_id):
