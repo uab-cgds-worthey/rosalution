@@ -157,8 +157,9 @@ def update_annotation_image(
     authorized=Security(get_authorization, scopes=["write"]) #pylint: disable=unused-argument
 ):
     """ Updates and replaces an annotation image with a new image  """
+    print("am I reaching here?")
     try:
-        new_file_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_typ)
+        new_file_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_type)
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
