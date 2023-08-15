@@ -114,10 +114,9 @@ def upload_annotation_section(
     genomic_unit_type: GenomicUnitType = Form(...),
     upload_file: UploadFile = File(...),
     repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])
+    authorized=Security(get_authorization, scopes=["write"]) #pylint: disable=unused-argument
 ):
     """ This endpoint specifically handles annotation section image uploads """
-    logger.info(authorized)
     try:
         new_file_object_id = repositories["bucket"].save_file(
             upload_file.file, upload_file.filename, upload_file.content_type
@@ -155,11 +154,9 @@ def update_annotation_image(
     genomic_unit_type: GenomicUnitType = Form(...),
     upload_file: UploadFile = File(...),
     repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])
+    authorized=Security(get_authorization, scopes=["write"]) #pylint: disable=unused-argument
 ):
     """ Updates and replaces an annotation image with a new image  """
-
-    logger.info(authorized)
     try:
         new_file_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_typ)
     except Exception as exception:
@@ -195,10 +192,9 @@ def remove_annotation_image(
     file_id: str,
     genomic_unit_type: GenomicUnitType = Form(...),
     repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])
+    authorized=Security(get_authorization, scopes=["write"]) #pylint: disable=unused-argument
 ):
     """ This endpoint handles removing an annotation image for specified genomic unit """
-    logger.info(authorized)
     genomic_unit = {'unit': genomic_unit, 'type': genomic_unit_type}
 
     try:
