@@ -38,8 +38,8 @@ export default {
     },
     writePermissions: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     domId() {
