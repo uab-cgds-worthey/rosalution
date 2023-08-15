@@ -1,10 +1,17 @@
 name: Production Build Deployment to DevOps Server
 
 on:
-  workflow_run:
-    workflows: [Compile & Publish]
-    types:
-      - completed
+  # Disabled until Production is migrated to another cloud provider
+  # This workflow will run nightly instead to avoid changes being deployed
+  # during daytime hours.
+  # For deployments that require database migration; workflow dispatch
+  # will be used instead to time the manual executation of the migration
+  # workflow_run:
+  #   workflows: [Compile & Publish]
+  #   types:
+  #     - completed
+  schedule:
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 env:
