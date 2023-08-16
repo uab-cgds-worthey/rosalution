@@ -16,7 +16,6 @@ var csvData = fs.readFileSync(inputPath)
     .map(e => e.trim()) // remove white spaces for each line
     .map(e => e.split(',').map(e => e.trim())); // split each line to array
 
-console.log(csvData)
 
 for(let i = 0; i < csvData.length; i++) {
     if(csvData[i][0] == 'Name')
