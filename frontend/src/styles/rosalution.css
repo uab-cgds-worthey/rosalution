@@ -58,6 +58,23 @@ html {
   box-sizing: border-box;
 }
 
+.menu-button {
+  border-radius: var(--content-border-radius);
+  background-color: var(--primary-background-color);
+  color: var(--rosalution-purple-200);
+  padding: var(--p-5);
+  font-size: 1.125rem; /* 18px */
+  font-weight: 700;
+}
+
+.menu-button:hover {
+  color: var(--rosalution-purple-300);
+}
+
+.menu-button:active {
+  color: var(--rosalution-purple-100);
+}
+
 .rosalution-input {
   text-align: center;
   font-size: 0.813rem;
