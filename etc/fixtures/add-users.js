@@ -54,7 +54,6 @@ try {
       }
     }
 
-    // console.log("THESE ARE THE NEW USERS TO ADD!!")
 
     if(usersToAdd.length == 0) {
       console.log("No new users to add, they all exist already.")
