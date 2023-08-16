@@ -17,6 +17,7 @@ function getMountedComponent(propsData) {
   const defaultPropsData = {
     imageId: 'fake-image-id-1',
     dataSet: 'Fake Dataset Section',
+    writePermissions: true,
   };
 
   return shallowMount(SectionImage, {

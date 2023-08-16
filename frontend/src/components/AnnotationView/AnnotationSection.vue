@@ -41,7 +41,7 @@ export default {
       type: String,
       default: '',
     },
-    attachPermissions: {
+    writePermissions: {
       type: Boolean,
       default: true,
     },
@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     allowAttach() {
-      if (this.genomicAttachmentType == '' || !this.attachPermissions) {
+      if (this.genomicAttachmentType == '' || !this.writePermissions) {
         return false;
       }
 

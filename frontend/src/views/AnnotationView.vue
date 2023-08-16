@@ -18,7 +18,7 @@
         v-for="(section, index) in this.rendering" :key="`${section.type}-${section.anchor}-${index}`"
         :header="sectionHeader(section.header)" v-bind="section.props"
         :id="`${section.anchor}`" @attach-image="this.attachAnnotationImage"
-        :attachPermissions="auth.hasWritePermissions()"
+        :writePermissions="auth.hasWritePermissions()"
       >
         <template #headerDatasets>
           <component
@@ -41,6 +41,7 @@
                 v-bind="buildProps(datasetConfig)"
                 :value="annotations[datasetConfig.dataset]"
                 :data-test="datasetConfig.dataset"
+                :writePermissions="auth.hasWritePermissions()"
                 @update-annotation-image="this.updateAnnotationImage"
               />
           </div>

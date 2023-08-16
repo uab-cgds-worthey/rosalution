@@ -1,14 +1,14 @@
 <template>
     <div class="image-row">
       <a :href="domId">
-        <img class="section-image" :src="imageSrc" data-test="annotation-image"/>
+        <img class="section-image" :src="imageSrc" data-test="annotation-image" :id="imageId"/>
       </a>
       <a href="#_" class="lightbox" :id="imageId">
         <span :style="{backgroundImage: `url(${this.imageSrc})`}"></span>
       </a>
       <!-- TODO: Since both AnalysisView and AnnotationView are using this component,
         change the emit to be update-image -->
-        <button
+        <button v-if="this.writePermissions"
           class="edit-icon"
           @click="$emit('update-annotation-image', imageId, dataSet, genomicType)"
           data-test="annotation-edit-icon"
@@ -35,6 +35,10 @@ export default {
     genomicType: {
       type: String,
       default: '',
+    },
+    writePermissions: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
