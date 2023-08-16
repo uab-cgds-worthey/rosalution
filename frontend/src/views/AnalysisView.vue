@@ -31,7 +31,7 @@
         :header="section.header"
         :content="section.content"
         :attachmentField="section.attachment_field"
-        :attachPermissions="auth.hasWritePermissions()"
+        :writePermissions="auth.hasWritePermissions()"
         :edit="this.edit"
         @attach-image="this.attachSectionImage"
         @update-image="this.updateSectionImage"
@@ -40,6 +40,7 @@
       <SupplementalFormList
         id="Supporting_Evidence"
         :attachments="this.attachments"
+        :writePermissions="auth.hasWritePermissions()"
         @open-modal="this.addSupportingEvidence"
         @delete="this.removeSupportingEvidence"
         @edit="this.editSupportingEvidence"

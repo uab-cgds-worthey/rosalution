@@ -32,6 +32,7 @@ describe('SupplementalFormList.vue', () => {
   beforeEach(() => {
     wrapper = getMountedComponent({
       attachments: [defaultAttachment],
+      writePermissions: true,
     });
   });
 

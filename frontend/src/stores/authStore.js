@@ -50,7 +50,7 @@ const authStore = {
     return rosalutionCookie.split('=')[1];
   },
   hasRole(role) {
-    return this.state.roles.includes(role) || this.state.roles.includes('developer');
+    return this.state.roles.includes(role);
   },
   async loginUAB() {
     const baseUrl = '/rosalution/api/';
