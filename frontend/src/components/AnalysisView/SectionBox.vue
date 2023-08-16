@@ -128,7 +128,7 @@ export default {
   cursor: pointer;
 }
 
-.collapsable-logo {
+.collapsable-icon {
   color: var(--rosalution-grey-200);
   cursor: pointer;
 }
@@ -147,11 +147,7 @@ input[type="checkbox"] {
   display: none;
 }
 
-.rosalution-section-container input[type="checkbox"]:checked ~ .section-row {
-  display: none;
-}
-
-.rosalution-section-container input[type="checkbox"]:checked ~ img {
+.rosalution-section-container input[type="checkbox"]:checked ~ .rosalution-section-seperator ~ * {
   display: none;
 }
 

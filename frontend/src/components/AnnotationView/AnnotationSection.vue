@@ -21,7 +21,9 @@
       </label>
     </div>
     <div class="rosalution-section-seperator"></div>
-    <slot></slot>
+    <div class="section-content">
+      <slot></slot>
+  </div>
   </div>
 </template>
 
@@ -83,15 +85,11 @@ input[type="checkbox"] {
   display: none;
 }
 
-.rosalution-section-container input[type="checkbox"]:checked ~ .section-row {
+.rosalution-section-container input[type="checkbox"]:checked ~ .section-content {
   display: none;
 }
 
-.rosalution-section-container input[type="checkbox"]:checked ~ img {
-  display: none;
-}
-
-input[type="checkbox"]:checked ~ .rosalution-section-header > button ~ label.collapsable-icon {
+input[type="checkbox"]:checked ~ .rosalution-section-header > span ~ label.collapsable-icon {
   transform: scaleY(-1);
 }
 </style>
