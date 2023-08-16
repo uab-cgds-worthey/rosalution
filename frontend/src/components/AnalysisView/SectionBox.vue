@@ -24,7 +24,7 @@
         <label v-if="this.edit" class="edit-logo" id="edit-logo">
           <font-awesome-icon icon="pencil" size="lg" />
         </label>
-        <label v-else class="collapsable-logo" v-bind:for="section_toggle">
+        <label v-else class="collapsable-icon" v-bind:for="section_toggle">
           <font-awesome-icon icon="chevron-down" size="lg" />
         </label>
         </span>
@@ -155,7 +155,7 @@ input[type="checkbox"] {
   display: none;
 }
 
-input[type="checkbox"]:checked ~ .rosalution-section-header > span > label.collapsable-logo {
+input[type="checkbox"]:checked ~ .rosalution-section-header > span > label.collapsable-icon {
   transform: scaleY(-1);
 }
 </style>

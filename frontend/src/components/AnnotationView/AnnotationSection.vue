@@ -16,7 +16,7 @@
       >
         <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
       </button>
-      <label class="collapsable-icon">
+      <label class="collapsable-icon" v-bind:for="section_toggle">
         <font-awesome-icon icon="chevron-down" size="lg"/>
       </label>
     </div>
@@ -83,7 +83,7 @@ input[type="checkbox"] {
   display: none;
 }
 
-.rosalution-section-container input[type="checkbox"]:checked ~ .field-value-row {
+.rosalution-section-container input[type="checkbox"]:checked ~ .section-row {
   display: none;
 }
 
@@ -91,7 +91,7 @@ input[type="checkbox"] {
   display: none;
 }
 
-input[type="checkbox"]:checked ~ tr > td > label.collapsable-logo {
+input[type="checkbox"]:checked ~ .rosalution-section-header > button ~ label.collapsable-icon {
   transform: scaleY(-1);
 }
 </style>
