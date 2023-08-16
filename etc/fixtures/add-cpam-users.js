@@ -2,7 +2,12 @@
 
 const fs = require('fs');
 
-const inputPath = `/tmp/fixtures/cpamUsers.csv`
+// this file has been removed for security reasons
+// To add users in the future create a csv file in the below path in the following format
+// Name,blazerid,email,clientid,scope
+// John Doe,jdoe,jdoe@site.com,<generated client id>,scope
+
+const inputPath = `/tmp/fixtures/usersToImport.csv`
 var newUsersList = [];
 
 var csvData = fs.readFileSync(inputPath)
