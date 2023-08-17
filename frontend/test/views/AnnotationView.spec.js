@@ -73,6 +73,13 @@ describe('AnnotationView', () => {
     config.global.renderStubDefaultSlot = true;
     sandbox = sinon.createSandbox();
 
+    global['history'] = {
+      state: {
+        gene: '',
+        variant: '',
+      },
+    },
+
     mockAnnotations = sandbox.stub(Annotations, 'getAnnotations');
     mockAnnotations.returns(mockAnnotationsForCPAM0002);
 
