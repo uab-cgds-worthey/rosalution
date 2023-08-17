@@ -180,13 +180,11 @@ User permissions according to a type of user is planned to become available in a
 
 👩‍💻 The following table lists some of the usernames and their corresponding user types:
 
-| Username | Type of User
-|:--------:|:-------------:
-|developer | Developer user
-|researcher | Researcher user
-|user01 | System Testing user
-|user04 | Pre-clinical-intake user
-|user07 | Bioinformatics-section user
+| Username  | Scope | Type of User
+|:----------|:------|:-------------
+|developer  | write | Developer user
+|researcher | read  | Researcher user
+|vrr-prep   | write | Researcher who prepares analyses
 
 ![Rosalution logins](./docs/figures/rosalution-logins.png "Rosalution logins")
 
