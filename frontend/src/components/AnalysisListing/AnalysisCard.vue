@@ -139,9 +139,9 @@ export default {
     getLogoSrc(type) {
       switch (type) {
         case 'monday_com':
-          return '/src/assets/monday-avatar-logo.svg';
+          return new URL('/src/assets/monday-avatar-logo.svg', import.meta.url);
         case 'phenotips_com':
-          return '/src/assets/phenotips-favicon-96x96.png';
+          return new URL('/src/assets/phenotips-favicon-96x96.png', import.meta.url);
         default:
           return '';
       }
