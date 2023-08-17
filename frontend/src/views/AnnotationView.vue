@@ -80,7 +80,6 @@ import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
 
 import {authStore} from '@/stores/authStore.js';
-import HistoryState from '@/historyState.js';
 
 export default {
   name: 'annotation-view',
@@ -111,8 +110,8 @@ export default {
       rendering: [],
       annotations: {},
       active: {
-        'gene': HistoryState.historyState().gene || '',
-        'variant': HistoryState.historyState().variant || '',
+        'gene': history.state.gene || '',
+        'variant': history.state.variant || '',
       },
       genomicUnits: {
         'genes': {},

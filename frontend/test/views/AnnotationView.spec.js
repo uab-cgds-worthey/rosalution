@@ -1,4 +1,4 @@
-import {expect, describe, it, beforeAll, afterAll, beforeEach, vi} from 'vitest';
+import {expect, describe, it, beforeAll, afterAll, beforeEach} from 'vitest';
 import {config, mount} from '@vue/test-utils';
 import sinon from 'sinon';
 
@@ -14,7 +14,6 @@ import TagDataset from '@/components/AnnotationView/TagDataset.vue';
 import SectionImage from '@/components/SectionImage.vue';
 
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
-import HistoryState from '@/historyState.js';
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
 
@@ -74,8 +73,12 @@ describe('AnnotationView', () => {
     config.global.renderStubDefaultSlot = true;
     sandbox = sinon.createSandbox();
 
-    const mockBrowserHistoryState = sandbox.stub(HistoryState, 'historyState');
-    mockBrowserHistoryState.returns({});
+    global['history'] = {
+      state: {
+        gene: '',
+        variant: '',
+      },
+    },
 
     mockAnnotations = sandbox.stub(Annotations, 'getAnnotations');
     mockAnnotations.returns(mockAnnotationsForCPAM0002);
