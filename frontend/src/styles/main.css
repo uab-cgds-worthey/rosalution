@@ -82,6 +82,7 @@ h2 {
 
 a:link {
   text-decoration: none;
+  color: var(--rosalution-purple-300);
 }
 
 a:visited {
@@ -90,25 +91,13 @@ a:visited {
 
 a:hover {
   text-decoration: none;
+  color: var(--rosalution-purple-200);
 }
 
 a:active { 
   text-decoration: none;
-  color: var(--rosalution-purple-200)
-}
-
-/* 
-a {
-  color: var(--rosalution-purple-300);
-}
-
-a:hover {
-  color: var(--rosalution-purple-200);
-}
-
-a:active {
   color: var(--rosalution-purple-100);
-} */
+}
 
 input,
 textarea {

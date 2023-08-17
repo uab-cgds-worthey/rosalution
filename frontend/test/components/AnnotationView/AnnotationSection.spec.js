@@ -3,7 +3,7 @@ import {shallowMount} from '@vue/test-utils';
 
 import AnnotationSection from '@/components/AnnotationView/AnnotationSection.vue';
 
-import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import {FontAwesomeIcon, FontAwesomeLayers} from '@fortawesome/vue-fontawesome';
 
 /**
  * Helper that shallow mounts and returns the rendered component
@@ -20,6 +20,7 @@ function getMountedComponent(props) {
     global: {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
+        'font-awesome-layers': FontAwesomeLayers,
       },
     },
   });

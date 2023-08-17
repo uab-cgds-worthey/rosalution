@@ -9,6 +9,7 @@
       :activeGenomicUnits="this.active"
       :third_party_links="summary.third_party_links"
       @changed="this.onActiveGenomicUnitsChanged"
+      @logout="this.onLogout"
     >
     </AnnotationViewHeader>
   </app-header>
@@ -157,6 +158,9 @@ export default {
         ...datasetConfig.props,
         ...('linkout_dataset' in datasetConfig) && {linkout: this.annotations[datasetConfig['linkout_dataset']]},
       };
+    },
+    async onLogout() {
+      this.$router.push({name: 'logout'});
     },
     async getGenomicUnits() {
       this.genomicUnits = {...await Analyses.getGenomicUnits(this.analysis_name)};

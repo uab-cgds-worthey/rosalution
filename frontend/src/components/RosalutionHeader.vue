@@ -25,7 +25,7 @@
       <slot></slot>
       <ul class="actions-menu">
         <drop-down-menu :actions="this.userAuthActions" data-test="auth-menu">
-          <router-link :to="{path: '/rosalution/account'}">
+          <router-link :to="{path: '/rosalution/account'}" class="auth-menu">
             <span v-if="username" class="login" data-test="user-text">
               {{ username }}
             </span>
@@ -158,7 +158,7 @@ export default {
 header {
   display: flex;
   flex-direction: row;
-  gap: 15px;
+  gap: var(--p-16);
   background-color: var(--primary-background-color);
 }
 
@@ -203,11 +203,17 @@ header .left-content {
   color: var(--rosalution-purple-300);
   font-weight: 600;
   vertical-align: super;
+  white-space: nowrap;
 }
 
 .header-icon {
   color: var(--rosalution-purple-300);
   padding: var(--p-8);
+}
+
+.actions-menu {
+ display:flex;
+ flex-wrap: nowrap;
 }
 
 .actions-menu > li {
@@ -234,4 +240,10 @@ header .left-content {
   height: 1.25rem; /* 20px */
   transform: translate(-16px, 0);
 }
+
+.auth-menu {
+  display:flex;
+  align-items: center;
+}
+
 </style>

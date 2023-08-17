@@ -8,20 +8,29 @@
       <span class="rosalution-section-center" data-test="header-datasets">
         <slot name="headerDatasets"></slot>
       </span>
-      <button
+      <label
         v-if="allowAttach"
         class="attach-logo"
         @click="$emit('attach-image', attachmentDataset, genomicAttachmentType)"
         data-test="attach-logo"
       >
-        <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
-      </button>
-      <label class="collapsable-icon">
+        <font-awesome-layers font-awesome-layers class="fa-md">
+          <font-awesome-icon :icon="['fa', 'file-circle-plus']" />
+          <font-awesome-icon
+            transform="shrink-9.5 left-4.5 down-3"
+            inverse
+            :icon="['fa', 'mountain-sun']"
+          />
+        </font-awesome-layers>
+      </label>
+      <label class="collapsable-icon" v-bind:for="section_toggle">
         <font-awesome-icon icon="chevron-down" size="lg"/>
       </label>
     </div>
     <div class="rosalution-section-seperator"></div>
-    <slot></slot>
+    <div class="section-content">
+      <slot></slot>
+  </div>
   </div>
 </template>
 
@@ -76,6 +85,7 @@ export default {
   border: none;
   float: right;
   cursor: pointer;
+  margin-right: var(--p-8);
 }
 
 
@@ -83,15 +93,11 @@ input[type="checkbox"] {
   display: none;
 }
 
-.rosalution-section-container input[type="checkbox"]:checked ~ .field-value-row {
+.rosalution-section-container input[type="checkbox"]:checked ~ .section-content {
   display: none;
 }
 
-.rosalution-section-container input[type="checkbox"]:checked ~ img {
-  display: none;
-}
-
-input[type="checkbox"]:checked ~ tr > td > label.collapsable-logo {
+input[type="checkbox"]:checked ~ .rosalution-section-header > span ~ label.collapsable-icon {
   transform: scaleY(-1);
 }
 </style>
