@@ -8,14 +8,21 @@
       <span class="rosalution-section-center" data-test="header-datasets">
         <slot name="headerDatasets"></slot>
       </span>
-      <button
+      <label
         v-if="allowAttach"
         class="attach-logo"
         @click="$emit('attach-image', attachmentDataset, genomicAttachmentType)"
         data-test="attach-logo"
       >
-        <font-awesome-icon :icon="['fa', 'paperclip']" size="xl" />
-      </button>
+        <font-awesome-layers font-awesome-layers class="fa-md">
+          <font-awesome-icon :icon="['fa', 'file-circle-plus']" />
+          <font-awesome-icon
+            transform="shrink-9.5 left-4.5 down-3"
+            inverse
+            :icon="['fa', 'mountain-sun']"
+          />
+        </font-awesome-layers>
+      </label>
       <label class="collapsable-icon" v-bind:for="section_toggle">
         <font-awesome-icon icon="chevron-down" size="lg"/>
       </label>
@@ -78,6 +85,7 @@ export default {
   border: none;
   float: right;
   cursor: pointer;
+  margin-right: var(--p-8);
 }
 
 

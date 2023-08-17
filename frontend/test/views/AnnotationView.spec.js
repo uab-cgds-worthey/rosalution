@@ -17,7 +17,7 @@ import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
 
-import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import {FontAwesomeIcon, FontAwesomeLayers} from '@fortawesome/vue-fontawesome';
 
 
 /**
@@ -37,6 +37,7 @@ function getMountedComponent(props) {
     global: {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
+        'font-awesome-layers': FontAwesomeLayers,
       },
       mocks: {
         $route: mockRoute,
@@ -47,6 +48,7 @@ function getMountedComponent(props) {
       stubs: {
         AnnotationViewHeader: true,
         FontAwesomeIcon: true,
+        FontAwesomeLayers: true,
       },
     },
   });
