@@ -4,8 +4,10 @@
       <div class="gene-box-header">
         <router-link class="gene-link" :to="{
           name: 'annotation',
-          props: {
+          params: {
             analysis_name: this.name,
+          },
+          state: {
             gene: this.gene,
             ...(variants.length > 0 ? { variant: getCompleteHgvsVariantName(variants[0]) } : {}),
           }
@@ -15,18 +17,20 @@
         </router-link>
       </div>
       <div class="seperator-gene"></div>
-      <div v-for="variant in variants" :key="variant">
+      <div v-for="variant, index in variants" :key="variant">
         <div class="variant-sub-section"
           v-if="variant.c_dot && variant.c_dot.length > 0 || variant.p_dot && variant.p_dot.length > 0">
           <div class="variant-name-line">
             <router-link class="variant" :to="{
                 name: 'annotation',
-                props: {
+                params: {
                   analysis_name: this.name,
+                },
+                state: {
                   gene: this.gene,
                   variant: getCompleteHgvsVariantName(variant),
-                }
-              }" data-test="variant-route">
+                },
+              }" :data-test="`variant-route-${index}`">
               <font-awesome-icon icon="angles-right" size="sm" />
               <span class="variant-transcript">{{ variant.hgvs_variant.split(':')[0] }}:</span>
               <span>{{ variant.c_dot }}</span>

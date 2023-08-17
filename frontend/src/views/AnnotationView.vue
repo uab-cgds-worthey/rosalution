@@ -80,6 +80,7 @@ import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
 
 import {authStore} from '@/stores/authStore.js';
+import HistoryState from '@/historyState.js';
 
 export default {
   name: 'annotation-view',
@@ -103,16 +104,6 @@ export default {
       type: String,
       required: true,
     },
-    gene: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    variant: {
-      type: String,
-      required: false,
-      default: '',
-    },
   },
   data: function() {
     return {
@@ -120,8 +111,8 @@ export default {
       rendering: [],
       annotations: {},
       active: {
-        'gene': this.gene,
-        'variant': this.variant,
+        'gene': HistoryState.historyState().gene || '',
+        'variant': HistoryState.historyState().variant || '',
       },
       genomicUnits: {
         'genes': {},
@@ -151,7 +142,7 @@ export default {
       this.summary = await Analyses.getSummaryByName(this.analysis_name);
     },
     sectionHeader(header) {
-      return header in this ? this.active[header] : header;
+      return header in this.active ? this.active[header] : header;
     },
     buildProps(datasetConfig) {
       return {
@@ -307,13 +298,14 @@ app-header {
 .sections {
   display: flex;
   flex-direction: column;
+  flex: 1
 }
 
 .sidebar {
   position: sticky;
   height: 90vh;
   top: 4rem;
-  flex: 1 0 12.5rem;
+  flex: 0 0 12.5rem;
 }
 
 </style>
