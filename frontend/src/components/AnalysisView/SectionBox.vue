@@ -25,7 +25,7 @@
           <font-awesome-icon icon="pencil" size="lg" />
         </label>
         <label v-else class="collapsable-icon" v-bind:for="section_toggle">
-          <font-awesome-icon icon="chevron-down" size="lg" />
+          <font-awesome-icon icon="chevron-down" size="lg" :data-test="`collapsable-icon-${header}`" />
         </label>
         </span>
       </div>

@@ -121,7 +121,7 @@ describe('SectionBox.vue', () => {
 
     it('shows collapsable logo when edit mode is not toggled', () => {
       const wrapper = getMountedComponent();
-      const collapsableLogo = wrapper.find('[class=collapsable-logo]');
+      const collapsableLogo = wrapper.find('[class=collapsable-icon]');
       expect(collapsableLogo.exists()).to.be.true;
     });
 
