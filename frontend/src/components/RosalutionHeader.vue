@@ -138,9 +138,9 @@ export default {
   methods: {
     getIconSrc(linkType) {
       if (linkType === 'monday_com') {
-        return '/src/assets/monday-avatar-logo.svg';
+        return new URL('/src/assets/monday-avatar-logo.svg', import.meta.url);
       } else if (linkType === 'phenotips_com') {
-        return '/src/assets/phenotips-favicon-96x96.png';
+        return new URL('/src/assets/phenotips-favicon-96x96.png', import.meta.url);
       }
     },
     getIconClass(linkType) {

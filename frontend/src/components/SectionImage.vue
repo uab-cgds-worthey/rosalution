@@ -48,7 +48,7 @@ export default {
   },
   data() {
     return {
-      imageSrc: '/src/assets/rosalution-logo.svg',
+      imageSrc: new URL('/src/assets/rosalution-logo.svg', import.meta.url),
     };
   },
   created() {
