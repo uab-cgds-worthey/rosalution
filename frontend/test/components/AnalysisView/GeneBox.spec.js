@@ -127,7 +127,7 @@ describe('GeneBox.vue', () => {
     expect(gene.props('to').state.gene).to.equal('LMNA');
   });
 
-  it.only('should route to annotations for a variant in the anlaysis', async () => {
+  it('should route to annotations for a variant in the anlaysis', async () => {
     const wrapper = getMountedComponent();
     const variant = wrapper.findComponent('[data-test=variant-route-0]');
     expect(variant.props('to').name).to.equal('annotation');
