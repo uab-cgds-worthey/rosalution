@@ -203,6 +203,7 @@ header .left-content {
   color: var(--rosalution-purple-300);
   font-weight: 600;
   vertical-align: super;
+  white-space: nowrap;
 }
 
 .header-icon {
