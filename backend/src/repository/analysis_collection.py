@@ -5,6 +5,7 @@ from uuid import uuid4
 
 from pymongo import ReturnDocument
 from ..models.event import Event
+from ..enums import EventType
 
 # pylint: disable=too-few-public-methods
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
@@ -358,15 +359,13 @@ class AnalysisCollection:
 
         return updated_document
 
-    def mark_ready(self, analysis_name: str, username: str):
-        """ Marks an analysis as ready """
+    def update_event(self, analysis_name: str, username: str, event_type: EventType):
+        """ Updates analysis status """
         analysis = self.collection.find_one({"name": analysis_name})
         if not analysis:
             raise ValueError(f"Analysis with name {analysis_name} does not exist.")
-        for event in analysis['timeline']:
-            if event['event'] == 'ready':
-                raise ValueError(f"Analysis {analysis_name} is already marked as ready!")
-        analysis['timeline'].append(Event.timestamp_ready_event(username).dict())
+       
+        analysis['timeline'].append(Event.timestamp_event(username, event_type).dict())
 
         updated_document = self.collection.find_one_and_update(
             {"name": analysis_name},

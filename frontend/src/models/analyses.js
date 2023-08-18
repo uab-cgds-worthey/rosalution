@@ -32,14 +32,14 @@ export default {
   },
 
   async markAnalysisReady(analysisName) {
-    const url = `/rosalution/api/analysis/${analysisName}/mark_ready`;
+    const url = `/rosalution/api/analysis/${analysisName}/event/ready`;
     return await Requests.put(url);
   },
 
   async markAnalysisActive(analysisName) {
-    // const url = `/rosalution/api/analysis/${analysisName}/mark_active`;
-    // return await Requests.put(url);
-    console.warn('Mark analysis active does not exist yet');
+    const url = `/rosalution/api/analysis/${analysisName}/event/opened`;
+    return await Requests.put(url);
+    // console.warn('Mark analysis active does not exist yet');
     //  ** Not implemented yet **
   },
 
