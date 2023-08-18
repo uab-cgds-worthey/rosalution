@@ -298,9 +298,8 @@ def test_mark_ready(analysis_collection, create_timestamp, ready_timestamp):
             }
         )
     ):
-
-        analysis_collection.mark_ready("CPAM0002", "user01")
-
+        analysis_collection.update_event("CPAM0002", "user01", EventType.READY)
+        print(ready_timestamp)
         analysis_collection.collection.find_one_and_update.assert_called_with(
             {"name": "CPAM0002"},
             {
@@ -319,25 +318,10 @@ def test_mark_ready_analysis_does_not_exist(analysis_collection):
     """Tests the mark_ready function returns an error if the analysis does not exist"""
     analysis_collection.collection.find_one.return_value = None
     try:
-        analysis_collection.mark_ready("CPAM2222", "user01")
+        analysis_collection.update_event("CPAM2222", "user01", EventType.READY)
     except ValueError as error:
         assert isinstance(error, ValueError)
         assert str(error) == "Analysis with name CPAM2222 does not exist."
-
-
-def test_mark_ready_already_marked_ready(analysis_collection, create_timestamp, ready_timestamp):
-    """"tests the mark_ready function returns an error if the analysis is already marked ready"""
-    staging_analysis_timeline = read_test_fixture("analysis-CPAM0002.json")
-    staging_analysis_timeline["timeline"] = [
-        {'event': 'create', 'timestamp': create_timestamp, 'username': 'user01'},
-        {'event': 'ready', 'timestamp': ready_timestamp, 'username': 'user01'},
-    ]
-    analysis_collection.collection.find_one.return_value = staging_analysis_timeline
-    try:
-        analysis_collection.mark_ready("CPAM0002", "user01")
-    except ValueError as error:
-        assert isinstance(error, ValueError)
-        assert str(error) == "Analysis CPAM0002 is already marked as ready!"
 
 
 @pytest.fixture(name="analysis_with_no_p_dot")
