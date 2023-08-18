@@ -39,8 +39,6 @@ export default {
   async markAnalysisActive(analysisName) {
     const url = `/rosalution/api/analysis/${analysisName}/event/opened`;
     return await Requests.put(url);
-    // console.warn('Mark analysis active does not exist yet');
-    //  ** Not implemented yet **
   },
 
   async getAnnotationConfiguration(analysisName) {
