@@ -123,17 +123,16 @@ describe('GeneBox.vue', () => {
     const gene = wrapper.findComponent('[data-test=gene-route]');
 
     expect(gene.props('to').name).to.equal('annotation');
-    expect(gene.props('to').props.analysis_name).to.equal('CPAM0046');
-    expect(gene.props('to').props.gene).to.equal('LMNA');
+    expect(gene.props('to').params.analysis_name).to.equal('CPAM0046');
+    expect(gene.props('to').state.gene).to.equal('LMNA');
   });
 
   it('should route to annotations for a variant in the anlaysis', async () => {
     const wrapper = getMountedComponent();
-    const variant = wrapper.findComponent('[data-test=variant-route]');
-
+    const variant = wrapper.findComponent('[data-test=variant-route-0]');
     expect(variant.props('to').name).to.equal('annotation');
-    expect(variant.props('to').props.analysis_name).to.equal('CPAM0046');
-    expect(variant.props('to').props.gene).to.equal('LMNA');
-    expect(variant.props('to').props.variant).to.equal('NM_170707.3:c.745C>T(p.R249W)');
+    expect(variant.props('to').params.analysis_name).to.equal('CPAM0046');
+    expect(variant.props('to').state.gene).to.equal('LMNA');
+    expect(variant.props('to').state.variant).to.equal('NM_170707.3:c.745C>T(p.R249W)');
   });
 });
