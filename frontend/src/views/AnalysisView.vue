@@ -151,7 +151,7 @@ export default {
           text: 'Mark Active',
           operation: () => {
             Analyses.markAnalysisActive(this.analysis_name);
-            toast.info('The Mark Ready feature is not yet implemented.');
+            toast.success('Analysis marked as Active.');
           },
         });
       }
