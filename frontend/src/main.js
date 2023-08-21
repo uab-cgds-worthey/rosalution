@@ -5,6 +5,7 @@ import App from './App.vue';
 import LoginView from './views/LoginView.vue';
 import LogoutView from './views/LogoutView.vue';
 import AnalysisListingView from './views/AnalysisListingView.vue';
+import FileView from './views/FileView.vue';
 import NotFoundView from './views/NotFound.vue';
 import AccountView from './views/AccountView.vue';
 import AnalysisView from './views/AnalysisView.vue';
@@ -44,6 +45,7 @@ const routes = [
   {path: '/rosalution', component: AnalysisListingView},
   {path: '/rosalution/account', name: 'account', component: AccountView},
   {path: '/rosalution/analysis/:analysis_name', name: 'analysis', component: AnalysisView, props: true},
+  {path: '/rosalution/analysis/file/:file_id', name: 'file', component: FileView, props: true},
   {path: '/rosalution/analysis/:analysis_name/annotation/', name: 'annotation', component: AnnotationView, props: true},
   {path: '/rosalution/logout', name: 'logout', component: LogoutView},
   {path: '/:pathMatch(.*)', component: NotFoundView},

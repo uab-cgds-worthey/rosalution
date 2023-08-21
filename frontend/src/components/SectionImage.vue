@@ -1,11 +1,13 @@
 <template>
     <div class="image-row">
-      <a :href="domId">
+      <router-link :to="{
+        name: 'file',
+        params: {
+          file_id: imageId,
+        },
+      }" target="_blank" rel="noreferrer noopener">
         <img class="section-image" :src="imageSrc" data-test="annotation-image" :id="imageId"/>
-      </a>
-      <a href="#_" class="lightbox" :id="imageId">
-        <span :style="{backgroundImage: `url(${this.imageSrc})`}"></span>
-      </a>
+      </router-link>
       <!-- TODO: Since both AnalysisView and AnnotationView are using this component,
         change the emit to be update-image -->
         <button v-if="this.writePermissions"
@@ -39,11 +41,6 @@ export default {
     writePermissions: {
       type: Boolean,
       default: false,
-    },
-  },
-  computed: {
-    domId() {
-      return `#${this.imageId}`;
     },
   },
   data() {
