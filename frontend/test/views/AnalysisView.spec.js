@@ -196,8 +196,8 @@ describe('AnalysisView', () => {
       await triggerAction(wrapper, 'Mark Active');
 
       expect(toast.state.active).to.be.true;
-      expect(toast.state.type).to.equal('info');
-      expect(toast.state.message).to.equal('The Mark Ready feature is not yet implemented.');
+      expect(toast.state.type).to.equal('success');
+      expect(toast.state.message).to.equal('Analysis marked as Active.');
     });
 
     it('should display info toast with correct message when entering edit mode', async () => {
