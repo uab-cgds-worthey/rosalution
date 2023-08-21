@@ -35,7 +35,7 @@ class EventType(str, Enum):
 
 
 class StatusType(str, Enum):
-    """Enumeration of the diferent statuses for an analyses"""
+    """Enumeration of the different statuses for an analyses"""
 
     ANNOTATION = "Annotation"
     READY = "Ready"
