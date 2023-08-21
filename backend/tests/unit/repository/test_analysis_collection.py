@@ -289,7 +289,7 @@ def test_mark_ready(analysis_collection, create_timestamp, ready_timestamp):
     }]
     analysis_collection.collection.find_one.return_value = staging_analysis_timeline
     with patch(
-        "src.models.event.Event.timestamp_ready_event",
+        "src.models.event.Event.timestamp_event",
         return_value=Event(
             **{
                 'event': EventType.READY,
