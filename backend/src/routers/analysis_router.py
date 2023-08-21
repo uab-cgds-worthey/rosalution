@@ -17,7 +17,7 @@ from ..core.phenotips_importer import PhenotipsImporter
 from ..dependencies import database, annotation_queue
 from ..models.analysis import Analysis, AnalysisSummary
 from ..models.event import Event
-from ..enums import ThirdPartyLinkType
+from ..enums import ThirdPartyLinkType, EventType
 from ..models.phenotips_json import BasePhenotips
 from ..models.user import VerifyUser
 from ..security.security import get_authorization, get_current_user
@@ -91,16 +91,18 @@ async def create_file(
     return new_analysis
 
 
-@router.put("/{analysis_name}/mark_ready", response_model=Analysis)
-def mark_ready(
+@router.put("/{analysis_name}/event/{event_type}", response_model=Analysis)
+def update_event(
     analysis_name: str,
+    event_type: EventType,
     repositories=Depends(database),
     username: VerifyUser = Security(get_current_user),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+    authorized=Security(get_authorization, scopes=["write"]),  #pylint: disable=unused-argument
 ):
-    """ Marks an analysis as ready for review """
+    """ Updates analysis status """
+
     try:
-        return repositories["analysis"].mark_ready(analysis_name, username)
+        return repositories["analysis"].update_event(analysis_name, username, event_type)
     except ValueError as exception:
         raise HTTPException(status_code=409, detail=str(exception)) from exception
 

@@ -351,7 +351,7 @@ def test_attach_third_party_link_invalid_enum(client, mock_access_token, mock_re
 
 
 def test_mark_ready(client, mock_access_token, mock_repositories):
-    """ Testing the mark ready endpoint """
+    """ Testing the update analysis event endpoint """
     staging_analysis_timeline = read_test_fixture("analysis-CPAM0002.json")
     staging_analysis_timeline["timeline"] = [{
         'event': 'create',
@@ -376,7 +376,7 @@ def test_mark_ready(client, mock_access_token, mock_repositories):
 
     mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
 
-    response = client.put("/analysis/CPAM0002/mark_ready", headers={"Authorization": "Bearer " + mock_access_token})
+    response = client.put("/analysis/CPAM0002/event/ready", headers={"Authorization": "Bearer " + mock_access_token})
 
     assert response.status_code == 200
 
@@ -385,34 +385,10 @@ def test_mark_ready_analysis_does_not_exist(client, mock_access_token, mock_repo
     """ Testing the mark ready endpoint """
     mock_repositories["analysis"].collection.find_one.return_value = None
 
-    response = client.put("/analysis/CPAM2222/mark_ready", headers={"Authorization": "Bearer " + mock_access_token})
+    response = client.put("/analysis/CPAM2222/event/ready", headers={"Authorization": "Bearer " + mock_access_token})
 
     assert response.status_code == 409
     assert response.json() == {'detail': 'Analysis with name CPAM2222 does not exist.'}
-
-
-def test_mark_ready_analysis_already_ready(client, mock_access_token, mock_repositories):
-    """ Testing the mark ready endpoint """
-    staging_analysis_timeline = read_test_fixture("analysis-CPAM0002.json")
-    staging_analysis_timeline["timeline"] = [
-        {
-            'event': 'create',
-            'timestamp': '2022-11-10T16:52:43.910000',
-            'username': 'johndoe',
-        },
-        {
-            'event': 'ready',
-            'timestamp': '2022-11-10T16:52:52.301003',
-            'username': 'johndoe',
-        },
-    ]
-
-    mock_repositories["analysis"].collection.find_one.return_value = staging_analysis_timeline
-
-    response = client.put("/analysis/CPAM0002/mark_ready", headers={"Authorization": "Bearer " + mock_access_token})
-
-    assert response.status_code == 409
-    assert response.json() == {'detail': 'Analysis CPAM0002 is already marked as ready!'}
 
 
 @pytest.fixture(name="analysis_updates_json")
