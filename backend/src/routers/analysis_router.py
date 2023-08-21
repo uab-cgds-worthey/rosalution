@@ -17,7 +17,7 @@ from ..core.phenotips_importer import PhenotipsImporter
 from ..dependencies import database, annotation_queue
 from ..models.analysis import Analysis, AnalysisSummary
 from ..models.event import Event
-from ..enums import ThirdPartyLinkType, EventType, StatusType
+from ..enums import ThirdPartyLinkType, EventType
 from ..models.phenotips_json import BasePhenotips
 from ..models.user import VerifyUser
 from ..security.security import get_authorization, get_current_user
@@ -105,9 +105,6 @@ def update_event(
         return repositories["analysis"].update_event(analysis_name, username, event_type)
     except ValueError as exception:
         raise HTTPException(status_code=409, detail=str(exception)) from exception
-    
-
-
 
 @router.put("/{analysis_name}/update/sections", response_model=Analysis)
 def update_analysis_sections(
