@@ -390,6 +390,7 @@ def test_mark_ready_analysis_does_not_exist(client, mock_access_token, mock_repo
     assert response.status_code == 409
     assert response.json() == {'detail': 'Analysis with name CPAM2222 does not exist.'}
 
+
 @pytest.fixture(name="analysis_updates_json")
 def fixture_analysis_updates_json():
     """The JSON that is being sent from a client to the endpoint with updates in it"""

@@ -106,6 +106,7 @@ def update_event(
     except ValueError as exception:
         raise HTTPException(status_code=409, detail=str(exception)) from exception
 
+
 @router.put("/{analysis_name}/update/sections", response_model=Analysis)
 def update_analysis_sections(
     analysis_name: str,
