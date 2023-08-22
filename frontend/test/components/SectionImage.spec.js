@@ -1,11 +1,13 @@
 import {expect, describe, it, beforeAll, afterAll} from 'vitest';
-import {shallowMount} from '@vue/test-utils';
+import {config, shallowMount} from '@vue/test-utils';
 
 import FileRequests from '@/fileRequests.js';
 
 import SectionImage from '@/components/SectionImage.vue';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import {RouterLink} from 'vue-router';
+
 import sinon from 'sinon';
 
 /**
@@ -25,10 +27,20 @@ function getMountedComponent(propsData) {
     global: {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
+        'router-link': RouterLink,
       },
     },
   });
 }
+
+
+beforeAll(() => {
+  config.global.renderStubDefaultSlot = true;
+});
+
+afterAll(() => {
+  config.global.renderStubDefaultSlot = false;
+});
 
 describe('SectionImage.vue', () => {
   let sandbox;

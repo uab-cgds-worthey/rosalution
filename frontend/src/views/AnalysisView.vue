@@ -141,17 +141,36 @@ export default {
         prependingActions.push({
           icon: 'clipboard-check',
           text: 'Mark Ready',
-          operation: this.markReady,
+          operation: () => {
+            this.pushAnalysisEvent(Analyses.EventType.READY);
+          },
         });
-      }
-
-      if (this.analysis.latest_status === 'Ready') {
+      } else if (this.analysis.latest_status === 'Ready') {
         prependingActions.push({
           icon: 'book-open',
           text: 'Mark Active',
           operation: () => {
-            Analyses.markAnalysisActive(this.analysis_name);
-            toast.success('Analysis marked as Active.');
+            this.pushAnalysisEvent(Analyses.EventType.OPEN);
+          },
+        });
+      } else {
+        prependingActions.push({
+          icon: 'check',
+          text: 'Approve',
+          operation: () => {
+            this.pushAnalysisEvent(Analyses.EventType.APPROVE);
+          },
+        }, {
+          icon: 'pause',
+          text: 'Hold',
+          operation: () => {
+            this.pushAnalysisEvent(Analyses.EventType.HOLD);
+          },
+        }, {
+          icon: 'x',
+          text: 'Decline',
+          operation: () => {
+            this.pushAnalysisEvent(Analyses.EventType.DECLINE);
           },
         });
       }
@@ -465,13 +484,13 @@ export default {
         console.error('Updating the analysis did not work', error);
       }
     },
-    async markReady() {
+    async pushAnalysisEvent(eventType) {
       try {
-        const updatedAnalysis = await Analyses.markAnalysisReady(this.analysis_name);
+        const updatedAnalysis = await Analyses.pushAnalysisEvent(this.analysis_name, eventType);
         this.analysis = {...this.analysis, ...updatedAnalysis};
-        toast.success('Analysis marked as ready.');
+        toast.success(`Analysis event '${eventType}' successful.`);
       } catch (error) {
-        toast.error('Error marking analysis as ready.');
+        toast.error(`Error updating the event '${eventType}'.`);
       }
     },
   },
