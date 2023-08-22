@@ -87,7 +87,6 @@ describe('AnalysisView', () => {
   let mockedRemoveSupportingEvidence;
   let mockedAttachThirdPartyLink;
   let markReadyMock;
-  let markActiveMock;
   let updateAnalysisSectionsMock;
   let mockAuthWritePermissions;
   let wrapper;
