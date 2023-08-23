@@ -151,7 +151,7 @@ describe('case_supporting_evidence.cy.js', () => {
     cy.get('.attachment-list').should('have.length', 0);
   });
 
-  it('should fail to attach the same supporting evidence file twice to the same analysis', () => {
+  it('should be able to attach the same supporting evidence file twice to the same analysis', () => {
     cy.get('#Supporting_Evidence').should('exist');
     cy.get('.attachment-list').should('have.length', 0);
     cy.get('[data-test="add-button"]').click();
@@ -172,7 +172,7 @@ describe('case_supporting_evidence.cy.js', () => {
     });
     cy.get('.comments').type('this is a test comment for a test file');
     cy.get('[data-test="confirm"]').click();
-    cy.get('.attachment-list').should('have.length', 1);
+    cy.get('.attachment-list').should('have.length', 2);
   });
 
   it('should be able to attach the same supporting evidence file to different analyses', () => {

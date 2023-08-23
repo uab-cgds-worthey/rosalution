@@ -213,8 +213,6 @@ def attach_supporting_evidence_file(
     analysis_name: str, upload_file: UploadFile = File(...), comments: str = Form(...), repositories=Depends(database)
 ):
     """Uploads a file to GridFS and adds it to the analysis"""
-    if bool(repositories["analysis"].find_file_by_name(analysis_name, upload_file.filename)):
-        raise HTTPException(status_code=409, detail="File with the same name already exists in the given analysis")
 
     new_file_object_id = repositories['bucket'].save_file(
         upload_file.file, upload_file.filename, upload_file.content_type
