@@ -74,6 +74,7 @@ import notificationDialog from '@/notificationDialog.js';
 import toast from '@/toast.js';
 
 import {authStore} from '@/stores/authStore.js';
+import {StatusType} from '@/enums.js';
 
 export default {
   name: 'analysis-view',
@@ -137,7 +138,7 @@ export default {
         },
       });
 
-      if (this.analysis.latest_status === 'Annotation') {
+      if (this.analysis.latest_status === StatusType.PREPARATION) {
         prependingActions.push({
           icon: 'clipboard-check',
           text: 'Mark Ready',
@@ -145,7 +146,7 @@ export default {
             this.pushAnalysisEvent(Analyses.EventType.READY);
           },
         });
-      } else if (this.analysis.latest_status === 'Ready') {
+      } else if (this.analysis.latest_status === StatusType.READY) {
         prependingActions.push({
           icon: 'book-open',
           text: 'Mark Active',
@@ -409,6 +410,7 @@ export default {
       );
       this.analysis.sections.splice(0);
       this.analysis.sections.push(...updatedAnalysis.sections);
+      location.reload();
       this.updatedContent = {};
       this.edit = false;
       toast.success('Analysis updated successfully.');

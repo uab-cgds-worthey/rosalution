@@ -42,6 +42,7 @@
 
 <script>
 import DropDownMenu from '@/components/DropDownMenu.vue';
+import {StatusType} from '@/enums.js';
 
 export default {
   name: 'rosalution-header-component',
@@ -96,34 +97,34 @@ export default {
       return typeof(this.titleToRoute) !== 'undefined';
     },
     workflowIcon: function() {
-      if (this.workflow_status == 'Annotation') {
+      if (this.workflow_status == StatusType.PREPARATION) {
         return 'asterisk';
-      } else if (this.workflow_status == 'Ready') {
+      } else if (this.workflow_status == StatusType.READY) {
         return 'clipboard-check';
-      } else if (this.workflow_status == 'Active') {
+      } else if (this.workflow_status == StatusType.ACTIVE) {
         return 'book-open';
-      } else if (this.workflow_status == 'Approved') {
+      } else if (this.workflow_status == StatusType.APPROVED) {
         return 'check';
-      } else if (this.workflow_status == 'On-Hold') {
+      } else if (this.workflow_status == StatusType.ON_HOLD) {
         return 'pause';
-      } else if (this.workflow_status == 'Declined') {
+      } else if (this.workflow_status == StatusType.DECLINED) {
         return 'x';
       }
 
       return 'question';
     },
     workflowColor: function() {
-      if (this.workflow_status == 'Annotation') {
+      if (this.workflow_status == StatusType.PREPARATION) {
         return '--rosalution-status-annotation';
-      } else if (this.workflow_status == 'Ready') {
+      } else if (this.workflow_status == StatusType.READY) {
         return '--rosalution-status-ready';
-      } else if (this.workflow_status == 'Active') {
+      } else if (this.workflow_status == StatusType.ACTIVE) {
         return '--rosalution-status-active';
-      } else if (this.workflow_status == 'Approved') {
+      } else if (this.workflow_status == StatusType.APPROVED) {
         return '--rosalution-status-approved';
-      } else if (this.workflow_status == 'On-Hold') {
+      } else if (this.workflow_status == StatusType.ON_HOLD) {
         return '--rosalution-status-on-hold';
-      } else if (this.workflow_status == 'Declined') {
+      } else if (this.workflow_status == StatusType.DECLINED) {
         return '--rosalution-status-declined';
       }
 

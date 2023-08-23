@@ -53,6 +53,11 @@
             "type": "section-text",
             "field": "Phenotype",
             "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Decision",
+            "value": []
           }
         ]
       },
@@ -194,22 +199,22 @@
       {
         "event": "create",
         "timestamp": "2022-10-09T21:13:22.687000",
-        "username": "user06"
+        "username": "vrr-prep"
       },
       {
         "event": "ready",
         "timestamp": "2022-10-09T21:14:22.687000",
-        "username": "user06"
+        "username": "vrr-prep"
       },
       {
         "event": "opened",
         "timestamp": "2022-10-09T21:15:22.687000",
-        "username": "user06"
+        "username": "vrr-prep"
       },
       {
         "event": "approve",
         "timestamp": "2022-10-09T21:16:22.687000",
-        "username": "user06"
+        "username": "vrr-prep"
       }
     ]
   },
@@ -254,17 +259,25 @@
         "header": "Brief",
         "content": [
           {
+            "type": "section-text",
             "field": "Nominator",
             "value": [
               "Dr. Person Two (Local) - working with Dr. Person Three in Person Four Lab"
             ]
           },
           {
+            "type": "section-text",
             "field": "Participant",
             "value": ["Male, YOB: 2019"]
           },
           {
+            "type": "section-text",
             "field": "Phenotype",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Decision",
             "value": []
           }
         ]
@@ -406,22 +419,22 @@
       {
         "event": "create",
         "timestamp": "2022-10-09T21:13:22.687000",
-        "username": "user06"
+        "username": "vrr-prep"
       },
       {
         "event": "ready",
         "timestamp": "2022-10-09T21:14:22.687000",
-        "username": "user06"
+        "username": "vrr-prep"
       },
       {
         "event": "opened",
         "timestamp": "2022-10-09T21:15:22.687000",
-        "username": "user06"
+        "username": "vrr-prep"
       },
       {
         "event": "approve",
         "timestamp": "2022-10-09T21:16:22.687000",
-        "username": "user06"
+        "username": "vrr-prep"
       }
     ]
   },
@@ -472,6 +485,11 @@
           {
             "type": "section-text",
             "field": "Phenotype",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Decision",
             "value": []
           }
         ]
@@ -591,22 +609,22 @@
       {
         "event": "create",
         "timestamp": "2022-10-09T21:13:22.687000",
-        "username": "user06"
+        "username": "vrr-prep"
       },
       {
         "event": "ready",
         "timestamp": "2022-10-09T21:14:22.687000",
-        "username": "user06"
+        "username": "vrr-prep"
       },
       {
         "event": "opened",
         "timestamp": "2022-10-09T21:15:22.687000",
-        "username": "user06"
+        "username": "vrr-prep"
       },
       {
         "event": "decline",
         "timestamp": "2022-10-09T21:16:22.687000",
-        "username": "user06"
+        "username": "vrr-prep"
       }
     ]
   },
@@ -692,6 +710,11 @@
             "type": "section-text",
             "field": "Phenotype",
             "value": ["Postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus "]
+          },
+          {
+            "type": "section-text",
+            "field": "Decision",
+            "value": []
           }
         ]
       },
@@ -829,12 +852,12 @@
       {
         "event": "create",
         "timestamp": "2022-10-09T21:13:22.687000",
-        "username": "user06"
+        "username": "vrr-prep"
       },
       {
         "event": "ready",
         "timestamp": "2022-10-09T21:14:22.687000",
-        "username": "user06"
+        "username": "vrr-prep"
       }
     ]
   },
@@ -885,6 +908,11 @@
           {
             "type": "section-text",
             "field": "Phenotype",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Decision",
             "value": []
           }
         ]
@@ -1008,22 +1036,22 @@
       {
         "event": "create",
         "timestamp": "2022-11-09T21:13:22.687001",
-        "username": "user06"
+        "username": "vrr-prep"
       },
       {
         "event": "ready",
         "timestamp": "2022-11-09T21:13:22.687002",
-        "username": "user06"
+        "username": "vrr-prep"
       },
       {
         "event": "opened",
         "timestamp": "2022-11-09T21:13:22.687003",
-        "username": "user06"
+        "username": "vrr-prep"
       },
       {
         "event": "decline",
         "timestamp": "2022-11-09T21:13:22.687004",
-        "username": "user06"
+        "username": "vrr-prep"
       }
     ]
   },
@@ -1035,7 +1063,7 @@
       {
         "event": "create",
         "timestamp": "2023-05-09T19:10:31.369000",
-        "username": "umkpw123enzl1lklhlhiegbi073ry45l"
+        "username": "developer"
       }
     ],
     "third_party_links": [],
@@ -1136,6 +1164,16 @@
           {
             "type": "section-text",
             "field": "Phenotype",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Decision",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Decision",
             "value": []
           }
         ]

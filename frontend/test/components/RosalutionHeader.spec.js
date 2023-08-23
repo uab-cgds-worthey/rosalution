@@ -106,7 +106,7 @@ describe('RosalutionHeaderComponent.vue', () => {
   it('should display the proper workflow icon based on the workflow_status prop', () => {
     [
       {
-        workflow_status: 'Annotation',
+        workflow_status: 'Preparation',
         expected: 'asterisk',
       },
       {
@@ -127,7 +127,7 @@ describe('RosalutionHeaderComponent.vue', () => {
   it('should display the proper workflow color based on the workflow_status prop', () => {
     [
       {
-        workflow_status: 'Annotation',
+        workflow_status: 'Preparation',
         expected: 'color: var(--rosalution-status-annotation);',
       },
       {

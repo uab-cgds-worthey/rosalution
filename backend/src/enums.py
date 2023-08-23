@@ -26,7 +26,6 @@ class EventType(str, Enum):
     """Enumeration of the different events for an analyses"""
 
     CREATE = 'create'
-    ANNOTATION_START = 'annotation_start'
     READY = 'ready'
     OPENED = 'opened'
     APPROVE = 'approve'
@@ -37,7 +36,7 @@ class EventType(str, Enum):
 class StatusType(str, Enum):
     """Enumeration of the different statuses for an analyses"""
 
-    ANNOTATION = "Annotation"
+    PREPARATION = "Preparation"
     READY = "Ready"
     ACTIVE = "Active"
     APPROVED = "Approved"
@@ -47,7 +46,7 @@ class StatusType(str, Enum):
     @classmethod
     def from_event(cls, event):
         """Takes an event from an analysis time and returns the status"""
-        event_text = "Annotation"
+        event_text = "Preparation"
 
         if event == EventType.READY:
             event_text = "Ready"

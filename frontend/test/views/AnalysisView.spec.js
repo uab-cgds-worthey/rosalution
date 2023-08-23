@@ -148,7 +148,7 @@ describe('AnalysisView', () => {
     });
 
     it('should mark an analysis as ready', async () => {
-      const wrapper = await getMockedWrapper('Annotation', mockedData);
+      const wrapper = await getMockedWrapper('Preparation', mockedData);
 
       await triggerAction(wrapper, 'Mark Ready');
 
@@ -156,7 +156,7 @@ describe('AnalysisView', () => {
     });
 
     it('should display success toast with correct message when marking analysis as ready', async () => {
-      const wrapper = await getMockedWrapper('Annotation', mockedData);
+      const wrapper = await getMockedWrapper('Preparation', mockedData);
 
       await triggerAction(wrapper, 'Mark Ready');
 
@@ -166,7 +166,7 @@ describe('AnalysisView', () => {
     });
 
     it('should display error toast with correct message when marking analysis as ready fails', async () => {
-      const wrapper = await getMockedWrapper('Annotation', mockedData);
+      const wrapper = await getMockedWrapper('Preparation', mockedData);
       const error = new Error('Error updating the event \'ready\'.');
       markReadyMock.throws(error);
 

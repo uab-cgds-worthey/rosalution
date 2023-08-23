@@ -54,6 +54,9 @@
 </template>
 
 <script>
+
+import {StatusType} from '@/enums.js';
+
 export default {
   name: 'analysis-card',
   components: {},
@@ -90,34 +93,34 @@ export default {
   },
   computed: {
     workflowIcon: function() {
-      if (this.latest_status == 'Annotation') {
+      if (this.latest_status == StatusType.PREPARATION) {
         return 'asterisk';
-      } else if (this.latest_status == 'Ready') {
+      } else if (this.latest_status == StatusType.READY) {
         return 'clipboard-check';
-      } else if (this.latest_status == 'Active') {
+      } else if (this.latest_status == StatusType.ACTIVE) {
         return 'book-open';
-      } else if (this.latest_status == 'Approved') {
+      } else if (this.latest_status == StatusType.APPROVED) {
         return 'check';
-      } else if (this.latest_status == 'On-Hold') {
+      } else if (this.latest_status == StatusType.ON_HOLD) {
         return 'pause';
-      } else if (this.latest_status == 'Declined') {
+      } else if (this.latest_status == StatusType.DECLINED) {
         return 'x';
       }
 
       return 'question';
     },
     workflowColor: function() {
-      if (this.latest_status == 'Annotation') {
+      if (this.latest_status == StatusType.PREPARATION) {
         return '--rosalution-status-annotation';
-      } else if (this.latest_status == 'Ready') {
+      } else if (this.latest_status == StatusType.READY) {
         return '--rosalution-status-ready';
-      } else if (this.latest_status == 'Active') {
+      } else if (this.latest_status == StatusType.ACTIVE) {
         return '--rosalution-status-active';
-      } else if (this.latest_status == 'Approved') {
+      } else if (this.latest_status == StatusType.APPROVED) {
         return '--rosalution-status-approved';
-      } else if (this.latest_status == 'On-Hold') {
+      } else if (this.latest_status == StatusType.ON_HOLD) {
         return '--rosalution-status-on-hold';
-      } else if (this.latest_status == 'Declined') {
+      } else if (this.latest_status == StatusType.DECLINED) {
         return '--rosalution-status-declined';
       }
 

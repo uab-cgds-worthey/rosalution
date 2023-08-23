@@ -1,14 +1,9 @@
+import {EventType} from '@/enums.js';
 import Requests from '@/requests.js';
 
 export default {
 
-  EventType: Object.freeze({
-    READY: 'ready',
-    OPEN: 'opened',
-    APPROVE: 'approve',
-    HOLD: 'hold',
-    DECLINE: 'decline',
-  }),
+  EventType,
 
   async all() {
     const baseUrl = '/rosalution/api/';
