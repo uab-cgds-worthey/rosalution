@@ -14,7 +14,7 @@ describe('Rosalution home', () => {
         .find('.case-name').click();
 
     cy.get('.grey-rounded-menu').invoke('attr', 'style', 'display: block; visibility: visible; opacity: 1;');
-    cy.get('[data-test="user-menu"] > .grey-rounded-menu > :nth-child(4)').contains('Attach Monday.com').click();
+    cy.get('[data-test="user-menu"] > .grey-rounded-menu > :nth-child(7)').contains('Attach Monday.com').click();
     cy.get('.grey-rounded-menu').invoke('attr', 'style', 'display: block; visibility: hidden; opacity: 0;');
     cy.get('[data-test="link-input"]').type('https://www.monday.com');
     cy.get('[data-test="confirm"]').click();

@@ -6,12 +6,3 @@ export const EventType = Object.freeze({
   HOLD: 'hold',
   DECLINE: 'decline',
 });
-
-export const StatusType = Object.freeze({
-  PREPARATION: 'Preparation',
-  READY: 'Ready',
-  ACTIVE: 'Active',
-  APPROVED: 'Approved',
-  ON_HOLD: 'On-Hold',
-  DECLINED: 'Declined',
-});

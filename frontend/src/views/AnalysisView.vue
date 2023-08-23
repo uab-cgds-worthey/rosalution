@@ -74,7 +74,7 @@ import notificationDialog from '@/notificationDialog.js';
 import toast from '@/toast.js';
 
 import {authStore} from '@/stores/authStore.js';
-import {StatusType} from '@/enums.js';
+import {StatusType} from '@/config.js';
 
 export default {
   name: 'analysis-view',
@@ -138,17 +138,17 @@ export default {
         },
       });
 
-      if (this.analysis.latest_status === StatusType.PREPARATION) {
+      if (this.analysis.latest_status === 'Preparation') {
         prependingActions.push({
-          icon: 'clipboard-check',
+          icon: StatusType['Ready'].icon,
           text: 'Mark Ready',
           operation: () => {
             this.pushAnalysisEvent(Analyses.EventType.READY);
           },
         });
-      } else if (this.analysis.latest_status === StatusType.READY) {
+      } else if (this.analysis.latest_status === 'Ready') {
         prependingActions.push({
-          icon: 'book-open',
+          icon: StatusType['Active'].icon,
           text: 'Mark Active',
           operation: () => {
             this.pushAnalysisEvent(Analyses.EventType.OPEN);
@@ -156,19 +156,19 @@ export default {
         });
       } else {
         prependingActions.push({
-          icon: 'check',
+          icon: StatusType['Approved'].icon,
           text: 'Approve',
           operation: () => {
-            this.pushAnalysisEvent(Analyses.EventType.APPROVE);
+            this.pushAnalysisEvent(Analyses.EventType.APPROVED);
           },
         }, {
-          icon: 'pause',
+          icon: StatusType['On-Hold'].icon,
           text: 'Hold',
           operation: () => {
             this.pushAnalysisEvent(Analyses.EventType.HOLD);
           },
         }, {
-          icon: 'x',
+          icon: StatusType['Declined'].icon,
           text: 'Decline',
           operation: () => {
             this.pushAnalysisEvent(Analyses.EventType.DECLINE);

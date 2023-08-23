@@ -1,17 +1,17 @@
 <template>
   <div class="legend">
-    <div v-for="status in statuses" :key="status.name" class="status" @click="toggleFilter(status.name)">
-      <font-awesome-icon :icon="status.icon" size="lg" :style="{
-        color: isFiltered(status.name)
-          ? `var(--rosalution-status-${status.name})`
+    <div v-for="status in workflow" :key="status" :data-test="status" class="status" @click="toggleFilter(status)">
+      <font-awesome-icon :icon="StatusType[status].icon" size="lg" :style="{
+        color: isFiltered(status)
+          ? `var(${StatusType[status].color})`
           : 'var(--rosalution-grey-300)',
       }" />
       <p :style="{
-        color: isFiltered(status.name)
-          ? ''
+        color: isFiltered(status)
+          ? `var(${StatusType[status].color})`
           : 'var(--rosalution-grey-300)',
       }">
-        {{ status.displayName }}
+        {{ status }}
       </p>
     </div>
   </div>
@@ -19,6 +19,7 @@
 
 <script>
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import {StatusType} from '@/config.js';
 
 export default {
   name: 'analysis-listing-legend',
@@ -26,17 +27,15 @@ export default {
   components: {
     'font-awesome-icon': FontAwesomeIcon,
   },
+  computed: {
+    workflow: function() {
+      return Object.keys(StatusType);
+    },
+  },
   data() {
     return {
       activeFilters: [],
-      statuses: [
-        {name: 'annotation', displayName: 'Preparation', icon: 'asterisk'},
-        {name: 'ready', displayName: 'Ready', icon: 'clipboard-check'},
-        {name: 'active', displayName: 'Active', icon: 'book-open'},
-        {name: 'on-hold', displayName: 'On Hold', icon: 'pause'},
-        {name: 'approved', displayName: 'Approved', icon: 'check'},
-        {name: 'declined', displayName: 'Declined', icon: 'times'},
-      ],
+      StatusType,
     };
   },
   methods: {
@@ -49,7 +48,7 @@ export default {
         this.activeFilters.push(status);
       }
 
-      if (this.activeFilters.length === this.statuses.length) {
+      if (this.activeFilters.length === this.workflow.length) {
         this.activeFilters = [];
       }
 

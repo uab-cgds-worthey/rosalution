@@ -55,7 +55,7 @@
 
 <script>
 
-import {StatusType} from '@/enums.js';
+import {StatusType} from '@/config.js';
 
 export default {
   name: 'analysis-card',
@@ -93,38 +93,18 @@ export default {
   },
   computed: {
     workflowIcon: function() {
-      if (this.latest_status == StatusType.PREPARATION) {
-        return 'asterisk';
-      } else if (this.latest_status == StatusType.READY) {
-        return 'clipboard-check';
-      } else if (this.latest_status == StatusType.ACTIVE) {
-        return 'book-open';
-      } else if (this.latest_status == StatusType.APPROVED) {
-        return 'check';
-      } else if (this.latest_status == StatusType.ON_HOLD) {
-        return 'pause';
-      } else if (this.latest_status == StatusType.DECLINED) {
-        return 'x';
+      if ( !(this.latest_status in StatusType) ) {
+        return 'question';
       }
 
-      return 'question';
+      return StatusType[this.latest_status].icon;
     },
     workflowColor: function() {
-      if (this.latest_status == StatusType.PREPARATION) {
-        return '--rosalution-status-annotation';
-      } else if (this.latest_status == StatusType.READY) {
-        return '--rosalution-status-ready';
-      } else if (this.latest_status == StatusType.ACTIVE) {
-        return '--rosalution-status-active';
-      } else if (this.latest_status == StatusType.APPROVED) {
-        return '--rosalution-status-approved';
-      } else if (this.latest_status == StatusType.ON_HOLD) {
-        return '--rosalution-status-on-hold';
-      } else if (this.latest_status == StatusType.DECLINED) {
-        return '--rosalution-status-declined';
+      if ( !(this.latest_status in StatusType) ) {
+        return '--rosalution-white';
       }
 
-      return '--rosalution-white';
+      return StatusType[this.latest_status].color;
     },
     workflowColorStyle: function() {
       return {
