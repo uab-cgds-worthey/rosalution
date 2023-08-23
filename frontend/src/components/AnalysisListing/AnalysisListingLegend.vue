@@ -30,7 +30,7 @@ export default {
     return {
       activeFilters: [],
       statuses: [
-        {name: 'annotation', displayName: 'Annotating', icon: 'asterisk'},
+        {name: 'annotation', displayName: 'Preparation', icon: 'asterisk'},
         {name: 'ready', displayName: 'Ready', icon: 'clipboard-check'},
         {name: 'active', displayName: 'Active', icon: 'book-open'},
         {name: 'on-hold', displayName: 'On Hold', icon: 'pause'},

@@ -40,12 +40,12 @@ try {
         'field': 'Decision',
         value: [],
       });
-
-      db.analyses.update(
-        {'_id': element._id},
-        {'$set': element}
-      );
     };
+
+    db.analyses.updateOne(
+      {'_id': element._id},
+      {'$set': element}
+    );
   });
 } catch (err) {
   console.log(err.stack);
