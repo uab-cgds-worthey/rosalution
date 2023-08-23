@@ -87,7 +87,7 @@ def test_import_analysis_with_phenotips_json(
 
     assert response.status_code == 200
     response_data = json.loads(response.text)
-    assert response_data['latest_status'] == "Annotation"
+    assert response_data['latest_status'] == "Preparation"
     assert response_data['timeline'][0]['username'] == 'johndoe'
 
 
