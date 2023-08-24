@@ -8,7 +8,7 @@
       }" />
       <p :style="{
         color: isFiltered(status)
-          ? `var(${StatusType[status].color})`
+          ? 'var(--rosalution-black)'
           : 'var(--rosalution-grey-300)',
       }" :data-test="status" >
         {{ status }}
