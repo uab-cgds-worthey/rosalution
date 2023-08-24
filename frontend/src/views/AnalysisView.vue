@@ -159,7 +159,7 @@ export default {
           icon: StatusType['Approved'].icon,
           text: 'Approve',
           operation: () => {
-            this.pushAnalysisEvent(Analyses.EventType.APPROVED);
+            this.pushAnalysisEvent(Analyses.EventType.APPROVE);
           },
         }, {
           icon: StatusType['On-Hold'].icon,
