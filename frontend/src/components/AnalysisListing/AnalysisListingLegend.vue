@@ -78,6 +78,12 @@ export default {
   display: flex;
   align-items: center;
   user-select: none;
+  border-radius: var(--input-border-radius);
+  padding: var(--p-05);
+}
+
+.status:hover {
+  background-color: var(--primary-background-color);
 }
 
 .legend p {
