@@ -23,8 +23,6 @@ class Database:
     def __init__(self, client, gridfs_bucket):
         self.database_client = client
 
-        options = CodecOptions(tz_aware=True)
-
         # "An important note about collections (and databases) in MongoDB is that
         # they are created lazily - none of the above commands have actually
         # performed any operations on the MongoDB server. Collections and
@@ -35,7 +33,7 @@ class Database:
         # https://pymongo.readthedocs.io/en/stable/tutorial.html#getting-a-collection
         self.database = self.database_client.rosalution_db
         self.collections = {
-            "analysis": AnalysisCollection(self.database.get_collection("analyses", codec_options=options)),
+            "analysis": AnalysisCollection(self.database['anlyases']),
             "annotation_config": AnnotationConfigCollection(self.database['annotations_config']),
             "genomic_unit": GenomicUnitCollection(self.database['genomic_units']),
             "user": UserCollection(self.database['users']),
