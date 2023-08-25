@@ -22,11 +22,6 @@ class AnnotationConfigCollection:
     def datasets_to_annotate_by_type(self, types):
         """gets dataset configurations according to the types"""
         configuration = self.all()
-        print('______PRINTING______')
-        print(configuration)
-        for dataset in configuration:
-            print(dataset["genomic_unit_type"])
-            if dataset["genomic_unit_type"] in types: print(dataset)
         return [dataset for dataset in configuration if dataset["genomic_unit_type"] in types]
 
     def datasets_to_annotate_for_units(self, genomic_units_to_annotate):

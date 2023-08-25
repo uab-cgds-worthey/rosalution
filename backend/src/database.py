@@ -2,7 +2,6 @@
 # pylint: disable=too-few-public-methods
 # This wrapper is intended to create a callable instance for FastAPI Depedency Injection
 # there is no need to include any additional methods
-from bson import CodecOptions
 from .repository.gridfs_bucket_collection import GridFSBucketCollection
 from .repository.user_collection import UserCollection
 from .repository.analysis_collection import AnalysisCollection

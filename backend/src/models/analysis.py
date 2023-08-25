@@ -51,7 +51,6 @@ class BaseAnalysis(BaseModel):
         if len(values['timeline']) == 0:
             return values
 
-        for naive_time_event in values['timeline']: naive_time_event.timestamp.replace(tzinfo=datetime.timezone.utc)
         last_event = sorted(values['timeline'], key=lambda event: event.timestamp, reverse=True)[0]
         values['last_modified_date'] = last_event.timestamp.date()
         values['created_date'] = next(

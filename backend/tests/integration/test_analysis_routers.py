@@ -59,11 +59,7 @@ def test_import_analysis_with_phenotips_json(
     mock_repositories['annotation_config'].collection.find.return_value = read_database_fixture(
         "annotations-config.json"
     )
-    mock_repositories['genomic_unit'].collection.find.return_value = read_test_fixture("genomic-units-annotations.json")
-
-
-    print(mock_repositories['annotation_config'].collection)
-    print(mock_repositories['genomic_unit'].collection)
+    mock_repositories['genomic_unit'].collection.find.return_value = read_database_fixture("genomic-units.json")
 
     # This is used here because the 'read_fixture' returns a json dict rather than raw binary
     # We actually want to send a binary file through the endpoint to simulate a file being sent

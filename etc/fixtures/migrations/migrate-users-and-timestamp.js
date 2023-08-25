@@ -24,43 +24,39 @@ if (typeof databaseName === 'undefined') {
     quit(1);
 }
 
-db = db.getSiblingDB(databaseName);
+usernameMapping = {
+  'amoss01': '00bqd0d6r0dqpwptyuo8p6h3mnnumzee',
+  'afoksin': 'h3bnr2uh1bo4oe0cs1rdyh3n5hrg71ej',
+  'aeunoant': '00bqd0d6r0dqpwptyuo8p6h3mnnumzee',
+}
 
+usersToUpdate = Object.keys(usernameMapping);
+
+db = db.getSiblingDB(databaseName)
 try {
   const analyses = db.analyses.find();
   analyses.forEach(element => {
 
-    // print(element.timeline)
-
     element.timeline.forEach(event => {
       if(typeof(event.timestamp) === 'number') {
-        print(`Migrating case ${element.name} -----`)
-
-        print(`TIMELINE Event: ${event.timestamp}`)
-        event.timestamp = new Date(event.timestamp)
-        print('Updating event')
-        print(event)
-        print('--------------------------')
-
+        // The timestamps from epoch were originally stored as seconds with
+        // PyMongo not in milliseconds which is what the Mongosh Javascript
+        // Shell is expecting
+        event.timestamp = new Date(event.timestamp*1000)
+        print(`Migrating case ${element.name}\t\tUpdating timeline event '${event.event}'\t\t${event.timestamp}...`)
       }
 
-      // print(typeof event.timestamp)
+      if(usersToUpdate.includes(event.username)) {
+        const oldUsername = event.username;
+        event.username = usernameMapping[event.username]
+        print(`Migrating case ${element.name}\t\tUpdating username to from '${oldUsername}' to clientId '${event.username}'...`)
+      }
     });
-    // // Add Decision Section to Brief 
-    // const briefSection = element.sections.find( section => section.header === 'Brief');
 
-    // if( !briefSection.content.find(row => row.field === 'Decision') ) {
-    //   briefSection.content.push({
-    //     'type': 'section-text',
-    //     'field': 'Decision',
-    //     value: [],
-    //   });
-    // };
-
-    // db.analyses.updateOne(
-    //   {'_id': element._id},
-    //   {'$set': element}
-    // );
+    db.analyses.updateOne(
+      {'_id': element._id},
+      {'$set': element}
+    );
   });
 } catch (err) {
   console.log(err.stack);
