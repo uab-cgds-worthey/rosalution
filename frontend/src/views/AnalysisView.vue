@@ -74,6 +74,7 @@ import notificationDialog from '@/notificationDialog.js';
 import toast from '@/toast.js';
 
 import {authStore} from '@/stores/authStore.js';
+import {StatusType} from '@/config.js';
 
 export default {
   name: 'analysis-view',
@@ -137,21 +138,40 @@ export default {
         },
       });
 
-      if (this.analysis.latest_status === 'Annotation') {
+      if (this.analysis.latest_status === 'Preparation') {
         prependingActions.push({
-          icon: 'clipboard-check',
+          icon: StatusType['Ready'].icon,
           text: 'Mark Ready',
-          operation: this.markReady,
+          operation: () => {
+            this.pushAnalysisEvent(Analyses.EventType.READY);
+          },
         });
-      }
-
-      if (this.analysis.latest_status === 'Ready') {
+      } else if (this.analysis.latest_status === 'Ready') {
         prependingActions.push({
-          icon: 'book-open',
+          icon: StatusType['Active'].icon,
           text: 'Mark Active',
           operation: () => {
-            Analyses.markAnalysisActive(this.analysis_name);
-            toast.success('Analysis marked as Active.');
+            this.pushAnalysisEvent(Analyses.EventType.OPEN);
+          },
+        });
+      } else {
+        prependingActions.push({
+          icon: StatusType['Approved'].icon,
+          text: 'Approve',
+          operation: () => {
+            this.pushAnalysisEvent(Analyses.EventType.APPROVE);
+          },
+        }, {
+          icon: StatusType['On-Hold'].icon,
+          text: 'Hold',
+          operation: () => {
+            this.pushAnalysisEvent(Analyses.EventType.HOLD);
+          },
+        }, {
+          icon: StatusType['Declined'].icon,
+          text: 'Decline',
+          operation: () => {
+            this.pushAnalysisEvent(Analyses.EventType.DECLINE);
           },
         });
       }
@@ -390,6 +410,7 @@ export default {
       );
       this.analysis.sections.splice(0);
       this.analysis.sections.push(...updatedAnalysis.sections);
+      location.reload();
       this.updatedContent = {};
       this.edit = false;
       toast.success('Analysis updated successfully.');
@@ -465,13 +486,13 @@ export default {
         console.error('Updating the analysis did not work', error);
       }
     },
-    async markReady() {
+    async pushAnalysisEvent(eventType) {
       try {
-        const updatedAnalysis = await Analyses.markAnalysisReady(this.analysis_name);
+        const updatedAnalysis = await Analyses.pushAnalysisEvent(this.analysis_name, eventType);
         this.analysis = {...this.analysis, ...updatedAnalysis};
-        toast.success('Analysis marked as ready.');
+        toast.success(`Analysis event '${eventType}' successful.`);
       } catch (error) {
-        toast.error('Error marking analysis as ready.');
+        toast.error(`Error updating the event '${eventType}'.`);
       }
     },
   },

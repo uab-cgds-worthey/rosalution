@@ -31,6 +31,7 @@ def mock_database_collections():
     """A mocked database client which overrides the database depedency injected"""
     mock_database_client = Mock()
     mock_gridfs_client = Mock()
+
     mock_database_client.rosalution_db = {
         "analyses": mock_mongo_collection(),
         "annotations_config": mock_mongo_collection(),
@@ -38,6 +39,7 @@ def mock_database_collections():
         "users": mock_mongo_collection(),
         "bucket": mock_gridfs_bucket(),
     }
+
     mock_database = Database(mock_database_client, mock_gridfs_client)
     app.dependency_overrides[database] = mock_database
     yield mock_database.collections

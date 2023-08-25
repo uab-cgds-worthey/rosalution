@@ -77,17 +77,6 @@ export default {
     padding: var(--p-0);
   }
 
-  .supplemental-container {
-    display: flex;
-    flex-direction: column;
-    padding: var(--p-10);
-    margin: var(--p-10);
-    width: 100%;
-    gap: var(--p-10);
-    border-radius: 1.25rem;
-    background-color: var(--rosalution-white);
-  }
-
   .supplemental-header {
     height: 1.75rem;
     display: flex;
@@ -209,7 +198,7 @@ export default {
     display: none;
   }
 
-  .supplemental-container input[type="checkbox"]:checked ~ tbody > .attachment-list {
+  .rosalution-section-container input[type="checkbox"]:checked ~ tbody > .attachment-list {
     display: none;
   }
 

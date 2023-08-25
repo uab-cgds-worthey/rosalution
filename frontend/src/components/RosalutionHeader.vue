@@ -42,6 +42,7 @@
 
 <script>
 import DropDownMenu from '@/components/DropDownMenu.vue';
+import {StatusType} from '@/config.js';
 
 export default {
   name: 'rosalution-header-component',
@@ -96,38 +97,18 @@ export default {
       return typeof(this.titleToRoute) !== 'undefined';
     },
     workflowIcon: function() {
-      if (this.workflow_status == 'Annotation') {
-        return 'asterisk';
-      } else if (this.workflow_status == 'Ready') {
-        return 'clipboard-check';
-      } else if (this.workflow_status == 'Active') {
-        return 'book-open';
-      } else if (this.workflow_status == 'Approved') {
-        return 'check';
-      } else if (this.workflow_status == 'On-Hold') {
-        return 'pause';
-      } else if (this.workflow_status == 'Declined') {
-        return 'x';
+      if ( !(this.workflow_status in StatusType) ) {
+        return 'question';
       }
 
-      return 'question';
+      return StatusType[this.workflow_status].icon;
     },
     workflowColor: function() {
-      if (this.workflow_status == 'Annotation') {
-        return '--rosalution-status-annotation';
-      } else if (this.workflow_status == 'Ready') {
-        return '--rosalution-status-ready';
-      } else if (this.workflow_status == 'Active') {
-        return '--rosalution-status-active';
-      } else if (this.workflow_status == 'Approved') {
-        return '--rosalution-status-approved';
-      } else if (this.workflow_status == 'On-Hold') {
-        return '--rosalution-status-on-hold';
-      } else if (this.workflow_status == 'Declined') {
-        return '--rosalution-status-declined';
+      if ( !(this.workflow_status in StatusType) ) {
+        return '--rosalution-white';
       }
 
-      return '--rosalution-white';
+      return StatusType[this.workflow_status].color;
     },
     workflowColorStyle: function() {
       return {

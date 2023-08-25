@@ -18,7 +18,7 @@ import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
 
 import {FontAwesomeIcon, FontAwesomeLayers} from '@fortawesome/vue-fontawesome';
-
+import {RouterLink} from 'vue-router';
 
 /**
  * Helper mounts and returns the rendered component
@@ -38,6 +38,7 @@ function getMountedComponent(props) {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
         'font-awesome-layers': FontAwesomeLayers,
+        'router-link': RouterLink,
       },
       mocks: {
         $route: mockRoute,
@@ -49,6 +50,7 @@ function getMountedComponent(props) {
         AnnotationViewHeader: true,
         FontAwesomeIcon: true,
         FontAwesomeLayers: true,
+        RouterLink: true,
       },
     },
   });

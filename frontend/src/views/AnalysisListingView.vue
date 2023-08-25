@@ -70,7 +70,7 @@ export default {
     filteredAnalysisListing() {
       return this.analysisList.filter((analysis) => {
         return this.filteredChanged.length === 0 ||
-          this.filteredChanged.includes(analysis.latest_status.toLowerCase());
+          this.filteredChanged.includes(analysis.latest_status);
       });
     },
     searchedAnalysisListing() {

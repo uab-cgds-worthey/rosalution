@@ -5,24 +5,13 @@ import AnalysisListingLegend from '@/components/AnalysisListing/AnalysisListingL
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
-const statuses = [
-  {name: 'annotation', displayName: 'Annotating', icon: 'asterisk'},
-  {name: 'ready', displayName: 'Ready', icon: 'clipboard-check'},
-  {name: 'active', displayName: 'Active', icon: 'book-open'},
-  {name: 'on-hold', displayName: 'On Hold', icon: 'pause'},
-  {name: 'approved', displayName: 'Approved', icon: 'check'},
-  {name: 'declined', displayName: 'Declined', icon: 'times'},
-];
-
 /**
  * helper function that shallow mounts and returns the rendered component
  * @param {props} props props for testing to overwrite default props
  * @return {VueWrapper} returns a shallow mounted using props
  */
 function getMountedComponent(props) {
-  const defaultProps = {
-    statuses,
-  };
+  const defaultProps = {};
 
   return shallowMount(AnalysisListingLegend, {
     props: {...defaultProps, ...props},
@@ -43,52 +32,31 @@ describe('AnalysisListingLegend.vue', () => {
 
   it('should all be colored when no statuses are being filtered for', () => {
     const wrapper = getMountedComponent();
-    statuses.forEach((status) => {
-      expect(wrapper.html()).to.contains(`color: var(--rosalution-status-${status.name})`);
-    });
+    expect(wrapper.html()).to.not.contains('color: var(--rosalution-grey-300)');
   });
 
   it('should only color the filtered status', async () => {
     const wrapper = getMountedComponent();
-    const statusElements = wrapper.findAll('.status');
-    let readyStatus;
+    const readyDomElement = wrapper.find('[data-test="Ready"]');
 
-    for (let i = 0; i < statusElements.length; i++) {
-      if (statusElements[i].text() === 'Ready') {
-        readyStatus = statusElements[i];
+    await readyDomElement.trigger('click');
+
+    const statusDomElements = wrapper.findAll('.status');
+    statusDomElements.forEach( (statusElement) => {
+      if (statusElement.text() === 'Ready') {
+        expect(readyDomElement.html()).to.contains('color: var(--rosalution-status-ready)');
+      } else {
+        expect(wrapper.html()).to.contains(`color: var(--rosalution-grey-300)`);
       }
-    }
-
-    if (readyStatus) {
-      await readyStatus.trigger('click');
-      expect(wrapper.html()).to.contains('color: var(--rosalution-status-ready)');
-      statuses.forEach((status) => {
-        if (status.name !== 'ready') {
-          expect(wrapper.html()).to.contains(`color: var(--rosalution-grey-300)`);
-        }
-      });
-    } else {
-      throw new Error('Ready status not found');
-    }
+    });
   });
 
   it('should emit a filtered-changed event when a status is clicked', async () => {
     const wrapper = getMountedComponent();
-    const statusElements = wrapper.findAll('.status');
-    let readyStatus;
+    const readyDomElement = wrapper.find('[data-test="Ready"]');
 
-    for (let i = 0; i < statusElements.length; i++) {
-      if (statusElements[i].text() === 'Ready') {
-        readyStatus = statusElements[i];
-      }
-    }
-
-    if (readyStatus) {
-      await readyStatus.trigger('click');
-      expect(wrapper.emitted()).to.have.property('filtered-changed');
-      expect(wrapper.emitted()['filtered-changed'][0][0]).to.contains('ready');
-    } else {
-      throw new Error('Ready status not found');
-    }
+    await readyDomElement.trigger('click');
+    expect(wrapper.emitted()).to.have.property('filtered-changed');
+    expect(wrapper.emitted()['filtered-changed'][0][0]).to.contains('Ready');
   });
 });

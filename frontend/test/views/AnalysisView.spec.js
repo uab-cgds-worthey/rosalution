@@ -87,7 +87,6 @@ describe('AnalysisView', () => {
   let mockedRemoveSupportingEvidence;
   let mockedAttachThirdPartyLink;
   let markReadyMock;
-  let markActiveMock;
   let updateAnalysisSectionsMock;
   let mockAuthWritePermissions;
   let wrapper;
@@ -106,8 +105,7 @@ describe('AnalysisView', () => {
     mockedRemoveSupportingEvidence = sandbox.stub(Analyses, 'removeSupportingEvidence');
     mockedAttachThirdPartyLink = sandbox.stub(Analyses, 'attachThirdPartyLink');
 
-    markReadyMock = sandbox.stub(Analyses, 'markAnalysisReady');
-    markActiveMock = sandbox.stub(Analyses, 'markAnalysisActive');
+    markReadyMock = sandbox.stub(Analyses, 'pushAnalysisEvent');
 
     updateAnalysisSectionsMock = sandbox.stub(Analyses, 'updateAnalysisSections');
 
@@ -150,7 +148,7 @@ describe('AnalysisView', () => {
     });
 
     it('should mark an analysis as ready', async () => {
-      const wrapper = await getMockedWrapper('Annotation', mockedData);
+      const wrapper = await getMockedWrapper('Preparation', mockedData);
 
       await triggerAction(wrapper, 'Mark Ready');
 
@@ -158,18 +156,18 @@ describe('AnalysisView', () => {
     });
 
     it('should display success toast with correct message when marking analysis as ready', async () => {
-      const wrapper = await getMockedWrapper('Annotation', mockedData);
+      const wrapper = await getMockedWrapper('Preparation', mockedData);
 
       await triggerAction(wrapper, 'Mark Ready');
 
       expect(toast.state.active).to.be.true;
       expect(toast.state.type).to.equal('success');
-      expect(toast.state.message).to.equal('Analysis marked as ready.');
+      expect(toast.state.message).to.equal('Analysis event \'ready\' successful.');
     });
 
     it('should display error toast with correct message when marking analysis as ready fails', async () => {
-      const wrapper = await getMockedWrapper('Annotation', mockedData);
-      const error = new Error('Failed to mark analysis as ready');
+      const wrapper = await getMockedWrapper('Preparation', mockedData);
+      const error = new Error('Error updating the event \'ready\'.');
       markReadyMock.throws(error);
 
       try {
@@ -179,15 +177,7 @@ describe('AnalysisView', () => {
       }
       expect(toast.state.active).to.be.true;
       expect(toast.state.type).to.equal('error');
-      expect(toast.state.message).to.equal('Error marking analysis as ready.');
-    });
-
-    it('should mark an analysis as active', async () => {
-      const wrapper = await getMockedWrapper('Ready', mockedData);
-
-      await triggerAction(wrapper, 'Mark Active');
-
-      expect(markActiveMock.called).to.be.true;
+      expect(toast.state.message).to.equal('Error updating the event \'ready\'.');
     });
 
     it('should display info toast with correct message when marking analysis as active', async () => {
@@ -197,7 +187,7 @@ describe('AnalysisView', () => {
 
       expect(toast.state.active).to.be.true;
       expect(toast.state.type).to.equal('success');
-      expect(toast.state.message).to.equal('Analysis marked as Active.');
+      expect(toast.state.message).to.equal('Analysis event \'opened\' successful.');
     });
 
     it('should display info toast with correct message when entering edit mode', async () => {

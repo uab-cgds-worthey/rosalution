@@ -1,7 +1,7 @@
 """
 Creates Events that occur within the application to track important events that affect an analysis' status.
 """
-from datetime import datetime
+from datetime import datetime, timezone
 from pydantic import BaseModel
 
 from ..enums import EventType
@@ -29,6 +29,6 @@ class Event(BaseModel):
         """Creates a timestamp of the 'event' done by username"""
         return Event(**{
             "event": event,
-            "timestamp": datetime.utcnow(),
+            "timestamp": datetime.now(timezone.utc),
             "username": username,
         })

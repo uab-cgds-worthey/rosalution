@@ -299,7 +299,6 @@ def test_mark_ready(analysis_collection, create_timestamp, ready_timestamp):
         )
     ):
         analysis_collection.update_event("CPAM0002", "user01", EventType.READY)
-        print(ready_timestamp)
         analysis_collection.collection.find_one_and_update.assert_called_with(
             {"name": "CPAM0002"},
             {

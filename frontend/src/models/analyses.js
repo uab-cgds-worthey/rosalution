@@ -1,5 +1,10 @@
+import {EventType} from '@/enums.js';
 import Requests from '@/requests.js';
+
 export default {
+
+  EventType,
+
   async all() {
     const baseUrl = '/rosalution/api/';
     const urlQuery = 'analysis/summary';
@@ -31,13 +36,8 @@ export default {
     return await Requests.put(url, updatedSections);
   },
 
-  async markAnalysisReady(analysisName) {
-    const url = `/rosalution/api/analysis/${analysisName}/event/ready`;
-    return await Requests.put(url);
-  },
-
-  async markAnalysisActive(analysisName) {
-    const url = `/rosalution/api/analysis/${analysisName}/event/opened`;
+  async pushAnalysisEvent(analysisName, eventType) {
+    const url = `/rosalution/api/analysis/${analysisName}/event/${eventType}`;
     return await Requests.put(url);
   },
 
