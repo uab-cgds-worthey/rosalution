@@ -1,6 +1,6 @@
 """Test Fixtures for integration tests"""
 import os
-from unittest.mock import MagicMock, Mock
+from unittest.mock import Mock
 import pytest
 from fastapi.testclient import TestClient
 

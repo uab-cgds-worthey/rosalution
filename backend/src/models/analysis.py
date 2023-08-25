@@ -4,7 +4,6 @@ of identifiers, case notes, and the genomic units being analyzed.
 """
 # pylint: disable=too-few-public-methods
 from datetime import date
-import datetime
 from multiprocessing import Event
 import re
 from typing import List, Optional
