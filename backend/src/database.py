@@ -2,6 +2,7 @@
 # pylint: disable=too-few-public-methods
 # This wrapper is intended to create a callable instance for FastAPI Depedency Injection
 # there is no need to include any additional methods
+from bson import CodecOptions
 from .repository.gridfs_bucket_collection import GridFSBucketCollection
 from .repository.user_collection import UserCollection
 from .repository.analysis_collection import AnalysisCollection
@@ -22,6 +23,8 @@ class Database:
     def __init__(self, client, gridfs_bucket):
         self.database_client = client
 
+        options = CodecOptions(tz_aware=True)
+
         # "An important note about collections (and databases) in MongoDB is that
         # they are created lazily - none of the above commands have actually
         # performed any operations on the MongoDB server. Collections and
@@ -32,7 +35,7 @@ class Database:
         # https://pymongo.readthedocs.io/en/stable/tutorial.html#getting-a-collection
         self.database = self.database_client.rosalution_db
         self.collections = {
-            "analysis": AnalysisCollection(self.database['analyses']),
+            "analysis": AnalysisCollection(self.database.get_collection("analyses", codec_options=options)),
             "annotation_config": AnnotationConfigCollection(self.database['annotations_config']),
             "genomic_unit": GenomicUnitCollection(self.database['genomic_units']),
             "user": UserCollection(self.database['users']),

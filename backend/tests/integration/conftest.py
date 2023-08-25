@@ -1,6 +1,6 @@
 """Test Fixtures for integration tests"""
 import os
-from unittest.mock import Mock
+from unittest.mock import MagicMock, Mock
 import pytest
 from fastapi.testclient import TestClient
 
@@ -10,7 +10,7 @@ from src.config import get_settings, Settings
 from src.dependencies import database, annotation_queue
 from src.security.security import create_access_token, get_current_user
 
-from ..test_utils import mock_mongo_collection, mock_gridfs_bucket, read_database_fixture, read_test_fixture
+from ..test_utils import magic_mock_mongo_collection, mock_mongo_collection, mock_gridfs_bucket, read_database_fixture, read_test_fixture
 
 
 @pytest.fixture(name="client", scope="class")
@@ -31,13 +31,22 @@ def mock_database_collections():
     """A mocked database client which overrides the database depedency injected"""
     mock_database_client = Mock()
     mock_gridfs_client = Mock()
-    mock_database_client.rosalution_db = {
-        "analyses": mock_mongo_collection(),
-        "annotations_config": mock_mongo_collection(),
-        "genomic_units": mock_mongo_collection(),
-        "users": mock_mongo_collection(),
-        "bucket": mock_gridfs_bucket(),
-    }
+
+    class MockDatabase(MagicMock):
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
+            analyses: magic_mock_mongo_collection()
+            annotations_config: mock_mongo_collection()
+            genomic_units: mock_mongo_collection()
+            users: mock_mongo_collection()
+            bucket: mock_gridfs_bucket()
+
+        def get_collection(self, collection_name, codec_options):
+            print(f"Getting the {collection_name}")
+            return self[collection_name]
+
+    mock_database_client.rosalution_db = MockDatabase()
+
     mock_database = Database(mock_database_client, mock_gridfs_client)
     app.dependency_overrides[database] = mock_database
     yield mock_database.collections
