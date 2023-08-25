@@ -32,7 +32,7 @@ class Database:
         # https://pymongo.readthedocs.io/en/stable/tutorial.html#getting-a-collection
         self.database = self.database_client.rosalution_db
         self.collections = {
-            "analysis": AnalysisCollection(self.database['anlyases']),
+            "analysis": AnalysisCollection(self.database['analyses']),
             "annotation_config": AnnotationConfigCollection(self.database['annotations_config']),
             "genomic_unit": GenomicUnitCollection(self.database['genomic_units']),
             "user": UserCollection(self.database['users']),
