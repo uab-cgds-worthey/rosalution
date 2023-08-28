@@ -22,8 +22,6 @@ if (help == true) {
     quit(1);
 }
 
-// const dittoScoreCSV = `/tmp/fixtures/simplifiedDittoScores.csv`
-
 // Checking the ditto score csv path
 if (typeof dittoScoreCSVPath === 'undefined') {
     dittoScoreCSVPath = "/tmp/fixtures/example-adding-users.json";
