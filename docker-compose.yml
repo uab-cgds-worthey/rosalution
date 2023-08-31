@@ -40,11 +40,10 @@ services:
       - "traefik.http.services.frontend-web-service.loadbalancer.server.port=80"
   
   backend:
-    image: ghcr.io/uab-cgds-worthey/rosalution/frontend:${ROSALUTION_VERSION}
-    # build:
-    #   context: ./backend/
-    #   target: development-stage
-    #   dockerfile: Dockerfile
+    build:
+      context: ./backend/
+      target: development-stage
+      dockerfile: Dockerfile
     volumes:
       - ./backend:/app
     environment:
