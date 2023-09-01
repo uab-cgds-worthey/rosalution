@@ -64,11 +64,11 @@ services:
       - "traefik.http.services.backend-api-service.loadbalancer.server.port=8000"
 
   rosalution-db:
-    # build:
-    #   context: ./etc/fixtures/
-    #   target: production-stage
-    #   dockerfile: production.Dockerfile
-    image: ghcr.io/uab-cgds-worthey/rosalution/database-fixture:${ROSALUTION_VERSION}
+    build:
+      context: ./etc/fixtures/
+      target: production-stage
+      dockerfile: production.Dockerfile
+    # image: ghcr.io/uab-cgds-worthey/rosalution/database-fixture:${ROSALUTION_VERSION}
     networks:
       - rosalution-network
     environment:
