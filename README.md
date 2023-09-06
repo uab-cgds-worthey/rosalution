@@ -298,6 +298,38 @@ registry.
 For additional information on the `build.sh` script, refer to the [build.sh script documentation](./build.sh) within the
  script itself.
 
+The local production docker compose yaml must be updated if you would like to test the docker images created from the
+`build.sh` script.  Modify the `docker-compose.local-production.yml` by:
+
+- Commenting out the build configuration designated within the compose yaml.
+
+```yaml
+  #build:
+    #context: ./frontend/
+    #target: production-stage
+    #dockerfile: Dockerfile
+    #args:
+      #VERSION_BUILD_TAG: "local-production@latest"
+```
+
+- Uncommenting the docker image tags for the `frontend` and `backend` services
+
+```yaml
+image: ghcr.io/uab-cgds-worthey/rosalution/frontend:${ROSALUTION_VERSION}
+```
+
+- Setting the ROSALUTION_VERSION environment variable to be the 'build tag' used with the `build.sh` script.
+
+```bash
+export ROSALUTION_VERSION=0.6.0
+```
+
+- Deploy the Rosalution Build as indicated in the following section
+
+```bash
+docker-compose -f docker-compose.local-production.yml up --build
+```
+
 #### Local deployment of a Production Build
 
 To deploy a production build locally, the following command can be uses.

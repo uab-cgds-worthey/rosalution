@@ -27,6 +27,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./frontend/src:/app/src
+    environment:
+      VITE_ROSALUTION_VERSION: "local@latest"
     networks:
       - rosalution-network
     labels:

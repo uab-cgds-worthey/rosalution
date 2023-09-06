@@ -17,6 +17,9 @@ COPY package.json /app/
 COPY yarn.lock /app/
 COPY index.html /app/
 COPY vite.config.js /app/
+ARG VERSION_BUILD_TAG=latest
+
+ENV VITE_ROSALUTION_VERSION=$VERSION_BUILD_TAG
 
 RUN yarn install --frozen-lockfile && yarn build --base=/rosalution/
 

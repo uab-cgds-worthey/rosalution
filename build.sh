@@ -146,7 +146,7 @@ build(){
 
   # Making this a comment now to preserve code in the event we need the npmrc for future CGDS modules
   # docker_build_command="DOCKER_BUILDKIT=1 docker build --no-cache=true --secret id=npmrc,src=$npmrc_filepath --target=$build_target $(build_args "$service_name") --tag=$image_name -f ./$service_name/Dockerfile $build_context"
-  docker_build_command="DOCKER_BUILDKIT=1 docker build --no-cache=true --target=$build_target $(build_args "$service_name") --tag=$image_name -f ./$service_name/Dockerfile $build_context"
+  docker_build_command="DOCKER_BUILDKIT=1 docker build --no-cache=true --target=$build_target --build-arg=\"VERSION_BUILD_TAG=$build_tag\" $(build_args "$service_name") --tag=$image_name -f ./$service_name/Dockerfile $build_context"
 
   echo "Building $service_name..."
   eval "$docker_build_command"
