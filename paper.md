@@ -81,6 +81,48 @@ integration. It also supports the analysis process, guiding and collecting the d
 consideration. It is designed not only to facilitate analysis and generation of biological insights for an
 individual case, but also aims to enrich subsequent data mining and process improvement for meta-analyses.
 
+# State of the field
+
+​​Precision animal modeling involves creating genetically engineered animals with specific molecular alterations
+identified in human diseases, such as cancer, neurodegenerative disorders, and cardiovascular conditions. The models
+generated serve as invaluable tools for molecular diagnostics, biomedical research, and drug development in particular.
+Over recent years, advances in molecular biology, cell biology, and computational methodologies have increased
+applications for these models. Widespread adoption of whole exome and genome sequencing has accelerated the
+identification of disease genes and rare disease-causing variations. Advanced algorithms and software have streamlined
+data analysis, helping researchers filter out common genetic variants and prioritize rare, potentially disease-causing
+ones. CRISPR-Cas9 technology has made precise genetic alterations in animals more accessible. Collectively, these
+advancements have revolutionized our ability to identify and understand molecular variations underlying human diseases,
+greatly enhanced our knowledge of biological processes and disease mechanisms, and empowered us to test therapies and
+drugs using precision animal models.
+
+Selecting the right variants for precision animal models often involves reviewing research publications and, in some
+cases, employing custom scripts and pipelines to integrate data from various sources. These datasets and tools
+encompass variant annotation software like ANNOVAR, Variant Effect Predictor (VEP) [@mclaren_ensembl_2016], or SnpEff,
+which provide crucial information about variant location, functional impact, and potential disease associations.
+Variant allele frequency and disease association repositories like ClinVar [@landrum_clinvar_2018], ExAC, and gnomAD
+offer insights into variant prevalence in the general population and their links to diseases. Damage prediction
+algorithms like VAAST, PolyPhen-2 [@adzhubei_method_2010], and SIFT [@ng_predicting_2001] aid in predicting variant
+pathogenicity based on sequence conservation, functional impact, and population frequencies. Rare disease collaborative
+databases and platforms are also valuable resources for variant selection and interpretation.
+
+While the development of pipelines and tools for precision animal modeling requires significant effort, there's a
+notable tool called MARRVEL (Model organism Aggregated Resources for Rare Variant ExpLoration) designed to assist
+users in exploring data from these repositories for variant consideration. MARRVEL provides a wealth of curated
+information about human genes and variants, along with their orthologous genes in seven model organisms. It aids in
+assessing whether a variant of unknown significance (VUS) in a known disease-causing gene or a variant in a gene of
+uncertain significance (GUS) might be pathogenic. The tool aggregates data from various sources, including
+OMIM [@amberger_omimorg_2015], ExAC/gnomAD, ClinVar [@landrum_clinvar_2018], Geno2MP, DGV, and DECIPHER, and
+offers insights into orthologous genes, expression patterns, and Gene Ontology (GO) terms across both human and
+model organisms.
+
+Although MARRVEL provides extensive, carefully selected, and organized information, it doesn't currently support direct
+user curation or annotation. Nevertheless, the ability to curate data, as seen in platforms like Rosalution, offers
+numerous advantages. It encourages collaboration and knowledge sharing within the scientific community, driving
+researchers and experts to contribute insights and annotations. User-curated data enables rapid integration of new
+research findings, maintains standardized data representation, and reduces the likelihood of errors or
+misinterpretations. As precision medicine and animal modeling continue to advance, user-curated data plays a vital
+role in staying at the forefront of scientific discovery.
+
 # Statement of Need
 
 Gene editing approaches are used to generate precision disease animal models (e.g., cells, worms, zebrafish)
