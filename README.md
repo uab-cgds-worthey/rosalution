@@ -38,10 +38,9 @@ Rosalution facilitates three aspects of the collaborative case review process.
 
 ![Second UI screenshot of the Rosalution web application](./docs/figures/rosalution_annotation_ui.png?raw=true "Rosalution Screenshot")
 
-
 Click thumbnail directly below to watch Rosalution's demonstration video!  
-[<img src="https://github.com/uab-cgds-worthey/rosalution/assets/1209059/3435d3d5-3dd9-4a8b-b4da-0df7eeb1aab2" width="600" height="300"
-/>](https://uab.box.com/s/r76kbgsmu2w562akfvdcfhutu2jwe6u3)
+[<img src="https://github.com/uab-cgds-worthey/rosalution/assets/1209059/3435d3d5-3dd9-4a8b-b4da-0df7eeb1aab2" width="600"
+height="300"/>](https://uab.box.com/s/r76kbgsmu2w562akfvdcfhutu2jwe6u3)
 
 ---
 
