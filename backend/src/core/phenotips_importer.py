@@ -76,6 +76,10 @@ class PhenotipsImporter:
                     {"type": "section-text", "field": 'Nominator', "value": []},
                     {"type": "section-text", "field": 'Participant', "value": []},
                     {"type": "section-text", "field": 'Phenotype', "value": []},
+                    {"type": "section-text", "field": 'ACMG Classification', "value": []},
+                    {"type": "section-text", "field": 'ACMG Classification Criteria', "value": []},
+                    {"type": "section-text", "field": 'ACMG Criteria To Add', "value": []},
+                    {"type": "section-text", "field": 'Decision', "value": []},
                 ]
             }, {
                 "header": 'Clinical History', "content": [
