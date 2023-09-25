@@ -38,7 +38,7 @@
         @update:content-row="this.onAnalysisContentUpdated"
       />
       <DiscussionSection
-        id="Discussion_Section"
+        id="Discussion"
       />
       <SupplementalFormList
         id="Supporting_Evidence"
@@ -91,7 +91,7 @@ export default {
     Toast,
     SupplementalFormList,
     SaveModal,
-    DiscussionSection
+    DiscussionSection,
   },
   props: ['analysis_name'],
   data: function() {
@@ -110,6 +110,7 @@ export default {
       const sections = this.analysis.sections.map((section) => {
         return section.header;
       });
+      sections.push('Discussion');
       sections.push('Supporting Evidence');
       return sections;
     },

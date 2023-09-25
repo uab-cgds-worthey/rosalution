@@ -18,16 +18,13 @@
 
 <script>
 export default {
-    name: "",
-    props: {
-        header: {
-            type: String,
-        },
+  name: 'discussion-section',
+  props: {
+    header: {
+      type: String,
     },
-    data() {
-        return
-    }
-}
+  },
+};
 
 </script>
 
