@@ -22,6 +22,21 @@ export default {
     const baseUrl = '/rosalution/api/';
     const urlQuery = 'analysis/' + analysisName;
     const body = await Requests.get(baseUrl + urlQuery);
+
+    body['discussions'] = [{
+      'postId': '',
+      'client_id': '',
+      'datetimestamp': '',
+      'content': [],
+      'attachments': [],
+      'replies': [{
+        'client_id': '',
+        'datetimestamp': '',
+        'content': '',
+        'attachments': [],
+      }],
+    }];
+
     return body;
   },
 

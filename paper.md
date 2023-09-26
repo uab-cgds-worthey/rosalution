@@ -47,15 +47,15 @@ authors:
       affiliation: "1,2,3"
 
 affiliations:
-    - name: Center for Computational Genomics and Data Sciences, Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, AL
+    - name: Center for Computational Genomics and Data Sciences, Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, Alabama, United States of America
       index: 1
-    - name: Department of Genetics, Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, AL
+    - name: Department of Genetics, Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, Alabama, United States of America
       index: 2
-    - name: Department of Pediatrics, Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, AL
+    - name: Department of Pediatrics, Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, Alabama, United States of America
       index: 3
-    - name: Hugh Kaul Precision Medicine Institute, Heersink School of Medicine, The University of Alabama at Birmingham
+    - name: Hugh Kaul Precision Medicine Institute, Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, Alabama, United States of America
       index: 4
-    - name: Department of Cell, Developmental and Integrative Biology, Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, AL
+    - name: Department of Cell, Developmental and Integrative Biology, Heersink School of Medicine, The University of Alabama at Birmingham, Birmingham, Alabama, United States of America
       index: 5
 
 
