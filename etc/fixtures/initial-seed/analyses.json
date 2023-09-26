@@ -20,17 +20,25 @@
             "case": [
               {
                 "field": "Evidence",
-                "value": ["PVS1", "PM2"]
+                "value": [
+                  "PVS1",
+                  "PM2"
+                ]
               },
               {
                 "field": "Other Datasource",
-                "value": ["PVS1", "PM2"]
+                "value": [
+                  "PVS1",
+                  "PM2"
+                ]
               },
               {
                 "field": "Interpretation",
-                "value": ["Likely Pathogenic"]
+                "value": [
+                  "Likely Pathogenic"
+                ]
               }
-              ]
+            ]
           }
         ]
       }
@@ -42,12 +50,16 @@
           {
             "type": "section-text",
             "field": "Nominator",
-            "value": ["Dr. Person One"]
+            "value": [
+              "Dr. Person One"
+            ]
           },
           {
             "type": "section-text",
             "field": "Participant",
-            "value": ["1 patient, carrier mother"]
+            "value": [
+              "1 patient, carrier mother"
+            ]
           },
           {
             "type": "section-text",
@@ -113,7 +125,9 @@
           {
             "type": "section-text",
             "field": "Systems",
-            "value": ["Musculoskeletal and orthopedics"]
+            "value": [
+              "Musculoskeletal and orthopedics"
+            ]
           },
           {
             "type": "section-text",
@@ -133,16 +147,19 @@
       {
         "header": "Pedigree",
         "attachment_field": "Pedigree",
-        "content": [{
-          "type": "images-dataset",
-          "field": "Pedigree",
-          "value": []
-        }]
+        "content": [
+          {
+            "type": "images-dataset",
+            "field": "Pedigree",
+            "value": []
+          }
+        ]
       },
       {
         "header": "VMA21 Gene To Phenotype",
         "attachment_field": "VMA21 Gene To Phenotype",
-        "content": [{
+        "content": [
+          {
             "type": "images-dataset",
             "field": "VMA21 Gene To Phenotype",
             "value": []
@@ -169,7 +186,8 @@
       {
         "header": "VMA21 Function",
         "attachment_field": "VMA21 Function",
-        "content": [{
+        "content": [
+          {
             "type": "images-dataset",
             "field": "VMA21 Function",
             "value": []
@@ -178,35 +196,66 @@
       },
       {
         "header": "Model Goals",
-        "content": [{
-          "type": "section-text",
-          "field": "Model of Interest",
-          "value": []
-        },
-        {
-          "type": "section-text",
-          "field": "Goals",
-          "value": [
-            "Review of ACMG classification",
-            "Functional impact study (in silico/animal/cell modeling)",
-            "Therapeutic predictions (in silico predictions)"
-          ]
-        },
-        {
-          "type": "section-text",
-          "field": "Proposed Model/Project",
-          "value": []
-        },
-        {
-          "type": "section-text",
-          "field": "Existing Collaborations",
-          "value": []
-        },
-        {
-          "type": "section-text",
-          "field": "Existing Funding",
-          "value": []
-        }]
+        "content": [
+          {
+            "type": "section-text",
+            "field": "Model of Interest",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Goals",
+            "value": [
+              "Review of ACMG classification",
+              "Functional impact study (in silico/animal/cell modeling)",
+              "Therapeutic predictions (in silico predictions)"
+            ]
+          },
+          {
+            "type": "section-text",
+            "field": "Proposed Model/Project",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Existing Collaborations",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Existing Funding",
+            "value": []
+          }
+        ]
+      }
+    ],
+    "discussions": [
+      {
+        "post_id": "9027ec8d-6298-4afb-add5-6ef710eb5e98",
+        "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
+        "author_fullname": "Developer Person",
+        "publish_timestamp": "2023-10-09T21:13:22.687000",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum.",
+        "attachments": [],
+        "thread": []
+      },
+      {
+        "post_id": "a677bb36-acf8-4ff9-a406-b113a7952f7e",
+        "author_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
+        "author_fullname": "Researcher Person",
+        "publish_timestamp": "2023-10-10T21:13:22.687000",
+        "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum.",
+        "attachments": [],
+        "thread": []
+      },
+      {
+        "post_id": "e6023fa7-b598-416a-9f42-862c826255ef",
+        "author_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
+        "author_fullname": "Variant Review Report Preparer Person",
+        "publish_timestamp": "2023-10-13T21:13:22.687000",
+        "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also.",
+        "attachments": [],
+        "thread": []
       }
     ],
     "supporting_evidence_files": [],
@@ -254,15 +303,25 @@
             "case": [
               {
                 "field": "Evidence",
-                "value": ["PS2", "PS3", "PM2", "PP3", "PP5"]
+                "value": [
+                  "PS2",
+                  "PS3",
+                  "PM2",
+                  "PP3",
+                  "PP5"
+                ]
               },
               {
                 "field": "Interpretation",
-                "value": ["Pathogenic"]
+                "value": [
+                  "Pathogenic"
+                ]
               },
               {
                 "field": "Inheritance",
-                "value": ["De Novo"]
+                "value": [
+                  "De Novo"
+                ]
               }
             ]
           }
@@ -283,7 +342,9 @@
           {
             "type": "section-text",
             "field": "Participant",
-            "value": ["Male, YOB: 2019"]
+            "value": [
+              "Male, YOB: 2019"
+            ]
           },
           {
             "type": "section-text",
@@ -318,22 +379,30 @@
           {
             "type": "section-text",
             "field": "Clinical Diagnosis",
-            "value": ["LMNA-related congenital muscular dystropy"]
+            "value": [
+              "LMNA-related congenital muscular dystropy"
+            ]
           },
           {
             "type": "section-text",
             "field": "Affected Individuals Identified",
-            "value": ["Male, YOB: 2019"]
+            "value": [
+              "Male, YOB: 2019"
+            ]
           },
           {
             "type": "section-text",
             "field": "Sequencing",
-            "value": ["WES"]
+            "value": [
+              "WES"
+            ]
           },
           {
             "type": "section-text",
             "field": "Testing",
-            "value": ["WES - February  2020;"]
+            "value": [
+              "WES - February  2020;"
+            ]
           },
           {
             "type": "section-text",
@@ -366,16 +435,19 @@
       {
         "header": "Pedigree",
         "attachment_field": "Pedigree",
-        "content": [{
-          "type": "images-dataset",
-          "field": "Pedigree",
-          "value": []
-        }]
+        "content": [
+          {
+            "type": "images-dataset",
+            "field": "Pedigree",
+            "value": []
+          }
+        ]
       },
       {
         "header": "LMNA Gene To Phenotype",
         "attachment_field": "LMNA Gene To Phenotype",
-        "content": [{
+        "content": [
+          {
             "type": "images-dataset",
             "field": "LMNA Gene To Phenotype",
             "value": []
@@ -402,7 +474,8 @@
       {
         "header": "LMNA Function",
         "attachment_field": "LMNA Function",
-        "content": [{
+        "content": [
+          {
             "type": "images-dataset",
             "field": "LMNA Function",
             "value": []
@@ -411,38 +484,62 @@
       },
       {
         "header": "Model Goals",
-        "content": [{
-          "type": "section-text",
-          "field": "Model of Interest",
-          "value": ["Zebrafish"]
-        },
-        {
-          "type": "section-text",
-          "field": "Goals",
+        "content": [
+          {
+            "type": "section-text",
+            "field": "Model of Interest",
+            "value": [
+              "Zebrafish"
+            ]
+          },
+          {
+            "type": "section-text",
+            "field": "Goals",
             "value": [
               "Functional impact confirmation (animal/cell modeling)",
               "Therapeutic predictions (in-silico predictions)",
               "Downstream applications (sharing model to conduct larger drug screens)"
             ]
-        },
-        {
-          "type": "section-text",
-          "field": "Proposed Model/Project",
-          "value": [
-            "Contribute a dominant negative patient-variant model to the existing zebrafish model (LOF; in-progress)",
-            "Will be used in NBL 240: a research-based undergraduate course at UAB"
-          ]
-        },
-        {
-          "type": "section-text",
-          "field": "Existing Collaborations",
-          "value": []
-        },
-        {
-          "type": "section-text",
-          "field": "Existing Funding",
-          "value": []
-        }]
+          },
+          {
+            "type": "section-text",
+            "field": "Proposed Model/Project",
+            "value": [
+              "Contribute a dominant negative patient-variant model to the existing zebrafish model (LOF; in-progress)",
+              "Will be used in NBL 240: a research-based undergraduate course at UAB"
+            ]
+          },
+          {
+            "type": "section-text",
+            "field": "Existing Collaborations",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Existing Funding",
+            "value": []
+          }
+        ]
+      }
+    ],
+    "discussions": [
+      {
+        "post_id": "9027ec8d-6298-4afb-add5-6ef710eb5e98",
+        "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
+        "author_fullname": "Developer Person",
+        "publish_timestamp": "2023-10-09T21:13:22.687000",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum.",
+        "attachments": [],
+        "thread": []
+      },
+      {
+        "post_id": "e6023fa7-b598-416a-9f42-862c826255ef",
+        "author_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
+        "author_fullname": "Variant Review Report Preparer Person",
+        "publish_timestamp": "2023-10-13T21:13:22.687000",
+        "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also.",
+        "attachments": [],
+        "thread": []
       }
     ],
     "timeline": [
@@ -505,7 +602,9 @@
           {
             "type": "section-text",
             "field": "Nominator",
-            "value": ["CMT4B3 Foundation"]
+            "value": [
+              "CMT4B3 Foundation"
+            ]
           },
           {
             "type": "section-text",
@@ -546,8 +645,8 @@
             "type": "section-text",
             "field": "Clinical Diagnosis",
             "value": [
-                "Mild Zellweger Spectrum Disorder (a Peroxisome Biogenesis Disorder)",
-                "Current clinical manifestation is cerebellar ataxia that has impeded gross motor development."
+              "Mild Zellweger Spectrum Disorder (a Peroxisome Biogenesis Disorder)",
+              "Current clinical manifestation is cerebellar ataxia that has impeded gross motor development."
             ]
           },
           {
@@ -563,33 +662,42 @@
           {
             "type": "section-text",
             "field": "Testing",
-            "value": [" - Invitae Boosted Exome in 2019"]
+            "value": [
+              " - Invitae Boosted Exome in 2019"
+            ]
           },
           {
             "type": "section-text",
             "field": "Systems",
-            "value": ["Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"]
+            "value": [
+              "Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"
+            ]
           },
           {
             "type": "section-text",
             "field": "Additional Details",
-            "value": ["Symptoms: postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus "]
+            "value": [
+              "Symptoms: postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus "
+            ]
           }
         ]
       },
       {
         "header": "Pedigree",
         "attachment_field": "Pedigree",
-        "content": [{
-          "type": "images-dataset",
-          "field": "Pedigree",
-          "value": []
-        }]
+        "content": [
+          {
+            "type": "images-dataset",
+            "field": "Pedigree",
+            "value": []
+          }
+        ]
       },
       {
         "header": "SBF1 Gene To Phenotype",
         "attachment_field": "SBF1 Gene To Phenotype",
-        "content": [{
+        "content": [
+          {
             "type": "images-dataset",
             "field": "SBF1 Gene To Phenotype",
             "value": []
@@ -614,7 +722,8 @@
       {
         "header": "SBF1 Function",
         "attachment_field": "SBF1 Function",
-        "content": [{
+        "content": [
+          {
             "type": "images-dataset",
             "field": "SBF1 Function",
             "value": []
@@ -623,31 +732,62 @@
       },
       {
         "header": "Model Goals",
-        "content": [{
-          "type": "section-text",
-          "field": "Model of Interest",
-          "value": []
-        },
-        {
-          "type": "section-text",
-          "field": "Goals",
+        "content": [
+          {
+            "type": "section-text",
+            "field": "Model of Interest",
             "value": []
-        },
-        {
-          "type": "section-text",
-          "field": "Proposed Model/Project",
-          "value": []
-        },
-        {
-          "type": "section-text",
-          "field": "Existing Collaborations",
-          "value": []
-        },
-        {
-          "type": "section-text",
-          "field": "Existing Funding",
-          "value": []
-        }]
+          },
+          {
+            "type": "section-text",
+            "field": "Goals",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Proposed Model/Project",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Existing Collaborations",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Existing Funding",
+            "value": []
+          }
+        ]
+      }
+    ],
+    "discussions": [
+      {
+        "post_id": "9027ec8d-6298-4afb-add5-6ef710eb5e98",
+        "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
+        "author_fullname": "Developer Person",
+        "publish_timestamp": "2023-10-09T21:13:22.687000",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum.",
+        "attachments": [],
+        "thread": []
+      },
+      {
+        "post_id": "a677bb36-acf8-4ff9-a406-b113a7952f7e",
+        "author_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
+        "author_fullname": "Researcher Person",
+        "publish_timestamp": "2023-10-10T21:13:22.687000",
+        "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum.",
+        "attachments": [],
+        "thread": []
+      },
+      {
+        "post_id": "e6023fa7-b598-416a-9f42-862c826255ef",
+        "author_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
+        "author_fullname": "Variant Review Report Preparer Person",
+        "publish_timestamp": "2023-10-13T21:13:22.687000",
+        "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also.",
+        "attachments": [],
+        "thread": []
       }
     ],
     "timeline": [
@@ -694,19 +834,29 @@
             "case": [
               {
                 "field": "Evidence",
-                "value": ["PVS1", "PM2", "PP5"]
+                "value": [
+                  "PVS1",
+                  "PM2",
+                  "PP5"
+                ]
               },
               {
                 "field": "Interpretation",
-                "value": ["Pathogenic"]
+                "value": [
+                  "Pathogenic"
+                ]
               },
               {
                 "field": "Zygosity",
-                "value": ["Compound Hetrozygous"]
+                "value": [
+                  "Compound Hetrozygous"
+                ]
               },
               {
                 "field": "Inheritance",
-                "value": ["Autosomal Recesive"]
+                "value": [
+                  "Autosomal Recesive"
+                ]
               }
             ]
           },
@@ -718,15 +868,23 @@
             "case": [
               {
                 "field": "Evidence",
-                "value": ["PM2", "PM5", "PP3"]
+                "value": [
+                  "PM2",
+                  "PM5",
+                  "PP3"
+                ]
               },
               {
                 "field": "Interpretation",
-                "value": ["Variant of Unknown Signifigance"]
+                "value": [
+                  "Variant of Unknown Signifigance"
+                ]
               },
               {
                 "field": "Zygosity",
-                "value": ["Compound Hetrozygous"]
+                "value": [
+                  "Compound Hetrozygous"
+                ]
               }
             ]
           }
@@ -741,20 +899,22 @@
             "type": "section-text",
             "field": "Nominator",
             "value": [
-                "Precision Medicine Institute"
+              "Precision Medicine Institute"
             ]
           },
           {
             "type": "section-text",
             "field": "Participant",
             "value": [
-                "Pediatric male (YOB: 2017), Local Participant"
+              "Pediatric male (YOB: 2017), Local Participant"
             ]
           },
           {
             "type": "section-text",
             "field": "Phenotype",
-            "value": ["Postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus "]
+            "value": [
+              "Postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus "
+            ]
           },
           {
             "type": "section-text",
@@ -792,7 +952,9 @@
           {
             "type": "section-text",
             "field": "Affected Individuals Identified",
-            "value": ["Pediatric Male (YOB: 2017) Local Participant"]
+            "value": [
+              "Pediatric Male (YOB: 2017) Local Participant"
+            ]
           },
           {
             "type": "section-text",
@@ -802,33 +964,42 @@
           {
             "type": "section-text",
             "field": "Testing",
-            "value": [" - Invitae Boosted Exome in 2019"]
+            "value": [
+              " - Invitae Boosted Exome in 2019"
+            ]
           },
           {
             "type": "section-text",
             "field": "Systems",
-            "value": ["Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"]
+            "value": [
+              "Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"
+            ]
           },
           {
             "type": "section-text",
             "field": "Additional Details",
-            "value": ["Symptoms: postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus"]
+            "value": [
+              "Symptoms: postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus"
+            ]
           }
         ]
       },
       {
         "header": "Pedigree",
         "attachment_field": "Pedigree",
-        "content": [{
-          "type": "images-dataset",
-          "field": "Pedigree",
-          "value": []
-        }]
+        "content": [
+          {
+            "type": "images-dataset",
+            "field": "Pedigree",
+            "value": []
+          }
+        ]
       },
       {
         "header": "PEX10 Gene To Phenotype",
         "attachment_field": "PEX10 Gene To Phenotype",
-        "content": [{
+        "content": [
+          {
             "type": "images-dataset",
             "field": "PEX10 Gene To Phenotype",
             "value": []
@@ -836,7 +1007,9 @@
           {
             "type": "section-text",
             "field": "HPO Terms",
-            "value": ["Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"]
+            "value": [
+              "Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"
+            ]
           }
         ]
       },
@@ -853,7 +1026,8 @@
       {
         "header": "PEX10 Function",
         "attachment_field": "PEX10 Function",
-        "content": [{
+        "content": [
+          {
             "type": "images-dataset",
             "field": "PEX10 Function",
             "value": []
@@ -862,50 +1036,65 @@
       },
       {
         "header": "Model Goals",
-        "content": [{
-          "type": "section-text",
-          "field": "Model of Interest",
-          "value": ["Zebrafish"]
-        },
-        {
-          "type": "section-text",
-          "field": "Goals",
+        "content": [
+          {
+            "type": "section-text",
+            "field": "Model of Interest",
+            "value": [
+              "Zebrafish"
+            ]
+          },
+          {
+            "type": "section-text",
+            "field": "Goals",
             "value": [
               "Functional impact confirmation (animal/cell modeling)",
               "Therapeutic predictions (in-silico predictions)",
               "Downstream applications",
               " - Downstream applications"
             ]
-        },
-        {
-          "type": "section-text",
-          "field": "Proposed Model/Project",
-          "value": [
-            "Parental fibroblasts and iPSCs in process",
-            "S. Cerevisiae: no meaningful phenotype found for H303D (human H310D)",
-            "C Elegans: InVivo made model but there looks to be off-target mutations; Andy Golden (NIH) is planning to make another one",
-            "Mice: JAX models in process",
-            "H288D mice have phenotype (personal communication)",
-            "B6 mice",
-            "Conditional KOMP B6",
-            "5050 B6 and 129",
-            "Previous mice models C294Y (human C316Y; same RING finger domain) – homozygous and heterozygous have phenotype",
-            "    http://www.informatics.jax.org/allele/MGI:5638060",
-            "H. Polymorpha: in process",
-            "Drosophila: in process",
-            "Zebrafish: in negotiations (ensures if a model is created by CPAM, there will be collaborator lined up)"
+          },
+          {
+            "type": "section-text",
+            "field": "Proposed Model/Project",
+            "value": [
+              "Parental fibroblasts and iPSCs in process",
+              "S. Cerevisiae: no meaningful phenotype found for H303D (human H310D)",
+              "C Elegans: InVivo made model but there looks to be off-target mutations; Andy Golden (NIH) is planning to make another one",
+              "Mice: JAX models in process",
+              "H288D mice have phenotype (personal communication)",
+              "B6 mice",
+              "Conditional KOMP B6",
+              "5050 B6 and 129",
+              "Previous mice models C294Y (human C316Y; same RING finger domain) – homozygous and heterozygous have phenotype",
+              "    http://www.informatics.jax.org/allele/MGI:5638060",
+              "H. Polymorpha: in process",
+              "Drosophila: in process",
+              "Zebrafish: in negotiations (ensures if a model is created by CPAM, there will be collaborator lined up)"
+            ]
+          },
+          {
+            "type": "section-text",
+            "field": "Existing Collaborations",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Existing Funding",
+            "value": []
+          }
         ]
-        },
-        {
-          "type": "section-text",
-          "field": "Existing Collaborations",
-          "value": []
-        },
-        {
-          "type": "section-text",
-          "field": "Existing Funding",
-          "value": []
-        }]
+      }
+    ],
+    "discussions": [
+      {
+        "post_id": "e6023fa7-b598-416a-9f42-862c826255ef",
+        "author_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
+        "author_fullname": "Variant Review Report Preparer Person",
+        "publish_timestamp": "2023-10-13T21:13:22.687000",
+        "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also.",
+        "attachments": [],
+        "thread": []
       }
     ],
     "timeline": [
@@ -958,7 +1147,9 @@
           {
             "type": "section-text",
             "field": "Nominator",
-            "value": ["Believe in a Cure Foundation (nonprofit, FOXG1 syndrome)"]
+            "value": [
+              "Believe in a Cure Foundation (nonprofit, FOXG1 syndrome)"
+            ]
           },
           {
             "type": "section-text",
@@ -1003,8 +1194,10 @@
           {
             "type": "section-text",
             "field": "Affected Individuals Identified",
-            "value": [" - Frameshift – 3 published cases (Ellaway et al 2013, Takahashi et al 2012, Le Guen et al 2011)",
-          " - Nonsense – 1 published case (Philippe et al 2010)"]
+            "value": [
+              " - Frameshift – 3 published cases (Ellaway et al 2013, Takahashi et al 2012, Le Guen et al 2011)",
+              " - Nonsense – 1 published case (Philippe et al 2010)"
+            ]
           },
           {
             "type": "section-text",
@@ -1019,7 +1212,9 @@
           {
             "type": "section-text",
             "field": "Systems",
-            "value": ["Growth Parameters, Craniofacial. Eye Defects, Musculoskeletal, Behavior, Cognition, and Development, Digestive System, Neurological"]
+            "value": [
+              "Growth Parameters, Craniofacial. Eye Defects, Musculoskeletal, Behavior, Cognition, and Development, Digestive System, Neurological"
+            ]
           },
           {
             "type": "section-text",
@@ -1031,16 +1226,19 @@
       {
         "header": "Pedigree",
         "attachment_field": "Pedigree",
-        "content": [{
-          "type": "images-dataset",
-          "field": "Pedigree",
-          "value": []
-        }]
+        "content": [
+          {
+            "type": "images-dataset",
+            "field": "Pedigree",
+            "value": []
+          }
+        ]
       },
       {
         "header": "FOXG1 Gene To Phenotype",
         "attachment_field": "FOXG1 Gene To Phenotype",
-        "content": [{
+        "content": [
+          {
             "type": "images-dataset",
             "field": "FOXG1 Gene To Phenotype",
             "value": []
@@ -1068,7 +1266,8 @@
       {
         "header": "FOXG1 Function",
         "attachment_field": "FOXG1 Function",
-        "content": [{
+        "content": [
+          {
             "type": "images-dataset",
             "field": "FOXG1 Function",
             "value": []
@@ -1077,34 +1276,36 @@
       },
       {
         "header": "Model Goals",
-        "content": [{
-          "type": "section-text",
-          "field": "Model of Interest",
-          "value": []
-        },
-        {
-          "type": "section-text",
-          "field": "Goals",
+        "content": [
+          {
+            "type": "section-text",
+            "field": "Model of Interest",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Goals",
             "value": [
               " - Therapeutic predictions (in silico predictions)",
               " - Downstream applications (studies funded out with C-PAM to generate downstream findings)"
             ]
-        },
-        {
-          "type": "section-text",
-          "field": "Proposed Model/Project",
-          "value": []
-        },
-        {
-          "type": "section-text",
-          "field": "Existing Collaborations",
-          "value": []
-        },
-        {
-          "type": "section-text",
-          "field": "Existing Funding",
-          "value": []
-        }]
+          },
+          {
+            "type": "section-text",
+            "field": "Proposed Model/Project",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Existing Collaborations",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Existing Funding",
+            "value": []
+          }
+        ]
       }
     ],
     "timeline": [
@@ -1301,16 +1502,19 @@
       {
         "header": "Pedigree",
         "attachment_field": "Pedigree",
-        "content": [{
-          "type": "images-dataset",
-          "field": "Pedigree",
-          "value": []
-        }]
+        "content": [
+          {
+            "type": "images-dataset",
+            "field": "Pedigree",
+            "value": []
+          }
+        ]
       },
       {
         "header": "DLG4 Gene To Phenotype",
         "attachment_field": "DLG4 Gene To Phenotype",
-        "content": [{
+        "content": [
+          {
             "type": "images-dataset",
             "field": "DLG4 Gene To Phenotype",
             "value": []
@@ -1337,7 +1541,8 @@
       {
         "header": "DLG4 Function",
         "attachment_field": "DLG4 Function",
-        "content": [{
+        "content": [
+          {
             "type": "images-dataset",
             "field": "DLG4 Function",
             "value": []
@@ -1347,7 +1552,8 @@
       {
         "header": "G6PD Gene To Phenotype",
         "attachment_field": "G6PD Gene To Phenotype",
-        "content": [{
+        "content": [
+          {
             "type": "images-dataset",
             "field": "G6PD Gene To Phenotype",
             "value": []
@@ -1374,7 +1580,8 @@
       {
         "header": "G6PD Function",
         "attachment_field": "G6PD Function",
-        "content": [{
+        "content": [
+          {
             "type": "images-dataset",
             "field": "G6PD Function",
             "value": []
@@ -1383,31 +1590,33 @@
       },
       {
         "header": "Model Goals",
-        "content": [{
-          "type": "section-text",
-          "field": "Model of Interest",
-          "value": []
-        },
-        {
-          "type": "section-text",
-          "field": "Goals",
+        "content": [
+          {
+            "type": "section-text",
+            "field": "Model of Interest",
             "value": []
-        },
-        {
-          "type": "section-text",
-          "field": "Proposed Model/Project",
-          "value": []
-        },
-        {
-          "type": "section-text",
-          "field": "Existing Collaborations",
-          "value": []
-        },
-        {
-          "type": "section-text",
-          "field": "Existing Funding",
-          "value": []
-        }]
+          },
+          {
+            "type": "section-text",
+            "field": "Goals",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Proposed Model/Project",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Existing Collaborations",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Existing Funding",
+            "value": []
+          }
+        ]
       }
     ],
     "supporting_evidence_files": []
