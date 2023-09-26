@@ -31,8 +31,8 @@ export default {
 <style scoped>
 
 .new-discussion-button {
-    margin-bottom: 10px;
-    margin-right: 10px
+    margin-bottom: var(--p-10);
+    margin-right: var(--p-10);
 }
 
 .collapsable-icon {
