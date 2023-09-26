@@ -39,6 +39,9 @@
         @update:content-row="this.onAnalysisContentUpdated"
         @download="this.downloadSupportingEvidence"
       />
+      <DiscussionSection
+        id="Discussion"
+      />
       <SupplementalFormList
         id="Supporting_Evidence"
         :attachments="this.attachments"
@@ -70,6 +73,7 @@ import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import Toast from '@/components/Dialogs/Toast.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
 import SaveModal from '@/components/AnalysisView/SaveModal.vue';
+import DiscussionSection from '../components/AnalysisView/DiscussionSection.vue';
 
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
@@ -89,6 +93,7 @@ export default {
     Toast,
     SupplementalFormList,
     SaveModal,
+    DiscussionSection,
   },
   props: ['analysis_name'],
   data: function() {
@@ -107,6 +112,7 @@ export default {
       const sections = this.analysis.sections.map((section) => {
         return section.header;
       });
+      sections.push('Discussion');
       sections.push('Supporting Evidence');
       return sections;
     },
