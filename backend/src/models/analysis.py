@@ -80,6 +80,7 @@ class Analysis(BaseAnalysis):
 
     genomic_units: List[GenomicUnit] = []
     sections: List[Section] = []
+    discussions: List = []
     supporting_evidence_files: List = []
 
     def units_to_annotate(self):
