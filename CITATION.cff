@@ -1,0 +1,89 @@
+cff-version: "1.2.0"
+authors:
+- family-names: Uno-Antonison
+  given-names: Angelina E.
+  orcid: "https://orcid.org/0000-0002-4631-9135"
+- family-names: Fatima
+  given-names: Rabab
+  orcid: "https://orcid.org/0000-0002-3739-6331"
+- family-names: Scherer
+  given-names: James
+  orcid: "https://orcid.org/0000-0002-4272-2082"
+- family-names: Moss
+  given-names: Alexander
+  orcid: "https://orcid.org/0000-0001-5112-0270"
+- family-names: Brown
+  given-names: Donna
+  orcid: "https://orcid.org/0000-0002-8805-7225"
+- family-names: Foksinska
+  given-names: Aleksandra
+  orcid: "https://orcid.org/0000-0002-1035-3294"
+- family-names: Gajapathy
+  given-names: Manavalan
+  orcid: "https://orcid.org/0000-0002-8606-0113"
+- family-names: Wilk
+  given-names: Elizabeth J.
+  orcid: "https://orcid.org/0000-0002-7078-1215"
+- family-names: Lasseigne
+  given-names: Brittany N.
+  orcid: "https://orcid.org/0000-0002-1642-8904"
+- family-names: Worthey
+  given-names: Elizabeth
+  orcid: "https://orcid.org/0000-0003-4083-7764"
+contact:
+- family-names: Uno-Antonison
+  given-names: Angelina E.
+  orcid: "https://orcid.org/0000-0002-4631-9135"
+- family-names: Worthey
+  given-names: Elizabeth
+  orcid: "https://orcid.org/0000-0003-4083-7764"
+doi: 10.5281/zenodo.8380641
+message: If you use this software, please cite our article in the
+  Journal of Open Source Software.
+preferred-citation:
+  authors:
+  - family-names: Uno-Antonison
+    given-names: Angelina E.
+    orcid: "https://orcid.org/0000-0002-4631-9135"
+  - family-names: Fatima
+    given-names: Rabab
+    orcid: "https://orcid.org/0000-0002-3739-6331"
+  - family-names: Scherer
+    given-names: James
+    orcid: "https://orcid.org/0000-0002-4272-2082"
+  - family-names: Moss
+    given-names: Alexander
+    orcid: "https://orcid.org/0000-0001-5112-0270"
+  - family-names: Brown
+    given-names: Donna
+    orcid: "https://orcid.org/0000-0002-8805-7225"
+  - family-names: Foksinska
+    given-names: Aleksandra
+    orcid: "https://orcid.org/0000-0002-1035-3294"
+  - family-names: Gajapathy
+    given-names: Manavalan
+    orcid: "https://orcid.org/0000-0002-8606-0113"
+  - family-names: Wilk
+    given-names: Elizabeth J.
+    orcid: "https://orcid.org/0000-0002-7078-1215"
+  - family-names: Lasseigne
+    given-names: Brittany N.
+    orcid: "https://orcid.org/0000-0002-1642-8904"
+  - family-names: Worthey
+    given-names: Elizabeth
+    orcid: "https://orcid.org/0000-0003-4083-7764"
+  date-published: 2023-10-01
+  doi: 10.21105/joss.05443
+  issn: 2475-9066
+  issue: 90
+  journal: Journal of Open Source Software
+  publisher:
+    name: Open Journals
+  start: 5443
+  title: "Rosalution: Supporting data accessibility, integration,
+    curation, interoperability, and reuse for precision animal modeling"
+  type: article
+  url: "https://joss.theoj.org/papers/10.21105/joss.05443"
+  volume: 8
+title: "Rosalution: Supporting data accessibility, integration,
+  curation, interoperability, and reuse for precision animal modeling"
