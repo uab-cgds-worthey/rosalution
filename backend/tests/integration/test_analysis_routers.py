@@ -1,7 +1,6 @@
 """Analysis Routes Integration test"""
 
 import json
-import os
 import datetime
 
 from unittest.mock import patch
@@ -12,7 +11,7 @@ from fastapi import BackgroundTasks
 
 from src.core.annotation import AnnotationService
 
-from ..test_utils import read_database_fixture, read_test_fixture
+from ..test_utils import fixture_filepath, read_database_fixture, read_test_fixture
 
 
 def test_get_analyses(client, mock_access_token, mock_repositories):
@@ -61,16 +60,9 @@ def test_import_analysis_with_phenotips_json(
     )
     mock_repositories['genomic_unit'].collection.find.return_value = read_database_fixture("genomic-units.json")
 
-    # This is used here because the 'read_fixture' returns a json dict rather than raw binary
-    # We actually want to send a binary file through the endpoint to simulate a file being sent
-    # then json.loads is used on the other end in the repository.
-    # This'll get updated and broken out in the test_utils in the future
-    path_to_current_file = os.path.realpath(__file__)
-    current_directory = os.path.split(path_to_current_file)[0]
-    path_to_file = os.path.join(current_directory, '../fixtures/' + 'phenotips-import.json')
-
     with patch.object(BackgroundTasks, "add_task", return_value=None) as mock_background_add_task:
-        with open(path_to_file, "rb") as phenotips_file:
+        analysis_import_json_filepath = fixture_filepath('phenotips-import.json')
+        with open(analysis_import_json_filepath, "rb") as phenotips_file:
             response = client.post(
                 "/analysis/import_file",
                 headers={"Authorization": "Bearer " + mock_access_token},
@@ -236,30 +228,20 @@ def test_attach_image_to_pedigree_section(client, mock_access_token, mock_reposi
     mock_repositories['analysis'].collection.find_one_and_update.return_value = expected
     mock_repositories['bucket'].bucket.put.return_value = "633afb87fb250a6ea1569555"
 
-    # This is used here because the 'read_fixture' returns a json dict rather than raw binary
-    # We actually want to send a binary file through the endpoint to simulate a file being sent
-    # then json.loads is used on the other end in the repository.
-    # This'll get updated and broken out in the test_utils in the future
-    path_to_current_file = os.path.realpath(__file__)
-    current_directory = os.path.split(path_to_current_file)[0]
-    path_to_file = os.path.join(current_directory, '../fixtures/' + 'pedigree-fake.jpg')
-
-    with open(path_to_file, "rb") as phenotips_file:
-        pedigree_image = phenotips_file.read()
-        pedigree_bytes = bytearray(pedigree_image)
+    section_image_filepath = fixture_filepath('pedigree-fake.jpg')
+    with open(section_image_filepath, "rb") as phenotips_file:
         response = client.post(
             "/analysis/CPAM0112/section/attach/image",
             headers={"Authorization": "Bearer " + mock_access_token},
-            files={"upload_file": ("pedigree-fake.jpg", pedigree_bytes)},
+            files={"upload_file": ("pedigree-fake.jpg", phenotips_file)},
             data=({"section_name": "Pedigree", "field_name": "Pedigree"})
         )
 
         phenotips_file.close()
 
+    assert response.status_code == 201
     mock_repositories["analysis"].collection.find_one_and_update.assert_called_with({"name": "CPAM0112"},
                                                                                     {"$set": expected})
-
-    assert response.status_code == 201
 
 
 def test_update_existing_pedigree_section_image(client, mock_access_token, mock_repositories):
@@ -269,24 +251,16 @@ def test_update_existing_pedigree_section_image(client, mock_access_token, mock_
     mock_analysis = read_test_fixture("analysis-CPAM0002.json")
     mock_repositories["analysis"].collection.find_one_and_update.return_value = mock_analysis
 
-    # This is used here because the 'read_fixture' returns a json dict rather than raw binary
-    # We actually want to send a binary file through the endpoint to simulate a file being sent
-    # then json.loads is used on the other end in the repository.
-    # This'll get updated and broken out in the test_utils in the future
-    path_to_current_file = os.path.realpath(__file__)
-    current_directory = os.path.split(path_to_current_file)[0]
-    path_to_file = os.path.join(current_directory, '../fixtures/' + 'pedigree-fake.jpg')
-
-    with open(path_to_file, 'rb') as file:
-        pedigree_image = file.read()
-        pedigree_bytes = bytearray(pedigree_image)
+    # Need to send the file as raw binary instead of the processed content
+    section_image_filepath = fixture_filepath('pedigree-fake.jpg')
+    with open(section_image_filepath, "rb") as image_file:
         response = client.put(
             "/analysis/CPAM0002/section/update/633afb87fb250a6ea1569555",
             headers={"Authorization": "Bearer " + mock_access_token},
-            files={"upload_file": ("pedigree-fake.jpg", pedigree_bytes)},
+            files={"upload_file": ("pedigree-fake.jpg", image_file)},
             data=({"section_name": "Pedigree", "field_name": "Pedigree"})
         )
-        file.close()
+        image_file.close()
 
     expected = {'section': 'Pedigree', 'field': 'Pedigree', 'image_id': '633afb87fb250a6ea1569555'}
 
@@ -299,10 +273,11 @@ def test_remove_existing_pedigree_section_image(client, mock_access_token, mock_
     mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
     mock_repositories["bucket"].bucket.delete.return_value = None
 
-    response = client.delete(
+    response = client.request(
+        'DELETE',
         "/analysis/CPAM0002/section/remove/63505be22888347cf1c275db",
         headers={"Authorization": "Bearer " + mock_access_token},
-        data=({"section_name": "Pedigree", "field_name": "Pedigree"})
+        data={"section_name": "Pedigree", "field_name": "Pedigree"},
     )
 
     mock_repositories["bucket"].bucket.delete.assert_called_with(ObjectId("63505be22888347cf1c275db"))

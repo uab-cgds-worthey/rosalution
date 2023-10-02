@@ -76,8 +76,8 @@ async def create_file(
 
     phenotips_importer = PhenotipsImporter(repositories["analysis"], repositories["genomic_unit"])
     try:
-        new_analysis = phenotips_importer.import_phenotips_json(phenotips_input.dict())
-        new_analysis['timeline'].append(Event.timestamp_create_event(username).dict())
+        new_analysis = phenotips_importer.import_phenotips_json(phenotips_input.model_dump())
+        new_analysis['timeline'].append(Event.timestamp_create_event(username).model_dump())
         repositories['analysis'].create_analysis(new_analysis)
 
     except ValueError as exception:

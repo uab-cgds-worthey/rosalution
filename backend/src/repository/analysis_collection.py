@@ -364,7 +364,7 @@ class AnalysisCollection:
         analysis = self.collection.find_one({"name": analysis_name})
         if not analysis:
             raise ValueError(f"Analysis with name {analysis_name} does not exist.")
-        analysis['timeline'].append(Event.timestamp_event(username, event_type).dict())
+        analysis['timeline'].append(Event.timestamp_event(username, event_type).model_dump())
 
         updated_document = self.collection.find_one_and_update(
             {"name": analysis_name},

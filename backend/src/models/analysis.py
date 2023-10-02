@@ -7,7 +7,7 @@ from datetime import date
 from multiprocessing import Event
 import re
 from typing import List, Optional
-from pydantic import BaseModel, root_validator
+from pydantic import BaseModel, computed_field
 
 from .event import Event
 
@@ -34,29 +34,39 @@ class BaseAnalysis(BaseModel):
     """The share parts of an analysis and it's summary"""
 
     name: str
-    description: Optional[str]
+    description: Optional[str] = None
     nominated_by: str
-    latest_status: Optional[StatusType]
-    created_date: Optional[date]
-    last_modified_date: Optional[date]
     timeline: List[Event] = []
     third_party_links: Optional[List] = []
 
-    # The structure of the root_validator from pydantic requires the method to be setup this way even if there is no
-    # self being used and no self argument
-    @root_validator
-    def compute_dates_and_status(cls, values):  #pylint: disable=no-self-argument
-        """Computes the dates and status of an analysis from a timeline"""
-        if len(values['timeline']) == 0:
-            return values
+    @computed_field
+    @property
+    def created_date(self) -> date:
+        """The created date derived from the create event in the timeline"""
+        if len(self.timeline) == 0:
+            return None
 
-        last_event = sorted(values['timeline'], key=lambda event: event.timestamp, reverse=True)[0]
-        values['last_modified_date'] = last_event.timestamp.date()
-        values['created_date'] = next(
-            (event.timestamp.date() for event in values['timeline'] if event.event == EventType.CREATE), None
-        )
-        values['latest_status'] = StatusType.from_event(last_event.event)
-        return values
+        return next((event.timestamp.date() for event in self.timeline if event.event == EventType.CREATE), None)
+
+    @computed_field
+    @property
+    def last_modified_date(self) -> date:
+        """The last modified date derived from the last event in the timeline"""
+        if len(self.timeline) == 0:
+            return None
+
+        last_event = sorted(self.timeline, key=lambda event: event.timestamp, reverse=True)[0]
+        return last_event.timestamp.date()
+
+    @computed_field
+    @property
+    def latest_status(self) -> StatusType:
+        """The status as calculated from the events on the timeline"""
+        if len(self.timeline) == 0:
+            return None
+
+        last_event = sorted(self.timeline, key=lambda event: event.timestamp, reverse=True)[0]
+        return StatusType.from_event(last_event.event)
 
 
 class AnalysisSummary(BaseAnalysis):
