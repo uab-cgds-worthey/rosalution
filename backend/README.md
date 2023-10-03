@@ -1,6 +1,6 @@
 # Rosalution Backend
 
-Rosalution's backend uses FastAPI as a Python REST endpoint framework to accept and proccess frontend and user requests.
+Rosalution's backend uses FastAPI as a Python REST endpoint framework to accept and process frontend and user requests.
 
 It is currently used to handle Rosalution's authentication system, interact with MongoDB for state management,
 and the web accessible Swagger API documentation.
@@ -9,7 +9,7 @@ and the web accessible Swagger API documentation.
 
 ### Dependencies
 
-- [Python 3.8+](https://www.python.org/) - [Install](https://www.python.org/downloads/)
+- [Python 3.11](https://www.python.org/) - [Install](https://www.python.org/downloads/)
 - [Pip](https://pip.pypa.io/en/{"originTabId":1,"originWindowId":1}stable/) - [Install](https://pip.pypa.io/en/stable/installation/)
 
 ### Requirements
@@ -44,7 +44,7 @@ of startup.
 
 - **ROSALUTION_ENV** Sets whether the application's environment is in production. This will run the backend with the
 [-O flag](https://docs.python.org/3/using/cmdline.html#cmdoption-O) which will turn off `__debug__` statements
-within the backend codebase when using the 'entrypoint-init.sh` to start the applicaiton.
+within the backend codebase when using the 'entrypoint-init.sh` to start the application.
 - **MONGODB_HOST** Sets the host or host:port for the server host address for MongoDB.
     (default) rosalution-db
       - The default is the **docker compose** name for the service, so inside other docker containers within the same network,

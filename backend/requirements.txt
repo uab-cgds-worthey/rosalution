@@ -1,4 +1,4 @@
-fastapi[all]==0.103.1
+fastapi[all]==0.103.2
 uvicorn[standard]==0.23.2
 python-cas==1.6.0
 itsdangerous==2.1.2
