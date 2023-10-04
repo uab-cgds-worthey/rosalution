@@ -100,7 +100,7 @@ describe('AnalysisListingView', () => {
       expect(dialogComponent.exists()).to.be.true;
     });
 
-    it.only('should render notification for a failed upload', async () => {
+    it('should render notification for a failed upload', async () => {
       mockedImport.throws('broken import sad face');
       const createCard = wrapper.findComponent(AnalysisCreateCard);
       await createCard.trigger('click');
