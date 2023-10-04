@@ -458,7 +458,7 @@ To report a bug, refer to [🐞Reporting Issues](CONTRIBUTING.md#reporting-issue
 ## Maintainers
 
 - [Angelina Uno-Antonison](https://github.com/SeriousHorncat)
-    - Email: aeunoantonison@uabmc.edu
+    - Email: `aeunoantonison@uabmc.edu`
 - [Rabab Fatima](https://github.com/fatimarabab)
 - [James Scherer](https://github.com/JmScherer)
 
