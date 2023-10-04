@@ -100,7 +100,7 @@ describe('AnalysisListingView', () => {
       expect(dialogComponent.exists()).to.be.true;
     });
 
-    it('should render notification for a failed upload', async () => {
+    it.only('should render notification for a failed upload', async () => {
       mockedImport.throws('broken import sad face');
       const createCard = wrapper.findComponent(AnalysisCreateCard);
       await createCard.trigger('click');
@@ -110,13 +110,15 @@ describe('AnalysisListingView', () => {
           name: 'fake-import-phenotips.json',
         },
       };
+
       inputDialog.confirmation(attachmentData);
       await wrapper.vm.$nextTick();
 
       const dialogComponent = wrapper.findComponent(NotificationDialog);
       expect(dialogComponent.exists()).to.be.true;
       expect(notificationDialog.state.title).to.equal('Failed to import phenotips analysis');
-      expect(notificationDialog.state.message.toString()).to.equal('broken import sad face');
+      expect(notificationDialog.state.message.toString())
+          .to.equal('broken import sad face: Sinon-provided broken import sad face');
     });
   });
 

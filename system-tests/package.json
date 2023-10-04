@@ -6,10 +6,10 @@
   "license": "UNLICENSED",
   "private": true,
   "devDependencies": {
-    "cypress": "12.4.1",
-    "eslint": "8.33.0",
+    "cypress": "13.3.0",
+    "eslint": "8.50.0",
     "eslint-config-google": "0.14.0",
-    "eslint-plugin-cypress": "2.12.1"
+    "eslint-plugin-cypress": "2.15.1"
   },
   "scripts": {
     "test:e2e": "cypress run",

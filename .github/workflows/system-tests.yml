@@ -13,10 +13,10 @@ jobs:
       run: |
         sh setup.sh
     - name: Cypress tests
-      uses: cypress-io/github-action@v5
+      uses: cypress-io/github-action@v6
       with:
         working-directory: system-tests
-        browser: electron
+        browser: chrome
         headed: false
         start: docker compose up --build -d
         wait-on: 'http://local.rosalution.cgds'

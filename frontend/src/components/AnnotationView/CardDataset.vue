@@ -12,7 +12,7 @@
 <script>
 import AllianceGenomeCard from '@/components/AnnotationView/AllianceGenomeCard.vue';
 
-export default ({
+export default {
   name: 'CardDataset',
   components: {
     AllianceGenomeCard,
@@ -30,7 +30,7 @@ export default ({
       return this.value;
     },
   },
-});
+};
 </script>
 
 <style>
