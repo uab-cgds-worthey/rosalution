@@ -70,13 +70,17 @@ If another entity has or wishes to employ a CAS authority, the defined configura
 
 - This is not CAS specific, but it is employed when CAS fails and redirects the user to a specific url in the app
 
-**cas_api_service_url**: str = "http://dev.cgds.uab.edu/rosalution/api/auth/login?nexturl=%2F"
+```python
+cas_api_service_url: str = "http://dev.cgds.uab.edu/rosalution/api/auth/login?nexturl=%2F"
+```
 
 - The application's url and nexturl defines where to redirect when login is successful
 - **nexturl** is a CAS parameter that tells the server where to redirect to in your application when completing the
 CAS interaction. The **nexturl** parameter will use a relative path.
 
-**cas_server_url**: str = "https://padlockdev.idm.uab.edu/cas/"
+```python
+cas_server_url: str = "https://padlockdev.idm.uab.edu/cas/"
+```
 
 - Defines where the CAS url can be reached
 
