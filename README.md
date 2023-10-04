@@ -56,10 +56,10 @@ The following pre-requisites are required to be installed in the target *NIX env
 deploying and testing Rosalution. Install environment dependencies below using
 the respective installation instructions for your target environment.
 
-- [Node.JS 16+](https://nodejs.org/en/) & [Classic Yarn](https://classic.yarnpkg.com/en/)
+- [Node.JS 20.8+](https://nodejs.org/en/) & [Classic Yarn](https://classic.yarnpkg.com/en/)
     - Node.JS recommends managing Node.JS installations with [nvm](https://www.npmjs.com/package/npx) - [install](https://github.com/nvm-sh/nvm#install--update-script)
     - Yarn is not included with Node.JS with `nvm`. Run `npm install --global yarn` once Node.JS is installed. - [install](https://classic.yarnpkg.com/en/docs/install)
-- [Python 3.8+](https://www.python.org/) - [Install](https://www.python.org/downloads/)
+- [Python 3.11+](https://www.python.org/) - [Install](https://www.python.org/downloads/)
     - `pip3` to install the required packages for development within a virtual environment
     - `python venv` Some system installations of Python 3+ do not include python virtual environments that were added
       in Python 3.3+.  Additional installation and setup may be necessary if using Python packaged with an OS (such as Ubuntu).

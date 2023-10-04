@@ -25,7 +25,7 @@ isolated virtual environments for these projects.
 All packages necessary for Rosalution development are installed into the `./backend/rosalution_env/` virtual
 environment in the setup.sh script.
 
-To create this isolation we use the python virtual environment [venv](https://docs.python.org/3.8/library/venv.html).
+To create this isolation we use the python virtual environment [venv](https://docs.python.org/3.11/library/venv.html).
 Refer to the python virtual environment for documentation.
 
 Note: Make sure setup.sh script is run as this installs the rosalution_env and all it's dependencies.
