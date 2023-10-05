@@ -1,6 +1,6 @@
 # Rosalution Backend
 
-Rosalution's backend uses FastAPI as a Python REST endpoint framework to accept and proccess frontend and user requests.
+Rosalution's backend uses FastAPI as a Python REST endpoint framework to accept and process frontend and user requests.
 
 It is currently used to handle Rosalution's authentication system, interact with MongoDB for state management,
 and the web accessible Swagger API documentation.
@@ -9,7 +9,7 @@ and the web accessible Swagger API documentation.
 
 ### Dependencies
 
-- [Python 3.8+](https://www.python.org/) - [Install](https://www.python.org/downloads/)
+- [Python 3.11](https://www.python.org/) - [Install](https://www.python.org/downloads/)
 - [Pip](https://pip.pypa.io/en/{"originTabId":1,"originWindowId":1}stable/) - [Install](https://pip.pypa.io/en/stable/installation/)
 
 ### Requirements
@@ -25,7 +25,7 @@ isolated virtual environments for these projects.
 All packages necessary for Rosalution development are installed into the `./backend/rosalution_env/` virtual
 environment in the setup.sh script.
 
-To create this isolation we use the python virtual environment [venv](https://docs.python.org/3.8/library/venv.html).
+To create this isolation we use the python virtual environment [venv](https://docs.python.org/3.11/library/venv.html).
 Refer to the python virtual environment for documentation.
 
 Note: Make sure setup.sh script is run as this installs the rosalution_env and all it's dependencies.
@@ -44,7 +44,7 @@ of startup.
 
 - **ROSALUTION_ENV** Sets whether the application's environment is in production. This will run the backend with the
 [-O flag](https://docs.python.org/3/using/cmdline.html#cmdoption-O) which will turn off `__debug__` statements
-within the backend codebase when using the 'entrypoint-init.sh` to start the applicaiton.
+within the backend codebase when using the 'entrypoint-init.sh` to start the application.
 - **MONGODB_HOST** Sets the host or host:port for the server host address for MongoDB.
     (default) rosalution-db
       - The default is the **docker compose** name for the service, so inside other docker containers within the same network,
@@ -70,13 +70,17 @@ If another entity has or wishes to employ a CAS authority, the defined configura
 
 - This is not CAS specific, but it is employed when CAS fails and redirects the user to a specific url in the app
 
-**cas_api_service_url**: str = "http://dev.cgds.uab.edu/rosalution/api/auth/login?nexturl=%2F"
+```python
+cas_api_service_url: str = "http://dev.cgds.uab.edu/rosalution/api/auth/login?nexturl=%2F"
+```
 
 - The application's url and nexturl defines where to redirect when login is successful
 - **nexturl** is a CAS parameter that tells the server where to redirect to in your application when completing the
 CAS interaction. The **nexturl** parameter will use a relative path.
 
-**cas_server_url**: str = "https://padlockdev.idm.uab.edu/cas/"
+```python
+cas_server_url: str = "https://padlockdev.idm.uab.edu/cas/"
+```
 
 - Defines where the CAS url can be reached
 

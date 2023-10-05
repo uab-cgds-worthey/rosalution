@@ -110,13 +110,15 @@ describe('AnalysisListingView', () => {
           name: 'fake-import-phenotips.json',
         },
       };
+
       inputDialog.confirmation(attachmentData);
       await wrapper.vm.$nextTick();
 
       const dialogComponent = wrapper.findComponent(NotificationDialog);
       expect(dialogComponent.exists()).to.be.true;
       expect(notificationDialog.state.title).to.equal('Failed to import phenotips analysis');
-      expect(notificationDialog.state.message.toString()).to.equal('broken import sad face');
+      expect(notificationDialog.state.message.toString())
+          .to.equal('broken import sad face: Sinon-provided broken import sad face');
     });
   });
 

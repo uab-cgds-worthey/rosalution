@@ -50,10 +50,7 @@ def test_login_successful(client, mock_repositories, monkeypatch):
 
 def test_logout(client):
     """ This tests functionality of the local logout function """
-    response = client.get(
-        "/auth/logout",
-        cookies={"session": create_session_cookie({"username": "UABProvider"})},
-    )
+    response = client.get("/auth/logout",)
 
     assert response.json() == {"access_token": ""}
 
@@ -63,7 +60,6 @@ def test_cas_enabled_logout(client, mock_settings):  # pylint: disable=unused-ar
     response = client.get(
         '/auth/logout',
         headers={"host": 'dev.cgds.uab.edu'},
-        cookies={"session": create_session_cookie({"username": "UABProvider"})}
     )
 
     assert response.json() == {
@@ -79,7 +75,7 @@ def test_logout_callback(client):
     and redirects the user to login
     """
 
-    response = client.get('/auth/logout_callback', allow_redirects=False)
+    response = client.get('/auth/logout_callback', follow_redirects=False)
 
     assert response.status_code == 307
     assert response.headers['location'] == 'http://dev.cgds.uab.edu/rosalution/login'

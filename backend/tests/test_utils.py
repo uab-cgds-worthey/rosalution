@@ -8,6 +8,13 @@ DATABSE_FIXTURE_PATH = "../../etc/fixtures/initial-seed/"
 UNIT_TEST_FIXTURE_PATH = "./fixtures/"
 
 
+def fixture_filepath(filename):
+    """Returns the fixture data binary"""
+    path_to_current_file = os.path.realpath(__file__)
+    current_directory = os.path.split(path_to_current_file)[0]
+    return os.path.join(current_directory, UNIT_TEST_FIXTURE_PATH + filename)
+
+
 def read_database_fixture(fixture_filename):
     """reads the JSON from the filepath relative to the database fixtures in etc"""
     return read_fixtures(DATABSE_FIXTURE_PATH, fixture_filename)

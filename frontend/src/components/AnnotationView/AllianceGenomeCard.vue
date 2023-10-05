@@ -48,7 +48,7 @@
 </template>
 
 <script>
-export default ({
+export default {
   name: 'alliance-genome-card',
   props: {
     model: {
@@ -195,7 +195,7 @@ export default ({
       return 'color: black';
     },
   },
-});
+};
 
 </script>
 

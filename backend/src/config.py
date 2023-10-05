@@ -5,7 +5,8 @@ Specifically the SECRET_KEY parameter can be generated and changed with each run
 """
 # pylint: disable=too-few-public-methods
 from functools import lru_cache
-from pydantic import BaseSettings, root_validator
+from pydantic import model_validator
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -18,7 +19,7 @@ class Settings(BaseSettings):
     mongodb_host: str = "rosalution-db"
     mongodb_db: str = "rosalution_db"
     rosalution_key: str
-    auth_web_failure_redirect_route = "/login"
+    auth_web_failure_redirect_route: str = "/login"
     oauth2_access_token_expire_minutes: int = 60 * 24 * 8  # 60 minutes * 24 hours * 8 days = 8 days
     oauth2_algorithm: str = "HS256"
     openapi_api_token_route: str = "auth/token"
@@ -26,7 +27,7 @@ class Settings(BaseSettings):
     cas_server_url: str = "https://padlockdev.idm.uab.edu/cas/"
     cas_login_enable: bool = False
 
-    @root_validator(pre=True)
+    @model_validator(mode="before")
     @classmethod
     def rosalution_key_exists(cls, values):
         """

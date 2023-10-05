@@ -5,11 +5,12 @@ an external ID, variants, and genes.
 # pylint: disable=too-few-public-methods
 from datetime import datetime
 from typing import List, Optional
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel, ConfigDict
 
 
 class PhenotipsVariants(BaseModel):
     """Models a variant within a Phenotips json import"""
+    model_config = ConfigDict(extra='ignore')
 
     gene: Optional[str] = None
     inheritance: Optional[str] = None
@@ -20,14 +21,10 @@ class PhenotipsVariants(BaseModel):
     cdna: Optional[str] = None
     reference_genome: str
 
-    class config:  # pylint: disable=invalid-name
-        """Configures the pydantic model"""
-
-        extra = Extra.allow
-
 
 class PhenotipsGene(BaseModel):
     """Models a gene within a Phenotips json genes"""
+    model_config = ConfigDict(extra='ignore')
 
     comments: Optional[str] = None
     gene: str
@@ -35,34 +32,21 @@ class PhenotipsGene(BaseModel):
     strategy: Optional[list] = None
     status: Optional[str] = None
 
-    class config:  # pylint: disable=invalid-name
-        """Configures the pydantic model"""
-
-        extra = Extra.allow
-
 
 class PhenotipsHpoTerm(BaseModel):
     """Models a gene within a Phenotips json genes"""
+    model_config = ConfigDict(extra='ignore')
 
     id: str
     label: str = ""
 
-    class config:  # pylint: disable=invalid-name
-        """Configures the pydantic model"""
-
-        extra = Extra.allow
-
 
 class BasePhenotips(BaseModel):
     """The share parts of a phenotips and it's summary"""
+    model_config = ConfigDict(extra='ignore')
 
     date: datetime
     external_id: str
     variants: List[PhenotipsVariants] = []
     genes: List[PhenotipsGene] = []
     features: List[PhenotipsHpoTerm] = []
-
-    class config:  # pylint: disable=invalid-name
-        """Configures the pydantic model"""
-
-        extra = Extra.allow

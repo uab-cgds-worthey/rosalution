@@ -2,4 +2,4 @@ fastapi==0.74.1
 uvicorn==0.17.5
 pytest==7.0.1
 pylint==2.12.2
-requests==2.26.0
+requests==2.31.0

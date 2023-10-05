@@ -8,15 +8,15 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Running the setup.sh script
       run: |
         sh setup.sh
     - name: Cypress tests
-      uses: cypress-io/github-action@v5
+      uses: cypress-io/github-action@v6
       with:
         working-directory: system-tests
-        browser: electron
+        browser: chrome
         headed: false
         start: docker compose up --build -d
         wait-on: 'http://local.rosalution.cgds'

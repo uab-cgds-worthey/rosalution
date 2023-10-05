@@ -3,9 +3,9 @@ on: [push, pull_request, workflow_dispatch]
 
 env:
   MARKDOWNLINT_CONFIG: etc/static-analysis/markdownlint.json
-  HADOLINT_DOCKER: hadolint/hadolint:v2.8.0
+  HADOLINT_DOCKER: hadolint/hadolint:v2.12.0
   SHELLCHECK_DOCKER: koalaman/shellcheck:v0.9.0
-  MARKDOWN_DOCKER: ghcr.io/igorshubovych/markdownlint-cli:v0.32.2
+  MARKDOWN_DOCKER: ghcr.io/igorshubovych/markdownlint-cli:v0.37.0
 
 jobs:
   docker-shell-markdown-static-analysis:
@@ -13,7 +13,7 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
       
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Pulling Docker containers
       run: |
         docker pull $HADOLINT_DOCKER

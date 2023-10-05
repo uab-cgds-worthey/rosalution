@@ -9,7 +9,6 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
   });
 
   it.skip('should allow the user to navigate the analysis via the logo, header, and section anchor links', () => {
-
     const anchorLinks = [
       'Brief', 'Clinical History', 'Pedigree', 'Supporting Evidence', 'VMA21_Gene%20To%20Phenotype',
       'VMA21_Molecular%20Mechanism', 'VMA21_Function', 'Model_Goals',
@@ -19,15 +18,16 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
 
     cy.wait('@analysisLoad');
     cy.get('[data-test="primary-content"] > div > a')
-      .each(($el) => {
-      cy.wrap($el).invoke('text').should('be.oneOf', expectedHeaderLinks).then((text) => {
-        if (anchorLinks.includes(text)) {
-          const anchorLink = `#${text.replace(' ', '_')}`;
-          cy.wrap($el).click().url().should('contain', `analysis/CPAM0002${anchorLink}`);
-          cy.get(anchorLink);
-        }
-      });
-    });
+        .each(($el) => {
+          cy.wrap($el).invoke('text').should('be.oneOf', expectedHeaderLinks).then((text) => {
+            if (anchorLinks.includes(text)) {
+              const anchorLink = `#${text.replace(' ', '_')}`;
+              cy.wrap($el).click();
+              cy.url().should('contain', `analysis/CPAM0002${anchorLink}`);
+              cy.get(anchorLink);
+            }
+          });
+        });
 
     cy.get('[data-test="header-title-text"]').click();
     cy.window().its('scrollY').should('equal', 0);
@@ -37,7 +37,6 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
   });
 
   it('should allow the user to navigate to a third party link after adding one', () => {
-    
     cy.get('.grey-rounded-menu').invoke('attr', 'style', 'display: block; visibility: visible; opacity: 1;');
     cy.get('[data-test="user-menu"] > .grey-rounded-menu').contains('Attach Monday.com').click();
     cy.get('.grey-rounded-menu').invoke('attr', 'style', 'display: block; visibility: hidden; opacity: 0;');

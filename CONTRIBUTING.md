@@ -76,4 +76,4 @@ We will review your issue and work to resolve the bug as soon as possible. Thank
 
 ## Seeking Support
 
-For support in setting up and using Rosalution, please feel free to either use GitHub Issues or contact us via email on cgds@uabmc.edu.
+For support in setting up and using Rosalution, please feel free to either use GitHub Issues or contact us via email on `cgds@uabmc.edu`.
