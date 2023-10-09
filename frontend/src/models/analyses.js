@@ -692,8 +692,8 @@ const annotationRenderingTemporary = [
   {
     'type': 'section',
     'class': '',
-    'header': 'C. Elegens (Roundworm) Model System',
-    'anchor': 'C_Elegens_Model_System',
+    'header': 'C. elegans (Roundworm) Model System',
+    'anchor': 'C_elegans_Model_System',
     'header_datasets': [
       {
         'dataset': 'C-Elegens_Alliance_Genome_url',
