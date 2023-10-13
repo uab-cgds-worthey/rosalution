@@ -1,4 +1,8 @@
-# Vue Prototype - CSV to Table:
+# Vue Prototype - CSV to Table
+
+## Install
+
+yarn install
 
 ## Run
 

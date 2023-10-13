@@ -1,0 +1,113 @@
+/** Variables **/
+
+html {   
+  --rosalution-grey-200: #C4C4C4; 
+  --rosalution-grey-300: #A1A1A1;
+  --rosalution-grey-100: #E7E6E6;
+  --rosalution-grey-50: #F6F6F6;
+  --rosalution-grey-000: #F1F1F1;
+  --rosalution-black: black;
+  --rosalution-white: white;
+
+  --primary-background-color: #F3F5F9;
+  --secondary-background-color: var(--rosalution-white);
+
+  --content-border-radius: 10px;
+  --input-border-radius: 15px;
+  --button-border-radius: 25px;
+
+  --modal-background-z-index: 10;
+  --modal-container-z-index: 999;
+
+  --p-0: 0rem;
+  --p-005: 0.04rem;
+  --p-05: 0.125rem;
+  --p-1: 0.25rem;
+  --p-5: 0.313rem;
+  --p-8: 0.5rem;
+  --p-10: 0.625rem;
+  --p-16: 1rem;
+
+  scroll-padding-top: 4rem;
+}
+  
+/** General Styles **/
+  
+body {
+  font-family: "Proxima Nova", sans-serif;
+  font-size: 1.125rem; /* 18px */
+  background-color: var(--primary-background-color);
+}
+
+h2 { 
+  font-size: 1.5rem; /* 24px */
+  font-weight: 700;
+  
+  margin-block: 0px;
+  margin-inline: 0px;
+}
+
+input,
+textarea {
+  font-family: "Proxima Nova", sans-serif;
+  font-size: 1.125rem; /* 18px */
+  border-radius: var(--input-border-radius);
+  padding: var(--p-10);
+  border: 2px solid var(--rosalution-grey-100);
+  background-color: var(--secondary-background-color);
+  outline: none;
+}
+
+input:placeholder,
+textarea::placeholder {
+  color: var(--rosalution-grey-100);
+}
+
+input:hover,
+input:focus,
+textarea:hover,
+textarea:focus {
+  border: 2px solid var(--rosalution-purple-300);
+  box-shadow:  0px 0 0 4px rgba(69, 28, 137, 0.10);
+}
+
+/** Primary Grid Site Layout **/
+
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-auto-columns: 1fr;
+  padding: var(--p-10);
+}
+
+app-header {
+  grid-column: 1;
+}
+
+app-content {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+app-footer {
+  grid-column: 1;
+  grid-row: 3;
+  height: 3rem;
+}
+
+/** Typography **/
+
+.title {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+}
+
+.header-text {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+}
+  

@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 
-import './assets/style.css'
+import './styles/main.css';
+import './styles/rosalution.css';
 
 import App from './App.vue'
 
