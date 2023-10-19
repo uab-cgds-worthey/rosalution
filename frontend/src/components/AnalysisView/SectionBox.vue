@@ -50,6 +50,7 @@
 <script>
 import ImagesDataset from '@/components/AnnotationView/ImagesDataset.vue';
 import SectionText from '@/components/AnalysisView/SectionText.vue';
+import SupportingEvidence from '@/components/AnalysisView/SupportingEvidence.vue';
 
 export default {
   name: 'section-box',
@@ -57,6 +58,7 @@ export default {
   components: {
     SectionText,
     ImagesDataset,
+    SupportingEvidence,
   },
   props: {
     analysis_name: {
