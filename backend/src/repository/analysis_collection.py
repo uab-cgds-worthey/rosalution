@@ -374,3 +374,161 @@ class AnalysisCollection:
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
         return updated_document
+
+    def attach_animal_model_report(self, analysis_name: str, model_system: str, file_name: str, file_id: str):
+        """  """
+
+        updated_document = self.collection.find_one({"name": analysis_name})
+
+        if "_id" in updated_document:
+            updated_document.pop("_id", None)
+
+        updated_section = None
+        for section in updated_document['sections']:
+            if model_system == section['header']:
+                print(section)
+                updated_section = section
+
+        if None is updated_section:
+            raise ValueError(
+                f"'{model_system}' does not exist within '{analysis_name}'. Unable to attach report to '{model_system}' \
+                section."
+            )
+
+        new_uuid = str(file_id)
+
+        new_report = {
+            "name": file_name,
+            "attachment_id": new_uuid,
+            "type": "file",
+            "comments": ""
+        }
+
+        for field in updated_section['content']:
+            if field['field'] == 'Veterinary Histology Report':
+                field['value'] = [new_report]
+        
+        print("")
+        print(updated_section)
+
+        updated_document = self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {'$set': updated_document},
+            return_document=ReturnDocument.AFTER,
+        )
+
+        updated_document.pop("_id", None)
+
+        return updated_document
+
+    def remove_animal_model_report(self, analysis_name: str, model_system: str):
+        """  """
+
+        updated_document = self.collection.find_one({"name": analysis_name})
+
+        if "_id" in updated_document:
+            updated_document.pop("_id", None)
+
+        updated_section = None
+        for section in updated_document['sections']:
+            if model_system == section['header']:
+                print(section)
+                updated_section = section
+
+        if None is updated_section:
+            raise ValueError(
+                f"'{model_system}' does not exist within '{analysis_name}'. Unable to attach report to '{model_system}' \
+                section."
+            )
+
+        for field in updated_section['content']:
+            if field['field'] == 'Veterinary Histology Report':
+                field['value'] = []
+        
+        print("")
+        print(updated_section)
+
+        updated_document = self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {'$set': updated_document},
+            return_document=ReturnDocument.AFTER,
+        )
+
+        updated_document.pop("_id", None)
+
+        return updated_document
+
+    def attach_animal_model_image_link(self, analysis_name: str, model_system: str, link_name: str, link: str, comments: str):
+        updated_document = self.collection.find_one({"name": analysis_name})
+
+        if "_id" in updated_document:
+            updated_document.pop("_id", None)
+
+        updated_section = None
+        for section in updated_document['sections']:
+            if model_system == section['header']:
+                print(section)
+                updated_section = section
+
+        if None is updated_section:
+            raise ValueError(
+                f"'{model_system}' does not exist within '{analysis_name}'. Unable to attach report to '{model_system}' \
+                section."
+            )
+
+        new_uuid = str(uuid4())
+        new_imaging_link = {
+            "name": link_name, "data": link, "attachment_id": new_uuid, "type": "link", "comments": comments
+        }
+
+        for field in updated_section['content']:
+            if field['field'] == 'Veterinary Pathology Imaging':
+                field['value'] = [new_imaging_link]
+        
+        print("")
+        print(updated_section)
+
+        updated_document = self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {'$set': updated_document},
+            return_document=ReturnDocument.AFTER,
+        )
+
+        updated_document.pop("_id", None)
+
+        return updated_document
+    
+    def remove_animal_model_image_link(self, analysis_name: str, model_system: str):
+        updated_document = self.collection.find_one({"name": analysis_name})
+
+        if "_id" in updated_document:
+            updated_document.pop("_id", None)
+
+        updated_section = None
+        for section in updated_document['sections']:
+            if model_system == section['header']:
+                print(section)
+                updated_section = section
+
+        if None is updated_section:
+            raise ValueError(
+                f"'{model_system}' does not exist within '{analysis_name}'. Unable to attach report to '{model_system}' \
+                section."
+            )
+
+        for field in updated_section['content']:
+            if field['field'] == 'Veterinary Pathology Imaging':
+                field['value'] = []
+        
+        print("")
+        print(updated_section)
+
+        updated_document = self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {'$set': updated_document},
+            return_document=ReturnDocument.AFTER,
+        )
+
+        updated_document.pop("_id", None)
+
+        return updated_document

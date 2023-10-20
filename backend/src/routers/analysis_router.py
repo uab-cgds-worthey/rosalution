@@ -123,6 +123,66 @@ def update_analysis_sections(
 
     return repositories["analysis"].find_by_name(analysis_name)
 
+@router.put("/{analysis_name}/attach/{model_system}/report")
+def attach_animal_model_system_report(
+    analysis_name: str,
+    model_system: str,
+    upload_file: UploadFile = File(...),
+    repositories=Depends(database),
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+):
+    """ Attaches an animal model system Histology report for the Veterinary Histology Report field """
+
+    print(analysis_name)
+    print(model_system)
+
+    try:
+        new_file_object_id = repositories["bucket"].save_file(
+            upload_file.file, upload_file.filename, upload_file.content_type
+        )
+    except Exception as exception:
+        raise HTTPException(status_code=500, detail=str(exception)) from exception
+
+    repositories["analysis"].attach_supporting_evidence_file(analysis_name, new_file_object_id, upload_file.filename, '')
+
+    return repositories['analysis'].attach_animal_model_report(analysis_name, model_system, upload_file.filename, new_file_object_id)
+
+@router.put("/{analysis_name}/remove/{model_system}/report")
+def remove_animal_model_system_report(
+    analysis_name: str,
+    model_system: str,
+    repositories=Depends(database),
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+):
+    """ Removes an animal model system Histology report from the Veterinary Histology Report field """
+
+    return repositories['analysis'].remove_animal_model_report(analysis_name, model_system)
+
+@router.put("/{analysis_name}/attach/{model_system}/imaging")
+def attach_animal_model_system_imaging(
+    analysis_name: str,
+    model_system: str,
+    link_name: str = Form(...),
+    link: str = Form(...),
+    comments: str = Form(...),
+    repositories=Depends(database),
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+):
+    """ Attaches an animal model system imaging link for the Veterinary Pathology Imaging field """
+    repositories["analysis"].attach_supporting_evidence_link(analysis_name, link_name, link, comments)
+
+    return repositories["analysis"].attach_animal_model_image_link(analysis_name, model_system, link_name, link, comments)
+
+@router.put("/{analysis_name}/remove/{model_system}/imaging")
+def remove_animal_model_system_imaging(
+    analysis_name: str,
+    model_system: str,
+    repositories=Depends(database),
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+):
+    """ Removes an animal model system imaging link for the Veterinary Pathology Imaging field """
+
+    return repositories["analysis"].remove_animal_model_image_link(analysis_name, model_system)
 
 @router.get("/download/{file_id}")
 def download_file_by_id(file_id: str, repositories=Depends(database)):
