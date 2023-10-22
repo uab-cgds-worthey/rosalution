@@ -217,18 +217,25 @@
                  ]
               },
               {
-                 "type":"supporting-evidence",
+                 "type":"section-supporting-evidence",
                  "field":"Veterinary Histology Report",
-                 "value":[
-                    
-                 ]
+                 "value":[{
+                    "name": "CPAM0046-NM_170707.3 (LMNA)_ c.745C_T (p.R249W) other 2.PDF",
+                    "attachment_id": "64dbcfa43d243bf1e782499f",
+                    "type": "file",
+                    "comments": "  "
+                  }]
               },
               {
-                 "type":"supporting-evidence",
-                 "field":"Veterinary Pathology Imaging",
-                 "value":[
-                    
-                 ]
+                "type":"section-supporting-evidence",
+                "field":"Veterinary Pathology Imaging",
+                "value":[{
+                  "name": "VRR Slides",
+                  "data": "https://uab365.sharepoint.com/:p:/s/GRP-U54-PrecisionDiseaseModeling/ETTJR1tQioZFg3uRq6fmZCQBi_42RCYWlY6W8GvozJxuuA?e=8RLo69",
+                  "attachment_id": "c2cfc302-f38b-4c40-bf3d-251763dd6334",
+                  "type": "link",
+                  "comments": "Original slides of VRR"
+                }]
               }
            ]
         },

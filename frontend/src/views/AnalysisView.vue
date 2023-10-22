@@ -424,6 +424,11 @@ export default {
       this.$router.push({name: 'logout'});
     },
     onAnalysisContentUpdated(contentRow) {
+      if (typeof(contentRow.type) !== 'undefined' && 'supporting-evidence' === contentRow.type ) {
+        this.supportingEvidenceRowSectionChanged(contentRow);
+        return;
+      }
+
       if (!(contentRow.header in this.updatedContent)) {
         this.updatedContent[contentRow.header] = {};
       }
@@ -494,6 +499,10 @@ export default {
       } catch (error) {
         toast.error(`Error updating the event '${eventType}'.`);
       }
+    },
+    supportingEvidenceRowSectionChanged(contentRow) {
+      console.log(contentRow);
+      console.log('todo - implement this please');
     },
   },
 };

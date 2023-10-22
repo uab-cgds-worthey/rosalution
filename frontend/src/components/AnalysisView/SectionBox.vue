@@ -41,7 +41,7 @@
         :writePermissions="this.writePermissions"
         :data-test="contentRow.field"
         @update-annotation-image="this.onUpdateImageEmit"
-        @update:section-text="this.onContentChanged"
+        @update:section-content="this.onContentChanged"
       />
     </div>
   </div>
@@ -50,7 +50,7 @@
 <script>
 import ImagesDataset from '@/components/AnnotationView/ImagesDataset.vue';
 import SectionText from '@/components/AnalysisView/SectionText.vue';
-import SupportingEvidence from '@/components/AnalysisView/SupportingEvidence.vue';
+import SectionSupportingEvidence from '@/components/AnalysisView/SectionSupportingEvidence.vue';
 
 export default {
   name: 'section-box',
@@ -58,7 +58,7 @@ export default {
   components: {
     SectionText,
     ImagesDataset,
-    SupportingEvidence,
+    SectionSupportingEvidence,
   },
   props: {
     analysis_name: {
@@ -110,10 +110,10 @@ export default {
     },
   },
   methods: {
-    onContentChanged(sectionText) {
+    onContentChanged(sectionContent) {
       const contentRow = {
         header: this.header,
-        ...sectionText,
+        ...sectionContent,
       };
       this.$emit('update:contentRow', contentRow);
     },

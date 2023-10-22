@@ -9,24 +9,25 @@
     </label>
     <div class="section-content" :data-test="`supporting-evidence-${field}`">
       <div class="supporting-evidence-content">
-        <span v-if="isDataUnavailable && this.editable" role="textbox" @input="onContentChanged($event)">
+        <span v-if="isDataUnavailable && this.editable && writePermissions" @click="onContentChanged('attach', content)"
+          :data-test="`attach-button-${field}`">
           Attach
         </span>
-        <span class="status-icon attachment-logo">
-          <font-awesome-icon :icon="typeIcon" size="lg" />
-        </span>
-        <div v-if="content.type == 'file'" @click="$emit('download', content)" target="_blank" rel="noreferrer noopener" class="attachment-data attachment-name">
+        <font-awesome-icon v-if="!isDataUnavailable" :icon="typeIcon" size="lg" />
+        <div v-if="!isDataUnavailable && content.type == 'file'" @click="$emit('download', content)" target="_blank"
+          rel="noreferrer noopener" class="attachment-name">
           {{ content.name }}
         </div>
-        <a v-if="content.type == 'link'" :href="content.data" target="_blank" rel="noreferrer noopener" class="attachment-data attachment-name">
+        <a v-if="!isDataUnavailable && content.type == 'link'" :href="content.data" target="_blank"
+          rel="noreferrer noopener" class="attachment-name">
           {{ content.name }}
         </a>
       </div>
       <div class="action-items">
-        <button @click="$emit('edit', content)" data-test="edit-button">
+        <button v-if="editable && writePermissions" @click="onContentChanged('edit', content)" data-test="edit-button">
           <font-awesome-icon icon="pencil" size="xl" />
         </button>
-        <button v-if="writePermissions" @click="$emit('delete', content)" data-test="delete-button">
+        <button v-if="writePermissions" @click="onContentChanged('delete', content)" data-test="delete-button">
           <font-awesome-icon icon="xmark" size="xl" />
         </button>
       </div>
@@ -36,8 +37,8 @@
 
 <script>
 export default {
-  name: 'supporting-evidence',
-  emits: ['update:evidence'],
+  name: 'section-supporting-evidence',
+  emits: ['update:contentRow'],
   props: {
     field: {
       type: String,
@@ -50,15 +51,19 @@ export default {
       type: Boolean,
       default: false,
     },
+    writePermissions: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
-    isDataUnavailable: function () {
+    isDataUnavailable: function() {
       return this.value == '.' || this.value == 'null' || this.value == null || this.value.length == 0;
     },
-    dataAvailabilityColour: function () {
+    dataAvailabilityColour: function() {
       return this.isDataUnavailable ? 'var(--rosalution-grey-300)' : 'var(--rosalution-black)';
     },
-    typeIcon: function () {
+    typeIcon: function() {
       if (this.isDataUnavailable) {
         return undefined;
       } else if (this.content.type === 'file') {
@@ -67,7 +72,7 @@ export default {
 
       return 'link';
     },
-    content: function () {
+    content: function() {
       if (this.isDataUnavailable) {
         return {};
       }
@@ -75,13 +80,18 @@ export default {
       return this.value[0];
     },
   },
+  mounted() {
+    console.log('does it mount even?');
+  },
   methods: {
-    onContentChanged(event) {
+    onContentChanged(action, content) {
       const contentRow = {
         field: this.field,
-        value: event.target.innerText.split('\n'),
+        type: 'supporting-evidence',
+        operation: action,
+        value: content,
       };
-      this.$emit('update:sectionText', contentRow);
+      this.$emit('update:contentRow', contentRow);
     },
   },
 };
@@ -123,13 +133,12 @@ export default {
   gap: var(--p-10);
 }
 
-.action-items svg{
+.action-items svg {
   color: var(--rosalution-black);
 }
 
-.action-items > button {
+.action-items>button {
   border: none;
   background: none;
 }
-
 </style>
