@@ -9,10 +9,10 @@
     </label>
     <div class="section-content" :data-test="`supporting-evidence-${field}`">
       <div class="supporting-evidence-content">
-        <span v-if="isDataUnavailable && this.editable && writePermissions" @click="onContentChanged('attach', content)"
-          :data-test="`attach-button-${field}`">
+        <button v-if="isDataUnavailable && this.editable && writePermissions" @click="onContentChanged('attach', content)"
+          class="primary-button" :data-test="`attach-button-${field}`">
           Attach
-        </span>
+        </button>
         <font-awesome-icon v-if="!isDataUnavailable" :icon="typeIcon" size="lg" />
         <div v-if="!isDataUnavailable && content.type == 'file'" @click="$emit('download', content)" target="_blank"
           rel="noreferrer noopener" class="attachment-name">
@@ -24,10 +24,10 @@
         </a>
       </div>
       <div class="action-items">
-        <button v-if="editable && writePermissions" @click="onContentChanged('edit', content)" data-test="edit-button">
+        <button v-if="!isDataUnavailable && editable && writePermissions" @click="onContentChanged('edit', content)" data-test="edit-button">
           <font-awesome-icon icon="pencil" size="xl" />
         </button>
-        <button v-if="writePermissions" @click="onContentChanged('delete', content)" data-test="delete-button">
+        <button v-if="!isDataUnavailable && writePermissions" @click="onContentChanged('delete', content)" data-test="delete-button">
           <font-awesome-icon icon="xmark" size="xl" />
         </button>
       </div>
@@ -38,7 +38,7 @@
 <script>
 export default {
   name: 'section-supporting-evidence',
-  emits: ['update:contentRow'],
+  emits: ['update:sectionContent'],
   props: {
     field: {
       type: String,
@@ -80,9 +80,6 @@ export default {
       return this.value[0];
     },
   },
-  mounted() {
-    console.log('does it mount even?');
-  },
   methods: {
     onContentChanged(action, content) {
       const contentRow = {
@@ -91,7 +88,7 @@ export default {
         operation: action,
         value: content,
       };
-      this.$emit('update:contentRow', contentRow);
+      this.$emit('update:sectionContent', contentRow);
     },
   },
 };
