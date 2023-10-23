@@ -169,7 +169,7 @@ def remove_animal_model_system_report(
     return repositories['analysis'].remove_section_supporting_evidence(analysis_name, section_name, field_name)
 
 
-@router.put("/{analysis_name}/section/link/attach")
+@router.put("/{analysis_name}/section/attach/link")
 def attach_animal_model_system_imaging(
     analysis_name: str,
     section_name: str = Form(...),
@@ -189,7 +189,7 @@ def attach_animal_model_system_imaging(
     )
 
 
-@router.put("/{analysis_name}/section/link/remove")
+@router.put("/{analysis_name}/section/remove/link")
 def remove_animal_model_system_imaging(
     analysis_name: str,
     section_name: str = Form(...),
