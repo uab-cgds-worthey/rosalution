@@ -559,10 +559,9 @@ export default {
         return;
       }
 
-      let updatedAnalysisSectionField;
       try {
         if ( 'file' === attachment.type) {
-          updatedAnalysisSectionField = await Analyses.removeSectionSupportingEvidenceFile(
+          await Analyses.removeSectionSupportingEvidenceFile(
               this.analysis_name,
               section,
               field,
