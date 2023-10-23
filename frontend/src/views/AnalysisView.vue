@@ -562,21 +562,21 @@ export default {
 
       let updatedAnalysisSectionField;
       try {
-        if( 'file' === attachment.type) {
+        if ( 'file' === attachment.type) {
           updatedAnalysisSectionField = await Analyses.removeSectionSupportingEvidenceFile(
-            this.analysis_name,
-            section,
-            field,
-            attachment.attachment_id,
-        );
-        } else if( 'link' === attachment.type ) {
+              this.analysis_name,
+              section,
+              field,
+              attachment.attachment_id,
+          );
+        } else if ( 'link' === attachment.type ) {
           updatedAnalysisSectionField = await Analyses.removeSectionSupportingEvidenceLink(
-            this.analysis_name,
-            section,
-            field,
+              this.analysis_name,
+              section,
+              field,
           );
         } else {
-          console.error('Attachment type to remove')
+          console.error('Attachment type to remove');
           return;
         }
 
