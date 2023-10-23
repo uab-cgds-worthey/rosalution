@@ -90,7 +90,7 @@ describe('AnalysisView', () => {
   let updateAnalysisSectionsMock;
   let mockAuthWritePermissions;
   let mockedAttachSectionSupportingEvidence;
-  let mockedRemoveSectionSupportingEvidence;
+  let mockedRemoveSectionSupportingEvidenceFile;
   let wrapper;
   let sandbox;
 
@@ -108,7 +108,7 @@ describe('AnalysisView', () => {
     mockedAttachThirdPartyLink = sandbox.stub(Analyses, 'attachThirdPartyLink');
 
     mockedAttachSectionSupportingEvidence = sandbox.stub(Analyses, 'attachSectionSupportingEvidence');
-    mockedRemoveSectionSupportingEvidence = sandbox.stub(Analyses, 'removeSectionSupportingEvidence');
+    mockedRemoveSectionSupportingEvidenceFile = sandbox.stub(Analyses, 'removeSectionSupportingEvidenceFile');
 
     markReadyMock = sandbox.stub(Analyses, 'pushAnalysisEvent');
 
@@ -606,7 +606,7 @@ describe('AnalysisView', () => {
       });
 
       it('removes the supporting evidence', async () => {
-        mockedRemoveSectionSupportingEvidence.resolves({
+        mockedRemoveSectionSupportingEvidenceFile.resolves({
           header: 'Mus_musculus (Mouse) Model System',
           field: 'Veterinary Histology Report',
           field_value: {
@@ -628,7 +628,8 @@ describe('AnalysisView', () => {
           header: 'Mus musculus (Mouse) Model System',
           field: 'Veterinary Histology Report',
           value: {
-            file_id: 'FJKLJFKLDJSKLFDS',
+            type: 'file',
+            attachment_id: 'FJKLJFKLDJSKLFDS',
           },
         });
         await wrapper.vm.$nextTick();

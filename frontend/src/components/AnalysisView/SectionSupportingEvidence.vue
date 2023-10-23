@@ -37,7 +37,7 @@
 <script>
 export default {
   name: 'section-supporting-evidence',
-  emits: ['update:sectionContent'],
+  emits: ['update:sectionContent', 'download'],
   props: {
     field: {
       type: String,

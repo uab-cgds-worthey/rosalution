@@ -554,17 +554,31 @@ export default {
           .cancelText('Cancel')
           .confirm(`Removing '${attachment.name}' from ${field} in ${section}?`);
 
+      console.log(attachment);
+
       if (!confirmedDelete) {
         return;
       }
 
+      let updatedAnalysisSectionField;
       try {
-        const updatedAnalysisSectionField = await Analyses.removeSectionSupportingEvidence(
+        if( 'file' === attachment.type) {
+          updatedAnalysisSectionField = await Analyses.removeSectionSupportingEvidenceFile(
             this.analysis_name,
             section,
             field,
-            attachment,
+            attachment.attachment_id,
         );
+        } else if( 'link' === attachment.type ) {
+          updatedAnalysisSectionField = await Analyses.removeSectionSupportingEvidenceLink(
+            this.analysis_name,
+            section,
+            field,
+          );
+        } else {
+          console.error('Attachment type to remove')
+          return;
+        }
 
         const updatedSection = this.sectionsList.find((sectionToFind) => {
           return sectionToFind.header == section;

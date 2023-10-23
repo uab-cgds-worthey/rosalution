@@ -42,6 +42,7 @@
         :data-test="contentRow.field"
         @update-annotation-image="this.onUpdateImageEmit"
         @update:section-content="this.onContentChanged"
+        @download="this.onDownload"
       />
     </div>
   </div>
@@ -119,6 +120,9 @@ export default {
     },
     onUpdateImageEmit(imageId, field) {
       this.$emit('update-image', imageId, this.header, field);
+    },
+    onDownload(content) {
+      this.$emit('download', content);
     },
   },
 };
