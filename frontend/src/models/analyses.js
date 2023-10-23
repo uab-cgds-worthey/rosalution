@@ -157,6 +157,62 @@ export default {
     };
     return await Requests.putForm(url, attachmentForm);
   },
+
+  async attachSectionSupportingEvidence(analysisName, section, field, evidence) {
+    let attachmentForm = null;
+    let url = `/rosalution/api/analysis/${analysisName}/section/attach`;
+
+    if (evidence.type == 'file') {
+      attachmentForm = {
+        'section_name': section,
+        'field_name': field,
+        'upload_file': evidence.data,
+        'comments': evidence.comments ? evidence.comments : '  ', /** Required for now, inserting empty string */
+      };
+      url += '/file';
+    } else if ( evidence.type == 'link') {
+      attachmentForm = {
+        'section_name': section,
+        'field_name': field,
+        'link_name': evidence.name,
+        'link': evidence.data,
+        'comments': evidence.comments ? evidence.comments : '  ', /** Required for now, inserting empty string */
+      };
+      url += '/link';
+    }
+
+    if (null == attachmentForm) {
+      throw new Error(`Evidence attachment ${evidence} type is invalid.`);
+    }
+
+    return await Requests.putForm(url, attachmentForm);
+  },
+
+  async removeSectionSupportingEvidenceFile(analysisName, section, field, attachmentId) {
+    const url = `/rosalution/api/analysis/${analysisName}/section/remove/file`;
+
+    const attachmentForm = {
+      'section_name': section,
+      'field_name': field,
+      'attachment_id': attachmentId,
+    };
+
+    const success = await Requests.putForm(url, attachmentForm);
+    return success;
+  },
+
+  async removeSectionSupportingEvidenceLink(analysisName, section, field) {
+    const url = `/rosalution/api/analysis/${analysisName}/section/remove/link`;
+
+    const attachmentForm = {
+      'section_name': section,
+      'field_name': field,
+    };
+
+    const success = await Requests.putForm(url, attachmentForm);
+    return success;
+  },
+
 };
 
 const annotationRenderingTemporary = [

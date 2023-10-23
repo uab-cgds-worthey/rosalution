@@ -36,6 +36,7 @@
         @attach-image="this.attachSectionImage"
         @update-image="this.updateSectionImage"
         @update:content-row="this.onAnalysisContentUpdated"
+        @download="this.downloadSupportingEvidence"
       />
       <SupplementalFormList
         id="Supporting_Evidence"
@@ -271,7 +272,6 @@ export default {
             attachment.data,
         );
 
-
         const updatedSection = this.sectionsList.find((section) => {
           return section.header == sectionName;
         });
@@ -424,6 +424,11 @@ export default {
       this.$router.push({name: 'logout'});
     },
     onAnalysisContentUpdated(contentRow) {
+      if (typeof(contentRow.type) !== 'undefined' && 'supporting-evidence' === contentRow.type ) {
+        this.supportingEvidenceRowSectionChanged(contentRow);
+        return;
+      }
+
       if (!(contentRow.header in this.updatedContent)) {
         this.updatedContent[contentRow.header] = {};
       }
@@ -493,6 +498,100 @@ export default {
         toast.success(`Analysis event '${eventType}' successful.`);
       } catch (error) {
         toast.error(`Error updating the event '${eventType}'.`);
+      }
+    },
+    async supportingEvidenceRowSectionChanged(contentRow) {
+      const operations = {
+        'attach': this.sectionSupportingEvidenceRowAdded,
+        'delete': this.sectionSupportingEvidenceRowRemove,
+      };
+
+      if (!Object.hasOwn(operations, contentRow.operation)) {
+        // Warning here that the operation is invalid and move on
+        return;
+      }
+
+      operations[contentRow.operation](contentRow.header, contentRow.field, contentRow.value);
+    },
+    async sectionSupportingEvidenceRowAdded(section, field, evidence) {
+      const includeComments = true;
+      const includeName = true;
+      const attachment = await inputDialog
+          .confirmText('Add')
+          .cancelText('Cancel')
+          .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png')
+          .url(includeComments, includeName)
+          .prompt();
+
+      if (!attachment) {
+        return;
+      }
+
+      try {
+        const updatedAnalysisSectionField = await Analyses.attachSectionSupportingEvidence(
+            this.analysis_name,
+            section,
+            field,
+            attachment,
+        );
+        const updatedSection = this.sectionsList.find((sectionToFind) => {
+          return sectionToFind.header == section;
+        });
+
+        const updatedFieldIndex = updatedSection.content.findIndex((row) => {
+          return row.field == field;
+        });
+        updatedSection.content.splice(updatedFieldIndex, 1, updatedAnalysisSectionField.field_value);
+        this.replaceAnalysisSection(updatedSection);
+      } catch (error) {
+        console.error('Updating the analysis did not work');
+      }
+    },
+    async sectionSupportingEvidenceRowRemove(section, field, attachment) {
+      const confirmedDelete = await notificationDialog
+          .title(`Remove attachment`)
+          .confirmText('Delete')
+          .cancelText('Cancel')
+          .confirm(`Removing '${attachment.name}' from ${field} in ${section}?`);
+
+      console.log(attachment);
+
+      if (!confirmedDelete) {
+        return;
+      }
+
+      let updatedAnalysisSectionField;
+      try {
+        if ( 'file' === attachment.type) {
+          updatedAnalysisSectionField = await Analyses.removeSectionSupportingEvidenceFile(
+              this.analysis_name,
+              section,
+              field,
+              attachment.attachment_id,
+          );
+        } else if ( 'link' === attachment.type ) {
+          updatedAnalysisSectionField = await Analyses.removeSectionSupportingEvidenceLink(
+              this.analysis_name,
+              section,
+              field,
+          );
+        } else {
+          console.error('Attachment type to remove');
+          return;
+        }
+
+        const updatedSection = this.sectionsList.find((sectionToFind) => {
+          return sectionToFind.header == section;
+        });
+
+        const updatedFieldIndex = updatedSection.content.findIndex((row) => {
+          return row.field == field;
+        });
+
+        updatedSection.content.splice(updatedFieldIndex, 1, updatedAnalysisSectionField.field_value);
+        this.replaceAnalysisSection(updatedSection);
+      } catch (error) {
+        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
   },

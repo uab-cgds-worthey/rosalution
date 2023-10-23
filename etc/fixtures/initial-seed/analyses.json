@@ -217,18 +217,14 @@
                  ]
               },
               {
-                 "type":"supporting-evidence",
+                 "type":"section-supporting-evidence",
                  "field":"Veterinary Histology Report",
-                 "value":[
-                    
-                 ]
+                 "value":[]
               },
               {
-                 "type":"supporting-evidence",
-                 "field":"Veterinary Pathology Imaging",
-                 "value":[
-                    
-                 ]
+                "type":"section-supporting-evidence",
+                "field":"Veterinary Pathology Imaging",
+                "value":[]
               }
            ]
         },

@@ -26,7 +26,7 @@
 <script>
 export default {
   name: 'section-text',
-  emits: ['update:sectionText'],
+  emits: ['update:sectionContent'],
   props: {
     field: {
       type: String,
@@ -62,7 +62,7 @@ export default {
         field: this.field,
         value: event.target.innerText.split('\n'),
       };
-      this.$emit('update:sectionText', contentRow);
+      this.$emit('update:sectionContent', contentRow);
     },
   },
 };
