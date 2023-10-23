@@ -569,7 +569,7 @@ export default {
               attachment.attachment_id,
           );
         } else if ( 'link' === attachment.type ) {
-          updatedAnalysisSectionField = await Analyses.removeSectionSupportingEvidenceLink(
+          await Analyses.removeSectionSupportingEvidenceLink(
               this.analysis_name,
               section,
               field,
@@ -591,7 +591,7 @@ export default {
           return row.field == field;
         });
 
-        fieldToUpdate.value = []
+        fieldToUpdate.value = [];
 
         updatedSection.content.splice(updatedFieldIndex, 1, fieldToUpdate);
         this.replaceAnalysisSection(updatedSection);
