@@ -182,12 +182,7 @@ def attach_animal_model_system_imaging(
 ):
     """ Attaches a link as supporting evidence to an analysis section """
 
-    field_value_link = {
-        "name": link_name,
-        "data": link,
-        "type": "link",
-        "comments": comments
-    }
+    field_value_link = {"name": link_name, "data": link, "type": "link", "comments": comments}
 
     return repositories["analysis"].attach_section_supporting_evidence_link(
         analysis_name, section_name, field_name, field_value_link

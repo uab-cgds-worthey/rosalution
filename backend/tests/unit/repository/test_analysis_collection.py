@@ -347,6 +347,7 @@ def test_attach_section_supporting_evidence_file(analysis_collection):
 
     assert expected == actual
 
+
 def test_attach_section_supporting_evidence_link(analysis_collection):
     """ Tests adding a link as supporting evidence to an analysis section field """
     analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
@@ -362,6 +363,7 @@ def test_attach_section_supporting_evidence_link(analysis_collection):
     assert 'attachment_id' in new_evidence
     assert new_evidence['data'] == 'https://www.google.com'
 
+
 def test_remove_section_supporting_evidence(analysis_collection):
     """ Tests removing supporting evidence from an analysis section field """
     analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
@@ -373,6 +375,7 @@ def test_remove_section_supporting_evidence(analysis_collection):
     )
 
     assert expected == actual
+
 
 @pytest.fixture(name="analysis_with_no_p_dot")
 def fixture_analysis_with_no_p_dot():
