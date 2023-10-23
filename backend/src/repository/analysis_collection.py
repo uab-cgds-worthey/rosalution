@@ -7,7 +7,7 @@ from pymongo import ReturnDocument
 from ..models.event import Event
 from ..enums import EventType
 
-# pylint: disable=too-few-public-methods
+# pylint: disable=too-many-public-methods
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 
 
@@ -375,8 +375,12 @@ class AnalysisCollection:
         updated_document.pop("_id", None)
         return updated_document
 
-    def attach_animal_model_report(self, analysis_name: str, model_system: str, file_name: str, file_id: str):
-        """  """
+    def attach_section_supporting_evidence_file(
+        self, analysis_name: str, section_name: str, field_name: str, field_value_file: object
+    ):
+        """
+        Attaches a file to a field within an analysis section and returns only the updated field within that section
+        """
 
         updated_document = self.collection.find_one({"name": analysis_name})
 
@@ -385,45 +389,37 @@ class AnalysisCollection:
 
         updated_section = None
         for section in updated_document['sections']:
-            if model_system == section['header']:
-                print(section)
+            if section_name == section['header']:
                 updated_section = section
 
         if None is updated_section:
             raise ValueError(
-                f"'{model_system}' does not exist within '{analysis_name}'. Unable to attach report to '{model_system}' \
+                f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach report to '{section_name}'\
                 section."
             )
 
-        new_uuid = str(file_id)
-
-        new_report = {
-            "name": file_name,
-            "attachment_id": new_uuid,
-            "type": "file",
-            "comments": ""
-        }
-
+        updated_field = None
         for field in updated_section['content']:
-            if field['field'] == 'Veterinary Histology Report':
-                field['value'] = [new_report]
-        
-        print("")
-        print(updated_section)
+            if field['field'] == field_name:
+                field['value'] = [field_value_file]
+                updated_field = field
 
-        updated_document = self.collection.find_one_and_update(
+        self.collection.find_one_and_update(
             {"name": analysis_name},
             {'$set': updated_document},
             return_document=ReturnDocument.AFTER,
         )
 
-        updated_document.pop("_id", None)
+        return_field = {"header": section_name, "field": field_name, "updated_row": updated_field}
 
-        return updated_document
+        return return_field
 
-    def remove_animal_model_report(self, analysis_name: str, model_system: str):
-        """  """
-
+    def attach_section_supporting_evidence_link(
+        self, analysis_name: str, section_name: str, field_name: str, field_value_link: object
+    ):
+        """
+        Attaches a link to a section field within an analysis and returns only the updated field for that section
+        """
         updated_document = self.collection.find_one({"name": analysis_name})
 
         if "_id" in updated_document:
@@ -431,74 +427,36 @@ class AnalysisCollection:
 
         updated_section = None
         for section in updated_document['sections']:
-            if model_system == section['header']:
-                print(section)
+            if section_name == section['header']:
                 updated_section = section
 
         if None is updated_section:
             raise ValueError(
-                f"'{model_system}' does not exist within '{analysis_name}'. Unable to attach report to '{model_system}' \
-                section."
-            )
-
-        for field in updated_section['content']:
-            if field['field'] == 'Veterinary Histology Report':
-                field['value'] = []
-        
-        print("")
-        print(updated_section)
-
-        updated_document = self.collection.find_one_and_update(
-            {"name": analysis_name},
-            {'$set': updated_document},
-            return_document=ReturnDocument.AFTER,
-        )
-
-        updated_document.pop("_id", None)
-
-        return updated_document
-
-    def attach_animal_model_image_link(self, analysis_name: str, model_system: str, link_name: str, link: str, comments: str):
-        updated_document = self.collection.find_one({"name": analysis_name})
-
-        if "_id" in updated_document:
-            updated_document.pop("_id", None)
-
-        updated_section = None
-        for section in updated_document['sections']:
-            if model_system == section['header']:
-                print(section)
-                updated_section = section
-
-        if None is updated_section:
-            raise ValueError(
-                f"'{model_system}' does not exist within '{analysis_name}'. Unable to attach report to '{model_system}' \
+                f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach report to '{section_name}'\
                 section."
             )
 
         new_uuid = str(uuid4())
-        new_imaging_link = {
-            "name": link_name, "data": link, "attachment_id": new_uuid, "type": "link", "comments": comments
-        }
+        field_value_link['attachment_id'] = new_uuid
 
+        updated_field = None
         for field in updated_section['content']:
             if field['field'] == 'Veterinary Pathology Imaging':
-                field['value'] = [new_imaging_link]
-        
-        print("")
-        print(updated_section)
+                field['value'] = [field_value_link]
+                updated_field = field
 
-        updated_document = self.collection.find_one_and_update(
+        self.collection.find_one_and_update(
             {"name": analysis_name},
             {'$set': updated_document},
             return_document=ReturnDocument.AFTER,
         )
 
-        updated_document.pop("_id", None)
+        return_updated_field = {"header": section_name, "field": field_name, "updated_row": updated_field}
 
-        return updated_document
-    
-    def remove_animal_model_image_link(self, analysis_name: str, model_system: str):
+        return return_updated_field
+
+    def remove_section_supporting_evidence(self, analysis_name: str, section_name: str, field_name: str):
+        """ Removes a section field's supporting evidence """
         updated_document = self.collection.find_one({"name": analysis_name})
 
         if "_id" in updated_document:
@@ -506,29 +464,25 @@ class AnalysisCollection:
 
         updated_section = None
         for section in updated_document['sections']:
-            if model_system == section['header']:
-                print(section)
+            if section_name == section['header']:
                 updated_section = section
 
         if None is updated_section:
             raise ValueError(
-                f"'{model_system}' does not exist within '{analysis_name}'. Unable to attach report to '{model_system}' \
+                f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach report to '{section_name}'\
                 section."
             )
 
         for field in updated_section['content']:
-            if field['field'] == 'Veterinary Pathology Imaging':
+            if field['field'] == field_name:
                 field['value'] = []
-        
-        print("")
-        print(updated_section)
 
-        updated_document = self.collection.find_one_and_update(
+        self.collection.find_one_and_update(
             {"name": analysis_name},
             {'$set': updated_document},
             return_document=ReturnDocument.AFTER,
         )
 
-        updated_document.pop("_id", None)
+        return_field = {"header": section_name, "field": field_name}
 
-        return updated_document
+        return return_field

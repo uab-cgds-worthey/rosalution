@@ -323,6 +323,57 @@ def test_mark_ready_analysis_does_not_exist(analysis_collection):
         assert str(error) == "Analysis with name CPAM2222 does not exist."
 
 
+def test_attach_section_supporting_evidence_file(analysis_collection):
+    """ Tests adding a file as supporting evidence to an analysis section field"""
+    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+
+    expected = {
+        "header": "Mus musculus (Mouse) Model System", "field": "Veterinary Histology Report", "updated_row": {
+            'type': 'supporting-evidence', 'field': 'Veterinary Histology Report', 'value': [{
+                'name': 'fake-cpam0002-histology-report.pdf', 'attachment_id': 'fake-file-report-id', 'type': 'file',
+                'comments': 'These are comments'
+            }]
+        }
+    }
+
+    field_value_file = {
+        "name": "fake-cpam0002-histology-report.pdf", "attachment_id": "fake-file-report-id", "type": "file",
+        "comments": "These are comments"
+    }
+
+    actual = analysis_collection.attach_section_supporting_evidence_file(
+        "CPAM0002", "Mus musculus (Mouse) Model System", "Veterinary Histology Report", field_value_file
+    )
+
+    assert expected == actual
+
+def test_attach_section_supporting_evidence_link(analysis_collection):
+    """ Tests adding a link as supporting evidence to an analysis section field """
+    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+
+    actual = analysis_collection.attach_section_supporting_evidence_link(
+        "CPAM0002", "Mus musculus (Mouse) Model System", "Veterinary Pathology Imaging", "Google Link",
+        "https://www.google.com", "nothing to do with google"
+    )
+
+    new_evidence = next((evidence for evidence in actual['updated_row']['value'] if evidence['name'] == "Google Link"),
+                        None)
+    assert new_evidence['type'] == 'link'
+    assert 'attachment_id' in new_evidence
+    assert new_evidence['data'] == 'https://www.google.com'
+
+def test_remove_section_supporting_evidence(analysis_collection):
+    """ Tests removing supporting evidence from an analysis section field """
+    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+
+    expected = {"header": "Mus musculus (Mouse) Model System", "field": "Veterinary Histology Report"}
+
+    actual = analysis_collection.remove_section_supporting_evidence(
+        "CPAM0002", "Mus musculus (Mouse) Model System", "Veterinary Histology Report"
+    )
+
+    assert expected == actual
+
 @pytest.fixture(name="analysis_with_no_p_dot")
 def fixture_analysis_with_no_p_dot():
     """Returns an analysis with no p. in the genomic unit"""

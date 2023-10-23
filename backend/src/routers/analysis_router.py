@@ -123,18 +123,18 @@ def update_analysis_sections(
 
     return repositories["analysis"].find_by_name(analysis_name)
 
-@router.put("/{analysis_name}/attach/{model_system}/report")
+
+@router.put("/{analysis_name}/section/attach/file")
 def attach_animal_model_system_report(
     analysis_name: str,
-    model_system: str,
+    section_name: str = Form(...),
+    field_name: str = Form(...),
+    comments: str = Form(...),
     upload_file: UploadFile = File(...),
     repositories=Depends(database),
     authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
-    """ Attaches an animal model system Histology report for the Veterinary Histology Report field """
-
-    print(analysis_name)
-    print(model_system)
+    """ Attaches a file as supporting evidence to a section in an Analysis  """
 
     try:
         new_file_object_id = repositories["bucket"].save_file(
@@ -143,46 +143,69 @@ def attach_animal_model_system_report(
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
-    repositories["analysis"].attach_supporting_evidence_file(analysis_name, new_file_object_id, upload_file.filename, '')
+    field_value_file = {
+        "name": upload_file.filename, "attachment_id": str(new_file_object_id), "type": "file", "comments": comments
+    }
 
-    return repositories['analysis'].attach_animal_model_report(analysis_name, model_system, upload_file.filename, new_file_object_id)
+    return repositories['analysis'].attach_section_supporting_evidence_file(
+        analysis_name, section_name, field_name, field_value_file
+    )
 
-@router.put("/{analysis_name}/remove/{model_system}/report")
+
+@router.put("/{analysis_name}/section/remove/file")
 def remove_animal_model_system_report(
     analysis_name: str,
-    model_system: str,
+    section_name: str = Form(...),
+    field_name: str = Form(...),
+    attachment_id: str = Form(...),
     repositories=Depends(database),
     authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
-    """ Removes an animal model system Histology report from the Veterinary Histology Report field """
+    """ Removes a supporting evidence file from an analysis section """
 
-    return repositories['analysis'].remove_animal_model_report(analysis_name, model_system)
+    if repositories["bucket"].id_exists(attachment_id):
+        repositories["bucket"].delete_file(attachment_id)
 
-@router.put("/{analysis_name}/attach/{model_system}/imaging")
+    return repositories['analysis'].remove_section_supporting_evidence(analysis_name, section_name, field_name)
+
+
+@router.put("/{analysis_name}/section/link/attach")
 def attach_animal_model_system_imaging(
     analysis_name: str,
-    model_system: str,
+    section_name: str = Form(...),
+    field_name: str = Form(...),
     link_name: str = Form(...),
     link: str = Form(...),
     comments: str = Form(...),
     repositories=Depends(database),
     authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
-    """ Attaches an animal model system imaging link for the Veterinary Pathology Imaging field """
-    repositories["analysis"].attach_supporting_evidence_link(analysis_name, link_name, link, comments)
+    """ Attaches a link as supporting evidence to an analysis section """
 
-    return repositories["analysis"].attach_animal_model_image_link(analysis_name, model_system, link_name, link, comments)
+    field_value_link = {
+        "name": link_name,
+        "data": link,
+        "type": "link",
+        "comments": comments
+    }
 
-@router.put("/{analysis_name}/remove/{model_system}/imaging")
+    return repositories["analysis"].attach_section_supporting_evidence_link(
+        analysis_name, section_name, field_name, field_value_link
+    )
+
+
+@router.put("/{analysis_name}/section/link/remove")
 def remove_animal_model_system_imaging(
     analysis_name: str,
-    model_system: str,
+    section_name: str = Form(...),
+    field_name: str = Form(...),
     repositories=Depends(database),
     authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
-    """ Removes an animal model system imaging link for the Veterinary Pathology Imaging field """
+    """ Removes a supporting evidence link from an analysis section """
 
-    return repositories["analysis"].remove_animal_model_image_link(analysis_name, model_system)
+    return repositories["analysis"].remove_section_supporting_evidence(analysis_name, section_name, field_name)
+
 
 @router.get("/download/{file_id}")
 def download_file_by_id(file_id: str, repositories=Depends(database)):

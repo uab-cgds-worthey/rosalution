@@ -88,6 +88,61 @@
             ]
         },
         {
+            "header":"Mus musculus (Mouse) Model System",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Mutation",
+                  "value":[]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Pathogenicity Test",
+                  "value":[]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Design",
+                  "value":[]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Founder Screening/Expansion",
+                  "value":[]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Screening",
+                  "value":[]
+               },
+               {
+                  "type":"section-text",
+                  "field":"History",
+                  "value":[]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Diagnoses",
+                  "value":[]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Remarks",
+                  "value":[]
+               },
+               {
+                  "type":"supporting-evidence",
+                  "field":"Veterinary Histology Report",
+                  "value":[]
+               },
+               {
+                  "type":"supporting-evidence",
+                  "field":"Veterinary Pathology Imaging",
+                  "value":[]
+               }
+            ]
+         },
+        {
             "header": "Medical Summary",
             "content": [
                 {
