@@ -7,7 +7,7 @@ from pymongo import ReturnDocument
 from ..models.event import Event
 from ..enums import EventType
 
-# pylint: disable=too-few-public-methods
+# pylint: disable=too-many-public-methods
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 
 
@@ -374,3 +374,115 @@ class AnalysisCollection:
         # remove the _id field from the returned document since it is not JSON serializable
         updated_document.pop("_id", None)
         return updated_document
+
+    def attach_section_supporting_evidence_file(
+        self, analysis_name: str, section_name: str, field_name: str, field_value_file: object
+    ):
+        """
+        Attaches a file to a field within an analysis section and returns only the updated field within that section
+        """
+
+        updated_document = self.collection.find_one({"name": analysis_name})
+
+        if "_id" in updated_document:
+            updated_document.pop("_id", None)
+
+        updated_section = None
+        for section in updated_document['sections']:
+            if section_name == section['header']:
+                updated_section = section
+
+        if None is updated_section:
+            raise ValueError(
+                f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach report to '{section_name}'\
+                section."
+            )
+
+        updated_field = None
+        for field in updated_section['content']:
+            if field['field'] == field_name:
+                field['value'] = [field_value_file]
+                updated_field = field
+
+        self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {'$set': updated_document},
+            return_document=ReturnDocument.AFTER,
+        )
+
+        return_field = {"header": section_name, "field": field_name, "updated_row": updated_field}
+
+        return return_field
+
+    def attach_section_supporting_evidence_link(
+        self, analysis_name: str, section_name: str, field_name: str, field_value_link: object
+    ):
+        """
+        Attaches a link to a section field within an analysis and returns only the updated field for that section
+        """
+        updated_document = self.collection.find_one({"name": analysis_name})
+
+        if "_id" in updated_document:
+            updated_document.pop("_id", None)
+
+        updated_section = None
+        for section in updated_document['sections']:
+            if section_name == section['header']:
+                updated_section = section
+
+        if None is updated_section:
+            raise ValueError(
+                f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach report to '{section_name}'\
+                section."
+            )
+
+        new_uuid = str(uuid4())
+        field_value_link['attachment_id'] = new_uuid
+
+        updated_field = None
+        for field in updated_section['content']:
+            if field['field'] == 'Veterinary Pathology Imaging':
+                field['value'] = [field_value_link]
+                updated_field = field
+
+        self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {'$set': updated_document},
+            return_document=ReturnDocument.AFTER,
+        )
+
+        return_updated_field = {"header": section_name, "field": field_name, "updated_row": updated_field}
+
+        return return_updated_field
+
+    def remove_section_supporting_evidence(self, analysis_name: str, section_name: str, field_name: str):
+        """ Removes a section field's supporting evidence """
+        updated_document = self.collection.find_one({"name": analysis_name})
+
+        if "_id" in updated_document:
+            updated_document.pop("_id", None)
+
+        updated_section = None
+        for section in updated_document['sections']:
+            if section_name == section['header']:
+                updated_section = section
+
+        if None is updated_section:
+            raise ValueError(
+                f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach report to '{section_name}'\
+                section."
+            )
+
+        for field in updated_section['content']:
+            if field['field'] == field_name:
+                field['value'] = []
+
+        self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {'$set': updated_document},
+            return_document=ReturnDocument.AFTER,
+        )
+
+        return_field = {"header": section_name, "field": field_name}
+
+        return return_field
