@@ -352,9 +352,12 @@ def test_attach_section_supporting_evidence_link(analysis_collection):
     """ Tests adding a link as supporting evidence to an analysis section field """
     analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
 
+    field_value_link = {
+        "name": "Google Link", "data": "https://www.google.com", "type": "link", "comments": "nothing to do with google"
+    }
+
     actual = analysis_collection.attach_section_supporting_evidence_link(
-        "CPAM0002", "Mus musculus (Mouse) Model System", "Veterinary Pathology Imaging", "Google Link",
-        "https://www.google.com", "nothing to do with google"
+        "CPAM0002", "Mus musculus (Mouse) Model System", "Veterinary Pathology Imaging", field_value_link
     )
 
     new_evidence = next((evidence for evidence in actual['updated_row']['value'] if evidence['name'] == "Google Link"),
