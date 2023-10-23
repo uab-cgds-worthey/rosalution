@@ -564,7 +564,7 @@ describe('AnalysisView', () => {
         mockedAttachSectionSupportingEvidence.returns({
           header: 'Mus_musculus (Mouse) Model System',
           field: 'Veterinary Pathology Imaging',
-          field_value: {
+          updated_row: {
             type: 'section-supporting-evidence',
             field: 'Veterinary Pathology Imaging',
             value: [{
@@ -609,11 +609,6 @@ describe('AnalysisView', () => {
         mockedRemoveSectionSupportingEvidenceFile.resolves({
           header: 'Mus_musculus (Mouse) Model System',
           field: 'Veterinary Histology Report',
-          field_value: {
-            type: 'section-supporting-evidence',
-            field: 'Veterinary Histology Report',
-            value: [],
-          },
         });
 
         const mouseSection = wrapper.getComponent('[id=Mus_musculus (Mouse) Model System]');

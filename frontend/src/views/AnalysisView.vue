@@ -541,7 +541,8 @@ export default {
         const updatedFieldIndex = updatedSection.content.findIndex((row) => {
           return row.field == field;
         });
-        updatedSection.content.splice(updatedFieldIndex, 1, updatedAnalysisSectionField.field_value);
+        updatedSection.content.splice(updatedFieldIndex, 1, updatedAnalysisSectionField.updated_row);
+
         this.replaceAnalysisSection(updatedSection);
       } catch (error) {
         console.error('Updating the analysis did not work');
@@ -553,8 +554,6 @@ export default {
           .confirmText('Delete')
           .cancelText('Cancel')
           .confirm(`Removing '${attachment.name}' from ${field} in ${section}?`);
-
-      console.log(attachment);
 
       if (!confirmedDelete) {
         return;
@@ -584,11 +583,17 @@ export default {
           return sectionToFind.header == section;
         });
 
+        const fieldToUpdate = updatedSection.content.find((row) => {
+          return row.field == field;
+        });
+
         const updatedFieldIndex = updatedSection.content.findIndex((row) => {
           return row.field == field;
         });
 
-        updatedSection.content.splice(updatedFieldIndex, 1, updatedAnalysisSectionField.field_value);
+        fieldToUpdate.value = []
+
+        updatedSection.content.splice(updatedFieldIndex, 1, fieldToUpdate);
         this.replaceAnalysisSection(updatedSection);
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
