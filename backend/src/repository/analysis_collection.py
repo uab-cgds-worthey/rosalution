@@ -441,7 +441,7 @@ class AnalysisCollection:
 
         updated_field = None
         for field in updated_section['content']:
-            if field['field'] == 'Veterinary Pathology Imaging':
+            if field['field'] == field_name:
                 field['value'] = [field_value_link]
                 updated_field = field
 
