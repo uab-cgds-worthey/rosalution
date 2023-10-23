@@ -89,6 +89,8 @@ describe('AnalysisView', () => {
   let markReadyMock;
   let updateAnalysisSectionsMock;
   let mockAuthWritePermissions;
+  let mockedAttachSectionSupportingEvidence;
+  let mockedRemoveSectionSupportingEvidence;
   let wrapper;
   let sandbox;
 
@@ -104,6 +106,9 @@ describe('AnalysisView', () => {
     mockedAttachSupportingEvidence = sandbox.stub(Analyses, 'attachSupportingEvidence');
     mockedRemoveSupportingEvidence = sandbox.stub(Analyses, 'removeSupportingEvidence');
     mockedAttachThirdPartyLink = sandbox.stub(Analyses, 'attachThirdPartyLink');
+
+    mockedAttachSectionSupportingEvidence = sandbox.stub(Analyses, 'attachSectionSupportingEvidence');
+    mockedRemoveSectionSupportingEvidence = sandbox.stub(Analyses, 'removeSectionSupportingEvidence');
 
     markReadyMock = sandbox.stub(Analyses, 'pushAnalysisEvent');
 
@@ -143,7 +148,7 @@ describe('AnalysisView', () => {
     it('provides the expected headings of sections to be used as anchors', () => {
       const headerComponent = wrapper.get('[data-test="analysis-view-header"]');
       expect(headerComponent.attributes('sectionanchors')).to.equal(
-          'Brief,Medical Summary,Pedigree,Case Information,Supporting Evidence',
+          'Brief,Medical Summary,Mus musculus (Mouse) Model System,Pedigree,Case Information,Supporting Evidence',
       );
     });
 
@@ -545,6 +550,103 @@ describe('AnalysisView', () => {
         expect(failureNotificationDialog.exists()).to.be.true;
       });
     });
+
+    describe('when a section has a field that allows supporting evidence to be attached.', () => {
+      it('attaches supporting evidence to a field in the section', async () => {
+        const newAttachmentData = {
+          name: 'fake-attachment-evidence-name',
+          data: 'http://sites.uab.edu/cgds',
+          attachment_id: 'new-failure-id',
+          type: 'link',
+          comments: '',
+        };
+
+        mockedAttachSectionSupportingEvidence.returns({
+          header: 'Mus_musculus (Mouse) Model System',
+          field: 'Veterinary Pathology Imaging',
+          field_value: {
+            type: 'section-supporting-evidence',
+            field: 'Veterinary Pathology Imaging',
+            value: [{
+              ...newAttachmentData,
+              attachment_id: 'new-failure-id',
+            }],
+          },
+        });
+
+        const mouseSection = wrapper.getComponent('[id=Mus_musculus (Mouse) Model System]');
+
+        const mouseFieldToUpdate = mouseSection.props('content').find((row) => {
+          return row.field == 'Veterinary Pathology Imaging';
+        });
+
+        expect(mouseFieldToUpdate.value.length).to.equal(0);
+
+        mouseSection.vm.$emit('update:content-row', {
+          type: 'supporting-evidence',
+          operation: 'attach',
+          header: 'Mus musculus (Mouse) Model System',
+          field: 'Veterinary Pathology Imaging',
+          value: {},
+        });
+        await wrapper.vm.$nextTick();
+
+        inputDialog.confirmation(newAttachmentData);
+
+        // Needs to cycle through updating the prop in the view and then another
+        // tick for vuejs to reactively update the supplemental component
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+
+        const updatedMouseSection = wrapper.getComponent('[id=Mus_musculus (Mouse) Model System]');
+        const mouseFieldUpdated = updatedMouseSection.props('content').find((row) => {
+          return row.field == 'Veterinary Pathology Imaging';
+        });
+        expect(mouseFieldUpdated.value.length).to.equal(1);
+      });
+
+      it('removes the supporting evidence', async () => {
+        mockedRemoveSectionSupportingEvidence.resolves({
+          header: 'Mus_musculus (Mouse) Model System',
+          field: 'Veterinary Histology Report',
+          field_value: {
+            type: 'section-supporting-evidence',
+            field: 'Veterinary Histology Report',
+            value: [],
+          },
+        });
+
+        const mouseSection = wrapper.getComponent('[id=Mus_musculus (Mouse) Model System]');
+        const mouseFieldToUpdate = mouseSection.props('content').find((row) => {
+          return row.field == 'Veterinary Histology Report';
+        });
+        expect(mouseFieldToUpdate.value.length).to.equal(1);
+
+        mouseSection.vm.$emit('update:content-row', {
+          type: 'supporting-evidence',
+          operation: 'delete',
+          header: 'Mus musculus (Mouse) Model System',
+          field: 'Veterinary Histology Report',
+          value: {
+            file_id: 'FJKLJFKLDJSKLFDS',
+          },
+        });
+        await wrapper.vm.$nextTick();
+
+        notificationDialog.confirmation();
+        await wrapper.vm.$nextTick();
+
+        // Neccesary to process several ticks to re-render the section
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+
+        const updatedMouseSection = wrapper.getComponent('[id=Mus_musculus (Mouse) Model System]');
+        const mouseFieldUpdated = updatedMouseSection.props('content').find((row) => {
+          return row.field == 'Veterinary Histology Report';
+        });
+        expect(mouseFieldUpdated.value.length).to.equal(0);
+      });
+    });
   });
 
   describe('Saving and canceling analysis changes displays toasts', () => {
@@ -659,6 +761,40 @@ function fixtureData() {
             type: 'section-text',
             field: 'Affected Individuals Identified',
             value: ['Male, YOB: 2019'],
+          },
+        ],
+      },
+      {
+        header: 'Mus musculus (Mouse) Model System',
+        content: [
+          {
+            'type': 'section-text',
+            'field': 'Mutation',
+            'value': [
+              'NF1 c.2970-2972del (p.Met992del)',
+            ],
+          },
+          {
+            'type': 'section-text',
+            'field': 'Pathogenicity Test',
+            'value': [
+
+            ],
+          },
+          {
+            'type': 'section-supporting-evidence',
+            'field': 'Veterinary Histology Report',
+            'value': [{
+              'name': 'CPAM0046-NM_170707.3 (LMNA)_ c.745C_T (p.R249W) other 2.PDF',
+              'attachment_id': '64dbcfa43d243bf1e782499f',
+              'type': 'file',
+              'comments': '  ',
+            }],
+          },
+          {
+            'type': 'section-supporting-evidence',
+            'field': 'Veterinary Pathology Imaging',
+            'value': [],
           },
         ],
       },

@@ -157,6 +157,44 @@ export default {
     };
     return await Requests.putForm(url, attachmentForm);
   },
+
+  async attachSectionSupportingEvidence(analysisName, section, field, evidence) {
+    let attachmentForm = null;
+    let url = `/rosalution/api/analysis/${analysisName}/section/attach`;
+
+    if (evidence.type == 'file') {
+      attachmentForm = {
+        'section': section,
+        'field': field,
+        'upload_file': evidence.data,
+        'comments': evidence.comments ? evidence.comments : '  ', /** Required for now, inserting empty string */
+      };
+      url += '/file';
+    } else if ( evidence.type == 'link') {
+      attachmentForm = {
+        'section': section,
+        'field': field,
+        'link_name': evidence.name,
+        'link': evidence.data,
+        'comments': evidence.comments ? evidence.comments : '  ', /** Required for now, inserting empty string */
+      };
+      url += '/link';
+    }
+
+    if (null == attachmentForm) {
+      throw new Error(`Evidence attachment ${evidence} type is invalid.`);
+    }
+
+    return await Requests.postForm(url, attachmentForm);
+  },
+
+  async removeSectionSupportingEvidence(analysisName, section, field, attachmentId) {
+    const url = `/rosalution/api/analysis/${analysisName}/section/${section}/${field}/${attachmentId}/remove`;
+    const success = await Requests.delete(url);
+    return success;
+  },
+
+
 };
 
 const annotationRenderingTemporary = [

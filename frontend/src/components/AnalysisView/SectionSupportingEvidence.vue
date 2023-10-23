@@ -9,7 +9,8 @@
     </label>
     <div class="section-content" :data-test="`supporting-evidence-${field}`">
       <div class="supporting-evidence-content">
-        <button v-if="isDataUnavailable && this.editable && writePermissions" @click="onContentChanged('attach', content)"
+        <button v-if="isDataUnavailable && this.editable && writePermissions"
+          @click="onContentChanged('attach', content)"
           class="primary-button" :data-test="`attach-button-${field}`">
           Attach
         </button>
@@ -24,10 +25,8 @@
         </a>
       </div>
       <div class="action-items">
-        <button v-if="!isDataUnavailable && editable && writePermissions" @click="onContentChanged('edit', content)" data-test="edit-button">
-          <font-awesome-icon icon="pencil" size="xl" />
-        </button>
-        <button v-if="!isDataUnavailable && writePermissions" @click="onContentChanged('delete', content)" data-test="delete-button">
+        <button v-if="!isDataUnavailable && writePermissions" @click="onContentChanged('delete', content)"
+          data-test="delete-button">
           <font-awesome-icon icon="xmark" size="xl" />
         </button>
       </div>

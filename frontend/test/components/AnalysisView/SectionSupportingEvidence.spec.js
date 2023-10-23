@@ -37,7 +37,6 @@ describe('SectionSupportingEvidence.vue', () => {
 
   it('renders the supporting evidence when the value exists', async () => {
     wrapper = getMountedComponent();
-    console.log(wrapper.html());
     expect(wrapper.html()).to.include('CPAM0046');
   });
 

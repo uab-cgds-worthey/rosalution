@@ -54,7 +54,7 @@ import SectionSupportingEvidence from '@/components/AnalysisView/SectionSupporti
 
 export default {
   name: 'section-box',
-  emits: ['update:contentRow', 'attach-image', 'update-image'],
+  emits: ['update:contentRow', 'attach-image', 'update-image', 'download'],
   components: {
     SectionText,
     ImagesDataset,
