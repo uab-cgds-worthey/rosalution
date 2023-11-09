@@ -86,30 +86,7 @@ export default {
       }
     },
     copyToClipboard(textToCopy) {
-      /*
-      The below method is the updated way to copy text to clipboard.
-      It does not work currently because we have not added HTTPS in traffik.
-      This functionality for copying text will be added when HTTPS is added in traffik.
-      */
-      // navigator.clipboard.writeText(textToCopy);
-      console.log(textToCopy);
-
-      /*
-      The below method is marked as depreciated
-      Link to stack overflow article:
-      https://stackoverflow.com/questions/67882865/copy-datatext-to-clipboard-in-vuenuxt-js
-      Link to MDN:
-      https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand
-      */
-      // const tmpTextField = document.createElement('input');
-      // tmpTextField.value = textToCopy;
-      // tmpTextField.setAttribute('readonly', '');
-      // tmpTextField.setAttribute('style', 'position:absolute; right:200%;');
-      // document.body.appendChild(tmpTextField);
-      // tmpTextField.select();
-      // tmpTextField.setSelectionRange(0, 99999);
-      // document.execCommand('copy');
-      // tmpTextField.remove();
+      navigator.clipboard.writeText(textToCopy);
     },
     getCompleteHgvsVariantName(variant) {
       if (variant.p_dot) {

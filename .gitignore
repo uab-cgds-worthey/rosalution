@@ -65,3 +65,6 @@ media/
 *.jats
 *.pdf
 *.crossref
+
+# SSL/TLS Certificates
+*.pem

@@ -17,6 +17,14 @@ clean() {
     cd - || { echo "Failure to change return to root directory"; exit 1; }
 }
 
+generate_cert() {
+    local HOSTNAME=$1
+    local CERT_PATH=$2
+
+    mkcert -cert-file "$CERT_PATH"/local-deployment-cert.pem -key-file "$CERT_PATH"/local-deployment-key.pem "$HOSTNAME"
+    mkcert -install
+}
+
 clean_option="clean"
 
 if [[ $# -ne 0 ]] && [[ $1 -eq $clean_option ]]
@@ -28,7 +36,18 @@ fi
 install frontend
 install system-tests
 
+# check dns entry in hosts, adds if not present
 ./etc/etc-hosts.sh local.rosalution.cgds
+
+# check if mkcert is installed, generates tls certificates if found
+if command -v mkcert &> /dev/null
+then
+    echo "mkcert found, generating certificates"
+    generate_cert local.rosalution.cgds ./etc/.certificates
+else
+    echo "mkcert could not be found, could not generate certificates. Browser will throw insecure warning."
+    echo "To generate certificates, please visit and install: https://github.com/FiloSottile/mkcert"
+fi
 
 # change to backend directory, create venv, and activate it
 cd backend || { echo "Failure to change to backend directory"; exit 1;}
