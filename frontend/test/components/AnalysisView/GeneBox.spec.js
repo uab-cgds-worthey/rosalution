@@ -1,4 +1,4 @@
-import {expect, describe, it, beforeAll, afterAll, vi} from 'vitest';
+import {expect, describe, it, beforeAll, afterAll} from 'vitest';
 import {config, shallowMount} from '@vue/test-utils';
 
 import GeneBox from '@/components/AnalysisView/GeneBox.vue';
@@ -105,17 +105,25 @@ describe('GeneBox.vue', () => {
     expect(wrapper.text()).to.contains('PS2, PS3, PM2, PP3, PP5');
   });
 
-  /*
-  this test will need to be modified when the copy functionality is added
-  copy method needs to be changed to navigator.clipboard.writeText(textToCopy);
-  */
   it('should log text to console when copy button is clicked', async () => {
+    let clipboardContents = '';
+
+    window.__defineGetter__('navigator', function() {
+      return {
+        clipboard: {
+          writeText: (text) => {
+            clipboardContents = text;
+          },
+        },
+      };
+    });
+
     const wrapper = getMountedComponent();
 
     const copyButton = wrapper.find('[data-test=copy-button]');
-    vi.spyOn(console, 'log');
     await copyButton.trigger('click');
-    expect(console.log).toHaveBeenCalled();
+
+    expect(clipboardContents).to.equal('NM_170707.3:c.745C>T');
   });
 
   it('should route to annotations for a gene', async () => {
