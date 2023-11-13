@@ -14,7 +14,7 @@
 HOSTNAME=$1
 CERT_PATH=$2
 
-mkdir "$CERT_PATH"
+mkdir -p "$CERT_PATH"
 
 mkcert -cert-file "$CERT_PATH"/local-deployment-cert.pem -key-file "$CERT_PATH"/local-deployment-key.pem "$HOSTNAME"
 mkcert -install
