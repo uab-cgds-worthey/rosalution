@@ -22,6 +22,7 @@
         :gene="genomicUnit.gene"
         :transcripts="genomicUnit.transcripts"
         :variants="genomicUnit.variants"
+        @clipboard-copy="this.copyToClipboard"
       />
       <SectionBox
         v-for="(section) in sectionsList"
@@ -598,6 +599,10 @@ export default {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
+
+    copyToClipboard(copiedText) {
+      toast.success(`Copied ${copiedText} to clipboard!`);
+    }
   },
 };
 </script>

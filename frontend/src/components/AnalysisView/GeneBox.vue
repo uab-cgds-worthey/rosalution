@@ -87,6 +87,7 @@ export default {
     },
     copyToClipboard(textToCopy) {
       navigator.clipboard.writeText(textToCopy);
+      this.$emit('clipboard-copy', textToCopy);
     },
     getCompleteHgvsVariantName(variant) {
       if (variant.p_dot) {
@@ -138,6 +139,14 @@ export default {
 
 .copy-icon {
   padding-bottom: var(--p-1)
+}
+
+.copy-icon:hover {
+  cursor: pointer;
+}
+
+.copy-icon:active {
+  color: var(--rosalution-purple-200)
 }
 
 .genomic-build {

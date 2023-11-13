@@ -17,14 +17,6 @@ clean() {
     cd - || { echo "Failure to change return to root directory"; exit 1; }
 }
 
-generate_cert() {
-    local HOSTNAME=$1
-    local CERT_PATH=$2
-
-    mkcert -cert-file "$CERT_PATH"/local-deployment-cert.pem -key-file "$CERT_PATH"/local-deployment-key.pem "$HOSTNAME"
-    mkcert -install
-}
-
 clean_option="clean"
 
 if [[ $# -ne 0 ]] && [[ $1 -eq $clean_option ]]
@@ -43,7 +35,7 @@ install system-tests
 if command -v mkcert &> /dev/null
 then
     echo "mkcert found, generating certificates"
-    generate_cert local.rosalution.cgds ./etc/.certificates
+    ./etc/generate-ssl-certs.sh local.rosalution.cgds ./etc/.certificates
 else
     echo "mkcert could not be found, could not generate certificates. Browser will throw insecure warning."
     echo "To generate certificates, please visit and install: https://github.com/FiloSottile/mkcert"
