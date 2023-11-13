@@ -602,7 +602,7 @@ export default {
 
     copyToClipboard(copiedText) {
       toast.success(`Copied ${copiedText} to clipboard!`);
-    }
+    },
   },
 };
 </script>
