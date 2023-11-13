@@ -160,7 +160,7 @@ describe('AnalysisView', () => {
     it('provides the expected headings of sections to be used as anchors', () => {
       const headerComponent = wrapper.get('[data-test="analysis-view-header"]');
       expect(headerComponent.attributes('sectionanchors')).to.equal(
-          'Brief,Medical Summary,Mus musculus (Mouse) Model System,Pedigree,Case Information,Supporting Evidence',
+          'Brief,Medical Summary,Mus musculus (Mouse) Model System,Pedigree,Case Information,Discussion,Supporting Evidence',
       );
     });
 
