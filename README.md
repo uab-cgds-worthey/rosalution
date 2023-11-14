@@ -76,6 +76,14 @@ the respective installation instructions for your target environment.
     - The `setup.sh` script requires sudo/admin privileges in the target development environment to update the
     `/etc/hosts` file to setup localhost redirection for a Rosalution deployment to redirect localhost to
     local.rosalution.cgds
+- [mkcert](https://github.com/FiloSottile/mkcert)
+    - Tool to generate and install self-signed locally-trusted development certificates
+    - Used to make certificates for Traefik to manage HTTPS enabled services
+    - The `setup.sh` script requires sudo/admin privileges in the target development envrionment to install the generated
+  certificates in the respective browser trusts so browsers know they're valid and won't throw an insecure warning
+        - Default certificate location: `./etc/certificates`
+    - Note: Local deployment will still work without self-signed certificates. The browser will just throw an insecure
+  warning, the application can still be used.
 
 ### Browser Support
 
@@ -103,6 +111,8 @@ The script will
 - Updates your local `/etc/hosts` to support the local DNS redirect of localhost to 'local.rosalution.cgds'.
 - Creates a Python virtual environment for called **"rosalution_env"** within the backend directory
 - Installs Python dependencies within the virtual environment
+- Checks if `mkcert` is installed, if so generates self-signed certificates in `./etc/certificates`
+    - Generates two files, one .pem key file and one .pem cert file
 
 ```bash
 ./setup.sh

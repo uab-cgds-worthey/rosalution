@@ -28,7 +28,18 @@ fi
 install frontend
 install system-tests
 
+# check dns entry in hosts, adds if not present
 ./etc/etc-hosts.sh local.rosalution.cgds
+
+# check if mkcert is installed, generates tls certificates if found
+if command -v mkcert &> /dev/null
+then
+    echo "mkcert found, generating certificates"
+    ./etc/generate-ssl-certs.sh local.rosalution.cgds ./etc/.certificates
+else
+    echo "mkcert could not be found, could not generate certificates. Browser will throw insecure warning."
+    echo "To generate certificates, please visit and install: https://github.com/FiloSottile/mkcert"
+fi
 
 # change to backend directory, create venv, and activate it
 cd backend || { echo "Failure to change to backend directory"; exit 1;}

@@ -3,7 +3,7 @@ const {defineConfig} = require('cypress');
 module.exports = defineConfig({
   e2e: {
     video: false,
-    baseUrl: 'http://local.rosalution.cgds/rosalution',
+    baseUrl: 'https://local.rosalution.cgds/rosalution',
     fixturesFolder: './fixtures',
     downloadsFolder: 'cypress/downloads',
     screenshotsFolder: 'cypress/screenshots',

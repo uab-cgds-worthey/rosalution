@@ -19,5 +19,8 @@ jobs:
         browser: chrome
         headed: false
         start: docker compose up --build -d
-        wait-on: 'http://local.rosalution.cgds'
+        wait-on: 'https://local.rosalution.cgds'
         wait-on-timeout: 120
+      env:
+        # Avoids self-signed cert error: https://github.com/cypress-io/github-action/issues/154
+        NODE_TLS_REJECT_UNAUTHORIZED: 0

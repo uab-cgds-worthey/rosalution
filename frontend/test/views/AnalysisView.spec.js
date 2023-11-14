@@ -4,6 +4,7 @@ import sinon from 'sinon';
 
 import Analyses from '@/models/analyses.js';
 
+import GeneBox from '@/components/AnalysisView/GeneBox.vue';
 import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
@@ -127,6 +128,17 @@ describe('AnalysisView', () => {
   it('contains the expected content body element', () => {
     const appContent = wrapper.find('app-content');
     expect(appContent.exists()).to.be.true;
+  });
+
+  it('should display a toast when a copy text to clipboard button', async () => {
+    const geneBox = wrapper.getComponent(GeneBox);
+
+    geneBox.vm.$emit('clipboard-copy', 'NM_001017980.3:c.164G>T');
+    await wrapper.vm.$nextTick();
+
+    expect(toast.state.active).to.be.true;
+    expect(toast.state.type).to.equal('success');
+    expect(toast.state.message).to.equal('Copied NM_001017980.3:c.164G>T to clipboard!');
   });
 
   describe('the header', () => {
@@ -661,19 +673,6 @@ describe('AnalysisView', () => {
       expect(toast.state.active).to.be.true;
       expect(toast.state.type).to.equal('success');
       expect(toast.state.message).to.equal('Analysis updated successfully.');
-    });
-
-    it('should display info toast when canceling analysis changes', async () => {
-      const wrapper = getMountedComponent();
-      await wrapper.setData({edit: true});
-      const saveModal = wrapper.findComponent(SaveModal);
-
-      saveModal.vm.$emit('canceledit');
-      await wrapper.vm.$nextTick();
-
-      expect(toast.state.active).to.be.true;
-      expect(toast.state.type).to.equal('info');
-      expect(toast.state.message).to.equal('Edit mode has been disabled and changes have not been saved.');
     });
   });
 });

@@ -36,6 +36,16 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
     cy.url().should('eq', Cypress.config().baseUrl + '/');
   });
 
+  it('should click the copy button and add the variant text to the operating system clipboard to copy', () => {
+    cy.get('[data-test="copy-button"]').click();
+
+    cy.window().then((win) => {
+      win.navigator.clipboard.readText().then((text) => {
+          expect(text).to.equal('NM_001017980.3:c.164G>T');
+      });
+    });
+  });
+
   it('should allow the user to navigate to a third party link after adding one', () => {
     cy.get('.grey-rounded-menu').invoke('attr', 'style', 'display: block; visibility: visible; opacity: 1;');
     cy.get('[data-test="user-menu"] > .grey-rounded-menu').contains('Attach Monday.com').click();
