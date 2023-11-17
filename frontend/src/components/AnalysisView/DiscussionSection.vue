@@ -75,6 +75,14 @@ export default {
       console.log('Cancelled post');
     },
   },
+  methods: {
+    newDiscussionPost() {
+        console.log("Publishing Post!")
+    },
+    cancelNewDiscussionPost() {
+        console.log("Cancelled post");
+    }
+  }
 };
 
 </script>
