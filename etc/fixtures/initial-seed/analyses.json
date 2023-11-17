@@ -1,1624 +1,1868 @@
 [
    {
-   "name": "CPAM0002",
-   "description": "Vacuolar myopathy with autophagy, X-linked vacuolar myopathy with autophagy",
-   "nominated_by": "Dr. Person One",
-   "genomic_units": [
-   {
-   "gene": "VMA21",
-   "transcripts": [
-   {
-   "transcript": "NM_001017980.3"
-   }
-   ],
-   "variants": [
-   {
-   "hgvs_variant": "NM_001017980.3:c.164G>T",
-   "c_dot": "c.164G>T",
-   "p_dot": "p.Gly55Val",
-   "build": "hg19",
-   "case": [
-   {
-   "field": "Evidence",
-   "value": [
-   "PVS1",
-   "PM2"
-   ]
-   },
-   {
-   "field": "Other Datasource",
-   "value": [
-   "PVS1",
-   "PM2"
-   ]
-   },
-   {
-   "field": "Interpretation",
-   "value": [
-   "Likely Pathogenic"
-   ]
-   }
-   ]
-   }
-   ]
-   }
-   ],
-   "sections": [
-   {
-   "header": "Brief",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Nominator",
-   "value": [
-   "Dr. Person One"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Participant",
-   "value": [
-   "1 patient, carrier mother"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Phenotype",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "ACMG Classification",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "ACMG Classification Criteria",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "ACMG Criteria To Add",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Decision",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "Clinical History",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Clinical Diagnosis",
-   "value": [
-   "Vacuolor myopathy with autophagy, X-linked vacuolor myopathy with autophagy"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Affected Individuals Identified",
-   "value": [
-   "1 patient, carrier mother",
-   "Maternal grandfather with myopathy.",
-   "Mother has muscle signal changes on MRI",
-   "Thus presumed to be an X-linked myopathy"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Sequencing",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Testing",
-   "value": [
-   "- DMD, LAMP2, myofibrillar myopathy panel performed testing for BAG3, crystalline B, desmin, DNAJB6, FLH1, LDB3, and myotilin. Non diagnostic.",
-   "- DMD testing revealed a hemizygous variant of unknown significance in the DMD gene.",
-   "- Fulgent Diagnostics identified a hemizygous VUS in the VMA21(XMEA); c.164G>T (p.Gly55Val). His mother also carried this variant."
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Systems",
-   "value": [
-   "Musculoskeletal and orthopedics"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Additional Details",
-   "value": [
-   "8 yo male at time of testing. Ambulatory. Myopathy starting from 2 years of age with falls, elevated CK, and myopathic muscle biopsy. Clinical course is slowly progressive.",
-   "Exam showed proximal limb girdle pattern of weakness. Proximal upper and lower extremity weakness. Myopathy Congenital myopathy. Diminished muscle bulk / eps. scapular, Lordotic gait.",
-   "Muscle biopsy (2014) showed fiber size variability with prominent perimysial fibrous tissue; scattered myofibers with vacuoles staining dark blue with trichome and positive PAS staining; normal enzyme activity for phosphorylase, myoadenylase and phosphofructokinase.",
-   "Electron microscopy (2014) showed membrane bound vacuoles which contain glycogen and degenerated mitochondria; some of these vacuoles contain secondary lysosomes.",
-   "CK level 1121U/L.",
-   "Mode of Inheritance",
-   "X linked"
-   ]
-   }
-   ]
-   },
-   {
-   "header": "Pedigree",
-   "attachment_field": "Pedigree",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "Pedigree",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "VMA21 Gene To Phenotype",
-   "attachment_field": "VMA21 Gene To Phenotype",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "VMA21 Gene To Phenotype",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "HPO Terms",
-   "value": [
-   "HP:0003198; HP:0003797; HP:0003325; HP:0008997; HP:0008994; HP:0001288; HP:0009060; HP:0004303; HP:0012103; HP:0003736"
-   ]
-   }
-   ]
-   },
-   {
-   "header": "VMA21 Molecular Mechanism",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Function Overview",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "VMA21 Function",
-   "attachment_field": "VMA21 Function",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "VMA21 Function",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "Model Goals",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Model of Interest",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Goals",
-   "value": [
-   "Review of ACMG classification",
-   "Functional impact study (in silico/animal/cell modeling)",
-   "Therapeutic predictions (in silico predictions)"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Proposed Model/Project",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Existing Collaborations",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Existing Funding",
-   "value": []
-   }
-   ]
-   }
-   ],
-   "discussions": [
-   {
-   "post_id": "9027ec8d-6298-4afb-add5-6ef710eb5e98",
-   "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
-   "author_fullname": "Developer Person",
-   "publish_timestamp": "2023-10-09T21:13:22.687000",
-   "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum.",
-   "attachments": [],
-   "thread": []
-   },
-   {
-   "post_id": "a677bb36-acf8-4ff9-a406-b113a7952f7e",
-   "author_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
-   "author_fullname": "Researcher Person",
-   "publish_timestamp": "2023-10-10T21:13:22.687000",
-   "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum.",
-   "attachments": [],
-   "thread": []
-   },
-   {
-   "post_id": "e6023fa7-b598-416a-9f42-862c826255ef",
-   "author_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
-   "author_fullname": "Variant Review Report Preparer Person",
-   "publish_timestamp": "2023-10-13T21:13:22.687000",
-   "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also.",
-   "attachments": [],
-   "thread": []
-   }
-   ],
-   "supporting_evidence_files": [],
-   "timeline": [
-   {
-   "event": "create",
-   "timestamp": "2022-10-09T21:13:22.687000",
-   "username": "vrr-prep"
-   },
-   {
-   "event": "ready",
-   "timestamp": "2022-10-09T21:14:22.687000",
-   "username": "vrr-prep"
-   },
-   {
-   "event": "opened",
-   "timestamp": "2022-10-09T21:15:22.687000",
-   "username": "vrr-prep"
-   },
-   {
-   "event": "approve",
-   "timestamp": "2022-10-09T21:16:22.687000",
-   "username": "vrr-prep"
-   }
-   ]
-   },
-   {
-   "name": "CPAM0046",
-   "description": ": LMNA-related congenital muscular dystropy",
-   "nominated_by": "Dr. Person Two",
-   "genomic_units": [
-   {
-   "gene": "LMNA",
-   "transcripts": [
-   {
-   "transcript": "NM_170707.3"
-   }
-   ],
-   "variants": [
-   {
-   "hgvs_variant": "NM_170707.3:c.745C>T",
-   "c_dot": "c.745C>T",
-   "p_dot": "p.R249W",
-   "build": "hg19",
-   "case": [
-   {
-   "field": "Evidence",
-   "value": [
-   "PS2",
-   "PS3",
-   "PM2",
-   "PP3",
-   "PP5"
-   ]
-   },
-   {
-   "field": "Interpretation",
-   "value": [
-   "Pathogenic"
-   ]
-   },
-   {
-   "field": "Inheritance",
-   "value": [
-   "De Novo"
-   ]
-   }
-   ]
-   }
-   ]
-   }
-   ],
-   "sections": [
-   {
-   "header": "Brief",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Nominator",
-   "value": [
-   "Dr. Person Two (Local) - working with Dr. Person Three in Person Four Lab"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Participant",
-   "value": [
-   "Male, YOB: 2019"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Phenotype",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "ACMG Classification",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "ACMG Classification Criteria",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "ACMG Criteria To Add",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Decision",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "Clinical History",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Clinical Diagnosis",
-   "value": [
-   "LMNA-related congenital muscular dystropy"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Affected Individuals Identified",
-   "value": [
-   "Male, YOB: 2019"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Sequencing",
-   "value": [
-   "WES"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Testing",
-   "value": [
-   "WES - February  2020;"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Systems",
-   "value": [
-   "Growth Parameters; Craniofacial; Musculoskeletal; Gastrointestinal; Behavior, Cognition and Development; Neurological"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Additional Details",
-   "value": [
-   "Review of VUSes (Why not considered)",
-   "NEB (NM_001164508.1)  | c.7385C>G (p.A2462G) (Pat.) and c.16625A>G (p.H5542R) (Mat.).",
-   " - Associated with Nemaline myopathy 2, autosomal recessive",
-   " - Both variants  are still classified as VUS (last evaluated Feb 2020)",
-   " - 195 out of 203 (96.1%) non-VUS missense variants in gene NEB are benign",
-   " ",
-   "LYZL6 (NM_020426.2)  | c.228G>C (p.Q76H) (Mat./Pat.)",
-   " - Lysozyme Like 6.",
-   " - No currently known disease associations.",
-   " ",
-   "NOL6 (NM_022917.4)  | c.518G>A (p.R173Q) (Pat.) and c.91G>A (p.G31R) (Mat.).",
-   " - Nucleolar protein 6.",
-   " - No currently known disease associations"
-   ]
-   }
-   ]
-   },
-   {
-   "header": "Pedigree",
-   "attachment_field": "Pedigree",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "Pedigree",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "LMNA Gene To Phenotype",
-   "attachment_field": "LMNA Gene To Phenotype",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "LMNA Gene To Phenotype",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "HPO Terms",
-   "value": [
-   "HP:0001508:Failure to thrive; HP:0001357:Plagiocephaly; HP:0000473:Torticollis; HP:0003560:Muscular dystrophy; HP:0003701:Proximal muscle weakness; HP:0009062:Infantile axial hypotonia; HP:0012389:Appendicular hypotonia; HP: 0003236:Elevated serum creatine kinase; HP:0002020:Gastroesophageal reflux; HP:0011471:Gastrostomy tube feeding in infancy; HP:0011968:Feeding difficulties; HP:0001263:Global developmental delay; HP:0001265:Hyproflexia; HP:0032988:Persistent head lag; HP:0000960:Sacral dimple;"
-   ]
-   }
-   ]
-   },
-   {
-   "header": "LMNA Molecular Mechanism",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Function Overview",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "LMNA Function",
-   "attachment_field": "LMNA Function",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "LMNA Function",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "Model Goals",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Model of Interest",
-   "value": [
-   "Zebrafish"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Goals",
-   "value": [
-   "Functional impact confirmation (animal/cell modeling)",
-   "Therapeutic predictions (in-silico predictions)",
-   "Downstream applications (sharing model to conduct larger drug screens)"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Proposed Model/Project",
-   "value": [
-   "Contribute a dominant negative patient-variant model to the existing zebrafish model (LOF; in-progress)",
-   "Will be used in NBL 240: a research-based undergraduate course at UAB"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Existing Collaborations",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Existing Funding",
-   "value": []
-   }
-   ]
-   }
-   ],
-   "discussions": [
-   {
-   "post_id": "9027ec8d-6298-4afb-add5-6ef710eb5e98",
-   "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
-   "author_fullname": "Developer Person",
-   "publish_timestamp": "2023-10-09T21:13:22.687000",
-   "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum.",
-   "attachments": [],
-   "thread": []
-   },
-   {
-   "post_id": "e6023fa7-b598-416a-9f42-862c826255ef",
-   "author_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
-   "author_fullname": "Variant Review Report Preparer Person",
-   "publish_timestamp": "2023-10-13T21:13:22.687000",
-   "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also.",
-   "attachments": [],
-   "thread": []
-   }
-   ],
-   "timeline": [
-   {
-   "event": "create",
-   "timestamp": "2022-10-09T21:13:22.687000",
-   "username": "vrr-prep"
-   },
-   {
-   "event": "ready",
-   "timestamp": "2022-10-09T21:14:22.687000",
-   "username": "vrr-prep"
-   },
-   {
-   "event": "opened",
-   "timestamp": "2022-10-09T21:15:22.687000",
-   "username": "vrr-prep"
-   },
-   {
-   "event": "approve",
-   "timestamp": "2022-10-09T21:16:22.687000",
-   "username": "vrr-prep"
-   }
-   ]
-   },
-   {
-   "name": "CPAM0047",
-   "description": "Congenital variant of Rett syndrome",
-   "genomic_units": [
-   {
-   "gene": "SBF1",
-   "transcripts": [
-   {
-   "transcript": "NM_002972.2"
-   }
-   ],
-   "variants": [
-   {
-   "hgvs_variant": "NM_002972.2:c.3493_3494dupTA",
-   "c_dot": "c.3493_3494dupTA",
-   "p_dot": "Pro1166ThrfsX5",
-   "build": "hg19",
-   "case": []
-   },
-   {
-   "hgvs_variant": "NM_002972.2:c.5474_5475delTG",
-   "c_dot": "c.5474_5475delTG",
-   "p_dot": "Val1825GlyfsX27",
-   "build": "hg19",
-   "case": []
-   }
-   ]
-   }
-   ],
-   "nominated_by": "CMT4B3 Foundation",
-   "sections": [
-   {
-   "header": "Brief",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Nominator",
-   "value": [
-   "CMT4B3 Foundation"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Participant",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Phenotype",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "ACMG Classification",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "ACMG Classification Criteria",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "ACMG Criteria To Add",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Decision",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "Clinical History",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Clinical Diagnosis",
-   "value": [
-   "Mild Zellweger Spectrum Disorder (a Peroxisome Biogenesis Disorder)",
-   "Current clinical manifestation is cerebellar ataxia that has impeded gross motor development."
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Affected Individuals Identified",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Sequencing",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Testing",
-   "value": [
-   " - Invitae Boosted Exome in 2019"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Systems",
-   "value": [
-   "Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Additional Details",
-   "value": [
-   "Symptoms: postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus "
-   ]
-   }
-   ]
-   },
-   {
-   "header": "Pedigree",
-   "attachment_field": "Pedigree",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "Pedigree",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "SBF1 Gene To Phenotype",
-   "attachment_field": "SBF1 Gene To Phenotype",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "SBF1 Gene To Phenotype",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "HPO Terms",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "SBF1 Molecular Mechanism",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Function Overview",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "SBF1 Function",
-   "attachment_field": "SBF1 Function",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "SBF1 Function",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "Model Goals",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Model of Interest",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Goals",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Proposed Model/Project",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Existing Collaborations",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Existing Funding",
-   "value": []
-   }
-   ]
-   }
-   ],
-   "discussions": [
-   {
-   "post_id": "9027ec8d-6298-4afb-add5-6ef710eb5e98",
-   "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
-   "author_fullname": "Developer Person",
-   "publish_timestamp": "2023-10-09T21:13:22.687000",
-   "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum.",
-   "attachments": [],
-   "thread": []
-   },
-   {
-   "post_id": "a677bb36-acf8-4ff9-a406-b113a7952f7e",
-   "author_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
-   "author_fullname": "Researcher Person",
-   "publish_timestamp": "2023-10-10T21:13:22.687000",
-   "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum.",
-   "attachments": [],
-   "thread": []
-   },
-   {
-   "post_id": "e6023fa7-b598-416a-9f42-862c826255ef",
-   "author_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
-   "author_fullname": "Variant Review Report Preparer Person",
-   "publish_timestamp": "2023-10-13T21:13:22.687000",
-   "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also.",
-   "attachments": [],
-   "thread": []
-   }
-   ],
-   "timeline": [
-   {
-   "event": "create",
-   "timestamp": "2022-10-09T21:13:22.687000",
-   "username": "vrr-prep"
-   },
-   {
-   "event": "ready",
-   "timestamp": "2022-10-09T21:14:22.687000",
-   "username": "vrr-prep"
-   },
-   {
-   "event": "opened",
-   "timestamp": "2022-10-09T21:15:22.687000",
-   "username": "vrr-prep"
-   },
-   {
-   "event": "decline",
-   "timestamp": "2022-10-09T21:16:22.687000",
-   "username": "vrr-prep"
-   }
-   ]
-   },
-   {
-   "name": "CPAM0053",
-   "description": "Mild Zellweger Spectrum Disorder, a Peroxisome Biogenesis Disorder",
-   "nominated_by": "Precision Medicine Institute",
-   "genomic_units": [
-   {
-   "gene": "PEX10",
-   "transcripts": [
-   {
-   "transcript": "NM_153818.2"
-   }
-   ],
-   "variants": [
-   {
-   "hgvs_variant": "NM_153818.2:c.28dup",
-   "c_dot": "c.28dup",
-   "p_dot": "p.Glu10fs",
-   "build": "hg19",
-   "case": [
-   {
-   "field": "Evidence",
-   "value": [
-   "PVS1",
-   "PM2",
-   "PP5"
-   ]
-   },
-   {
-   "field": "Interpretation",
-   "value": [
-   "Pathogenic"
-   ]
-   },
-   {
-   "field": "Zygosity",
-   "value": [
-   "Compound Hetrozygous"
-   ]
-   },
-   {
-   "field": "Inheritance",
-   "value": [
-   "Autosomal Recesive"
-   ]
-   }
-   ]
-   },
-   {
-   "hgvs_variant": "NM_153818.2:c.928C>G",
-   "c_dot": "c.928G>G",
-   "p_dot": "p.His310Asp",
-   "build": "hg19",
-   "case": [
-   {
-   "field": "Evidence",
-   "value": [
-   "PM2",
-   "PM5",
-   "PP3"
-   ]
-   },
-   {
-   "field": "Interpretation",
-   "value": [
-   "Variant of Unknown Signifigance"
-   ]
-   },
-   {
-   "field": "Zygosity",
-   "value": [
-   "Compound Hetrozygous"
-   ]
-   }
-   ]
-   }
-   ]
-   }
-   ],
-   "sections": [
-   {
-   "header": "Brief",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Nominator",
-   "value": [
-   "Precision Medicine Institute"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Participant",
-   "value": [
-   "Pediatric male (YOB: 2017), Local Participant"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Phenotype",
-   "value": [
-   "Postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus "
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "ACMG Classification",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "ACMG Classification Criteria",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "ACMG Criteria To Add",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Decision",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "Clinical History",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Clinical Diagnosis",
-   "value": [
-   "Mild Zellweger Spectrum Disorder (a Peroxisome Biogenesis Disorder)",
-   "Current clinical manifestation is cerebellar ataxia that has impeded gross motor development."
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Affected Individuals Identified",
-   "value": [
-   "Pediatric Male (YOB: 2017) Local Participant"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Sequencing",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Testing",
-   "value": [
-   " - Invitae Boosted Exome in 2019"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Systems",
-   "value": [
-   "Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Additional Details",
-   "value": [
-   "Symptoms: postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus"
-   ]
-   }
-   ]
-   },
-   {
-   "header": "Pedigree",
-   "attachment_field": "Pedigree",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "Pedigree",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "PEX10 Gene To Phenotype",
-   "attachment_field": "PEX10 Gene To Phenotype",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "PEX10 Gene To Phenotype",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "HPO Terms",
-   "value": [
-   "Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"
-   ]
-   }
-   ]
-   },
-   {
-   "header": "PEX10 Molecular Mechanism",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Function Overview",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "PEX10 Function",
-   "attachment_field": "PEX10 Function",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "PEX10 Function",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "Model Goals",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Model of Interest",
-   "value": [
-   "Zebrafish"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Goals",
-   "value": [
-   "Functional impact confirmation (animal/cell modeling)",
-   "Therapeutic predictions (in-silico predictions)",
-   "Downstream applications",
-   " - Downstream applications"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Proposed Model/Project",
-   "value": [
-   "Parental fibroblasts and iPSCs in process",
-   "S. Cerevisiae: no meaningful phenotype found for H303D (human H310D)",
-   "C Elegans: InVivo made model but there looks to be off-target mutations; Andy Golden (NIH) is planning to make another one",
-   "Mice: JAX models in process",
-   "H288D mice have phenotype (personal communication)",
-   "B6 mice",
-   "Conditional KOMP B6",
-   "5050 B6 and 129",
-   "Previous mice models C294Y (human C316Y; same RING finger domain) – homozygous and heterozygous have phenotype",
-   "    http://www.informatics.jax.org/allele/MGI:5638060",
-   "H. Polymorpha: in process",
-   "Drosophila: in process",
-   "Zebrafish: in negotiations (ensures if a model is created by CPAM, there will be collaborator lined up)"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Existing Collaborations",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Existing Funding",
-   "value": []
-   }
-   ]
-   }
-   ],
-   "discussions": [
-   {
-   "post_id": "e6023fa7-b598-416a-9f42-862c826255ef",
-   "author_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
-   "author_fullname": "Variant Review Report Preparer Person",
-   "publish_timestamp": "2023-10-13T21:13:22.687000",
-   "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also.",
-   "attachments": [],
-   "thread": []
-   }
-   ],
-   "timeline": [
-   {
-   "event": "create",
-   "timestamp": "2022-10-09T21:13:22.687000",
-   "username": "vrr-prep"
-   },
-   {
-   "event": "ready",
-   "timestamp": "2022-10-09T21:14:22.687000",
-   "username": "vrr-prep"
-   }
-   ]
-   },
-   {
-   "name": "CPAM0065",
-   "description": "Congenital variant of Rett syndrome",
-   "genomic_units": [
-   {
-   "gene": "FOXG1",
-   "transcripts": [
-   {
-   "transcript": "NM_005249.5"
-   }
-   ],
-   "variants": [
-   {
-   "hgvs_variant": "NM_005249.5:c.924G>A",
-   "c_dot": "c.924G>A",
-   "p_dot": "p.Trp308Ter",
-   "build": "hg19",
-   "case": []
-   },
-   {
-   "hgvs_variant": "NM_005249.5:c.256dup",
-   "c_dot": "c.256dup",
-   "p_dot": "p.Gln86fs",
-   "build": "hg19",
-   "case": []
-   }
-   ]
-   }
-   ],
-   "nominated_by": "Believe in a Cure Foundation",
-   "sections": [
-   {
-   "header": "Brief",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Nominator",
-   "value": [
-   "Believe in a Cure Foundation (nonprofit, FOXG1 syndrome)"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Participant",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Phenotype",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "ACMG Classification",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "ACMG Classification Criteria",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "ACMG Criteria To Add",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Decision",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "Clinical History",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Clinical Diagnosis",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Affected Individuals Identified",
-   "value": [
-   " - Frameshift – 3 published cases (Ellaway et al 2013, Takahashi et al 2012, Le Guen et al 2011)",
-   " - Nonsense – 1 published case (Philippe et al 2010)"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Sequencing",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Testing",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Systems",
-   "value": [
-   "Growth Parameters, Craniofacial. Eye Defects, Musculoskeletal, Behavior, Cognition, and Development, Digestive System, Neurological"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Additional Details",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "Pedigree",
-   "attachment_field": "Pedigree",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "Pedigree",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "FOXG1 Gene To Phenotype",
-   "attachment_field": "FOXG1 Gene To Phenotype",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "FOXG1 Gene To Phenotype",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "HPO Terms",
-   "value": [
-   "Microcephaly; Protruding tongue; Strabismus; Scoliosis; Absent speech; Feeding difficulties; Generalized hypotonia; Seizure; Irritability; Poor eye contact; Encephalopathy; Dysphagia; Hypoplasia of the corpus callosum; Sleep disturbance; Hyperkinetic movements;",
-   "Axial dystonia; Bruxism; Generalized dystonia; Hypoplasia of the frontal lobes; Generalized tonic seizure; Stereotypical hand wringing; Delayed myelination; Psychomotor impairment; Dyskinesia; Opisthotonus;"
-   ]
-   }
-   ]
-   },
-   {
-   "header": "FOXG1 Molecular Mechanism",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Function Overview",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "FOXG1 Function",
-   "attachment_field": "FOXG1 Function",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "FOXG1 Function",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "Model Goals",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Model of Interest",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Goals",
-   "value": [
-   " - Therapeutic predictions (in silico predictions)",
-   " - Downstream applications (studies funded out with C-PAM to generate downstream findings)"
-   ]
-   },
-   {
-   "type": "section-text",
-   "field": "Proposed Model/Project",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Existing Collaborations",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Existing Funding",
-   "value": []
-   }
-   ]
-   }
-   ],
-   "timeline": [
-   {
-   "event": "create",
-   "timestamp": "2022-11-09T21:13:22.687001",
-   "username": "vrr-prep"
-   },
-   {
-   "event": "ready",
-   "timestamp": "2022-11-09T21:13:22.687002",
-   "username": "vrr-prep"
-   },
-   {
-   "event": "opened",
-   "timestamp": "2022-11-09T21:13:22.687003",
-   "username": "vrr-prep"
-   },
-   {
-   "event": "decline",
-   "timestamp": "2022-11-09T21:13:22.687004",
-   "username": "vrr-prep"
-   }
-   ]
-   },
-   {
-   "name": "CPAM0084",
-   "description": "",
-   "nominated_by": "",
-   "timeline": [
-   {
-   "event": "create",
-   "timestamp": "2023-05-09T19:10:31.369000",
-   "username": "developer"
-   }
-   ],
-   "third_party_links": [],
-   "genomic_units": [
-   {
-   "gene": "DLG4",
-   "transcripts": [
-   {
-   "transcript": "NM_001365.4"
-   },
-   {
-   "transcript": "NM_001360016.2"
-   }
-   ],
-   "variants": [
-   {
-   "hgvs_variant": "NM_001365.4:c.1039del",
-   "c_dot": "c.1039del",
-   "p_dot": "p.Glu347ArgTer12",
-   "build": "GRCh37",
-   "case": [
-   {
-   "field": "Interpretation",
-   "value": [
-   "likely_pathogenic"
-   ]
-   },
-   {
-   "field": "Zygosity",
-   "value": [
-   "heterozygous"
-   ]
-   },
-   {
-   "field": "Inheritance",
-   "value": [
-   "unknown"
-   ]
-   }
-   ]
-   }
-   ]
-   },
-   {
-   "gene": "G6PD",
-   "transcripts": [
-   {
-   "transcript": "NM_001365.4"
-   },
-   {
-   "transcript": "NM_001360016.2"
-   }
-   ],
-   "variants": [
-   {
-   "hgvs_variant": "NM_001360016.2:c.563C>T",
-   "c_dot": "c.563C>T",
-   "p_dot": "p.Ser188Phe",
-   "build": "GRCh37",
-   "case": [
-   {
-   "field": "Interpretation",
-   "value": [
-   "pathogenic"
-   ]
-   },
-   {
-   "field": "Zygosity",
-   "value": [
-   "heterozygous"
-   ]
-   },
-   {
-   "field": "Inheritance",
-   "value": [
-   "NA"
-   ]
-   }
-   ]
-   }
-   ]
-   }
-   ],
-   "sections": [
-   {
-   "header": "Brief",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Nominator",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Participant",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Phenotype",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "ACMG Classification",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "ACMG Classification Criteria",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "ACMG Criteria To Add",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Decision",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "Clinical History",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Clinical Diagnosis",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Affected Individuals Identified",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Sequencing",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Testing",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Systems",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Additional Details",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "Pedigree",
-   "attachment_field": "Pedigree",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "Pedigree",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "DLG4 Gene To Phenotype",
-   "attachment_field": "DLG4 Gene To Phenotype",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "DLG4 Gene To Phenotype",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "HPO Terms",
-   "value": [
-   "HP:0000739: Anxiety; HP:0000750: Delayed speech and language development; HP:0001249: Intellectual disability; HP:0001260: Dysarthria; HP:0001290: Generalized hypotonia; HP:0001298: Encephalopathy; HP:0002194: Delayed gross motor development; HP:0002370: Poor coordination; HP:0002425: Anarthria; HP:0007018: Attention deficit hyperactivity disorder; HP:0012758: Neurodevelopmental delay; HP:0100702: Arachnoid cyst"
-   ]
-   }
-   ]
-   },
-   {
-   "header": "DLG4 Molecular Mechanism",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Function Overview",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "DLG4 Function",
-   "attachment_field": "DLG4 Function",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "DLG4 Function",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "G6PD Gene To Phenotype",
-   "attachment_field": "G6PD Gene To Phenotype",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "G6PD Gene To Phenotype",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "HPO Terms",
-   "value": [
-   "HP:0000739: Anxiety; HP:0000750: Delayed speech and language development; HP:0001249: Intellectual disability; HP:0001260: Dysarthria; HP:0001290: Generalized hypotonia; HP:0001298: Encephalopathy; HP:0002194: Delayed gross motor development; HP:0002370: Poor coordination; HP:0002425: Anarthria; HP:0007018: Attention deficit hyperactivity disorder; HP:0012758: Neurodevelopmental delay; HP:0100702: Arachnoid cyst"
-   ]
-   }
-   ]
-   },
-   {
-   "header": "G6PD Molecular Mechanism",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Function Overview",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "G6PD Function",
-   "attachment_field": "G6PD Function",
-   "content": [
-   {
-   "type": "images-dataset",
-   "field": "G6PD Function",
-   "value": []
-   }
-   ]
-   },
-   {
-   "header": "Model Goals",
-   "content": [
-   {
-   "type": "section-text",
-   "field": "Model of Interest",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Goals",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Proposed Model/Project",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Existing Collaborations",
-   "value": []
-   },
-   {
-   "type": "section-text",
-   "field": "Existing Funding",
-   "value": []
-   }
-   ]
-   }
-   ],
-   "supporting_evidence_files": []
-   }
-   ]
+      "name":"CPAM0002",
+      "description":"Vacuolar myopathy with autophagy, X-linked vacuolar myopathy with autophagy",
+      "nominated_by":"Dr. Person One",
+      "genomic_units":[
+         {
+            "gene":"VMA21",
+            "transcripts":[
+               {
+                  "transcript":"NM_001017980.3"
+               }
+            ],
+            "variants":[
+               {
+                  "hgvs_variant":"NM_001017980.3:c.164G>T",
+                  "c_dot":"c.164G>T",
+                  "p_dot":"p.Gly55Val",
+                  "build":"hg19",
+                  "case":[
+                     {
+                        "field":"Evidence",
+                        "value":[
+                           "PVS1",
+                           "PM2"
+                        ]
+                     },
+                     {
+                        "field":"Other Datasource",
+                        "value":[
+                           "PVS1",
+                           "PM2"
+                        ]
+                     },
+                     {
+                        "field":"Interpretation",
+                        "value":[
+                           "Likely Pathogenic"
+                        ]
+                     }
+                  ]
+               }
+            ]
+         }
+      ],
+      "sections":[
+         {
+            "header":"Brief",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Nominator",
+                  "value":[
+                     "Dr. Person One"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Participant",
+                  "value":[
+                     "1 patient, carrier mother"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Phenotype",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"ACMG Classification",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"ACMG Classification Criteria",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"ACMG Criteria To Add",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Decision",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"Clinical History",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Clinical Diagnosis",
+                  "value":[
+                     "Vacuolor myopathy with autophagy, X-linked vacuolor myopathy with autophagy"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Affected Individuals Identified",
+                  "value":[
+                     "1 patient, carrier mother",
+                     "Maternal grandfather with myopathy.",
+                     "Mother has muscle signal changes on MRI",
+                     "Thus presumed to be an X-linked myopathy"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Sequencing",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Testing",
+                  "value":[
+                     "- DMD, LAMP2, myofibrillar myopathy panel performed testing for BAG3, crystalline B, desmin, DNAJB6, FLH1, LDB3, and myotilin. Non diagnostic.",
+                     "- DMD testing revealed a hemizygous variant of unknown significance in the DMD gene.",
+                     "- Fulgent Diagnostics identified a hemizygous VUS in the VMA21(XMEA); c.164G>T (p.Gly55Val). His mother also carried this variant."
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Systems",
+                  "value":[
+                     "Musculoskeletal and orthopedics"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Additional Details",
+                  "value":[
+                     "8 yo male at time of testing. Ambulatory. Myopathy starting from 2 years of age with falls, elevated CK, and myopathic muscle biopsy. Clinical course is slowly progressive.",
+                     "Exam showed proximal limb girdle pattern of weakness. Proximal upper and lower extremity weakness. Myopathy Congenital myopathy. Diminished muscle bulk / eps. scapular, Lordotic gait.",
+                     "Muscle biopsy (2014) showed fiber size variability with prominent perimysial fibrous tissue; scattered myofibers with vacuoles staining dark blue with trichome and positive PAS staining; normal enzyme activity for phosphorylase, myoadenylase and phosphofructokinase.",
+                     "Electron microscopy (2014) showed membrane bound vacuoles which contain glycogen and degenerated mitochondria; some of these vacuoles contain secondary lysosomes.",
+                     "CK level 1121U/L.",
+                     "Mode of Inheritance",
+                     "X linked"
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"Pedigree",
+            "attachment_field":"Pedigree",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"Pedigree",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"VMA21 Gene To Phenotype",
+            "attachment_field":"VMA21 Gene To Phenotype",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"VMA21 Gene To Phenotype",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"HPO Terms",
+                  "value":[
+                     "HP:0003198; HP:0003797; HP:0003325; HP:0008997; HP:0008994; HP:0001288; HP:0009060; HP:0004303; HP:0012103; HP:0003736"
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"VMA21 Molecular Mechanism",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Function Overview",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"VMA21 Function",
+            "attachment_field":"VMA21 Function",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"VMA21 Function",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"Model Goals",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Model of Interest",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Goals",
+                  "value":[
+                     "Review of ACMG classification",
+                     "Functional impact study (in silico/animal/cell modeling)",
+                     "Therapeutic predictions (in silico predictions)"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Proposed Model/Project",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Existing Collaborations",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Existing Funding",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         }
+      ],
+      "discussions":[
+         {
+            "post_id":"9027ec8d-6298-4afb-add5-6ef710eb5e98",
+            "author_id":"3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
+            "author_fullname":"Developer Person",
+            "publish_timestamp":"2023-10-09T21:13:22.687000",
+            "content":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum.",
+            "attachments":[
+               
+            ],
+            "thread":[
+               
+            ]
+         },
+         {
+            "post_id":"a677bb36-acf8-4ff9-a406-b113a7952f7e",
+            "author_id":"kw0g790fdx715xsr1ead2jk0pqubtlyz",
+            "author_fullname":"Researcher Person",
+            "publish_timestamp":"2023-10-10T21:13:22.687000",
+            "content":"Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum.",
+            "attachments":[
+               
+            ],
+            "thread":[
+               
+            ]
+         },
+         {
+            "post_id":"e6023fa7-b598-416a-9f42-862c826255ef",
+            "author_id":"exqkhvidr7uh2ndslsdymbzfbmqjlunk",
+            "author_fullname":"Variant Review Report Preparer Person",
+            "publish_timestamp":"2023-10-13T21:13:22.687000",
+            "content":"Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also.",
+            "attachments":[
+               
+            ],
+            "thread":[
+               
+            ]
+         }
+      ],
+      "supporting_evidence_files":[
+         
+      ],
+      "timeline":[
+         {
+            "event":"create",
+            "timestamp":"2022-10-09T21:13:22.687000",
+            "username":"vrr-prep"
+         },
+         {
+            "event":"ready",
+            "timestamp":"2022-10-09T21:14:22.687000",
+            "username":"vrr-prep"
+         },
+         {
+            "event":"opened",
+            "timestamp":"2022-10-09T21:15:22.687000",
+            "username":"vrr-prep"
+         },
+         {
+            "event":"approve",
+            "timestamp":"2022-10-09T21:16:22.687000",
+            "username":"vrr-prep"
+         }
+      ]
+   },
+   {
+      "name":"CPAM0046",
+      "description":": LMNA-related congenital muscular dystropy",
+      "nominated_by":"Dr. Person Two",
+      "genomic_units":[
+         {
+            "gene":"LMNA",
+            "transcripts":[
+               {
+                  "transcript":"NM_170707.3"
+               }
+            ],
+            "variants":[
+               {
+                  "hgvs_variant":"NM_170707.3:c.745C>T",
+                  "c_dot":"c.745C>T",
+                  "p_dot":"p.R249W",
+                  "build":"hg19",
+                  "case":[
+                     {
+                        "field":"Evidence",
+                        "value":[
+                           "PS2",
+                           "PS3",
+                           "PM2",
+                           "PP3",
+                           "PP5"
+                        ]
+                     },
+                     {
+                        "field":"Interpretation",
+                        "value":[
+                           "Pathogenic"
+                        ]
+                     },
+                     {
+                        "field":"Inheritance",
+                        "value":[
+                           "De Novo"
+                        ]
+                     }
+                  ]
+               }
+            ]
+         }
+      ],
+      "sections":[
+         {
+            "header":"Brief",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Nominator",
+                  "value":[
+                     "Dr. Person Two (Local) - working with Dr. Person Three in Person Four Lab"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Participant",
+                  "value":[
+                     "Male, YOB: 2019"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Phenotype",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"ACMG Classification",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"ACMG Classification Criteria",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"ACMG Criteria To Add",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Decision",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"Clinical History",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Clinical Diagnosis",
+                  "value":[
+                     "LMNA-related congenital muscular dystropy"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Affected Individuals Identified",
+                  "value":[
+                     "Male, YOB: 2019"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Sequencing",
+                  "value":[
+                     "WES"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Testing",
+                  "value":[
+                     "WES - February  2020;"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Systems",
+                  "value":[
+                     "Growth Parameters; Craniofacial; Musculoskeletal; Gastrointestinal; Behavior, Cognition and Development; Neurological"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Additional Details",
+                  "value":[
+                     "Review of VUSes (Why not considered)",
+                     "NEB (NM_001164508.1)  | c.7385C>G (p.A2462G) (Pat.) and c.16625A>G (p.H5542R) (Mat.).",
+                     " - Associated with Nemaline myopathy 2, autosomal recessive",
+                     " - Both variants  are still classified as VUS (last evaluated Feb 2020)",
+                     " - 195 out of 203 (96.1%) non-VUS missense variants in gene NEB are benign",
+                     " ",
+                     "LYZL6 (NM_020426.2)  | c.228G>C (p.Q76H) (Mat./Pat.)",
+                     " - Lysozyme Like 6.",
+                     " - No currently known disease associations.",
+                     " ",
+                     "NOL6 (NM_022917.4)  | c.518G>A (p.R173Q) (Pat.) and c.91G>A (p.G31R) (Mat.).",
+                     " - Nucleolar protein 6.",
+                     " - No currently known disease associations"
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"Pedigree",
+            "attachment_field":"Pedigree",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"Pedigree",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"LMNA Gene To Phenotype",
+            "attachment_field":"LMNA Gene To Phenotype",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"LMNA Gene To Phenotype",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"HPO Terms",
+                  "value":[
+                     "HP:0001508:Failure to thrive; HP:0001357:Plagiocephaly; HP:0000473:Torticollis; HP:0003560:Muscular dystrophy; HP:0003701:Proximal muscle weakness; HP:0009062:Infantile axial hypotonia; HP:0012389:Appendicular hypotonia; HP: 0003236:Elevated serum creatine kinase; HP:0002020:Gastroesophageal reflux; HP:0011471:Gastrostomy tube feeding in infancy; HP:0011968:Feeding difficulties; HP:0001263:Global developmental delay; HP:0001265:Hyproflexia; HP:0032988:Persistent head lag; HP:0000960:Sacral dimple;"
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"LMNA Molecular Mechanism",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Function Overview",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"LMNA Function",
+            "attachment_field":"LMNA Function",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"LMNA Function",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"Model Goals",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Model of Interest",
+                  "value":[
+                     "Zebrafish"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Goals",
+                  "value":[
+                     "Functional impact confirmation (animal/cell modeling)",
+                     "Therapeutic predictions (in-silico predictions)",
+                     "Downstream applications (sharing model to conduct larger drug screens)"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Proposed Model/Project",
+                  "value":[
+                     "Contribute a dominant negative patient-variant model to the existing zebrafish model (LOF; in-progress)",
+                     "Will be used in NBL 240: a research-based undergraduate course at UAB"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Existing Collaborations",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Existing Funding",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         }
+      ],
+      "discussions":[
+         {
+            "post_id":"9027ec8d-6298-4afb-add5-6ef710eb5e98",
+            "author_id":"3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
+            "author_fullname":"Developer Person",
+            "publish_timestamp":"2023-10-09T21:13:22.687000",
+            "content":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum.",
+            "attachments":[
+               
+            ],
+            "thread":[
+               
+            ]
+         },
+         {
+            "post_id":"e6023fa7-b598-416a-9f42-862c826255ef",
+            "author_id":"exqkhvidr7uh2ndslsdymbzfbmqjlunk",
+            "author_fullname":"Variant Review Report Preparer Person",
+            "publish_timestamp":"2023-10-13T21:13:22.687000",
+            "content":"Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also.",
+            "attachments":[
+               
+            ],
+            "thread":[
+               
+            ]
+         }
+      ],
+      "timeline":[
+         {
+            "event":"create",
+            "timestamp":"2022-10-09T21:13:22.687000",
+            "username":"vrr-prep"
+         },
+         {
+            "event":"ready",
+            "timestamp":"2022-10-09T21:14:22.687000",
+            "username":"vrr-prep"
+         },
+         {
+            "event":"opened",
+            "timestamp":"2022-10-09T21:15:22.687000",
+            "username":"vrr-prep"
+         },
+         {
+            "event":"approve",
+            "timestamp":"2022-10-09T21:16:22.687000",
+            "username":"vrr-prep"
+         }
+      ]
+   },
+   {
+      "name":"CPAM0047",
+      "description":"Congenital variant of Rett syndrome",
+      "genomic_units":[
+         {
+            "gene":"SBF1",
+            "transcripts":[
+               {
+                  "transcript":"NM_002972.2"
+               }
+            ],
+            "variants":[
+               {
+                  "hgvs_variant":"NM_002972.2:c.3493_3494dupTA",
+                  "c_dot":"c.3493_3494dupTA",
+                  "p_dot":"Pro1166ThrfsX5",
+                  "build":"hg19",
+                  "case":[
+                     
+                  ]
+               },
+               {
+                  "hgvs_variant":"NM_002972.2:c.5474_5475delTG",
+                  "c_dot":"c.5474_5475delTG",
+                  "p_dot":"Val1825GlyfsX27",
+                  "build":"hg19",
+                  "case":[
+                     
+                  ]
+               }
+            ]
+         }
+      ],
+      "nominated_by":"CMT4B3 Foundation",
+      "sections":[
+         {
+            "header":"Brief",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Nominator",
+                  "value":[
+                     "CMT4B3 Foundation"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Participant",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Phenotype",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"ACMG Classification",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"ACMG Classification Criteria",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"ACMG Criteria To Add",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Decision",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"Clinical History",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Clinical Diagnosis",
+                  "value":[
+                     "Mild Zellweger Spectrum Disorder (a Peroxisome Biogenesis Disorder)",
+                     "Current clinical manifestation is cerebellar ataxia that has impeded gross motor development."
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Affected Individuals Identified",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Sequencing",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Testing",
+                  "value":[
+                     " - Invitae Boosted Exome in 2019"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Systems",
+                  "value":[
+                     "Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Additional Details",
+                  "value":[
+                     "Symptoms: postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus "
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"Pedigree",
+            "attachment_field":"Pedigree",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"Pedigree",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"SBF1 Gene To Phenotype",
+            "attachment_field":"SBF1 Gene To Phenotype",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"SBF1 Gene To Phenotype",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"HPO Terms",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"SBF1 Molecular Mechanism",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Function Overview",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"SBF1 Function",
+            "attachment_field":"SBF1 Function",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"SBF1 Function",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"Model Goals",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Model of Interest",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Goals",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Proposed Model/Project",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Existing Collaborations",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Existing Funding",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         }
+      ],
+      "discussions":[
+         {
+            "post_id":"9027ec8d-6298-4afb-add5-6ef710eb5e98",
+            "author_id":"3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
+            "author_fullname":"Developer Person",
+            "publish_timestamp":"2023-10-09T21:13:22.687000",
+            "content":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum.",
+            "attachments":[
+               
+            ],
+            "thread":[
+               
+            ]
+         },
+         {
+            "post_id":"a677bb36-acf8-4ff9-a406-b113a7952f7e",
+            "author_id":"kw0g790fdx715xsr1ead2jk0pqubtlyz",
+            "author_fullname":"Researcher Person",
+            "publish_timestamp":"2023-10-10T21:13:22.687000",
+            "content":"Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum.",
+            "attachments":[
+               
+            ],
+            "thread":[
+               
+            ]
+         },
+         {
+            "post_id":"e6023fa7-b598-416a-9f42-862c826255ef",
+            "author_id":"exqkhvidr7uh2ndslsdymbzfbmqjlunk",
+            "author_fullname":"Variant Review Report Preparer Person",
+            "publish_timestamp":"2023-10-13T21:13:22.687000",
+            "content":"Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also.",
+            "attachments":[
+               
+            ],
+            "thread":[
+               
+            ]
+         }
+      ],
+      "timeline":[
+         {
+            "event":"create",
+            "timestamp":"2022-10-09T21:13:22.687000",
+            "username":"vrr-prep"
+         },
+         {
+            "event":"ready",
+            "timestamp":"2022-10-09T21:14:22.687000",
+            "username":"vrr-prep"
+         },
+         {
+            "event":"opened",
+            "timestamp":"2022-10-09T21:15:22.687000",
+            "username":"vrr-prep"
+         },
+         {
+            "event":"decline",
+            "timestamp":"2022-10-09T21:16:22.687000",
+            "username":"vrr-prep"
+         }
+      ]
+   },
+   {
+      "name":"CPAM0053",
+      "description":"Mild Zellweger Spectrum Disorder, a Peroxisome Biogenesis Disorder",
+      "nominated_by":"Precision Medicine Institute",
+      "genomic_units":[
+         {
+            "gene":"PEX10",
+            "transcripts":[
+               {
+                  "transcript":"NM_153818.2"
+               }
+            ],
+            "variants":[
+               {
+                  "hgvs_variant":"NM_153818.2:c.28dup",
+                  "c_dot":"c.28dup",
+                  "p_dot":"p.Glu10fs",
+                  "build":"hg19",
+                  "case":[
+                     {
+                        "field":"Evidence",
+                        "value":[
+                           "PVS1",
+                           "PM2",
+                           "PP5"
+                        ]
+                     },
+                     {
+                        "field":"Interpretation",
+                        "value":[
+                           "Pathogenic"
+                        ]
+                     },
+                     {
+                        "field":"Zygosity",
+                        "value":[
+                           "Compound Hetrozygous"
+                        ]
+                     },
+                     {
+                        "field":"Inheritance",
+                        "value":[
+                           "Autosomal Recesive"
+                        ]
+                     }
+                  ]
+               },
+               {
+                  "hgvs_variant":"NM_153818.2:c.928C>G",
+                  "c_dot":"c.928G>G",
+                  "p_dot":"p.His310Asp",
+                  "build":"hg19",
+                  "case":[
+                     {
+                        "field":"Evidence",
+                        "value":[
+                           "PM2",
+                           "PM5",
+                           "PP3"
+                        ]
+                     },
+                     {
+                        "field":"Interpretation",
+                        "value":[
+                           "Variant of Unknown Signifigance"
+                        ]
+                     },
+                     {
+                        "field":"Zygosity",
+                        "value":[
+                           "Compound Hetrozygous"
+                        ]
+                     }
+                  ]
+               }
+            ]
+         }
+      ],
+      "sections":[
+         {
+            "header":"Brief",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Nominator",
+                  "value":[
+                     "Precision Medicine Institute"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Participant",
+                  "value":[
+                     "Pediatric male (YOB: 2017), Local Participant"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Phenotype",
+                  "value":[
+                     "Postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus "
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"ACMG Classification",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"ACMG Classification Criteria",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"ACMG Criteria To Add",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Decision",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"Clinical History",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Clinical Diagnosis",
+                  "value":[
+                     "Mild Zellweger Spectrum Disorder (a Peroxisome Biogenesis Disorder)",
+                     "Current clinical manifestation is cerebellar ataxia that has impeded gross motor development."
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Affected Individuals Identified",
+                  "value":[
+                     "Pediatric Male (YOB: 2017) Local Participant"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Sequencing",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Testing",
+                  "value":[
+                     " - Invitae Boosted Exome in 2019"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Systems",
+                  "value":[
+                     "Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Additional Details",
+                  "value":[
+                     "Symptoms: postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus"
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"Pedigree",
+            "attachment_field":"Pedigree",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"Pedigree",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"PEX10 Gene To Phenotype",
+            "attachment_field":"PEX10 Gene To Phenotype",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"PEX10 Gene To Phenotype",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"HPO Terms",
+                  "value":[
+                     "Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"PEX10 Molecular Mechanism",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Function Overview",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"PEX10 Function",
+            "attachment_field":"PEX10 Function",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"PEX10 Function",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"Model Goals",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Model of Interest",
+                  "value":[
+                     "Zebrafish"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Goals",
+                  "value":[
+                     "Functional impact confirmation (animal/cell modeling)",
+                     "Therapeutic predictions (in-silico predictions)",
+                     "Downstream applications",
+                     " - Downstream applications"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Proposed Model/Project",
+                  "value":[
+                     "Parental fibroblasts and iPSCs in process",
+                     "S. Cerevisiae: no meaningful phenotype found for H303D (human H310D)",
+                     "C Elegans: InVivo made model but there looks to be off-target mutations; Andy Golden (NIH) is planning to make another one",
+                     "Mice: JAX models in process",
+                     "H288D mice have phenotype (personal communication)",
+                     "B6 mice",
+                     "Conditional KOMP B6",
+                     "5050 B6 and 129",
+                     "Previous mice models C294Y (human C316Y; same RING finger domain) – homozygous and heterozygous have phenotype",
+                     "    http://www.informatics.jax.org/allele/MGI:5638060",
+                     "H. Polymorpha: in process",
+                     "Drosophila: in process",
+                     "Zebrafish: in negotiations (ensures if a model is created by CPAM, there will be collaborator lined up)"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Existing Collaborations",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Existing Funding",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         }
+      ],
+      "discussions":[
+         {
+            "post_id":"e6023fa7-b598-416a-9f42-862c826255ef",
+            "author_id":"exqkhvidr7uh2ndslsdymbzfbmqjlunk",
+            "author_fullname":"Variant Review Report Preparer Person",
+            "publish_timestamp":"2023-10-13T21:13:22.687000",
+            "content":"Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also.",
+            "attachments":[
+               
+            ],
+            "thread":[
+               
+            ]
+         }
+      ],
+      "timeline":[
+         {
+            "event":"create",
+            "timestamp":"2022-10-09T21:13:22.687000",
+            "username":"vrr-prep"
+         },
+         {
+            "event":"ready",
+            "timestamp":"2022-10-09T21:14:22.687000",
+            "username":"vrr-prep"
+         }
+      ]
+   },
+   {
+      "name":"CPAM0065",
+      "description":"Congenital variant of Rett syndrome",
+      "genomic_units":[
+         {
+            "gene":"FOXG1",
+            "transcripts":[
+               {
+                  "transcript":"NM_005249.5"
+               }
+            ],
+            "variants":[
+               {
+                  "hgvs_variant":"NM_005249.5:c.924G>A",
+                  "c_dot":"c.924G>A",
+                  "p_dot":"p.Trp308Ter",
+                  "build":"hg19",
+                  "case":[
+                     
+                  ]
+               },
+               {
+                  "hgvs_variant":"NM_005249.5:c.256dup",
+                  "c_dot":"c.256dup",
+                  "p_dot":"p.Gln86fs",
+                  "build":"hg19",
+                  "case":[
+                     
+                  ]
+               }
+            ]
+         }
+      ],
+      "nominated_by":"Believe in a Cure Foundation",
+      "sections":[
+         {
+            "header":"Brief",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Nominator",
+                  "value":[
+                     "Believe in a Cure Foundation (nonprofit, FOXG1 syndrome)"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Participant",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Phenotype",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"ACMG Classification",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"ACMG Classification Criteria",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"ACMG Criteria To Add",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Decision",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"Clinical History",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Clinical Diagnosis",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Affected Individuals Identified",
+                  "value":[
+                     " - Frameshift – 3 published cases (Ellaway et al 2013, Takahashi et al 2012, Le Guen et al 2011)",
+                     " - Nonsense – 1 published case (Philippe et al 2010)"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Sequencing",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Testing",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Systems",
+                  "value":[
+                     "Growth Parameters, Craniofacial. Eye Defects, Musculoskeletal, Behavior, Cognition, and Development, Digestive System, Neurological"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Additional Details",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"Pedigree",
+            "attachment_field":"Pedigree",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"Pedigree",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"FOXG1 Gene To Phenotype",
+            "attachment_field":"FOXG1 Gene To Phenotype",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"FOXG1 Gene To Phenotype",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"HPO Terms",
+                  "value":[
+                     "Microcephaly; Protruding tongue; Strabismus; Scoliosis; Absent speech; Feeding difficulties; Generalized hypotonia; Seizure; Irritability; Poor eye contact; Encephalopathy; Dysphagia; Hypoplasia of the corpus callosum; Sleep disturbance; Hyperkinetic movements;",
+                     "Axial dystonia; Bruxism; Generalized dystonia; Hypoplasia of the frontal lobes; Generalized tonic seizure; Stereotypical hand wringing; Delayed myelination; Psychomotor impairment; Dyskinesia; Opisthotonus;"
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"FOXG1 Molecular Mechanism",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Function Overview",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"FOXG1 Function",
+            "attachment_field":"FOXG1 Function",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"FOXG1 Function",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"Model Goals",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Model of Interest",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Goals",
+                  "value":[
+                     " - Therapeutic predictions (in silico predictions)",
+                     " - Downstream applications (studies funded out with C-PAM to generate downstream findings)"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Proposed Model/Project",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Existing Collaborations",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Existing Funding",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         }
+      ],
+      "timeline":[
+         {
+            "event":"create",
+            "timestamp":"2022-11-09T21:13:22.687001",
+            "username":"vrr-prep"
+         },
+         {
+            "event":"ready",
+            "timestamp":"2022-11-09T21:13:22.687002",
+            "username":"vrr-prep"
+         },
+         {
+            "event":"opened",
+            "timestamp":"2022-11-09T21:13:22.687003",
+            "username":"vrr-prep"
+         },
+         {
+            "event":"decline",
+            "timestamp":"2022-11-09T21:13:22.687004",
+            "username":"vrr-prep"
+         }
+      ]
+   },
+   {
+      "name":"CPAM0084",
+      "description":"",
+      "nominated_by":"",
+      "timeline":[
+         {
+            "event":"create",
+            "timestamp":"2023-05-09T19:10:31.369000",
+            "username":"developer"
+         }
+      ],
+      "third_party_links":[
+         
+      ],
+      "genomic_units":[
+         {
+            "gene":"DLG4",
+            "transcripts":[
+               {
+                  "transcript":"NM_001365.4"
+               },
+               {
+                  "transcript":"NM_001360016.2"
+               }
+            ],
+            "variants":[
+               {
+                  "hgvs_variant":"NM_001365.4:c.1039del",
+                  "c_dot":"c.1039del",
+                  "p_dot":"p.Glu347ArgTer12",
+                  "build":"GRCh37",
+                  "case":[
+                     {
+                        "field":"Interpretation",
+                        "value":[
+                           "likely_pathogenic"
+                        ]
+                     },
+                     {
+                        "field":"Zygosity",
+                        "value":[
+                           "heterozygous"
+                        ]
+                     },
+                     {
+                        "field":"Inheritance",
+                        "value":[
+                           "unknown"
+                        ]
+                     }
+                  ]
+               }
+            ]
+         },
+         {
+            "gene":"G6PD",
+            "transcripts":[
+               {
+                  "transcript":"NM_001365.4"
+               },
+               {
+                  "transcript":"NM_001360016.2"
+               }
+            ],
+            "variants":[
+               {
+                  "hgvs_variant":"NM_001360016.2:c.563C>T",
+                  "c_dot":"c.563C>T",
+                  "p_dot":"p.Ser188Phe",
+                  "build":"GRCh37",
+                  "case":[
+                     {
+                        "field":"Interpretation",
+                        "value":[
+                           "pathogenic"
+                        ]
+                     },
+                     {
+                        "field":"Zygosity",
+                        "value":[
+                           "heterozygous"
+                        ]
+                     },
+                     {
+                        "field":"Inheritance",
+                        "value":[
+                           "NA"
+                        ]
+                     }
+                  ]
+               }
+            ]
+         }
+      ],
+      "sections":[
+         {
+            "header":"Brief",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Nominator",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Participant",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Phenotype",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"ACMG Classification",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"ACMG Classification Criteria",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"ACMG Criteria To Add",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Decision",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"Clinical History",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Clinical Diagnosis",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Affected Individuals Identified",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Sequencing",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Testing",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Systems",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Additional Details",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"Pedigree",
+            "attachment_field":"Pedigree",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"Pedigree",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"DLG4 Gene To Phenotype",
+            "attachment_field":"DLG4 Gene To Phenotype",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"DLG4 Gene To Phenotype",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"HPO Terms",
+                  "value":[
+                     "HP:0000739: Anxiety; HP:0000750: Delayed speech and language development; HP:0001249: Intellectual disability; HP:0001260: Dysarthria; HP:0001290: Generalized hypotonia; HP:0001298: Encephalopathy; HP:0002194: Delayed gross motor development; HP:0002370: Poor coordination; HP:0002425: Anarthria; HP:0007018: Attention deficit hyperactivity disorder; HP:0012758: Neurodevelopmental delay; HP:0100702: Arachnoid cyst"
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"DLG4 Molecular Mechanism",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Function Overview",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"DLG4 Function",
+            "attachment_field":"DLG4 Function",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"DLG4 Function",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"G6PD Gene To Phenotype",
+            "attachment_field":"G6PD Gene To Phenotype",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"G6PD Gene To Phenotype",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"HPO Terms",
+                  "value":[
+                     "HP:0000739: Anxiety; HP:0000750: Delayed speech and language development; HP:0001249: Intellectual disability; HP:0001260: Dysarthria; HP:0001290: Generalized hypotonia; HP:0001298: Encephalopathy; HP:0002194: Delayed gross motor development; HP:0002370: Poor coordination; HP:0002425: Anarthria; HP:0007018: Attention deficit hyperactivity disorder; HP:0012758: Neurodevelopmental delay; HP:0100702: Arachnoid cyst"
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"G6PD Molecular Mechanism",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Function Overview",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"G6PD Function",
+            "attachment_field":"G6PD Function",
+            "content":[
+               {
+                  "type":"images-dataset",
+                  "field":"G6PD Function",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         },
+         {
+            "header":"Model Goals",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Model of Interest",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Goals",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Proposed Model/Project",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Existing Collaborations",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Existing Funding",
+                  "value":[
+                     
+                  ]
+               }
+            ]
+         }
+      ],
+      "supporting_evidence_files":[
+         
+      ]
+   }
+]
