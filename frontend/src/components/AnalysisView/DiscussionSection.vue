@@ -4,14 +4,25 @@
         <div class="rosalution-section-header">
             <h2 class="rosalution-section-header-text">Discussion</h2>
             <span class="rosalution-section-center" data-test="header-datasets"/>
-            <button class="primary-button new-discussion-button">New Discussion</button>
+            <button class="primary-button discussion-new-button" @click="this.newDiscussionPost">New Discussion</button>
             <label class="collapsable-icon" for="discussion_toggle">
                 <font-awesome-icon icon="chevron-down" size="lg"/>
             </label>
         </div>
         <div class="rosalution-section-seperator"></div>
         <div class="section-content">
-            Content
+            <div class="discussion-new-post">
+                <div contenteditable="plaintext-only" class="discussion-new-post-text-area">
+                </div>
+                <div class="discussion-actions">
+                    <button class="secondary-button" @click="cancelNewDiscussionPost">
+                        Cancel
+                    </button>
+                    <button class="primary-button" @click="newDiscussionPost">
+                        Publish
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -24,15 +35,51 @@ export default {
       type: String,
     },
   },
+  methods: {
+    newDiscussionPost() {
+        console.log("Publishing Post!")
+    },
+    cancelNewDiscussionPost() {
+        console.log("Cancelled post");
+    }
+  }
 };
 
 </script>
 
 <style scoped>
-
-.new-discussion-button {
+.discussion-new-button {
     margin-bottom: var(--p-8);
     margin-right: var(--p-8);
+}
+
+.discussion-new-post {
+    background-color: var(--rosalution-grey-50);
+    border-radius: var(--content-border-radius);
+    margin-top: var(--p-8);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.discussion-new-post-text-area {
+    background-color: var(--rosalution-white);
+    border-radius: var(--content-border-radius);
+    border: solid;
+    border-color: var(--rosalution-grey-000);
+    padding: var(--p-16);
+    margin: var(--p-10);
+    position: relative;
+    width: 100%;
+}
+
+.discussion-actions {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    margin-right: var(--p-16);
 }
 
 .collapsable-icon {
@@ -51,5 +98,4 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked ~ .rosalution-section-header > span ~ label.collapsable-icon {
     transform: scaleY(-1);
 }
-
 </style>
