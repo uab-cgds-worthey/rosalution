@@ -67,4 +67,5 @@ media/
 *.crossref
 
 # SSL/TLS Certificates
+**/.certificates/**
 *.pem
