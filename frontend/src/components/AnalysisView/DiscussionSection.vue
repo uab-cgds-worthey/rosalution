@@ -77,11 +77,11 @@ export default {
   },
   methods: {
     newDiscussionPost() {
-        console.log("Publishing Post!")
+        this.$emit('discussion:new-post', this.newPostContent)
     },
     cancelNewDiscussionPost() {
         console.log("Cancelled post");
-    }
+    },
   }
 };
 
