@@ -51,15 +51,17 @@ export default {
 </script>
 
 <style scoped>
-
 .discussion-post {
-    display: flex;
-    flex-wrap: wrap;
+    background-color: var(--rosalution-grey-50);
+    border-radius: var(--content-border-radius);
+    padding: var(--p-8);
+    margin: var(--p-8);
+    
 }
 
 .discussion-header {
-    margin-top: var(--p-10);
-    margin-bottom: var(--p-10);
+    margin-top: var(--p-5);
+    margin-bottom: var(--p-5);
 }
 
 .discussion-content {

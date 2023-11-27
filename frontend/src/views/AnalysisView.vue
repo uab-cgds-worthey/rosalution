@@ -610,15 +610,14 @@ export default {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
-    addDiscussionPost(newPostContent) {
-      const newPostObject = {
-        author_id: this.auth.getClientId(),
-        author_name: this.auth.getUsername(),
-        publish_timestamp: new Date().toISOString(),
-        content: newPostContent,
-      }
+    async addDiscussionPost(newPostContent) {
+      console.log(newPostContent);
 
-      console.log(newPostObject)
+      const discussions = await Analyses.postNewDiscussionThread(this.analysis['name'], newPostContent);
+
+      console.log(discussions);
+
+      this.analysis['discussions'] = discussions;
     },
     copyToClipboard(copiedText) {
       toast.success(`Copied ${copiedText} to clipboard!`);
