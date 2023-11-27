@@ -12,8 +12,11 @@
         <div class="rosalution-section-seperator"></div>
         <div class="section-content">
             <div class="discussion-new-post">
-                <div contenteditable="plaintext-only" class="discussion-new-post-text-area">
-                </div>
+                <textarea 
+                    contenteditable="plaintext-only" 
+                    class="discussion-new-post-text-area"
+                    v-model="newPostContent"
+                />
                 <div class="discussion-actions">
                     <button class="secondary-button" @click="cancelNewDiscussionPost">
                         Cancel
@@ -23,25 +26,51 @@
                     </button>
                 </div>
             </div>
+            <DiscussionPost v-for="discussion in discussions"
+                :id="discussion.post_id"
+                :author_id="discussion.author_id"
+                :author_name="discussion.author_fullname"
+                :publish_timestamp="discussion.publish_timestamp"
+                :content="discussion.content"
+                :attachments="discussion.attachments"
+                :thread="discussion.thread"
+            />
         </div>
     </div>
 </template>
 
 <script>
+import DiscussionPost from './DiscussionPost.vue';
+
 export default {
   name: 'discussion-section',
+  emits: ['discussion:new-post'],
+  components: {
+    DiscussionPost
+  },
   props: {
     header: {
       type: String,
     },
+    discussions: {
+      type: Array,
+      default: () => {
+        return [];
+      },
+    },
+  },
+  data: function() {
+    return {
+        newPostContent: '',
+    }
   },
   methods: {
     newDiscussionPost() {
-        console.log("Publishing Post!")
+        this.$emit('discussion:new-post', this.newPostContent)
     },
     cancelNewDiscussionPost() {
         console.log("Cancelled post");
-    }
+    },
   }
 };
 
