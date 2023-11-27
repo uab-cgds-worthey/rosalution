@@ -52,11 +52,18 @@ export default {
 
 <style scoped>
 .discussion-post {
-    background-color: var(--rosalution-grey-50);
     border-radius: var(--content-border-radius);
     padding: var(--p-8);
-    margin: var(--p-8);
+    margin-top: var(--p-10);
     
+}
+
+.discussion-post:nth-child(even) {
+    background-color: var(--rosalution-grey-50);
+}
+
+.discussion-post:nth-child(odd) {
+    background-color: var(--rosalution-grey-100);
 }
 
 .discussion-header {
