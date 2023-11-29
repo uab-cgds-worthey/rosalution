@@ -1,5 +1,5 @@
 <template>
-    <div class="discussion-post">
+    <div class="discussion-post" data-test="discussion-post">
         <div class="discussion-header">
             <b>{{ author_name }}</b>
             {{  timestamp  }}
@@ -12,42 +12,42 @@
 
 <script>
 export default {
-    name: "discussion-post",
-    props: {
-        id: {
-            type: String
-        },
-        author_id: {
-            type: String
-        },
-        author_name: {
-            type: String
-        },
-        publish_timestamp: {
-            type: String
-        },
-        content: {
-            type: String
-        },
-        attachments: {
-            type: Array,
-            default: () => {
-                return [];
-            },
-        },
-        thread: {
-            type: Array,
-            default: () => {
-                return [];
-            },
-        },
+  name: 'discussion-post',
+  props: {
+    id: {
+      type: String,
     },
-    computed: {
-        timestamp: function() {
-            return new Date(this.publish_timestamp).toUTCString()
-        }
-    }
-}
+    author_id: {
+      type: String,
+    },
+    author_name: {
+      type: String,
+    },
+    publish_timestamp: {
+      type: String,
+    },
+    content: {
+      type: String,
+    },
+    attachments: {
+      type: Array,
+      default: () => {
+        return [];
+      },
+    },
+    thread: {
+      type: Array,
+      default: () => {
+        return [];
+      },
+    },
+  },
+  computed: {
+    timestamp: function() {
+      return new Date(this.publish_timestamp).toUTCString();
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -55,7 +55,7 @@ export default {
     border-radius: var(--content-border-radius);
     padding: var(--p-8);
     margin-top: var(--p-10);
-    
+
 }
 
 .discussion-post:nth-child(even) {

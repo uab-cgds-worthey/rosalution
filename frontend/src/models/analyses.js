@@ -216,12 +216,12 @@ export default {
     const url = `/rosalution/api/analysis/${analysisName}/discussions`;
 
     const attachmentForm = {
-      'discussion_content': postContent
+      'discussion_content': postContent,
     };
 
     const success = await Requests.postForm(url, attachmentForm);
     return success;
-  }
+  },
 };
 
 const annotationRenderingTemporary = [

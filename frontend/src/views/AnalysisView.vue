@@ -611,13 +611,9 @@ export default {
       }
     },
     async addDiscussionPost(newPostContent) {
-      console.log(newPostContent);
-
       const discussions = await Analyses.postNewDiscussionThread(this.analysis['name'], newPostContent);
 
-      console.log(discussions);
-
-      this.analysis['discussions'] = discussions;
+      this.analysis.discussions = discussions;
     },
     copyToClipboard(copiedText) {
       toast.success(`Copied ${copiedText} to clipboard!`);

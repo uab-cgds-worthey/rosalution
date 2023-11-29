@@ -7,6 +7,7 @@ import Analyses from '@/models/analyses.js';
 import GeneBox from '@/components/AnalysisView/GeneBox.vue';
 import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
+import DiscussionSection from '@/components/AnalysisView/DiscussionSection.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
 import SaveModal from '@/components/AnalysisView/SaveModal.vue';
 
@@ -89,6 +90,7 @@ describe('AnalysisView', () => {
   let mockedAttachThirdPartyLink;
   let markReadyMock;
   let updateAnalysisSectionsMock;
+  let postNewDiscussionThreadMock;
   let mockAuthWritePermissions;
   let mockedAttachSectionSupportingEvidence;
   let mockedRemoveSectionSupportingEvidenceFile;
@@ -114,6 +116,8 @@ describe('AnalysisView', () => {
     markReadyMock = sandbox.stub(Analyses, 'pushAnalysisEvent');
 
     updateAnalysisSectionsMock = sandbox.stub(Analyses, 'updateAnalysisSections');
+
+    postNewDiscussionThreadMock = sandbox.stub(Analyses, 'postNewDiscussionThread');
 
     mockAuthWritePermissions = sandbox.stub(authStore, 'hasWritePermissions');
     mockAuthWritePermissions.returns(true);
@@ -311,6 +315,46 @@ describe('AnalysisView', () => {
       await wrapper.vm.$nextTick();
 
       expect(mockedAttachThirdPartyLink.called).to.be.true;
+    });
+  });
+
+  describe('discussions', () => {
+    it('Should display a discussion section with three posts', () => {
+      const discussionSectionComponent = wrapper.getComponent(DiscussionSection);
+
+      expect(typeof discussionSectionComponent).toBe('object');
+
+      expect(discussionSectionComponent.props('discussions').length).to.equal(3);
+    });
+
+    it('Should recieve an new post publish emit and add a new discussion post', async () => {
+      const discussionSectionComponent = wrapper.getComponent(DiscussionSection);
+      const newPostContent = 'Hello world';
+
+      const discussionFixtureData = fixtureData()['discussions'];
+
+      const newDiscussionPost = {
+        post_id: 'e60239a34-h941-44aa-912e-912a993255fe',
+        author_id: 'exqkhvidr7uh2ndslsdymbzfbmqjlunk',
+        author_fullname: 'Variant Review Report Preparer Person',
+        publish_timestamp: '2023-11-01T21:13:22.687000',
+        content: newPostContent,
+        attachments: [],
+        thread: [],
+      };
+
+      discussionFixtureData.push(newDiscussionPost);
+
+      postNewDiscussionThreadMock.returns(discussionFixtureData);
+
+      expect(discussionSectionComponent.props('discussions').length).to.equal(3);
+
+      discussionSectionComponent.vm.$emit('discussion:new-post', newPostContent);
+
+      await wrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick();
+
+      expect(discussionSectionComponent.props('discussions').length).to.equal(4);
     });
   });
 
@@ -841,6 +885,35 @@ function fixtureData() {
             value: ['WES - February  2020;'],
           },
         ],
+      },
+    ],
+    discussions: [
+      {
+        'post_id': '9027ec8d-6298-4afb-add5-6ef710eb5e98',
+        'author_id': '3bghhsmnyqi6uxovazy07ryn9q1tqbnt',
+        'author_fullname': 'Developer Person',
+        'publish_timestamp': '2023-10-09T21:13:22.687000',
+        'content': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        'attachments': [],
+        'thread': [],
+      },
+      {
+        'post_id': 'a677bb36-acf8-4ff9-a406-b113a7952f7e',
+        'author_id': 'kw0g790fdx715xsr1ead2jk0pqubtlyz',
+        'author_fullname': 'Researcher Person',
+        'publish_timestamp': '2023-10-10T21:13:22.687000',
+        'content': 'Mauris at mauris eu neque varius suscipit.',
+        'attachments': [],
+        'thread': [],
+      },
+      {
+        'post_id': 'e6023fa7-b598-416a-9f42-862c826255ef',
+        'author_id': 'exqkhvidr7uh2ndslsdymbzfbmqjlunk',
+        'author_fullname': 'Variant Review Report Preparer Person',
+        'publish_timestamp': '2023-10-13T21:13:22.687000',
+        'content': 'Mauris at mauris eu neque varius suscipit.',
+        'attachments': [],
+        'thread': [],
       },
     ],
     supporting_evidence_files: [
