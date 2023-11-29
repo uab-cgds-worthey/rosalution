@@ -77,12 +77,13 @@ export default {
   },
   methods: {
     newDiscussionPost() {
-        this.$emit('discussion:new-post', this.newPostContent)
+      this.$emit('discussion:new-post', this.newPostContent);
     },
     cancelNewDiscussionPost() {
-        console.log("Cancelled post");
+      // Currently does nothing, will need to update to turn off the new post text
+      console.log('Cancelled post');
     },
-  }
+  },
 };
 
 </script>
