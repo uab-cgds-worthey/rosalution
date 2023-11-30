@@ -1,10 +1,10 @@
 <template>
     <div class="discussion-post" data-test="discussion-post">
-        <div class="discussion-header">
+        <div class="discussion-header" data-test="discussion-post-header">
             <b>{{ author_name }}</b>
             {{  timestamp  }}
         </div>
-        <div class="discussion-content">
+        <div class="discussion-content" data-test="discussion-post-content">
             {{ content }}
         </div>
     </div>

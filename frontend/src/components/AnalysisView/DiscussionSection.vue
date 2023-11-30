@@ -16,6 +16,7 @@
                     contenteditable="plaintext-only"
                     class="discussion-new-post-text-area"
                     v-model="newPostContent"
+                    data-test="new-discussion-input"
                 />
                 <div class="discussion-actions">
                     <button class="secondary-button" @click="cancelNewDiscussionPost" data-test="new-discussion-cancel">
