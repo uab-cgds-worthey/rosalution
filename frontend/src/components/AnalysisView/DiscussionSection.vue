@@ -4,14 +4,16 @@
         <div class="rosalution-section-header">
             <h2 class="rosalution-section-header-text">Discussion</h2>
             <span class="rosalution-section-center" data-test="header-datasets"/>
-            <button class="primary-button discussion-new-button" @click="this.newDiscussionPost">New Discussion</button>
+            <button class="primary-button discussion-new-button" @click="this.newDiscussionPostForm">
+                New Discussion
+            </button>
             <label class="collapsable-icon" for="discussion_toggle">
                 <font-awesome-icon icon="chevron-down" size="lg"/>
             </label>
         </div>
         <div class="rosalution-section-seperator"></div>
         <div class="section-content">
-            <div class="discussion-new-post">
+            <div v-if="this.showNewPost" class="discussion-new-post">
                 <textarea
                     contenteditable="plaintext-only"
                     class="discussion-new-post-text-area"
@@ -64,16 +66,24 @@ export default {
   data: function() {
     return {
       newPostContent: '',
+      showNewPost: false
     };
   },
   methods: {
+    newDiscussionPostForm() {
+        this.showNewPost = true;
+    },
     newDiscussionPost() {
-      this.$emit('discussion:new-post', this.newPostContent);
+        this.$emit('discussion:new-post', this.newPostContent);
+        this.clearNewDiscussionField();
     },
     cancelNewDiscussionPost() {
-      // Currently does nothing, will need to update to turn off the new post text
-      console.log('Cancelled post');
+        this.clearNewDiscussionField();
     },
+    clearNewDiscussionField() {
+        this.newPostContent = '';
+        this.showNewPost = false;
+    }
   },
   methods: {
     newDiscussionPost() {
