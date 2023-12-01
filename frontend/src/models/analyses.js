@@ -212,7 +212,16 @@ export default {
     const success = await Requests.putForm(url, attachmentForm);
     return success;
   },
+  async postNewDiscussionThread(analysisName, postContent) {
+    const url = `/rosalution/api/analysis/${analysisName}/discussions`;
 
+    const attachmentForm = {
+      'discussion_content': postContent,
+    };
+
+    const success = await Requests.postForm(url, attachmentForm);
+    return success;
+  },
 };
 
 const annotationRenderingTemporary = [

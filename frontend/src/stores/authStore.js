@@ -33,6 +33,9 @@ const authStore = {
   getUsername() {
     return this.state.username;
   },
+  getClientId() {
+    return this.state.clientId;
+  },
   hasWritePermissions() {
     return this.hasRole('write');
   },

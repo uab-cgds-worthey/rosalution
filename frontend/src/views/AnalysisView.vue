@@ -41,6 +41,8 @@
       />
       <DiscussionSection
         id="Discussion"
+        :discussions="this.discussions"
+        @discussion:new-post="this.addDiscussionPost"
       />
       <SupplementalFormList
         id="Supporting_Evidence"
@@ -204,6 +206,9 @@ export default {
     },
     attachments() {
       return this.analysis.supporting_evidence_files;
+    },
+    discussions() {
+      return this.analysis.discussions;
     },
     genomicUnitsList() {
       return this.analysis.genomic_units;
@@ -605,7 +610,11 @@ export default {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
+    async addDiscussionPost(newPostContent) {
+      const discussions = await Analyses.postNewDiscussionThread(this.analysis['name'], newPostContent);
 
+      this.analysis.discussions = discussions;
+    },
     copyToClipboard(copiedText) {
       toast.success(`Copied ${copiedText} to clipboard!`);
     },
