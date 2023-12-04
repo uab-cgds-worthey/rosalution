@@ -4,8 +4,12 @@
         <div class="rosalution-section-header">
             <h2 class="rosalution-section-header-text">Discussion</h2>
             <span class="rosalution-section-center" data-test="header-datasets"/>
-            <button class="primary-button discussion-new-button" @click="this.newDiscussionPostForm">
-                New Discussion
+            <button
+                class="primary-button discussion-new-button"
+                @click="this.newDiscussionPostForm"
+                data-test="new-discussion-button"
+            >
+                    New Discussion
             </button>
             <label class="collapsable-icon" for="discussion_toggle">
                 <font-awesome-icon icon="chevron-down" size="lg"/>
@@ -21,10 +25,19 @@
                     data-test="new-discussion-input"
                 />
                 <div class="discussion-actions">
-                    <button class="secondary-button" @click="cancelNewDiscussionPost" data-test="new-discussion-cancel">
+                    <button
+                        class="secondary-button"
+                        @click="cancelNewDiscussionPost"
+                        data-test="new-discussion-cancel"
+                    >
                         Cancel
                     </button>
-                    <button class="primary-button" @click="newDiscussionPost" data-test="new-discussion-publish">
+                    <button
+                        class="primary-button publish-button"
+                        @click="newDiscussionPost"
+                        data-test="new-discussion-publish"
+                        :disabled="this.checkPostContent"
+                    >
                         Publish
                     </button>
                 </div>
@@ -66,32 +79,28 @@ export default {
   data: function() {
     return {
       newPostContent: '',
-      showNewPost: false
+      showNewPost: false,
     };
+  },
+  computed: {
+    checkPostContent() {
+      return this.newPostContent == '';
+    },
   },
   methods: {
     newDiscussionPostForm() {
-        this.showNewPost = true;
+      this.showNewPost = true;
     },
-    newDiscussionPost() {
-        this.$emit('discussion:new-post', this.newPostContent);
-        this.clearNewDiscussionField();
-    },
-    cancelNewDiscussionPost() {
-        this.clearNewDiscussionField();
-    },
-    clearNewDiscussionField() {
-        this.newPostContent = '';
-        this.showNewPost = false;
-    }
-  },
-  methods: {
     newDiscussionPost() {
       this.$emit('discussion:new-post', this.newPostContent);
+      this.clearNewDiscussionField();
     },
     cancelNewDiscussionPost() {
-      // Currently does nothing, will need to update to turn off the new post text
-      console.log('Cancelled post');
+      this.clearNewDiscussionField();
+    },
+    clearNewDiscussionField() {
+      this.newPostContent = '';
+      this.showNewPost = false;
     },
   },
 };
@@ -131,6 +140,10 @@ export default {
     display: flex;
     justify-content: right;
     margin-right: var(--p-16);
+}
+
+.publish-button {
+    margin-left: var(--p-8);
 }
 
 .collapsable-icon {

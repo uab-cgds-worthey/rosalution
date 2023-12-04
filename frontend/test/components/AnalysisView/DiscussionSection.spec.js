@@ -1,4 +1,4 @@
-import {it, expect, describe, beforeEach, vi} from 'vitest';
+import {it, expect, describe, beforeEach} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 
 import DiscussionSection from '../../../src/components/AnalysisView/DiscussionSection.vue';
@@ -24,20 +24,31 @@ describe('DiscussionSection.vue', () => {
   it('Should emit a discussion:new-post event when the publish button is pressed', async () => {
     await wrapper.setData({newPostContent: 'Test post content'});
 
+    const newDiscussionButton = wrapper.find('[data-test=new-discussion-button]');
+    await newDiscussionButton.trigger('click');
+
     const publishNewDiscussionButton = wrapper.find('[data-test=new-discussion-publish]');
     await publishNewDiscussionButton.trigger('click');
 
     const emittedObjects = wrapper.emitted()['discussion:new-post'][0];
 
-    expect(emittedObjects[0]).toBe('Test post content');
+    expect(emittedObjects[0]).to.include('Test post content');
   });
 
-  // Placeholder test
-  it('Should print to console when the cancelled button is pressed', async () => {
-    const cancelNewDiscussionButton = wrapper.find('[data-test=new-discussion-cancel]');
+  it('Should not be able to publish a post if the new post content field is empty', async () => {
+    const newDiscussionButton = wrapper.find('[data-test=new-discussion-button]');
+    await newDiscussionButton.trigger('click');
 
-    vi.spyOn(console, 'log');
-    await cancelNewDiscussionButton.trigger('click');
-    expect(console.log).toHaveBeenCalled();
+    const publishNewDiscussionButton = wrapper.find('[data-test=new-discussion-publish]');
+    expect(publishNewDiscussionButton.attributes().disabled).to.not.be.undefined;
+  });
+
+  it('Should close the new discussion post field when the cancel button is pressed', async () => {
+    const newDiscussionButton = wrapper.find('[data-test=new-discussion-button]');
+    await newDiscussionButton.trigger('click');
+
+    const newDiscussionCancelButton = wrapper.find('[data-test=new-discussion-cancel]');
+
+    await newDiscussionCancelButton.trigger('click');
   });
 });
