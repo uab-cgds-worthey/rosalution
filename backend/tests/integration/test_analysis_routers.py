@@ -64,7 +64,7 @@ def test_import_analysis_with_phenotips_json(
         analysis_import_json_filepath = fixture_filepath('phenotips-import.json')
         with open(analysis_import_json_filepath, "rb") as phenotips_file:
             response = client.post(
-                "/analysis/import_file",
+                "/analysis/",
                 headers={"Authorization": "Bearer " + mock_access_token},
                 files={"phenotips_file": ("phenotips-import.json", phenotips_file.read())}
             )

@@ -49,7 +49,7 @@ export default {
   },
 
   async importPhenotipsAnalysis(file) {
-    const url = '/rosalution/api/analysis/import_file';
+    const url = '/rosalution/api/analysis';
 
     const fileUploadFormData = {
       'phenotips_file': file,
