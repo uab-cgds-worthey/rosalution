@@ -13,7 +13,7 @@ export default {
   },
 
   async getSummaryByName(analysisName) {
-    const url = `/rosalution/api/analysis/summary/${analysisName}`;
+    const url = `/rosalution/api/analysis/${analysisName}/summary`;
     const analysisSummary = await Requests.get(url);
     return analysisSummary;
   },
