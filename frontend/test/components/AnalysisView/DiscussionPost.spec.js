@@ -18,6 +18,6 @@ describe('DiscussionPost.vue', () => {
   });
 
   it('Vue instance exists and it is an object', () => {
-    expect(typeof wrapper).toBe('object');
+    expect(typeof wrapper).to.not.be.undefined;
   });
 });

@@ -24,6 +24,10 @@ html {
   cursor: pointer;
 }
 
+.rosalution-button:hover{
+  background-color: var(--rosalution-purple-200);
+}
+
 .primary-button {
   background-color: var(--rosalution-purple-100);
   color: var(--rosalution-purple-300);
@@ -39,13 +43,15 @@ html {
   box-sizing: border-box;
 }
 
-.rosalution-button:hover{
-  background-color: var(--rosalution-purple-200);
+.primary-button:disabled {
+  background-color: var(--rosalution-purple-100);
+  color: var(--rosalution-purple-300);
+  opacity: 50%;
 }
 
-
-.primary-button:hover {
+.primary-button:hover:enabled {
   background-color: var(--rosalution-purple-200);
+  color: var(--rosalution-purple-100);
 }
 
 .secondary-button {
