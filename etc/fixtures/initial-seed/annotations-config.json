@@ -15,8 +15,9 @@
     "annotation_source_type": "http",
     "url": "http://grch37.rest.ensembl.org/lookup/symbol/homo_sapiens/{gene}?content-type=application/json",
     "attribute": "{ \"Ensemble Gene Id\": .id }",
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://grch37.rest.ensembl.org/info/data/?content-type=application/json",
+    "version_attribute": "{ \"Ensembl Version\": .releases[] }"
   },
   {
     "data_set": "HGNC_ID",
@@ -25,8 +26,9 @@
     "annotation_source_type": "http",
     "url": "http://rest.genenames.org/fetch/symbol/{gene}",
     "attribute": ".response | .docs[] | select( .symbol | contains(\"{gene}\")) | { HGNC_ID : .\"hgnc_id\"}",
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://grch37.rest.ensembl.org/info/data/?content-type=application/json",
+    "version_attribute": "{ \"Ensembl Version\": .releases[] }"
   },
   {
    "data_set": "Gene Summary",
@@ -313,8 +315,9 @@
     "annotation_source_type": "http",
     "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;refseq=1;",
     "attribute": ".[].transcript_consequences[] | { transcript_id: .transcript_id }",
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://grch37.rest.ensembl.org/info/data/?content-type=application/json",
+    "version_attribute": "{ \"Ensembl Version\": .releases[] }"
    },
    {
      "data_set": "Polyphen Prediction",
@@ -324,8 +327,9 @@
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;refseq=1;",
      "attribute": ".[].transcript_consequences[] | { polyphen_prediction: .polyphen_prediction, transcript_id: .transcript_id }",
-     "version_url": "",
-     "version_attribute": ""
+     "version_type": "semantic",
+     "version_url": "https://grch37.rest.ensembl.org/info/data/?content-type=application/json",
+     "version_attribute": "{ \"Ensembl Version\": .releases[] }"
    },
    {
      "data_set": "Polyphen Score",
@@ -335,8 +339,9 @@
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;refseq=1;",
      "attribute": ".[].transcript_consequences[] | { polyphen_score: .polyphen_score, transcript_id: .transcript_id }",
-     "version_url": "",
-     "version_attribute": ""
+     "version_type": "semantic",
+     "version_url": "https://grch37.rest.ensembl.org/info/data/?content-type=application/json",
+     "version_attribute": "{ \"Ensembl Version\": .releases[] }"
    },
    {
      "data_set": "SIFT Prediction",
@@ -346,8 +351,9 @@
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;refseq=1;",
      "attribute": ".[].transcript_consequences[] | { sift_prediction: .sift_prediction, transcript_id: .transcript_id }",
-     "version_url": "",
-     "version_attribute": ""
+     "version_type": "semantic",
+     "version_url": "https://grch37.rest.ensembl.org/info/data/?content-type=application/json",
+     "version_attribute": "{ \"Ensembl Version\": .releases[] }"
    },
    {
      "data_set": "SIFT Score",
@@ -357,8 +363,9 @@
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;refseq=1;",
      "attribute": ".[].transcript_consequences[] | { sift_score: .sift_score, transcript_id: .transcript_id }",
-     "version_url": "",
-     "version_attribute": ""
+     "version_type": "semantic",
+     "version_url": "https://grch37.rest.ensembl.org/info/data/?content-type=application/json",
+     "version_attribute": "{ \"Ensembl Version\": .releases[] }"
    },
    {
      "data_set": "Consequences",
@@ -368,8 +375,9 @@
      "annotation_source_type": "http",
      "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;refseq=1;",
      "attribute": ".[].transcript_consequences[] | { consequence_terms: .consequence_terms, transcript_id: .transcript_id }",
-     "version_url": "",
-     "version_attribute": ""
+     "version_type": "semantic",
+     "version_url": "https://grch37.rest.ensembl.org/info/data/?content-type=application/json",
+     "version_attribute": "{ \"Ensembl Version\": .releases[] }"
    },
    {
     "data_set": "CADD",
@@ -379,8 +387,9 @@
     "url": "https://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;CADD=1;refseq=1;",
     "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { CADD: .cadd_phred }",
     "dependencies": ["transcript"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://grch37.rest.ensembl.org/info/data/?content-type=application/json",
+    "version_attribute": "{ \"Ensembl Version\": .releases[] }"
   },
   {
     "data_set": "Impact",
@@ -390,8 +399,9 @@
     "annotation_source_type": "http",
     "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;refseq=1;",
     "attribute": ".[].transcript_consequences[] | { impact: .impact, transcript_id: .transcript_id }",
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://grch37.rest.ensembl.org/info/data/?content-type=application/json",
+    "version_attribute": "{ \"Ensembl Version\": .releases[] }"
   },
   {
     "data_set": "Human_Alliance_Genome_url",
