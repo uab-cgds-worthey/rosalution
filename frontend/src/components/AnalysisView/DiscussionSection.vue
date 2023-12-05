@@ -140,6 +140,7 @@ export default {
     display: flex;
     justify-content: right;
     margin-right: var(--p-16);
+    margin-bottom: var(--p-10);
 }
 
 .publish-button {
