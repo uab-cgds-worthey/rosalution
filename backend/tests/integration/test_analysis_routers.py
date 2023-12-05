@@ -86,22 +86,28 @@ def test_import_analysis_with_phenotips_json(
 def test_update_analysis_section(client, mock_access_token, mock_repositories, update_analysis_section_response_json):
     """Testing if the update analysis endpoint updates an existing analysis"""
 
-    updated_sections = {
-        "Brief": {"Reason": ["the quick brown fox jumps over the lazy dog."], "Nominated": ["Lorem ipsum dolor"]},
-        "Medical Summary": {
-            "Clinical Diagnosis": ["Sed odio morbi quis commodo odio aenean sed. Hendrerit dolor magna eget lorem."]
-        },
-    }
+    updated_sections = [{
+        "header": "Brief",
+        "content": [
+            {"fieldName": "Reason", "value": ["the quick brown fox jumps over the lazy dog."]},
+            {"fieldName": "Nominated", "value": ["Lorem ipsum dolor"]}
+        ]}, {
+        "header": "Medical Summary",
+        "content": [
+            {"fieldName": "Clinical Diagnosis", "value": ["Sed odio morbi quis commodo odio aenean sed. Hendrerit dolor magna eget lorem."]}
+        ]}
+    ]
+
     mock_repositories["analysis"].collection.find_one.return_value = update_analysis_section_response_json
-    response = client.put(
-        "/analysis/CPAM0047/update/sections",
+    response = client.post(
+        "/analysis/CPAM0047/sections?type=text",
         headers={"Authorization": "Bearer " + mock_access_token, "Content-Type": "application/json"},
         json=updated_sections,
     )
     assert response.status_code == 200
     mock_repositories["analysis"].collection.find_one_and_update.assert_called()
-    assert response.json()["name"] == "CPAM0047"
-    assert response.json()["sections"][0]["content"][1]["value"] == ["the quick brown fox jumps over the lazy dog."]
+    all_sections = response.json()
+    assert all_sections[0]["content"][1]["value"] == ["the quick brown fox jumps over the lazy dog."]
 
 
 # We will come back to this later:

@@ -4,6 +4,15 @@ Enumerations for the rosalution project.
 from enum import Enum
 
 
+class SectionRowType(str, Enum):
+    """Enumeration of the different types of data that is stored as rows in an Analysis' sections'"""
+
+    TEXT = 'text'
+    IMAGE = 'image'
+    DOCUMENT = 'document'
+    LINK = 'link'
+
+
 class GenomicUnitType(str, Enum):
     """Enumeration of the different types of genomic units that can be analyzed"""
 

@@ -15,9 +15,9 @@ from fastapi.responses import StreamingResponse
 from ..core.annotation import AnnotationService
 from ..core.phenotips_importer import PhenotipsImporter
 from ..dependencies import database, annotation_queue
-from ..models.analysis import Analysis, AnalysisSummary
+from ..models.analysis import Analysis, AnalysisSummary, Section
 from ..models.event import Event
-from ..enums import ThirdPartyLinkType, EventType
+from ..enums import SectionRowType, ThirdPartyLinkType, EventType
 from ..models.phenotips_json import BasePhenotips
 from ..models.user import VerifyUser
 from ..security.security import get_authorization, get_current_user
@@ -92,7 +92,6 @@ def get_analysis_summary_by_name(analysis_name: str, repositories=Depends(databa
 @router.put("/{analysis_name}/event/{event_type}", response_model=Analysis)
 def update_event(
     analysis_name: str,
-    event_type: EventType,
     repositories=Depends(database),
     username: VerifyUser = Security(get_current_user),
     authorized=Security(get_authorization, scopes=["write"]),  #pylint: disable=unused-argument
@@ -105,22 +104,42 @@ def update_event(
         raise HTTPException(status_code=409, detail=str(exception)) from exception
 
 
-@router.put("/{analysis_name}/update/sections", response_model=Analysis)
+@router.post("/{analysis_name}/sections", response_model=List[Section])
 def update_analysis_sections(
     analysis_name: str,
-    updated_sections: dict,
+    type: SectionRowType,
+    updated_sections: List[Section],
     repositories=Depends(database),
     authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """Updates the sections that have changes"""
-    for (header, field) in updated_sections.items():
-        for (updated_field, value) in field.items():
-            if "Nominator" == updated_field:
-                repositories["analysis"].update_analysis_nominator(analysis_name, '; '.join(value))
-            repositories["analysis"].update_analysis_section(analysis_name, header, updated_field, {"value": value})
+    if(type == SectionRowType.TEXT):
+      update_analysis_sections_text_fields(analysis_name, updated_sections, repositories["analysis"])
+      updated_analysis = repositories["analysis"].find_by_name(analysis_name)
+      updated_analysis_model = Analysis(**updated_analysis)
+      return updated_analysis_model.sections
 
-    return repositories["analysis"].find_by_name(analysis_name)
+    if( type == SectionRowType.IMAGE or type == SectionRowType.DOCUMENT):
+      print("Will be adding image or document")
 
+      if(type == SectionRowType.DOCUMENT):          
+        print("Will be adding document")
+
+      if(type ==SectionRowType.IMAGE):
+          print("Will be adding image")
+
+    if( type == SectionRowType.LINK):
+        print("will be adding link")
+
+    print("ADDING TYPE NOT SUPPORTED YET, IN PROGRESS")
+
+def update_analysis_sections_text_fields(analysis_name, updated_sections: List[Section], analysis_repository):
+    for section in updated_sections:
+      for field in section.content:
+          field_name, field_value= field["fieldName"], field["value"]
+          if "Nominator" == field_name:
+              analysis_repository.update_analysis_nominator(analysis_name, '; '.join(field_value))
+          analysis_repository.update_analysis_section(analysis_name, section.header, field_name, {"value": field_value})
 
 @router.put("/{analysis_name}/section/attach/file")
 def attach_animal_model_system_report(

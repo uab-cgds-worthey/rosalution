@@ -32,8 +32,23 @@ export default {
   },
 
   async updateAnalysisSections(analysisName, updatedSections) {
-    const url = `/rosalution/api/analysis/${analysisName}/update/sections`;
-    return await Requests.put(url, updatedSections);
+    const sectionsToUpdate = [];
+    for (const [sectionName, field] of Object.entries(updatedSections)) {
+      const analysisSection = {
+        header: sectionName,
+        content: [],
+      };
+
+      for ( const [fieldName, fieldValue] of Object.entries(field)) {
+        analysisSection.content.push({
+          fieldName: fieldName,
+          value: fieldValue,
+        });
+      }
+      sectionsToUpdate.push(analysisSection);
+    }
+    const url = `/rosalution/api/analysis/${analysisName}/sections?type=text`;
+    return await Requests.post(url, sectionsToUpdate);
   },
 
   async pushAnalysisEvent(analysisName, eventType) {
@@ -49,7 +64,7 @@ export default {
   },
 
   async importPhenotipsAnalysis(file) {
-    const url = '/rosalution/api/analysis';
+    const url = '/rosalution/api/analysisfup';
 
     const fileUploadFormData = {
       'phenotips_file': file,
