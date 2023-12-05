@@ -38,8 +38,9 @@
    "url": "https://www.alliancegenome.org/api/gene/{HGNC_ID}",
    "attribute": "{ \"Gene Summary\": .geneSynopsis}",
    "dependencies": ["HGNC_ID"],
-   "version_url": "",
-   "version_attribute": ""
+   "version_type": "semantic",
+   "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+   "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "ClinGen_gene_url",
@@ -142,8 +143,9 @@
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
     "attribute": ".results[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Rno)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"Rat Gene Identifier\": .primaryKey }",
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "Rat_Alliance_Genome_Automated_Summary",
@@ -153,8 +155,9 @@
     "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}",
     "attribute": "{ \"Rat_Alliance_Genome_Automated_Summary\": .automatedGeneSynopsis }",
     "dependencies": ["Rat Gene Identifier"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "Rat_Alliance_Genome_RGD_Summary",
@@ -164,8 +167,9 @@
     "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}",
     "attribute": "{ \"Rat_Alliance_Genome_RGD_Summary\": .geneSynopsis}",
     "dependencies": ["Rat Gene Identifier"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "Rat_Alliance_Genome_Models",
@@ -175,8 +179,9 @@
     "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}/models?limit=100",
     "attribute": "{ \"Rat_Alliance_Genome_Models\": [.results[]] }",
     "dependencies": ["Rat Gene Identifier"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "Mouse Gene Identifier",
@@ -185,8 +190,9 @@
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
     "attribute": ".results[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Mmu)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"Mouse Gene Identifier\": .primaryKey }",
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "Mouse_Alliance_Genome_Automated_Summary",
@@ -196,8 +202,9 @@
     "url": "https://www.alliancegenome.org/api/gene/{Mouse Gene Identifier}",
     "attribute": "{ \"Mouse_Alliance_Genome_Automated_Summary\": .automatedGeneSynopsis }",
     "dependencies": ["Mouse Gene Identifier"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "Mouse_Alliance_Genome_MGI_Summary",
@@ -207,8 +214,9 @@
     "url": "https://www.alliancegenome.org/api/gene/{Mouse Gene Identifier}",
     "attribute": "{ \"Mouse_Alliance_Genome_MGI_Summary\": .geneSynopsis }",
     "dependencies": ["Mouse Gene Identifier"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "Mouse_Alliance_Genome_Models",
@@ -218,8 +226,9 @@
     "url": "https://www.alliancegenome.org/api/gene/{Mouse Gene Identifier}/models?limit=100",
     "attribute": "{ \"Mouse_Alliance_Genome_Models\": [.results[]] }",
     "dependencies": ["Mouse Gene Identifier"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "Zebrafish Gene Identifier",
@@ -228,8 +237,9 @@
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
     "attribute": ".results[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Dre)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"Zebrafish Gene Identifier\": .primaryKey }",
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "Zebrafish_Alliance_Genome_Automated_Summary",
@@ -239,8 +249,9 @@
     "url": "https://www.alliancegenome.org/api/gene/{Zebrafish Gene Identifier}",
     "attribute": "{ \"Zebrafish_Alliance_Genome_Automated_Summary\": .automatedGeneSynopsis }",
     "dependencies": ["Zebrafish Gene Identifier"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "Zebrafish_Alliance_Genome_ZFIN_Summary",
@@ -250,8 +261,9 @@
     "url": "https://www.alliancegenome.org/api/gene/{Zebrafish Gene Identifier}",
     "attribute": "{ \"Zebrafish_Alliance_Genome_ZFIN_Summary\": .geneSynopsis }",
     "dependencies": ["Zebrafish Gene Identifier"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "Zebrafish_Alliance_Genome_Models",
@@ -261,8 +273,9 @@
     "url": "https://www.alliancegenome.org/api/gene/{Zebrafish Gene Identifier}/models?limit=100",
     "attribute": "{ \"Zebrafish_Alliance_Genome_Models\": [.results[]] }",
     "dependencies": ["Zebrafish Gene Identifier"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "C-Elegens Gene Identifier",
@@ -271,8 +284,9 @@
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
     "attribute": ".results[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Cel)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"C-Elegens Gene Identifier\": .primaryKey }",
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "C-Elegens_Alliance_Genome_Automated_Summary",
@@ -282,8 +296,9 @@
     "url": "https://www.alliancegenome.org/api/gene/{C-Elegens Gene Identifier}",
     "attribute": "{ \"C-Elegens_Alliance_Genome_Automated_Summary\": .automatedGeneSynopsis }",
     "dependencies": ["C-Elegens Gene Identifier"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "C-Elegens_Alliance_Genome_WB_Summary",
@@ -293,8 +308,9 @@
     "url": "https://www.alliancegenome.org/api/gene/{C-Elegens Gene Identifier}",
     "attribute": "{ \"C-Elegens_Alliance_Genome_WB_Summary\": .geneSynopsis }",
     "dependencies": ["C-Elegens Gene Identifier"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "C-Elegens_Alliance_Genome_Models",
@@ -304,8 +320,9 @@
     "url": "https://www.alliancegenome.org/api/gene/{C-Elegens Gene Identifier}/models?limit=100",
     "attribute": "{ \"C-Elegens_Alliance_Genome_Models\": [.results[]] }",
     "dependencies": ["C-Elegens Gene Identifier"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "transcript_id",
@@ -433,8 +450,9 @@
     "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}",
     "attribute": "{ \"Rat_Rat_Genome_Database_url\": .modCrossRefCompleteUrl }",
     "dependencies": ["Rat Gene Identifier"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "Mouse_Alliance_Genome_url",
@@ -455,8 +473,9 @@
     "url": "https://www.alliancegenome.org/api/gene/{Mouse Gene Identifier}",
     "attribute": "{ \"Mouse_Mouse_Genome_Database_url\": .modCrossRefCompleteUrl }",
     "dependencies": ["Mouse Gene Identifier"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "Zebrafish_Alliance_Genome_url",
@@ -477,8 +496,9 @@
     "url": "https://www.alliancegenome.org/api/gene/{Zebrafish Gene Identifier}",
     "attribute": "{ \"Zebrafish_Zebrafish_Information_Network_url\": .modCrossRefCompleteUrl }",
     "dependencies": ["Zebrafish Gene Identifier"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "C-Elegens_Alliance_Genome_url",
@@ -499,8 +519,9 @@
     "url": "https://www.alliancegenome.org/api/gene/{C-Elegens Gene Identifier}",
     "attribute": "{ \"C-Elegens_Worm_Base_url\": .modCrossRefCompleteUrl }",
     "dependencies": ["C-Elegens Gene Identifier"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "Frog_General_Xenbase_Database_url",
@@ -509,8 +530,9 @@
     "genomic_unit_type": "gene",
     "url": "https://www.alliancegenome.org/api/search?q={gene}",
     "attribute": "[.results[] | select ( .species | contains(\"Xenopus laevis\")) | .modCrossRefCompleteUrl][0] | { \"Frog_General_Xenbase_Database_url\": .}",
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "semantic",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": "{ \"Alliance Genome Version\": .releaseVersion }"
   },
   {
     "data_set": "GTEx_Human_Gene_Expression_url",
