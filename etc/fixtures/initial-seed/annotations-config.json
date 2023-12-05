@@ -6,8 +6,7 @@
     "annotation_source_type": "http",
     "url": "https://hpo.jax.org/api/hpo/search/?q={gene}&max=-1&offset=0&category=genes",
     "attribute": ".genes[] | select( .geneSymbol | contains(\"{gene}\")) |  { entrezGeneId: .geneId}",
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "date" 
   },
   {
     "data_set": "Ensembl Gene Id",
@@ -102,8 +101,7 @@
     "url": "https://hpo.jax.org/api/hpo/gene/{Entrez Gene Id}",
     "attribute": "{ \"diseaseAssoc\": [.diseaseAssoc[].diseaseName]}",
     "dependencies": ["Entrez Gene Id"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "date"
   },
   {
     "data_set": "OMIM_gene_search_url",
@@ -123,8 +121,7 @@
     "url": "https://hpo.jax.org/api/hpo/gene/{Entrez Gene Id}",
     "attribute": "{ \"termAssoc\": [.termAssoc[] | .ontologyId + \": \" + .name ]}",
     "dependencies": ["Entrez Gene Id"],
-    "version_url": "",
-    "version_attribute": ""
+    "version_type": "date"
   },
   {
     "data_set": "HPO_gene_search_url",
