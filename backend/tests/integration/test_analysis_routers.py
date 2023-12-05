@@ -83,7 +83,7 @@ def test_import_analysis_with_phenotips_json(
     assert response_data['timeline'][0]['username'] == 'johndoe'
 
 
-def test_update_analysis_section(client, mock_access_token, mock_repositories, update_analysis_section_response_json):
+def test_update_analysis_sections(client, mock_access_token, mock_repositories, update_analysis_section_response_json):
     """Testing if the update analysis endpoint updates an existing analysis"""
 
     updated_sections = [{

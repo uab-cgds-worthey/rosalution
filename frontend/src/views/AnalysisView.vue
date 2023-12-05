@@ -405,12 +405,12 @@ export default {
       );
     },
     async saveAnalysisChanges() {
-      const updatedAnalysis = await Analyses.updateAnalysisSections(
+      const updatedSections = await Analyses.updateAnalysisSections(
           this.analysis_name,
           this.updatedContent,
       );
       this.analysis.sections.splice(0);
-      this.analysis.sections.push(...updatedAnalysis.sections);
+      this.analysis.sections.push(...updatedSections);
       location.reload();
       this.updatedContent = {};
       this.edit = false;

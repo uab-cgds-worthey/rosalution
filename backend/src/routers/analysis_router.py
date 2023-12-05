@@ -84,14 +84,17 @@ def get_genomic_units(analysis_name: str, repositories=Depends(database)):
     except ValueError as exception:
         raise HTTPException(status_code=404, detail=str(exception)) from exception
 
+
 @router.get("/{analysis_name}/summary", response_model=AnalysisSummary)
 def get_analysis_summary_by_name(analysis_name: str, repositories=Depends(database)):
     """Returns a summary of every analysis within the application"""
     return repositories["analysis"].summary_by_name(analysis_name)
 
+
 @router.put("/{analysis_name}/event/{event_type}", response_model=Analysis)
 def update_event(
     analysis_name: str,
+    event_type: EventType,
     repositories=Depends(database),
     username: VerifyUser = Security(get_current_user),
     authorized=Security(get_authorization, scopes=["write"]),  #pylint: disable=unused-argument

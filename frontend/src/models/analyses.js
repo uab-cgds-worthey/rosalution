@@ -31,6 +31,15 @@ export default {
     return genomicUnits;
   },
 
+  /**
+   * Provides {@link updatedSections} of updated text fields within sections in
+   * the analysis {@link analysisName}.
+   * @param {string} analysisName The unique name of the Analysis to update
+   * @param {Object} updatedSections The list of updated fields from within
+   *                                 their corresponding sections
+   * @return {Object[]} Array of all of the sections, including the updated
+   * ones, within the Analysis
+   */
   async updateAnalysisSections(analysisName, updatedSections) {
     const sectionsToUpdate = [];
     for (const [sectionName, field] of Object.entries(updatedSections)) {
@@ -63,8 +72,14 @@ export default {
     return annotationRenderingTemporary;
   },
 
+  /**
+   * Requests to upload the JSON required for creating a new analysis in Rosalution
+   * with a unique analysis name.
+   * @param {File} file The JSON for creating the new Analysis
+   * @return {Object} Returns the new complete analysis created within Rosalution
+   */
   async importPhenotipsAnalysis(file) {
-    const url = '/rosalution/api/analysisfup';
+    const url = '/rosalution/api/analysis';
 
     const fileUploadFormData = {
       'phenotips_file': file,
