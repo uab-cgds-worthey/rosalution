@@ -659,7 +659,7 @@ describe('AnalysisView', () => {
 
   describe('Saving and canceling analysis changes displays toasts', () => {
     beforeEach(() => {
-      updateAnalysisSectionsMock.resolves({sections: []});
+      updateAnalysisSectionsMock.resolves([]);
     });
 
     it('should display success toast when saving analysis changes', async () => {

@@ -110,39 +110,45 @@ def update_event(
 @router.post("/{analysis_name}/sections", response_model=List[Section])
 def update_analysis_sections(
     analysis_name: str,
-    type: SectionRowType,
+    row_type: SectionRowType,
     updated_sections: List[Section],
     repositories=Depends(database),
     authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """Updates the sections that have changes"""
-    if(type == SectionRowType.TEXT):
-      update_analysis_sections_text_fields(analysis_name, updated_sections, repositories["analysis"])
-      updated_analysis = repositories["analysis"].find_by_name(analysis_name)
-      updated_analysis_model = Analysis(**updated_analysis)
-      return updated_analysis_model.sections
+    if row_type == SectionRowType.TEXT:
+        update_analysis_sections_text_fields(analysis_name, updated_sections, repositories["analysis"])
+        updated_analysis = repositories["analysis"].find_by_name(analysis_name)
+        updated_analysis_model = Analysis(**updated_analysis)
+        return updated_analysis_model.sections
 
-    if( type == SectionRowType.IMAGE or type == SectionRowType.DOCUMENT):
-      print("Will be adding image or document")
+    if row_type in (SectionRowType.IMAGE, SectionRowType.DOCUMENT):
+        print("Will be adding image or document")
 
-      if(type == SectionRowType.DOCUMENT):          
-        print("Will be adding document")
+        if row_type == SectionRowType.DOCUMENT:
+            print("Will be adding document")
 
-      if(type ==SectionRowType.IMAGE):
-          print("Will be adding image")
+        if row_type == SectionRowType.IMAGE:
+            print("Will be adding image")
 
-    if( type == SectionRowType.LINK):
+    if row_type == SectionRowType.LINK:
         print("will be adding link")
 
     print("ADDING TYPE NOT SUPPORTED YET, IN PROGRESS")
+    return []
+
 
 def update_analysis_sections_text_fields(analysis_name, updated_sections: List[Section], analysis_repository):
+    """Updates each of the rows for each of the sections for the analysis within the analysis repository."""
     for section in updated_sections:
-      for field in section.content:
-          field_name, field_value= field["fieldName"], field["value"]
-          if "Nominator" == field_name:
-              analysis_repository.update_analysis_nominator(analysis_name, '; '.join(field_value))
-          analysis_repository.update_analysis_section(analysis_name, section.header, field_name, {"value": field_value})
+        for field in section.content:
+            field_name, field_value = field["fieldName"], field["value"]
+            if "Nominator" == field_name:
+                analysis_repository.update_analysis_nominator(analysis_name, '; '.join(field_value))
+            analysis_repository.update_analysis_section(
+                analysis_name, section.header, field_name, {"value": field_value}
+            )
+
 
 @router.put("/{analysis_name}/section/attach/file")
 def attach_animal_model_system_report(

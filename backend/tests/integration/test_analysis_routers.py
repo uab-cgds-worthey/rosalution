@@ -88,15 +88,14 @@ def test_update_analysis_sections(client, mock_access_token, mock_repositories, 
 
     updated_sections = [{
         "header": "Brief",
-        "content": [
-            {"fieldName": "Reason", "value": ["the quick brown fox jumps over the lazy dog."]},
-            {"fieldName": "Nominated", "value": ["Lorem ipsum dolor"]}
-        ]}, {
-        "header": "Medical Summary",
-        "content": [
-            {"fieldName": "Clinical Diagnosis", "value": ["Sed odio morbi quis commodo odio aenean sed. Hendrerit dolor magna eget lorem."]}
-        ]}
-    ]
+        "content": [{"fieldName": "Reason", "value": ["the quick brown fox jumps over the lazy dog."]},
+                    {"fieldName": "Nominated", "value": ["Lorem ipsum dolor"]}]
+    }, {
+        "header": "Medical Summary", "content": [{
+            "fieldName": "Clinical Diagnosis",
+            "value": ["Sed odio morbi quis commodo odio aenean sed. Hendrerit dolor magna eget lorem."]
+        }]
+    }]
 
     mock_repositories["analysis"].collection.find_one.return_value = update_analysis_section_response_json
     response = client.post(

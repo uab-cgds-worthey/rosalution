@@ -107,19 +107,27 @@ describe('analyses.js', () => {
     });
   });
 
-  describe('section images for analysis', () => {
-    it('attaches an image to a section', async () => {
-      mockPostFormResponse.returns({sucess: 'yay'});
-      const fakeImageData = 'jklfdjlskfjal;fjdkl;a';
-      await Analyses.attachSectionImage('CPAM0002', 'Pedigree', fakeImageData);
-      expect(mockPostFormResponse.called).to.be.true;
+  describe('sections', () => {
+    describe('text within sections for analyses', () => {
+      it('saves the changes for multiple rows of text within different sections', () => {
+
+      });
     });
 
-    it('updates an image in a section', async () => {
-      mockPutFormResponse.resolves({sucess: 'yay'});
-      const fakeImageData = 'updated-jklfdjlskfjal;fjdkl;a';
-      await Analyses.updateSectionImage('CPAM0002', 'Pedigree', fakeImageData);
-      expect(mockPutFormResponse.called).to.be.true;
+    describe('images within sections for analyses', () => {
+      it('attaches an image to a section', async () => {
+        mockPostFormResponse.returns({sucess: 'yay'});
+        const fakeImageData = 'jklfdjlskfjal;fjdkl;a';
+        await Analyses.attachSectionImage('CPAM0002', 'Pedigree', fakeImageData);
+        expect(mockPostFormResponse.called).to.be.true;
+      });
+
+      it('updates an image in a section', async () => {
+        mockPutFormResponse.resolves({sucess: 'yay'});
+        const fakeImageData = 'updated-jklfdjlskfjal;fjdkl;a';
+        await Analyses.updateSectionImage('CPAM0002', 'Pedigree', fakeImageData);
+        expect(mockPutFormResponse.called).to.be.true;
+      });
     });
   });
 });
