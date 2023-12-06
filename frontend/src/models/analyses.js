@@ -56,7 +56,7 @@ export default {
       }
       sectionsToUpdate.push(analysisSection);
     }
-    const url = `/rosalution/api/analysis/${analysisName}/sections?type=text`;
+    const url = `/rosalution/api/analysis/${analysisName}/sections?row_type=text`;
     return await Requests.post(url, sectionsToUpdate);
   },
 

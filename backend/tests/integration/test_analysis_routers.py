@@ -99,7 +99,7 @@ def test_update_analysis_sections(client, mock_access_token, mock_repositories, 
 
     mock_repositories["analysis"].collection.find_one.return_value = update_analysis_section_response_json
     response = client.post(
-        "/analysis/CPAM0047/sections?type=text",
+        "/analysis/CPAM0047/sections?row_type=text",
         headers={"Authorization": "Bearer " + mock_access_token, "Content-Type": "application/json"},
         json=updated_sections,
     )
