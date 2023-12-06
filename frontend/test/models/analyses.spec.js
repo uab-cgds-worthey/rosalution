@@ -11,6 +11,7 @@ describe('analyses.js', () => {
   let mockPutFormResponse;
   let mockDeleteRequest;
   let mockPutRequest;
+  let mockPostRequest;
 
   beforeEach(() => {
     mockGetRequest = sandbox.stub(Requests, 'get');
@@ -18,6 +19,7 @@ describe('analyses.js', () => {
     mockPutFormResponse = sandbox.stub(Requests, 'putForm');
     mockDeleteRequest = sandbox.stub(Requests, 'delete');
     mockPutRequest = sandbox.stub(Requests, 'put');
+    mockPostRequest = sandbox.stub(Requests, 'post');
   });
 
   afterEach(() => {
@@ -110,7 +112,26 @@ describe('analyses.js', () => {
   describe('sections', () => {
     describe('text within sections for analyses', () => {
       it('saves the changes for multiple rows of text within different sections', () => {
+        const fixtureUpdates = {
+          'Brief': {
+            'Nominator': ['Dr. Person One With '],
+            'ACMG Criteria To Add': ['Feeling To be Done'],
+            'ACMG Classification Criteria': ['fdsfdsrewrewr'],
+          },
+          'Clinical History': {
+            'Systems': ['Musculoskeletal and orthopedics fdsfds'],
+            'Sequencing': ['WGS by the ????fdsfdsfds'],
+          },
+        };
 
+        Analyses.updateAnalysisSections('CPAM0002', fixtureUpdates);
+
+        expect(mockPostRequest.getCall(0).args[0]).to.equal(
+            '/rosalution/api/analysis/CPAM0002/sections?row_type=text',
+        );
+        expect(mockPostRequest.getCall(0).args[1]).to.have.lengthOf(2);
+        expect(mockPostRequest.getCall(0).args[1][0].header).to.equal('Brief');
+        expect(mockPostRequest.getCall(0).args[1][0].content).to.have.lengthOf(3);
       });
     });
 
