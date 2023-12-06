@@ -18,7 +18,7 @@ def test_get_analyses(client, mock_access_token, mock_repositories):
     """Testing that the correct number of analyses were returned and in the right order"""
     mock_repositories['analysis'].collection.find.return_value = read_database_fixture("analyses.json")
 
-    response = client.get("/analysis/", headers={"Authorization": "Bearer " + mock_access_token})
+    response = client.get("/analysis", headers={"Authorization": "Bearer " + mock_access_token})
 
     assert response.status_code == 200
     assert len(response.json()) == 6
@@ -64,7 +64,7 @@ def test_import_analysis_with_phenotips_json(
         analysis_import_json_filepath = fixture_filepath('phenotips-import.json')
         with open(analysis_import_json_filepath, "rb") as phenotips_file:
             response = client.post(
-                "/analysis/",
+                "/analysis",
                 headers={"Authorization": "Bearer " + mock_access_token},
                 files={"phenotips_file": ("phenotips-import.json", phenotips_file.read())}
             )
