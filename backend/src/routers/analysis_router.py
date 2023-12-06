@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/analysis", tags=["analysis"], dependencies=[Depends(database)])
 
 
-@router.get("/", response_model=List[Analysis])
+@router.get("", response_model=List[Analysis])
 def get_all_analyses(repositories=Depends(database)):
     """Returns every analysis available"""
     return repositories["analysis"].all()
@@ -39,7 +39,7 @@ def get_all_analyses_summaries(repositories=Depends(database)):
     return repositories["analysis"].all_summaries()
 
 
-@router.post("/", response_model=Analysis)
+@router.post("", response_model=Analysis)
 async def create_file(
     background_tasks: BackgroundTasks,
     phenotips_file: Union[bytes, None] = File(default=None),
