@@ -366,6 +366,29 @@ def test_mark_ready_analysis_does_not_exist(client, mock_access_token, mock_repo
     assert response.json() == {'detail': 'Analysis with name CPAM2222 does not exist.'}
 
 
+def test_add_new_discussion_to_analysis(client, mock_access_token, mock_repositories):
+    """ Testing that a discussion was added and returned properly """
+    cpam_analysis = "CPAM0002"
+    new_post_user = "John Doe"
+    new_post_content = "Integration Test Text"
+
+    mock_repositories["user"].collection.find_one.return_value = {"full_name": new_post_user}
+    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+
+    response = client.post(
+        "/analysis/" + cpam_analysis + "/discussions",
+        headers={"Authorization": "Bearer " + mock_access_token},
+        data={"discussion_content": new_post_content}
+    )
+
+    assert response.status_code == 200
+
+    assert len(response.json()) == 1
+
+    assert response.json()[0]['author_fullname'] == new_post_user
+    assert response.json()[0]['content'] == new_post_content
+
+
 @pytest.fixture(name="analysis_updates_json")
 def fixture_analysis_updates_json():
     """The JSON that is being sent from a client to the endpoint with updates in it"""

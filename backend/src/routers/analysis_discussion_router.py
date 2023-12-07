@@ -54,17 +54,6 @@ def add_analysis_discussions(
 
     current_user = repositories["user"].find_by_client_id(client_id)
 
-    # current_discussions = mock_discussion_fixture()
-    # current_discussions.append({
-    #     "post_id": str(uuid4()),
-    #     "author_id": client_id,
-    #     "author_fullname": current_user["full_name"],
-    #     "publish_timestamp": datetime.now(timezone.utc),
-    #     "content": discussion_content,
-    #     "attachments": [],
-    #     "thread": [],
-    # })
-
     new_discussion_post = {
         "post_id": str(uuid4()),
         "author_id": client_id,
