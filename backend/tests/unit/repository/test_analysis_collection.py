@@ -380,6 +380,21 @@ def test_remove_section_supporting_evidence(analysis_collection):
     assert expected == actual
 
 
+def test_post_new_discussion_to_analysis(analysis_collection):
+    """ Tests adding a user's discussion post to an analysis """
+    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+
+    new_post = {
+        "post_id": "a677bb36-acf8-4ff9-a406-b113a7952f7e", "author_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
+        "author_fullname": "Researcher Person", "publish_timestamp": "2023-10-10T21:13:22.687000",
+        "content": "Mauris at mauris eu neque varius suscipit.", "attachments": [], "thread": []
+    }
+
+    actual = analysis_collection.add_discussion_post("CPAM0002", new_post)
+
+    assert actual == [new_post]
+
+
 @pytest.fixture(name="analysis_with_no_p_dot")
 def fixture_analysis_with_no_p_dot():
     """Returns an analysis with no p. in the genomic unit"""
