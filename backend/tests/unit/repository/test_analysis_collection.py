@@ -380,9 +380,17 @@ def test_remove_section_supporting_evidence(analysis_collection):
     assert expected == actual
 
 
-def test_post_new_discussion_to_analysis(analysis_collection):
+def test_add_discussion_post_to_analysis(analysis_collection, cpam0002_analysis_json):
     """ Tests adding a user's discussion post to an analysis """
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+
+    def valid_query_side_effect(*args, **kwargs): # pylint: disable=unused-argument
+        find, query = args # pylint: disable=unused-variable
+        updated_analysis = cpam0002_analysis_json
+        updated_analysis['discussions'].append(query['$push']['discussions'])
+        updated_analysis['_id'] = 'fake-mongo-object-id'
+        return updated_analysis
+
+    analysis_collection.collection.find_one_and_update.side_effect = valid_query_side_effect
 
     new_post = {
         "post_id": "a677bb36-acf8-4ff9-a406-b113a7952f7e", "author_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
@@ -392,7 +400,11 @@ def test_post_new_discussion_to_analysis(analysis_collection):
 
     actual = analysis_collection.add_discussion_post("CPAM0002", new_post)
 
-    assert actual == [new_post]
+    assert len(actual) == 4
+
+    actual_most_recent_post = actual.pop()
+
+    assert actual_most_recent_post == new_post
 
 
 @pytest.fixture(name="analysis_with_no_p_dot")

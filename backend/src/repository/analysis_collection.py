@@ -490,13 +490,10 @@ class AnalysisCollection:
     def add_discussion_post(self, analysis_name: str, discussion_post: object):
         """ Appends a new discussion post to an analysis """
 
-        analysis_document = self.collection.find_one({"name": analysis_name})
+        updated_document = self.collection.find_one_and_update({"name": analysis_name},
+                                                               {"$push": {"discussions": discussion_post}},
+                                                               return_document=ReturnDocument.AFTER)
 
-        if "_id" in analysis_document:
-            analysis_document.pop("_id", None)
+        updated_document.pop("_id", None)
 
-        analysis_document['discussions'].append(discussion_post)
-
-        self.collection.find_one_and_update({'name': analysis_name}, {'$set': analysis_document})
-
-        return analysis_document['discussions']
+        return updated_document['discussions']
