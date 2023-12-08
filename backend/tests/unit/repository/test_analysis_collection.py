@@ -383,8 +383,8 @@ def test_remove_section_supporting_evidence(analysis_collection):
 def test_add_discussion_post_to_analysis(analysis_collection, cpam0002_analysis_json):
     """ Tests adding a user's discussion post to an analysis """
 
-    def valid_query_side_effect(*args, **kwargs): # pylint: disable=unused-argument
-        find, query = args # pylint: disable=unused-variable
+    def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
+        find, query = args  # pylint: disable=unused-variable
         updated_analysis = cpam0002_analysis_json
         updated_analysis['discussions'].append(query['$push']['discussions'])
         updated_analysis['_id'] = 'fake-mongo-object-id'

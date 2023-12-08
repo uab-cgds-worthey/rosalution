@@ -372,8 +372,8 @@ def test_add_new_discussion_to_analysis(client, mock_access_token, mock_reposito
     new_post_user = "John Doe"
     new_post_content = "Integration Test Text"
 
-    def valid_query_side_effect(*args, **kwargs): # pylint: disable=unused-argument
-        find, query = args # pylint: disable=unused-variable
+    def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
+        find, query = args  # pylint: disable=unused-variable
         analysis = cpam0002_analysis_json
         analysis['discussions'].append(query['$push']['discussions'])
         analysis['_id'] = 'fake-mongo-object-id'
