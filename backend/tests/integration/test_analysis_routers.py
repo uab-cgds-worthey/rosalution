@@ -366,6 +366,38 @@ def test_mark_ready_analysis_does_not_exist(client, mock_access_token, mock_repo
     assert response.json() == {'detail': 'Analysis with name CPAM2222 does not exist.'}
 
 
+def test_add_new_discussion_to_analysis(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
+    """ Testing that a discussion was added and returned properly """
+    cpam_analysis = "CPAM0002"
+    new_post_user = "John Doe"
+    new_post_content = "Integration Test Text"
+
+    def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
+        find, query = args  # pylint: disable=unused-variable
+        analysis = cpam0002_analysis_json
+        analysis['discussions'].append(query['$push']['discussions'])
+        analysis['_id'] = 'fake-mongo-object-id'
+        return analysis
+
+    mock_repositories["user"].collection.find_one.return_value = {"full_name": new_post_user}
+    mock_repositories["analysis"].collection.find_one_and_update.side_effect = valid_query_side_effect
+
+    response = client.post(
+        "/analysis/" + cpam_analysis + "/discussions",
+        headers={"Authorization": "Bearer " + mock_access_token},
+        data={"discussion_content": new_post_content}
+    )
+
+    assert response.status_code == 200
+
+    assert len(response.json()) == 4
+
+    actual_most_recent_post = response.json().pop()
+
+    assert actual_most_recent_post['author_fullname'] == new_post_user
+    assert actual_most_recent_post['content'] == new_post_content
+
+
 @pytest.fixture(name="analysis_updates_json")
 def fixture_analysis_updates_json():
     """The JSON that is being sent from a client to the endpoint with updates in it"""

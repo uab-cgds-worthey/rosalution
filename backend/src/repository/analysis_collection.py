@@ -486,3 +486,14 @@ class AnalysisCollection:
         return_field = {"header": section_name, "field": field_name}
 
         return return_field
+
+    def add_discussion_post(self, analysis_name: str, discussion_post: object):
+        """ Appends a new discussion post to an analysis """
+
+        updated_document = self.collection.find_one_and_update({"name": analysis_name},
+                                                               {"$push": {"discussions": discussion_post}},
+                                                               return_document=ReturnDocument.AFTER)
+
+        updated_document.pop("_id", None)
+
+        return updated_document['discussions']
