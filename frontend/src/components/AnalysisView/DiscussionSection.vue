@@ -51,6 +51,7 @@
                 :content="discussion.content"
                 :attachments="discussion.attachments"
                 :thread="discussion.thread"
+                :userClientId="userClientId"
             />
         </div>
     </div>
@@ -75,6 +76,9 @@ export default {
         return [];
       },
     },
+    userClientId: {
+      type: String
+    }
   },
   data: function() {
     return {

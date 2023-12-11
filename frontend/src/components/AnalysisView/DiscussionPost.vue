@@ -5,8 +5,8 @@
             <b>{{ author_name }}</b>
             {{  timestamp  }}
           </div>
-          <ul class="actions-menu">
-            <DropDownMenu :actions="postActions">
+          <ul v-if="isUser" class="actions-menu">
+            <DropDownMenu :actions="this.postActions">
               <font-awesome-icon class="header-icon" icon="ellipsis-vertical" size="xl" />
             </DropDownMenu>
           </ul>
@@ -53,34 +53,40 @@ export default {
         return [];
       },
     },
+    userClientId: {
+      type: String
+    }
   },
   data: function() {
     return {
       postActions: [
-      {
-        icon: '',
-        text: 'Edit',
-        operation: () => {
-          console.log("Editing post")
+        {
+          icon: 'pencil',
+          text: 'Edit',
+          operation: () => {
+            console.log("Editing post")
+          },
         },
-      },
-      {
-        divider: true
-      },
-      {
-        icon: '',
-        text: 'Delete',
-        operation: () => {
-          console.log("Deleting post")
+        {
+          divider: true
         },
-      },
-    ]
+        {
+          icon: 'xmark',
+          text: 'Delete',
+          operation: () => {
+            console.log("Deleting post")
+          },
+        },
+      ]
     }
   },
   computed: {
     timestamp: function() {
       return new Date(this.publish_timestamp).toUTCString();
     },
+    isUser: function() {
+      return this.userClientId == this.author_id
+    }
   },
 };
 </script>

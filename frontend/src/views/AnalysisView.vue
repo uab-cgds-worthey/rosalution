@@ -42,6 +42,7 @@
       <DiscussionSection
         id="Discussion"
         :discussions="this.discussions"
+        :userClientId="auth.getClientId()"
         @discussion:new-post="this.addDiscussionPost"
       />
       <SupplementalFormList
