@@ -1,8 +1,15 @@
 <template>
     <div class="discussion-post" data-test="discussion-post">
         <div class="discussion-header" data-test="discussion-post-header">
+          <div>
             <b>{{ author_name }}</b>
             {{  timestamp  }}
+          </div>
+          <ul class="actions-menu">
+            <DropDownMenu :actions="postActions">
+              <font-awesome-icon class="header-icon" icon="ellipsis-vertical" size="xl" />
+            </DropDownMenu>
+          </ul>
         </div>
         <div class="discussion-content" data-test="discussion-post-content">
             {{ content }}
@@ -11,8 +18,13 @@
 </template>
 
 <script>
+import DropDownMenu from '@/components/DropDownMenu.vue';
+
 export default {
   name: 'discussion-post',
+  components: {
+    DropDownMenu
+  },
   props: {
     id: {
       type: String,
@@ -42,6 +54,29 @@ export default {
       },
     },
   },
+  data: function() {
+    return {
+      postActions: [
+      {
+        icon: '',
+        text: 'Edit',
+        operation: () => {
+          console.log("Editing post")
+        },
+      },
+      {
+        divider: true
+      },
+      {
+        icon: '',
+        text: 'Delete',
+        operation: () => {
+          console.log("Deleting post")
+        },
+      },
+    ]
+    }
+  },
   computed: {
     timestamp: function() {
       return new Date(this.publish_timestamp).toUTCString();
@@ -52,27 +87,46 @@ export default {
 
 <style scoped>
 .discussion-post {
-    border-radius: var(--content-border-radius);
-    padding: var(--p-8);
-    margin-top: var(--p-10);
+  border-radius: var(--content-border-radius);
+  padding: var(--p-8);
+  margin-top: var(--p-10);
 
 }
 
 .discussion-post:nth-child(even) {
-    background-color: var(--rosalution-grey-50);
+  background-color: var(--rosalution-grey-50);
 }
 
 .discussion-post:nth-child(odd) {
-    background-color: var(--rosalution-grey-100);
+  background-color: var(--rosalution-grey-100);
 }
 
 .discussion-header {
-    margin-top: var(--p-5);
-    margin-bottom: var(--p-5);
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--p-5);
+  margin-bottom: var(--p-5);
 }
 
+
+
 .discussion-content {
-    margin-bottom: var(--p-10);
+  margin-bottom: var(--p-10);
+}
+
+.fill {
+  width: 100%;
+}
+
+.actions-menu {
+ display:flex;
+ flex-wrap: nowrap;
+ justify-content: right;
+ margin-right: var(--p-10);
+}
+
+.actions-menu > li {
+  float: left;
 }
 
 </style>
