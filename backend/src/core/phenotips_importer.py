@@ -42,6 +42,8 @@ class PhenotipsImporter:
 
         analysis_data = self.import_analysis_data(phenotips_json_data, phenotips_variants, phenotips_json_data["genes"])
 
+        analysis_data['discussions'] = []
+        analysis_data['supporting_evidence_files'] = []
         analysis_data['timeline'] = []
         return analysis_data
 
