@@ -85,7 +85,7 @@ describe('user.js', () => {
     authStore.saveState(userResponse);
 
     expect(authStore.hasRole('developer')).to.equal(true);
-    expect(authStore.state.clientId).to.equal('');
+    expect(authStore.state.clientId).to.equal('fake-client-id');
     expect(authStore.state.clientSecret).to.equal('');
   });
 
@@ -155,6 +155,7 @@ const userResponse = {
   'full_name': 'Fake Name',
   'email': 'fakemail@fake.com',
   'scope': 'developer',
+  'client_id': 'fake-client-id',
 };
 
 const AccessUserAPIResponse = {
