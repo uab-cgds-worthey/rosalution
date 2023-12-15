@@ -6,9 +6,12 @@
             {{  timestamp  }}
           </div>
           <ul v-if="isUser" class="actions-menu">
-            <DropDownMenu :actions="this.postActions">
-              <font-awesome-icon class="header-icon" icon="ellipsis-vertical" size="xl" />
-            </DropDownMenu>
+            <!-- <DropDownMenu :actions="this.postActions">
+              <font-awesome-icon class="header-icon" icon="caret-down" size="xl" />
+            </DropDownMenu> -->
+            <ContextMenu :actions="this.postActions" :context_id="id">
+              <font-awesome-icon class="header-icon" icon="caret-down" size="xl" />
+            </ContextMenu>
           </ul>
         </div>
         <div class="discussion-content" data-test="discussion-post-content">
@@ -19,11 +22,13 @@
 
 <script>
 import DropDownMenu from '@/components/DropDownMenu.vue';
+import ContextMenu from '@/components/ContextMenu.vue';
 
 export default {
   name: 'discussion-post',
   components: {
-    DropDownMenu
+    DropDownMenu,
+    ContextMenu
   },
   props: {
     id: {
@@ -96,7 +101,6 @@ export default {
   border-radius: var(--content-border-radius);
   padding: var(--p-8);
   margin-top: var(--p-10);
-
 }
 
 .discussion-post:nth-child(even) {
@@ -113,8 +117,6 @@ export default {
   margin-top: var(--p-5);
   margin-bottom: var(--p-5);
 }
-
-
 
 .discussion-content {
   margin-bottom: var(--p-10);
@@ -133,6 +135,10 @@ export default {
 
 .actions-menu > li {
   float: left;
+}
+
+.header-icon {
+  color: var(--rosalution-purple-300);
 }
 
 </style>
