@@ -24,7 +24,7 @@ const authStore = {
     this.state.email = user['email'];
     this.state.roles.push(user['scope']);
     this.state.clientId = user['client_id'];
-    
+
     user['client_secret'] ? this.state.clientSecret = user['client_secret'] : '';
   },
   getUser() {

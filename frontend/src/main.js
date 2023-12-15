@@ -24,7 +24,7 @@ import {
   faAsterisk, faPause, faCheck, faX, faUser, faUsers, faUserGroup, faCalendar, faBookOpen, faList, faLayerGroup,
   faBoxArchive, faQuestion, faClock, faClipboardCheck, faMagnifyingGlass, faChevronDown, faChevronRight,
   faUpRightFromSquare, faCirclePlus, faPencil, faEllipsisVertical, faLink, faXmark, faUserDoctor, faPaperclip, faPlus,
-  faAnglesRight, faFileImage, faFileCirclePlus, faMountainSun, faArrowUp, faArrowDown, faCaretDown
+  faAnglesRight, faFileImage, faFileCirclePlus, faMountainSun, faArrowUp, faArrowDown, faCaretDown, faBars,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faCopy, faFile, faComment, faCircleCheck, faCircleQuestion, faCircleXmark, faImages,
@@ -35,7 +35,7 @@ library.add(
     faLayerGroup, faBoxArchive, faQuestion, faClock, faClipboardCheck, faChevronDown, faChevronRight,
     faUpRightFromSquare, faCopy, faCirclePlus, faFile, faComment, faPencil, faEllipsisVertical, faLink, faXmark,
     faUserDoctor, faPaperclip, faPlus, faAnglesRight, faCircleCheck, faCircleQuestion, faCircleXmark, faImages,
-    faFileImage, faFileCirclePlus, faMountainSun, faArrowUp, faArrowDown, faCaretDown
+    faFileImage, faFileCirclePlus, faMountainSun, faArrowUp, faArrowDown, faCaretDown, faBars,
 );
 
 // The NotFoundView should always be last because it's an ordered array.

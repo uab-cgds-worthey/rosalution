@@ -6,11 +6,8 @@
             {{  timestamp  }}
           </div>
           <ul v-if="isUser" class="actions-menu">
-            <!-- <DropDownMenu :actions="this.postActions">
-              <font-awesome-icon class="header-icon" icon="caret-down" size="xl" />
-            </DropDownMenu> -->
-            <ContextMenu :actions="this.postActions" :context_id="id">
-              <font-awesome-icon class="header-icon" icon="caret-down" size="xl" />
+            <ContextMenu :actions="actions" :context_id="id">
+              <font-awesome-icon class="header-icon" icon="ellipsis-vertical" size="xl" />
             </ContextMenu>
           </ul>
         </div>
@@ -21,14 +18,12 @@
 </template>
 
 <script>
-import DropDownMenu from '@/components/DropDownMenu.vue';
 import ContextMenu from '@/components/ContextMenu.vue';
 
 export default {
   name: 'discussion-post',
   components: {
-    DropDownMenu,
-    ContextMenu
+    ContextMenu,
   },
   props: {
     id: {
@@ -59,39 +54,19 @@ export default {
       },
     },
     userClientId: {
-      type: String
-    }
-  },
-  data: function() {
-    return {
-      postActions: [
-        {
-          icon: 'pencil',
-          text: 'Edit',
-          operation: () => {
-            console.log("Editing post")
-          },
-        },
-        {
-          divider: true
-        },
-        {
-          icon: 'xmark',
-          text: 'Delete',
-          operation: () => {
-            console.log("Deleting post")
-          },
-        },
-      ]
-    }
+      type: String,
+    },
+    actions: {
+      type: Array,
+    },
   },
   computed: {
     timestamp: function() {
       return new Date(this.publish_timestamp).toUTCString();
     },
     isUser: function() {
-      return this.userClientId == this.author_id
-    }
+      return this.userClientId == this.author_id;
+    },
   },
 };
 </script>
@@ -139,6 +114,8 @@ export default {
 
 .header-icon {
   color: var(--rosalution-purple-300);
+  cursor: pointer;
+  padding: var(--p-5)
 }
 
 </style>

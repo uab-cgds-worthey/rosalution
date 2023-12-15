@@ -52,6 +52,7 @@
                 :attachments="discussion.attachments"
                 :thread="discussion.thread"
                 :userClientId="userClientId"
+                :actions="actions"
             />
         </div>
     </div>
@@ -77,8 +78,14 @@ export default {
       },
     },
     userClientId: {
-      type: String
-    }
+      type: String,
+    },
+    actions: {
+      type: Array,
+      default: () => {
+        return [];
+      },
+    },
   },
   data: function() {
     return {

@@ -1,11 +1,8 @@
 <template>
-    <li>
-        <label :for="context_id">
-            <slot></slot>
-        </label>
-        <input type="checkbox" :id="context_id" />
+    <li tabindex="1" ref="contextRef">
+        <slot></slot>
         <ul class="grey-rounded-menu drop-down-content">
-            <li v-for="action in actions" :key="action.text" @click="action.operation()">
+            <li v-for="action in actions" :key="action.text" @click="this.runAction(action.operation)">
                 <span> {{ action.text }} </span>
                 <font-awesome-icon v-if="action.icon" :icon="action.icon" size="lg" class="right-side-icon" />
             </li>
@@ -15,21 +12,25 @@
 
 <script>
 export default {
-    name: 'context-menu',
-    props: {
-        actions: {
-            type: Array,
-            validator: (prop) => prop.every(
-                (action) => action.text !== undefined || action.divider,
-            )
-        },
-        context_id: String,
+  name: 'context-menu',
+  props: {
+    actions: {
+      type: Array,
+      validator: (prop) => prop.every(
+          (action) => action.text !== undefined || action.divider,
+      ),
     },
-    computed: {
-        context_toggle() {
-            return this.context_id.toLowerCase() + '_menu'
-        }
-    }
+    context_id: String,
+  },
+  methods: {
+    runAction(actionOperation) {
+      actionOperation();
+      this.closeContext();
+    },
+    closeContext() {
+      this.$refs.contextRef.blur();
+    },
+  },
 };
 </script>
 
@@ -42,17 +43,9 @@ hr {
     border-radius: var(--content-border-radius);
     background-color: var(--rosalution-white);
     border: 3px solid var(--rosalution-grey-000);
-    width: 230px;
+    width: 175px;
     padding: .75rem;
-}
-
-.drop-down-content {
-    text-align: right;
-}
-
-.right-side-icon {
-    margin-left: var(--p-8);
-    margin-bottom: 0.12rem;
+    margin-right: var(--p-16)
 }
 
 ul li ul {
@@ -69,23 +62,24 @@ ul li ul:hover li:hover {
   background-color: var(--rosalution-purple-100);
 }
 
-label {
-    cursor: pointer;
+ul li ul li {
+  clear: both;
+  width: 100%;
+  line-height: 2rem;
 }
 
-input[type="checkbox"] {
-    display: none;
-}
-
-/* li input[type=checkbox]:checked ~ ul {
+li:focus ul {
     visibility: visible;
     opacity: 1;
     display: block;
-} */
+}
 
-input[type=checkbox]:checked + ul {
-    visibility: visible;
-    opacity: 1;
-    display: block;
+.drop-down-content {
+    text-align: right;
+}
+
+.right-side-icon {
+    margin-left: var(--p-8);
+    margin-bottom: 0.12rem;
 }
 </style>
