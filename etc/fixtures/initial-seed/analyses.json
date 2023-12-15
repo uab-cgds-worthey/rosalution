@@ -298,9 +298,7 @@
             ]
          }
       ],
-      "supporting_evidence_files":[
-         
-      ],
+      "supporting_evidence_files":[],
       "timeline":[
          {
             "event":"create",
@@ -614,6 +612,7 @@
             ]
          }
       ],
+      "supporting_evidence_files":[],
       "timeline":[
          {
             "event":"create",
@@ -914,6 +913,7 @@
             ]
          }
       ],
+      "supporting_evidence_files":[],
       "timeline":[
          {
             "event":"create",
@@ -1247,6 +1247,7 @@
             ]
          }
       ],
+      "supporting_evidence_files":[],
       "timeline":[
          {
             "event":"create",
@@ -1498,6 +1499,8 @@
             ]
          }
       ],
+      "discussions":[],
+      "supporting_evidence_files":[],
       "timeline":[
          {
             "event":"create",
@@ -1532,9 +1535,7 @@
             "username":"developer"
          }
       ],
-      "third_party_links":[
-         
-      ],
+      "third_party_links":[],
       "genomic_units":[
          {
             "gene":"DLG4",
@@ -1861,8 +1862,7 @@
             ]
          }
       ],
-      "supporting_evidence_files":[
-         
-      ]
+      "discussions":[],
+      "supporting_evidence_files":[]
    }
 ]
