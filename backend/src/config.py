@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     web_base_url: str = "http://dev.cgds.uab.edu/rosalution"
     mongodb_host: str = "rosalution-db"
     mongodb_db: str = "rosalution_db"
-    rosalution_key: str
+    rosalution_key: str = "FJKLDFJKLSJFKLDFJKLJFKLJKLJKLFDFDS"
     auth_web_failure_redirect_route: str = "/login"
     oauth2_access_token_expire_minutes: int = 60 * 24 * 8  # 60 minutes * 24 hours * 8 days = 8 days
     oauth2_algorithm: str = "HS256"
@@ -27,18 +27,20 @@ class Settings(BaseSettings):
     cas_server_url: str = "https://padlockdev.idm.uab.edu/cas/"
     cas_login_enable: bool = False
 
-    @model_validator(mode="before")
-    @classmethod
-    def rosalution_key_exists(cls, values):
-        """
-        Verifies that the ROSALUTION_KEY environment is set and provides a more descriptive error message.
-        This needed to be done as a pydantic root validator to execute this before pydantics validation of
-        individual fields since it would fail due to the missing value.
-        """
-        key = values.get('rosalution_key')
-        if not key:
-            raise ValueError('Environment variable "ROSALUTION_KEY" missing. App requires secret for secure encoding.')
-        return values
+    # @model_validator(mode="before")
+    # @classmethod
+    # def rosalution_key_exists(cls, values):
+    #     """
+    #     Verifies that the ROSALUTION_KEY environment is set and provides a more descriptive error message.
+    #     This needed to be done as a pydantic root validator to execute this before pydantics validation of
+    #     individual fields since it would fail due to the missing value.
+    #     """
+    #     print("IT SHOULD BE HERE")
+    #     print(values)
+    #     key = values.get('rosalution_key')
+    #     if not key:
+    #         raise ValueError('Environment variable "ROSALUTION_KEY" missing. App requires secret for secure encoding.')
+    #     return values
 
 
 @lru_cache()

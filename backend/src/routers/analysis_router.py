@@ -112,6 +112,7 @@ def update_analysis_sections(
     analysis_name: str,
     row_type: SectionRowType,
     updated_sections: List[Section],
+    upload_file: UploadFile = File(None),
     repositories=Depends(database),
     authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
@@ -122,20 +123,40 @@ def update_analysis_sections(
         updated_analysis_model = Analysis(**updated_analysis)
         return updated_analysis_model.sections
 
+    updated_analysis = None
+    section = updated_sections[0]
+
+    if row_type not in (SectionRowType.IMAGE, SectionRowType.DOCUMENT, SectionRowType.LINK):
+        raise HTTPException(status_code=422, detail=f"'Unsupported 'row_type': {row_type}.")
+
     if row_type in (SectionRowType.IMAGE, SectionRowType.DOCUMENT):
-        print("Will be adding image or document")
+
+        try:
+            new_file_object_id = add_file_to_bucket_repository(upload_file, repositories["bucket"])
+        except Exception as exception:
+            raise HTTPException(status_code=500, detail=str(exception)) from exception
+
+        # # TODO - Is this only used for document adding and not image adding?
+        # field_value_file = {
+        #     "name": upload_file.filename,
+        #     "attachment_id": str(new_file_object_id),
+        #     "type": "file",
+        #     "comments": ""  #removed the comments attribute?
+        # }
 
         if row_type == SectionRowType.DOCUMENT:
             print("Will be adding document")
 
         if row_type == SectionRowType.IMAGE:
-            print("Will be adding image")
+            updated_analysis = repositories["analysis"].add_section_image(
+                analysis_name, section.header, section["fieldName"], new_file_object_id
+            )
 
-    if row_type == SectionRowType.LINK:
-        print("will be adding link")
+    if row_type in (SectionRowType.LINK):
+        print("Will be adding link")
 
-    print("ADDING TYPE NOT SUPPORTED YET, IN PROGRESS")
-    return []
+    updated_analysis_model = Analysis(**updated_analysis)
+    return updated_analysis_model.sections
 
 
 def update_analysis_sections_text_fields(analysis_name, updated_sections: List[Section], analysis_repository):
@@ -149,6 +170,11 @@ def update_analysis_sections_text_fields(analysis_name, updated_sections: List[S
                 analysis_name, section.header, field_name, {"value": field_value}
             )
 
+def add_file_to_bucket_repository(file_to_save, bucket_repository):
+    """Saves the 'file_to_save' within the bucket repository and returns the files new uuid."""
+    return bucket_repository.save_file(
+        file_to_save.file, file_to_save.filename, file_to_save.content_type
+    )
 
 @router.put("/{analysis_name}/section/attach/file")
 def attach_animal_model_system_report(

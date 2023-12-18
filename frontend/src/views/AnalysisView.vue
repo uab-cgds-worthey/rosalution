@@ -231,17 +231,23 @@ export default {
             attachment.data,
         );
 
-        const updatedSection = this.sectionsList.find((section) => {
+        const sectionToUpdate = this.sectionsList.find((section) => {
           return section.header == sectionName;
         });
 
-        const updatedField = updatedSection.content.find((row) => {
+        const fieldToUpdate = sectionToUpdate.content.find((row) => {
           return row.field == field;
         });
 
-        updatedField.value.push({file_id: updatedSectionImage['image_id']});
+        const updatedField = updatedSectionImage.find((section) => {
+          return section.header == sectionName;
+        })?.content.find((row) => {
+          row.field == field
+        });
 
-        this.replaceAnalysisSection(updatedSection);
+        fieldToUpdate.value = updatedField.value;
+
+        this.replaceAnalysisSection(sectionToUpdate);
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }

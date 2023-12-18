@@ -259,12 +259,8 @@ class AnalysisCollection:
             if content_row["field"] and content_row["field"] == field_name:
                 content_row["value"].append({'file_id': str(file_id)})
 
-        self.collection.find_one_and_update(
-            {"name": analysis_name},
-            {'$set': updated_document},
-        )
-
-        return updated_section
+        return self.collection.find_one_and_update({"name": analysis_name}, {'$set': updated_document},
+                                                   return_document=ReturnDocument.AFTER)
 
     def update_section_image(
         self, analysis_name: str, section_name: str, field_name: str, file_id: str, file_id_old: str
