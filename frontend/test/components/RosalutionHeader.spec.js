@@ -48,7 +48,7 @@ afterAll(() => {
 });
 
 describe('RosalutionHeaderComponent.vue', () => {
-  it.only('should display application title by default', () => {
+  it('should display application title by default', () => {
     const wrapper = getMountedComponent();
     console.log(wrapper.html());
     const headerTextLink = wrapper.find('[data-test="header-title-text"]');
