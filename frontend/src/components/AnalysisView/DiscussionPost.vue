@@ -5,7 +5,7 @@
             <b>{{ author_name }}</b>
             {{  timestamp  }}
           </div>
-          <ul v-if="isUser" class="actions-menu">
+          <ul v-if="isUser" class="context-menu" data-test="discussion-post-context-menu">
             <ContextMenu :actions="actions" :context_id="id">
               <font-awesome-icon class="header-icon" icon="ellipsis-vertical" size="xl" />
             </ContextMenu>
@@ -101,7 +101,7 @@ export default {
   width: 100%;
 }
 
-.actions-menu {
+.context-menu {
  display:flex;
  flex-wrap: nowrap;
  justify-content: right;

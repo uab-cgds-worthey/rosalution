@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     runAction(actionOperation) {
-      actionOperation();
+      actionOperation(this.context_id);
       this.closeContext();
     },
     closeContext() {

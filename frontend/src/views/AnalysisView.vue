@@ -207,15 +207,15 @@ export default {
         {
           icon: 'pencil',
           text: 'Edit',
-          operation: () => {
-            console.log('Editing Discussion Post');
+          operation: (post_id) => {
+            console.log(`Editing Discussion Post: ${post_id}`);
           },
         },
         {
           icon: 'xmark',
           text: 'Delete',
-          operation: () => {
-            console.log('Deleting Discussion Post');
+          operation: (post_id) => {
+            console.log(`Deleting Discussion Post: ${post_id}`);
           },
         },
       ];

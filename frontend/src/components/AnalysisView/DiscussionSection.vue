@@ -17,43 +17,43 @@
         </div>
         <div class="rosalution-section-seperator"></div>
         <div class="section-content">
-            <div v-if="this.showNewPost" class="discussion-new-post">
-                <textarea
-                    contenteditable="plaintext-only"
-                    class="discussion-new-post-text-area"
-                    v-model="newPostContent"
-                    data-test="new-discussion-input"
-                />
-                <div class="discussion-actions">
-                    <button
-                        class="secondary-button"
-                        @click="cancelNewDiscussionPost"
-                        data-test="new-discussion-cancel"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        class="primary-button publish-button"
-                        @click="newDiscussionPost"
-                        data-test="new-discussion-publish"
-                        :disabled="this.checkPostContent"
-                    >
-                        Publish
-                    </button>
-                </div>
-            </div>
-            <DiscussionPost v-for="discussion in discussions"
-                :id="discussion.post_id"
-                :key="discussion.post_id"
-                :author_id="discussion.author_id"
-                :author_name="discussion.author_fullname"
-                :publish_timestamp="discussion.publish_timestamp"
-                :content="discussion.content"
-                :attachments="discussion.attachments"
-                :thread="discussion.thread"
-                :userClientId="userClientId"
-                :actions="actions"
+          <div v-if="this.showNewPost" class="discussion-new-post">
+            <textarea
+                contenteditable="plaintext-only"
+                class="discussion-new-post-text-area"
+                v-model="newPostContent"
+                data-test="new-discussion-input"
             />
+            <div class="discussion-actions">
+              <button
+                  class="secondary-button"
+                  @click="cancelNewDiscussionPost"
+                  data-test="new-discussion-cancel"
+              >
+                Cancel
+              </button>
+              <button
+                  class="primary-button publish-button"
+                  @click="newDiscussionPost"
+                  data-test="new-discussion-publish"
+                  :disabled="this.checkPostContent"
+              >
+                Publish
+              </button>
+            </div>
+          </div>
+          <DiscussionPost v-for="discussion in discussions"
+              :id="discussion.post_id"
+              :key="discussion.post_id"
+              :author_id="discussion.author_id"
+              :author_name="discussion.author_fullname"
+              :publish_timestamp="discussion.publish_timestamp"
+              :content="discussion.content"
+              :attachments="discussion.attachments"
+              :thread="discussion.thread"
+              :userClientId="userClientId"
+              :actions="actions"
+          />
         </div>
     </div>
 </template>
