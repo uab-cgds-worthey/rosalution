@@ -59,6 +59,6 @@ describe('DiscussionPost.vue', () => {
 
     const contextMenu = wrapper.find('[data-test=discussion-post-context-menu]');
 
-    console.log(contextMenu.html())
+    console.log(contextMenu.html());
   });
 });
