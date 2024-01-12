@@ -42,7 +42,7 @@ def get_analysis_discussions(analysis_name: str):
 
 
 @router.post("/{analysis_name}/discussions")
-def add_analysis_discussions(
+def add_analysis_discussion(
     analysis_name: str,
     discussion_content: str = Form(...),
     repositories=Depends(database),
@@ -65,3 +65,15 @@ def add_analysis_discussions(
     }
 
     return repositories['analysis'].add_discussion_post(analysis_name, new_discussion_post)
+
+
+@router.delete("/{analysis_name}/discussions")
+def delete_analysis_discussion(
+    analysis_name: str,
+    discussion_post_id: str,
+    repositories=Depends(database),
+    client_id: VerifyUser = Security(get_current_user)
+):
+    logger.info("Deleting post %s by user '%s' from the analysis '%s'", discussion_post_id, client_id, analysis_name)
+
+    return repositories['analysis'].delete_discussion_post(discussion_post_id, client_id, analysis_name)

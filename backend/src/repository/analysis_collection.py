@@ -3,6 +3,7 @@ Collection with retrieves, creates, and modify analyses.
 """
 from uuid import uuid4
 
+from fastapi import HTTPException, status
 from pymongo import ReturnDocument
 from ..models.event import Event
 from ..enums import EventType
@@ -492,6 +493,34 @@ class AnalysisCollection:
 
         updated_document = self.collection.find_one_and_update({"name": analysis_name},
                                                                {"$push": {"discussions": discussion_post}},
+                                                               return_document=ReturnDocument.AFTER)
+
+        updated_document.pop("_id", None)
+
+        return updated_document['discussions']
+
+    def delete_discussion_post(
+        self,
+        discussion_post_id: str,
+        client_id: str,
+        analysis_name: str,
+    ):
+        """ Removes a discussion post from an analysis """
+
+        found_document = self.collection.find_one({"name": analysis_name})
+
+        found_document.pop("_id", None)
+
+        for discussion in found_document['discussions']:
+            if discussion['post_id'] == discussion_post_id:
+                if not discussion['author_id'] == client_id:
+                    raise HTTPException(
+                        status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot delete post they did not author."
+                    )
+
+        updated_document = self.collection.find_one_and_update({"name": analysis_name}, {
+            "$pull": {"discussions": {"post_id": discussion_post_id}}
+        },
                                                                return_document=ReturnDocument.AFTER)
 
         updated_document.pop("_id", None)
