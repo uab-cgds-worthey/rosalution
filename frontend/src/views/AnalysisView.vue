@@ -42,6 +42,8 @@
       <DiscussionSection
         id="Discussion"
         :discussions="this.discussions"
+        :userClientId="auth.getClientId()"
+        :actions="this.discussionContextActions"
         @discussion:new-post="this.addDiscussionPost"
       />
       <SupplementalFormList
@@ -200,7 +202,24 @@ export default {
 
       return actionChoices;
     },
-
+    discussionContextActions() {
+      return [
+        {
+          icon: 'pencil',
+          text: 'Edit',
+          operation: (postId) => {
+            console.log(`Editing Discussion Post: ${postId}`);
+          },
+        },
+        {
+          icon: 'xmark',
+          text: 'Delete',
+          operation: (postId) => {
+            console.log(`Deleting Discussion Post: ${postId}`);
+          },
+        },
+      ];
+    },
     sectionsList() {
       return this.analysis.sections;
     },
