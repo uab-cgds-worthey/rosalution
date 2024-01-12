@@ -66,6 +66,20 @@ def add_analysis_discussion(
 
     return repositories['analysis'].add_discussion_post(analysis_name, new_discussion_post)
 
+@router.put("/{analysis_name}/discussions")
+def update_analysis_discussion_post(
+    analysis_name: str,
+    discussion_post_id: str = Form(...),
+    discussion_content: str = Form(...),
+    repositories=Depends(database),
+    client_id: VerifyUser = Security(get_current_user)
+):
+    logger.info("Editing post '%s' by user '%s' from the analysis '%s' with new content: '%s'", 
+                discussion_post_id, client_id, analysis_name, discussion_content)
+
+    return repositories['analysis'].updated_discussion_post(
+        discussion_post_id, discussion_content, client_id, analysis_name
+    )
 
 @router.delete("/{analysis_name}/discussions")
 def delete_analysis_discussion(

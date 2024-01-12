@@ -499,29 +499,73 @@ class AnalysisCollection:
 
         return updated_document['discussions']
 
-    def delete_discussion_post(
-        self,
-        discussion_post_id: str,
-        client_id: str,
-        analysis_name: str,
-    ):
-        """ Removes a discussion post from an analysis """
-
+    def updated_discussion_post(self, discussion_post_id: str, discussion_content: str, client_id: str, analysis_name: str):
+        """ Edits a discussion post from an analysis to update the discussion post's content """
+        
         found_document = self.collection.find_one({"name": analysis_name})
 
         found_document.pop("_id", None)
 
+        discussion_post = None
+
         for discussion in found_document['discussions']:
             if discussion['post_id'] == discussion_post_id:
+                discussion_post = discussion
+                if not discussion['author_id'] == client_id:
+                    raise HTTPException(
+                        status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot edit post they did not author."
+                    )
+
+        if discussion_post == None:
+            raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+                    detail=f"Post '{discussion_post_id}' does not exist. Unable to edit discussion post.'"
+                )
+
+        updated_document = self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {"$set": { "discussions.$[item].content": discussion_content }},
+            array_filters = [{ "item.post_id": discussion_post_id }],
+            return_document=ReturnDocument.AFTER
+        )
+
+        updated_document.pop("_id", None)
+
+        return updated_document['discussions']
+
+    def delete_discussion_post(self, discussion_post_id: str, client_id: str, analysis_name: str):
+        """ Removes a discussion post from an analysis """
+
+        found_document = self.collection.find_one({"name": analysis_name})
+
+        if None is found_document:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+                detail=f"Analysis '{analysis_name}' does not exist. Unable to delete discussion post.'"
+            )
+
+        found_document.pop("_id", None)
+
+        discussion_post = None
+
+        for discussion in found_document['discussions']:
+            if discussion['post_id'] == discussion_post_id:
+                discussion_post = discussion
                 if not discussion['author_id'] == client_id:
                     raise HTTPException(
                         status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot delete post they did not author."
                     )
 
+        if discussion_post == None:
+            raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+                    detail=f"Post '{discussion_post_id}' does not exist. Unable to delete discussion post.'"
+                )
+
         updated_document = self.collection.find_one_and_update({"name": analysis_name}, {
-            "$pull": {"discussions": {"post_id": discussion_post_id}}
-        },
-                                                               return_document=ReturnDocument.AFTER)
+            "$pull": {"discussions": {"post_id": discussion_post_id}}},
+            return_document=ReturnDocument.AFTER
+        )
 
         updated_document.pop("_id", None)
 
