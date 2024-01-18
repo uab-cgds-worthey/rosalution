@@ -106,3 +106,10 @@ class Analysis(BaseAnalysis):
                     })
 
         return units
+
+    def find_discussion_post(self, discussion_post_id):
+        for discussion in self.discussions:
+            if discussion['post_id'] == discussion_post_id:
+                return discussion
+        
+        return None

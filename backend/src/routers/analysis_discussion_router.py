@@ -6,10 +6,11 @@ from datetime import datetime, timezone
 import logging
 from uuid import uuid4
 
-from fastapi import (APIRouter, Depends, Form, Security)
+from fastapi import (APIRouter, Depends, Form, Security, HTTPException, status)
 
 from ..dependencies import database
 from ..models.user import VerifyUser
+from ..models.analysis import Analysis
 from ..security.security import get_current_user
 
 logger = logging.getLogger(__name__)
@@ -66,10 +67,10 @@ def add_analysis_discussion(
 
     return repositories['analysis'].add_discussion_post(analysis_name, new_discussion_post)
 
-@router.put("/{analysis_name}/discussions")
+@router.put("/{analysis_name}/discussions/{discussion_post_id}")
 def update_analysis_discussion_post(
     analysis_name: str,
-    discussion_post_id: str = Form(...),
+    discussion_post_id: str,
     discussion_content: str = Form(...),
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
@@ -77,11 +78,32 @@ def update_analysis_discussion_post(
     logger.info("Editing post '%s' by user '%s' from the analysis '%s' with new content: '%s'", 
                 discussion_post_id, client_id, analysis_name, discussion_content)
 
-    return repositories['analysis'].updated_discussion_post(
-        discussion_post_id, discussion_content, client_id, analysis_name
-    )
+    found_analysis = repositories['analysis'].find_by_name(analysis_name)
 
-@router.delete("/{analysis_name}/discussions")
+    if not found_analysis:
+        raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Analysis '{analysis_name}' does not exist. Unable to update discussion post.'"
+            )
+    
+    analysis = Analysis(**found_analysis)
+    discussion_post = analysis.find_discussion_post(discussion_post_id)
+
+    if discussion_post == None:
+        raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Post '{discussion_post_id}' does not exist. Unable to update discussion post.'"
+            )
+    
+    if not discussion_post['author_id'] == client_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User cannot update post they did not author."
+        )
+
+    return repositories['analysis'].updated_discussion_post(discussion_post_id, discussion_content, analysis.name)
+
+@router.delete("/{analysis_name}/discussions/{discussion_post_id}")
 def delete_analysis_discussion(
     analysis_name: str,
     discussion_post_id: str,
@@ -90,4 +112,28 @@ def delete_analysis_discussion(
 ):
     logger.info("Deleting post %s by user '%s' from the analysis '%s'", discussion_post_id, client_id, analysis_name)
 
-    return repositories['analysis'].delete_discussion_post(discussion_post_id, client_id, analysis_name)
+    found_analysis = repositories['analysis'].find_by_name(analysis_name)
+
+    if not found_analysis:
+        raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Analysis '{analysis_name}' does not exist. Unable to delete discussion post.'"
+            )
+    
+    analysis = Analysis(**found_analysis)
+    discussion_post = analysis.find_discussion_post(discussion_post_id)
+
+    # If the post doesn't exist, then fail
+    if discussion_post == None:
+        raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Post '{discussion_post_id}' does not exist. Unable to delete discussion post.'"
+            )
+    
+    # Does the post exist and if so, are we the user who posted it?
+    if not discussion_post['author_id'] == client_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot delete post they did not author."
+        )
+
+    return repositories['analysis'].delete_discussion_post(discussion_post_id, analysis.name)

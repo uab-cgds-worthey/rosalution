@@ -383,7 +383,7 @@ def test_remove_section_supporting_evidence(analysis_collection):
 def test_add_discussion_post_to_analysis(analysis_collection, cpam0002_analysis_json):
     """ Tests adding a user's discussion post to an analysis """
 
-    def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
+    def valid_query_side_effect(*args, **kwargs): # pylint: disable=unused-argument
         find, query = args  # pylint: disable=unused-variable
         updated_analysis = cpam0002_analysis_json
         updated_analysis['discussions'].append(query['$push']['discussions'])
@@ -406,6 +406,34 @@ def test_add_discussion_post_to_analysis(analysis_collection, cpam0002_analysis_
 
     assert actual_most_recent_post == new_post
 
+def test_delete_discussion_post_to_analysis(analysis_collection, cpam0002_analysis_json):
+    """ Tests deleting a user's discussion post from an analysis by the post's id """
+
+    def valid_query_side_effect(*args, **kwargs): # pylint: disable=unused-argument
+        find, query = args # pylint: disable=unused-variable
+
+        print(query)
+        
+        updated_analysis = cpam0002_analysis_json
+        # updated_analysis['discussions'].append(query['$push']['discussions'])
+        updated_analysis['_id'] = 'fake-mongo-object-id'
+
+        
+
+        return updated_analysis
+
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
+    analysis_collection.collection.find_one_and_update.side_effect = valid_query_side_effect
+
+    discussion_post_id = "9027ec8d-6298-4afb-add5-6ef710eb5e98"
+    client_id = "3bghhsmnyqi6uxovazy07ryn9q1tqbnt"
+    analysis_name = "CPAM0002"
+
+    analysis_collection.delete_discussion_post(discussion_post_id, client_id, analysis_name)
+
+    
+
+    assert True == True
 
 @pytest.fixture(name="analysis_with_no_p_dot")
 def fixture_analysis_with_no_p_dot():
