@@ -449,7 +449,7 @@ def test_update_discussion_post_in_analysis(client, mock_access_token, mock_repo
         if d['post_id'] == discussion_post_id:
             actual_post = d
 
-    assert len(response.json()) == 3
+    assert len(response.json()) == 4
     assert actual_post['content'] == discussion_content
 
 
