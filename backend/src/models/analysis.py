@@ -113,3 +113,14 @@ class Analysis(BaseAnalysis):
                 return discussion
         
         return None
+    
+    def find_authored_discussion_post(self, discussion_post_id, client_id):
+        discussion_post = self.find_discussion_post(discussion_post_id)
+
+        if discussion_post == None:
+            raise ValueError(f"Post '{discussion_post_id}' does not exist.")
+
+        if discussion_post['author_id'] == client_id:
+            return discussion_post
+        
+        return None
