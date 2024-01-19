@@ -452,6 +452,7 @@ def test_update_discussion_post_in_analysis(client, mock_access_token, mock_repo
     assert len(response.json()) == 3
     assert actual_post['content'] == discussion_content
 
+
 def test_delete_discussion_post_in_analysis(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """ Tests successfully deleting an existing post in the discussions with the user being the author """
     cpam_analysis = "CPAM0002"
