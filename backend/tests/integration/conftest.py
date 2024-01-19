@@ -104,6 +104,11 @@ def fixture_cpam0002_analysis_json():
     collection = read_database_fixture("analyses.json")
     return next((analysis for analysis in collection if analysis['name'] == "CPAM0002"), None)
 
+@pytest.fixture(name="cpam0047_analysis_json")
+def fixture_cpam0047_analysis_json():
+    """The JSON for the CPAM 0002 Analysis"""
+    collection = read_database_fixture("analyses.json")
+    return next((analysis for analysis in collection if analysis['name'] == "CPAM0047"), None)
 
 @pytest.fixture(name="users_json")
 def fixture_users_json():

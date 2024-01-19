@@ -1,9 +1,12 @@
 """
 Collection with retrieves, creates, and modify analyses.
 """
+from typing import List
 from uuid import uuid4
 
 from pymongo import ReturnDocument
+
+from ..models.analysis import Section
 from ..models.event import Event
 from ..enums import EventType
 
@@ -103,23 +106,34 @@ class AnalysisCollection:
         )
         updated_analysis_document.pop("_id", None)
         return updated_analysis_document
+    
+    def update_analysis_sections(self, analysis_name: str, updated_sections: List[Section]):
+        """Updates each of the sections and fields within the sections if they exist in the database"""
+        for section in updated_sections:
+            for field in section.content:
+                field_name, field_value = field["fieldName"], field["value"]
+                if "Nominator" == field_name:
+                    self.update_analysis_nominator(analysis_name, '; '.join(field_value))
+                self.update_analysis_section(
+                    analysis_name, section.header, field_name, {"value": field_value}
+                )
 
     def update_analysis_section(self, name: str, section_header: str, field_name: str, updated_value: dict):
         """Updates an existing analysis section by name, section header, and field name"""
+        print("Updating the analysis section")
+        print(section_header)
+        print(field_name)
+        print(updated_value)
         query_results_to_update = self.collection.find_one({"name": name})
         for section in query_results_to_update["sections"]:
             if section["header"] == section_header:
                 for content in section["content"]:
                     if content["field"] == field_name:
                         content["value"] = updated_value["value"]
-        updated_document = self.collection.find_one_and_update(
+        self.collection.update_one(
             {"name": name},
-            {"$set": query_results_to_update},
-            return_document=ReturnDocument.AFTER,
+            {"$set": query_results_to_update}
         )
-        # remove the _id field from the returned document since it is not JSON serializable
-        updated_document.pop("_id", None)
-        return updated_document
 
     def find_file_by_name(self, analysis_name: str, file_name: str):
         """ Returns an attached file metadata attached to an analysis if it exists by name """

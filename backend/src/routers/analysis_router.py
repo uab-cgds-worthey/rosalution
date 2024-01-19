@@ -111,14 +111,19 @@ def update_event(
 def update_analysis_sections(
     analysis_name: str,
     row_type: SectionRowType,
-    updated_sections: List[Section],
-    upload_file: UploadFile = File(None),
+    updated_sections: List = Form(...),
+    # upload_file: UploadFile = File(None),
     repositories=Depends(database),
     authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """Updates the sections that have changes"""
+
+    print("UPDATING THE SECTIONS FROM THE SENT")
+    print(updated_sections)
+    # print("Upload file exist?")
+    # print(upload_file)
     if row_type == SectionRowType.TEXT:
-        update_analysis_sections_text_fields(analysis_name, updated_sections, repositories["analysis"])
+        repositories["analysis"].update_analysis_sections(analysis_name, updated_sections)
         updated_analysis = repositories["analysis"].find_by_name(analysis_name)
         updated_analysis_model = Analysis(**updated_analysis)
         return updated_analysis_model.sections
@@ -158,23 +163,10 @@ def update_analysis_sections(
     updated_analysis_model = Analysis(**updated_analysis)
     return updated_analysis_model.sections
 
-
-def update_analysis_sections_text_fields(analysis_name, updated_sections: List[Section], analysis_repository):
-    """Updates each of the rows for each of the sections for the analysis within the analysis repository."""
-    for section in updated_sections:
-        for field in section.content:
-            field_name, field_value = field["fieldName"], field["value"]
-            if "Nominator" == field_name:
-                analysis_repository.update_analysis_nominator(analysis_name, '; '.join(field_value))
-            analysis_repository.update_analysis_section(
-                analysis_name, section.header, field_name, {"value": field_value}
-            )
-
 def add_file_to_bucket_repository(file_to_save, bucket_repository):
     """Saves the 'file_to_save' within the bucket repository and returns the files new uuid."""
-    return bucket_repository.save_file(
-        file_to_save.file, file_to_save.filename, file_to_save.content_type
-    )
+    return bucket_repository.save_file(file_to_save.file, file_to_save.filename, file_to_save.content_type)
+
 
 @router.put("/{analysis_name}/section/attach/file")
 def attach_animal_model_system_report(
