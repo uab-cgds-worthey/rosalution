@@ -121,19 +121,36 @@ def delete_analysis_discussion(
             )
     
     analysis = Analysis(**found_analysis)
-    discussion_post = analysis.find_discussion_post(discussion_post_id)
 
-    # If the post doesn't exist, then fail
-    if discussion_post == None:
+    try:
+        valid = analysis.discussion_post__post(discussion_post_id, client_id)
+    except  as e:
+
+        if(e.detail )
         raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"Post '{discussion_post_id}' does not exist. Unable to delete discussion post.'"
-            )
+    #             status_code=status.HTTP_404_NOT_FOUND,
+    #             detail=f"Post '{discussion_post_id}' does not exist. Unable to delete discussion post.'"
+    except RosalutionDiscussionNotFound as e:
     
-    # Does the post exist and if so, are we the user who posted it?
-    if not discussion_post['author_id'] == client_id:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot delete post they did not author."
-        )
+    #         )
+    
+    if not valid:
+        raise  raise HTTPException(
+    #         status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot delete post they did not author."
+    #     )
+    # discussion_post = analysis.find_discussion_post(discussion_post_id)
+
+    # # If the post doesn't exist, then fail
+    # if discussion_post == None:
+    #     raise HTTPException(
+    #             status_code=status.HTTP_404_NOT_FOUND,
+    #             detail=f"Post '{discussion_post_id}' does not exist. Unable to delete discussion post.'"
+    #         )
+    
+    # # Does the post exist and if so, are we the user who posted it?
+    # if not discussion_post['author_id'] == client_id:
+    #     raise HTTPException(
+    #         status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot delete post they did not author."
+    #     )
 
     return repositories['analysis'].delete_discussion_post(discussion_post_id, analysis.name)

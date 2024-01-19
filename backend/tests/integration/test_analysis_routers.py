@@ -397,6 +397,30 @@ def test_add_new_discussion_to_analysis(client, mock_access_token, mock_reposito
     assert actual_most_recent_post['author_fullname'] == new_post_user
     assert actual_most_recent_post['content'] == new_post_content
 
+def test_update_discussion_post_in_analysis(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
+    cpam_analysis = "CPAM0002"
+    update_discussion_post_id = "9027ec8d-6298-4afb-add5-6ef710eb5e98"
+    update_post_content = "New text"
+
+    def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
+        find, query = args  # pylint: disable=unused-variable
+        analysis = cpam0002_analysis_json
+        # analysis['discussions'].append(query['$push']['discussions'])
+        for discussion in analysis['discussions']:
+            if discussion['post_id'] == query['discussion_post_id']:
+                return discussion
+        analysis['_id'] = 'fake-mongo-object-id'
+        return analysis
+    
+    mock_repositories["analysis"].collection.find_one_and_update.side_effect
+
+    response = client.put(
+        "/analysis" + cpam_analysis + "/discussions",
+        headers={"Authorization": "Bearer " + mock_access_token},
+        data={}
+    )
+
+    assert True == True
 
 @pytest.fixture(name="analysis_updates_json")
 def fixture_analysis_updates_json():
