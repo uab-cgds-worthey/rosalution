@@ -383,7 +383,7 @@ def test_remove_section_supporting_evidence(analysis_collection):
 def test_add_discussion_post_to_analysis(analysis_collection, cpam0002_analysis_json):
     """ Tests adding a user's discussion post to an analysis """
 
-    def valid_query_side_effect(*args, **kwargs): # pylint: disable=unused-argument
+    def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
         find, query = args  # pylint: disable=unused-variable
         updated_analysis = cpam0002_analysis_json
         updated_analysis['discussions'].append(query['$push']['discussions'])
@@ -406,38 +406,40 @@ def test_add_discussion_post_to_analysis(analysis_collection, cpam0002_analysis_
 
     assert actual_most_recent_post == new_post
 
+
 def test_update_discussion_post_in_analysis(analysis_collection):
     """ Tests updating the content of a user's post from an analysis by the post id"""
-    analysis_collection.collection.find_one_and_update.return_value = { "discussions": []}
+    analysis_collection.collection.find_one_and_update.return_value = {"discussions": []}
 
     discussion_post_id = "9027ec8d-6298-4afb-add5-6ef710eb5e98"
     discussion_content = "This is new content."
     analysis_name = "CPAM0002"
 
     expected_find = {"name": analysis_name}
-    expected_update = {"$set": { "discussions.$[item].content": discussion_content }}
-    expected_filter = [{ "item.post_id": discussion_post_id }]
+    expected_update = {"$set": {"discussions.$[item].content": discussion_content}}
+    expected_filter = [{"item.post_id": discussion_post_id}]
 
     analysis_collection.updated_discussion_post(discussion_post_id, discussion_content, analysis_name)
     analysis_collection.collection.find_one_and_update.assert_called_once_with(
-        expected_find,
-        expected_update,
-        array_filters = expected_filter,
-        return_document=True
+        expected_find, expected_update, array_filters=expected_filter, return_document=True
     )
+
 
 def test_delete_discussion_post_in_analysis(analysis_collection):
     """ Tests deleting a user's discussion post from an analysis by the post id """
-    analysis_collection.collection.find_one_and_update.return_value = { "discussions": []}
-    
+    analysis_collection.collection.find_one_and_update.return_value = {"discussions": []}
+
     discussion_post_id = "9027ec8d-6298-4afb-add5-6ef710eb5e98"
     analysis_name = "CPAM0002"
-    
+
     expected_find = {"name": analysis_name}
     expected_update = {"$pull": {"discussions": {"post_id": discussion_post_id}}}
 
     analysis_collection.delete_discussion_post(discussion_post_id, analysis_name)
-    analysis_collection.collection.find_one_and_update.assert_called_with(expected_find, expected_update, return_document=True)
+    analysis_collection.collection.find_one_and_update.assert_called_with(
+        expected_find, expected_update, return_document=True
+    )
+
 
 @pytest.fixture(name="analysis_with_no_p_dot")
 def fixture_analysis_with_no_p_dot():

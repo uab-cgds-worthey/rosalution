@@ -17,11 +17,9 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["analysis"], dependencies=[Depends(database)])
 
+
 @router.get("/{analysis_name}/discussions")
-def get_analysis_discussions(
-    analysis_name: str,
-    repositories=Depends(database)
-):
+def get_analysis_discussions(analysis_name: str, repositories=Depends(database)):
     """ Returns a list of discussion posts for a given analysis """
     logger.info("Retrieving the analysis '%s' discussions ", analysis_name)
 
@@ -29,13 +27,13 @@ def get_analysis_discussions(
 
     if not found_analysis:
         raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"Analysis '{analysis_name}' does not exist.'"
-            )
-    
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Analysis '{analysis_name}' does not exist.'"
+        )
+
     analysis = Analysis(**found_analysis)
 
     return analysis.discussions
+
 
 @router.post("/{analysis_name}/discussions")
 def add_analysis_discussion(
@@ -52,10 +50,10 @@ def add_analysis_discussion(
 
     if not found_analysis:
         raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"Analysis '{analysis_name}' does not exist.'"
-            )
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Analysis '{analysis_name}' does not exist.'"
+        )
 
+    analysis = Analysis(**found_analysis)
     current_user = repositories["user"].find_by_client_id(client_id)
 
     new_discussion_post = {
@@ -68,7 +66,8 @@ def add_analysis_discussion(
         "thread": [],
     }
 
-    return repositories['analysis'].add_discussion_post(found_analysis['name'], new_discussion_post)
+    return repositories['analysis'].add_discussion_post(analysis.name, new_discussion_post)
+
 
 @router.put("/{analysis_name}/discussions/{discussion_post_id}")
 def update_analysis_discussion_post(
@@ -78,26 +77,26 @@ def update_analysis_discussion_post(
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):
-    logger.info("Editing post '%s' by user '%s' from the analysis '%s' with new content: '%s'", 
-                discussion_post_id, client_id, analysis_name, discussion_content)
+    """ Updates a discussion post's content in an analysis by the discussion post id """
+    logger.info(
+        "Editing post '%s' by user '%s' from the analysis '%s' with new content: '%s'", discussion_post_id, client_id,
+        analysis_name, discussion_content
+    )
 
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
 
     if not found_analysis:
         raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"Analysis '{analysis_name}' does not exist. Unable to update discussion post.'"
-            )
-    
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Analysis '{analysis_name}' does not exist. Unable to update discussion post.'"
+        )
+
     analysis = Analysis(**found_analysis)
 
     try:
         valid_post = analysis.find_authored_discussion_post(discussion_post_id, client_id)
     except ValueError as e:
-        raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=str(e)
-        )
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e)) from e
 
     if not valid_post:
         raise HTTPException(
@@ -106,6 +105,7 @@ def update_analysis_discussion_post(
 
     return repositories['analysis'].updated_discussion_post(valid_post['post_id'], discussion_content, analysis.name)
 
+
 @router.delete("/{analysis_name}/discussions/{discussion_post_id}")
 def delete_analysis_discussion(
     analysis_name: str,
@@ -113,29 +113,29 @@ def delete_analysis_discussion(
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):
+    """ Deletes a discussion post in an analysis by the discussion post id """
     logger.info("Deleting post %s by user '%s' from the analysis '%s'", discussion_post_id, client_id, analysis_name)
 
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
 
     if not found_analysis:
         raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"Analysis '{analysis_name}' does not exist. Unable to delete discussion post.'"
-            )
-    
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Analysis '{analysis_name}' does not exist. Unable to delete discussion post.'"
+        )
+
     analysis = Analysis(**found_analysis)
 
     try:
         valid_post = analysis.find_authored_discussion_post(discussion_post_id, client_id)
     except ValueError as e:
-        raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=str(e)
-        )
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e)) from e
+
+    print(client_id)
 
     if not valid_post:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot delete post they did not author."
         )
-    
+
     return repositories['analysis'].delete_discussion_post(valid_post['post_id'], analysis.name)
