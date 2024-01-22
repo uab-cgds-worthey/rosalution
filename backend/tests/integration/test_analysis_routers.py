@@ -530,7 +530,6 @@ def test_handle_delete_post_not_existing_in_analysis(
 
     expected_failure_detail = {'detail': f"Post '{discussion_post_id}' does not exist."}
 
-    print()
 
     assert response.status_code == 404
     assert response.json() == expected_failure_detail
