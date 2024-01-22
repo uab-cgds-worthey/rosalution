@@ -86,7 +86,7 @@ def test_import_analysis_with_phenotips_json(
 def test_update_analysis_sections(client, mock_access_token, mock_repositories, cpam0047_analysis_json):
     """Testing if the update analysis endpoint updates an existing analysis"""
 
-    mock_updated_sections = [{
+    mock_updated_sections =[{
         "header": "Brief",
         "content": [{"fieldName": "Reason", "value": ["the quick brown fox jumps over the lazy dog."]},
                     {"fieldName": "Nominated", "value": ["Lorem ipsum dolor"]}]

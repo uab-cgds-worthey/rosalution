@@ -8,7 +8,7 @@ import json
 from typing import List, Optional, Union
 
 from fastapi import (
-    APIRouter, BackgroundTasks, Depends, HTTPException, File, status, UploadFile, Form, Response, Security
+    APIRouter, BackgroundTasks, Body, Depends, HTTPException, File, status, UploadFile, Form, Response, Security
 )
 from fastapi.responses import StreamingResponse
 
@@ -111,7 +111,7 @@ def update_event(
 def update_analysis_sections(
     analysis_name: str,
     row_type: SectionRowType,
-    updated_sections: List = Form(...),
+    updated_sections: List[Section] = Body(...),
     # upload_file: UploadFile = File(None),
     repositories=Depends(database),
     authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
@@ -119,7 +119,8 @@ def update_analysis_sections(
     """Updates the sections that have changes"""
 
     print("UPDATING THE SECTIONS FROM THE SENT")
-    print(updated_sections)
+    print(type(updated_sections))
+
     # print("Upload file exist?")
     # print(upload_file)
     if row_type == SectionRowType.TEXT:
