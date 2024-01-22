@@ -453,6 +453,26 @@ def test_update_discussion_post_in_analysis(client, mock_access_token, mock_repo
     assert actual_post['content'] == discussion_content
 
 
+def test_update_post_in_analysis_author_mismatch(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
+    """ Tests updating a post that the author did not post and results in an unauthorized failure """
+    cpam_analysis = "CPAM0002"
+    discussion_post_id = "9027ec8d-6298-4afb-add5-6ef710eb5e98"
+    discussion_content = "I am an integration test post. Look at me!"
+
+    mock_repositories['analysis'].collection.find_one.return_value = cpam0002_analysis_json
+
+    response = client.put(
+        "/analysis/" + cpam_analysis + "/discussions/" + discussion_post_id,
+        headers={"Authorization": "Bearer " + mock_access_token},
+        data={"discussion_content": discussion_content}
+    )
+
+    expected_failure_detail = {'detail': 'User cannot update post they did not author.'}
+
+    assert response.status_code == 401
+    assert response.json() == expected_failure_detail
+
+
 def test_delete_discussion_post_in_analysis(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """ Tests successfully deleting an existing post in the discussions with the user being the author """
     cpam_analysis = "CPAM0002"
@@ -492,6 +512,28 @@ def test_delete_discussion_post_in_analysis(client, mock_access_token, mock_repo
     )
 
     assert len(response.json()) == 3
+
+
+def test_handle_delete_post_not_existing_in_analysis(
+    client, mock_access_token, mock_repositories, cpam0002_analysis_json
+):
+    """ Tests failure of deleting a discussion post but does not exist in the analysis  """
+    cpam_analysis = "CPAM0002"
+    discussion_post_id = "fake-post-id"
+
+    mock_repositories['analysis'].collection.find_one.return_value = cpam0002_analysis_json
+
+    response = client.delete(
+        "/analysis/" + cpam_analysis + "/discussions/" + discussion_post_id,
+        headers={"Authorization": "Bearer " + mock_access_token}
+    )
+
+    expected_failure_detail = {'detail': f"Post '{discussion_post_id}' does not exist."}
+
+    print()
+
+    assert response.status_code == 404
+    assert response.json() == expected_failure_detail
 
 
 @pytest.fixture(name="analysis_updates_json")
