@@ -74,7 +74,7 @@ def mock_get_current_user(mock_user):
 @pytest.fixture(name="mock_user")
 def test_auth_user():
     """A mocked user that can be used to generate an OAuth2 access token"""
-    return {"sub": "johndoe", "scopes": ["read", "write"]}
+    return {"sub": "johndoe-client-id", "scopes": ["read", "write"]}
 
 
 @pytest.fixture(name="mock_access_token")

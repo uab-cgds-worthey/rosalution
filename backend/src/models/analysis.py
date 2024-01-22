@@ -106,3 +106,29 @@ class Analysis(BaseAnalysis):
                     })
 
         return units
+
+    def find_discussion_post(self, discussion_post_id):
+        """
+        Finds a specific discussion post in an analysis by the discussion post id otherwise returns none
+        if no discussion with that post id in the analysis.
+        """
+        for discussion in self.discussions:
+            if discussion['post_id'] == discussion_post_id:
+                return discussion
+
+        return None
+
+    def find_authored_discussion_post(self, discussion_post_id, client_id):
+        """
+        Finds a discussion post from a user that authored the post in an analysis otherwise returns none if the post
+        was found, but the user did not author the post
+        """
+        discussion_post = self.find_discussion_post(discussion_post_id)
+
+        if discussion_post is None:
+            raise ValueError(f"Post '{discussion_post_id}' does not exist.")
+
+        if discussion_post['author_id'] == client_id:
+            return discussion_post
+
+        return None
