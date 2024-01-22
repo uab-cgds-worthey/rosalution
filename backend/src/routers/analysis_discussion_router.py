@@ -131,7 +131,6 @@ def delete_analysis_discussion(
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e)) from e
 
-    print(client_id)
 
     if not valid_post:
         raise HTTPException(
