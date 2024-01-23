@@ -127,7 +127,7 @@ describe('analyses.js', () => {
         Analyses.updateAnalysisSections('CPAM0002', fixtureUpdates);
 
         expect(mockPostRequest.getCall(0).args[0]).to.equal(
-            '/rosalution/api/analysis/CPAM0002/sections?row_type=text',
+            '/rosalution/api/analysis/CPAM0002/sections/batch',
         );
         expect(mockPostRequest.getCall(0).args[1]).to.have.lengthOf(2);
         expect(mockPostRequest.getCall(0).args[1][0].header).to.equal('Brief');

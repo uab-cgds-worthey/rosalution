@@ -5,7 +5,7 @@ Specifically the SECRET_KEY parameter can be generated and changed with each run
 """
 # pylint: disable=too-few-public-methods
 from functools import lru_cache
-from pydantic import model_validator
+# from pydantic import model_validator
 from pydantic_settings import BaseSettings
 
 
@@ -39,7 +39,7 @@ class Settings(BaseSettings):
     #     print(values)
     #     key = values.get('rosalution_key')
     #     if not key:
-    #         raise ValueError('Environment variable "ROSALUTION_KEY" missing. App requires secret for secure encoding.')
+    #        raise ValueError('Environment variable "ROSALUTION_KEY" missing. App requires secret for secure encoding.')
     #     return values
 
 
