@@ -107,17 +107,19 @@ def update_event(
         raise HTTPException(status_code=409, detail=str(exception)) from exception
 
 
-@router.post("/{analysis_name}/sections", response_model=List[Section])
+@router.post("/{analysis_name}/sections", tags=["sections"], response_model=List[Section])
 def update_analysis_sections(
     analysis_name: str,
     row_type: SectionRowType,
-    updated_sections: List[Section] = Body(...),
-    # upload_file: UploadFile = File(None),
+    updated_section: Section = Form(...),
+    # updated_sections: List[Section] = Form(...),
+    upload_file: UploadFile = File(None),
     repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+    # authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """Updates the sections that have changes"""
 
+    updated_sections = list(updated_section)
     print("UPDATING THE SECTIONS FROM THE SENT")
     print(type(updated_sections))
 
@@ -139,6 +141,7 @@ def update_analysis_sections(
 
         try:
             new_file_object_id = add_file_to_bucket_repository(upload_file, repositories["bucket"])
+            # new_file_object_id = None
         except Exception as exception:
             raise HTTPException(status_code=500, detail=str(exception)) from exception
 
@@ -169,7 +172,7 @@ def add_file_to_bucket_repository(file_to_save, bucket_repository):
     return bucket_repository.save_file(file_to_save.file, file_to_save.filename, file_to_save.content_type)
 
 
-@router.put("/{analysis_name}/section/attach/file")
+@router.put("/{analysis_name}/section/attach/file", tags=["analysis", "sections"])
 def attach_animal_model_system_report(
     analysis_name: str,
     section_name: str = Form(...),
@@ -197,7 +200,7 @@ def attach_animal_model_system_report(
     )
 
 
-@router.put("/{analysis_name}/section/remove/file")
+@router.put("/{analysis_name}/section/remove/file", tags=["analysis", "sections"])
 def remove_animal_model_system_report(
     analysis_name: str,
     section_name: str = Form(...),
@@ -214,7 +217,7 @@ def remove_animal_model_system_report(
     return repositories['analysis'].remove_section_supporting_evidence(analysis_name, section_name, field_name)
 
 
-@router.put("/{analysis_name}/section/attach/link")
+@router.put("/{analysis_name}/section/attach/link", tags=["sections"])
 def attach_animal_model_system_imaging(
     analysis_name: str,
     section_name: str = Form(...),
@@ -234,7 +237,7 @@ def attach_animal_model_system_imaging(
     )
 
 
-@router.put("/{analysis_name}/section/remove/link")
+@router.put("/{analysis_name}/section/remove/link", tags=["sections"])
 def remove_animal_model_system_imaging(
     analysis_name: str,
     section_name: str = Form(...),

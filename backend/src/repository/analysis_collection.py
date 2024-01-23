@@ -108,26 +108,10 @@ class AnalysisCollection:
         updated_analysis_document.pop("_id", None)
         return updated_analysis_document
     
-    def update_analysis_sections(self, analysis_name: str, updated_sections_json: List):
+    def update_analysis_sections(self, analysis_name: str, updated_sections: List[Section]):
         """Updates each of the sections and fields within the sections if they exist in the database"""
-        # print("")
-        # print("the original")
-        print(type(updated_sections_json))
-        # print(updated_sections_json)
-        for section_str in updated_sections_json:
-            # print("in loop")
-            # print(section_str)
-            print(type(section_str))
-            print("what is going into the json loads")
-            print(section_str)
-            section_json = json.loads(section_str)
-            print(type(section_json))
-            print("what is the object of the result of json.loads")
-            # print(section_json)
-            section = Section(**section_json)
-            # print(section)
+        for section in updated_sections:
             for field in section.content:
-
                 field_name, field_value = field["fieldName"], field["value"]
                 if "Nominator" == field_name:
                     self.update_analysis_nominator(analysis_name, '; '.join(field_value))
