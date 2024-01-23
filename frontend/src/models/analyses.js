@@ -228,7 +228,7 @@ export default {
     const success = await Requests.delete(url);
 
     return success;
-  }
+  },
 };
 
 const annotationRenderingTemporary = [
