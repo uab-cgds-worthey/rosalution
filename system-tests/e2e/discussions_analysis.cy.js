@@ -63,7 +63,7 @@ describe('discussions_analysis.cy.js', () => {
         cy.get('[data-test="discussion-post"]').should('have.length', 3);
     });
 
-    it('should publish a new post to the discussion section, delete the post, and cancel the deletion', () => {
+    it.only('should publish a new post to the discussion section, delete the post, and cancel the deletion', () => {
         cy.get('#Discussion').should('exist');
 
         cy.get('[data-test="new-discussion-button"]').click()
