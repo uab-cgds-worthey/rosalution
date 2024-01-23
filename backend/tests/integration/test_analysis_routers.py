@@ -86,7 +86,7 @@ def test_import_analysis_with_phenotips_json(
 def test_update_analysis_sections(client, mock_access_token, mock_repositories, cpam0047_analysis_json):
     """Testing if the update analysis endpoint updates an existing analysis"""
 
-    mock_updated_sections =[{
+    mock_updated_sections = [{
         "header": "Brief",
         "content": [{"fieldName": "Reason", "value": ["the quick brown fox jumps over the lazy dog."]},
                     {"fieldName": "Nominated", "value": ["Lorem ipsum dolor"]}]
@@ -99,16 +99,13 @@ def test_update_analysis_sections(client, mock_access_token, mock_repositories, 
 
     mock_repositories["analysis"].collection.find_one.return_value = cpam0047_analysis_json
     response = client.post(
-        "/analysis/CPAM0047/sections?row_type=text",
+        "/analysis/CPAM0047/sections/batch",
         headers={"Authorization": "Bearer " + mock_access_token},
-        data=({"updated_sections": mock_updated_sections,}),
+        json=mock_updated_sections
     )
 
     assert response.status_code == 200
-    print(response)
-    print(mock_repositories["analysis"].collection.update_one.call_args_list)
     mock_repositories["analysis"].collection.update_one.assert_called()
-
 
 
 # We will come back to this later:
@@ -128,100 +125,93 @@ def test_update_analysis_sections(client, mock_access_token, mock_repositories, 
 
 #     assert response
 
+def test_attaching_supporting_evidence_link_to_analysis(
+    client, mock_access_token, mock_repositories, cpam0002_analysis_json
+):
+    """Testing if the supporting evidence gets added to the analysis"""
 
-# def test_attaching_supporting_evidence_link_to_analysis(
-#     client, mock_access_token, mock_repositories, cpam0002_analysis_json
-# ):
-#     """Testing if the supporting evidence gets added to the analysis"""
+    def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
+        find, query = args  # pylint: disable=unused-variable
+        analysis = cpam0002_analysis_json
+        analysis['supporting_evidence_files'].append(query['$push']['supporting_evidence_files'])
+        analysis['_id'] = 'fake-mongo-object-id'
+        return analysis
 
-#     def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
-#         find, query = args  # pylint: disable=unused-variable
-#         analysis = cpam0002_analysis_json
-#         analysis['supporting_evidence_files'].append(query['$push']['supporting_evidence_files'])
-#         analysis['_id'] = 'fake-mongo-object-id'
-#         return analysis
+    mock_repositories["analysis"].collection.find_one_and_update.side_effect = valid_query_side_effect
 
-#     mock_repositories["analysis"].collection.find_one_and_update.side_effect = valid_query_side_effect
+    response = client.post(
+        "/analysis/CPAM0002/attach/link",
+        headers={"Authorization": "Bearer " + mock_access_token},
+        data=({
+            "link_name": "Interesting Article",
+            "link": "http://sites.uab.edu/cgds/",
+            "comments": "Serious Things in here",
+        })
+    )
 
-#     response = client.post(
-#         "/analysis/CPAM0002/attach/link",
-#         headers={"Authorization": "Bearer " + mock_access_token},
-#         data=({
-#             "link_name": "Interesting Article",
-#             "link": "http://sites.uab.edu/cgds/",
-#             "comments": "Serious Things in here",
-#         })
-#     )
+    result = json.loads(response.text)
+    assert len(result['supporting_evidence_files']) == 1
+    assert response.status_code == 200
 
-#     result = json.loads(response.text)
-#     assert len(result['supporting_evidence_files']) == 1
-#     assert response.status_code == 200
+def test_get_genomic_units_success(client, mock_access_token, mock_repositories, genomic_unit_success_response):
+    """ Testing the get genomic units endpoint """
+    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
 
+    response = client.get("/analysis/CPAM0002/genomic_units", headers={"Authorization": "Bearer " + mock_access_token})
 
-# def test_get_genomic_units_success(client, mock_access_token, mock_repositories, genomic_unit_success_response):
-#     """ Testing the get genomic units endpoint """
-#     mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    assert response.status_code == 200
+    assert response.json() == genomic_unit_success_response
 
-#     response = client.get("/analysis/CPAM0002/genomic_units", headers={"Authorization": "Bearer " + mock_access_token})
+def test_get_genomic_units_analysis_does_not_exist(client, mock_access_token, mock_repositories):
+    """ Testing the get genomic units endpoint """
+    mock_repositories["analysis"].collection.find_one.return_value = None
 
-#     assert response.status_code == 200
-#     assert response.json() == genomic_unit_success_response
+    response = client.get("/analysis/CPAM0002/genomic_units", headers={"Authorization": "Bearer " + mock_access_token})
 
+    assert response.status_code == 404
 
-# def test_get_genomic_units_analysis_does_not_exist(client, mock_access_token, mock_repositories):
-#     """ Testing the get genomic units endpoint """
-#     mock_repositories["analysis"].collection.find_one.return_value = None
+def test_get_genomic_units_does_not_exist(client, mock_access_token, mock_repositories):
+    """ Testing the get genomic units endpoint """
+    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json"
+                                                                                      ).pop("genomic_units")
 
-#     response = client.get("/analysis/CPAM0002/genomic_units", headers={"Authorization": "Bearer " + mock_access_token})
+    response = client.get("/analysis/CPAM0002/genomic_units", headers={"Authorization": "Bearer " + mock_access_token})
 
-#     assert response.status_code == 404
+    assert response.status_code == 404
 
+def test_remove_supporting_evidence_file(client, mock_access_token, mock_repositories):
+    """ Testing the remove attachment endpoint """
+    mock_repositories["bucket"].bucket.exists.return_value = True
+    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    expected = read_test_fixture("analysis-CPAM0002.json")
+    expected["supporting_evidence_files"] = []
+    mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
 
-# def test_get_genomic_units_does_not_exist(client, mock_access_token, mock_repositories):
-#     """ Testing the get genomic units endpoint """
-#     mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json"
-#                                                                                       ).pop("genomic_units")
+    response = client.delete(
+        "/analysis/CPAM0002/attachment/633afb87fb250a6ea1569555/remove",
+        headers={"Authorization": "Bearer " + mock_access_token}
+    )
 
-#     response = client.get("/analysis/CPAM0002/genomic_units", headers={"Authorization": "Bearer " + mock_access_token})
+    mock_repositories['bucket'].bucket.exists.assert_called()
+    mock_repositories['bucket'].bucket.delete.assert_called()
+    assert response.status_code == 200
+    assert response.json() == expected
 
-#     assert response.status_code == 404
+def test_remove_supporting_evidence_link(client, mock_access_token, mock_repositories, supporting_evidence_link_json):
+    """ Testing the remove attachment endpoint """
+    mock_repositories["bucket"].bucket.exists.return_value = False
+    mock_repositories["analysis"].collection.find_one.return_value = supporting_evidence_link_json
+    expected = read_test_fixture("analysis-CPAM0002.json")
+    expected["supporting_evidence_files"] = []
+    mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
 
+    response = client.delete(
+        "/analysis/CPAM0002/attachment/a1ea5c7e-1c13-4d14-a3d7-297f39f11ba8/remove",
+        headers={"Authorization": "Bearer " + mock_access_token}
+    )
 
-# def test_remove_supporting_evidence_file(client, mock_access_token, mock_repositories):
-#     """ Testing the remove attachment endpoint """
-#     mock_repositories["bucket"].bucket.exists.return_value = True
-#     mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
-#     expected = read_test_fixture("analysis-CPAM0002.json")
-#     expected["supporting_evidence_files"] = []
-#     mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
-
-#     response = client.delete(
-#         "/analysis/CPAM0002/attachment/633afb87fb250a6ea1569555/remove",
-#         headers={"Authorization": "Bearer " + mock_access_token}
-#     )
-
-#     mock_repositories['bucket'].bucket.exists.assert_called()
-#     mock_repositories['bucket'].bucket.delete.assert_called()
-#     assert response.status_code == 200
-#     assert response.json() == expected
-
-
-# def test_remove_supporting_evidence_link(client, mock_access_token, mock_repositories, supporting_evidence_link_json):
-#     """ Testing the remove attachment endpoint """
-#     mock_repositories["bucket"].bucket.exists.return_value = False
-#     mock_repositories["analysis"].collection.find_one.return_value = supporting_evidence_link_json
-#     expected = read_test_fixture("analysis-CPAM0002.json")
-#     expected["supporting_evidence_files"] = []
-#     mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
-
-#     response = client.delete(
-#         "/analysis/CPAM0002/attachment/a1ea5c7e-1c13-4d14-a3d7-297f39f11ba8/remove",
-#         headers={"Authorization": "Bearer " + mock_access_token}
-#     )
-
-#     assert response.status_code == 200
-#     assert response.json() == expected
-
+    assert response.status_code == 200
+    assert response.json() == expected
 
 # def test_attach_image_to_pedigree_section(client, mock_access_token, mock_repositories):
 #     """ Testing attaching an image to the Pedigree section of an analysis """
@@ -250,162 +240,150 @@ def test_update_analysis_sections(client, mock_access_token, mock_repositories, 
 #     mock_repositories["analysis"].collection.find_one_and_update.assert_called_with({"name": "CPAM0112"},
 #                                                                                     {"$set": expected})
 
+def test_update_existing_pedigree_section_image(client, mock_access_token, mock_repositories):
+    """ Testing the update pedigree attachment endpoint """
+    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    mock_repositories['bucket'].bucket.put.return_value = "633afb87fb250a6ea1569555"
+    mock_analysis = read_test_fixture("analysis-CPAM0002.json")
+    mock_repositories["analysis"].collection.find_one_and_update.return_value = mock_analysis
 
-# def test_update_existing_pedigree_section_image(client, mock_access_token, mock_repositories):
-#     """ Testing the update pedigree attachment endpoint """
-#     mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
-#     mock_repositories['bucket'].bucket.put.return_value = "633afb87fb250a6ea1569555"
-#     mock_analysis = read_test_fixture("analysis-CPAM0002.json")
-#     mock_repositories["analysis"].collection.find_one_and_update.return_value = mock_analysis
+    # Need to send the file as raw binary instead of the processed content
+    section_image_filepath = fixture_filepath('pedigree-fake.jpg')
+    with open(section_image_filepath, "rb") as image_file:
+        response = client.put(
+            "/analysis/CPAM0002/section/update/633afb87fb250a6ea1569555",
+            headers={"Authorization": "Bearer " + mock_access_token},
+            files={"upload_file": ("pedigree-fake.jpg", image_file)},
+            data=({"section_name": "Pedigree", "field_name": "Pedigree"})
+        )
+        image_file.close()
 
-#     # Need to send the file as raw binary instead of the processed content
-#     section_image_filepath = fixture_filepath('pedigree-fake.jpg')
-#     with open(section_image_filepath, "rb") as image_file:
-#         response = client.put(
-#             "/analysis/CPAM0002/section/update/633afb87fb250a6ea1569555",
-#             headers={"Authorization": "Bearer " + mock_access_token},
-#             files={"upload_file": ("pedigree-fake.jpg", image_file)},
-#             data=({"section_name": "Pedigree", "field_name": "Pedigree"})
-#         )
-#         image_file.close()
+    expected = {'section': 'Pedigree', 'field': 'Pedigree', 'image_id': '633afb87fb250a6ea1569555'}
 
-#     expected = {'section': 'Pedigree', 'field': 'Pedigree', 'image_id': '633afb87fb250a6ea1569555'}
+    assert expected == response.json()
+    assert response.status_code == 200
 
-#     assert expected == response.json()
-#     assert response.status_code == 200
+def test_remove_existing_pedigree_section_image(client, mock_access_token, mock_repositories):
+    """ Tests removing an existing image from the pedigree section of CPAM0002 """
+    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    mock_repositories["bucket"].bucket.delete.return_value = None
 
+    response = client.request(
+        'DELETE',
+        "/analysis/CPAM0002/section/remove/63505be22888347cf1c275db",
+        headers={"Authorization": "Bearer " + mock_access_token},
+        data={"section_name": "Pedigree", "field_name": "Pedigree"},
+    )
 
-# def test_remove_existing_pedigree_section_image(client, mock_access_token, mock_repositories):
-#     """ Tests removing an existing image from the pedigree section of CPAM0002 """
-#     mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
-#     mock_repositories["bucket"].bucket.delete.return_value = None
+    mock_repositories["bucket"].bucket.delete.assert_called_with(ObjectId("63505be22888347cf1c275db"))
 
-#     response = client.request(
-#         'DELETE',
-#         "/analysis/CPAM0002/section/remove/63505be22888347cf1c275db",
-#         headers={"Authorization": "Bearer " + mock_access_token},
-#         data={"section_name": "Pedigree", "field_name": "Pedigree"},
-#     )
+    assert response.status_code == 200
 
-#     mock_repositories["bucket"].bucket.delete.assert_called_with(ObjectId("63505be22888347cf1c275db"))
+def test_attach_third_party_link(client, mock_access_token, mock_repositories):
+    """ Testing the attach third party link endpoint """
+    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    expected = read_test_fixture("analysis-CPAM0002.json")
+    expected["third_party_links"] = [{"type": "monday_com", "link": "https://monday.com"}]
+    mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
+    response = client.put(
+        "/analysis/CPAM0002/attach/monday_com",
+        headers={"Authorization": "Bearer " + mock_access_token},
+        data={"link": "https://monday.com"}
+    )
 
-#     assert response.status_code == 200
+    assert response.status_code == 200
+    assert response.json()["third_party_links"] == [{"type": "monday_com", "link": "https://monday.com"}]
 
+def test_attach_third_party_link_analysis_does_not_exist(client, mock_access_token, mock_repositories):
+    """ Testing the attach third party link endpoint """
+    mock_repositories["analysis"].collection.find_one.return_value = None
+    response = client.put(
+        "/analysis/CPAM0002/attach/monday_com",
+        headers={"Authorization": "Bearer " + mock_access_token},
+        data={"link": "monday.com"}
+    )
 
-# def test_attach_third_party_link(client, mock_access_token, mock_repositories):
-#     """ Testing the attach third party link endpoint """
-#     mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
-#     expected = read_test_fixture("analysis-CPAM0002.json")
-#     expected["third_party_links"] = [{"type": "monday_com", "link": "https://monday.com"}]
-#     mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
-#     response = client.put(
-#         "/analysis/CPAM0002/attach/monday_com",
-#         headers={"Authorization": "Bearer " + mock_access_token},
-#         data={"link": "https://monday.com"}
-#     )
+    assert response.status_code == 409
 
-#     assert response.status_code == 200
-#     assert response.json()["third_party_links"] == [{"type": "monday_com", "link": "https://monday.com"}]
+def test_attach_third_party_link_invalid_enum(client, mock_access_token, mock_repositories):
+    """ Testing the attach third party link endpoint """
+    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    response = client.put(
+        "/analysis/CPAM0002/attach/BAD_ENUM",
+        headers={"Authorization": "Bearer " + mock_access_token},
+        data={"link": "monday.com"}
+    )
 
+    assert response.status_code == 422
 
-# def test_attach_third_party_link_analysis_does_not_exist(client, mock_access_token, mock_repositories):
-#     """ Testing the attach third party link endpoint """
-#     mock_repositories["analysis"].collection.find_one.return_value = None
-#     response = client.put(
-#         "/analysis/CPAM0002/attach/monday_com",
-#         headers={"Authorization": "Bearer " + mock_access_token},
-#         data={"link": "monday.com"}
-#     )
+def test_mark_ready(client, mock_access_token, mock_repositories):
+    """ Testing the update analysis event endpoint """
+    staging_analysis_timeline = read_test_fixture("analysis-CPAM0002.json")
+    staging_analysis_timeline["timeline"] = [{
+        'event': 'create',
+        'timestamp': datetime.datetime(2022, 11, 10, 16, 52, 43, 910000),
+        'username': 'johndoe',
+    }]
+    mock_repositories["analysis"].collection.find_one.return_value = staging_analysis_timeline
 
-#     assert response.status_code == 409
+    expected = read_test_fixture("analysis-CPAM0002.json")
+    expected["timeline"] = [
+        {
+            'event': 'create',
+            'timestamp': '2022-11-10T16:52:43.910000',
+            'username': 'johndoe',
+        },
+        {
+            'event': 'ready',
+            'timestamp': '2022-11-10T16:52:52.301003',
+            'username': 'johndoe',
+        },
+    ]
 
+    mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
 
-# def test_attach_third_party_link_invalid_enum(client, mock_access_token, mock_repositories):
-#     """ Testing the attach third party link endpoint """
-#     mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
-#     response = client.put(
-#         "/analysis/CPAM0002/attach/BAD_ENUM",
-#         headers={"Authorization": "Bearer " + mock_access_token},
-#         data={"link": "monday.com"}
-#     )
+    response = client.put("/analysis/CPAM0002/event/ready", headers={"Authorization": "Bearer " + mock_access_token})
 
-#     assert response.status_code == 422
+    assert response.status_code == 200
 
+def test_mark_ready_analysis_does_not_exist(client, mock_access_token, mock_repositories):
+    """ Testing the mark ready endpoint """
+    mock_repositories["analysis"].collection.find_one.return_value = None
 
-# def test_mark_ready(client, mock_access_token, mock_repositories):
-#     """ Testing the update analysis event endpoint """
-#     staging_analysis_timeline = read_test_fixture("analysis-CPAM0002.json")
-#     staging_analysis_timeline["timeline"] = [{
-#         'event': 'create',
-#         'timestamp': datetime.datetime(2022, 11, 10, 16, 52, 43, 910000),
-#         'username': 'johndoe',
-#     }]
-#     mock_repositories["analysis"].collection.find_one.return_value = staging_analysis_timeline
+    response = client.put("/analysis/CPAM2222/event/ready", headers={"Authorization": "Bearer " + mock_access_token})
 
-#     expected = read_test_fixture("analysis-CPAM0002.json")
-#     expected["timeline"] = [
-#         {
-#             'event': 'create',
-#             'timestamp': '2022-11-10T16:52:43.910000',
-#             'username': 'johndoe',
-#         },
-#         {
-#             'event': 'ready',
-#             'timestamp': '2022-11-10T16:52:52.301003',
-#             'username': 'johndoe',
-#         },
-#     ]
+    assert response.status_code == 409
+    assert response.json() == {'detail': 'Analysis with name CPAM2222 does not exist.'}
 
-#     mock_repositories["analysis"].collection.find_one_and_update.return_value = expected
+@pytest.fixture(name="analysis_updates_json")
+def fixture_analysis_updates_json():
+    """The JSON that is being sent from a client to the endpoint with updates in it"""
+    return read_test_fixture("analysis-update.json")
 
-#     response = client.put("/analysis/CPAM0002/event/ready", headers={"Authorization": "Bearer " + mock_access_token})
+@pytest.fixture(name="exported_phenotips_to_import_json")
+def fixture_phenotips_import():
+    """Returns a phenotips json fixture"""
+    return read_test_fixture("phenotips-import.json")
 
-#     assert response.status_code == 200
+@pytest.fixture(name="genomic_unit_success_response")
+def fixture_genomic_unit_success_response():
+    """The JSON that is being sent from a client to the endpoint with updates in it"""
+    return {
+        "genes": {"VMA21": ["NM_001017980.3:c.164G>T(p.Gly55Val)"], "DMD": []},
+        "variants": ["NM_001017980.3:c.164G>T(p.Gly55Val)"]
+    }
 
+@pytest.fixture(name="supporting_evidence_link_json")
+def fixture_supporting_evidence_link_json():
+    """The JSON that is being returned to the endpoint with a link in the supporting evidence"""
+    setup_return_value = read_test_fixture("analysis-CPAM0002.json")
+    setup_return_value["supporting_evidence_files"] = [{
+        "name": "this is a silly link name", "data": "http://local.rosalution.cgds/rosalution/api/docs",
+        "attachment_id": "a1ea5c7e-1c13-4d14-a3d7-297f39f11ba8", "type": "link", "comments": "hello link world"
+    }]
+    return setup_return_value
 
-# def test_mark_ready_analysis_does_not_exist(client, mock_access_token, mock_repositories):
-#     """ Testing the mark ready endpoint """
-#     mock_repositories["analysis"].collection.find_one.return_value = None
-
-#     response = client.put("/analysis/CPAM2222/event/ready", headers={"Authorization": "Bearer " + mock_access_token})
-
-#     assert response.status_code == 409
-#     assert response.json() == {'detail': 'Analysis with name CPAM2222 does not exist.'}
-
-
-# @pytest.fixture(name="analysis_updates_json")
-# def fixture_analysis_updates_json():
-#     """The JSON that is being sent from a client to the endpoint with updates in it"""
-#     return read_test_fixture("analysis-update.json")
-
-
-# @pytest.fixture(name="exported_phenotips_to_import_json")
-# def fixture_phenotips_import():
-#     """Returns a phenotips json fixture"""
-#     return read_test_fixture("phenotips-import.json")
-
-
-# @pytest.fixture(name="genomic_unit_success_response")
-# def fixture_genomic_unit_success_response():
-#     """The JSON that is being sent from a client to the endpoint with updates in it"""
-#     return {
-#         "genes": {"VMA21": ["NM_001017980.3:c.164G>T(p.Gly55Val)"], "DMD": []},
-#         "variants": ["NM_001017980.3:c.164G>T(p.Gly55Val)"]
-#     }
-
-
-# @pytest.fixture(name="supporting_evidence_link_json")
-# def fixture_supporting_evidence_link_json():
-#     """The JSON that is being returned to the endpoint with a link in the supporting evidence"""
-#     setup_return_value = read_test_fixture("analysis-CPAM0002.json")
-#     setup_return_value["supporting_evidence_files"] = [{
-#         "name": "this is a silly link name", "data": "http://local.rosalution.cgds/rosalution/api/docs",
-#         "attachment_id": "a1ea5c7e-1c13-4d14-a3d7-297f39f11ba8", "type": "link", "comments": "hello link world"
-#     }]
-#     return setup_return_value
-
-
-# @pytest.fixture(name="empty_pedigree")
-# def fixture_empty_pedigree():
-#     """returns an analysis with an empty pedigree"""
-#     return read_test_fixture("empty-pedigree.json")
+@pytest.fixture(name="empty_pedigree")
+def fixture_empty_pedigree():
+    """returns an analysis with an empty pedigree"""
+    return read_test_fixture("empty-pedigree.json")

@@ -242,7 +242,7 @@ export default {
         const updatedField = updatedSectionImage.find((section) => {
           return section.header == sectionName;
         })?.content.find((row) => {
-          row.field == field
+          row.field == field;
         });
 
         fieldToUpdate.value = updatedField.value;

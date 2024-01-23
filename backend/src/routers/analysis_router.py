@@ -8,7 +8,7 @@ import json
 from typing import List, Optional, Union
 
 from fastapi import (
-    APIRouter, BackgroundTasks, Body, Depends, HTTPException, File, status, UploadFile, Form, Response, Security
+    APIRouter, BackgroundTasks, Depends, HTTPException, File, status, UploadFile, Form, Response, Security
 )
 from fastapi.responses import StreamingResponse
 
@@ -107,32 +107,46 @@ def update_event(
         raise HTTPException(status_code=409, detail=str(exception)) from exception
 
 
+@router.post("/{analysis_name}/sections/batch", response_model=List[Section])
+def update_many_analysis_sections(
+    analysis_name: str,
+    updated_sections: List[Section],
+    repositories=Depends(database),
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+):
+    """Updates the sections that have changes"""
+
+    repositories["analysis"].update_analysis_sections(analysis_name, updated_sections)
+    updated_analysis = repositories["analysis"].find_by_name(analysis_name)
+    updated_analysis_model = Analysis(**updated_analysis)
+    return updated_analysis_model.sections
+
+
 @router.post("/{analysis_name}/sections", tags=["sections"], response_model=List[Section])
-def update_analysis_sections(
+def update_analysis_section(
     analysis_name: str,
     row_type: SectionRowType,
     updated_section: Section = Form(...),
-    # updated_sections: List[Section] = Form(...),
     upload_file: UploadFile = File(None),
     repositories=Depends(database),
     # authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
-    """Updates the sections that have changes"""
+    """Updates a section with the changed fields"""
+    analysis_repository = repositories["analysis"]
 
-    updated_sections = list(updated_section)
-    print("UPDATING THE SECTIONS FROM THE SENT")
-    print(type(updated_sections))
-
-    # print("Upload file exist?")
-    # print(upload_file)
     if row_type == SectionRowType.TEXT:
-        repositories["analysis"].update_analysis_sections(analysis_name, updated_sections)
-        updated_analysis = repositories["analysis"].find_by_name(analysis_name)
+        for field in updated_section.content:
+            field_name, field_value = field["fieldName"], field["value"]
+            if "Nominator" == field_name:
+                analysis_repository.update_analysis_nominator(analysis_name, '; '.join(field_value))
+            analysis_repository.update_analysis_section(
+                analysis_name, updated_section.header, field_name, {"value": field_value}
+            )
+        updated_analysis = analysis_repository.find_by_name(analysis_name)
         updated_analysis_model = Analysis(**updated_analysis)
         return updated_analysis_model.sections
 
     updated_analysis = None
-    section = updated_sections[0]
 
     if row_type not in (SectionRowType.IMAGE, SectionRowType.DOCUMENT, SectionRowType.LINK):
         raise HTTPException(status_code=422, detail=f"'Unsupported 'row_type': {row_type}.")
@@ -145,7 +159,6 @@ def update_analysis_sections(
         except Exception as exception:
             raise HTTPException(status_code=500, detail=str(exception)) from exception
 
-        # # TODO - Is this only used for document adding and not image adding?
         # field_value_file = {
         #     "name": upload_file.filename,
         #     "attachment_id": str(new_file_object_id),
@@ -158,7 +171,7 @@ def update_analysis_sections(
 
         if row_type == SectionRowType.IMAGE:
             updated_analysis = repositories["analysis"].add_section_image(
-                analysis_name, section.header, section["fieldName"], new_file_object_id
+                analysis_name, updated_section.header, updated_section["fieldName"], new_file_object_id
             )
 
     if row_type in (SectionRowType.LINK):
@@ -166,6 +179,7 @@ def update_analysis_sections(
 
     updated_analysis_model = Analysis(**updated_analysis)
     return updated_analysis_model.sections
+
 
 def add_file_to_bucket_repository(file_to_save, bucket_repository):
     """Saves the 'file_to_save' within the bucket repository and returns the files new uuid."""

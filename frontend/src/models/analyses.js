@@ -56,7 +56,7 @@ export default {
       }
       sectionsToUpdate.push(analysisSection);
     }
-    const url = `/rosalution/api/analysis/${analysisName}/sections?row_type=text`;
+    const url = `/rosalution/api/analysis/${analysisName}/sections/batch`;
     return await Requests.post(url, sectionsToUpdate);
   },
 
@@ -93,13 +93,13 @@ export default {
     return await Requests.getImage(url);
   },
 
-    /**
+  /**
    * Attaches {@link image} to {@link field} within {@link sectionName}
    * the analysis {@link analysisName}.
    * @param {string} analysisName The unique name of the analysis to update
    * @param {string} sectionName The name of the section within the analysis
    * @param {string} field The identifiying field within the section
-   * @param {File}   image the image data to be uploaded 
+   * @param {File}   image the image data to be uploaded
    * @return {Object[]} Array of all of the sections in the analysis
    */
   async attachSectionImage(analysisName, sectionName, field, image) {
