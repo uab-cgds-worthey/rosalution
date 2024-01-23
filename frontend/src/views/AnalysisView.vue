@@ -215,7 +215,8 @@ export default {
           icon: 'xmark',
           text: 'Delete',
           operation: (postId) => {
-            console.log(`Deleting Discussion Post: ${postId}`);
+            // console.log(`Deleting Discussion Post: ${postId}`);
+            this.deleteDiscussionPost(this.analysis['name'], postId)
           },
         },
       ];
@@ -633,6 +634,27 @@ export default {
       const discussions = await Analyses.postNewDiscussionThread(this.analysis['name'], newPostContent);
 
       this.analysis.discussions = discussions;
+    },
+    async deleteDiscussionPost(analysisName, postId) {
+      // const discussions = await Analyses.deleteDiscussionThreadById(analysisName, postId)
+      // this.analysis.discussions = discussions;
+
+      const confirmedDelete = await notificationDialog
+          .title(`Remove Discussion Post`)
+          .confirmText('Delete')
+          .cancelText('Cancel')
+          .confirm(`Deleting your discussion post from the section.`);
+
+      if (!confirmedDelete) {
+        return;
+      }
+
+      try {
+        const discussions = await Analyses.deleteDiscussionThreadById(analysisName, postId);
+        this.analysis.discussions = discussions;
+      } catch (error) {
+        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
+      }
     },
     copyToClipboard(copiedText) {
       toast.success(`Copied ${copiedText} to clipboard!`);

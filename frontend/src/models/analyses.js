@@ -141,7 +141,7 @@ export default {
   async removeSupportingEvidence(analysisName, attachmentId) {
     const url = `/rosalution/api/analysis/${analysisName}/attachment/${attachmentId}/remove`;
     const success = await Requests.delete(url);
-    return success;
+    return success.ok;
   },
 
   async downloadSupportingEvidence(attachmentId, attachmentFile) {
@@ -222,6 +222,15 @@ export default {
     const success = await Requests.postForm(url, attachmentForm);
     return success;
   },
+  async deleteDiscussionThreadById(analysisName, postId) {
+    console.log(analysisName)
+    console.log(postId)
+    const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}`;
+
+    const success = await Requests.delete(url)
+
+    return success.json();
+  }
 };
 
 const annotationRenderingTemporary = [
