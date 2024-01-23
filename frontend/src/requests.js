@@ -153,7 +153,7 @@ export default {
     if ( response.ok != true ) {
       throw new Error(`Status Code: ${response.status} ${ response.statusText}\nURL: \n${response.url}`);
     }
-    
+
     return await response.json();
   },
   async postForm(url, data) {

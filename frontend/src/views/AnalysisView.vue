@@ -216,7 +216,7 @@ export default {
           text: 'Delete',
           operation: (postId) => {
             // console.log(`Deleting Discussion Post: ${postId}`);
-            this.deleteDiscussionPost(this.analysis['name'], postId)
+            this.deleteDiscussionPost(this.analysis['name'], postId);
           },
         },
       ];

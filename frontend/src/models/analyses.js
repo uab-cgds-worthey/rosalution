@@ -223,14 +223,14 @@ export default {
     return success;
   },
   async deleteDiscussionThreadById(analysisName, postId) {
-    console.log(analysisName)
-    console.log(postId)
+    console.log(analysisName);
+    console.log(postId);
     const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}`;
 
-    const success = await Requests.delete(url)
+    const success = await Requests.delete(url);
 
     return success;
-  }
+  },
 };
 
 const annotationRenderingTemporary = [
