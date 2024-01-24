@@ -47,7 +47,6 @@ def test_update_analysis_section(analysis_collection):
         None
     )
     assert actual_updated_field is not None
-    # assert actual["sections"][0]["content"][1]["value"] == ["the quick brown fox jumps over the lazy dog."]
 
 
 def test_find_file_by_name(analysis_collection):

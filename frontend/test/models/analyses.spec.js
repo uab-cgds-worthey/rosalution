@@ -137,10 +137,12 @@ describe('analyses.js', () => {
 
     describe('images within sections for analyses', () => {
       it('attaches an image to a section', async () => {
-        mockPostFormResponse.returns({sucess: 'yay'});
+        const mockImageId = '65b181c992f5d6edf214f9d1';
+        mockPostFormResponse.returns(getMockSectionsWithImageId(mockImageId));
         const fakeImageData = 'jklfdjlskfjal;fjdkl;a';
-        await Analyses.attachSectionImage('CPAM0002', 'Pedigree', fakeImageData);
+        const actualField = await Analyses.attachSectionImage('CPAM0002', 'Pedigree', 'Pedigree', fakeImageData);
         expect(mockPostFormResponse.called).to.be.true;
+        expect(actualField.value[0]['file_id']).to.equal(mockImageId);
       });
 
       it('updates an image in a section', async () => {
@@ -152,6 +154,39 @@ describe('analyses.js', () => {
     });
   });
 });
+
+/**
+ * Returns valid sections that include an image within the Pedigree section
+ * @param {string} fileImageId file_id string that is generated when saving a file
+ * @return {Object} returns several analysis sections in a list that includes the pedigree section with an image
+ */
+function getMockSectionsWithImageId(fileImageId = 'default-image-id') {
+  return [{
+    'header': 'Pedigree',
+    'attachment_field': 'Pedigree',
+    'content': [
+      {
+        'type': 'images-dataset',
+        'field': 'Pedigree',
+        'value': [
+          {
+            'file_id': fileImageId,
+          },
+        ],
+      },
+    ],
+  }, {
+    'header': 'VMA21 Gene To Phenotype',
+    'attachment_field': 'VMA21 Gene To Phenotype',
+    'content': [
+      {
+        'type': 'images-dataset',
+        'field': 'VMA21 Gene To Phenotype',
+        'value': [],
+      },
+    ],
+  }];
+}
 
 const allSummaries = [
   {

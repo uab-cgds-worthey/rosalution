@@ -2,14 +2,16 @@
 
 import json
 import datetime
+from typing import List
 
 from unittest.mock import patch
 from bson import ObjectId
+from pydantic import TypeAdapter
 
 import pytest
 from fastapi import BackgroundTasks
-
 from src.core.annotation import AnnotationService
+from src.models.analysis import Section
 
 from ..test_utils import fixture_filepath, read_database_fixture, read_test_fixture
 
@@ -240,32 +242,39 @@ def test_remove_supporting_evidence_link(client, mock_access_token, mock_reposit
     assert response.json() == expected
 
 
-# def test_attach_image_to_pedigree_section(client, mock_access_token, mock_repositories):
-#     """ Testing attaching an image to the Pedigree section of an analysis """
-#     mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0112.json")
-#     expected = read_test_fixture("analysis-CPAM0112.json")
-#     for section in expected["sections"]:
-#         if section["header"] == "Pedigree":
-#             for content in section["content"]:
-#                 if content["type"] == "images-dataset":
-#                     content["value"].append({"file_id": "633afb87fb250a6ea1569555"})
-#     mock_repositories['analysis'].collection.find_one_and_update.return_value = expected
-#     mock_repositories['bucket'].bucket.put.return_value = "633afb87fb250a6ea1569555"
+def test_attach_image_to_pedigree_section(client, mock_access_token, mock_repositories):
+    """ Testing attaching an image to the Pedigree section of an analysis """
+    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0112.json")
 
-#     section_image_filepath = fixture_filepath('pedigree-fake.jpg')
-#     with open(section_image_filepath, "rb") as phenotips_file:
-#         response = client.post(
-#             "/analysis/CPAM0112/section/attach/image",
-#             headers={"Authorization": "Bearer " + mock_access_token},
-#             files={"upload_file": ("pedigree-fake.jpg", phenotips_file)},
-#             data=({"section_name": "Pedigree", "field_name": "Pedigree"})
-#         )
+    new_image_id = "633afb87fb250a6ea1569555"
+    expected = read_test_fixture("analysis-CPAM0112.json")
+    for section in expected["sections"]:
+        if section["header"] == "Pedigree":
+            for content in section["content"]:
+                if content["type"] == "images-dataset":
+                    content["value"].append({"file_id": new_image_id})
+    mock_repositories['analysis'].collection.find_one_and_update.return_value = expected
+    mock_repositories['bucket'].bucket.put.return_value = new_image_id
 
-#         phenotips_file.close()
+    mock_section = {'header': 'Pedigree', 'content': [{'fieldName': 'Pedigree'}]}
 
-#     assert response.status_code == 201
-#     mock_repositories["analysis"].collection.find_one_and_update.assert_called_with({"name": "CPAM0112"},
-#                                                                                     {"$set": expected})
+    section_image_filepath = fixture_filepath('pedigree-fake.jpg')
+    with open(section_image_filepath, "rb") as phenotips_file:
+        response = client.post(
+            "/analysis/CPAM0112/sections?row_type=image",
+            headers={"Authorization": "Bearer " + mock_access_token},
+            files={"upload_file": ("pedigree-fake.jpg", phenotips_file)},
+            data=({"updated_section": json.dumps(mock_section)})
+        )
+
+        phenotips_file.close()
+
+    assert response.status_code == 201
+
+    returned_sections = TypeAdapter(List[Section]).validate_json(response.content)
+    pedigree_section = next((section for section in returned_sections if section.header == "Pedigree"), None)
+    actual_updated_field = next((field for field in pedigree_section.content if field['field'] == "Pedigree"), None)
+    assert actual_updated_field["value"] == [{'file_id': new_image_id}]
 
 
 def test_update_existing_pedigree_section_image(client, mock_access_token, mock_repositories):

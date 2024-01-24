@@ -124,6 +124,7 @@ def update_many_analysis_sections(
 
 @router.post("/{analysis_name}/sections", tags=["analysis sections"], response_model=List[Section])
 def update_analysis_section(
+    response: Response,
     analysis_name: str,
     row_type: SectionRowType,
     updated_section: Section = Form(...),
@@ -155,28 +156,25 @@ def update_analysis_section(
 
         try:
             new_file_object_id = add_file_to_bucket_repository(upload_file, repositories["bucket"])
-            # new_file_object_id = None
         except Exception as exception:
             raise HTTPException(status_code=500, detail=str(exception)) from exception
 
-        # field_value_file = {
-        #     "name": upload_file.filename,
-        #     "attachment_id": str(new_file_object_id),
-        #     "type": "file",
-        #     "comments": ""  #removed the comments attribute?
-        # }
+        field_value_file = {
+            "name": upload_file.filename, "attachment_id": str(new_file_object_id), "type": "file", "comments": ""
+        }
 
         if row_type == SectionRowType.DOCUMENT:
             print("Will be adding document")
 
         if row_type == SectionRowType.IMAGE:
             updated_analysis = repositories["analysis"].add_section_image(
-                analysis_name, updated_section.header, updated_section["fieldName"], new_file_object_id
+                analysis_name, updated_section.header, updated_section.content[0]["fieldName"], new_file_object_id
             )
 
     if row_type in (SectionRowType.LINK):
         print("Will be adding link")
 
+    response.status_code = status.HTTP_201_CREATED
     updated_analysis_model = Analysis(**updated_analysis)
     return updated_analysis_model.sections
 
@@ -283,6 +281,9 @@ def download(analysis_name: str, file_name: str, repositories=Depends(database))
     return StreamingResponse(repositories['bucket'].stream_analysis_file_by_id(file['attachment_id']))
 
 
+####
+### TODO: CURENT ENDPOINT BEING REFACTORED
+####
 @router.post("/{analysis_name}/section/attach/image")
 def attach_section_image(
     response: Response,

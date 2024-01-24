@@ -422,12 +422,12 @@ describe('AnalysisView', () => {
   describe('sections', () => {
     describe('when an image section does not have an image', () => {
       it('accepts an image render as content', async () => {
-        const newPedigreeSection = {
-          section: 'Pedigree',
+        const updatedSectionField= {
+          type: 'images-dataset',
           field: 'Pedigree',
-          image_id: '64a2f06a4d4d29b8dc93c2d8',
+          value: [{file_id: '64a2f06a4d4d29b8dc93c2d8'}],
         };
-        attachSectionImageMock.returns(newPedigreeSection);
+        attachSectionImageMock.returns(updatedSectionField);
 
         const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
         pedigreeSection.vm.$emit('attach-image', 'Pedigree');

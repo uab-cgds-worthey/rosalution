@@ -100,24 +100,32 @@ export default {
    * @param {string} sectionName The name of the section within the analysis
    * @param {string} field The identifiying field within the section
    * @param {File}   image the image data to be uploaded
-   * @return {Object[]} Array of all of the sections in the analysis
+   * @return {Object} Returns the updated field with the image attachment id
    */
   async attachSectionImage(analysisName, sectionName, field, image) {
-    const url = `/rosalution/api/analysis/${analysisName}/sections?row_type=text`;
+    const url = `/rosalution/api/analysis/${analysisName}/sections?row_type=image`;
 
     const section = {
       'header': sectionName,
       'content': [],
     };
     section.content.push({
-      'field_name': field,
+      'fieldName': field,
     });
     const attachmentForm = {
       'upload_file': image,
-      'updated_sections': [section],
+      'updated_section': JSON.stringify(section),
     };
 
-    return await Requests.postForm(url, attachmentForm);
+    const updatedAnalysisSections = await Requests.postForm(url, attachmentForm);
+
+    return updatedAnalysisSections.find((section) => {
+      return section.header == sectionName;
+    })?.content.find((row) => {
+      console.log(row);
+      console.log(field);
+      return row.field == field;
+    });
   },
 
   async updateSectionImage(analysisName, sectionName, field, oldFileId, image) {

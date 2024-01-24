@@ -224,7 +224,7 @@ export default {
       }
 
       try {
-        const updatedSectionImage = await Analyses.attachSectionImage(
+        const updatedSectionField = await Analyses.attachSectionImage(
             this.analysis_name,
             sectionName,
             field,
@@ -239,13 +239,7 @@ export default {
           return row.field == field;
         });
 
-        const updatedField = updatedSectionImage.find((section) => {
-          return section.header == sectionName;
-        })?.content.find((row) => {
-          row.field == field;
-        });
-
-        fieldToUpdate.value = updatedField.value;
+        fieldToUpdate.value = updatedSectionField.value;
 
         this.replaceAnalysisSection(sectionToUpdate);
       } catch (error) {
