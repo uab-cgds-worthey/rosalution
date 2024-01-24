@@ -72,6 +72,11 @@ export default {
       this.$emit('post:delete', postId);
     },
   },
+  methods: {
+    deletePost(post_id) {
+      this.$emit('post:delete', post_id);
+    }
+  }
 };
 </script>
 
