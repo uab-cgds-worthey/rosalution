@@ -33,11 +33,21 @@ def test_find_by_name(analysis_collection):
 def test_update_analysis_section(analysis_collection):
     """Tests the update_analysis_section function"""
     analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0112.json")
-    analysis_collection.collection.find_one_and_update.return_value = read_test_fixture("update_analysis_section.json")
-    actual = analysis_collection.update_analysis_section(
+    analysis_collection.update_analysis_section(
         "CPAM0112", "Brief", "Reason", {"value": ["the quick brown fox jumps over the lazy dog."]}
     )
-    assert actual["sections"][0]["content"][1]["value"] == ["the quick brown fox jumps over the lazy dog."]
+
+    save_call_args = analysis_collection.collection.update_one.call_args[0]
+    (actual_name, actual_update_query) = save_call_args
+    assert actual_name['name'] == "CPAM0112"
+    section = next((section for section in actual_update_query['$set']['sections'] if section['header'] == "Brief"),
+                   None)
+    actual_updated_field = next(
+        (field for field in section['content'] if field['value'] == ["the quick brown fox jumps over the lazy dog."]),
+        None
+    )
+    assert actual_updated_field is not None
+    # assert actual["sections"][0]["content"][1]["value"] == ["the quick brown fox jumps over the lazy dog."]
 
 
 def test_find_file_by_name(analysis_collection):

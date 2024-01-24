@@ -88,8 +88,8 @@ def test_update_analysis_sections(client, mock_access_token, mock_repositories, 
 
     mock_updated_sections = [{
         "header": "Brief",
-        "content": [{"fieldName": "Reason", "value": ["the quick brown fox jumps over the lazy dog."]},
-                    {"fieldName": "Nominated", "value": ["Lorem ipsum dolor"]}]
+        "content": [{"fieldName": "Decision", "value": ["the quick brown fox jumps over the lazy dog."]},
+                    {"fieldName": "Nominator", "value": ["Lorem ipsum dolor"]}]
     }, {
         "header": "Medical Summary", "content": [{
             "fieldName": "Clinical Diagnosis",
@@ -102,6 +102,26 @@ def test_update_analysis_sections(client, mock_access_token, mock_repositories, 
         "/analysis/CPAM0047/sections/batch",
         headers={"Authorization": "Bearer " + mock_access_token},
         json=mock_updated_sections
+    )
+
+    assert response.status_code == 200
+    mock_repositories["analysis"].collection.update_one.assert_called()
+
+
+def test_update_individual_section_text_fields(client, mock_access_token, mock_repositories, cpam0047_analysis_json):
+    """Testing if the update analysis endpoint updates an existing analysis"""
+
+    mock_section = {
+        'header': 'Brief',
+        'content': [{'fieldName': 'Decision', 'value': ['the quick brown fox jumps over the lazy dog.']},
+                    {'fieldName': 'Nominator', 'value': ['Lorem ipsum dolor']}]
+    }
+
+    mock_repositories["analysis"].collection.find_one.return_value = cpam0047_analysis_json
+    response = client.post(
+        "/analysis/CPAM0047/sections?row_type=text",
+        headers={"Authorization": "Bearer " + mock_access_token},
+        data={'updated_section': json.dumps(mock_section)}
     )
 
     assert response.status_code == 200

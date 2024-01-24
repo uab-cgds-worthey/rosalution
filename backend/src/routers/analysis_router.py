@@ -24,22 +24,22 @@ from ..security.security import get_authorization, get_current_user
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/analysis", tags=["analysis"], dependencies=[Depends(database)])
+router = APIRouter(prefix="/analysis", dependencies=[Depends(database)])
 
 
-@router.get("", response_model=List[Analysis])
+@router.get("", tags=["analysis"], response_model=List[Analysis])
 def get_all_analyses(repositories=Depends(database)):
     """Returns every analysis available"""
     return repositories["analysis"].all()
 
 
-@router.get("/summary", response_model=List[AnalysisSummary])
+@router.get("/summary", tags=["analysis"], response_model=List[AnalysisSummary])
 def get_all_analyses_summaries(repositories=Depends(database)):
     """Returns a summary of every analysis within the application"""
     return repositories["analysis"].all_summaries()
 
 
-@router.post("", response_model=Analysis)
+@router.post("", tags=["analysis"], response_model=Analysis)
 async def create_file(
     background_tasks: BackgroundTasks,
     phenotips_file: Union[bytes, None] = File(default=None),
@@ -70,13 +70,13 @@ async def create_file(
     return new_analysis
 
 
-@router.get("/{analysis_name}", response_model=Analysis, response_model_exclude_none=True)
+@router.get("/{analysis_name}", tags=["analysis"], response_model=Analysis, response_model_exclude_none=True)
 def get_analysis_by_name(analysis_name: str, repositories=Depends(database)):
     """Returns analysis case data by calling method to find case by it's analysis_name"""
     return repositories["analysis"].find_by_name(analysis_name)
 
 
-@router.get("/{analysis_name}/genomic_units")
+@router.get("/{analysis_name}/genomic_units", tags=["analysis"])
 def get_genomic_units(analysis_name: str, repositories=Depends(database)):
     """ Returns a list of genomic units for a given analysis """
     try:
@@ -85,13 +85,13 @@ def get_genomic_units(analysis_name: str, repositories=Depends(database)):
         raise HTTPException(status_code=404, detail=str(exception)) from exception
 
 
-@router.get("/{analysis_name}/summary", response_model=AnalysisSummary)
+@router.get("/{analysis_name}/summary", tags=["analysis"], response_model=AnalysisSummary)
 def get_analysis_summary_by_name(analysis_name: str, repositories=Depends(database)):
     """Returns a summary of every analysis within the application"""
     return repositories["analysis"].summary_by_name(analysis_name)
 
 
-@router.put("/{analysis_name}/event/{event_type}", response_model=Analysis)
+@router.put("/{analysis_name}/event/{event_type}", tags=["analysis"], response_model=Analysis)
 def update_event(
     analysis_name: str,
     event_type: EventType,
@@ -107,7 +107,7 @@ def update_event(
         raise HTTPException(status_code=409, detail=str(exception)) from exception
 
 
-@router.post("/{analysis_name}/sections/batch", response_model=List[Section])
+@router.post("/{analysis_name}/sections/batch", tags=["analysis sections"], response_model=List[Section])
 def update_many_analysis_sections(
     analysis_name: str,
     updated_sections: List[Section],
@@ -122,7 +122,7 @@ def update_many_analysis_sections(
     return updated_analysis_model.sections
 
 
-@router.post("/{analysis_name}/sections", tags=["sections"], response_model=List[Section])
+@router.post("/{analysis_name}/sections", tags=["analysis sections"], response_model=List[Section])
 def update_analysis_section(
     analysis_name: str,
     row_type: SectionRowType,

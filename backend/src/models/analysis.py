@@ -4,9 +4,10 @@ of identifiers, case notes, and the genomic units being analyzed.
 """
 # pylint: disable=too-few-public-methods
 from datetime import date
+import json
 import re
 from typing import List, Optional
-from pydantic import BaseModel, computed_field
+from pydantic import BaseModel, computed_field, model_validator
 
 from .event import Event
 
@@ -27,6 +28,14 @@ class Section(BaseModel, frozen=True):
     header: str
     attachment_field: Optional[str] = None
     content: List = []
+
+    @model_validator(mode='before')
+    @classmethod
+    def validate_to_json(cls, value):
+        """Allows FastAPI to valid and unpack the JSON of data into the model"""
+        if isinstance(value, str):
+            return cls(**json.loads(value))
+        return value
 
 
 class BaseAnalysis(BaseModel):

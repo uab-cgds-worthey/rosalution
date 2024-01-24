@@ -24,7 +24,7 @@ tags_metadata = [
         "description": "Analyses of cases with information such as target gene, variation, phenotyping, and more.",
     },
     {
-        "name": "sections",
+        "name": "analysis sections",
         "description": "A sub-resource of analyses that enables collaboration and prepare information for case review",
     },
     {
