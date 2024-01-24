@@ -53,6 +53,7 @@
               :thread="discussion.thread"
               :userClientId="userClientId"
               :actions="actions"
+              @post:delete="this.deleteDiscussionPost"
           />
         </div>
     </div>
@@ -63,7 +64,7 @@ import DiscussionPost from './DiscussionPost.vue';
 
 export default {
   name: 'discussion-section',
-  emits: ['discussion:new-post'],
+  emits: ['discussion:new-post', 'discussion:delete-post'],
   components: {
     DiscussionPost,
   },
@@ -113,6 +114,9 @@ export default {
       this.newPostContent = '';
       this.showNewPost = false;
     },
+    deleteDiscussionPost(post_id) {
+      this.$emit("discussion:delete-post", post_id)
+    }
   },
 };
 

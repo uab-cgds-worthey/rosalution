@@ -6,7 +6,11 @@
             {{  timestamp  }}
           </div>
           <ul v-if="isUser" class="context-menu" data-test="discussion-post-context-menu">
-            <ContextMenu :actions="actions" :context_id="id">
+            <ContextMenu 
+              :actions="actions"
+              :context_id="id"
+              @delete="this.deletePost"
+              >
               <font-awesome-icon class="header-icon" icon="ellipsis-vertical" size="xl" />
             </ContextMenu>
           </ul>
@@ -22,6 +26,7 @@ import ContextMenu from '@/components/ContextMenu.vue';
 
 export default {
   name: 'discussion-post',
+  emits: ['post:delete'],
   components: {
     ContextMenu,
   },
@@ -68,6 +73,11 @@ export default {
       return this.userClientId == this.author_id;
     },
   },
+  methods: {
+    deletePost(post_id) {
+      this.$emit('post:delete', post_id);
+    }
+  }
 };
 </script>
 

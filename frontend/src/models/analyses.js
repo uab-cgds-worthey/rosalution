@@ -223,8 +223,6 @@ export default {
     return success;
   },
   async deleteDiscussionThreadById(analysisName, postId) {
-    console.log(analysisName);
-    console.log(postId);
     const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}`;
 
     const success = await Requests.delete(url);
