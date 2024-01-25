@@ -8,7 +8,7 @@
           <ul v-if="isUser" class="context-menu" data-test="discussion-post-context-menu">
             <ContextMenu
               :actions="actions"
-              :context_id="id"
+              :contextId="id"
               @delete="this.deletePost"
               >
               <font-awesome-icon class="header-icon" icon="ellipsis-vertical" size="xl" />
