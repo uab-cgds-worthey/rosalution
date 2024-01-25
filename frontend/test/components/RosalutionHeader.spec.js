@@ -50,7 +50,6 @@ afterAll(() => {
 describe('RosalutionHeaderComponent.vue', () => {
   it('should display application title by default', () => {
     const wrapper = getMountedComponent();
-    console.log(wrapper.html());
     const headerTextLink = wrapper.find('[data-test="header-title-text"]');
     expect(headerTextLink.html()).to.contains('rosalution');
   });

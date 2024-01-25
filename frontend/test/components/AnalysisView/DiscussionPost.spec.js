@@ -1,6 +1,7 @@
 import {it, expect, describe} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 
+import ContextMenu from '../../../src/components/ContextMenu.vue';
 import DiscussionPost from '../../../src/components/AnalysisView/DiscussionPost.vue';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
@@ -13,9 +14,9 @@ function getMountedComponent(props) {
   const defaultProps = {
     id: '9027ec8d-6298-4afb-add5-6ef710eb5e98',
     key: '9027ec8d-6298-4afb-add5-6ef710eb5e98',
-    author_id: 'fake-user-id',
-    author_name: 'Developer Person',
-    publish_timestamp: '2023-10-09T21:13:22.687000',
+    authorId: 'fake-user-id',
+    authorName: 'Developer Person',
+    publishTimestamp: '2023-10-09T21:13:22.687000',
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum',
     attachments: [],
     thread: [],
@@ -54,11 +55,19 @@ describe('DiscussionPost.vue', () => {
     expect(contextMenu.exists()).toBe(false);
   });
 
-  it('Edit test', () => {
+  it('Should recieve an emit to delete a post and emits a post:delete with postId', async () => {
     const wrapper = getMountedComponent({userClientId: 'fake-user-id'});
 
-    const contextMenu = wrapper.find('[data-test=discussion-post-context-menu]');
+    const postId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
 
-    console.log(contextMenu.html());
+    const contextMenu = wrapper.getComponent(ContextMenu);
+
+    contextMenu.vm.$emit('delete', postId);
+    
+    await wrapper.vm.$nextTick();
+
+    const emittedObject = wrapper.emitted()['post:delete'][0];
+
+    expect(emittedObject[0]).toBe(postId);
   });
 });

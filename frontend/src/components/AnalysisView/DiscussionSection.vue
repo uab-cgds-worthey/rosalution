@@ -74,18 +74,12 @@ export default {
     },
     discussions: {
       type: Array,
-      default: () => {
-        return [];
-      },
     },
     userClientId: {
       type: String,
     },
     actions: {
       type: Array,
-      default: () => {
-        return [];
-      },
     },
   },
   data: function() {

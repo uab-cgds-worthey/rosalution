@@ -48,15 +48,9 @@ export default {
     },
     attachments: {
       type: Array,
-      default: () => {
-        return [];
-      },
     },
     thread: {
       type: Array,
-      default: () => {
-        return [];
-      },
     },
     userClientId: {
       type: String,
