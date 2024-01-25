@@ -63,7 +63,7 @@ describe('DiscussionPost.vue', () => {
     const contextMenu = wrapper.getComponent(ContextMenu);
 
     contextMenu.vm.$emit('delete', postId);
-    
+
     await wrapper.vm.$nextTick();
 
     const emittedObject = wrapper.emitted()['post:delete'][0];
