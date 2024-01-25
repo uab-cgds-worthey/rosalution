@@ -358,7 +358,7 @@ describe('AnalysisView', () => {
     });
 
     it('Should receive a delete post emit and remove the discussion post', () => {
-      
+
     });
   });
 

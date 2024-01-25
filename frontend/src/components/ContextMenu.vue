@@ -20,11 +20,11 @@ export default {
           (action) => action.text !== undefined || action.divider,
       ),
     },
-    context_id: String,
+    contextId: String,
   },
   methods: {
     runAction(actionEmit) {
-      this.$emit(actionEmit, this.context_id)
+      this.$emit(actionEmit, this.contextId);
       this.closeContext();
     },
     closeContext() {

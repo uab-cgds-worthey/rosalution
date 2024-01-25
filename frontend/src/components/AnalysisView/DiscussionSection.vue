@@ -45,9 +45,9 @@
           <DiscussionPost v-for="discussion in discussions"
               :id="discussion.post_id"
               :key="discussion.post_id"
-              :author_id="discussion.author_id"
-              :author_name="discussion.author_fullname"
-              :publish_timestamp="discussion.publish_timestamp"
+              :authorId="discussion.author_id"
+              :authorName="discussion.author_fullname"
+              :publishTimestamp="discussion.publish_timestamp"
               :content="discussion.content"
               :attachments="discussion.attachments"
               :thread="discussion.thread"
@@ -114,9 +114,9 @@ export default {
       this.newPostContent = '';
       this.showNewPost = false;
     },
-    deleteDiscussionPost(post_id) {
-      this.$emit("discussion:delete-post", post_id)
-    }
+    deleteDiscussionPost(postId) {
+      this.$emit('discussion:delete-post', postId);
+    },
   },
 };
 
