@@ -24,7 +24,6 @@ export default {
   },
   methods: {
     runAction(actionEmit) {
-      console.log(this.contextId);
       this.$emit(actionEmit, this.contextId);
       this.closeContext();
     },
