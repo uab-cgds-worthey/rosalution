@@ -91,6 +91,7 @@ describe('AnalysisView', () => {
   let markReadyMock;
   let updateAnalysisSectionsMock;
   let postNewDiscussionThreadMock;
+  let deleteDiscussionThreadByIdMock;
   let mockAuthWritePermissions;
   let mockedAttachSectionSupportingEvidence;
   let mockedRemoveSectionSupportingEvidenceFile;
@@ -118,6 +119,7 @@ describe('AnalysisView', () => {
     updateAnalysisSectionsMock = sandbox.stub(Analyses, 'updateAnalysisSections');
 
     postNewDiscussionThreadMock = sandbox.stub(Analyses, 'postNewDiscussionThread');
+    deleteDiscussionThreadByIdMock = sandbox.stub(Analyses, 'deleteDiscussionThreadById');
 
     mockAuthWritePermissions = sandbox.stub(authStore, 'hasWritePermissions');
     mockAuthWritePermissions.returns(true);
@@ -357,8 +359,27 @@ describe('AnalysisView', () => {
       expect(discussionSectionComponent.props('discussions').length).to.equal(4);
     });
 
-    it('Should receive a delete post emit and remove the discussion post', () => {
+    it('Should receive a discussion:delete-post emit and remove the discussion post', async () => {
+      const discussionSectionComponent = wrapper.getComponent(DiscussionSection);
 
+      const postId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
+
+      const discussionFixtureData = fixtureData()['discussions'].filter((post) => post.post_id != postId);
+
+      deleteDiscussionThreadByIdMock.returns(discussionFixtureData);
+
+      discussionSectionComponent.vm.$emit('discussion:delete-post', postId);
+
+      await wrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick();
+
+      notificationDialog.confirmation();
+
+      await wrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick();
+
+      expect(discussionSectionComponent.props('discussions').length).toBe(2);
     });
   });
 

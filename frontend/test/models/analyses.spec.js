@@ -122,6 +122,28 @@ describe('analyses.js', () => {
       expect(mockPutFormResponse.called).to.be.true;
     });
   });
+
+  describe('managing discussion posts for an analysis', () => {
+    it('adds a new post to a discussion in an analysis', async () => {
+      mockPostFormResponse.resolves({success: 'yay!'});
+
+      const analysisName = 'CPAM0002';
+      const postContent = 'Hello Frontend Unit Test!';
+
+      await Analyses.postNewDiscussionThread(analysisName, postContent);
+
+      expect(mockPostFormResponse.called).toBe(true);
+    });
+
+    it('deletes a discussion post in an analysis', async () => {
+      const analysisName = 'CPAM0002';
+      const postContent = 'Hello Frontend Unit Test!';
+
+      await Analyses.deleteDiscussionThreadById(analysisName, postContent);
+
+      expect(mockDeleteRequest.called).toBe(true);
+    });
+  });
 });
 
 const allSummaries = [
