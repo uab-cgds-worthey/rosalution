@@ -222,6 +222,15 @@ export default {
     const success = await Requests.postForm(url, attachmentForm);
     return success;
   },
+  async editDiscussionThreadById(analysisName, postId, postContent) {
+    const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}`;
+
+    const attachmentForm = { 'discussion_content': postContent };
+
+    const success = await Requests.putForm(url, attachmentForm);
+
+    return success;
+  },
   async deleteDiscussionThreadById(analysisName, postId) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}`;
 

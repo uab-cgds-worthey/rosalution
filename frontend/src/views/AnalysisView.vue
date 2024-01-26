@@ -45,6 +45,7 @@
         :userClientId="auth.getClientId()"
         :actions="this.discussionContextActions"
         @discussion:new-post="this.addDiscussionPost"
+        @discussion:edit-post="this.editDiscussionPost"
         @discussion:delete-post="this.deleteDiscussionPost"
       />
       <SupplementalFormList
@@ -205,9 +206,8 @@ export default {
         {
           icon: 'pencil',
           text: 'Edit',
-          operation: (postId) => {
-            console.log(`Editing Discussion Post: ${postId}`);
-          },
+          emit: 'edit',
+          operation: () => {},
         },
         {
           icon: 'xmark',
@@ -628,6 +628,13 @@ export default {
     },
     async addDiscussionPost(newPostContent) {
       const discussions = await Analyses.postNewDiscussionThread(this.analysis['name'], newPostContent);
+
+      this.analysis.discussions = discussions;
+    },
+    async editDiscussionPost(postId, postContent) {
+      const analysisName = this.analysis_name;
+
+      const discussions = await Analyses.editDiscussionThreadById(analysisName, postId, postContent);
 
       this.analysis.discussions = discussions;
     },

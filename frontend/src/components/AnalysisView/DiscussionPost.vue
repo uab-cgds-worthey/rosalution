@@ -9,6 +9,7 @@
             <ContextMenu
               :actions="actions"
               :contextId="id"
+              @edit="this.editPost"
               @delete="this.deletePost"
               >
               <font-awesome-icon class="header-icon" icon="ellipsis-vertical" size="xl" />
@@ -26,7 +27,7 @@ import ContextMenu from '@/components/ContextMenu.vue';
 
 export default {
   name: 'discussion-post',
-  emits: ['post:delete'],
+  emits: ['post:edit', 'post:delete'],
   components: {
     ContextMenu,
   },
@@ -68,6 +69,9 @@ export default {
     },
   },
   methods: {
+    editPost(postId) {
+      this.$emit('post:edit', postId, this.content);
+    },
     deletePost(postId) {
       this.$emit('post:delete', postId);
     },
