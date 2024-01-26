@@ -35,7 +35,7 @@
               Cancel
             </button>
             <button
-              class="primary-button publish-button"
+              class="primary-button save-button"
               @click="confirmEditPost"
               data-test="new-discussion-publish"
             >
@@ -162,6 +162,10 @@ export default {
   color: var(--rosalution-purple-300);
   cursor: pointer;
   padding: var(--p-5)
+}
+
+.save-button {
+    margin-left: var(--p-8);
 }
 
 .discussion-edit-post {
