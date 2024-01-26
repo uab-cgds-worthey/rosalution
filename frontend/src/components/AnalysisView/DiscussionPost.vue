@@ -16,9 +16,33 @@
             </ContextMenu>
           </ul>
         </div>
-        <div class="discussion-content" data-test="discussion-post-content">
+        <div v-if="!editingPost" class="discussion-content" data-test="discussion-post-content">
             {{ content }}
         </div>
+        <div v-else class="discussion-edit-post">
+          <textarea
+            contenteditable="plaintext-only"
+            class="discussion-edit-post-text-area"
+            v-model="editPostContent"
+            data-test="new-discussion-input"
+          />
+          <div class="discussion-actions">
+            <button
+              class="secondary-button"
+              @click="cancelEditPost"
+              data-test="new-discussion-cancel"
+            >
+              Cancel
+            </button>
+            <button
+              class="primary-button publish-button"
+              @click="confirmEditPost"
+              data-test="new-discussion-publish"
+            >
+            Save
+          </button>
+        </div>
+      </div>
     </div>
 </template>
 
@@ -60,6 +84,12 @@ export default {
       type: Array,
     },
   },
+  data: function() {
+    return {
+      editingPost: false,
+      editPostContent: this.content
+    }
+  },
   computed: {
     timestamp: function() {
       return new Date(this.publishTimestamp).toUTCString();
@@ -69,8 +99,16 @@ export default {
     },
   },
   methods: {
-    editPost(postId) {
-      this.$emit('post:edit', postId, this.content);
+    editPost() {
+      this.editingPost = true;
+    },
+    confirmEditPost() {
+      this.editingPost = false;
+      this.$emit('post:edit', this.id, this.editPostContent);
+    },
+    cancelEditPost() {
+      this.editingPost = false;
+      this.editPostContent = this.content;
     },
     deletePost(postId) {
       this.$emit('post:delete', postId);
@@ -125,5 +163,36 @@ export default {
   cursor: pointer;
   padding: var(--p-5)
 }
+
+.discussion-edit-post {
+    background-color: var(--rosalution-grey-50);
+    border-radius: var(--content-border-radius);
+    margin-top: var(--p-8);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.discussion-edit-post-text-area {
+    background-color: var(--rosalution-white);
+    border-radius: var(--content-border-radius);
+    border: solid;
+    border-color: var(--rosalution-grey-000);
+    padding: var(--p-16);
+    margin: var(--p-10);
+    position: relative;
+    width: 100%;
+}
+
+.discussion-actions {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    margin-right: var(--p-16);
+    margin-bottom: var(--p-10);
+}
+
 
 </style>
