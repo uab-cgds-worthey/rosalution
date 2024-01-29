@@ -2,11 +2,15 @@
     <div class="discussion-post" data-test="discussion-post">
         <div class="discussion-header" data-test="discussion-post-header">
           <div>
-            <b>{{ author_name }}</b>
+            <b>{{ authorName }}</b>
             {{  timestamp  }}
           </div>
           <ul v-if="isUser" class="context-menu" data-test="discussion-post-context-menu">
-            <ContextMenu :actions="actions" :context_id="id">
+            <ContextMenu
+              :actions="actions"
+              :contextId="id"
+              @delete="this.deletePost"
+              >
               <font-awesome-icon class="header-icon" icon="ellipsis-vertical" size="xl" />
             </ContextMenu>
           </ul>
@@ -22,6 +26,7 @@ import ContextMenu from '@/components/ContextMenu.vue';
 
 export default {
   name: 'discussion-post',
+  emits: ['post:delete'],
   components: {
     ContextMenu,
   },
@@ -29,13 +34,13 @@ export default {
     id: {
       type: String,
     },
-    author_id: {
+    authorId: {
       type: String,
     },
-    author_name: {
+    authorName: {
       type: String,
     },
-    publish_timestamp: {
+    publishTimestamp: {
       type: String,
     },
     content: {
@@ -43,15 +48,9 @@ export default {
     },
     attachments: {
       type: Array,
-      default: () => {
-        return [];
-      },
     },
     thread: {
       type: Array,
-      default: () => {
-        return [];
-      },
     },
     userClientId: {
       type: String,
@@ -62,10 +61,15 @@ export default {
   },
   computed: {
     timestamp: function() {
-      return new Date(this.publish_timestamp).toUTCString();
+      return new Date(this.publishTimestamp).toUTCString();
     },
     isUser: function() {
-      return this.userClientId == this.author_id;
+      return this.userClientId == this.authorId;
+    },
+  },
+  methods: {
+    deletePost(postId) {
+      this.$emit('post:delete', postId);
     },
   },
 };

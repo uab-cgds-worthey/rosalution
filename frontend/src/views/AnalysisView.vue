@@ -45,6 +45,7 @@
         :userClientId="auth.getClientId()"
         :actions="this.discussionContextActions"
         @discussion:new-post="this.addDiscussionPost"
+        @discussion:delete-post="this.deleteDiscussionPost"
       />
       <SupplementalFormList
         id="Supporting_Evidence"
@@ -122,14 +123,11 @@ export default {
     },
     menuActions() {
       const actionChoices = [];
-
-
       actionChoices.push({
         icon: 'paperclip',
         text: 'Attach',
         operation: this.addSupportingEvidence,
       });
-
 
       if ( !this.auth.hasWritePermissions() ) {
         return actionChoices;
@@ -214,9 +212,8 @@ export default {
         {
           icon: 'xmark',
           text: 'Delete',
-          operation: (postId) => {
-            console.log(`Deleting Discussion Post: ${postId}`);
-          },
+          emit: 'delete',
+          operation: () => {},
         },
       ];
     },
@@ -633,6 +630,26 @@ export default {
       const discussions = await Analyses.postNewDiscussionThread(this.analysis['name'], newPostContent);
 
       this.analysis.discussions = discussions;
+    },
+    async deleteDiscussionPost(postId) {
+      const analysisName = this.analysis_name;
+
+      const confirmedDelete = await notificationDialog
+          .title(`Remove Discussion Post`)
+          .confirmText('Delete')
+          .cancelText('Cancel')
+          .confirm(`Deleting your discussion post from the section.`);
+
+      if (!confirmedDelete) {
+        return;
+      }
+
+      try {
+        const discussions = await Analyses.deleteDiscussionThreadById(analysisName, postId);
+        this.analysis.discussions = discussions;
+      } catch (error) {
+        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
+      }
     },
     copyToClipboard(copiedText) {
       toast.success(`Copied ${copiedText} to clipboard!`);

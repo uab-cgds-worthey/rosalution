@@ -45,14 +45,15 @@
           <DiscussionPost v-for="discussion in discussions"
               :id="discussion.post_id"
               :key="discussion.post_id"
-              :author_id="discussion.author_id"
-              :author_name="discussion.author_fullname"
-              :publish_timestamp="discussion.publish_timestamp"
+              :authorId="discussion.author_id"
+              :authorName="discussion.author_fullname"
+              :publishTimestamp="discussion.publish_timestamp"
               :content="discussion.content"
               :attachments="discussion.attachments"
               :thread="discussion.thread"
               :userClientId="userClientId"
               :actions="actions"
+              @post:delete="this.deleteDiscussionPost"
           />
         </div>
     </div>
@@ -63,7 +64,7 @@ import DiscussionPost from './DiscussionPost.vue';
 
 export default {
   name: 'discussion-section',
-  emits: ['discussion:new-post'],
+  emits: ['discussion:new-post', 'discussion:delete-post'],
   components: {
     DiscussionPost,
   },
@@ -73,18 +74,12 @@ export default {
     },
     discussions: {
       type: Array,
-      default: () => {
-        return [];
-      },
     },
     userClientId: {
       type: String,
     },
     actions: {
       type: Array,
-      default: () => {
-        return [];
-      },
     },
   },
   data: function() {
@@ -112,6 +107,9 @@ export default {
     clearNewDiscussionField() {
       this.newPostContent = '';
       this.showNewPost = false;
+    },
+    deleteDiscussionPost(postId) {
+      this.$emit('discussion:delete-post', postId);
     },
   },
 };

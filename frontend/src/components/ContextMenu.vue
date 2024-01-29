@@ -2,7 +2,7 @@
     <li tabindex="1" ref="contextRef">
         <slot></slot>
         <ul class="grey-rounded-menu drop-down-content">
-            <li v-for="action in actions" :key="action.text" @click="this.runAction(action.operation)">
+            <li v-for="action in actions" :key="action.text" @click="this.runAction(action.emit)">
                 <span> {{ action.text }} </span>
                 <font-awesome-icon v-if="action.icon" :icon="action.icon" size="lg" class="right-side-icon" />
             </li>
@@ -20,11 +20,11 @@ export default {
           (action) => action.text !== undefined || action.divider,
       ),
     },
-    context_id: String,
+    contextId: String,
   },
   methods: {
-    runAction(actionOperation) {
-      actionOperation(this.context_id);
+    runAction(actionEmit) {
+      this.$emit(actionEmit, this.contextId);
       this.closeContext();
     },
     closeContext() {

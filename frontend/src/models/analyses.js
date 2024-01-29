@@ -222,6 +222,13 @@ export default {
     const success = await Requests.postForm(url, attachmentForm);
     return success;
   },
+  async deleteDiscussionThreadById(analysisName, postId) {
+    const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}`;
+
+    const success = await Requests.delete(url);
+
+    return success;
+  },
 };
 
 const annotationRenderingTemporary = [
