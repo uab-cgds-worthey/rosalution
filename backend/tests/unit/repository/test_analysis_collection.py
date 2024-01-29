@@ -336,25 +336,29 @@ def test_attach_section_supporting_evidence_file(analysis_collection):
     """ Tests adding a file as supporting evidence to an analysis section field"""
     analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
 
-    expected = {
-        "header": "Mus musculus (Mouse) Model System", "field": "Veterinary Histology Report", "updated_row": {
-            'type': 'supporting-evidence', 'field': 'Veterinary Histology Report', 'value': [{
-                'name': 'fake-cpam0002-histology-report.pdf', 'attachment_id': 'fake-file-report-id', 'type': 'file',
-                'comments': 'These are comments'
-            }]
-        }
-    }
-
     field_value_file = {
         "name": "fake-cpam0002-histology-report.pdf", "attachment_id": "fake-file-report-id", "type": "file",
         "comments": "These are comments"
     }
 
-    actual = analysis_collection.attach_section_supporting_evidence_file(
+    analysis_collection.attach_section_supporting_evidence_file(
         "CPAM0002", "Mus musculus (Mouse) Model System", "Veterinary Histology Report", field_value_file
     )
 
-    assert expected == actual
+    save_call_args = analysis_collection.collection.update_one.call_args[0]
+    (actual_name, actual_update_query) = save_call_args
+    assert actual_name['name'] == "CPAM0002"
+    section = next((
+        section for section in actual_update_query['$set']['sections']
+        if section['header'] == "Mus musculus (Mouse) Model System"
+    ), None)
+    actual_updated_field = next((
+        field for field in section['content'] if field['value'] == [{
+            'name': 'fake-cpam0002-histology-report.pdf', 'attachment_id': 'fake-file-report-id', 'type': 'file',
+            'comments': 'These are comments'
+        }]
+    ), None)
+    assert actual_updated_field is not None
 
 
 def test_attach_section_supporting_evidence_link(analysis_collection):

@@ -403,10 +403,7 @@ class AnalysisCollection:
             if field['field'] == field_name:
                 field['value'] = [field_value_file]
 
-        self.collection.update_one(
-            {"name": analysis_name},
-            {'$set': updated_document}
-        )
+        self.collection.update_one({"name": analysis_name}, {'$set': updated_document})
 
     def attach_section_supporting_evidence_link(
         self, analysis_name: str, section_name: str, field_name: str, field_value_link: object

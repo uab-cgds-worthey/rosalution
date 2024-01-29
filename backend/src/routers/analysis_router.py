@@ -133,29 +133,21 @@ def update_analysis_section(
     # authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """Updates a section with the changed fields"""
-    analysis_repository = repositories["analysis"]
+    if row_type not in (SectionRowType.TEXT, SectionRowType.IMAGE, SectionRowType.DOCUMENT, SectionRowType.LINK):
+        raise HTTPException(status_code=422, detail=f"'Unsupported 'row_type': {row_type}.")
 
     if row_type == SectionRowType.TEXT:
         for field in updated_section.content:
             field_name, field_value = field["fieldName"], field["value"]
             if "Nominator" == field_name:
-                analysis_repository.update_analysis_nominator(analysis_name, '; '.join(field_value))
-            analysis_repository.update_analysis_section(
+                repositories["analysis"].update_analysis_nominator(analysis_name, '; '.join(field_value))
+            repositories["analysis"].update_analysis_section(
                 analysis_name, updated_section.header, field_name, {"value": field_value}
             )
-        updated_analysis = analysis_repository.find_by_name(analysis_name)
-        updated_analysis_model = Analysis(**updated_analysis)
-        return updated_analysis_model.sections
 
-    updated_analysis = None
-
-    if row_type not in (SectionRowType.IMAGE, SectionRowType.DOCUMENT, SectionRowType.LINK):
-        raise HTTPException(status_code=422, detail=f"'Unsupported 'row_type': {row_type}.")
-    
     updated_field = updated_section.content[0]
 
     if row_type in (SectionRowType.IMAGE, SectionRowType.DOCUMENT):
-
         try:
             new_file_object_id = add_file_to_bucket_repository(upload_file, repositories["bucket"])
         except Exception as exception:
@@ -163,24 +155,28 @@ def update_analysis_section(
 
         if row_type == SectionRowType.DOCUMENT:
             field_value_file = {
-            "name": upload_file.filename, "attachment_id": str(new_file_object_id), "type": "file", "comments": ""
+                "name": upload_file.filename, "attachment_id": str(new_file_object_id), "type": "file", "comments": ""
             }
-            repositories['analysis'].attach_section_supporting_evidence_file( analysis_name, updated_section.header, updated_field["fieldName"], field_value_file)
+            repositories["analysis"].attach_section_supporting_evidence_file(
+                analysis_name, updated_section.header, updated_field["fieldName"], field_value_file
+            )
 
         if row_type == SectionRowType.IMAGE:
-            updated_analysis = repositories["analysis"].add_section_image(
+            repositories["analysis"].add_section_image(
                 analysis_name, updated_section.header, updated_field["fieldName"], new_file_object_id
             )
 
     if row_type in (SectionRowType.LINK):
-        field_value_link = {"name": updated_field["linkName"], "data": updated_field["link"], "type": "link", "comments": ""}
+        field_value_link = {
+            "name": updated_field["linkName"], "data": updated_field["link"], "type": "link", "comments": ""
+        }
 
         repositories["analysis"].attach_section_supporting_evidence_link(
             analysis_name, updated_section.header, updated_field["fieldName"], field_value_link
         )
 
     response.status_code = status.HTTP_201_CREATED
-    updated_analysis_model = Analysis(**updated_analysis)
+    updated_analysis_model = Analysis(**repositories["analysis"].find_by_name(analysis_name))
     return updated_analysis_model.sections
 
 

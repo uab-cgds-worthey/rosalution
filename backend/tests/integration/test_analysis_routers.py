@@ -126,7 +126,7 @@ def test_update_individual_section_text_fields(client, mock_access_token, mock_r
         data={'updated_section': json.dumps(mock_section)}
     )
 
-    assert response.status_code == 200
+    assert response.status_code == 201
     mock_repositories["analysis"].collection.update_one.assert_called()
 
 

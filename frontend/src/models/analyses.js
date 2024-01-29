@@ -221,12 +221,12 @@ export default {
     if (evidence.type == 'file') {
       section.content.push({
         'fieldName': field,
-      })
+      });
 
       attachmentForm = {
         'upload_file': evidence.data,
-        'updated_section': JSON.stringify(section)
-      }
+        'updated_section': JSON.stringify(section),
+      };
 
       url += 'document';
     } else if ( evidence.type == 'link') {
@@ -234,11 +234,11 @@ export default {
         'fieldName': field,
         'linkName': evidence.name,
         'link': evidence.data,
-      })
+      });
 
       attachmentForm = {
-        'updated_section': JSON.stringify(section)
-      }
+        'updated_section': JSON.stringify(section),
+      };
 
       url += 'link';
     }
