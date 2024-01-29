@@ -1,3 +1,6 @@
+# pylint: disable=too-many-arguments
+"""Analysis endpoints that for adding/updating/removing images, documents, links, and text fields of an analysis."""
+
 from typing import List
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Response, Security, status, UploadFile
 

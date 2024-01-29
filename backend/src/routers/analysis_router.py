@@ -5,9 +5,9 @@
 import logging
 import json
 
-from typing import List, Optional, Union
+from typing import List, Union
 
-from fastapi import (APIRouter, BackgroundTasks, Depends, HTTPException, File, UploadFile, Form, Security)
+from fastapi import (APIRouter, BackgroundTasks, Depends, HTTPException, File, Form, Security)
 from fastapi.responses import StreamingResponse
 
 from ..core.annotation import AnnotationService

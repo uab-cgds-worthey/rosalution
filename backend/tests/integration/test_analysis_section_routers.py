@@ -1,12 +1,14 @@
+"""Testing endpoints for adding/updating/removing document and link attachments to an analysis."""
+
 import json
 from typing import List
-
-from ..test_utils import fixture_filepath, read_test_fixture
 
 from bson import ObjectId
 from pydantic import TypeAdapter
 
 from src.models.analysis import Section
+
+from ..test_utils import fixture_filepath, read_test_fixture
 
 
 def test_update_analysis_sections(client, mock_access_token, mock_repositories, cpam0047_analysis_json):

@@ -1,3 +1,5 @@
+"""Analysis endpoints for adding/updating/removing document and link attachments to an analysis."""
+
 from typing import Optional
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Security, UploadFile
 
