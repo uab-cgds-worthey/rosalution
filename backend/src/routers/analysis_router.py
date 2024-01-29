@@ -151,6 +151,8 @@ def update_analysis_section(
 
     if row_type not in (SectionRowType.IMAGE, SectionRowType.DOCUMENT, SectionRowType.LINK):
         raise HTTPException(status_code=422, detail=f"'Unsupported 'row_type': {row_type}.")
+    
+    updated_field = updated_section.content[0]
 
     if row_type in (SectionRowType.IMAGE, SectionRowType.DOCUMENT):
 
@@ -159,20 +161,23 @@ def update_analysis_section(
         except Exception as exception:
             raise HTTPException(status_code=500, detail=str(exception)) from exception
 
-        field_value_file = {
-            "name": upload_file.filename, "attachment_id": str(new_file_object_id), "type": "file", "comments": ""
-        }
-
         if row_type == SectionRowType.DOCUMENT:
-            print("Will be adding document")
+            field_value_file = {
+            "name": upload_file.filename, "attachment_id": str(new_file_object_id), "type": "file", "comments": ""
+            }
+            repositories['analysis'].attach_section_supporting_evidence_file( analysis_name, updated_section.header, updated_field["fieldName"], field_value_file)
 
         if row_type == SectionRowType.IMAGE:
             updated_analysis = repositories["analysis"].add_section_image(
-                analysis_name, updated_section.header, updated_section.content[0]["fieldName"], new_file_object_id
+                analysis_name, updated_section.header, updated_field["fieldName"], new_file_object_id
             )
 
     if row_type in (SectionRowType.LINK):
-        print("Will be adding link")
+        field_value_link = {"name": updated_field["linkName"], "data": updated_field["link"], "type": "link", "comments": ""}
+
+        repositories["analysis"].attach_section_supporting_evidence_link(
+            analysis_name, updated_section.header, updated_field["fieldName"], field_value_link
+        )
 
     response.status_code = status.HTTP_201_CREATED
     updated_analysis_model = Analysis(**updated_analysis)
@@ -182,34 +187,6 @@ def update_analysis_section(
 def add_file_to_bucket_repository(file_to_save, bucket_repository):
     """Saves the 'file_to_save' within the bucket repository and returns the files new uuid."""
     return bucket_repository.save_file(file_to_save.file, file_to_save.filename, file_to_save.content_type)
-
-
-@router.put("/{analysis_name}/section/attach/file", tags=["analysis", "sections"])
-def attach_animal_model_system_report(
-    analysis_name: str,
-    section_name: str = Form(...),
-    field_name: str = Form(...),
-    comments: str = Form(...),
-    upload_file: UploadFile = File(...),
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
-):
-    """ Attaches a file as supporting evidence to a section in an Analysis  """
-
-    try:
-        new_file_object_id = repositories["bucket"].save_file(
-            upload_file.file, upload_file.filename, upload_file.content_type
-        )
-    except Exception as exception:
-        raise HTTPException(status_code=500, detail=str(exception)) from exception
-
-    field_value_file = {
-        "name": upload_file.filename, "attachment_id": str(new_file_object_id), "type": "file", "comments": comments
-    }
-
-    return repositories['analysis'].attach_section_supporting_evidence_file(
-        analysis_name, section_name, field_name, field_value_file
-    )
 
 
 @router.put("/{analysis_name}/section/remove/file", tags=["analysis", "sections"])
@@ -279,34 +256,6 @@ def download(analysis_name: str, file_name: str, repositories=Depends(database))
         raise HTTPException(status_code=404, detail="File not found.")
 
     return StreamingResponse(repositories['bucket'].stream_analysis_file_by_id(file['attachment_id']))
-
-
-####
-### TODO: CURENT ENDPOINT BEING REFACTORED
-####
-@router.post("/{analysis_name}/section/attach/image")
-def attach_section_image(
-    response: Response,
-    analysis_name: str,
-    upload_file: UploadFile = File(...),
-    section_name: str = Form(...),
-    field_name: str = Form(...),
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
-):
-    """ Saves the uploaded image it to the specified field_name in the analysis's section."""
-    try:
-        new_file_object_id = repositories["bucket"].save_file(
-            upload_file.file, upload_file.filename, upload_file.content_type
-        )
-    except Exception as exception:
-        raise HTTPException(status_code=500, detail=str(exception)) from exception
-
-    repositories["analysis"].add_section_image(analysis_name, section_name, field_name, new_file_object_id)
-
-    response.status_code = status.HTTP_201_CREATED
-
-    return {'section': section_name, 'field': field_name, 'image_id': str(new_file_object_id)}
 
 
 @router.put("/{analysis_name}/section/update/{old_file_id}")

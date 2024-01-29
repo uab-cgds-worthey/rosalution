@@ -399,21 +399,14 @@ class AnalysisCollection:
                 section."
             )
 
-        updated_field = None
         for field in updated_section['content']:
             if field['field'] == field_name:
                 field['value'] = [field_value_file]
-                updated_field = field
 
-        self.collection.find_one_and_update(
+        self.collection.update_one(
             {"name": analysis_name},
-            {'$set': updated_document},
-            return_document=ReturnDocument.AFTER,
+            {'$set': updated_document}
         )
-
-        return_field = {"header": section_name, "field": field_name, "updated_row": updated_field}
-
-        return return_field
 
     def attach_section_supporting_evidence_link(
         self, analysis_name: str, section_name: str, field_name: str, field_value_link: object

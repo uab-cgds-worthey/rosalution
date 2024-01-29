@@ -122,8 +122,6 @@ export default {
     return updatedAnalysisSections.find((section) => {
       return section.header == sectionName;
     })?.content.find((row) => {
-      console.log(row);
-      console.log(field);
       return row.field == field;
     });
   },
@@ -211,34 +209,45 @@ export default {
     return await Requests.putForm(url, attachmentForm);
   },
 
-  async attachSectionSupportingEvidence(analysisName, section, field, evidence) {
+  async attachSectionSupportingEvidence(analysisName, sectionName, field, evidence) {
     let attachmentForm = null;
-    let url = `/rosalution/api/analysis/${analysisName}/section/attach`;
+    let url = `/rosalution/api/analysis/${analysisName}/section?row_type=`;
+
+    const section = {
+      'header': sectionName,
+      'content': [],
+    };
 
     if (evidence.type == 'file') {
+      section.content.push({
+        'fieldName': field,
+      })
+
       attachmentForm = {
-        'section_name': section,
-        'field_name': field,
         'upload_file': evidence.data,
-        'comments': evidence.comments ? evidence.comments : '  ', /** Required for now, inserting empty string */
-      };
-      url += '/file';
+        'updated_section': JSON.stringify(section)
+      }
+
+      url += 'document';
     } else if ( evidence.type == 'link') {
-      attachmentForm = {
-        'section_name': section,
-        'field_name': field,
-        'link_name': evidence.name,
+      section.content.push({
+        'fieldName': field,
+        'linkName': evidence.name,
         'link': evidence.data,
-        'comments': evidence.comments ? evidence.comments : '  ', /** Required for now, inserting empty string */
-      };
-      url += '/link';
+      })
+
+      attachmentForm = {
+        'updated_section': JSON.stringify(section)
+      }
+
+      url += 'link';
     }
 
     if (null == attachmentForm) {
       throw new Error(`Evidence attachment ${evidence} type is invalid.`);
     }
 
-    return await Requests.putForm(url, attachmentForm);
+    return await Requests.postForm(url, attachmentForm);
   },
 
   async removeSectionSupportingEvidenceFile(analysisName, section, field, attachmentId) {
