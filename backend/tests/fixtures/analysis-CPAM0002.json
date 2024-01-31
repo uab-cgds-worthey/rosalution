@@ -2,9 +2,6 @@
   "name": "CPAM0002",
   "description": "Vacuolar myopathy with autophagy, X-linked vacuolar myopathy with autophagy",
   "nominated_by": "Dr. Person One",
-  "latest_status": "Approved",
-  "created_date": "2020-11-09",
-  "last_modified_date": "2021-03-16",
   "genomic_units": [
     {
       "gene": "VMA21",
@@ -38,26 +35,6 @@
               "field": "Interpretation",
               "value": [
                 "Likely Pathogenic"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "gene": "DMD",
-      "transcripts": [],
-      "variants": [
-        {
-          "hgvs_variant": "",
-          "c_dot": "",
-          "p_dot": "",
-          "build": "",
-          "case": [
-            {
-              "field": "Interpretation",
-              "value": [
-                "Variant of Uncertain Significance"
               ]
             }
           ]

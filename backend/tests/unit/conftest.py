@@ -11,28 +11,50 @@ from src.repository.annotation_config_collection import AnnotationConfigCollecti
 from src.repository.genomic_unit_collection import GenomicUnitCollection
 from src.repository.gridfs_bucket_collection import GridFSBucketCollection
 
-from ..test_utils import read_database_fixture, read_test_fixture, mock_mongo_collection
+from ..test_utils import read_test_fixture, mock_mongo_collection
+
+
+@pytest.fixture(name="cpam0002_analysis_json")
+def fixture_cpam0002_analysis_json():
+    """JSON for the CPAM0002 Analysis"""
+    return read_test_fixture("analysis-CPAM0002.json")
+
+
+@pytest.fixture(name="cpam0046_analysis_json")
+def fixture_cpam0046_analysis_json():
+    """JSON for the CPAM0046 Analysis"""
+    return read_test_fixture("analysis-CPAM0046.json")
+
+
+@pytest.fixture(name="cpam0112_analysis_json")
+def fixture_cpam0112_analysis_json():
+    """JSON for the CPAM0112 Analysis"""
+    return read_test_fixture("analysis-CPAM0112.json")
+
+
+@pytest.fixture(name="cpam0002_analysis")
+def fixture_analysis(cpam0002_analysis_json):
+    """Fixture for the CPAM0002 Analysis"""
+    return Analysis(**cpam0002_analysis_json)
+
+
+@pytest.fixture(name="cpam0046_analysis")
+def fixture_cpam0046_analysis(cpam0046_analysis_json):
+    """Returns the Analysis for CPAM0046 to verify creating annotation tasks"""
+    return Analysis(**cpam0046_analysis_json)
 
 
 @pytest.fixture(name="analysis_collection_json")
-def fixture_analysis_collection_json():
-    """Returns the JSON for the analyses collection used to seed the MongoDB database"""
-    return read_database_fixture("analyses.json")
-
-
-@pytest.fixture(name="updated_analysis_collection_json")
-def fixture_updated_analysis_collection_json():
-    """Returns the JSON for the analyses collection used to seed the MongoDB database"""
-    return read_test_fixture("analysis-update.json")
+def fixture_analysis_collection_json(cpam0002_analysis_json, cpam0046_analysis_json, cpam0112_analysis_json):
+    """Returns the multiple analyses being mocked as an array"""
+    return [cpam0002_analysis_json, cpam0046_analysis_json, cpam0112_analysis_json]
 
 
 @pytest.fixture(name="analysis_collection")
-def fixture_analysis_collection(analysis_collection_json, updated_analysis_collection_json):
+def fixture_analysis_collection(analysis_collection_json):
     """Returns the analysis collection to be mocked"""
     mock_collection = mock_mongo_collection()
     mock_collection.find = Mock(return_value=analysis_collection_json)
-    mock_collection.find_one = Mock(return_value=analysis_collection_json)
-    mock_collection.find_one_and_update = Mock(return_value=updated_analysis_collection_json)
     return AnalysisCollection(mock_collection)
 
 
@@ -49,10 +71,22 @@ def fixture_gridfs_bucket_collection():
     return mock_collection
 
 
+@pytest.fixture(name="gene_vma21_annotations_json")
+def fixture_gene_annotation_json():
+    """JSON for the annotations of the Gene VMA21"""
+    return read_test_fixture("annotations-VMA21.json")
+
+
+@pytest.fixture(name="variant_nm001017980_3_c_164g_t_annotations_json")
+def fixture_hgvs_variant_json():
+    """JSON for the annotations of the Gene VMA21"""
+    return read_test_fixture("annotations-NM001017980_3_c_164G_T.json")
+
+
 @pytest.fixture(name="genomic_unit_collection_json")
-def fixture_genomic_unit_collection_json():
-    """Returns the JSON for the genomic units collection used to seed the MongoDB database"""
-    return read_database_fixture("genomic-units.json")
+def fixture_genomic_unit_collection_json(gene_vma21_annotations_json, variant_nm001017980_3_c_164g_t_annotations_json):
+    """Returns array of JSON for the genomic units within the collection"""
+    return [gene_vma21_annotations_json, variant_nm001017980_3_c_164g_t_annotations_json]
 
 
 @pytest.fixture(name="genomic_unit_collection")
@@ -65,49 +99,30 @@ def fixture_genomic_unit_collection(genomic_unit_collection_json):
     return GenomicUnitCollection(mock_collection)
 
 
-@pytest.fixture(name="cpam0002_analysis_json")
-def fixture_cpam0002_analysis_json(analysis_collection_json):
-    """JSON for the CPAM0002 Analysis"""
-    return next((analysis for analysis in analysis_collection_json if analysis['name'] == "CPAM0002"), None)
-
-
-@pytest.fixture(name="cpam0002_analysis")
-def fixture_analysis(cpam0002_analysis_json):
-    """Fixture for the CPAM0002 Analysis"""
-    return Analysis(**cpam0002_analysis_json)
-
-
-@pytest.fixture(name="cpam0046_analysis")
-def fixture_cpam0046_analysis(analysis_collection_json):
-    """Returns the Analysis for CPAM0046 to verify creating annotation tasks"""
-    analysis_json = next((analysis for analysis in analysis_collection_json if analysis['name'] == "CPAM0046"), None)
-    return Analysis(**analysis_json)
-
-
-@pytest.fixture(name="annotation_collection")
-def fixture_annotation_collection():
+@pytest.fixture(name="annotation_config_collection")
+def fixture_annotation_config_collection():
     """Returns the annotation collection for the datasets to be mocked"""
     mock_collection = mock_mongo_collection()
-    mock_collection.find = Mock(return_value=read_database_fixture("annotations-config.json"))
-    mock_collection.find_one = Mock(return_value=read_database_fixture("annotations-config.json"))
+    mock_collection.find = Mock(return_value=read_test_fixture("annotations-config.json"))
+    mock_collection.find_one = Mock(return_value=read_test_fixture("annotations-config.json"))
     return AnnotationConfigCollection(mock_collection)
 
 
 @pytest.fixture(name="cpam0046_annotation_queue")
-def fixture_cpam0046_annotation_queue(annotation_collection, cpam0046_analysis):
+def fixture_cpam0046_annotation_queue(annotation_config_collection, cpam0046_analysis):
     """
     Returns an thread-safe annotation queue with tasks
     """
-    annotation_service = AnnotationService(annotation_collection)
+    annotation_service = AnnotationService(annotation_config_collection)
     test_queue = queue.Queue()
     annotation_service.queue_annotation_tasks(cpam0046_analysis, test_queue)
     return test_queue
 
 
 @pytest.fixture(name="cpam0002_annotation_queue")
-def fixture_cpam0002_annotation_queue(annotation_collection, cpam0002_analysis):
+def fixture_cpam0002_annotation_queue(annotation_config_collection, cpam0002_analysis):
     """ Annotation queue using the CPAM0002 analysis fixtures """
-    annotation_service = AnnotationService(annotation_collection)
+    annotation_service = AnnotationService(annotation_config_collection)
     test_queue = queue.Queue()
     annotation_service.queue_annotation_tasks(cpam0002_analysis, test_queue)
     return test_queue
@@ -141,12 +156,6 @@ def fixture_annotation_response_for_transcript():
             "consequence_terms": ["missense_variant", "splice_region_variant"],
         }]
     }]
-
-
-@pytest.fixture(name="empty_pedigree")
-def fixture_empty_pedigree():
-    """returns an analysis with an empty pedigree"""
-    return read_test_fixture("empty-pedigree.json")
 
 
 @pytest.fixture(name="settings_json")

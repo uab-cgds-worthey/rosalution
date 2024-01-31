@@ -4,17 +4,17 @@ import pytest
 from src.enums import GenomicUnitType
 
 
-def test_get_datasets_configuration_by_type(annotation_collection):
+def test_get_datasets_configuration_by_type(annotation_config_collection):
     """Tests getting the datasets for the provided types of genomic units"""
     types = set({GenomicUnitType.GENE, GenomicUnitType.HGVS_VARIANT})
-    datasets = annotation_collection.datasets_to_annotate_by_type(types)
-    assert len(datasets) == 50
+    datasets = annotation_config_collection.datasets_to_annotate_by_type(types)
+    assert len(datasets) == 49
 
 
-def test_get_datasets_to_annotate_for_units(annotation_collection, genomic_units_for_annotation):
+def test_get_datasets_to_annotate_for_units(annotation_config_collection, genomic_units_for_annotation):
     """Tests if the configuration for datasets is return as expected"""
-    actual_configuration = annotation_collection.datasets_to_annotate_for_units(genomic_units_for_annotation)
-    assert len(actual_configuration["gene"]) == 40
+    actual_configuration = annotation_config_collection.datasets_to_annotate_for_units(genomic_units_for_annotation)
+    assert len(actual_configuration["gene"]) == 39
     assert len(actual_configuration["hgvs_variant"]) == 10
 
 

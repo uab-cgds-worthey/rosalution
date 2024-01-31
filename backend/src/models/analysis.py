@@ -4,6 +4,8 @@ of identifiers, case notes, and the genomic units being analyzed.
 """
 # pylint: disable=too-few-public-methods
 from datetime import date
+import logging
+
 import json
 import re
 from typing import List, Optional
@@ -12,6 +14,8 @@ from pydantic import BaseModel, computed_field, model_validator
 from .event import Event
 
 from ..enums import EventType, StatusType, GenomicUnitType
+
+logger = logging.getLogger(__name__)
 
 
 class GenomicUnit(BaseModel):

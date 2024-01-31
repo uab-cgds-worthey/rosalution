@@ -56,9 +56,9 @@ def test_update_individual_section_text_fields(client, mock_access_token, mock_r
     mock_repositories["analysis"].collection.update_one.assert_called()
 
 
-def test_attach_image_to_pedigree_section(client, mock_access_token, mock_repositories):
+def test_attach_image_to_pedigree_section(client, mock_access_token, mock_repositories, cpam0112_analysis_json):
     """ Testing attaching an image to the Pedigree section of an analysis """
-    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0112.json")
+    mock_repositories["analysis"].collection.find_one.return_value = cpam0112_analysis_json
 
     new_image_id = "633afb87fb250a6ea1569555"
     expected = read_test_fixture("analysis-CPAM0112.json")
@@ -91,12 +91,11 @@ def test_attach_image_to_pedigree_section(client, mock_access_token, mock_reposi
     assert actual_updated_field["value"] == [{'file_id': new_image_id}]
 
 
-def test_update_existing_pedigree_section_image(client, mock_access_token, mock_repositories):
+def test_update_existing_pedigree_section_image(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """ Testing the update pedigree attachment endpoint """
-    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    mock_repositories["analysis"].collection.find_one.return_value = cpam0002_analysis_json
     mock_repositories['bucket'].bucket.put.return_value = "633afb87fb250a6ea1569555"
-    mock_analysis = read_test_fixture("analysis-CPAM0002.json")
-    mock_repositories["analysis"].collection.find_one_and_update.return_value = mock_analysis
+    mock_repositories["analysis"].collection.find_one_and_update.return_value = cpam0002_analysis_json
 
     # Need to send the file as raw binary instead of the processed content
     section_image_filepath = fixture_filepath('pedigree-fake.jpg')
@@ -115,9 +114,9 @@ def test_update_existing_pedigree_section_image(client, mock_access_token, mock_
     assert response.status_code == 200
 
 
-def test_remove_existing_pedigree_section_image(client, mock_access_token, mock_repositories):
+def test_remove_existing_pedigree_section_image(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """ Tests removing an existing image from the pedigree section of CPAM0002 """
-    mock_repositories["analysis"].collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    mock_repositories["analysis"].collection.find_one.return_value = cpam0002_analysis_json
     mock_repositories["bucket"].bucket.delete.return_value = None
 
     response = client.request(

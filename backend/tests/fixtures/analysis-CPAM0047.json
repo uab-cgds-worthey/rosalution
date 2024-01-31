@@ -1,0 +1,259 @@
+{
+  "name":"CPAM0047",
+  "description":"Congenital variant of Rett syndrome",
+  "nominated_by":"CMT4B3 Foundation",
+  "genomic_units":[
+     {
+        "gene":"SBF1",
+        "transcripts":[
+           {
+              "transcript":"NM_002972.2"
+           }
+        ],
+        "variants":[
+           {
+              "hgvs_variant":"NM_002972.2:c.3493_3494dupTA",
+              "c_dot":"c.3493_3494dupTA",
+              "p_dot":"Pro1166ThrfsX5",
+              "build":"hg19",
+              "case":[
+                 
+              ]
+           },
+           {
+              "hgvs_variant":"NM_002972.2:c.5474_5475delTG",
+              "c_dot":"c.5474_5475delTG",
+              "p_dot":"Val1825GlyfsX27",
+              "build":"hg19",
+              "case":[
+                 
+              ]
+           }
+        ]
+     }
+  ],
+  "sections":[
+     {
+        "header":"Brief",
+        "content":[
+           {
+              "type":"section-text",
+              "field":"Nominator",
+              "value":[
+                 "CMT4B3 Foundation"
+              ]
+           },
+           {
+              "type":"section-text",
+              "field":"Participant",
+              "value":[
+                 
+              ]
+           },
+           {
+              "type":"section-text",
+              "field":"Phenotype",
+              "value":[
+                 
+              ]
+           },
+           {
+              "type":"section-text",
+              "field":"ACMG Classification",
+              "value":[
+                 
+              ]
+           },
+           {
+              "type":"section-text",
+              "field":"ACMG Classification Criteria",
+              "value":[
+                 
+              ]
+           },
+           {
+              "type":"section-text",
+              "field":"ACMG Criteria To Add",
+              "value":[
+                 
+              ]
+           },
+           {
+              "type":"section-text",
+              "field":"Decision",
+              "value":[
+                 
+              ]
+           }
+        ]
+     },
+     {
+        "header":"Clinical History",
+        "content":[
+           {
+              "type":"section-text",
+              "field":"Clinical Diagnosis",
+              "value":[
+                 "Mild Zellweger Spectrum Disorder (a Peroxisome Biogenesis Disorder)",
+                 "Current clinical manifestation is cerebellar ataxia that has impeded gross motor development."
+              ]
+           },
+           {
+              "type":"section-text",
+              "field":"Affected Individuals Identified",
+              "value":[
+                 
+              ]
+           },
+           {
+              "type":"section-text",
+              "field":"Sequencing",
+              "value":[
+                 
+              ]
+           },
+           {
+              "type":"section-text",
+              "field":"Testing",
+              "value":[
+                 " - Invitae Boosted Exome in 2019"
+              ]
+           },
+           {
+              "type":"section-text",
+              "field":"Systems",
+              "value":[
+                 "Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"
+              ]
+           },
+           {
+              "type":"section-text",
+              "field":"Additional Details",
+              "value":[
+                 "Symptoms: postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus "
+              ]
+           }
+        ]
+     },
+     {
+        "header":"Pedigree",
+        "attachment_field":"Pedigree",
+        "content":[
+           {
+              "type":"images-dataset",
+              "field":"Pedigree",
+              "value":[
+                 
+              ]
+           }
+        ]
+     },
+     {
+        "header":"SBF1 Gene To Phenotype",
+        "attachment_field":"SBF1 Gene To Phenotype",
+        "content":[
+           {
+              "type":"images-dataset",
+              "field":"SBF1 Gene To Phenotype",
+              "value":[
+                 
+              ]
+           },
+           {
+              "type":"section-text",
+              "field":"HPO Terms",
+              "value":[
+                 
+              ]
+           }
+        ]
+     },
+     {
+        "header":"SBF1 Molecular Mechanism",
+        "content":[
+           {
+              "type":"section-text",
+              "field":"Function Overview",
+              "value":[
+                 
+              ]
+           }
+        ]
+     },
+     {
+        "header":"SBF1 Function",
+        "attachment_field":"SBF1 Function",
+        "content":[
+           {
+              "type":"images-dataset",
+              "field":"SBF1 Function",
+              "value":[
+                 
+              ]
+           }
+        ]
+     },
+     {
+        "header":"Model Goals",
+        "content":[
+           {
+              "type":"section-text",
+              "field":"Model of Interest",
+              "value":[
+                 
+              ]
+           },
+           {
+              "type":"section-text",
+              "field":"Goals",
+              "value":[
+                 
+              ]
+           },
+           {
+              "type":"section-text",
+              "field":"Proposed Model/Project",
+              "value":[
+                 
+              ]
+           },
+           {
+              "type":"section-text",
+              "field":"Existing Collaborations",
+              "value":[
+                 
+              ]
+           },
+           {
+              "type":"section-text",
+              "field":"Existing Funding",
+              "value":[
+                 
+              ]
+           }
+        ]
+     }
+  ],
+  "timeline":[
+     {
+        "event":"create",
+        "timestamp":"2022-10-09T21:13:22.687000",
+        "username":"vrr-prep"
+     },
+     {
+        "event":"ready",
+        "timestamp":"2022-10-09T21:14:22.687000",
+        "username":"vrr-prep"
+     },
+     {
+        "event":"opened",
+        "timestamp":"2022-10-09T21:15:22.687000",
+        "username":"vrr-prep"
+     },
+     {
+        "event":"decline",
+        "timestamp":"2022-10-09T21:16:22.687000",
+        "username":"vrr-prep"
+     }
+  ]
+}

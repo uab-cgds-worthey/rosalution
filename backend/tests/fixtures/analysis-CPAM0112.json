@@ -2,9 +2,6 @@
   "name": "CPAM0112",
   "description": "",
   "nominated_by": "",
-  "latest_status": "Annotation",
-  "created_date": "2021-02-18",
-  "last_modified_date": "2021-02-22",
   "genomic_units": [
     {
       "gene": "VMA21",

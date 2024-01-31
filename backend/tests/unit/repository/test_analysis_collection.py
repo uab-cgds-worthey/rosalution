@@ -12,27 +12,27 @@ from ...test_utils import read_test_fixture
 def test_all(analysis_collection):
     """Tests the all function"""
     actual = analysis_collection.all()
-    assert len(actual) == 6
+    assert len(actual) == 3
     assert actual[0]["name"] == "CPAM0002"
 
 
-def test_summary_by_name(analysis_collection):
+def test_summary_by_name(analysis_collection, cpam0002_analysis_json):
     """Tests the summary_by_name function"""
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
     actual = analysis_collection.summary_by_name("CPAM0002")
     assert actual["name"] == "CPAM0002"
 
 
-def test_find_by_name(analysis_collection):
+def test_find_by_name(analysis_collection, cpam0002_analysis_json):
     """Tests the find_by_name function"""
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
     actual = analysis_collection.find_by_name("CPAM0002")
     assert actual["name"] == "CPAM0002"
 
 
-def test_update_analysis_section(analysis_collection):
+def test_update_analysis_section(analysis_collection, cpam0112_analysis_json):
     """Tests the update_analysis_section function"""
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0112.json")
+    analysis_collection.collection.find_one.return_value = cpam0112_analysis_json
     analysis_collection.update_analysis_section(
         "CPAM0112", "Brief", "Reason", {"value": ["the quick brown fox jumps over the lazy dog."]}
     )
@@ -49,9 +49,9 @@ def test_update_analysis_section(analysis_collection):
     assert actual_updated_field is not None
 
 
-def test_find_file_by_name(analysis_collection):
+def test_find_file_by_name(analysis_collection, cpam0002_analysis_json):
     """Tests the find_file_by_name function"""
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
     actual = analysis_collection.find_file_by_name("CPAM0002", "test.txt")
     assert actual == {'attachment_id': '633afb87fb250a6ea1569555', 'comments': 'hello world', 'name': 'test.txt'}
 
@@ -63,27 +63,26 @@ def test_find_file_by_name_analysis_none(analysis_collection):
     assert actual is None
 
 
-def test_find_file_by_name_no_supporting_evidence(analysis_collection):
+def test_find_file_by_name_no_supporting_evidence(analysis_collection, cpam0002_analysis_json):
     """Tests the find_file_by_name function"""
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json"
-                                                                            ).pop('supporting_evidence_files')
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json.pop('supporting_evidence_files')
     actual = analysis_collection.find_file_by_name("CPAM0002", "notfound.txt")
     assert actual is None
 
 
-def test_create_analysis(analysis_collection):
+def test_create_analysis(analysis_collection, cpam0002_analysis_json):
     """Tests the create_analysis function"""
     analysis_collection.collection.find_one.return_value = None
-    new_analysis = read_test_fixture("analysis-CPAM0002.json")
+    new_analysis = cpam0002_analysis_json
     new_analysis["name"] = "CPAM1234"
     analysis_collection.create_analysis(new_analysis)
     analysis_collection.collection.insert_one.assert_called_once_with(new_analysis)
 
 
-def test_create_analysis_already_exists(analysis_collection):
+def test_create_analysis_already_exists(analysis_collection, cpam0002_analysis_json):
     """Tests the create_analysis function"""
     try:
-        analysis_collection.create_analysis(read_test_fixture("analysis-CPAM0002.json"))
+        analysis_collection.create_analysis(cpam0002_analysis_json)
     except ValueError as error:
         assert isinstance(error, ValueError)
         assert str(error) == "Analysis with name CPAM0002 already exists"
@@ -143,9 +142,9 @@ def test_attach_file_supporting_evidence(analysis_collection, cpam0002_analysis_
     assert new_evidence['attachment_id'] == 'Fake-Mongo-Object-ID-2'
 
 
-def test_get_genomic_units(analysis_collection):
+def test_get_genomic_units(analysis_collection, cpam0002_analysis_json):
     """Tests the get_genomic_units function"""
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
     actual = analysis_collection.get_genomic_units("CPAM0002")
     assert len(actual) == 2
 
@@ -160,10 +159,9 @@ def test_get_genomic_units_analysis_does_not_exist(analysis_collection):
         assert str(error) == "Analysis with name CPAM2222 does not exist"
 
 
-def test_get_genomic_units_analysis_has_no_genomic_units(analysis_collection):
+def test_get_genomic_units_analysis_has_no_genomic_units(analysis_collection, cpam0002_analysis_json):
     """Tests the get_genomic_units function"""
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json"
-                                                                            ).pop("genomic_units")
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json.pop("genomic_units")
 
     try:
         analysis_collection.get_genomic_units("CPAM0002")
@@ -180,9 +178,9 @@ def test_get_genomic_units_with_no_p_dot(analysis_collection, analysis_with_no_p
     assert actual == {'genes': {'VMA21': ['NM_001017980.3:c.164G>T']}, 'variants': ['NM_001017980.3:c.164G>T']}
 
 
-def test_remove_supporting_evidence(analysis_collection):
+def test_remove_supporting_evidence(analysis_collection, cpam0002_analysis_json):
     """Tests the remove_supporting_evidence function"""
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
     expected = read_test_fixture("analysis-CPAM0002.json")
     expected["supporting_evidence_files"] = []
     analysis_collection.collection.find_one_and_update.return_value = expected
@@ -190,20 +188,25 @@ def test_remove_supporting_evidence(analysis_collection):
     assert actual == expected
 
 
-def test_add_image_to_pedigree_section(analysis_collection, empty_pedigree):
+def test_add_image_to_pedigree_section(analysis_collection, cpam0002_analysis_json_without_pedigree_section_image):
     """Tests adding an image to the pedigree section of the CPAM0002 analysis"""
-    analysis_collection.collection.find_one.return_value = empty_pedigree
-    expected = read_test_fixture("analysis-CPAM0002.json")
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json_without_pedigree_section_image
 
     analysis_collection.add_section_image("CPAM0002", "Pedigree", "Pedigree", "63505be22888347cf1c275db")
-    analysis_collection.collection.find_one_and_update.assert_called_with({"name": "CPAM0002"}, {"$set": expected},
-                                                                          return_document=ReturnDocument.AFTER)
+
+    analysis_collection.collection.find_one_and_update.assert_called_once()
+    updated_analysis = analysis_collection.collection.find_one_and_update.call_args_list[0][0][1]['$set']
+    actual_updated_pedigree_section = (
+        next(filter(lambda x: x["header"] == "Pedigree", updated_analysis['sections']), None)
+    )
+    assert len(actual_updated_pedigree_section['content']) == 1
+    assert len(actual_updated_pedigree_section['content'][0]['value']) == 1
 
 
-def test_add_an_additional_image_to_pedigree_section(analysis_collection):
+def test_add_an_additional_image_to_pedigree_section(analysis_collection, cpam0002_analysis_json):
     """ Tests adding another image to the pedigree section of the CPAM0002 analysis """
 
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
 
     analysis_collection.add_section_image("CPAM0002", "Pedigree", "Pedigree", "second-fake-file-id")
 
@@ -216,11 +219,10 @@ def test_add_an_additional_image_to_pedigree_section(analysis_collection):
     assert len(actual_updated_pedigree_section['content'][0]['value']) == 2
 
 
-def test_update_existing_image_in_pedigree_section(analysis_collection):
+def test_update_existing_image_in_pedigree_section(analysis_collection, cpam0002_analysis_json):
     """ Tests updating an image in the pedigree section and receiving a new section with the updated image id """
 
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
-
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
     expected = {
         'header': 'Pedigree', 'attachment_field': 'Pedigree',
         'content': [{'type': 'images-dataset', 'field': 'Pedigree', 'value': [{"file_id": "new-fake-file-id"}]}]
@@ -233,10 +235,10 @@ def test_update_existing_image_in_pedigree_section(analysis_collection):
     assert actual == expected
 
 
-def test_remove_image_from_pedigree_section(analysis_collection):
+def test_remove_image_from_pedigree_section(analysis_collection, cpam0002_analysis_json):
     """Tests removing an image from the pedigree section of the CPAM0002 analysis"""
 
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
     expected = {
         'header': 'Pedigree', 'attachment_field': 'Pedigree',
         'content': [{'type': 'images-dataset', 'field': 'Pedigree', 'value': []}]
@@ -248,9 +250,9 @@ def test_remove_image_from_pedigree_section(analysis_collection):
     assert actual == expected
 
 
-def test_attach_third_party_link_monday(analysis_collection):
+def test_attach_third_party_link_monday(analysis_collection, cpam0002_analysis_json):
     """Tests the attach_third_party_link function"""
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
     analysis_collection.attach_third_party_link("CPAM0002", "monday_com", "https://monday.com")
     analysis_collection.collection.find_one_and_update.assert_called_with({'name': 'CPAM0002'}, {
         '$push': {'third_party_links': {'type': "monday_com", 'link': "https://monday.com"}}
@@ -258,9 +260,9 @@ def test_attach_third_party_link_monday(analysis_collection):
                                                                           return_document=True)
 
 
-def test_attach_third_party_link_phenotips(analysis_collection):
+def test_attach_third_party_link_phenotips(analysis_collection, cpam0002_analysis_json):
     """Tests the attach_third_party_link function"""
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
     analysis_collection.attach_third_party_link("CPAM0002", "phenotips_com", "https://phenotips.com")
     analysis_collection.collection.find_one_and_update.assert_called_with({'name': 'CPAM0002'}, {
         '$push': {'third_party_links': {'type': "phenotips_com", 'link': 'https://phenotips.com'}}
@@ -278,9 +280,9 @@ def test_attach_third_party_link_analysis_does_not_exist(analysis_collection):
         assert str(error) == "Analysis with name CPAM02222 does not exist"
 
 
-def test_attach_third_party_link_unsupported_enum(analysis_collection):
+def test_attach_third_party_link_unsupported_enum(analysis_collection, cpam0002_analysis_json):
     """Tests the attach_third_party_link function"""
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
     try:
         analysis_collection.attach_third_party_link("CPAM02222", "BAD_ENUM", "https://monday.com")
     except ValueError as error:
@@ -288,9 +290,9 @@ def test_attach_third_party_link_unsupported_enum(analysis_collection):
         assert str(error) == "Third party link type BAD_ENUM is not supported"
 
 
-def test_mark_ready(analysis_collection, create_timestamp, ready_timestamp):
+def test_mark_ready(analysis_collection, cpam0002_analysis_json, create_timestamp, ready_timestamp):
     """Tests the mark_ready function"""
-    staging_analysis_timeline = read_test_fixture("analysis-CPAM0002.json")
+    staging_analysis_timeline = cpam0002_analysis_json
     staging_analysis_timeline["timeline"] = [{
         'event': 'create',
         'timestamp': create_timestamp,
@@ -332,9 +334,9 @@ def test_mark_ready_analysis_does_not_exist(analysis_collection):
         assert str(error) == "Analysis with name CPAM2222 does not exist."
 
 
-def test_attach_section_supporting_evidence_file(analysis_collection):
+def test_attach_section_supporting_evidence_file(analysis_collection, cpam0002_analysis_json):
     """ Tests adding a file as supporting evidence to an analysis section field"""
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
 
     field_value_file = {
         "name": "fake-cpam0002-histology-report.pdf", "attachment_id": "fake-file-report-id", "type": "file",
@@ -361,9 +363,9 @@ def test_attach_section_supporting_evidence_file(analysis_collection):
     assert actual_updated_field is not None
 
 
-def test_attach_section_supporting_evidence_link(analysis_collection):
+def test_attach_section_supporting_evidence_link(analysis_collection, cpam0002_analysis_json):
     """ Tests adding a link as supporting evidence to an analysis section field """
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
 
     field_value_link = {
         "name": "Google Link", "data": "https://www.google.com", "type": "link", "comments": "nothing to do with google"
@@ -380,9 +382,9 @@ def test_attach_section_supporting_evidence_link(analysis_collection):
     assert new_evidence['data'] == 'https://www.google.com'
 
 
-def test_remove_section_supporting_evidence(analysis_collection):
+def test_remove_section_supporting_evidence(analysis_collection, cpam0002_analysis_json):
     """ Tests removing supporting evidence from an analysis section field """
-    analysis_collection.collection.find_one.return_value = read_test_fixture("analysis-CPAM0002.json")
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
 
     expected = {"header": "Mus musculus (Mouse) Model System", "field": "Veterinary Histology Report"}
 
@@ -409,6 +411,16 @@ def fixture_analysis_with_no_p_dot():
             }],
         }],
     }
+
+
+@pytest.fixture(name="cpam0002_analysis_json_without_pedigree_section_image")
+def fixture_analysis_without_pedigree_section_image(cpam0002_analysis_json):
+    """Provides an analysis with no images attached in the pedigree section and field"""
+    pedigree_section = (next(filter(lambda x: x["header"] == "Pedigree", cpam0002_analysis_json['sections']), None))
+    pedigree_field = (next(filter(lambda x: x["field"] == "Pedigree", pedigree_section['content']), None))
+
+    pedigree_field['value'] = []
+    return cpam0002_analysis_json
 
 
 @pytest.fixture(name="create_timestamp")
