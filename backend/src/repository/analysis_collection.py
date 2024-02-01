@@ -3,6 +3,7 @@ Collection with retrieves, creates, and modify analyses.
 """
 from typing import List
 from uuid import uuid4
+
 from pymongo import ReturnDocument
 
 from ..models.analysis import Section
