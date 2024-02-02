@@ -16,7 +16,7 @@
             </ContextMenu>
           </ul>
         </div>
-        <div v-if="!editingPost" class="discussion-content" data-test="discussion-post-content">
+        <div v-if="!editingPostFlag" class="discussion-content" data-test="discussion-post-content">
             {{ content }}
         </div>
         <div v-else class="discussion-edit-post">
@@ -24,20 +24,20 @@
             contenteditable="plaintext-only"
             class="discussion-edit-post-text-area"
             v-model="editPostContent"
-            data-test="new-discussion-input"
+            data-test="edit-discussion-input"
           />
           <div class="discussion-actions">
             <button
               class="secondary-button"
               @click="cancelEditPost"
-              data-test="new-discussion-cancel"
+              data-test="edit-discussion-cancel"
             >
               Cancel
             </button>
             <button
               class="primary-button save-button"
               @click="confirmEditPost"
-              data-test="new-discussion-publish"
+              data-test="edit-discussion-save"
             >
             Save
           </button>
@@ -86,7 +86,7 @@ export default {
   },
   data: function() {
     return {
-      editingPost: false,
+      editingPostFlag: false,
       editPostContent: this.content,
     };
   },
@@ -100,14 +100,14 @@ export default {
   },
   methods: {
     editPost() {
-      this.editingPost = true;
+      this.editingPostFlag = true;
     },
     confirmEditPost() {
-      this.editingPost = false;
+      this.editingPostFlag = false;
       this.$emit('post:edit', this.id, this.editPostContent);
     },
     cancelEditPost() {
-      this.editingPost = false;
+      this.editingPostFlag = false;
       this.editPostContent = this.content;
     },
     deletePost(postId) {

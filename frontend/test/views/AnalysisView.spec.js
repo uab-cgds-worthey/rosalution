@@ -92,6 +92,7 @@ describe('AnalysisView', () => {
   let updateAnalysisSectionsMock;
   let postNewDiscussionThreadMock;
   let deleteDiscussionThreadByIdMock;
+  let editDiscussionThreadByIdMock;
   let mockAuthWritePermissions;
   let mockedAttachSectionSupportingEvidence;
   let mockedRemoveSectionSupportingEvidenceFile;
@@ -120,6 +121,7 @@ describe('AnalysisView', () => {
 
     postNewDiscussionThreadMock = sandbox.stub(Analyses, 'postNewDiscussionThread');
     deleteDiscussionThreadByIdMock = sandbox.stub(Analyses, 'deleteDiscussionThreadById');
+    editDiscussionThreadByIdMock = sandbox.stub(Analyses, 'editDiscussionThreadById');
 
     mockAuthWritePermissions = sandbox.stub(authStore, 'hasWritePermissions');
     mockAuthWritePermissions.returns(true);
@@ -362,13 +364,13 @@ describe('AnalysisView', () => {
     it('Should receive a discussion:delete-post emit and remove the discussion post', async () => {
       const discussionSectionComponent = wrapper.getComponent(DiscussionSection);
 
-      const postId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
+      const deletePostId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
 
-      const discussionFixtureData = fixtureData()['discussions'].filter((post) => post.post_id != postId);
+      const discussionFixtureData = fixtureData()['discussions'].filter((post) => post.post_id != deletePostId);
 
       deleteDiscussionThreadByIdMock.returns(discussionFixtureData);
 
-      discussionSectionComponent.vm.$emit('discussion:delete-post', postId);
+      discussionSectionComponent.vm.$emit('discussion:delete-post', deletePostId);
 
       await wrapper.vm.$nextTick();
       await wrapper.vm.$nextTick();
@@ -380,6 +382,30 @@ describe('AnalysisView', () => {
       await wrapper.vm.$nextTick();
 
       expect(discussionSectionComponent.props('discussions').length).toBe(2);
+    });
+
+    it('Should receive a discussion:edit-post emit and work to edit the selected post with new content', async () => {
+      const discussionSectionComponent = wrapper.getComponent(DiscussionSection);
+
+      const editPostId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
+      const editPostContent = 'Well my mind is changed, Gundam Wing is the best anime!';
+
+      const discussionFixtureData = fixtureData()['discussions'];
+      const postIndex = discussionFixtureData.findIndex((post) => post.post_id == editPostId);
+
+      discussionFixtureData[postIndex].content = editPostContent;
+
+      editDiscussionThreadByIdMock.returns(discussionFixtureData);
+
+      discussionSectionComponent.vm.$emit('discussion:edit-post', editPostId, editPostContent);
+
+      await wrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick();
+
+      const updatedPosts = discussionSectionComponent.props('discussions');
+      const updatedPostIndex = updatedPosts.findIndex((post) => post.post_id == editPostId);
+
+      expect(updatedPosts[updatedPostIndex].content).toBe(editPostContent);
     });
   });
 

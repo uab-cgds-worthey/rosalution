@@ -632,6 +632,7 @@ export default {
       this.analysis.discussions = discussions;
     },
     async editDiscussionPost(postId, postContent) {
+      console.log('Am I happening?');
       const analysisName = this.analysis_name;
 
       const discussions = await Analyses.editDiscussionThreadById(analysisName, postId, postContent);
