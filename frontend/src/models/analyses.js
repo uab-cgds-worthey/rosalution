@@ -225,7 +225,7 @@ export default {
   async editDiscussionThreadById(analysisName, postId, postContent) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}`;
 
-    const attachmentForm = { 'discussion_content': postContent };
+    const attachmentForm = {'discussion_content': postContent};
 
     const success = await Requests.putForm(url, attachmentForm);
 

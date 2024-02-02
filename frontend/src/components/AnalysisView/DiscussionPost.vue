@@ -87,8 +87,8 @@ export default {
   data: function() {
     return {
       editingPost: false,
-      editPostContent: this.content
-    }
+      editPostContent: this.content,
+    };
   },
   computed: {
     timestamp: function() {
