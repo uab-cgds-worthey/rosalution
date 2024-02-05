@@ -53,6 +53,7 @@
               :thread="discussion.thread"
               :userClientId="userClientId"
               :actions="actions"
+              @post:edit="this.editDiscussionPost"
               @post:delete="this.deleteDiscussionPost"
           />
         </div>
@@ -64,7 +65,7 @@ import DiscussionPost from './DiscussionPost.vue';
 
 export default {
   name: 'discussion-section',
-  emits: ['discussion:new-post', 'discussion:delete-post'],
+  emits: ['discussion:new-post', 'discussion:edit-post', 'discussion:delete-post'],
   components: {
     DiscussionPost,
   },
@@ -107,6 +108,9 @@ export default {
     clearNewDiscussionField() {
       this.newPostContent = '';
       this.showNewPost = false;
+    },
+    editDiscussionPost(postId, postContent) {
+      this.$emit('discussion:edit-post', postId, postContent);
     },
     deleteDiscussionPost(postId) {
       this.$emit('discussion:delete-post', postId);

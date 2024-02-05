@@ -70,4 +70,56 @@ describe('DiscussionPost.vue', () => {
 
     expect(emittedObject[0]).toBe(postId);
   });
+
+  it('Should recieve an emit to edit a post and emits a post:edit with the new message upon confirmation', async () => {
+    const wrapper = getMountedComponent({userClientId: 'fake-user-id'});
+
+    const contextMenu = wrapper.getComponent(ContextMenu);
+
+    const testPostId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
+    const testPostContent = 'Inuyasha is the best.';
+
+    contextMenu.vm.$emit('edit', testPostId);
+
+    await wrapper.vm.$nextTick();
+
+    const discussionPost = wrapper.getComponent(DiscussionPost);
+
+    await discussionPost.setData({editPostContent: testPostContent});
+
+    const editPostSaveButton = discussionPost.find('[data-test=edit-discussion-save]');
+
+    editPostSaveButton.trigger('click');
+
+    await wrapper.vm.$nextTick();
+
+    const emittedObject = wrapper.emitted()['post:edit'][0];
+
+    expect(emittedObject[0]).toBe(testPostId);
+    expect(emittedObject[1]).toBe(testPostContent);
+  });
+
+  it('Should recieve an emit to edit a post and cancels the edit post dialog closing the edit field', async () => {
+    const wrapper = getMountedComponent({userClientId: 'fake-user-id'});
+
+    const contextMenu = wrapper.getComponent(ContextMenu);
+
+    const testPostId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
+
+    contextMenu.vm.$emit('edit', testPostId);
+
+    await wrapper.vm.$nextTick();
+
+    const discussionPost = wrapper.getComponent(DiscussionPost);
+
+    expect(discussionPost.vm.editingPostFlag).toBe(true);
+
+    const editPostCancelButton = discussionPost.find('[data-test=edit-discussion-cancel]');
+
+    editPostCancelButton.trigger('click');
+
+    await wrapper.vm.$nextTick();
+
+    expect(discussionPost.vm.editingPostFlag).toBe(false);
+  });
 });

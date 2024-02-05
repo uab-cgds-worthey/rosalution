@@ -75,6 +75,22 @@ describe('DiscussionSection.vue', () => {
 
     expect(emittedObject[0]).toBe(postId);
   });
+
+  it('Should recieve an emit to edit a post and then emit discussion:edit-post with post id and content', async () => {
+    const discussionPosts = wrapper.findAllComponents(DiscussionPost);
+
+    const editPostId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
+    const editPostContent = 'No! Sailor Moon is the best!';
+
+    discussionPosts[0].vm.$emit('post:edit', editPostId, editPostContent);
+
+    await wrapper.vm.$nextTick();
+
+    const emittedObject = wrapper.emitted()['discussion:edit-post'][0];
+
+    expect(emittedObject[0]).toBe(editPostId);
+    expect(emittedObject[1]).toBe(editPostContent);
+  });
 });
 
 /**
