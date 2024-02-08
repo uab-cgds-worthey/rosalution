@@ -26,7 +26,6 @@ from . import analysis_discussion_router
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/analysis", tags=["analysis"], dependencies=[Depends(database)])
-logger.info('including the api roter for discussions')
 router.include_router(analysis_discussion_router.router)
 
 
