@@ -16,7 +16,7 @@ jobs:
       uses: cypress-io/github-action@v6
       with:
         working-directory: system-tests
-        browser: electron
+        browser: chrome
         headed: false
         start: docker compose up --build -d
         wait-on: 'https://local.rosalution.cgds'
