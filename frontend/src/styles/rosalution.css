@@ -15,11 +15,17 @@ html {
   font-family: "Proxima Nova", sans-serif;
   font-weight: 700;
   font-size: 1.125rem;
-  height: 1.75rem;
-  width: 7rem;
+  padding-top: var(--p-10);
+  padding-bottom: var(--p-10);
+  padding-left: var(--p-28);
+  padding-right: var(--p-28);
   border: none;
   border-radius: var(--content-border-radius);
   cursor: pointer;
+}
+
+.rosalution-button:hover{
+  background-color: var(--rosalution-purple-200);
 }
 
 .primary-button {
@@ -27,21 +33,25 @@ html {
   color: var(--rosalution-purple-300);
   font-weight: 700;
   font-size: 1.125rem;
-  height: 1.75rem;
-  width: 7rem;
+  padding-top: var(--p-10);
+  padding-bottom: var(--p-10);
+  padding-left: var(--p-28);
+  padding-right: var(--p-28);
   border: none;
   border-radius: var(--button-border-radius);
   cursor: pointer;
   box-sizing: border-box;
 }
 
-.rosalution-button:hover{
-  background-color: var(--rosalution-purple-200);
+.primary-button:disabled {
+  background-color: var(--rosalution-purple-100);
+  color: var(--rosalution-purple-300);
+  opacity: 50%;
 }
 
-
-.primary-button:hover {
+.primary-button:hover:enabled {
   background-color: var(--rosalution-purple-200);
+  color: var(--rosalution-purple-100);
 }
 
 .secondary-button {
@@ -49,8 +59,10 @@ html {
   font-family: "Proxima Nova", sans-serif;
   font-weight: 700;
   font-size: 1.125rem;
-  height: 1.75rem;
-  width: 7rem;
+  padding-top: var(--p-10);
+  padding-bottom: var(--p-10);
+  padding-left: var(--p-28);
+  padding-right: var(--p-28);
   border-color: var(--rosalution-black);
   border-radius: var(--button-border-radius);
   border-style: solid;
@@ -107,7 +119,7 @@ html {
 
 .rosalution-section-header {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .rosalution-header-right-icons {

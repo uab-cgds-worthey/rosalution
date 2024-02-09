@@ -21,10 +21,12 @@ from ..enums import ThirdPartyLinkType, EventType
 from ..models.phenotips_json import BasePhenotips
 from ..models.user import VerifyUser
 from ..security.security import get_authorization, get_current_user
+from . import analysis_discussion_router
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/analysis", tags=["analysis"], dependencies=[Depends(database)])
+router.include_router(analysis_discussion_router.router)
 
 
 @router.get("/", response_model=List[Analysis])

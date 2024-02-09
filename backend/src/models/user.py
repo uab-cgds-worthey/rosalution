@@ -14,11 +14,11 @@ class User(BaseModel):
     full_name: Optional[str] = None
     disabled: Optional[bool] = None
     scope: Optional[str] = None
+    client_id: str
 
 
 class AccessUserAPI(User):
     """ This extends the user class to include the user's credentials for API access """
-    client_id: str
     client_secret: Optional[str] = None
 
 

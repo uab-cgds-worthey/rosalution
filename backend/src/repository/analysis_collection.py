@@ -486,3 +486,39 @@ class AnalysisCollection:
         return_field = {"header": section_name, "field": field_name}
 
         return return_field
+
+    def add_discussion_post(self, analysis_name: str, discussion_post: object):
+        """ Appends a new discussion post to an analysis """
+
+        updated_document = self.collection.find_one_and_update({"name": analysis_name},
+                                                               {"$push": {"discussions": discussion_post}},
+                                                               return_document=ReturnDocument.AFTER)
+
+        updated_document.pop("_id", None)
+
+        return updated_document['discussions']
+
+    def updated_discussion_post(self, discussion_post_id: str, discussion_content: str, analysis_name: str):
+        """ Edits a discussion post from an analysis to update the discussion post's content """
+
+        updated_document = self.collection.find_one_and_update({"name": analysis_name}, {
+            "$set": {"discussions.$[item].content": discussion_content}
+        },
+                                                               array_filters=[{"item.post_id": discussion_post_id}],
+                                                               return_document=ReturnDocument.AFTER)
+
+        updated_document.pop("_id", None)
+
+        return updated_document['discussions']
+
+    def delete_discussion_post(self, discussion_post_id: str, analysis_name: str):
+        """ Removes a discussion post from an analysis """
+
+        updated_document = self.collection.find_one_and_update({"name": analysis_name}, {
+            "$pull": {"discussions": {"post_id": discussion_post_id}}
+        },
+                                                               return_document=ReturnDocument.AFTER)
+
+        updated_document.pop("_id", None)
+
+        return updated_document['discussions']

@@ -33,7 +33,7 @@
           </router-link>
         </drop-down-menu>
         <drop-down-menu v-if="actionsExist" :actions="actions" data-test="user-menu">
-          <font-awesome-icon class="header-icon" icon="ellipsis-vertical" size="xl" />
+          <font-awesome-icon class="header-icon" icon="bars" size="xl" />
         </drop-down-menu>
       </ul>
     </div>

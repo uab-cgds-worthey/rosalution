@@ -51,10 +51,9 @@ html {
   --p-8: 0.5rem;
   --p-10: 0.625rem;
   --p-16: 1rem;
+  --p-28: 1.75rem;
 
   scroll-padding-top: 4rem;
-  
-
 }
 
 /** || General Styles **/

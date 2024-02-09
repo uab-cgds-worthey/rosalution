@@ -23,8 +23,8 @@ const authStore = {
     this.state.username = user['username'];
     this.state.email = user['email'];
     this.state.roles.push(user['scope']);
+    this.state.clientId = user['client_id'];
 
-    user['client_id'] ? this.state.clientId = user['client_id'] : '';
     user['client_secret'] ? this.state.clientSecret = user['client_secret'] : '';
   },
   getUser() {
@@ -32,6 +32,9 @@ const authStore = {
   },
   getUsername() {
     return this.state.username;
+  },
+  getClientId() {
+    return this.state.clientId;
   },
   hasWritePermissions() {
     return this.hasRole('write');

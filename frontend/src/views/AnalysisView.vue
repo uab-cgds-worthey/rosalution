@@ -39,6 +39,15 @@
         @update:content-row="this.onAnalysisContentUpdated"
         @download="this.downloadSupportingEvidence"
       />
+      <DiscussionSection
+        id="Discussion"
+        :discussions="this.discussions"
+        :userClientId="auth.getClientId()"
+        :actions="this.discussionContextActions"
+        @discussion:new-post="this.addDiscussionPost"
+        @discussion:edit-post="this.editDiscussionPost"
+        @discussion:delete-post="this.deleteDiscussionPost"
+      />
       <SupplementalFormList
         id="Supporting_Evidence"
         :attachments="this.attachments"
@@ -70,6 +79,7 @@ import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import Toast from '@/components/Dialogs/Toast.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
 import SaveModal from '@/components/AnalysisView/SaveModal.vue';
+import DiscussionSection from '../components/AnalysisView/DiscussionSection.vue';
 
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
@@ -89,6 +99,7 @@ export default {
     Toast,
     SupplementalFormList,
     SaveModal,
+    DiscussionSection,
   },
   props: ['analysis_name'],
   data: function() {
@@ -107,19 +118,17 @@ export default {
       const sections = this.analysis.sections.map((section) => {
         return section.header;
       });
+      sections.push('Discussion');
       sections.push('Supporting Evidence');
       return sections;
     },
     menuActions() {
       const actionChoices = [];
-
-
       actionChoices.push({
         icon: 'paperclip',
         text: 'Attach',
         operation: this.addSupportingEvidence,
       });
-
 
       if ( !this.auth.hasWritePermissions() ) {
         return actionChoices;
@@ -192,12 +201,30 @@ export default {
 
       return actionChoices;
     },
-
+    discussionContextActions() {
+      return [
+        {
+          icon: 'pencil',
+          text: 'Edit',
+          emit: 'edit',
+          operation: () => {},
+        },
+        {
+          icon: 'xmark',
+          text: 'Delete',
+          emit: 'delete',
+          operation: () => {},
+        },
+      ];
+    },
     sectionsList() {
       return this.analysis.sections;
     },
     attachments() {
       return this.analysis.supporting_evidence_files;
+    },
+    discussions() {
+      return this.analysis.discussions;
     },
     genomicUnitsList() {
       return this.analysis.genomic_units;
@@ -599,7 +626,38 @@ export default {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
+    async addDiscussionPost(newPostContent) {
+      const discussions = await Analyses.postNewDiscussionThread(this.analysis['name'], newPostContent);
 
+      this.analysis.discussions = discussions;
+    },
+    async editDiscussionPost(postId, postContent) {
+      const analysisName = this.analysis_name;
+
+      const discussions = await Analyses.editDiscussionThreadById(analysisName, postId, postContent);
+
+      this.analysis.discussions = discussions;
+    },
+    async deleteDiscussionPost(postId) {
+      const analysisName = this.analysis_name;
+
+      const confirmedDelete = await notificationDialog
+          .title(`Remove Discussion Post`)
+          .confirmText('Delete')
+          .cancelText('Cancel')
+          .confirm(`Deleting your discussion post from the section.`);
+
+      if (!confirmedDelete) {
+        return;
+      }
+
+      try {
+        const discussions = await Analyses.deleteDiscussionThreadById(analysisName, postId);
+        this.analysis.discussions = discussions;
+      } catch (error) {
+        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
+      }
+    },
     copyToClipboard(copiedText) {
       toast.success(`Copied ${copiedText} to clipboard!`);
     },

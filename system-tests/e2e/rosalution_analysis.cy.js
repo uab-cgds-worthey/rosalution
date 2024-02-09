@@ -8,10 +8,12 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
         .find('.case-name').click();
   });
 
+  // It is known that this test is broken and skipped in main. Reverting it back to skipping and will come back to fix.
   it.skip('should allow the user to navigate the analysis via the logo, header, and section anchor links', () => {
+
     const anchorLinks = [
       'Brief', 'Clinical History', 'Pedigree', 'Supporting Evidence', 'VMA21_Gene%20To%20Phenotype',
-      'VMA21_Molecular%20Mechanism', 'VMA21_Function', 'Model_Goals',
+      'VMA21_Molecular%20Mechanism', 'VMA21_Function', 'Model_Goals', 'Discussion'
     ];
     const expectedHeaderLinks =
       ['CPAM0002', 'LOGIN', ...anchorLinks];
