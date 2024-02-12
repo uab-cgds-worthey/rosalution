@@ -1,9 +1,12 @@
 """
 Collection with retrieves, creates, and modify analyses.
 """
+from typing import List
 from uuid import uuid4
 
 from pymongo import ReturnDocument
+
+from ..models.analysis import Section
 from ..models.event import Event
 from ..enums import EventType
 
@@ -112,14 +115,16 @@ class AnalysisCollection:
                 for content in section["content"]:
                     if content["field"] == field_name:
                         content["value"] = updated_value["value"]
-        updated_document = self.collection.find_one_and_update(
-            {"name": name},
-            {"$set": query_results_to_update},
-            return_document=ReturnDocument.AFTER,
-        )
-        # remove the _id field from the returned document since it is not JSON serializable
-        updated_document.pop("_id", None)
-        return updated_document
+        self.collection.update_one({"name": name}, {"$set": query_results_to_update})
+
+    def update_analysis_sections(self, analysis_name: str, updated_sections: List[Section]):
+        """Updates each of the sections and fields within the sections if they exist in the database"""
+        for section in updated_sections:
+            for field in section.content:
+                field_name, field_value = field["fieldName"], field["value"]
+                if "Nominator" == field_name:
+                    self.update_analysis_nominator(analysis_name, '; '.join(field_value))
+                self.update_analysis_section(analysis_name, section.header, field_name, {"value": field_value})
 
     def find_file_by_name(self, analysis_name: str, file_name: str):
         """ Returns an attached file metadata attached to an analysis if it exists by name """
@@ -259,12 +264,8 @@ class AnalysisCollection:
             if content_row["field"] and content_row["field"] == field_name:
                 content_row["value"].append({'file_id': str(file_id)})
 
-        self.collection.find_one_and_update(
-            {"name": analysis_name},
-            {'$set': updated_document},
-        )
-
-        return updated_section
+        return self.collection.find_one_and_update({"name": analysis_name}, {'$set': updated_document},
+                                                   return_document=ReturnDocument.AFTER)
 
     def update_section_image(
         self, analysis_name: str, section_name: str, field_name: str, file_id: str, file_id_old: str
@@ -294,38 +295,41 @@ class AnalysisCollection:
                         content_row["value"].append({'file_id': str(file_id)})
                         break
 
-        self.collection.find_one_and_update({'name': analysis_name}, {'$set': updated_document})
+        updated_analysis_json = self.collection.find_one_and_update({'name': analysis_name}, {'$set': updated_document},
+                                                                    return_document=ReturnDocument.AFTER)
 
-        return updated_section
+        return updated_analysis_json['sections']
 
-    def remove_analysis_section_file(self, analysis_name: str, section_name: str, field_name: str, file_id: str):
-        """ Accepts a file id and removes the reference from corresponding analysis section """
+    def remove_section_attachment(self, analysis_name: str, section_name: str, field_name: str, attachment_id: str):
+        """ Accepts a file id and removes the reference from corresponding analysis section, returns all of the sections
+         with an analysis """
         updated_document = self.collection.find_one({"name": analysis_name})
-
-        if "_id" in updated_document:
-            updated_document.pop("_id", None)
 
         updated_section = None
         for section in updated_document['sections']:
             if section_name == section['header']:
                 updated_section = section
-
         if None is updated_section:
             raise ValueError(
                 f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach image to '{field_name}' \
                 field in section '{section_name}"
             )
 
+        def attribute_type_in_field(attribute_key, field_value):
+            return attribute_key if attribute_key in field_value else ''
+
         for content_row in updated_section['content']:
             if content_row['field'] and content_row['field'] == field_name:
                 for i in range(len(content_row['value'])):
-                    if content_row['value'][i]['file_id'] == file_id:
-                        content_row['value'].pop(i)
-                        break
+                    content_value = content_row['value'][i]
+                    for key in ['file_id', 'attachment_id']:
+                        if attribute_type_in_field(key, content_value) and content_value[key] == attachment_id:
+                            content_row['value'].pop(i)
+                            break
 
-        self.collection.find_one_and_update({'name': analysis_name}, {'$set': updated_document})
-
-        return updated_section
+        updated_analysis_json = self.collection.find_one_and_update({'name': analysis_name}, {'$set': updated_document},
+                                                                    return_document=ReturnDocument.AFTER)
+        return updated_analysis_json['sections']
 
     def attach_third_party_link(self, analysis_name: str, third_party_enum: str, link: str):
         """ Returns an analysis with a third party link attached to it """
@@ -381,38 +385,24 @@ class AnalysisCollection:
         """
         Attaches a file to a field within an analysis section and returns only the updated field within that section
         """
-
         updated_document = self.collection.find_one({"name": analysis_name})
-
         if "_id" in updated_document:
             updated_document.pop("_id", None)
-
         updated_section = None
         for section in updated_document['sections']:
             if section_name == section['header']:
                 updated_section = section
-
         if None is updated_section:
             raise ValueError(
                 f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach report to '{section_name}'\
                 section."
             )
 
-        updated_field = None
         for field in updated_section['content']:
             if field['field'] == field_name:
                 field['value'] = [field_value_file]
-                updated_field = field
 
-        self.collection.find_one_and_update(
-            {"name": analysis_name},
-            {'$set': updated_document},
-            return_document=ReturnDocument.AFTER,
-        )
-
-        return_field = {"header": section_name, "field": field_name, "updated_row": updated_field}
-
-        return return_field
+        self.collection.update_one({"name": analysis_name}, {'$set': updated_document})
 
     def attach_section_supporting_evidence_link(
         self, analysis_name: str, section_name: str, field_name: str, field_value_link: object
@@ -454,38 +444,6 @@ class AnalysisCollection:
         return_updated_field = {"header": section_name, "field": field_name, "updated_row": updated_field}
 
         return return_updated_field
-
-    def remove_section_supporting_evidence(self, analysis_name: str, section_name: str, field_name: str):
-        """ Removes a section field's supporting evidence """
-        updated_document = self.collection.find_one({"name": analysis_name})
-
-        if "_id" in updated_document:
-            updated_document.pop("_id", None)
-
-        updated_section = None
-        for section in updated_document['sections']:
-            if section_name == section['header']:
-                updated_section = section
-
-        if None is updated_section:
-            raise ValueError(
-                f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach report to '{section_name}'\
-                section."
-            )
-
-        for field in updated_section['content']:
-            if field['field'] == field_name:
-                field['value'] = []
-
-        self.collection.find_one_and_update(
-            {"name": analysis_name},
-            {'$set': updated_document},
-            return_document=ReturnDocument.AFTER,
-        )
-
-        return_field = {"header": section_name, "field": field_name}
-
-        return return_field
 
     def add_discussion_post(self, analysis_name: str, discussion_post: object):
         """ Appends a new discussion post to an analysis """

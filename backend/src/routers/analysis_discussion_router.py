@@ -21,7 +21,6 @@ router = APIRouter(tags=["analysis"], dependencies=[Depends(database)])
 @router.get("/{analysis_name}/discussions")
 def get_analysis_discussions(analysis_name: str, repositories=Depends(database)):
     """ Returns a list of discussion posts for a given analysis """
-    logger.info("Retrieving the analysis '%s' discussions ", analysis_name)
 
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
 

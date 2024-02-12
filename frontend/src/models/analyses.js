@@ -13,7 +13,7 @@ export default {
   },
 
   async getSummaryByName(analysisName) {
-    const url = `/rosalution/api/analysis/summary/${analysisName}`;
+    const url = `/rosalution/api/analysis/${analysisName}/summary`;
     const analysisSummary = await Requests.get(url);
     return analysisSummary;
   },
@@ -31,9 +31,33 @@ export default {
     return genomicUnits;
   },
 
+  /**
+   * Provides {@link updatedSections} of updated text fields within sections in
+   * the analysis {@link analysisName}.
+   * @param {string} analysisName The unique name of the Analysis to update
+   * @param {Object} updatedSections The list of updated fields from within
+   *                                 their corresponding sections
+   * @return {Object[]} Array of all of the sections, including the updated
+   * ones, within the Analysis
+   */
   async updateAnalysisSections(analysisName, updatedSections) {
-    const url = `/rosalution/api/analysis/${analysisName}/update/sections`;
-    return await Requests.put(url, updatedSections);
+    const sectionsToUpdate = [];
+    for (const [sectionName, field] of Object.entries(updatedSections)) {
+      const analysisSection = {
+        header: sectionName,
+        content: [],
+      };
+
+      for ( const [fieldName, fieldValue] of Object.entries(field)) {
+        analysisSection.content.push({
+          fieldName: fieldName,
+          value: fieldValue,
+        });
+      }
+      sectionsToUpdate.push(analysisSection);
+    }
+    const url = `/rosalution/api/analysis/${analysisName}/sections/batch`;
+    return await Requests.post(url, sectionsToUpdate);
   },
 
   async pushAnalysisEvent(analysisName, eventType) {
@@ -48,8 +72,14 @@ export default {
     return annotationRenderingTemporary;
   },
 
+  /**
+   * Requests to upload the JSON required for creating a new analysis in Rosalution
+   * with a unique analysis name.
+   * @param {File} file The JSON for creating the new Analysis
+   * @return {Object} Returns the new complete analysis created within Rosalution
+   */
   async importPhenotipsAnalysis(file) {
-    const url = '/rosalution/api/analysis/import_file';
+    const url = '/rosalution/api/analysis';
 
     const fileUploadFormData = {
       'phenotips_file': file,
@@ -63,41 +93,71 @@ export default {
     return await Requests.getImage(url);
   },
 
+  /**
+   * Attaches {@link image} to {@link field} within {@link sectionName}
+   * the analysis {@link analysisName}.
+   * @param {string} analysisName The unique name of the analysis to update
+   * @param {string} sectionName The name of the section within the analysis
+   * @param {string} field The identifiying field within the section
+   * @param {File}   image the image data to be uploaded
+   * @return {Object} Returns the updated field with the image attachment id
+   */
   async attachSectionImage(analysisName, sectionName, field, image) {
-    const url = `/rosalution/api/analysis/${analysisName}/section/attach/image`;
+    const url = `/rosalution/api/analysis/${analysisName}/sections?row_type=image`;
 
+    const section = {
+      'header': sectionName,
+      'content': [],
+    };
+    section.content.push({
+      'fieldName': field,
+    });
     const attachmentForm = {
       'upload_file': image,
-      'section_name': sectionName,
-      'field_name': field,
+      'updated_section': JSON.stringify(section),
     };
 
-    return await Requests.postForm(url, attachmentForm);
+    const updatedAnalysisSections = await Requests.postForm(url, attachmentForm);
+
+    return updatedAnalysisSections.find((section) => {
+      return section.header == sectionName;
+    })?.content.find((row) => {
+      return row.field == field;
+    });
   },
 
   async updateSectionImage(analysisName, sectionName, field, oldFileId, image) {
-    const url = `/rosalution/api/analysis/${analysisName}/section/update/${oldFileId}`;
-
-    const updateForm = {
+    const section = {
+      'header': sectionName,
+      'content': [],
+    };
+    section.content.push({
+      'fieldName': field,
+    });
+    const attachmentForm = {
       'upload_file': image,
-      'section_name': sectionName,
-      'field_name': field,
+      'updated_section': JSON.stringify(section),
     };
 
-    return await Requests.putForm(url, updateForm);
+    const url = `/rosalution/api/analysis/${analysisName}/sections/${oldFileId}?row_type=image`;
+
+    const updatedAnalysisSections = await Requests.putForm(url, attachmentForm);
+
+    return updatedAnalysisSections.find((section) => {
+      return section.header == sectionName;
+    })?.content.find((row) => {
+      return row.field == field;
+    });
   },
 
-  async removeSectionImage(analysisName, sectionName, field, oldFileId) {
-    const attachmentForm = {
-      'section_name': sectionName,
-      'field_name': field,
-    };
-
-    const success = await Requests.deleteForm(
-        `/rosalution/api/analysis/${analysisName}/section/remove/${oldFileId}`, attachmentForm,
-    );
-
-    return success;
+  async removeSectionAttachment(analysisName, sectionName, fieldName, oldSectionAttachmentId) {
+    const url = `/rosalution/api/analysis/${analysisName}/sections/${oldSectionAttachmentId}`;
+    const updatedSections = await Requests.delete(url);
+    return updatedSections.find((section) => {
+      return section.header == sectionName;
+    })?.content.find((row) => {
+      return row.field == fieldName;
+    });
   },
 
   async attachSupportingEvidence(analysisName, evidence) {
@@ -158,59 +218,50 @@ export default {
     return await Requests.putForm(url, attachmentForm);
   },
 
-  async attachSectionSupportingEvidence(analysisName, section, field, evidence) {
+  async attachSectionSupportingEvidence(analysisName, sectionName, field, evidence) {
     let attachmentForm = null;
-    let url = `/rosalution/api/analysis/${analysisName}/section/attach`;
+    let url = `/rosalution/api/analysis/${analysisName}/sections?row_type=`;
+
+    const section = {
+      'header': sectionName,
+      'content': [],
+    };
 
     if (evidence.type == 'file') {
+      section.content.push({
+        'fieldName': field,
+      });
+
       attachmentForm = {
-        'section_name': section,
-        'field_name': field,
         'upload_file': evidence.data,
-        'comments': evidence.comments ? evidence.comments : '  ', /** Required for now, inserting empty string */
+        'updated_section': JSON.stringify(section),
       };
-      url += '/file';
+
+      url += 'document';
     } else if ( evidence.type == 'link') {
-      attachmentForm = {
-        'section_name': section,
-        'field_name': field,
-        'link_name': evidence.name,
+      section.content.push({
+        'fieldName': field,
+        'linkName': evidence.name,
         'link': evidence.data,
-        'comments': evidence.comments ? evidence.comments : '  ', /** Required for now, inserting empty string */
+      });
+
+      attachmentForm = {
+        'updated_section': JSON.stringify(section),
       };
-      url += '/link';
+
+      url += 'link';
     }
 
     if (null == attachmentForm) {
       throw new Error(`Evidence attachment ${evidence} type is invalid.`);
     }
 
-    return await Requests.putForm(url, attachmentForm);
-  },
-
-  async removeSectionSupportingEvidenceFile(analysisName, section, field, attachmentId) {
-    const url = `/rosalution/api/analysis/${analysisName}/section/remove/file`;
-
-    const attachmentForm = {
-      'section_name': section,
-      'field_name': field,
-      'attachment_id': attachmentId,
-    };
-
-    const success = await Requests.putForm(url, attachmentForm);
-    return success;
-  },
-
-  async removeSectionSupportingEvidenceLink(analysisName, section, field) {
-    const url = `/rosalution/api/analysis/${analysisName}/section/remove/link`;
-
-    const attachmentForm = {
-      'section_name': section,
-      'field_name': field,
-    };
-
-    const success = await Requests.putForm(url, attachmentForm);
-    return success;
+    const updatedSections = await Requests.postForm(url, attachmentForm);
+    return updatedSections.find((section) => {
+      return section.header == sectionName;
+    })?.content.find((row) => {
+      return row.field == field;
+    });
   },
   async postNewDiscussionThread(analysisName, postContent) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions`;

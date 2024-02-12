@@ -124,6 +124,7 @@ export default {
     },
     menuActions() {
       const actionChoices = [];
+
       actionChoices.push({
         icon: 'paperclip',
         text: 'Attach',
@@ -251,24 +252,15 @@ export default {
       }
 
       try {
-        const updatedSectionImage = await Analyses.attachSectionImage(
+        const updatedSectionField = await Analyses.attachSectionImage(
             this.analysis_name,
             sectionName,
             field,
             attachment.data,
         );
 
-        const updatedSection = this.sectionsList.find((section) => {
-          return section.header == sectionName;
-        });
-
-        const updatedField = updatedSection.content.find((row) => {
-          return row.field == field;
-        });
-
-        updatedField.value.push({file_id: updatedSectionImage['image_id']});
-
-        this.replaceAnalysisSection(updatedSection);
+        const sectionWithReplacedField = this.replaceFieldInSection(sectionName, updatedSectionField);
+        this.replaceAnalysisSection(sectionWithReplacedField);
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
@@ -292,7 +284,7 @@ export default {
       }
 
       try {
-        const updatedSectionImage = await Analyses.updateSectionImage(
+        const updatedSectionField = await Analyses.updateSectionImage(
             this.analysis_name,
             sectionName,
             field,
@@ -300,21 +292,8 @@ export default {
             attachment.data,
         );
 
-        const updatedSection = this.sectionsList.find((section) => {
-          return section.header == sectionName;
-        });
-
-        const updatedField = updatedSection.content.find((row) => {
-          return row.field == field;
-        });
-
-        updatedField.value.forEach((imageFile) => {
-          if (imageFile['file_id'] == fileId) {
-            imageFile['file_id'] = updatedSectionImage['image_id'];
-          }
-        });
-
-        this.replaceAnalysisSection(updatedSection);
+        const sectionWithReplacedField = this.replaceFieldInSection(sectionName, updatedSectionField);
+        this.replaceAnalysisSection(sectionWithReplacedField);
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
@@ -333,19 +312,11 @@ export default {
       }
 
       try {
-        await Analyses.removeSectionImage(this.analysis_name, sectionName, field, fileId);
+        const updatedSectionField =
+          await Analyses.removeSectionAttachment(this.analysis_name, sectionName, field, fileId);
 
-        const updatedSection = this.sectionsList.find((section) => {
-          return section.header == sectionName;
-        });
-
-        updatedSection.content.forEach((obj) => {
-          obj.value = obj.value.filter((value) => {
-            return value.file_id != fileId;
-          });
-        });
-
-        this.replaceAnalysisSection(updatedSection);
+        const sectionWithReplacedField = this.replaceFieldInSection(sectionName, updatedSectionField);
+        this.replaceAnalysisSection(sectionWithReplacedField);
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
@@ -432,12 +403,12 @@ export default {
       );
     },
     async saveAnalysisChanges() {
-      const updatedAnalysis = await Analyses.updateAnalysisSections(
+      const updatedSections = await Analyses.updateAnalysisSections(
           this.analysis_name,
           this.updatedContent,
       );
       this.analysis.sections.splice(0);
-      this.analysis.sections.push(...updatedAnalysis.sections);
+      this.analysis.sections.push(...updatedSections);
       location.reload();
       this.updatedContent = {};
       this.edit = false;
@@ -462,12 +433,6 @@ export default {
       }
 
       this.updatedContent[contentRow.header][contentRow.field] = contentRow.value;
-    },
-    replaceAnalysisSection(sectionToReplace) {
-      const originalSectionIndex = this.analysis.sections.findIndex(
-          (section) => section.header == sectionToReplace.header,
-      );
-      this.analysis.sections.splice(originalSectionIndex, 1, sectionToReplace);
     },
     async addMondayLink() {
       const includeComments = false;
@@ -556,22 +521,14 @@ export default {
       }
 
       try {
-        const updatedAnalysisSectionField = await Analyses.attachSectionSupportingEvidence(
+        const updatedSectionField = await Analyses.attachSectionSupportingEvidence(
             this.analysis_name,
             section,
             field,
             attachment,
         );
-        const updatedSection = this.sectionsList.find((sectionToFind) => {
-          return sectionToFind.header == section;
-        });
-
-        const updatedFieldIndex = updatedSection.content.findIndex((row) => {
-          return row.field == field;
-        });
-        updatedSection.content.splice(updatedFieldIndex, 1, updatedAnalysisSectionField.updated_row);
-
-        this.replaceAnalysisSection(updatedSection);
+        const sectionWithReplacedField = this.replaceFieldInSection(section, updatedSectionField);
+        this.replaceAnalysisSection(sectionWithReplacedField);
       } catch (error) {
         console.error('Updating the analysis did not work');
       }
@@ -588,75 +545,59 @@ export default {
       }
 
       try {
-        if ( 'file' === attachment.type) {
-          await Analyses.removeSectionSupportingEvidenceFile(
-              this.analysis_name,
-              section,
-              field,
-              attachment.attachment_id,
-          );
-        } else if ( 'link' === attachment.type ) {
-          await Analyses.removeSectionSupportingEvidenceLink(
-              this.analysis_name,
-              section,
-              field,
-          );
-        } else {
-          console.error('Attachment type to remove');
-          return;
-        }
+        const updatedSectionField =
+          await Analyses.removeSectionAttachment(this.analysis_name, section, field, attachment.attachment_id);
+        const sectionWithReplacedField = this.replaceFieldInSection(section, updatedSectionField);
 
-        const updatedSection = this.sectionsList.find((sectionToFind) => {
-          return sectionToFind.header == section;
-        });
-
-        const fieldToUpdate = updatedSection.content.find((row) => {
-          return row.field == field;
-        });
-
-        const updatedFieldIndex = updatedSection.content.findIndex((row) => {
-          return row.field == field;
-        });
-
-        fieldToUpdate.value = [];
-
-        updatedSection.content.splice(updatedFieldIndex, 1, fieldToUpdate);
-        this.replaceAnalysisSection(updatedSection);
+        this.replaceAnalysisSection(sectionWithReplacedField);
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
     async addDiscussionPost(newPostContent) {
       const discussions = await Analyses.postNewDiscussionThread(this.analysis['name'], newPostContent);
-
       this.analysis.discussions = discussions;
     },
     async editDiscussionPost(postId, postContent) {
       const analysisName = this.analysis_name;
-
       const discussions = await Analyses.editDiscussionThreadById(analysisName, postId, postContent);
-
       this.analysis.discussions = discussions;
     },
     async deleteDiscussionPost(postId) {
       const analysisName = this.analysis_name;
-
       const confirmedDelete = await notificationDialog
           .title(`Remove Discussion Post`)
           .confirmText('Delete')
           .cancelText('Cancel')
           .confirm(`Deleting your discussion post from the section.`);
-
       if (!confirmedDelete) {
         return;
       }
-
       try {
         const discussions = await Analyses.deleteDiscussionThreadById(analysisName, postId);
         this.analysis.discussions = discussions;
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
+    },
+    replaceFieldInSection(sectionName, updatedField) {
+      const sectionToUpdate = this.sectionsList.find((section) => {
+        return section.header == sectionName;
+      });
+
+      const fieldToUpdate = sectionToUpdate.content.find((row) => {
+        return row.field == updatedField['field'];
+      });
+
+      fieldToUpdate.value = updatedField.value;
+
+      return sectionToUpdate;
+    },
+    replaceAnalysisSection(sectionToReplace) {
+      const originalSectionIndex = this.analysis.sections.findIndex(
+          (section) => section.header == sectionToReplace.header,
+      );
+      this.analysis.sections.splice(originalSectionIndex, 1, sectionToReplace);
     },
     copyToClipboard(copiedText) {
       toast.success(`Copied ${copiedText} to clipboard!`);

@@ -157,6 +157,80 @@
             ]
          },
          {
+            "header":"Mus musculus (Mouse) Model System",
+            "content":[
+               {
+                  "type":"section-text",
+                  "field":"Mutation",
+                  "value":[
+                     "NF1 c.2970-2972del (p.Met992del)"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Pathogenicity Test",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Design",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Founder Screening/Expansion",
+                  "value":[
+                     "Mice during embryogenesis P1 and E16.5 animals exhibit a double-outlet right ventricle VSD. The surviving mice with this genotype are suspected to not have the VSD. "
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Screening",
+                  "value":[
+                     
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"History",
+                  "value":[
+                     "Animals were submitted for a full pathology screen of the heart and other tissues as a part of CPAM workup to confirm this phenotype and develop a more thorough characterization of this mutation. Submitted 3 homozygous males 4-6 months old and a littermate control for necropsy and histopathology."
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Diagnoses",
+                  "value":[
+                     "Lungs, pyogranulomatous bronchopneumonia, chronic, multifocal, moderate to marked (suggestive of an aspiration pneumonia) Ear canal, suppurative otitis media, chronic, bilateral, severe"
+                  ]
+               },
+               {
+                  "type":"section-text",
+                  "field":"Remarks",
+                  "value":[
+                     "Findings in mutant mice are consistent in all 3 animals examined. Dilation of proximal esophagus was noted in 2/3 animals examined with minimal evidence of inflammation. Overall the etiology is unclear, but I suspect the cause of aspiration pneumonia was a result of dysphagia (Oropharyngeal dysphagia), possibly involving innervation and normal function of the esophagus.",
+                     "NF1 patients do exhibit dysphagia and alterations in vocal quality, however, these changes are secondary to neurofibromas involving the innervation at these sites (esophagus and layrnx). There was no evidence of peripheral neurofibromas were noted in innervation to the esophagus or other organs or spinal plexiform ganglia or within the central nervous system.",
+                     "Additional characterization of the cause of aspiration pneumonia is recommended, specifically functional assessment of swallowing to determine if dysphagia is present.",
+                     "The etiology of bilateral middle ear infections seen in 2/3 animals with NF1 mutation, is uncertain."
+                  ]
+               },
+               {
+                  "type":"section-supporting-evidence",
+                  "field":"Veterinary Histology Report",
+                  "value":[]
+               },
+               {
+                 "type":"section-supporting-evidence",
+                 "field":"Veterinary Pathology Imaging",
+                 "value":[]
+               }
+            ]
+         },
+         {
             "header":"Pedigree",
             "attachment_field":"Pedigree",
             "content":[

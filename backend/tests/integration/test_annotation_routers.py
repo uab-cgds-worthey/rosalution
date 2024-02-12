@@ -1,13 +1,10 @@
 """Routes dedicated for annotation within the system"""
 
-from ..test_utils import read_test_fixture
 
-
-def test_get_annotations_by_gene(client, mock_access_token, mock_repositories):
+def test_get_annotations_by_gene(client, mock_access_token, mock_repositories, gene_vma21_annotations_json):
     """Testing that the annotations by gene endpoint returns the annotations correctly"""
 
-    gene_annotations_fixture = read_test_fixture("annotations-VMA21.json")
-    mock_repositories['genomic_unit'].collection.find_one.return_value = gene_annotations_fixture
+    mock_repositories['genomic_unit'].collection.find_one.return_value = gene_vma21_annotations_json
     response = client.get(
         "annotate/gene/VMA21",
         headers={"Authorization": "Bearer " + mock_access_token},
@@ -16,11 +13,11 @@ def test_get_annotations_by_gene(client, mock_access_token, mock_repositories):
     assert len(response.json()) == 2
 
 
-def test_get_annotations_by_hgvs_variant(client, mock_access_token, mock_repositories):
+def test_get_annotations_by_hgvs_variant(
+    client, mock_access_token, mock_repositories, variant_nm001017980_3_c_164g_t_annotations_json
+):
     """Testing that the annotations by HGVS variant endpoint returns the annotations correctly"""
-
-    variant_annotations_fixture = read_test_fixture("annotations-HGVS-Variant.json")
-    mock_repositories['genomic_unit'].collection.find_one.return_value = variant_annotations_fixture
+    mock_repositories['genomic_unit'].collection.find_one.return_value = variant_nm001017980_3_c_164g_t_annotations_json
     response = client.get(
         "annotate/hgvsVariant/NM_001017980.3:c.164G>T",
         headers={"Authorization": "Bearer " + mock_access_token},

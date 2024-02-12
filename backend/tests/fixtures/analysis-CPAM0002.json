@@ -2,9 +2,6 @@
   "name": "CPAM0002",
   "description": "Vacuolar myopathy with autophagy, X-linked vacuolar myopathy with autophagy",
   "nominated_by": "Dr. Person One",
-  "latest_status": "Approved",
-  "created_date": "2020-11-09",
-  "last_modified_date": "2021-03-16",
   "genomic_units": [
     {
       "gene": "VMA21",
@@ -43,26 +40,6 @@
           ]
         }
       ]
-    },
-    {
-      "gene": "DMD",
-      "transcripts": [],
-      "variants": [
-        {
-          "hgvs_variant": "",
-          "c_dot": "",
-          "p_dot": "",
-          "build": "",
-          "case": [
-            {
-              "field": "Interpretation",
-              "value": [
-                "Variant of Uncertain Significance"
-              ]
-            }
-          ]
-        }
-      ]
     }
   ],
   "sections": [
@@ -70,14 +47,17 @@
       "header": "Brief",
       "content": [
         {
+          "type": "section-text",
           "field": "Nominated",
           "value": []
         },
         {
+          "type": "section-text",
           "field": "Reason",
           "value": []
         },
         {
+          "type": "section-text",
           "field": "Desired Outcomes",
           "value": [
             "Review of ACMG classification",
@@ -88,60 +68,89 @@
       ]
     },
     {
-      "header":"Mus musculus (Mouse) Model System",
-      "content":[
-         {
-            "type":"section-text",
-            "field":"Mutation",
-            "value":[]
-         },
-         {
-            "type":"section-text",
-            "field":"Pathogenicity Test",
-            "value":[]
-         },
-         {
-            "type":"section-text",
-            "field":"Design",
-            "value":[]
-         },
-         {
-            "type":"section-text",
-            "field":"Founder Screening/Expansion",
-            "value":[]
-         },
-         {
-            "type":"section-text",
-            "field":"Screening",
-            "value":[]
-         },
-         {
-            "type":"section-text",
-            "field":"History",
-            "value":[]
-         },
-         {
-            "type":"section-text",
-            "field":"Diagnoses",
-            "value":[]
-         },
-         {
-            "type":"section-text",
-            "field":"Remarks",
-            "value":[]
-         },
-         {
-            "type":"supporting-evidence",
-            "field":"Veterinary Histology Report",
-            "value":[]
-         },
-         {
-            "type":"supporting-evidence",
-            "field":"Veterinary Pathology Imaging",
-            "value":[]
-         }
+      "header": "Mus musculus (Mouse) Model System",
+      "content": [
+        {
+          "type": "section-text",
+          "field": "Mutation",
+          "value": [
+            "NF1 c.2970-2972del (p.Met992del)"
+          ]
+        },
+        {
+          "type": "section-text",
+          "field": "Pathogenicity Test",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Design",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Founder Screening/Expansion",
+          "value": [
+            "Mice during embryogenesis P1 and E16.5 animals exhibit a double-outlet right ventricle VSD. The surviving mice with this genotype are suspected to not have the VSD. "
+          ]
+        },
+        {
+          "type": "section-text",
+          "field": "Screening",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "History",
+          "value": [
+            "Animals were submitted for a full pathology screen of the heart and other tissues as a part of CPAM workup to confirm this phenotype and develop a more thorough characterization of this mutation. Submitted 3 homozygous males 4-6 months old and a littermate control for necropsy and histopathology."
+          ]
+        },
+        {
+          "type": "section-text",
+          "field": "Diagnoses",
+          "value": [
+            "Lungs, pyogranulomatous bronchopneumonia, chronic, multifocal, moderate to marked (suggestive of an aspiration pneumonia) Ear canal, suppurative otitis media, chronic, bilateral, severe"
+          ]
+        },
+        {
+          "type": "section-text",
+          "field": "Remarks",
+          "value": [
+            "Findings in mutant mice are consistent in all 3 animals examined. Dilation of proximal esophagus was noted in 2/3 animals examined with minimal evidence of inflammation. Overall the etiology is unclear, but I suspect the cause of aspiration pneumonia was a result of dysphagia (Oropharyngeal dysphagia), possibly involving innervation and normal function of the esophagus.",
+            "NF1 patients do exhibit dysphagia and alterations in vocal quality, however, these changes are secondary to neurofibromas involving the innervation at these sites (esophagus and layrnx). There was no evidence of peripheral neurofibromas were noted in innervation to the esophagus or other organs or spinal plexiform ganglia or within the central nervous system.",
+            "Additional characterization of the cause of aspiration pneumonia is recommended, specifically functional assessment of swallowing to determine if dysphagia is present.",
+            "The etiology of bilateral middle ear infections seen in 2/3 animals with NF1 mutation, is uncertain."
+          ]
+        },
+        {
+          "type": "section-supporting-evidence",
+          "field": "Veterinary Histology Report",
+          "value": [
+            {
+              "name": "The Offical Inuyasha Website",
+              "data": "https://www.viz.com/inuyasha",
+              "type": "link",
+              "comments": "",
+              "attachment_id": "603dc3c1-c816-48ba-9f69-8fb34f173ecd"
+            }
+          ]
+        },
+        {
+          "type": "section-supporting-evidence",
+          "field": "Veterinary Pathology Imaging",
+          "value": [
+            {
+              "name": "The Art of Inuyasha",
+              "data": "https://m.media-amazon.com/images/I/51HYF05VDSL.jpg",
+              "type": "link",
+              "comments": "",
+              "attachment_id": "601d43243c1-c326-48ba-9f69-8fb3fds17"
+            }
+          ]
+        }
       ]
-   },
+    },
     {
       "header": "Medical Summary",
       "content": [
@@ -222,11 +231,39 @@
       ]
     }
   ],
-  "discussions":[],
+  "discussions": [
+    {
+      "post_id": "9027ec8d-6298-4afb-add5-6ef710eb5e98",
+      "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
+      "author_fullname": "Developer Person",
+      "publish_timestamp": "2023-10-09T21:13:22.687000",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum.",
+      "attachments": [],
+      "thread": []
+    },
+    {
+      "post_id": "a677bb36-acf8-4ff9-a406-b113a7952f7e",
+      "author_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
+      "author_fullname": "Researcher Person",
+      "publish_timestamp": "2023-10-10T21:13:22.687000",
+      "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum.",
+      "attachments": [],
+      "thread": []
+    },
+    {
+      "post_id": "e6023fa7-b598-416a-9f42-862c826255ef",
+      "author_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
+      "author_fullname": "Variant Review Report Preparer Person",
+      "publish_timestamp": "2023-10-13T21:13:22.687000",
+      "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also.",
+      "attachments": [],
+      "thread": []
+    }
+  ],
   "supporting_evidence_files": [
     {
-      "name": "test.txt", 
-      "attachment_id": "633afb87fb250a6ea1569555", 
+      "name": "test.txt",
+      "attachment_id": "633afb87fb250a6ea1569555",
       "comments": "hello world"
     }
   ]
