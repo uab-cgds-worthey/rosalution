@@ -31,6 +31,34 @@ export default {
     return genomicUnits;
   },
 
+  async pushAnalysisEvent(analysisName, eventType) {
+    const url = `/rosalution/api/analysis/${analysisName}/event/${eventType}`;
+    return await Requests.put(url);
+  },
+
+  async getAnnotationConfiguration(analysisName) {
+    // const baseUrl = '/rosalution/api/';
+    // const urlQuery = `analysis/{analysisName}`;
+
+    return annotationRenderingTemporary;
+  },
+
+  /**
+   * Requests to upload the JSON required for creating a new analysis in Rosalution
+   * with a unique analysis name.
+   * @param {File} file The JSON for creating the new Analysis
+   * @return {Object} Returns the new complete analysis created within Rosalution
+   */
+  async importPhenotipsAnalysis(file) {
+    const url = '/rosalution/api/analysis';
+
+    const fileUploadFormData = {
+      'phenotips_file': file,
+    };
+
+    return Requests.postForm(url, fileUploadFormData);
+  },
+
   /**
    * Provides {@link updatedSections} of updated text fields within sections in
    * the analysis {@link analysisName}.
@@ -58,34 +86,6 @@ export default {
     }
     const url = `/rosalution/api/analysis/${analysisName}/sections/batch`;
     return await Requests.post(url, sectionsToUpdate);
-  },
-
-  async pushAnalysisEvent(analysisName, eventType) {
-    const url = `/rosalution/api/analysis/${analysisName}/event/${eventType}`;
-    return await Requests.put(url);
-  },
-
-  async getAnnotationConfiguration(analysisName) {
-    // const baseUrl = '/rosalution/api/';
-    // const urlQuery = `analysis/{analysisName}`;
-
-    return annotationRenderingTemporary;
-  },
-
-  /**
-   * Requests to upload the JSON required for creating a new analysis in Rosalution
-   * with a unique analysis name.
-   * @param {File} file The JSON for creating the new Analysis
-   * @return {Object} Returns the new complete analysis created within Rosalution
-   */
-  async importPhenotipsAnalysis(file) {
-    const url = '/rosalution/api/analysis';
-
-    const fileUploadFormData = {
-      'phenotips_file': file,
-    };
-
-    return Requests.postForm(url, fileUploadFormData);
   },
 
   async getSectionImage(fileId) {
@@ -120,6 +120,52 @@ export default {
     const updatedAnalysisSections = await Requests.postForm(url, attachmentForm);
 
     return updatedAnalysisSections.find((section) => {
+      return section.header == sectionName;
+    })?.content.find((row) => {
+      return row.field == field;
+    });
+  },
+
+  async attachSectionSupportingEvidence(analysisName, sectionName, field, evidence) {
+    let attachmentForm = null;
+    let url = `/rosalution/api/analysis/${analysisName}/sections?row_type=`;
+
+    const section = {
+      'header': sectionName,
+      'content': [],
+    };
+
+    if (evidence.type == 'file') {
+      section.content.push({
+        'fieldName': field,
+      });
+
+      attachmentForm = {
+        'upload_file': evidence.data,
+        'updated_section': JSON.stringify(section),
+      };
+
+      url += 'document';
+    } else if ( evidence.type == 'link') {
+      section.content.push({
+        'fieldName': field,
+        'linkName': evidence.name,
+        'link': evidence.data,
+      });
+
+      attachmentForm = {
+        'updated_section': JSON.stringify(section),
+      };
+
+      url += 'link';
+    }
+
+    if (null == attachmentForm) {
+      throw new Error(`Evidence attachment ${evidence} type is invalid.`);
+    }
+
+    const updatedSections = await Requests.postForm(url, attachmentForm);
+    return updatedSections.find((section) => {
       return section.header == sectionName;
     })?.content.find((row) => {
       return row.field == field;
@@ -218,51 +264,6 @@ export default {
     return await Requests.putForm(url, attachmentForm);
   },
 
-  async attachSectionSupportingEvidence(analysisName, sectionName, field, evidence) {
-    let attachmentForm = null;
-    let url = `/rosalution/api/analysis/${analysisName}/sections?row_type=`;
-
-    const section = {
-      'header': sectionName,
-      'content': [],
-    };
-
-    if (evidence.type == 'file') {
-      section.content.push({
-        'fieldName': field,
-      });
-
-      attachmentForm = {
-        'upload_file': evidence.data,
-        'updated_section': JSON.stringify(section),
-      };
-
-      url += 'document';
-    } else if ( evidence.type == 'link') {
-      section.content.push({
-        'fieldName': field,
-        'linkName': evidence.name,
-        'link': evidence.data,
-      });
-
-      attachmentForm = {
-        'updated_section': JSON.stringify(section),
-      };
-
-      url += 'link';
-    }
-
-    if (null == attachmentForm) {
-      throw new Error(`Evidence attachment ${evidence} type is invalid.`);
-    }
-
-    const updatedSections = await Requests.postForm(url, attachmentForm);
-    return updatedSections.find((section) => {
-      return section.header == sectionName;
-    })?.content.find((row) => {
-      return row.field == field;
-    });
-  },
   async postNewDiscussionThread(analysisName, postContent) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions`;
 
@@ -273,6 +274,7 @@ export default {
     const success = await Requests.postForm(url, attachmentForm);
     return success;
   },
+
   async editDiscussionThreadById(analysisName, postId, postContent) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}`;
 
@@ -282,6 +284,7 @@ export default {
 
     return success;
   },
+
   async deleteDiscussionThreadById(analysisName, postId) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}`;
 

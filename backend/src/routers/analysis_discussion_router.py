@@ -15,7 +15,7 @@ from ..security.security import get_current_user
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(tags=["analysis"], dependencies=[Depends(database)])
+router = APIRouter(tags=["analysis discussions"], dependencies=[Depends(database)])
 
 
 @router.get("/{analysis_name}/discussions")
