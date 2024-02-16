@@ -8,12 +8,14 @@ describe('annotations.js', () => {
   const sandbox = sinon.createSandbox();
   let mockGetRequest;
   let mockPostFormRequest;
-  let mockDeleteFormRequest;
+  let mockPutFormRequest;
+  let mockDeleteRequest;
 
   beforeEach(() => {
     mockGetRequest = sandbox.stub(Requests, 'get');
     mockPostFormRequest = sandbox.stub(Requests, 'postForm');
-    mockDeleteFormRequest = sandbox.stub(Requests, 'deleteForm');
+    mockPutFormRequest = sandbox.stub(Requests, 'putForm');
+    mockDeleteRequest = sandbox.stub(Requests, 'delete');
   });
 
   afterEach(() => {
@@ -43,9 +45,8 @@ describe('annotations.js', () => {
   });
 
   it('saves an image with its corresponding section name as expected', async () => {
-    const expectedUrl = '/rosalution/api/annotate/SBFP1/Gene Homology/attach/image';
+    const expectedUrl = '/rosalution/api/annotation/SBFP1/Gene Homology/attachment?genomic_unit_type=gene';
     const expectedFormData = {
-      'genomic_unit_type': 'gene',
       'upload_file': 'fake-image-path-1',
     };
     const expectedReturn = 'it worked';
@@ -63,12 +64,13 @@ describe('annotations.js', () => {
   });
 
   it('saves a new image over an existing image with its corresponding section name', async () => {
-    const expectedUrl = '/rosalution/api/annotate/SBFP1/Gene Homology/update/old-fake-image-id-1';
-    const expectedFormData = {'genomic_unit_type': 'gene', 'upload_file': 'fake-image-path-1'};
+    const expectedUrl =
+      '/rosalution/api/annotation/SBFP1/Gene Homology/attachment/old-fake-image-id-1?genomic_unit_type=gene';
+    const expectedFormData = {'upload_file': 'fake-image-path-1'};
 
     const expectedReturn = 'it worked';
 
-    mockPostFormRequest.returns(expectedReturn);
+    mockPutFormRequest.returns(expectedReturn);
 
     const actualReturned = await Annotations.updateAnnotationImage(
         'SBFP1',
@@ -78,18 +80,16 @@ describe('annotations.js', () => {
     );
 
     expect(actualReturned).to.equal(expectedReturn);
-    expect(mockPostFormRequest.calledWith(expectedUrl, expectedFormData)).to.be.true;
+    expect(mockPutFormRequest.calledWith(expectedUrl, expectedFormData)).to.be.true;
   });
 
   it('removes an image annotation from its corresponding section name', async () => {
-    const expectedUrl = '/rosalution/api/annotate/SBFP1/Gene Homology/remove/fake-image-id-1';
-    const expectedFormData = {
-      'genomic_unit_type': 'gene',
-    };
+    const expectedUrl =
+      '/rosalution/api/annotation/SBFP1/Gene Homology/attachment/fake-image-id-1?genomic_unit_type=gene';
 
     const expectedReturn = 'it worked';
 
-    mockDeleteFormRequest.returns(expectedReturn);
+    mockDeleteRequest.returns(expectedReturn);
 
     const actualReturned = await Annotations.removeAnnotationImage(
         'SBFP1',
@@ -99,6 +99,6 @@ describe('annotations.js', () => {
     );
 
     expect(actualReturned).to.equal(expectedReturn);
-    expect(mockDeleteFormRequest.calledWith(expectedUrl, expectedFormData)).to.be.true;
+    expect(mockDeleteRequest.calledWith(expectedUrl)).to.be.true;
   });
 });
