@@ -2,7 +2,7 @@ import Requests from '@/requests.js';
 
 export default {
   async getAnnotations(analysisName, gene, variant) {
-    const baseUrl = '/rosalution/api/annotate';
+    const baseUrl = '/rosalution/api/annotation';
 
     const variantWithoutProtein = variant.replace(/\(.*/, '');
 
@@ -25,35 +25,34 @@ export default {
     return {...geneAnnotations, ...variantAnnotations};
   },
   async attachAnnotationImage(genomicUnit, dataSet, annotation) {
-    const baseUrl = '/rosalution/api/annotate';
+    const baseUrl = `/rosalution/api/annotation`;
 
     const attachmentForm = {
-      'genomic_unit_type': annotation.genomic_unit_type,
       'upload_file': annotation.annotation_data,
     };
 
-    return await Requests.postForm(`${baseUrl}/${genomicUnit}/${dataSet}/attach/image`, attachmentForm);
+    return await Requests.postForm(
+        `${baseUrl}/${genomicUnit}/${dataSet}/attachment?genomic_unit_type=${annotation.genomic_unit_type}`,
+        attachmentForm,
+    );
   },
-  async updateAnnotationImage(genomicUnit, dataSet, oldFileId, annotation) {
-    const baseUrl = '/rosalution/api/annotate';
+  async updateAnnotationImage(genomicUnit, dataSet, oldId, annotation) {
+    const baseUrl = '/rosalution/api/annotation';
 
     const attachmentForm = {
-      'genomic_unit_type': annotation.genomic_unit_type,
       'upload_file': annotation.annotation_data,
     };
 
-    return await Requests.postForm(`${baseUrl}/${genomicUnit}/${dataSet}/update/${oldFileId}`, attachmentForm);
+    return await Requests.putForm(
+        `${baseUrl}/${genomicUnit}/${dataSet}/attachment/${oldId}?genomic_unit_type=${annotation.genomic_unit_type}`,
+        attachmentForm,
+    );
   },
   async removeAnnotationImage(genomicUnit, dataSet, fileId, annotation) {
-    const baseUrl = '/rosalution/api/annotate';
+    const baseUrl = '/rosalution/api/annotation';
 
-    const attachmentForm = {
-      'genomic_unit_type': annotation.genomic_unit_type,
-    };
-
-    const success = await Requests.deleteForm(
-        `${baseUrl}/${genomicUnit}/${dataSet}/remove/${fileId}`, attachmentForm,
-    );
+    const success = await Requests.delete(
+        `${baseUrl}/${genomicUnit}/${dataSet}/attachment/${fileId}?genomic_unit_type=${annotation.genomic_unit_type}`);
 
     return success;
   },

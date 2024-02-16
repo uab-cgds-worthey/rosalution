@@ -5,10 +5,9 @@
 import logging
 
 from datetime import date, datetime
+from typing import List
 
-from fastapi import (
-    APIRouter, Depends, BackgroundTasks, HTTPException, status, UploadFile, File, Form, Response, Security
-)
+from fastapi import (APIRouter, Depends, BackgroundTasks, HTTPException, status, UploadFile, File, Response, Security)
 
 from ..enums import GenomicUnitType
 from ..core.annotation import AnnotationService
@@ -20,7 +19,7 @@ from ..security.security import get_authorization
 logger = logging.getLogger(__name__)
 
 router = APIRouter(
-    prefix="/annotate",
+    prefix="/annotation",
     tags=["annotation"],
     dependencies=[Depends(database), Depends(annotation_queue)],
 )
@@ -106,17 +105,21 @@ def get_annotations_by_hgvs_variant(variant: str, repositories=Depends(database)
     return {**annotations, "transcripts": transcript_annotation_list}
 
 
-@router.post("/{genomic_unit}/{data_set}/attach/image")
+@router.post("/{genomic_unit}/{data_set}/attachment", response_model=List)
 def upload_annotation_section(
     response: Response,
     genomic_unit: str,
     data_set: str,
-    genomic_unit_type: GenomicUnitType = Form(...),
+    genomic_unit_type: GenomicUnitType,
     upload_file: UploadFile = File(...),
     repositories=Depends(database),
     authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """ This endpoint specifically handles annotation section image uploads """
+
+    if genomic_unit_type.INVALID == genomic_unit_type:
+        raise HTTPException(status_code=404, detail="Invalid Genomic Unit Type")
+
     try:
         new_file_object_id = repositories["bucket"].save_file(
             upload_file.file, upload_file.filename, upload_file.content_type
@@ -124,7 +127,7 @@ def upload_annotation_section(
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
-    genomic_unit = {
+    genomic_unit_json = {
         'unit': genomic_unit,
         'type': genomic_unit_type,
     }
@@ -137,21 +140,25 @@ def upload_annotation_section(
     }
 
     try:
-        repositories['genomic_unit'].annotate_genomic_unit_with_file(genomic_unit, annotation_unit)
+        repositories['genomic_unit'].annotate_genomic_unit_with_file(genomic_unit_json, annotation_unit)
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
     response.status_code = status.HTTP_201_CREATED
 
-    return {'section': data_set, 'image_id': str(new_file_object_id)}
+    updated_annotation_value = repositories['genomic_unit'].find_genomic_unit_annotation_value(
+        genomic_unit_json, data_set
+    )
+
+    return updated_annotation_value
 
 
-@router.post("/{genomic_unit}/{data_set}/update/{old_file_id}")
+@router.put("/{genomic_unit}/{data_set}/attachment/{old_file_id}", response_model=List)
 def update_annotation_image(
     genomic_unit: str,
     data_set: str,
     old_file_id: str,
-    genomic_unit_type: GenomicUnitType = Form(...),
+    genomic_unit_type: GenomicUnitType,
     upload_file: UploadFile = File(...),
     repositories=Depends(database),
     authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
@@ -162,18 +169,18 @@ def update_annotation_image(
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
-    genomic_unit = {'unit': genomic_unit, 'type': genomic_unit_type}
+    genomic_unit_json = {'unit': genomic_unit, 'type': genomic_unit_type}
     annotation_value = {"file_id": str(new_file_id), "created_date": str(datetime.now())}
 
     try:
         repositories['genomic_unit'].update_genomic_unit_file_annotation(
-            genomic_unit, data_set, annotation_value, old_file_id
+            genomic_unit_json, data_set, annotation_value, old_file_id
         )
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
     try:
-        repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit, data_set, old_file_id)
+        repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit_json, data_set, old_file_id)
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
@@ -182,27 +189,37 @@ def update_annotation_image(
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
-    return {'section': data_set, 'image_id': str(new_file_id)}
+    updated_annotation_value = repositories['genomic_unit'].find_genomic_unit_annotation_value(
+        genomic_unit_json, data_set
+    )
+
+    return updated_annotation_value
 
 
-@router.delete("/{genomic_unit}/{data_set}/remove/{file_id}")
+@router.delete("/{genomic_unit}/{data_set}/attachment/{file_id}", response_model=List)
 def remove_annotation_image(
     genomic_unit: str,
     data_set: str,
     file_id: str,
-    genomic_unit_type: GenomicUnitType = Form(...),
+    genomic_unit_type: GenomicUnitType,
     repositories=Depends(database),
     authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """ This endpoint handles removing an annotation image for specified genomic unit """
-    genomic_unit = {'unit': genomic_unit, 'type': genomic_unit_type}
+    genomic_unit_json = {'unit': genomic_unit, 'type': genomic_unit_type}
 
     try:
-        repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit, data_set, file_id)
+        repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit_json, data_set, file_id)
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
     try:
-        return repositories["bucket"].delete_file(file_id)
+        repositories["bucket"].delete_file(file_id)
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
+
+    updated_annotation_value = repositories['genomic_unit'].find_genomic_unit_annotation_value(
+        genomic_unit_json, data_set
+    )
+
+    return updated_annotation_value
