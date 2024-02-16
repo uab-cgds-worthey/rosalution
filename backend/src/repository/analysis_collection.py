@@ -89,6 +89,47 @@ class AnalysisCollection:
         """Returns analysis by searching for name"""
         return self.collection.find_one({"name": name})
 
+    def find_file_by_name(self, analysis_name: str, file_name: str):
+        """ Returns an attached file metadata attached to an analysis if it exists by name """
+        analysis = self.collection.find_one({"name": analysis_name})
+
+        if not analysis:
+            return None
+
+        if 'supporting_evidence_files' not in analysis:
+            return None
+
+        for file in analysis['supporting_evidence_files']:
+            if file['name'] == file_name:
+                return file
+
+        return None
+
+    def get_genomic_units(self, analysis_name: str):
+        """ Returns the genomic units for an analysis with variants displayed in the HGVS Nomenclature """
+        genomic_units_return = {"genes": {}, "variants": []}
+
+        analysis = self.collection.find_one({"name": analysis_name})
+        if not analysis:
+            raise ValueError(f"Analysis with name {analysis_name} does not exist")
+
+        if 'genomic_units' not in analysis:
+            raise ValueError(f"Analysis {analysis_name} does not have genomic units")
+
+        for gene in analysis['genomic_units']:
+            variants = []
+            for variant in gene['variants']:
+                hgvs_variant = variant["hgvs_variant"]
+                p_dot = variant["p_dot"]
+                if all(value != "" for value in [p_dot, hgvs_variant]):
+                    variants.append(f"{hgvs_variant}({p_dot})")
+                elif hgvs_variant != "":
+                    variants.append(hgvs_variant)
+            genomic_units_return["genes"].update({gene["gene"]: variants})
+            genomic_units_return["variants"].extend(variants)
+
+        return genomic_units_return
+
     def create_analysis(self, analysis_data: dict):
         """Creates a new analysis if the name does not already exist"""
         if self.collection.find_one({"name": analysis_data["name"]}) is not None:
@@ -96,6 +137,54 @@ class AnalysisCollection:
 
         # returns an instance of InsertOneResult.
         return self.collection.insert_one(analysis_data)
+
+    def attach_third_party_link(self, analysis_name: str, third_party_enum: str, link: str):
+        """ Returns an analysis with a third party link attached to it """
+        analysis = self.collection.find_one({"name": analysis_name})
+        if not analysis:
+            raise ValueError(f"Analysis with name {analysis_name} does not exist")
+
+        if 'third_party_links' not in analysis:
+            analysis['third_party_links'] = []
+
+        # Check if the third_party_enum already exists in the list
+        existing_link = next((item for item in analysis['third_party_links'] if item['type'] == third_party_enum), None)
+
+        if existing_link:
+            # Update the existing link
+            updated_document = self.collection.find_one_and_update(
+                {"name": analysis_name, "third_party_links.type": third_party_enum},
+                {"$set": {"third_party_links.$.link": link}},
+                return_document=ReturnDocument.AFTER,
+            )
+        else:
+            # Add a new link to the list
+            updated_document = self.collection.find_one_and_update(
+                {"name": analysis_name},
+                {"$push": {"third_party_links": {"type": third_party_enum, "link": link}}},
+                return_document=ReturnDocument.AFTER,
+            )
+
+        # Remove the _id field from the returned document since it is not JSON serializable
+        updated_document.pop("_id", None)
+
+        return updated_document
+
+    def update_event(self, analysis_name: str, username: str, event_type: EventType):
+        """ Updates analysis status """
+        analysis = self.collection.find_one({"name": analysis_name})
+        if not analysis:
+            raise ValueError(f"Analysis with name {analysis_name} does not exist.")
+        analysis['timeline'].append(Event.timestamp_event(username, event_type).model_dump())
+
+        updated_document = self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {"$set": {"timeline": analysis["timeline"]}},
+            return_document=ReturnDocument.AFTER,
+        )
+        # remove the _id field from the returned document since it is not JSON serializable
+        updated_document.pop("_id", None)
+        return updated_document
 
     def update_analysis_nominator(self, analysis_name: str, nominator: str):
         """Updates the Nominator field within an analysis"""
@@ -126,120 +215,71 @@ class AnalysisCollection:
                     self.update_analysis_nominator(analysis_name, '; '.join(field_value))
                 self.update_analysis_section(analysis_name, section.header, field_name, {"value": field_value})
 
-    def find_file_by_name(self, analysis_name: str, file_name: str):
-        """ Returns an attached file metadata attached to an analysis if it exists by name """
-        analysis = self.collection.find_one({"name": analysis_name})
+    def attach_section_supporting_evidence_file(
+        self, analysis_name: str, section_name: str, field_name: str, field_value_file: object
+    ):
+        """
+        Attaches a file to a field within an analysis section and returns only the updated field within that section
+        """
+        updated_document = self.collection.find_one({"name": analysis_name})
+        if "_id" in updated_document:
+            updated_document.pop("_id", None)
+        updated_section = None
+        for section in updated_document['sections']:
+            if section_name == section['header']:
+                updated_section = section
+        if None is updated_section:
+            raise ValueError(
+                f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach report to '{section_name}'\
+                section."
+            )
 
-        if not analysis:
-            return None
+        for field in updated_section['content']:
+            if field['field'] == field_name:
+                field['value'] = [field_value_file]
 
-        if 'supporting_evidence_files' not in analysis:
-            return None
+        self.collection.update_one({"name": analysis_name}, {'$set': updated_document})
 
-        for file in analysis['supporting_evidence_files']:
-            if file['name'] == file_name:
-                return file
+    def attach_section_supporting_evidence_link(
+        self, analysis_name: str, section_name: str, field_name: str, field_value_link: object
+    ):
+        """
+        Attaches a link to a section field within an analysis and returns only the updated field for that section
+        """
+        updated_document = self.collection.find_one({"name": analysis_name})
 
-        return None
+        if "_id" in updated_document:
+            updated_document.pop("_id", None)
 
-    def attach_supporting_evidence_file(self, analysis_name: str, file_id: str, filename: str, comments: str):
-        """Attaches supporting evidence documents and comments for an analysis"""
-        new_uuid = str(file_id)
-        new_evidence = {
-            "name": filename,
-            "attachment_id": new_uuid,
-            "type": "file",
-            "comments": comments,
-        }
-        updated_document = self.collection.find_one_and_update(
-            {"name": analysis_name},
-            {"$push": {"supporting_evidence_files": new_evidence}},
-            return_document=ReturnDocument.AFTER,
-        )
-        # remove the _id field from the returned document since it is not JSON serializable
-        updated_document.pop("_id", None)
-        return updated_document
+        updated_section = None
+        for section in updated_document['sections']:
+            if section_name == section['header']:
+                updated_section = section
 
-    def attach_supporting_evidence_link(self, analysis_name: str, link_name: str, link: str, comments: str):
-        """Attaches supporting evidence URL and comments to an analysis"""
+        if None is updated_section:
+            raise ValueError(
+                f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach report to '{section_name}'\
+                section."
+            )
+
         new_uuid = str(uuid4())
-        new_evidence = {
-            "name": link_name, "data": link, "attachment_id": new_uuid, "type": "link", "comments": comments
-        }
-        updated_document = self.collection.find_one_and_update(
+        field_value_link['attachment_id'] = new_uuid
+
+        updated_field = None
+        for field in updated_section['content']:
+            if field['field'] == field_name:
+                field['value'] = [field_value_link]
+                updated_field = field
+
+        self.collection.find_one_and_update(
             {"name": analysis_name},
-            {"$push": {"supporting_evidence_files": new_evidence}},
+            {'$set': updated_document},
             return_document=ReturnDocument.AFTER,
         )
-        # remove the _id field from the returned document since it is not JSON serializable
-        updated_document.pop("_id", None)
 
-        return updated_document
+        return_updated_field = {"header": section_name, "field": field_name, "updated_row": updated_field}
 
-    def get_genomic_units(self, analysis_name: str):
-        """ Returns the genomic units for an analysis with variants displayed in the HGVS Nomenclature """
-        genomic_units_return = {"genes": {}, "variants": []}
-
-        analysis = self.collection.find_one({"name": analysis_name})
-        if not analysis:
-            raise ValueError(f"Analysis with name {analysis_name} does not exist")
-
-        if 'genomic_units' not in analysis:
-            raise ValueError(f"Analysis {analysis_name} does not have genomic units")
-
-        for gene in analysis['genomic_units']:
-            variants = []
-            for variant in gene['variants']:
-                hgvs_variant = variant["hgvs_variant"]
-                p_dot = variant["p_dot"]
-                if all(value != "" for value in [p_dot, hgvs_variant]):
-                    variants.append(f"{hgvs_variant}({p_dot})")
-                elif hgvs_variant != "":
-                    variants.append(hgvs_variant)
-            genomic_units_return["genes"].update({gene["gene"]: variants})
-            genomic_units_return["variants"].extend(variants)
-
-        return genomic_units_return
-
-    def update_supporting_evidence(self, analysis_name: str, attachment_id: str, updated_content: dict):
-        """Updates Supporting Evidence content with by analysis and the attachment id"""
-        supporting_evidence_files = self.collection.find_one({"name": analysis_name})["supporting_evidence_files"]
-        index_to_update = supporting_evidence_files.index(
-            next(filter(lambda x: x["attachment_id"] == attachment_id, supporting_evidence_files), None)
-        )
-
-        if None is index_to_update:
-            raise ValueError(f"Supporting Evidence identifier {attachment_id} does not exist for {analysis_name}")
-
-        supporting_evidence_files[index_to_update]['name'] = updated_content['name']
-        if updated_content['data'] not in [None, '']:
-            supporting_evidence_files[index_to_update]['data'] = updated_content['data']
-        supporting_evidence_files[index_to_update]['comments'] = updated_content['comments']
-
-        updated_document = self.collection.find_one_and_update(
-            {"name": analysis_name},
-            {"$set": {"supporting_evidence_files": supporting_evidence_files}},
-            return_document=ReturnDocument.AFTER,
-        )
-        # remove the _id field from the returned document since it is not JSON serializable
-        updated_document.pop("_id", None)
-        return updated_document
-
-    def remove_supporting_evidence(self, analysis_name: str, attachment_id: str):
-        """ Removes a supporting evidence file from an analysis """
-        supporting_evidence_files = self.collection.find_one({"name": analysis_name})["supporting_evidence_files"]
-        index_to_remove = supporting_evidence_files.index(
-            next(filter(lambda x: x["attachment_id"] == attachment_id, supporting_evidence_files), None)
-        )
-        del supporting_evidence_files[index_to_remove]
-        updated_document = self.collection.find_one_and_update(
-            {"name": analysis_name},
-            {"$set": {"supporting_evidence_files": supporting_evidence_files}},
-            return_document=ReturnDocument.AFTER,
-        )
-        # remove the _id field from the returned document since it is not JSON serializable
-        updated_document.pop("_id", None)
-        return updated_document
+        return return_updated_field
 
     def add_section_image(self, analysis_name: str, section_name: str, field_name: str, file_id: str):
         """
@@ -331,120 +371,6 @@ class AnalysisCollection:
                                                                     return_document=ReturnDocument.AFTER)
         return updated_analysis_json['sections']
 
-    def attach_third_party_link(self, analysis_name: str, third_party_enum: str, link: str):
-        """ Returns an analysis with a third party link attached to it """
-        analysis = self.collection.find_one({"name": analysis_name})
-        if not analysis:
-            raise ValueError(f"Analysis with name {analysis_name} does not exist")
-
-        if 'third_party_links' not in analysis:
-            analysis['third_party_links'] = []
-
-        # Check if the third_party_enum already exists in the list
-        existing_link = next((item for item in analysis['third_party_links'] if item['type'] == third_party_enum), None)
-
-        if existing_link:
-            # Update the existing link
-            updated_document = self.collection.find_one_and_update(
-                {"name": analysis_name, "third_party_links.type": third_party_enum},
-                {"$set": {"third_party_links.$.link": link}},
-                return_document=ReturnDocument.AFTER,
-            )
-        else:
-            # Add a new link to the list
-            updated_document = self.collection.find_one_and_update(
-                {"name": analysis_name},
-                {"$push": {"third_party_links": {"type": third_party_enum, "link": link}}},
-                return_document=ReturnDocument.AFTER,
-            )
-
-        # Remove the _id field from the returned document since it is not JSON serializable
-        updated_document.pop("_id", None)
-
-        return updated_document
-
-    def update_event(self, analysis_name: str, username: str, event_type: EventType):
-        """ Updates analysis status """
-        analysis = self.collection.find_one({"name": analysis_name})
-        if not analysis:
-            raise ValueError(f"Analysis with name {analysis_name} does not exist.")
-        analysis['timeline'].append(Event.timestamp_event(username, event_type).model_dump())
-
-        updated_document = self.collection.find_one_and_update(
-            {"name": analysis_name},
-            {"$set": {"timeline": analysis["timeline"]}},
-            return_document=ReturnDocument.AFTER,
-        )
-        # remove the _id field from the returned document since it is not JSON serializable
-        updated_document.pop("_id", None)
-        return updated_document
-
-    def attach_section_supporting_evidence_file(
-        self, analysis_name: str, section_name: str, field_name: str, field_value_file: object
-    ):
-        """
-        Attaches a file to a field within an analysis section and returns only the updated field within that section
-        """
-        updated_document = self.collection.find_one({"name": analysis_name})
-        if "_id" in updated_document:
-            updated_document.pop("_id", None)
-        updated_section = None
-        for section in updated_document['sections']:
-            if section_name == section['header']:
-                updated_section = section
-        if None is updated_section:
-            raise ValueError(
-                f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach report to '{section_name}'\
-                section."
-            )
-
-        for field in updated_section['content']:
-            if field['field'] == field_name:
-                field['value'] = [field_value_file]
-
-        self.collection.update_one({"name": analysis_name}, {'$set': updated_document})
-
-    def attach_section_supporting_evidence_link(
-        self, analysis_name: str, section_name: str, field_name: str, field_value_link: object
-    ):
-        """
-        Attaches a link to a section field within an analysis and returns only the updated field for that section
-        """
-        updated_document = self.collection.find_one({"name": analysis_name})
-
-        if "_id" in updated_document:
-            updated_document.pop("_id", None)
-
-        updated_section = None
-        for section in updated_document['sections']:
-            if section_name == section['header']:
-                updated_section = section
-
-        if None is updated_section:
-            raise ValueError(
-                f"'{section_name}' does not exist within '{analysis_name}'. Unable to attach report to '{section_name}'\
-                section."
-            )
-
-        new_uuid = str(uuid4())
-        field_value_link['attachment_id'] = new_uuid
-
-        updated_field = None
-        for field in updated_section['content']:
-            if field['field'] == field_name:
-                field['value'] = [field_value_link]
-                updated_field = field
-
-        self.collection.find_one_and_update(
-            {"name": analysis_name},
-            {'$set': updated_document},
-            return_document=ReturnDocument.AFTER,
-        )
-
-        return_updated_field = {"header": section_name, "field": field_name, "updated_row": updated_field}
-
-        return return_updated_field
-
     def add_discussion_post(self, analysis_name: str, discussion_post: object):
         """ Appends a new discussion post to an analysis """
 
@@ -480,3 +406,71 @@ class AnalysisCollection:
         updated_document.pop("_id", None)
 
         return updated_document['discussions']
+
+    def attach_supporting_evidence_file(self, analysis_name: str, file_id: str, filename: str, comments: str):
+        """Attaches supporting evidence documents and comments for an analysis"""
+        new_uuid = str(file_id)
+        new_evidence = {
+            "name": filename,
+            "attachment_id": new_uuid,
+            "type": "file",
+            "comments": comments,
+        }
+        updated_document = self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {"$push": {"supporting_evidence_files": new_evidence}},
+            return_document=ReturnDocument.AFTER,
+        )
+        return updated_document
+
+    def attach_supporting_evidence_link(self, analysis_name: str, link_name: str, link: str, comments: str):
+        """Attaches supporting evidence URL and comments to an analysis"""
+        new_uuid = str(uuid4())
+        new_evidence = {
+            "name": link_name, "data": link, "attachment_id": new_uuid, "type": "link", "comments": comments
+        }
+        updated_document = self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {"$push": {"supporting_evidence_files": new_evidence}},
+            return_document=ReturnDocument.AFTER,
+        )
+
+        return updated_document
+
+    def update_supporting_evidence(self, analysis_name: str, attachment_id: str, updated_content: dict):
+        """Updates Supporting Evidence content with by analysis and the attachment id"""
+        supporting_evidence_files = self.collection.find_one({"name": analysis_name})["supporting_evidence_files"]
+        index_to_update = supporting_evidence_files.index(
+            next(filter(lambda x: x["attachment_id"] == attachment_id, supporting_evidence_files), None)
+        )
+
+        if None is index_to_update:
+            raise ValueError(f"Supporting Evidence identifier {attachment_id} does not exist for {analysis_name}")
+
+        supporting_evidence_files[index_to_update]['name'] = updated_content['name']
+        if updated_content['data'] not in [None, '']:
+            supporting_evidence_files[index_to_update]['data'] = updated_content['data']
+        supporting_evidence_files[index_to_update]['comments'] = updated_content['comments']
+
+        updated_document = self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {"$set": {"supporting_evidence_files": supporting_evidence_files}},
+            return_document=ReturnDocument.AFTER,
+        )
+
+        return updated_document
+
+    def remove_supporting_evidence(self, analysis_name: str, attachment_id: str):
+        """ Removes a supporting evidence file from an analysis """
+        supporting_evidence_files = self.collection.find_one({"name": analysis_name})["supporting_evidence_files"]
+        index_to_remove = supporting_evidence_files.index(
+            next(filter(lambda x: x["attachment_id"] == attachment_id, supporting_evidence_files), None)
+        )
+        del supporting_evidence_files[index_to_remove]
+        updated_document = self.collection.find_one_and_update(
+            {"name": analysis_name},
+            {"$set": {"supporting_evidence_files": supporting_evidence_files}},
+            return_document=ReturnDocument.AFTER,
+        )
+
+        return updated_document

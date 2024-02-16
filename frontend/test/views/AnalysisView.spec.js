@@ -431,7 +431,7 @@ describe('AnalysisView', () => {
         analysisWithNewEvidence.supporting_evidence_files.push(
             newAttachmentData,
         );
-        mockedAttachSupportingEvidence.returns(analysisWithNewEvidence);
+        mockedAttachSupportingEvidence.returns(analysisWithNewEvidence.supporting_evidence_files);
 
         const supplementalComponent =
           wrapper.getComponent(SupplementalFormList);

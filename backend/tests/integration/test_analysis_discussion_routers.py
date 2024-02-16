@@ -26,7 +26,6 @@ def test_add_new_discussion_to_analysis(client, mock_access_token, mock_reposito
 
     assert response.status_code == 200
 
-    response_json = response.json()
     assert len(response.json()) == 4
 
     actual_most_recent_post = response.json().pop()

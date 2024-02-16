@@ -426,16 +426,16 @@ export default {
       }
 
       try {
-        const updatedAnalysis = await Analyses.attachSupportingEvidence(
+        const updatedAnalysisAttachments = await Analyses.attachSupportingEvidence(
             this.analysis_name,
             attachment,
         );
         this.analysis.supporting_evidence_files.splice(0);
         this.analysis.supporting_evidence_files.push(
-            ...updatedAnalysis.supporting_evidence_files,
+            ...updatedAnalysisAttachments,
         );
       } catch (error) {
-        console.error('Updating the analysis did not work');
+        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
     async editSupportingEvidence(attachment) {
@@ -450,16 +450,16 @@ export default {
       }
 
       try {
-        const updatedAnalysis = await Analyses.updateSupportingEvidence(
+        const updatedAnalysisAttachments = await Analyses.updateSupportingEvidence(
             this.analysis_name,
             updatedAttachment,
         );
         this.analysis.supporting_evidence_files.splice(0);
         this.analysis.supporting_evidence_files.push(
-            ...updatedAnalysis.supporting_evidence_files,
+            ...updatedAnalysisAttachments,
         );
       } catch (error) {
-        console.error('Updating the analysis did not work');
+        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
     async removeSupportingEvidence(attachmentToDelete) {

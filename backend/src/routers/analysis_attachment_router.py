@@ -1,7 +1,9 @@
 """Analysis endpoints for adding/updating/removing document and link attachments to an analysis."""
 
-from typing import Optional
+import json
+from typing import List, Optional
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Security, UploadFile
+from pydantic import BaseModel, model_validator
 
 from ..dependencies import database
 from ..security.security import get_authorization
@@ -9,55 +11,76 @@ from ..security.security import get_authorization
 router = APIRouter(tags=["analysis attachments"], dependencies=[Depends(database)])
 
 
-@router.post("/{analysis_name}/attach/file")
+class IncomingAttachment(BaseModel, frozen=True):
+    """The sections of case notes associated with an analysis"""
+
+    name: Optional[str] = None
+
+    attachment_id: Optional[str] = None
+    comments: Optional[str] = None
+    link_name: Optional[str] = None
+    link: Optional[str] = None
+    data: Optional[str] = None
+
+    @model_validator(mode='before')
+    @classmethod
+    def validate_to_json(cls, value):
+        """Allows FastAPI to valid and unpack the JSON of data into the model"""
+        if isinstance(value, str):
+            return cls(**json.loads(value))
+        return value
+
+
+@router.post("/{analysis_name}/attachment", response_model=List)
 def attach_supporting_evidence_file(
-    analysis_name: str, upload_file: UploadFile = File(...), comments: str = Form(...), repositories=Depends(database)
-):
-    """Uploads a file to GridFS and adds it to the analysis"""
-
-    new_file_object_id = repositories['bucket'].save_file(
-        upload_file.file, upload_file.filename, upload_file.content_type
-    )
-
-    return repositories["analysis"].attach_supporting_evidence_file(
-        analysis_name, new_file_object_id, upload_file.filename, comments
-    )
-
-
-@router.post("/{analysis_name}/attach/link")
-def attach_supporting_evidence_link(
     analysis_name: str,
-    link_name: str = Form(...),
-    link: str = Form(...),
-    comments: str = Form(...),
+    upload_file: UploadFile = File(None),
+    new_attachment: IncomingAttachment = Form(...),
     repositories=Depends(database)
 ):
     """Uploads a file to GridFS and adds it to the analysis"""
-    return repositories["analysis"].attach_supporting_evidence_link(analysis_name, link_name, link, comments)
+
+    updated_analysis_json = None
+
+    if new_attachment.link:
+        updated_analysis_json = repositories["analysis"].attach_supporting_evidence_link(
+            analysis_name, new_attachment.link_name, new_attachment.link, new_attachment.comments
+        )
+    else:
+        new_file_object_id = repositories['bucket'].save_file(
+            upload_file.file, upload_file.filename, upload_file.content_type
+        )
+
+        updated_analysis_json = repositories["analysis"].attach_supporting_evidence_file(
+            analysis_name, new_file_object_id, upload_file.filename, new_attachment.comments
+        )
+
+    return updated_analysis_json["supporting_evidence_files"]
 
 
-@router.put("/{analysis_name}/attachment/{attachment_id}/update")
+@router.put("/{analysis_name}/attachment/{attachment_id}", response_model=List)
 def update_supporting_evidence(
     analysis_name: str,
     attachment_id: str,
-    name: str = Form(...),
-    data: Optional[str] = Form(None),
-    comments: str = Form(...),
+    updated_attachment: IncomingAttachment = Form(...),
     repositories=Depends(database)
 ):
     """ Updates a supporting evidence file in an analysis """
     content = {
-        'name': name,
-        'data': data,
-        'comments': comments,
+        'name': updated_attachment.name,
+        'data': updated_attachment.data,
+        'comments': updated_attachment.comments,
     }
     try:
-        return repositories["analysis"].update_supporting_evidence(analysis_name, attachment_id, content)
+        updated_analysis_json = repositories["analysis"].update_supporting_evidence(
+            analysis_name, attachment_id, content
+        )
+        return updated_analysis_json["supporting_evidence_files"]
     except ValueError as exception:
         raise HTTPException(status_code=404, detail=str(exception)) from exception
 
 
-@router.delete("/{analysis_name}/attachment/{attachment_id}/remove")
+@router.delete("/{analysis_name}/attachment/{attachment_id}", response_model=List)
 def remove_supporting_evidence(
     analysis_name: str,
     attachment_id: str,
@@ -67,4 +90,5 @@ def remove_supporting_evidence(
     """ Removes a supporting evidence file from an analysis """
     if repositories["bucket"].id_exists(attachment_id):
         repositories["bucket"].delete_file(attachment_id)
-    return repositories["analysis"].remove_supporting_evidence(analysis_name, attachment_id)
+    updated_analysis_json = repositories["analysis"].remove_supporting_evidence(analysis_name, attachment_id)
+    return updated_analysis_json["supporting_evidence_files"]
