@@ -36,7 +36,8 @@ def attach_supporting_evidence_file(
     analysis_name: str,
     upload_file: UploadFile = File(None),
     new_attachment: IncomingAttachment = Form(...),
-    repositories=Depends(database)
+    repositories=Depends(database),
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """Uploads a file to GridFS and adds it to the analysis"""
 
@@ -63,7 +64,8 @@ def update_supporting_evidence(
     analysis_name: str,
     attachment_id: str,
     updated_attachment: IncomingAttachment = Form(...),
-    repositories=Depends(database)
+    repositories=Depends(database),
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """ Updates a supporting evidence file in an analysis """
     content = {

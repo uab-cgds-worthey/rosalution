@@ -36,14 +36,14 @@ def update_many_analysis_sections(
 
 
 @router.post("/{analysis_name}/sections", response_model=List[Section])
-def update_analysis_section(
+def update_analysis_section( #pylint: disable=too-many-arguments
     response: Response,
     analysis_name: str,
     row_type: SectionRowType,
     updated_section: Section = Form(...),
     upload_file: UploadFile = File(None),
     repositories=Depends(database),
-    # authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """Updates a section with the changed fields"""
     if row_type not in (SectionRowType.TEXT, SectionRowType.IMAGE, SectionRowType.DOCUMENT, SectionRowType.LINK):
@@ -67,11 +67,11 @@ def update_analysis_section(
             raise HTTPException(status_code=500, detail=str(exception)) from exception
 
         if row_type == SectionRowType.DOCUMENT:
-            field_value_file = {
-                "name": upload_file.filename, "attachment_id": str(new_file_object_id), "type": "file", "comments": ""
-            }
             repositories["analysis"].attach_section_supporting_evidence_file(
-                analysis_name, updated_section.header, updated_field["fieldName"], field_value_file
+                analysis_name, updated_section.header, updated_field["fieldName"], {
+                    "name": upload_file.filename, "attachment_id": str(new_file_object_id), "type": "file", "comments":
+                        ""
+                }
             )
 
         if row_type == SectionRowType.IMAGE:
@@ -80,12 +80,9 @@ def update_analysis_section(
             )
 
     if row_type in (SectionRowType.LINK):
-        field_value_link = {
-            "name": updated_field["linkName"], "data": updated_field["link"], "type": "link", "comments": ""
-        }
-
         repositories["analysis"].attach_section_supporting_evidence_link(
-            analysis_name, updated_section.header, updated_field["fieldName"], field_value_link
+            analysis_name, updated_section.header, updated_field["fieldName"],
+            {"name": updated_field["linkName"], "data": updated_field["link"], "type": "link", "comments": ""}
         )
 
     response.status_code = status.HTTP_201_CREATED
