@@ -10,7 +10,7 @@ from src.config import get_settings, Settings
 from src.dependencies import database, annotation_queue
 from src.security.security import create_access_token, get_current_user
 
-from ..test_utils import mock_mongo_collection, mock_gridfs_bucket, read_database_fixture, read_test_fixture
+from ..test_utils import mock_mongo_collection, mock_gridfs_bucket, read_test_fixture
 
 
 @pytest.fixture(name="client", scope="class")
@@ -100,9 +100,50 @@ def mock_file_upload():
 
 @pytest.fixture(name="cpam0002_analysis_json")
 def fixture_cpam0002_analysis_json():
-    """The JSON for the CPAM 0002 Analysis"""
-    collection = read_database_fixture("analyses.json")
-    return next((analysis for analysis in collection if analysis['name'] == "CPAM0002"), None)
+    """JSON for the CPAM0002 Analysis"""
+    return read_test_fixture("analysis-CPAM0002.json")
+
+
+@pytest.fixture(name="cpam0047_analysis_json")
+def fixture_cpam0047_analysis_json():
+    """The JSON for the CPAM 0047 Analysis"""
+    return read_test_fixture("analysis-CPAM0047.json")
+
+
+@pytest.fixture(name="cpam0112_analysis_json")
+def fixture_cpam0112_analysis_json():
+    """JSON for the CPAM0112 Analysis"""
+    return read_test_fixture("analysis-CPAM0112.json")
+
+
+@pytest.fixture(name="analysis_collection_json")
+def fixture_analysis_collection_json(cpam0002_analysis_json, cpam0047_analysis_json):
+    """Returns the multiple analyses being mocked as an array"""
+    return [cpam0002_analysis_json, cpam0047_analysis_json]
+
+
+@pytest.fixture(name="annotations_config_collection_json")
+def fixture_annotations_config_collection_json():
+    """JSON for the entire annotations configuration collection"""
+    return read_test_fixture("annotations-config.json")
+
+
+@pytest.fixture(name="gene_vma21_annotations_json")
+def fixture_gene_annotations_json():
+    """JSON for the annotations of the Gene VMA21"""
+    return read_test_fixture("annotations-VMA21.json")
+
+
+@pytest.fixture(name="variant_nm001017980_3_c_164g_t_annotations_json")
+def fixture_hgvs_variant_json():
+    """JSON for the annotations of the Gene VMA21"""
+    return read_test_fixture("annotations-NM001017980_3_c_164G_T.json")
+
+
+@pytest.fixture(name="genomic_units_collection_json")
+def fixture_genomic_unit_collection_json(gene_vma21_annotations_json, variant_nm001017980_3_c_164g_t_annotations_json):
+    """JSON for the genomic units collection"""
+    return [gene_vma21_annotations_json, variant_nm001017980_3_c_164g_t_annotations_json]
 
 
 @pytest.fixture(name="users_json")

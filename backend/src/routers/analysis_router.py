@@ -1,15 +1,10 @@
-# pylint: disable=too-many-arguments
-# Due to adding scope checks, it's adding too many arguments (7/6) to functions, so diabling this for now.
-# Need to refactor later.
 """ Analysis endpoint routes that serve up information regarding anaysis cases for rosalution """
 import logging
 import json
 
-from typing import List, Optional, Union
+from typing import List, Union
 
-from fastapi import (
-    APIRouter, BackgroundTasks, Depends, HTTPException, File, status, UploadFile, Form, Response, Security
-)
+from fastapi import (APIRouter, BackgroundTasks, Depends, HTTPException, File, Form, Security)
 from fastapi.responses import StreamingResponse
 
 from ..core.annotation import AnnotationService
@@ -21,48 +16,32 @@ from ..enums import ThirdPartyLinkType, EventType
 from ..models.phenotips_json import BasePhenotips
 from ..models.user import VerifyUser
 from ..security.security import get_authorization, get_current_user
+
+from . import analysis_attachment_router
 from . import analysis_discussion_router
+from . import analysis_section_router
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/analysis", tags=["analysis"], dependencies=[Depends(database)])
+router = APIRouter(prefix="/analysis", dependencies=[Depends(database)])
+router.include_router(analysis_attachment_router.router)
 router.include_router(analysis_discussion_router.router)
+router.include_router(analysis_section_router.router)
 
 
-@router.get("/", response_model=List[Analysis])
+@router.get("", tags=["analysis"], response_model=List[Analysis])
 def get_all_analyses(repositories=Depends(database)):
     """Returns every analysis available"""
     return repositories["analysis"].all()
 
 
-@router.get("/summary", response_model=List[AnalysisSummary])
+@router.get("/summary", tags=["analysis"], response_model=List[AnalysisSummary])
 def get_all_analyses_summaries(repositories=Depends(database)):
     """Returns a summary of every analysis within the application"""
     return repositories["analysis"].all_summaries()
 
 
-@router.get("/summary/{analysis_name}", response_model=AnalysisSummary)
-def get_analysis_summary_by_name(analysis_name: str, repositories=Depends(database)):
-    """Returns a summary of every analysis within the application"""
-    return repositories["analysis"].summary_by_name(analysis_name)
-
-
-@router.get("/{analysis_name}", response_model=Analysis, response_model_exclude_none=True)
-def get_analysis_by_name(analysis_name: str, repositories=Depends(database)):
-    """Returns analysis case data by calling method to find case by it's analysis_name"""
-    return repositories["analysis"].find_by_name(analysis_name)
-
-
-@router.get("/{analysis_name}/genomic_units")
-def get_genomic_units(analysis_name: str, repositories=Depends(database)):
-    """ Returns a list of genomic units for a given analysis """
-    try:
-        return repositories["analysis"].get_genomic_units(analysis_name)
-    except ValueError as exception:
-        raise HTTPException(status_code=404, detail=str(exception)) from exception
-
-
-@router.post("/import_file", response_model=Analysis)
+@router.post("", tags=["analysis"], response_model=Analysis)
 async def create_file(
     background_tasks: BackgroundTasks,
     phenotips_file: Union[bytes, None] = File(default=None),
@@ -93,7 +72,28 @@ async def create_file(
     return new_analysis
 
 
-@router.put("/{analysis_name}/event/{event_type}", response_model=Analysis)
+@router.get("/{analysis_name}", tags=["analysis"], response_model=Analysis, response_model_exclude_none=True)
+def get_analysis_by_name(analysis_name: str, repositories=Depends(database)):
+    """Returns analysis case data by calling method to find case by it's analysis_name"""
+    return repositories["analysis"].find_by_name(analysis_name)
+
+
+@router.get("/{analysis_name}/genomic_units", tags=["analysis"])
+def get_genomic_units(analysis_name: str, repositories=Depends(database)):
+    """ Returns a list of genomic units for a given analysis """
+    try:
+        return repositories["analysis"].get_genomic_units(analysis_name)
+    except ValueError as exception:
+        raise HTTPException(status_code=404, detail=str(exception)) from exception
+
+
+@router.get("/{analysis_name}/summary", tags=["analysis"], response_model=AnalysisSummary)
+def get_analysis_summary_by_name(analysis_name: str, repositories=Depends(database)):
+    """Returns a summary of every analysis within the application"""
+    return repositories["analysis"].summary_by_name(analysis_name)
+
+
+@router.put("/{analysis_name}/event/{event_type}", tags=["analysis"], response_model=Analysis)
 def update_event(
     analysis_name: str,
     event_type: EventType,
@@ -107,101 +107,6 @@ def update_event(
         return repositories["analysis"].update_event(analysis_name, username, event_type)
     except ValueError as exception:
         raise HTTPException(status_code=409, detail=str(exception)) from exception
-
-
-@router.put("/{analysis_name}/update/sections", response_model=Analysis)
-def update_analysis_sections(
-    analysis_name: str,
-    updated_sections: dict,
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
-):
-    """Updates the sections that have changes"""
-    for (header, field) in updated_sections.items():
-        for (updated_field, value) in field.items():
-            if "Nominator" == updated_field:
-                repositories["analysis"].update_analysis_nominator(analysis_name, '; '.join(value))
-            repositories["analysis"].update_analysis_section(analysis_name, header, updated_field, {"value": value})
-
-    return repositories["analysis"].find_by_name(analysis_name)
-
-
-@router.put("/{analysis_name}/section/attach/file")
-def attach_animal_model_system_report(
-    analysis_name: str,
-    section_name: str = Form(...),
-    field_name: str = Form(...),
-    comments: str = Form(...),
-    upload_file: UploadFile = File(...),
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
-):
-    """ Attaches a file as supporting evidence to a section in an Analysis  """
-
-    try:
-        new_file_object_id = repositories["bucket"].save_file(
-            upload_file.file, upload_file.filename, upload_file.content_type
-        )
-    except Exception as exception:
-        raise HTTPException(status_code=500, detail=str(exception)) from exception
-
-    field_value_file = {
-        "name": upload_file.filename, "attachment_id": str(new_file_object_id), "type": "file", "comments": comments
-    }
-
-    return repositories['analysis'].attach_section_supporting_evidence_file(
-        analysis_name, section_name, field_name, field_value_file
-    )
-
-
-@router.put("/{analysis_name}/section/remove/file")
-def remove_animal_model_system_report(
-    analysis_name: str,
-    section_name: str = Form(...),
-    field_name: str = Form(...),
-    attachment_id: str = Form(...),
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
-):
-    """ Removes a supporting evidence file from an analysis section """
-
-    if repositories["bucket"].id_exists(attachment_id):
-        repositories["bucket"].delete_file(attachment_id)
-
-    return repositories['analysis'].remove_section_supporting_evidence(analysis_name, section_name, field_name)
-
-
-@router.put("/{analysis_name}/section/attach/link")
-def attach_animal_model_system_imaging(
-    analysis_name: str,
-    section_name: str = Form(...),
-    field_name: str = Form(...),
-    link_name: str = Form(...),
-    link: str = Form(...),
-    comments: str = Form(...),
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
-):
-    """ Attaches a link as supporting evidence to an analysis section """
-
-    field_value_link = {"name": link_name, "data": link, "type": "link", "comments": comments}
-
-    return repositories["analysis"].attach_section_supporting_evidence_link(
-        analysis_name, section_name, field_name, field_value_link
-    )
-
-
-@router.put("/{analysis_name}/section/remove/link")
-def remove_animal_model_system_imaging(
-    analysis_name: str,
-    section_name: str = Form(...),
-    field_name: str = Form(...),
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
-):
-    """ Removes a supporting evidence link from an analysis section """
-
-    return repositories["analysis"].remove_section_supporting_evidence(analysis_name, section_name, field_name)
 
 
 @router.get("/download/{file_id}")
@@ -223,99 +128,7 @@ def download(analysis_name: str, file_name: str, repositories=Depends(database))
     return StreamingResponse(repositories['bucket'].stream_analysis_file_by_id(file['attachment_id']))
 
 
-@router.post("/{analysis_name}/section/attach/image")
-def attach_section_image(
-    response: Response,
-    analysis_name: str,
-    upload_file: UploadFile = File(...),
-    section_name: str = Form(...),
-    field_name: str = Form(...),
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
-):
-    """ Saves the uploaded image it to the specified field_name in the analysis's section."""
-    try:
-        new_file_object_id = repositories["bucket"].save_file(
-            upload_file.file, upload_file.filename, upload_file.content_type
-        )
-    except Exception as exception:
-        raise HTTPException(status_code=500, detail=str(exception)) from exception
-
-    repositories["analysis"].add_section_image(analysis_name, section_name, field_name, new_file_object_id)
-
-    response.status_code = status.HTTP_201_CREATED
-
-    return {'section': section_name, 'field': field_name, 'image_id': str(new_file_object_id)}
-
-
-@router.put("/{analysis_name}/section/update/{old_file_id}")
-def update_analysis_section_image(
-    analysis_name: str,
-    old_file_id: str,
-    upload_file: UploadFile = File(...),
-    section_name: str = Form(...),
-    field_name: str = Form(...),
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
-):
-    """ Replaces the existing image by the file identifier with the uploaded one. """
-    # This needs try catch like in annotation router
-    new_file_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_type)
-
-    repositories['analysis'].update_section_image(analysis_name, section_name, field_name, new_file_id, old_file_id)
-
-    return {'section': section_name, 'field': field_name, 'image_id': str(new_file_id)}
-
-
-@router.delete("/{analysis_name}/section/remove/{file_id}")
-def remove_analysis_section_image(
-    analysis_name: str,
-    file_id: str,
-    section_name: str = Form(...),
-    field_name: str = Form(...),
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
-):
-    """ Removes the image from an analysis section's field by its file_id """
-    try:
-        repositories['analysis'].remove_analysis_section_file(analysis_name, section_name, field_name, file_id)
-    except Exception as exception:
-        raise HTTPException(status_code=500, detail=str(exception)) from exception
-
-    try:
-        return repositories["bucket"].delete_file(file_id)
-    except Exception as exception:
-        raise HTTPException(status_code=500, detail=str(exception)) from exception
-
-
-@router.post("/{analysis_name}/attach/file")
-def attach_supporting_evidence_file(
-    analysis_name: str, upload_file: UploadFile = File(...), comments: str = Form(...), repositories=Depends(database)
-):
-    """Uploads a file to GridFS and adds it to the analysis"""
-
-    new_file_object_id = repositories['bucket'].save_file(
-        upload_file.file, upload_file.filename, upload_file.content_type
-    )
-
-    return repositories["analysis"].attach_supporting_evidence_file(
-        analysis_name, new_file_object_id, upload_file.filename, comments
-    )
-
-
-@router.post("/{analysis_name}/attach/link")
-def attach_supporting_evidence_link(
-    analysis_name: str,
-    link_name: str = Form(...),
-    link: str = Form(...),
-    comments: str = Form(...),
-    repositories=Depends(database)
-):
-    """Uploads a file to GridFS and adds it to the analysis"""
-    return repositories["analysis"].attach_supporting_evidence_link(analysis_name, link_name, link, comments)
-
-
-@router.put("/{analysis_name}/attach/{third_party_enum}", response_model=Analysis)
+@router.put("/{analysis_name}/attach/{third_party_enum}")
 def attach_third_party_link(
     analysis_name: str,
     third_party_enum: ThirdPartyLinkType,
@@ -330,37 +143,3 @@ def attach_third_party_link(
         return repositories["analysis"].attach_third_party_link(analysis_name, third_party_enum, link)
     except ValueError as exception:
         raise HTTPException(status_code=409, detail=f"Error attaching third party link: {exception}") from exception
-
-
-@router.put("/{analysis_name}/attachment/{attachment_id}/update")
-def update_supporting_evidence(
-    analysis_name: str,
-    attachment_id: str,
-    name: str = Form(...),
-    data: Optional[str] = Form(None),
-    comments: str = Form(...),
-    repositories=Depends(database)
-):
-    """ Updates a supporting evidence file in an analysis """
-    content = {
-        'name': name,
-        'data': data,
-        'comments': comments,
-    }
-    try:
-        return repositories["analysis"].update_supporting_evidence(analysis_name, attachment_id, content)
-    except ValueError as exception:
-        raise HTTPException(status_code=404, detail=str(exception)) from exception
-
-
-@router.delete("/{analysis_name}/attachment/{attachment_id}/remove")
-def remove_supporting_evidence(
-    analysis_name: str,
-    attachment_id: str,
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
-):
-    """ Removes a supporting evidence file from an analysis """
-    if repositories["bucket"].id_exists(attachment_id):
-        repositories["bucket"].delete_file(attachment_id)
-    return repositories["analysis"].remove_supporting_evidence(analysis_name, attachment_id)

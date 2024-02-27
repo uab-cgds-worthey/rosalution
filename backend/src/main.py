@@ -24,6 +24,18 @@ tags_metadata = [
         "description": "Analyses of cases with information such as target gene, variation, phenotyping, and more.",
     },
     {
+        "name": "analysis sections",
+        "description": "Adds, updates, and removes content from an Analysis Section's fields within an analysis.",
+    },
+    {
+        "name": "analysis discussions",
+        "description": "Adds, updates, and removes discussion messages from an Analysis.",
+    },
+    {
+        "name": "analysis attachments",
+        "description": "Adds, updates, and removes attachments from an Analysis.",
+    },
+    {
         "name": "annotation",
         "description":
             ("Temporary endpoint to facilitate annotating an analysis from a default annotation configuration"),

@@ -5,9 +5,8 @@ describe('case_supporting_evidence.cy.js', () => {
 
   beforeEach(() => {
     cy.resetDatabase();
-    cy.visit('/');
-    cy.get('.analysis-card').first().click();
-    cy.get('[href="#Supporting_Evidence"]').click();
+    cy.intercept('/rosalution/api/analysis/CPAM0002/attachment').as('attachmentOperation');
+    cy.visit('analysis/CPAM0002#Supporting_Evidence');
   });
 
   it('attaches a supporting evidence link to an analysis case and can download', () => {
@@ -19,6 +18,7 @@ describe('case_supporting_evidence.cy.js', () => {
     cy.get('[data-test="link-input"]').type('https://www.google.com');
     cy.get('[data-test="comments-text-area"]').type('this is a test comment for a test link to google');
     cy.get('[data-test="confirm"]').click();
+    cy.wait('@attachmentOperation');
     cy.get('[href="#Supporting_Evidence"]').click();
     cy.get('.attachment-list').should('have.length', 1);
     cy.get('.attachment-name').should('have.text', 'test link to google');

@@ -11,6 +11,7 @@ describe('analyses.js', () => {
   let mockPutFormResponse;
   let mockDeleteRequest;
   let mockPutRequest;
+  let mockPostRequest;
 
   beforeEach(() => {
     mockGetRequest = sandbox.stub(Requests, 'get');
@@ -18,6 +19,7 @@ describe('analyses.js', () => {
     mockPutFormResponse = sandbox.stub(Requests, 'putForm');
     mockDeleteRequest = sandbox.stub(Requests, 'delete');
     mockPutRequest = sandbox.stub(Requests, 'put');
+    mockPostRequest = sandbox.stub(Requests, 'post');
   });
 
   afterEach(() => {
@@ -107,19 +109,49 @@ describe('analyses.js', () => {
     });
   });
 
-  describe('section images for analysis', () => {
-    it('attaches an image to a section', async () => {
-      mockPostFormResponse.returns({sucess: 'yay'});
-      const fakeImageData = 'jklfdjlskfjal;fjdkl;a';
-      await Analyses.attachSectionImage('CPAM0002', 'Pedigree', fakeImageData);
-      expect(mockPostFormResponse.called).to.be.true;
+  describe('sections', () => {
+    describe('text within sections for analyses', () => {
+      it('saves the changes for multiple rows of text within different sections', () => {
+        const fixtureUpdates = {
+          'Brief': {
+            'Nominator': ['Dr. Person One With '],
+            'ACMG Criteria To Add': ['Feeling To be Done'],
+            'ACMG Classification Criteria': ['fdsfdsrewrewr'],
+          },
+          'Clinical History': {
+            'Systems': ['Musculoskeletal and orthopedics fdsfds'],
+            'Sequencing': ['WGS by the ????fdsfdsfds'],
+          },
+        };
+
+        Analyses.updateAnalysisSections('CPAM0002', fixtureUpdates);
+
+        expect(mockPostRequest.getCall(0).args[0]).to.equal(
+            '/rosalution/api/analysis/CPAM0002/sections/batch',
+        );
+        expect(mockPostRequest.getCall(0).args[1]).to.have.lengthOf(2);
+        expect(mockPostRequest.getCall(0).args[1][0].header).to.equal('Brief');
+        expect(mockPostRequest.getCall(0).args[1][0].content).to.have.lengthOf(3);
+      });
     });
 
-    it('updates an image in a section', async () => {
-      mockPutFormResponse.resolves({sucess: 'yay'});
-      const fakeImageData = 'updated-jklfdjlskfjal;fjdkl;a';
-      await Analyses.updateSectionImage('CPAM0002', 'Pedigree', fakeImageData);
-      expect(mockPutFormResponse.called).to.be.true;
+    describe('images within sections for analyses', () => {
+      it('attaches an image to a section', async () => {
+        const mockImageId = '65b181c992f5d6edf214f9d1-new';
+        mockPostFormResponse.resolves(getMockSectionsWithImageId(mockImageId));
+        const fakeImageData = 'jklfdjlskfjal;fjdkl;a';
+        const actualField = await Analyses.attachSectionImage('CPAM0002', 'Pedigree', 'Pedigree', fakeImageData);
+        expect(mockPostFormResponse.called).to.be.true;
+        expect(actualField.value[0]['file_id']).to.equal(mockImageId);
+      });
+
+      it('updates an image in a section', async () => {
+        const mockImageId = '65b181c992f5d6edf214f9d1-updated';
+        mockPutFormResponse.resolves(getMockSectionsWithImageId(mockImageId));
+        const fakeImageData = 'updated-jklfdjlskfjal;fjdkl;a';
+        await Analyses.updateSectionImage('CPAM0002', 'Pedigree', fakeImageData);
+        expect(mockPutFormResponse.called).to.be.true;
+      });
     });
   });
 
@@ -145,6 +177,39 @@ describe('analyses.js', () => {
     });
   });
 });
+
+/**
+ * Returns valid sections that include an image within the Pedigree section
+ * @param {string} fileImageId file_id string that is generated when saving a file
+ * @return {Object} returns several analysis sections in a list that includes the pedigree section with an image
+ */
+function getMockSectionsWithImageId(fileImageId = 'default-image-id') {
+  return [{
+    'header': 'Pedigree',
+    'attachment_field': 'Pedigree',
+    'content': [
+      {
+        'type': 'images-dataset',
+        'field': 'Pedigree',
+        'value': [
+          {
+            'file_id': fileImageId,
+          },
+        ],
+      },
+    ],
+  }, {
+    'header': 'VMA21 Gene To Phenotype',
+    'attachment_field': 'VMA21 Gene To Phenotype',
+    'content': [
+      {
+        'type': 'images-dataset',
+        'field': 'VMA21 Gene To Phenotype',
+        'value': [],
+      },
+    ],
+  }];
+}
 
 const allSummaries = [
   {

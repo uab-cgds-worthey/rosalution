@@ -1,0 +1,96 @@
+"""Analysis endpoints for adding/updating/removing document and link attachments to an analysis."""
+
+import json
+from typing import List, Optional
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Security, UploadFile
+from pydantic import BaseModel, model_validator
+
+from ..dependencies import database
+from ..security.security import get_authorization
+
+router = APIRouter(tags=["analysis attachments"], dependencies=[Depends(database)])
+
+
+class IncomingAttachment(BaseModel, frozen=True):
+    """The sections of case notes associated with an analysis"""
+
+    name: Optional[str] = None
+
+    attachment_id: Optional[str] = None
+    comments: Optional[str] = None
+    link_name: Optional[str] = None
+    link: Optional[str] = None
+    data: Optional[str] = None
+
+    @model_validator(mode='before')
+    @classmethod
+    def validate_to_json(cls, value):
+        """Allows FastAPI to valid and unpack the JSON of data into the model"""
+        if isinstance(value, str):
+            return cls(**json.loads(value))
+        return value
+
+
+@router.post("/{analysis_name}/attachment", response_model=List)
+def attach_supporting_evidence_file(
+    analysis_name: str,
+    upload_file: UploadFile = File(None),
+    new_attachment: IncomingAttachment = Form(...),
+    repositories=Depends(database),
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+):
+    """Uploads a file to GridFS and adds it to the analysis"""
+
+    updated_analysis_json = None
+
+    if new_attachment.link:
+        updated_analysis_json = repositories["analysis"].attach_supporting_evidence_link(
+            analysis_name, new_attachment.link_name, new_attachment.link, new_attachment.comments
+        )
+    else:
+        new_file_object_id = repositories['bucket'].save_file(
+            upload_file.file, upload_file.filename, upload_file.content_type
+        )
+
+        updated_analysis_json = repositories["analysis"].attach_supporting_evidence_file(
+            analysis_name, new_file_object_id, upload_file.filename, new_attachment.comments
+        )
+
+    return updated_analysis_json["supporting_evidence_files"]
+
+
+@router.put("/{analysis_name}/attachment/{attachment_id}", response_model=List)
+def update_supporting_evidence(
+    analysis_name: str,
+    attachment_id: str,
+    updated_attachment: IncomingAttachment = Form(...),
+    repositories=Depends(database),
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+):
+    """ Updates a supporting evidence file in an analysis """
+    content = {
+        'name': updated_attachment.name,
+        'data': updated_attachment.data,
+        'comments': updated_attachment.comments,
+    }
+    try:
+        updated_analysis_json = repositories["analysis"].update_supporting_evidence(
+            analysis_name, attachment_id, content
+        )
+        return updated_analysis_json["supporting_evidence_files"]
+    except ValueError as exception:
+        raise HTTPException(status_code=404, detail=str(exception)) from exception
+
+
+@router.delete("/{analysis_name}/attachment/{attachment_id}", response_model=List)
+def remove_supporting_evidence(
+    analysis_name: str,
+    attachment_id: str,
+    repositories=Depends(database),
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+):
+    """ Removes a supporting evidence file from an analysis """
+    if repositories["bucket"].id_exists(attachment_id):
+        repositories["bucket"].delete_file(attachment_id)
+    updated_analysis_json = repositories["analysis"].remove_supporting_evidence(analysis_name, attachment_id)
+    return updated_analysis_json["supporting_evidence_files"]

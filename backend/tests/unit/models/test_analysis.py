@@ -33,6 +33,21 @@ def test_get_transcripts_in_units_to_annotate(units_to_annotate):
     assert "NM_001017980.3" in transcript_names
 
 
+def test_finding_section_field_by_attachment_id(cpam0002_analysis):
+    """Tests finding the section and field that has the following attachment"""
+    section, field = cpam0002_analysis.find_section_field_by_attachment_id("601d43243c1-c326-48ba-9f69-8fb3fds17")
+    assert section.header == "Mus musculus (Mouse) Model System"
+    assert field['field'] == "Veterinary Pathology Imaging"
+    assert field['value'][0]['name'] == "The Art of Inuyasha"
+
+
+def test_fail_finding_section_field_by_attachment_id(cpam0002_analysis):
+    """Tests finding the section and field that has the following attachment"""
+    section, field = cpam0002_analysis.find_section_field_by_attachment_id("60234243c1-c326-48ba-9f69-8fb3fds17")
+    assert section is None
+    assert field is None
+
+
 def test_find_dicussion_post(cpam0002_analysis):
     """ Finds a discussion post matching the post_id """
     found_post = cpam0002_analysis.find_discussion_post("9027ec8d-6298-4afb-add5-6ef710eb5e98")

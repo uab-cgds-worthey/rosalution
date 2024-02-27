@@ -124,6 +124,7 @@ export default {
     },
     menuActions() {
       const actionChoices = [];
+
       actionChoices.push({
         icon: 'paperclip',
         text: 'Attach',
@@ -237,6 +238,35 @@ export default {
     async getAnalysis() {
       this.analysis = await Analyses.getAnalysis(this.analysis_name);
     },
+    onAnalysisContentUpdated(contentRow) {
+      if (typeof(contentRow.type) !== 'undefined' && 'supporting-evidence' === contentRow.type ) {
+        this.fieldSectionAttachmentChanged(contentRow);
+        return;
+      }
+
+      if (!(contentRow.header in this.updatedContent)) {
+        this.updatedContent[contentRow.header] = {};
+      }
+
+      this.updatedContent[contentRow.header][contentRow.field] = contentRow.value;
+    },
+    async saveAnalysisChanges() {
+      const updatedSections = await Analyses.updateAnalysisSections(
+          this.analysis_name,
+          this.updatedContent,
+      );
+      this.analysis.sections.splice(0);
+      this.analysis.sections.push(...updatedSections);
+      location.reload();
+      this.updatedContent = {};
+      this.edit = false;
+      toast.success('Analysis updated successfully.');
+    },
+    cancelAnalysisChanges() {
+      this.edit = false;
+      this.updatedContent = {};
+      toast.info('Edit mode has been disabled and changes have not been saved.');
+    },
     async attachSectionImage(sectionName, field) {
       const includeComments = false;
 
@@ -251,24 +281,15 @@ export default {
       }
 
       try {
-        const updatedSectionImage = await Analyses.attachSectionImage(
+        const updatedSectionField = await Analyses.attachSectionImage(
             this.analysis_name,
             sectionName,
             field,
             attachment.data,
         );
 
-        const updatedSection = this.sectionsList.find((section) => {
-          return section.header == sectionName;
-        });
-
-        const updatedField = updatedSection.content.find((row) => {
-          return row.field == field;
-        });
-
-        updatedField.value.push({file_id: updatedSectionImage['image_id']});
-
-        this.replaceAnalysisSection(updatedSection);
+        const sectionWithReplacedField = this.replaceFieldInSection(sectionName, updatedSectionField);
+        this.replaceAnalysisSection(sectionWithReplacedField);
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
@@ -292,7 +313,7 @@ export default {
       }
 
       try {
-        const updatedSectionImage = await Analyses.updateSectionImage(
+        const updatedSectionField = await Analyses.updateSectionImage(
             this.analysis_name,
             sectionName,
             field,
@@ -300,21 +321,8 @@ export default {
             attachment.data,
         );
 
-        const updatedSection = this.sectionsList.find((section) => {
-          return section.header == sectionName;
-        });
-
-        const updatedField = updatedSection.content.find((row) => {
-          return row.field == field;
-        });
-
-        updatedField.value.forEach((imageFile) => {
-          if (imageFile['file_id'] == fileId) {
-            imageFile['file_id'] = updatedSectionImage['image_id'];
-          }
-        });
-
-        this.replaceAnalysisSection(updatedSection);
+        const sectionWithReplacedField = this.replaceFieldInSection(sectionName, updatedSectionField);
+        this.replaceAnalysisSection(sectionWithReplacedField);
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
@@ -333,19 +341,72 @@ export default {
       }
 
       try {
-        await Analyses.removeSectionImage(this.analysis_name, sectionName, field, fileId);
+        const updatedSectionField =
+          await Analyses.removeSectionAttachment(this.analysis_name, sectionName, field, fileId);
 
-        const updatedSection = this.sectionsList.find((section) => {
-          return section.header == sectionName;
-        });
+        const sectionWithReplacedField = this.replaceFieldInSection(sectionName, updatedSectionField);
+        this.replaceAnalysisSection(sectionWithReplacedField);
+      } catch (error) {
+        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
+      }
+    },
+    async fieldSectionAttachmentChanged(contentRow) {
+      const operations = {
+        'attach': this.addSectionAttachment,
+        'delete': this.removeSectionAttachment,
+      };
 
-        updatedSection.content.forEach((obj) => {
-          obj.value = obj.value.filter((value) => {
-            return value.file_id != fileId;
-          });
-        });
+      if (!Object.hasOwn(operations, contentRow.operation)) {
+        // Warning here that the operation is invalid and move on
+        return;
+      }
 
-        this.replaceAnalysisSection(updatedSection);
+      operations[contentRow.operation](contentRow.header, contentRow.field, contentRow.value);
+    },
+    async addSectionAttachment(section, field, evidence) {
+      const includeComments = true;
+      const includeName = true;
+      const attachment = await inputDialog
+          .confirmText('Add')
+          .cancelText('Cancel')
+          .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png')
+          .url(includeComments, includeName)
+          .prompt();
+
+      if (!attachment) {
+        return;
+      }
+
+      try {
+        const updatedSectionField = await Analyses.attachSectionSupportingEvidence(
+            this.analysis_name,
+            section,
+            field,
+            attachment,
+        );
+        const sectionWithReplacedField = this.replaceFieldInSection(section, updatedSectionField);
+        this.replaceAnalysisSection(sectionWithReplacedField);
+      } catch (error) {
+        console.error('Updating the analysis did not work');
+      }
+    },
+    async removeSectionAttachment(section, field, attachment) {
+      const confirmedDelete = await notificationDialog
+          .title(`Remove attachment`)
+          .confirmText('Delete')
+          .cancelText('Cancel')
+          .confirm(`Removing '${attachment.name}' from ${field} in ${section}?`);
+
+      if (!confirmedDelete) {
+        return;
+      }
+
+      try {
+        const updatedSectionField =
+          await Analyses.removeSectionAttachment(this.analysis_name, section, field, attachment.attachment_id);
+        const sectionWithReplacedField = this.replaceFieldInSection(section, updatedSectionField);
+
+        this.replaceAnalysisSection(sectionWithReplacedField);
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
@@ -365,16 +426,16 @@ export default {
       }
 
       try {
-        const updatedAnalysis = await Analyses.attachSupportingEvidence(
+        const updatedAnalysisAttachments = await Analyses.attachSupportingEvidence(
             this.analysis_name,
             attachment,
         );
         this.analysis.supporting_evidence_files.splice(0);
         this.analysis.supporting_evidence_files.push(
-            ...updatedAnalysis.supporting_evidence_files,
+            ...updatedAnalysisAttachments,
         );
       } catch (error) {
-        console.error('Updating the analysis did not work');
+        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
     async editSupportingEvidence(attachment) {
@@ -389,16 +450,16 @@ export default {
       }
 
       try {
-        const updatedAnalysis = await Analyses.updateSupportingEvidence(
+        const updatedAnalysisAttachments = await Analyses.updateSupportingEvidence(
             this.analysis_name,
             updatedAttachment,
         );
         this.analysis.supporting_evidence_files.splice(0);
         this.analysis.supporting_evidence_files.push(
-            ...updatedAnalysis.supporting_evidence_files,
+            ...updatedAnalysisAttachments,
         );
       } catch (error) {
-        console.error('Updating the analysis did not work');
+        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
     async removeSupportingEvidence(attachmentToDelete) {
@@ -431,43 +492,8 @@ export default {
           attachmentToDownload.name,
       );
     },
-    async saveAnalysisChanges() {
-      const updatedAnalysis = await Analyses.updateAnalysisSections(
-          this.analysis_name,
-          this.updatedContent,
-      );
-      this.analysis.sections.splice(0);
-      this.analysis.sections.push(...updatedAnalysis.sections);
-      location.reload();
-      this.updatedContent = {};
-      this.edit = false;
-      toast.success('Analysis updated successfully.');
-    },
-    cancelAnalysisChanges() {
-      this.edit = false;
-      this.updatedContent = {};
-      toast.info('Edit mode has been disabled and changes have not been saved.');
-    },
     async onLogout() {
       this.$router.push({name: 'logout'});
-    },
-    onAnalysisContentUpdated(contentRow) {
-      if (typeof(contentRow.type) !== 'undefined' && 'supporting-evidence' === contentRow.type ) {
-        this.supportingEvidenceRowSectionChanged(contentRow);
-        return;
-      }
-
-      if (!(contentRow.header in this.updatedContent)) {
-        this.updatedContent[contentRow.header] = {};
-      }
-
-      this.updatedContent[contentRow.header][contentRow.field] = contentRow.value;
-    },
-    replaceAnalysisSection(sectionToReplace) {
-      const originalSectionIndex = this.analysis.sections.findIndex(
-          (section) => section.header == sectionToReplace.header,
-      );
-      this.analysis.sections.splice(originalSectionIndex, 1, sectionToReplace);
     },
     async addMondayLink() {
       const includeComments = false;
@@ -528,135 +554,50 @@ export default {
         toast.error(`Error updating the event '${eventType}'.`);
       }
     },
-    async supportingEvidenceRowSectionChanged(contentRow) {
-      const operations = {
-        'attach': this.sectionSupportingEvidenceRowAdded,
-        'delete': this.sectionSupportingEvidenceRowRemove,
-      };
-
-      if (!Object.hasOwn(operations, contentRow.operation)) {
-        // Warning here that the operation is invalid and move on
-        return;
-      }
-
-      operations[contentRow.operation](contentRow.header, contentRow.field, contentRow.value);
-    },
-    async sectionSupportingEvidenceRowAdded(section, field, evidence) {
-      const includeComments = true;
-      const includeName = true;
-      const attachment = await inputDialog
-          .confirmText('Add')
-          .cancelText('Cancel')
-          .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png')
-          .url(includeComments, includeName)
-          .prompt();
-
-      if (!attachment) {
-        return;
-      }
-
-      try {
-        const updatedAnalysisSectionField = await Analyses.attachSectionSupportingEvidence(
-            this.analysis_name,
-            section,
-            field,
-            attachment,
-        );
-        const updatedSection = this.sectionsList.find((sectionToFind) => {
-          return sectionToFind.header == section;
-        });
-
-        const updatedFieldIndex = updatedSection.content.findIndex((row) => {
-          return row.field == field;
-        });
-        updatedSection.content.splice(updatedFieldIndex, 1, updatedAnalysisSectionField.updated_row);
-
-        this.replaceAnalysisSection(updatedSection);
-      } catch (error) {
-        console.error('Updating the analysis did not work');
-      }
-    },
-    async sectionSupportingEvidenceRowRemove(section, field, attachment) {
-      const confirmedDelete = await notificationDialog
-          .title(`Remove attachment`)
-          .confirmText('Delete')
-          .cancelText('Cancel')
-          .confirm(`Removing '${attachment.name}' from ${field} in ${section}?`);
-
-      if (!confirmedDelete) {
-        return;
-      }
-
-      try {
-        if ( 'file' === attachment.type) {
-          await Analyses.removeSectionSupportingEvidenceFile(
-              this.analysis_name,
-              section,
-              field,
-              attachment.attachment_id,
-          );
-        } else if ( 'link' === attachment.type ) {
-          await Analyses.removeSectionSupportingEvidenceLink(
-              this.analysis_name,
-              section,
-              field,
-          );
-        } else {
-          console.error('Attachment type to remove');
-          return;
-        }
-
-        const updatedSection = this.sectionsList.find((sectionToFind) => {
-          return sectionToFind.header == section;
-        });
-
-        const fieldToUpdate = updatedSection.content.find((row) => {
-          return row.field == field;
-        });
-
-        const updatedFieldIndex = updatedSection.content.findIndex((row) => {
-          return row.field == field;
-        });
-
-        fieldToUpdate.value = [];
-
-        updatedSection.content.splice(updatedFieldIndex, 1, fieldToUpdate);
-        this.replaceAnalysisSection(updatedSection);
-      } catch (error) {
-        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
-      }
-    },
     async addDiscussionPost(newPostContent) {
       const discussions = await Analyses.postNewDiscussionThread(this.analysis['name'], newPostContent);
-
       this.analysis.discussions = discussions;
     },
     async editDiscussionPost(postId, postContent) {
       const analysisName = this.analysis_name;
-
       const discussions = await Analyses.editDiscussionThreadById(analysisName, postId, postContent);
-
       this.analysis.discussions = discussions;
     },
     async deleteDiscussionPost(postId) {
       const analysisName = this.analysis_name;
-
       const confirmedDelete = await notificationDialog
           .title(`Remove Discussion Post`)
           .confirmText('Delete')
           .cancelText('Cancel')
           .confirm(`Deleting your discussion post from the section.`);
-
       if (!confirmedDelete) {
         return;
       }
-
       try {
         const discussions = await Analyses.deleteDiscussionThreadById(analysisName, postId);
         this.analysis.discussions = discussions;
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
+    },
+    replaceFieldInSection(sectionName, updatedField) {
+      const sectionToUpdate = this.sectionsList.find((section) => {
+        return section.header == sectionName;
+      });
+
+      const fieldToUpdate = sectionToUpdate.content.find((row) => {
+        return row.field == updatedField['field'];
+      });
+
+      fieldToUpdate.value = updatedField.value;
+
+      return sectionToUpdate;
+    },
+    replaceAnalysisSection(sectionToReplace) {
+      const originalSectionIndex = this.analysis.sections.findIndex(
+          (section) => section.header == sectionToReplace.header,
+      );
+      this.analysis.sections.splice(originalSectionIndex, 1, sectionToReplace);
     },
     copyToClipboard(copiedText) {
       toast.success(`Copied ${copiedText} to clipboard!`);

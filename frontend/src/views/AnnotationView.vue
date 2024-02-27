@@ -202,9 +202,10 @@ export default {
         const updatedAnnotation = await Annotations.attachAnnotationImage(genomicUnit, dataSet, annotation);
 
         if (!this.annotations[dataSet]) {
-          this.annotations[dataSet] = [{file_id: updatedAnnotation['image_id'], created_date: ''}];
+          this.annotations[dataSet] = [...updatedAnnotation];
         } else {
-          this.annotations[dataSet].push({file_id: updatedAnnotation['image_id'], created_date: ''});
+          this.annotations[dataSet].splice(0);
+          this.annotations[dataSet].push(...updatedAnnotation);
         }
       } catch (error) {
         await notificationDialog
@@ -239,14 +240,9 @@ export default {
       }
 
       try {
-        const that = this;
-        await Annotations.updateAnnotationImage(genomicUnit, dataSet, fileId, annotation).then(function(response) {
-          that.annotations[dataSet].forEach((elem) => {
-            if (elem['file_id'] == fileId) {
-              elem['file_id'] = response['image_id'];
-            }
-          });
-        });
+        const updatedAnnotation = await Annotations.updateAnnotationImage(genomicUnit, dataSet, fileId, annotation);
+        this.annotations[dataSet].splice(0);
+        this.annotations[dataSet].push(...updatedAnnotation);
       } catch (error) {
         await notificationDialog
             .title('Failure')

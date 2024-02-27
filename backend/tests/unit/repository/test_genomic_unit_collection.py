@@ -6,15 +6,12 @@ import pytest
 from bson import ObjectId
 
 from src.enums import GenomicUnitType
-from src.repository.genomic_unit_collection import GenomicUnitCollection
-
-from ...test_utils import mock_mongo_collection, read_database_fixture
 
 
 def test_find_genomic_units(genomic_unit_collection):
     """ Gets all the genomic units from the genomic unit collection """
     all_genomic_units = genomic_unit_collection.all()
-    assert len(all_genomic_units) == 18
+    assert len(all_genomic_units) == 2
 
 
 def test_transcript_annotation_not_exist_with_no_annotations(genomic_unit_collection, hgvs_variant_genomic_unit_json):
@@ -321,31 +318,15 @@ def test_remove_existing_genomic_unit_file_annotation(genomic_unit_collection, h
 
 
 @pytest.fixture(name="hgvs_variant_genomic_unit_json")
-def fixture_hgvs_genomic_unit_json(genomic_units_json):
+def fixture_hgvs_genomic_unit_json(genomic_unit_collection_json):
     """ Returns the genomic unit for VMA21 Gene"""
     return next((
-        unit for unit in genomic_units_json
+        unit for unit in genomic_unit_collection_json
         if 'hgvs_variant' in unit and unit['hgvs_variant'] == "NM_001017980.3:c.164G>T"
     ), None)
 
 
 @pytest.fixture(name="vma21_genomic_unit")
-def fixture_vma21_genomic_unit_json(genomic_units_json):
+def fixture_vma21_genomic_unit_json(genomic_unit_collection_json):
     """ Returns the genomic unit for VMA21 Gene"""
-    return next((unit for unit in genomic_units_json if 'gene' in unit and unit['gene'] == "VMA21"), None)
-
-
-@pytest.fixture(name="genomic_unit_collection")
-def fixture_genomic_unit_collection(genomic_units_json):
-    """ Returns a genomic unit collection """
-
-    mock_collection = mock_mongo_collection()
-    mock_collection.find.return_value = genomic_units_json
-
-    return GenomicUnitCollection(mock_collection)
-
-
-@pytest.fixture(name="genomic_units_json")
-def fixture_genomic_units_json():
-    """ Returns the JSON for the genomic units used to seed the MongoDB database """
-    return read_database_fixture("genomic-units.json")
+    return next((unit for unit in genomic_unit_collection_json if 'gene' in unit and unit['gene'] == "VMA21"), None)

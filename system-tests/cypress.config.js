@@ -10,6 +10,7 @@ module.exports = defineConfig({
     videosFolder: 'cypress/videos',
     specPattern: './e2e/**/*.cy.js',
     supportFile: './support/e2e.js',
+    trashAssetsBeforeRuns: true,
     setupNodeEvents(on, config) {
     },
   },
