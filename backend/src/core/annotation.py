@@ -130,7 +130,7 @@ class AnnotationService:
                             logger.info(
                                 '%s Saving %s...',
                                 annotation_unit_string(
-                                    annotation_unit.get_genomic_unit(), annotation_task.get_dataset()
+                                    annotation_unit.get_genomic_unit(), annotation_task.dataset['data_set']
                                 ), annotation['value']
                             )
                             genomic_unit_collection.annotate_genomic_unit(annotation_task.genomic_unit, annotation)
