@@ -25,14 +25,23 @@ class AnnotationUnit:
 
         return missing_dependencies
 
-    def set_delay_count(self):
+    def increment_delay_count(self):
         """Sets the delay count of the annotation unit"""
         delay_count = self.dataset['delay_count'] + 1 if 'delay_count' in self.dataset else 0
         self.dataset['delay_count'] = delay_count
         return
 
-    def check_delay_count(self):
-        """Checks if the delay count of annotation unit within the queue is less than a magic number"""
+    def should_continue_annotation(self):
+        """
+        Checks if the annotation unit should continue annotation by calculating if 
+        delay count of annotation unit within the queue is less than a magic number (10).
+        """
         if self.dataset['delay_count'] < 10:
             return True
         return False
+
+    def to_name_string(self):
+        """
+        Returns the annotation unit's genomic_unit and corresponding dataset.
+        """
+        return f"{self.get_genomic_unit} for {self.get_dataset}"

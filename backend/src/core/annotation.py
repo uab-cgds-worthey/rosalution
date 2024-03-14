@@ -3,7 +3,7 @@ import concurrent
 import logging
 import queue
 
-from .annotation_logging import annotation_log_label, annotation_unit_string
+# from .annotation_logging import annotation_log_label, annotation_unit_string
 from .annotation_task import AnnotationTaskFactory
 from ..models.analysis import Analysis
 from ..repository.annotation_config_collection import AnnotationConfigCollection
@@ -11,6 +11,29 @@ from ..core.annotation_unit import AnnotationUnit
 
 # create logger
 logger = logging.getLogger(__name__)
+
+ANNOTATION_UNIT_PADDING = 75
+
+
+def annotation_log_label():
+    """
+    Provides a label for logging in the annotation section to make it easier to search on.
+    Changing this label will be uniform throughout the annotation section.
+    """
+    return 'Annotation:'
+
+
+def format_annotation_logging(annotation_unit, dataset=""):
+    """
+    Provides a formatted string for logging that is consistent with
+    annotation unit's genomic_unit and corresponding dataset to the console
+    The string is padded to make the logs uniform and easier to read.
+    """
+    if dataset != "":
+        annotation_unit_string = f"{annotation_unit.get_genomic_unit()} for {dataset}"
+    else:
+        annotation_unit_string = annotation_unit.to_name_string()
+    return f"{annotation_log_label()} {annotation_unit_string}".ljust(ANNOTATION_UNIT_PADDING)
 
 
 class AnnotationQueue:
@@ -70,10 +93,7 @@ class AnnotationService:
             while not annotation_queue.empty():
                 annotation_unit = annotation_queue.get()
                 if genomic_unit_collection.annotation_exist(annotation_unit.genomic_unit, annotation_unit.dataset):
-                    logger.info(
-                        '%s Annotation Exists...',
-                        annotation_unit_string(annotation_unit.get_genomic_unit(), annotation_unit.get_dataset())
-                    )
+                    logger.info('%s Annotation Exists...', format_annotation_logging(annotation_unit))
                     continue
 
                 ready = True
@@ -90,38 +110,30 @@ class AnnotationService:
                             ready = False
 
                 if not ready:
-                    annotation_unit.set_delay_count()
+                    annotation_unit.increment_delay_count()
 
-                    if annotation_unit.check_delay_count():
+                    if annotation_unit.should_continue_annotation():
                         logger.info(
-                            '%s Delaying Annotation, Missing Dependency...',
-                            annotation_unit_string(annotation_unit.get_genomic_unit(), annotation_unit.get_dataset())
+                            '%s Delaying Annotation, Missing Dependency...', format_annotation_logging(annotation_unit)
                         )
                         annotation_queue.put(annotation_unit)
                     else:
                         missing_dependencies = annotation_unit.get_missing_dependencies()
                         logger.info(
-                            '%s Canceling Annotation, Missing %s ...',
-                            annotation_unit_string(annotation_unit.get_genomic_unit(), annotation_unit.get_dataset()),
+                            '%s Canceling Annotation, Missing %s ...', format_annotation_logging(annotation_unit),
                             missing_dependencies
                         )
 
                     continue
 
                 task = AnnotationTaskFactory.create(annotation_unit.genomic_unit, annotation_unit.dataset)
-                logger.info(
-                    '%s Creating Task To Annotate...',
-                    annotation_unit_string(annotation_unit.get_genomic_unit(), annotation_unit.get_dataset())
-                )
+                logger.info('%s Creating Task To Annotate...', format_annotation_logging(annotation_unit))
 
                 annotation_task_futures[executor.submit(task.annotate)] = (annotation_unit.genomic_unit, task)
 
                 for future in concurrent.futures.as_completed(annotation_task_futures):
                     annotation_unit.genomic_unit, annotation_task = annotation_task_futures[future]
-                    logger.info(
-                        '%s Query completed...',
-                        annotation_unit_string(annotation_unit.get_genomic_unit(), annotation_unit.get_dataset())
-                    )
+                    logger.info('%s Query completed...', format_annotation_logging(annotation_unit))
 
                     try:
                         result_temp = future.result()
@@ -129,9 +141,8 @@ class AnnotationService:
                         for annotation in annotation_task.extract(result_temp):
                             logger.info(
                                 '%s Saving %s...',
-                                annotation_unit_string(
-                                    annotation_unit.get_genomic_unit(), annotation_task.dataset['data_set']
-                                ), annotation['value']
+                                format_annotation_logging(annotation_unit, annotation_task.dataset['data_set']),
+                                annotation['value']
                             )
                             genomic_unit_collection.annotate_genomic_unit(annotation_task.genomic_unit, annotation)
 
