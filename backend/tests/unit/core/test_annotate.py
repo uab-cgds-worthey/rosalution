@@ -12,6 +12,9 @@ def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_con
     mock_queue = Mock()
     annotation_service.queue_annotation_tasks(cpam0046_analysis, mock_queue)
     assert mock_queue.put.call_count == 49
+    actual_first_annotation_unit_queued = mock_queue.put.call_args[0][0]
+    expected_genomic_unit_queued = "NM_170707.3:c.745C>T"
+    assert actual_first_annotation_unit_queued.genomic_unit['unit'] == expected_genomic_unit_queued
 
 
 # The patched method sare done provided in reverse order within the test param arguments.  Was accidently getting
