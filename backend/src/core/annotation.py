@@ -100,6 +100,12 @@ class AnnotationService:
 
                 if 'dependencies' in annotation_unit.dataset:
                     missing_dependencies = annotation_unit.get_missing_dependencies()
+                    print("ANNOTATION UNIT & MISSING DEPENDENCIES")
+                    print("--------------------------------------")
+                    # print(annotation_unit.get_genomic_unit())
+                    # print("--------------------------------------")
+                    print(missing_dependencies)
+                    print("--------------------------------------")
                     for missing in missing_dependencies:
                         annotation_value = genomic_unit_collection.find_genomic_unit_annotation_value(
                             annotation_unit.genomic_unit, missing
