@@ -3,7 +3,6 @@ import concurrent
 import logging
 import queue
 
-# from .annotation_logging import annotation_log_label, annotation_unit_string
 from .annotation_task import AnnotationTaskFactory
 from ..models.analysis import Analysis
 from ..repository.annotation_config_collection import AnnotationConfigCollection
