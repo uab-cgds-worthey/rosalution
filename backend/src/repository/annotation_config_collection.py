@@ -1,5 +1,5 @@
 """
-Manges the annotation configuration of various genomic units according to the
+Manages the annotation configuration of various genomic units according to the
 type of Genomic Unit.
 """
 

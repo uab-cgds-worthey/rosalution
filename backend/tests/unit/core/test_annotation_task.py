@@ -31,7 +31,7 @@ def test_annotation_task_create_http_task(hgvs_variant_genomic_unit, transcript_
 
 
 def test_annotate_forge_gene_linkout_dataset(forge_annotation_task_gene):
-    """Verifies that the NCBI linkout dataset is structed as expected"""
+    """Verifies that the NCBI linkout dataset is structured as expected"""
     actual_annotation = forge_annotation_task_gene.annotate()
     assert "NCBI_linkout" in actual_annotation
     assert actual_annotation['NCBI_linkout'] == 'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=45614'
