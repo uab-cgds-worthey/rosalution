@@ -9,6 +9,7 @@ from os import path
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
+from .config import get_settings
 from .routers import analysis_router, annotation_router, auth_router
 
 DESCRIPTION = """
@@ -51,7 +52,8 @@ tags_metadata = [
 ]
 
 ## CORS Policy ##
-origins = ["http://dev.cgds.uab.edu", "https://padlockdev.idm.uab.edu"]
+settings = get_settings()
+origins = [settings.origin_domain_url, settings.cas_server_url]
 
 log_file_path = path.join(path.dirname(path.abspath(__file__)), '../logging.conf')
 logging.config.fileConfig(log_file_path, disable_existing_loggers=False)
