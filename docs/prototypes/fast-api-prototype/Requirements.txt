@@ -1,4 +1,4 @@
-fastapi==0.74.1
+fastapi==0.110.1
 uvicorn==0.17.5
 pytest==7.0.1
 pylint==2.12.2
