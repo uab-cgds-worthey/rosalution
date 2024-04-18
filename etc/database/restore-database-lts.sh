@@ -39,7 +39,7 @@ then
 fi
 
 DOCKER_CONTAINER=$1
-TARGET_S3_REMOTE="uablts"
+TARGET_S3_REMOTE="cgdslts"
 
 if ! rclone listremotes | grep -q "$TARGET_S3_REMOTE"
 then
