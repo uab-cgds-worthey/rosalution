@@ -10,8 +10,6 @@ usage() {
   echo "    instead of 'uablts' for the remote configured in the setup instructions."
 }
 
-OPTIONAL_CLEAN=false
-
 fail=false
 
 if ! rclone --version &> /dev/null
@@ -36,7 +34,7 @@ fi
 TARGET_LOCAL_SOURCE_DATABASE_DUMP_FILEPATH=$1
 TARGET_S3_REMOTE="uablts"
 
-if [ ! -f $TARGET_LOCAL_SOURCE_DATABASE_DUMP_FILEPATH ]
+if [ ! -f "$TARGET_LOCAL_SOURCE_DATABASE_DUMP_FILEPATH" ]
 then
     echo "Error: $TARGET_LOCAL_SOURCE_DATABASE_DUMP_FILEPATH does not exist"
     usage
