@@ -39,7 +39,6 @@ then
 fi
 
 DOCKER_CONTAINER=$1
-TARGET_DATABASE_RESTORE_ARCHIVE=$2
 TARGET_S3_REMOTE="uablts"
 
 if ! rclone listremotes | grep -q "$TARGET_S3_REMOTE"
@@ -57,7 +56,7 @@ fi
 
 echo "Available Rosalution Backups"
 echo "------------------------------------------------------"
-echo "$(rclone lsf uablts:rosalution/db-backup --files-only | sort)"
+rclone lsf uablts:rosalution/db-backup --files-only | sort
 echo "------------------------------------------------------"
 
 echo "Which backup would you like to restore?"
@@ -66,7 +65,7 @@ read -r rosalution_db_backup
 backup_absolute_path="$TARGET_S3_REMOTE:rosalution/db-backup/$rosalution_db_backup"
 local_destination_directory=".rosalution-db-backups"
 local_relative_backup_path="$local_destination_directory/$rosalution_db_backup"
-if ! rclone lsf "$backup_absolute_path" | grep -q $rosalution_db_backup
+if ! rclone lsf "$backup_absolute_path" | grep -q "$rosalution_db_backup"
 then
   echo "Rosalution Backup '$backup_absolute_path' does not exist in CGDS' UAB LTS."
 fi
