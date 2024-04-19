@@ -56,7 +56,7 @@ fi
 
 echo "Available Rosalution Backups"
 echo "------------------------------------------------------"
-rclone lsf uablts:rosalution/db-backup --files-only | sort
+rclone lsf cgdslts:rosalution/db-backup --files-only | sort
 echo "------------------------------------------------------"
 
 echo "Which backup would you like to restore?"
