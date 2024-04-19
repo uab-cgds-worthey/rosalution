@@ -69,3 +69,5 @@ media/
 # SSL/TLS Certificates
 **/.certificates/**
 *.pem
+
+etc/.rosalution-db-backups
