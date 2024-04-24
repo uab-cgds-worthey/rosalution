@@ -91,20 +91,34 @@ class AnnotationService:
             annotation_task_futures = {}
             while not annotation_queue.empty():
                 annotation_unit = annotation_queue.get()
+                version_exists = False
                 if genomic_unit_collection.annotation_exist(annotation_unit.genomic_unit, annotation_unit.dataset):
                     logger.info('%s Annotation Exists...', format_annotation_logging(annotation_unit))
+                    if not annotation_unit.version_exists():
+                        version_exists = True
+                        # need to check if this version is latest
+                    continue
+
+                if version_exists:
+                    # check if the version is latest
+                    latest = False
+                    if annotation_unit.version is latest:
+                        logger.info('%s Annotation Exists with Latest Version...', format_annotation_logging(annotation_unit))
+                        ready = True
+                    else:
+                        
+                    # determine as version_annotation_type
+                    # create version_annotation_task
+                    # send version-url and attribute
+                    # put this in background task
+                    
+                        ready = False
                     continue
 
                 ready = True
 
                 if 'dependencies' in annotation_unit.dataset:
                     missing_dependencies = annotation_unit.get_missing_dependencies()
-                    print("ANNOTATION UNIT & MISSING DEPENDENCIES")
-                    print("--------------------------------------")
-                    # print(annotation_unit.get_genomic_unit())
-                    # print("--------------------------------------")
-                    print(missing_dependencies)
-                    print("--------------------------------------")
                     for missing in missing_dependencies:
                         annotation_value = genomic_unit_collection.find_genomic_unit_annotation_value(
                             annotation_unit.genomic_unit, missing

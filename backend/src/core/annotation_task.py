@@ -186,6 +186,43 @@ class HttpAnnotationTask(AnnotationTaskInterface):
         Builds the URL from the base_url and then appends the list of query parameters for the list of datasets.
         """
         return self.aggregate_string_replacements(self.dataset['url'])
+    
+class VersionAnnotationTask(AnnotationTaskInterface):
+    """An annotation task that gets the version of the annotation"""
+
+    def __init__(self, genomic_unit_json: dict):
+        """initializes the task with the genomic_unit"""
+        AnnotationTaskInterface.__init__(genomic_unit_json)
+
+    def versioning_by_method(self, versioning_type):
+        """Gets version by versioning type and returns the version data to the annotation unit"""
+        version = ""
+
+        if versioning_type == "rest":
+            version = self.get_version_from_rest()
+        elif versioning_type == "rosalution":
+            version = self.get_version_from_rosalution()
+        elif versioning_type == "date":
+            version = self.get_version_from_date()
+        return version
+
+    def get_annotation_version_from_rest(self):
+        """Gets version for rest type and returns the version data"""
+        version_from_rest = ""
+        # getting version from rest
+        return version_from_rest
+    
+    def get_annotation_version_from_rosalution(self):
+        """Gets version for rosalution type and returns the version data"""
+        version_from_rosalution = ""
+        # getting version from rosalution
+        return version_from_rosalution
+    
+    def get_annotation_version_from_date(self):
+        """Gets version for date type and returns the version data"""
+        version_from_date = ""
+        # getting version from date
+        return version_from_date
 
 
 class AnnotationTaskFactory:
@@ -199,6 +236,7 @@ class AnnotationTaskFactory:
         "csv": CsvAnnotationTask,
         "none": NoneAnnotationTask,
         "forge": ForgeAnnotationTask,
+        "version": VersionAnnotationTask
     }
 
     @classmethod

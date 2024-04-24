@@ -7,6 +7,7 @@ class AnnotationUnit:
     def __init__(self, genomic_unit, dataset):
         self.genomic_unit = genomic_unit
         self.dataset = dataset
+        self.version = ""
 
     def get_genomic_unit(self):
         """Getter method"""
@@ -45,3 +46,13 @@ class AnnotationUnit:
         Returns the annotation unit's genomic_unit and corresponding dataset.
         """
         return f"{self.get_genomic_unit} for {self.get_dataset}"
+
+    def set_latest_version(self, version_info):
+        self.version = version_info
+
+    def version_exists(self):
+        if self.version == "":
+            return True
+        else:
+            return False
+        
