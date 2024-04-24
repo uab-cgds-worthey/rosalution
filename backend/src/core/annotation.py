@@ -103,15 +103,17 @@ class AnnotationService:
                     # check if the version is latest
                     latest = False
                     if annotation_unit.version is latest:
-                        logger.info('%s Annotation Exists with Latest Version...', format_annotation_logging(annotation_unit))
+                        logger.info(
+                            '%s Annotation Exists with Latest Version...', format_annotation_logging(annotation_unit)
+                        )
                         ready = True
                     else:
-                        
-                    # determine as version_annotation_type
-                    # create version_annotation_task
-                    # send version-url and attribute
-                    # put this in background task
-                    
+
+                        # determine as version_annotation_type
+                        # create version_annotation_task
+                        # send version-url and attribute
+                        # put this in background task
+
                         ready = False
                     continue
 

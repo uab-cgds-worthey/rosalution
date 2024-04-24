@@ -47,12 +47,12 @@ class AnnotationUnit:
         """
         return f"{self.get_genomic_unit} for {self.get_dataset}"
 
-    def set_latest_version(self, version_info):
-        self.version = version_info
+    def set_latest_version(self, version_details):
+        """Sets the Annotation Unit with the version details"""
+        self.version = version_details
 
     def version_exists(self):
+        """Checks if the Annotation Unit is versioned or not"""
         if self.version == "":
             return True
-        else:
-            return False
-        
+        return False
