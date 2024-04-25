@@ -17,6 +17,10 @@ class AnnotationUnit:
         """Getter method"""
         return self.dataset['data_set']
 
+    def has_dependencies(self):
+        """Checks if the annotation unit's dataset has dependencies"""
+        return "dependencies" in self.dataset
+
     def get_missing_dependencies(self):
         """Returns dependencies of the dataset of the annotation unit"""
         missing_dependencies = []
@@ -59,7 +63,8 @@ class AnnotationUnit:
 
     def is_version_latest(self):
         """Checks if the annotated Annotation Unit has the latest version or not"""
-        latest = False
+        # Once we are getting versions, latest will be initialized as False
+        latest = True
 
         if self.version_exists():
             # code to be added to check if version is latest
