@@ -56,3 +56,13 @@ class AnnotationUnit:
         if self.version == "":
             return True
         return False
+
+    def is_version_latest(self):
+        """Checks if the annotated Annotation Unit has the latest version or not"""
+        latest = False
+
+        if self.version_exists():
+            # code to be added to check if version is latest
+            latest = True
+
+        return latest

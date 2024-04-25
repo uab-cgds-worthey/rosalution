@@ -94,20 +94,12 @@ class AnnotationService:
                 ready = False
                 if genomic_unit_collection.annotation_exist(annotation_unit.genomic_unit, annotation_unit.dataset):
                     logger.info('%s Annotation Exists...', format_annotation_logging(annotation_unit))
-                    if annotation_unit.version_exists():
-                        # need to check if this version is latest
-                        latest = True
-                        if annotation_unit.version is latest:
-                            logger.info(
-                                '%s Annotation Exists with Latest Version...', 
-                                format_annotation_logging(annotation_unit)
-                            )
-                            ready = True
-                            continue
-                    # determine as version_annotation_type
-                    # create version_annotation_task
-                    # send version-url and attribute
-                    # put this in background task
+                    if annotation_unit.is_version_latest():
+                        logger.info(
+                            '%s Annotation Exists with Latest Version...', format_annotation_logging(annotation_unit)
+                        )
+                        ready = True
+                        continue
                 # This ready is True only for now for the test to pass,
                 # when the versioning is actually happening this will be removed & handled in above code
                 ready = True
