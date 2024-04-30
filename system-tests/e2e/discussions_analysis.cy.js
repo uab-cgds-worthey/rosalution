@@ -52,6 +52,10 @@ describe('discussions_analysis.cy.js', () => {
     cy.get('@newDiscussion')
         .find('.grey-rounded-menu > :nth-child(2)')
         .contains('Delete')
+        .trigger('mouseover');
+
+    cy.get('@newDiscussion')
+        .find('.grey-rounded-menu > :nth-child(2)')
         .click();
 
     cy.get('[data-test="notification-dialog"]').find('[data-test="confirm-button"]').contains('Delete').click();
@@ -132,6 +136,10 @@ describe('discussions_analysis.cy.js', () => {
     cy.get('@existingDiscussion')
         .find('.grey-rounded-menu > :nth-child(1)')
         .contains('Edit')
+        .trigger('mouseover');
+
+    cy.get('@existingDiscussion')
+        .find('.grey-rounded-menu > :nth-child(1)')
         .click();
 
     cy.get('[data-test="edit-discussion-input"]').clear();
