@@ -6,13 +6,13 @@
   "license": "UNLICENSED",
   "private": true,
   "devDependencies": {
-    "cypress": "13.3.0",
+    "cypress": "13.8.1",
     "eslint": "8.50.0",
     "eslint-config-google": "0.14.0",
     "eslint-plugin-cypress": "2.15.1"
   },
   "scripts": {
-    "test:e2e": "cypress run",
+    "test:e2e": "cypress run --browser chrome",
     "test:e2e:open": "cypress open --e2e",
     "lint": "eslint --ext .js,.ts ./",
     "lint:auto": "eslint --ext .js,.ts ./ --fix"
