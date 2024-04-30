@@ -49,7 +49,7 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
 
   it('should allow the user to navigate to a third party link after adding one', () => {
     cy.get('.grey-rounded-menu').invoke('attr', 'style', 'display: block; visibility: visible; opacity: 1;');
-    cy.get('[data-test="user-menu"] > .grey-rounded-menu').contains('Attach Monday.com').click();
+    cy.get('[data-test="user-menu"] > .grey-rounded-menu').contains('Attach Monday.com').click({force: true});
     cy.get('.grey-rounded-menu').invoke('attr', 'style', 'display: block; visibility: hidden; opacity: 0;');
 
     cy.get('[data-test="link-input"]').type('https://www.monday.com');

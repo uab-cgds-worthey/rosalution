@@ -7,6 +7,7 @@ class AnnotationUnit:
     def __init__(self, genomic_unit, dataset):
         self.genomic_unit = genomic_unit
         self.dataset = dataset
+        self.version = ""
 
     def get_genomic_unit(self):
         """Getter method"""
@@ -15,6 +16,10 @@ class AnnotationUnit:
     def get_dataset(self):
         """Getter method"""
         return self.dataset['data_set']
+
+    def has_dependencies(self):
+        """Checks if the annotation unit's dataset has dependencies"""
+        return "dependencies" in self.dataset
 
     def get_missing_dependencies(self):
         """Returns dependencies of the dataset of the annotation unit"""
@@ -45,3 +50,24 @@ class AnnotationUnit:
         Returns the annotation unit's genomic_unit and corresponding dataset.
         """
         return f"{self.get_genomic_unit} for {self.get_dataset}"
+
+    def set_latest_version(self, version_details):
+        """Sets the Annotation Unit with the version details"""
+        self.version = version_details
+
+    def version_exists(self):
+        """Checks if the Annotation Unit is versioned or not"""
+        if self.version == "":
+            return True
+        return False
+
+    def is_version_latest(self):
+        """Checks if the annotated Annotation Unit has the latest version or not"""
+        # Once we are getting versions, latest will be initialized as False
+        latest = True
+
+        if self.version_exists():
+            # code to be added to check if version is latest
+            latest = True
+
+        return latest

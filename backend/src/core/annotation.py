@@ -91,20 +91,16 @@ class AnnotationService:
             annotation_task_futures = {}
             while not annotation_queue.empty():
                 annotation_unit = annotation_queue.get()
-                if genomic_unit_collection.annotation_exist(annotation_unit.genomic_unit, annotation_unit.dataset):
+                latest = False
+                if genomic_unit_collection.annotation_exist(annotation_unit.genomic_unit, annotation_unit.dataset
+                                                           ) and annotation_unit.is_version_latest():
                     logger.info('%s Annotation Exists...', format_annotation_logging(annotation_unit))
+                    latest = True
                     continue
-
                 ready = True
 
-                if 'dependencies' in annotation_unit.dataset:
+                if annotation_unit.has_dependencies():
                     missing_dependencies = annotation_unit.get_missing_dependencies()
-                    print("ANNOTATION UNIT & MISSING DEPENDENCIES")
-                    print("--------------------------------------")
-                    # print(annotation_unit.get_genomic_unit())
-                    # print("--------------------------------------")
-                    print(missing_dependencies)
-                    print("--------------------------------------")
                     for missing in missing_dependencies:
                         annotation_value = genomic_unit_collection.find_genomic_unit_annotation_value(
                             annotation_unit.genomic_unit, missing
@@ -114,7 +110,7 @@ class AnnotationService:
                         else:
                             ready = False
 
-                if not ready:
+                if not ready and not latest:
                     annotation_unit.increment_delay_count()
 
                     if annotation_unit.should_continue_annotation():
