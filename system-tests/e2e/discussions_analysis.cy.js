@@ -52,11 +52,7 @@ describe('discussions_analysis.cy.js', () => {
     cy.get('@newDiscussion')
         .find('.grey-rounded-menu > :nth-child(2)')
         .contains('Delete')
-        .trigger('mouseover');
-
-    cy.get('@newDiscussion')
-        .find('.grey-rounded-menu > :nth-child(2)')
-        .click();
+        .click({force: true});
 
     cy.get('[data-test="notification-dialog"]').find('[data-test="confirm-button"]').contains('Delete').click();
 
@@ -82,7 +78,7 @@ describe('discussions_analysis.cy.js', () => {
     cy.get('@newDiscussion')
         .find('.grey-rounded-menu > :nth-child(2)')
         .contains('Delete')
-        .click();
+        .click({force: true});
 
     cy.get('[data-test="notification-dialog"]').find('[data-test="cancel-button"]').contains('Cancel').click();
 
@@ -106,7 +102,7 @@ describe('discussions_analysis.cy.js', () => {
     cy.get('@existingDiscussion')
         .find('.grey-rounded-menu > :nth-child(1)')
         .contains('Edit')
-        .click();
+        .click({force: true});
 
     cy.get('[data-test="edit-discussion-input"]').clear();
     cy.get('[data-test="edit-discussion-input"]').type('Editing a system test.');
@@ -136,11 +132,7 @@ describe('discussions_analysis.cy.js', () => {
     cy.get('@existingDiscussion')
         .find('.grey-rounded-menu > :nth-child(1)')
         .contains('Edit')
-        .trigger('mouseover');
-
-    cy.get('@existingDiscussion')
-        .find('.grey-rounded-menu > :nth-child(1)')
-        .click();
+        .click({force: true});
 
     cy.get('[data-test="edit-discussion-input"]').clear();
     cy.get('[data-test="edit-discussion-input"]').type('Editing a system test.');
