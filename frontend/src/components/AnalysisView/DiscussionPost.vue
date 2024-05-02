@@ -92,7 +92,7 @@ export default {
   },
   computed: {
     timestamp: function() {
-      return new Date(this.publishTimestamp).toUTCString();
+      return new Date(this.publishTimestamp + 'Z').toLocaleString();
     },
     isUser: function() {
       return this.userClientId == this.authorId;
