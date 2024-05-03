@@ -29,6 +29,24 @@ class AnnotationUnit:
                 missing_dependencies = [dependency]
 
         return missing_dependencies
+    
+    def get_annotation_values_with_dependencies(self):
+        """
+        Returns the annotation values from the genomic unit collection
+        for the annotation unit and missing dependencies
+        """
+        return ""
+    
+    def ready_for_annotation(self):
+        """Checks for annotation unit is ready for annotation"""
+        return True
+    
+    def not_ready_and_latest_for_annotation(self):
+        """
+        If annotation unit is not ready, checks if it should continue annotation or
+        calls increment_delay_count and get_missing_dependencies before continuing
+        """
+        return ""
 
     def increment_delay_count(self):
         """Sets the delay count of the annotation unit"""
