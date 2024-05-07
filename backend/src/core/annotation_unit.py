@@ -29,24 +29,33 @@ class AnnotationUnit:
                 missing_dependencies = [dependency]
 
         return missing_dependencies
-    
-    def get_annotation_values_with_dependencies(self):
+
+    def ready_for_annotation(self, annotation_value, missing_dependency):
         """
-        Returns the annotation values from the genomic unit collection
-        for the annotation unit and missing dependencies
+        Checks for annotation unit is ready for annotation
+        Gets the annotation value for dependcies from the genomic unit collection
         """
-        return ""
-    
-    def ready_for_annotation(self):
-        """Checks for annotation unit is ready for annotation"""
-        return True
-    
-    def not_ready_and_latest_for_annotation(self):
+        ready = True
+        if annotation_value:
+            self.genomic_unit[missing_dependency] = annotation_value
+        else:
+            ready = False
+        return ready
+
+    def should_continue_annotation(self):
         """
         If annotation unit is not ready, checks if it should continue annotation or
         calls increment_delay_count and get_missing_dependencies before continuing
         """
-        return ""
+        self.increment_delay_count()
+        missing_dependencies = ""
+        if not self.delay_count_exceeds():
+            logger_message = '%s Delaying Annotation, Missing Dependency...'
+        else:
+            missing_dependencies = self.get_missing_dependencies()
+            logger_message = '%s Canceling Annotation, Missing %s ...'
+
+        return missing_dependencies, logger_message
 
     def increment_delay_count(self):
         """Sets the delay count of the annotation unit"""
@@ -54,14 +63,14 @@ class AnnotationUnit:
         self.dataset['delay_count'] = delay_count
         return
 
-    def should_continue_annotation(self):
+    def delay_count_exceeds(self):
         """
-        Checks if the annotation unit should continue annotation by calculating if 
-        delay count of annotation unit within the queue is less than a magic number (10).
+        Checks if the annotation unit has exceeded the delay count within the queue.
+        Delay count is set as a magic number (10).
         """
         if self.dataset['delay_count'] < 10:
-            return True
-        return False
+            return False
+        return True
 
     def to_name_string(self):
         """

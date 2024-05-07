@@ -9,6 +9,15 @@ def test_annotation_unit_gets_missing_dependencies(annotation_unit_lmna):
     actual = annotation_unit_lmna.get_missing_dependencies()
     assert actual == ['HGNC_ID']
 
+def test_annotation_unit_ready_for_annotation(annotation_unit_lmna):
+    """Verifies if the annotation unit is ready for annotation"""
+    actual = annotation_unit_lmna.ready_for_annotation()
+    assert actual == False
+
+def test_annotation_unit_should_continue_annotation(annotation_unit_lmna):
+    """Verifies if the annotation unit should continue annotation"""
+    actual = annotation_unit_lmna.should_continue_annotation()
+    assert actual == ""
 
 @pytest.fixture(name="annotation_unit_lmna")
 def fixture_annotation_unit():
