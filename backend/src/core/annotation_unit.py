@@ -55,8 +55,6 @@ class AnnotationUnit:
             missing_dependencies = self.get_missing_dependencies()
             logger_message = '%s Canceling Annotation, Missing %s ...'
 
-        print("THIS IS THE MISSING DEPENDENCY")
-        print(str(missing_dependencies))
         return missing_dependencies, logger_message
 
     def increment_delay_count(self):
