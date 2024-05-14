@@ -18,12 +18,16 @@ def test_annotation_unit_ready_for_annotation(annotation_unit_lmna):
     missing_dependency = missing[0]
     mock_genomic_unit_collection = Mock()
     mock_genomic_unit_collection.find_genomic_unit_annotation_value = Mock()
-    annotation_value = mock_genomic_unit_collection.find_genomic_unit_annotation_value(
+    dependency_annotation = mock_genomic_unit_collection.find_genomic_unit_annotation_value(
         annotation_unit_lmna.genomic_unit, missing_dependency
     )
 
-    actual = annotation_unit_lmna.ready_for_annotation(annotation_value, missing_dependency)
+    actual = annotation_unit_lmna.ready_for_annotation(dependency_annotation, missing_dependency)
     assert actual is True
+
+    dependency_annotation = ""
+    actual = annotation_unit_lmna.ready_for_annotation(dependency_annotation, missing_dependency)
+    assert actual is False
 
 
 def test_annotation_unit_should_continue_annotation(annotation_unit_lmna):
@@ -34,7 +38,7 @@ def test_annotation_unit_should_continue_annotation(annotation_unit_lmna):
 
 
 @pytest.fixture(name="annotation_unit_lmna")
-def fixture_annotation_unit():
+def fixture_annotation_unit_lmna():
     """Returns the annotation unit for the genomic unit LMNA and the dataset Clingen gene url"""
     genomic_unit = {'unit': 'LMNA'}
     dataset = {
@@ -44,8 +48,9 @@ def fixture_annotation_unit():
     }
     return AnnotationUnit(genomic_unit, dataset)
 
-@pytest.fixture(name="annotation_unit_lmna_with_dependency_annotated")
-def fixture_annotation_unit():
+
+@pytest.fixture(name="annotation_unit_lmna_with_annotated_dependency")
+def fixture_annotation_unit_lmna_with_annotated_dependency():
     """Returns the annotation unit for the genomic unit LMNA and the dataset Clingen gene url"""
     genomic_unit = {'unit': 'LMNA', 'HGNC_ID': 'test'}
     dataset = {

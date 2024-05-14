@@ -37,11 +37,11 @@ class AnnotationUnit:
         """
         ready = True
         if dependency_annotation:
-            self.assign_annotation_value_to_dependency(missing_dependency, dependency_annotation)
+            self.set_annotation_for_dependency(missing_dependency, dependency_annotation)
         else:
             ready = False
         return ready
-    
+
     def set_annotation_for_dependency(self, missing_dependency, dependency_annotation):
         """
         Assigns annotation value to the genomic unit's missing dependency
