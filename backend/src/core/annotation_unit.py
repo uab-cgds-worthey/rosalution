@@ -55,13 +55,13 @@ class AnnotationUnit:
         calls increment_delay_count and get_missing_dependencies before continuing
         """
         self.increment_delay_count()
-        missing_dependencies = ""
-        if not self.delay_count_exceeds():
-            logger_message = '%s Delaying Annotation, Missing Dependency...'
-        else:
+        missing_dependencies = []
+
+        if self.delay_count_exceeds():
             missing_dependencies = self.get_missing_dependencies()
             logger_message = '%s Canceling Annotation, Missing %s ...'
-
+        else:
+            logger_message = '%s Delaying Annotation, Missing Dependency...'
         return missing_dependencies, logger_message
 
     def increment_delay_count(self):
