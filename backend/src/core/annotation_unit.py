@@ -30,17 +30,24 @@ class AnnotationUnit:
 
         return missing_dependencies
 
-    def ready_for_annotation(self, annotation_value, missing_dependency):
+    def ready_for_annotation(self, dependency_annotation, missing_dependency):
         """
         Checks for annotation unit is ready for annotation
-        Gets the annotation value for dependcies from the genomic unit collection
+        and calls the assign_annotation_value_to_dependency() function if ready
         """
         ready = True
-        if annotation_value:
-            self.genomic_unit[missing_dependency] = annotation_value
+        if dependency_annotation:
+            self.assign_annotation_value_to_dependency(missing_dependency, dependency_annotation)
         else:
             ready = False
         return ready
+    
+    def set_annotation_for_dependency(self, missing_dependency, dependency_annotation):
+        """
+        Assigns annotation value to the genomic unit's missing dependency
+        """
+        self.genomic_unit[missing_dependency] = dependency_annotation
+        return
 
     def should_continue_annotation(self):
         """

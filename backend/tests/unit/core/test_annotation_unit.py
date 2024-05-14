@@ -43,3 +43,14 @@ def fixture_annotation_unit():
         "attribute": "{ \"ClinGen_gene_url\": .ClinGen_gene_url }", "dependencies": ["HGNC_ID"]
     }
     return AnnotationUnit(genomic_unit, dataset)
+
+@pytest.fixture(name="annotation_unit_lmna_with_dependency_annotated")
+def fixture_annotation_unit():
+    """Returns the annotation unit for the genomic unit LMNA and the dataset Clingen gene url"""
+    genomic_unit = {'unit': 'LMNA', 'HGNC_ID': 'test'}
+    dataset = {
+        "data_set": "ClinGen_gene_url", "data_source": "Rosalution", "genomic_unit_type": "gene",
+        "annotation_source_type": "forge", "base_string": "https://search.clinicalgenome.org/kb/genes/{HGNC_ID}",
+        "attribute": "{ \"ClinGen_gene_url\": .ClinGen_gene_url }", "dependencies": ["HGNC_ID"]
+    }
+    return AnnotationUnit(genomic_unit, dataset)
