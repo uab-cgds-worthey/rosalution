@@ -25,12 +25,21 @@ def test_annotation_unit_ready_for_annotation(annotation_unit_lmna):
     actual = annotation_unit_lmna.ready_for_annotation(dependency_annotation, missing_dependency)
     assert actual is True
 
+
+def test_annotation_unit_not_ready_for_annotation(annotation_unit_lmna):
+    """Verifies if the annotation unit is not ready for annotation"""
+
+    missing = annotation_unit_lmna.get_missing_dependencies()
+    missing_dependency = missing[0]
+    mock_genomic_unit_collection = Mock()
+    mock_genomic_unit_collection.find_genomic_unit_annotation_value = Mock()
     dependency_annotation = ""
+
     actual = annotation_unit_lmna.ready_for_annotation(dependency_annotation, missing_dependency)
     assert actual is False
 
 
-def test_annotation_unit_should_continue_annotation(annotation_unit_lmna, annotation_unit_lmna_exceeded_delay_count):
+def test_annotation_unit_should_continue_annotation(annotation_unit_lmna):
     """
     Verifies if the annotation unit should continue annotation for both cases
     of annotation_unit with delay_count not exceeded and exceeded.
@@ -39,6 +48,13 @@ def test_annotation_unit_should_continue_annotation(annotation_unit_lmna, annota
     (actual_missing_dependencies, actual_logger_message) = annotation_unit_lmna.should_continue_annotation()
     assert actual_missing_dependencies == []
     assert actual_logger_message == '%s Delaying Annotation, Missing Dependency...'
+
+
+def test_annotation_unit_should_not_continue_annotation(annotation_unit_lmna_exceeded_delay_count):
+    """
+    Verifies if the annotation unit should not continue annotation for the case
+    of annotation_unit with exceeded delay_count.
+    """
 
     (actual_missing_dependencies,
      actual_logger_message) = annotation_unit_lmna_exceeded_delay_count.should_continue_annotation()
