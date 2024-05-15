@@ -30,20 +30,54 @@ class AnnotationUnit:
 
         return missing_dependencies
 
+    def ready_for_annotation(self, dependency_annotation, missing_dependency):
+        """
+        Checks for annotation unit is ready for annotation
+        and calls the assign_annotation_value_to_dependency() function if ready
+        """
+        ready = True
+        if dependency_annotation:
+            self.set_annotation_for_dependency(missing_dependency, dependency_annotation)
+        else:
+            ready = False
+        return ready
+
+    def set_annotation_for_dependency(self, missing_dependency, dependency_annotation):
+        """
+        Assigns annotation value to the genomic unit's missing dependency
+        """
+        self.genomic_unit[missing_dependency] = dependency_annotation
+        return
+
+    def should_continue_annotation(self):
+        """
+        If annotation unit is not ready, checks if it should continue annotation or
+        calls increment_delay_count and get_missing_dependencies before continuing
+        """
+        self.increment_delay_count()
+        missing_dependencies = []
+
+        if self.delay_count_exceeds():
+            missing_dependencies = self.get_missing_dependencies()
+            logger_message = '%s Canceling Annotation, Missing %s ...'
+        else:
+            logger_message = '%s Delaying Annotation, Missing Dependency...'
+        return (missing_dependencies, logger_message)
+
     def increment_delay_count(self):
         """Sets the delay count of the annotation unit"""
         delay_count = self.dataset['delay_count'] + 1 if 'delay_count' in self.dataset else 0
         self.dataset['delay_count'] = delay_count
         return
 
-    def should_continue_annotation(self):
+    def delay_count_exceeds(self):
         """
-        Checks if the annotation unit should continue annotation by calculating if 
-        delay count of annotation unit within the queue is less than a magic number (10).
+        Checks if the annotation unit has exceeded the delay count within the queue.
+        Delay count is set as a magic number (10).
         """
         if self.dataset['delay_count'] < 10:
-            return True
-        return False
+            return False
+        return True
 
     def to_name_string(self):
         """

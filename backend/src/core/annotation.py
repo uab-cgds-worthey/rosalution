@@ -105,25 +105,15 @@ class AnnotationService:
                         annotation_value = genomic_unit_collection.find_genomic_unit_annotation_value(
                             annotation_unit.genomic_unit, missing
                         )
-                        if annotation_value:
-                            annotation_unit.genomic_unit[missing] = annotation_value
-                        else:
-                            ready = False
+                        ready = annotation_unit.ready_for_annotation(annotation_value, missing)
 
                 if not ready and not latest:
-                    annotation_unit.increment_delay_count()
+                    missing_dependencies, logger_message = annotation_unit.should_continue_annotation()
 
-                    if annotation_unit.should_continue_annotation():
-                        logger.info(
-                            '%s Delaying Annotation, Missing Dependency...', format_annotation_logging(annotation_unit)
-                        )
+                    if not missing_dependencies:
                         annotation_queue.put(annotation_unit)
-                    else:
-                        missing_dependencies = annotation_unit.get_missing_dependencies()
-                        logger.info(
-                            '%s Canceling Annotation, Missing %s ...', format_annotation_logging(annotation_unit),
-                            missing_dependencies
-                        )
+
+                    logger.info(logger_message, format_annotation_logging(annotation_unit), missing_dependencies)
 
                     continue
 
