@@ -62,7 +62,7 @@ class AnnotationUnit:
             logger_message = '%s Canceling Annotation, Missing %s ...'
         else:
             logger_message = '%s Delaying Annotation, Missing Dependency...'
-        return missing_dependencies, logger_message
+        return (missing_dependencies, logger_message)
 
     def increment_delay_count(self):
         """Sets the delay count of the annotation unit"""

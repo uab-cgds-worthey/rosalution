@@ -30,19 +30,18 @@ def test_annotation_unit_ready_for_annotation(annotation_unit_lmna):
     assert actual is False
 
 
-def test_annotation_unit_should_continue_annotation(
-    annotation_unit_lmna, annotation_unit_lmna_with_exceeded_delay_count
-):
+def test_annotation_unit_should_continue_annotation(annotation_unit_lmna, annotation_unit_lmna_exceeded_delay_count):
     """
     Verifies if the annotation unit should continue annotation for both cases
     of annotation_unit with delay_count not exceeded and exceeded.
     """
 
-    actual_missing_dependencies, actual_logger_message = annotation_unit_lmna.should_continue_annotation()
+    (actual_missing_dependencies, actual_logger_message) = annotation_unit_lmna.should_continue_annotation()
     assert actual_missing_dependencies == []
     assert actual_logger_message == '%s Delaying Annotation, Missing Dependency...'
 
-    actual_missing_dependencies, actual_logger_message = annotation_unit_lmna_with_exceeded_delay_count.should_continue_annotation()
+    (actual_missing_dependencies,
+     actual_logger_message) = annotation_unit_lmna_exceeded_delay_count.should_continue_annotation()
     assert actual_missing_dependencies == ['HGNC_ID']
     assert actual_logger_message == '%s Canceling Annotation, Missing %s ...'
 
@@ -59,7 +58,7 @@ def fixture_annotation_unit_lmna():
     return AnnotationUnit(genomic_unit, dataset)
 
 
-@pytest.fixture(name="annotation_unit_lmna_with_exceeded_delay_count")
+@pytest.fixture(name="annotation_unit_lmna_exceeded_delay_count")
 def fixture_annotation_unit_lmna_with_annotated_dependency():
     """Returns the annotation unit for the genomic unit LMNA and the dataset Clingen gene url"""
     genomic_unit = {'unit': 'LMNA'}
