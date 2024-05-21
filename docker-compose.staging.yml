@@ -1,0 +1,44 @@
+services:
+  frontend:
+    image: ghcr.io/uab-cgds-worthey/rosalution/frontend:${ROSALUTION_VERSION}
+    networks:
+      - rosalution-network
+      - traefik
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-public"
+        - "traefik.http.routers.rosalution-frontend-prod-router.tls=true"
+        - "traefik.http.routers.rosalution-frontend-prod-router.rule=Host(`dev.cgds.uab.edu`) && PathPrefix(`/rosalution`)"
+        - "traefik.http.routers.rosalution-frontend-prod-router.service=rosalution-frontend-prod-service"
+        - "traefik.http.routers.rosalution-frontend-prod-router.middlewares=frontend-strip-prefix"
+        - "traefik.http.middlewares.frontend-strip-prefix.stripprefix.prefixes=/rosalution"
+        - "traefik.http.services.rosalution-frontend-prod-service.loadbalancer.server.port=80"
+
+  backend:
+    image: ghcr.io/uab-cgds-worthey/rosalution/backend:${ROSALUTION_VERSION}
+    networks:
+      - rosalution-network
+      - traefik
+    environment:
+      - ROSALUTION_ENV=production
+      - MONGODB_HOST=rosalution-db
+      - CAS_LOGIN_ENABLE=True
+    entrypoint: ['/bin/sh', '-c', './entrypoint-init.sh']
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-public"
+        - "traefik.http.routers.rosalution-backend-prod-router.tls=true"
+        - "traefik.http.routers.rosalution-backend-prod-router.rule=Host(`dev.cgds.uab.edu`) && PathPrefix(`/rosalution/api`)"
+        - "traefik.http.routers.rosalution-backend-prod-router.service=rosalution-backend-prod-service"
+        - "traefik.http.routers.rosalution-backend-prod-router.middlewares=backend-strip-prefix"
+        - "traefik.http.middlewares.backend-strip-prefix.stripprefix.prefixes=/rosalution/api"
+        - "traefik.http.services.rosalution-backend-prod-service.loadbalancer.server.port=8000"
+
+networks:
+  rosalution-network:
+    name: rosalution-network-dev
+  traefik:
+    name: traefik-public
+    external: true
