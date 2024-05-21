@@ -39,6 +39,7 @@ services:
 networks:
   rosalution-network:
     name: rosalution-network-dev
+    external: true
   traefik:
     name: traefik-public
     external: true
