@@ -1,5 +1,3 @@
-version: '3.5'
-
 services:
   frontend:
     image: ghcr.io/uab-cgds-worthey/rosalution/frontend:${ROSALUTION_VERSION}
@@ -10,7 +8,7 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=traefik-public"
-        - "traefik.http.routers.rosalution-frontend-prod-router.entrypoints=http"
+        - "traefik.http.routers.rosalution-frontend-prod-router.tls=true"
         - "traefik.http.routers.rosalution-frontend-prod-router.rule=Host(`dev.cgds.uab.edu`) && PathPrefix(`/rosalution`)"
         - "traefik.http.routers.rosalution-frontend-prod-router.service=rosalution-frontend-prod-service"
         - "traefik.http.routers.rosalution-frontend-prod-router.middlewares=frontend-strip-prefix"
@@ -31,7 +29,7 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=traefik-public"
-        - "traefik.http.routers.rosalution-backend-prod-router.entrypoints=http"
+        - "traefik.http.routers.rosalution-backend-prod-router.tls=true"
         - "traefik.http.routers.rosalution-backend-prod-router.rule=Host(`dev.cgds.uab.edu`) && PathPrefix(`/rosalution/api`)"
         - "traefik.http.routers.rosalution-backend-prod-router.service=rosalution-backend-prod-service"
         - "traefik.http.routers.rosalution-backend-prod-router.middlewares=backend-strip-prefix"
@@ -40,7 +38,8 @@ services:
 
 networks:
   rosalution-network:
-    name: rosalution-network-prod
+    name: rosalution-network-dev
+    external: true
   traefik:
     name: traefik-public
     external: true
