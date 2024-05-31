@@ -108,12 +108,17 @@ class AnnotationService:
                         ready = annotation_unit.ready_for_annotation(annotation_value, missing)
 
                 if not ready and not latest:
-                    missing_dependencies, logger_message = annotation_unit.should_continue_annotation()
-
-                    if not missing_dependencies:
+                    if annotation_unit.should_continue_annotation():
+                        logger.info(
+                            '%s Delaying Annotation, Missing %s Dependencies...',
+                            format_annotation_logging(annotation_unit), annotation_unit.get_missing_dependencies()
+                        )
                         annotation_queue.put(annotation_unit)
-
-                    logger.info(logger_message, format_annotation_logging(annotation_unit), missing_dependencies)
+                    else:
+                        logger.info(
+                            '%s Canceling Annotation, Missing %s  Dependencies...',
+                            format_annotation_logging(annotation_unit), annotation_unit.get_missing_dependencies()
+                        )
 
                     continue
 

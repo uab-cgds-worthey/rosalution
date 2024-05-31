@@ -1,11 +1,21 @@
 [
   {
     "data_set": "Entrez Gene Id",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "forge",
+    "base_string": "{HPO_NCBI_GENE_ID}",
+    "attribute": "{ \"Entrez Gene Id\": .\"Entrez Gene Id\"| sub( \".*:\"; \"\") }",
+    "dependencies": ["HPO_NCBI_GENE_ID"],
+    "versioning_type": "rosalution" 
+  },
+  {
+    "data_set": "HPO_NCBI_GENE_ID",
     "data_source": "HPO",
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
-    "url": "https://hpo.jax.org/api/hpo/search/?q={gene}&max=-1&offset=0&category=genes",
-    "attribute": ".genes[] | select( .geneSymbol | contains(\"{gene}\")) |  { entrezGeneId: .geneId}",
+    "url": "https://ontology.jax.org/api/network/search/GENE?q={gene}&page=0&limit=10",
+    "attribute": "{ \"HPO_NCBI_GENE_ID\": .results[] | select( .name == \"{gene}\") | .id }",
     "versioning_type": "date" 
   },
   {
@@ -96,9 +106,9 @@
     "data_source": "HPO",
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
-    "url": "https://hpo.jax.org/api/hpo/gene/{Entrez Gene Id}",
-    "attribute": "{ \"diseaseAssoc\": [.diseaseAssoc[].diseaseName]}",
-    "dependencies": ["Entrez Gene Id"],
+    "url": "https://ontology.jax.org/api/network/annotation/{HPO_NCBI_GENE_ID}",
+    "attribute": "{ \"diseaseAssoc\": [.diseases[] | select( .id | contains(\"OMIM\") ) | .name ]}",
+    "dependencies": ["HPO_NCBI_GENE_ID"],
     "versioning_type": "date"
   },
   {
@@ -115,9 +125,9 @@
     "data_source": "HPO",
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
-    "url": "https://hpo.jax.org/api/hpo/gene/{Entrez Gene Id}",
-    "attribute": "{ \"termAssoc\": [.termAssoc[] | .ontologyId + \": \" + .name ]}",
-    "dependencies": ["Entrez Gene Id"],
+    "url": "https://ontology.jax.org/api/network/annotation/{HPO_NCBI_GENE_ID}",
+    "attribute": "{ \"termAssoc\": [.phenotypes[] | .id + \": \" + .name]}",
+    "dependencies": ["HPO_NCBI_GENE_ID"],
     "versioning_type": "date"
   },
   {
