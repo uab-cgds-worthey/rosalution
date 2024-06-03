@@ -45,9 +45,7 @@ def test_annotation_unit_should_continue_annotation(annotation_unit_lmna):
     of annotation_unit with delay_count not exceeded and exceeded.
     """
 
-    (actual_missing_dependencies, actual_logger_message) = annotation_unit_lmna.should_continue_annotation()
-    assert actual_missing_dependencies == []
-    assert actual_logger_message == '%s Delaying Annotation, Missing Dependency...'
+    assert annotation_unit_lmna.should_continue_annotation()
 
 
 def test_annotation_unit_should_not_continue_annotation(annotation_unit_lmna_exceeded_delay_count):
@@ -56,10 +54,7 @@ def test_annotation_unit_should_not_continue_annotation(annotation_unit_lmna_exc
     of annotation_unit with exceeded delay_count.
     """
 
-    (actual_missing_dependencies,
-     actual_logger_message) = annotation_unit_lmna_exceeded_delay_count.should_continue_annotation()
-    assert actual_missing_dependencies == ['HGNC_ID']
-    assert actual_logger_message == '%s Canceling Annotation, Missing %s ...'
+    assert not annotation_unit_lmna_exceeded_delay_count.should_continue_annotation()
 
 
 @pytest.fixture(name="annotation_unit_lmna")

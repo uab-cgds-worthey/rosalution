@@ -55,14 +55,8 @@ class AnnotationUnit:
         calls increment_delay_count and get_missing_dependencies before continuing
         """
         self.increment_delay_count()
-        missing_dependencies = []
 
-        if self.delay_count_exceeds():
-            missing_dependencies = self.get_missing_dependencies()
-            logger_message = '%s Canceling Annotation, Missing %s ...'
-        else:
-            logger_message = '%s Delaying Annotation, Missing Dependency...'
-        return (missing_dependencies, logger_message)
+        return not self.delay_count_exceeds()
 
     def increment_delay_count(self):
         """Sets the delay count of the annotation unit"""
@@ -83,7 +77,7 @@ class AnnotationUnit:
         """
         Returns the annotation unit's genomic_unit and corresponding dataset.
         """
-        return f"{self.get_genomic_unit} for {self.get_dataset}"
+        return f"{self.get_genomic_unit()} for {self.get_dataset()}"
 
     def set_latest_version(self, version_details):
         """Sets the Annotation Unit with the version details"""
