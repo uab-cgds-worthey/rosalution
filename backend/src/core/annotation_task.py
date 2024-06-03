@@ -191,24 +191,28 @@ class HttpAnnotationTask(AnnotationTaskInterface):
 class VersionAnnotationTask(AnnotationTaskInterface):
     """An annotation task that gets the version of the annotation"""
 
+    version_types = {}
+
     def __init__(self, genomic_unit_json):
         """initializes the task with the genomic_unit"""
         AnnotationTaskInterface.__init__(self, genomic_unit_json)
-
+        self.version_types = {
+        "rest": self.get_annotation_version_from_rest,
+        "rosalution": self.get_annotation_version_from_rosalution,
+        "date": self.get_annotation_version_from_date
+    }
+        
     def annotate(self):
         """placeholder for annotating a genomic unit with version"""
         return "not-implemented"
 
     def versioning_by_method(self, versioning_type):
-        """Gets version by versioning type and returns the version data to the annotation unit"""
+        """Gets version by version type and returns the version data to the annotation unit"""
         version = ""
-
-        if versioning_type == "rest":
-            version = self.get_annotation_version_from_rest()
-        elif versioning_type == "rosalution":
-            version = self.get_annotation_version_from_rosalution()
-        elif versioning_type == "date":
-            version = self.get_annotation_version_from_date()
+        if versioning_type not in self.version_types:
+            
+        version = self.version_types[versioning_type]()
+        
         return version
 
     def get_annotation_version_from_rest(self):
