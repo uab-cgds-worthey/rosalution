@@ -3,6 +3,7 @@ from abc import abstractmethod
 import json
 from random import randint
 import time
+import datetime
 
 # pylint: disable=too-few-public-methods
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
@@ -206,12 +207,14 @@ class VersionAnnotationTask(AnnotationTaskInterface):
         """placeholder for annotating a genomic unit with version"""
         return "not-implemented"
 
-    def versioning_by_method(self, versioning_type):
+    def versioning_by_method(self, version_type):
         """Gets version by version type and returns the version data to the annotation unit"""
         version = ""
-        if versioning_type not in self.version_types:
-            
-        version = self.version_types[versioning_type]()
+        if version_type not in self.version_types:
+            logger.error(('Failed versioning: "%s" is an Invalid Version Type', version_type))
+            return
+        
+        version = self.version_types[version_type]()
         
         return version
 
@@ -231,7 +234,19 @@ class VersionAnnotationTask(AnnotationTaskInterface):
         """Gets version for date type and returns the version data"""
         version_from_date = ""
         # getting version from date
-        return version_from_date
+
+
+        # get date_created from case
+        prev_version_datetime = self.dataset["version"]
+        datetime_now = datetime.datetime.now()
+        # compare dates
+        if prev_version_datetime != datetime_now:
+            # if needs to reannotate, reannotate
+            # all 3 date-versioning-types are http-annotation-tasks
+            # should we call httpAnnotationTask here directly or add it as a task to the queue?
+
+        # return new date version
+        return datetime_now
 
 
 class AnnotationTaskFactory:
