@@ -6,6 +6,9 @@ import logging.config
 
 from os import path
 
+import urllib3
+urllib3.disable_warnings()
+
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
