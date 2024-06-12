@@ -3,14 +3,16 @@ End points for backend
 """
 import logging
 import logging.config
-
 from os import path
+import urllib3
 
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
 from .config import get_settings
 from .routers import analysis_router, annotation_router, auth_router
+
+urllib3.disable_warnings()
 
 DESCRIPTION = """
 rosalution REST API assists researchers study 🧬 variation in patients 🧑🏾‍🤝‍🧑🏼
