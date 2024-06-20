@@ -205,7 +205,7 @@ class VersionAnnotationTask(AnnotationTaskInterface):
         
     def annotate(self):
         """placeholder for annotating a genomic unit with version"""
-        return "not-implemented"
+        return self.versioning_by_method()
 
     def versioning_by_method(self, version_type):
         """Gets version by version type and returns the version data to the annotation unit"""
@@ -235,7 +235,6 @@ class VersionAnnotationTask(AnnotationTaskInterface):
         version_from_date = ""
         # getting version from date
 
-
         # get date_created from case
         prev_version_datetime = self.dataset["version"]
         datetime_now = datetime.datetime.now()
@@ -244,6 +243,7 @@ class VersionAnnotationTask(AnnotationTaskInterface):
             # if needs to reannotate, reannotate
             # all 3 date-versioning-types are http-annotation-tasks
             # should we call httpAnnotationTask here directly or add it as a task to the queue?
+            continue
 
         # return new date version
         return datetime_now
