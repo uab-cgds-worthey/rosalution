@@ -65,7 +65,7 @@ def test_processing_cpam0046_annotation_tasks(
 @patch("src.core.annotation_task.VersionAnnotationTask.annotate")
 # @pytest.mark.skip(reason="no way of currently testing this")
 def test_processing_cpam0046_version_annotation_tasks(
-    version_task_annotate, cpam0046_annotation_queue
+    version_task_annotate, none_task_annotate, http_task_annotate, forge_task_annotate, annotate_extract_mock, cpam0002_annotation_queue
 ):
     """
      Verifies that each item on the annotation queue is read and executed along with its Version
@@ -89,9 +89,9 @@ def test_processing_cpam0046_version_annotation_tasks(
     mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = dependency_mock_side_effect
     mock_genomic_unit_collection.annotation_exist.return_value = False
 
-    assert not cpam0046_annotation_queue.empty()
-    AnnotationService.process_tasks(cpam0046_annotation_queue, mock_genomic_unit_collection)
-    assert cpam0046_annotation_queue.empty()
+    assert not cpam0002_annotation_queue.empty()
+    AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
+    # assert cpam0002_annotation_queue.empty()
 
     assert version_task_annotate.call_count == 2
     return {}

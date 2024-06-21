@@ -203,15 +203,12 @@ class VersionAnnotationTask(AnnotationTaskInterface):
         }
 
     def annotate(self):
-        """placeholder for annotating a genomic unit with version"""
-        return self.versioning_by_method()
-
-    def versioning_by_method(self, version_type):
         """Gets version by version type and returns the version data to the annotation unit"""
+        version_type = self.dataset["versioning_type"]
         version = ""
         if version_type not in self.version_types:
             logger.error(('Failed versioning: "%s" is an Invalid Version Type', version_type))
-            return
+            return {}
 
         version = self.version_types[version_type]()
 
