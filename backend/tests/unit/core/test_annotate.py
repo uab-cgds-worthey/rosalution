@@ -5,6 +5,7 @@ import pytest
 from src.core.annotation import AnnotationService
 from src.enums import GenomicUnitType
 
+
 @pytest.mark.skip(reason="no way of currently testing this")
 def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_config_collection):
     """Verifies annotations are queued according to the specific genomic units"""
@@ -64,7 +65,7 @@ def test_processing_cpam0046_annotation_tasks(
 @patch("src.core.annotation_task.VersionAnnotationTask.annotate")
 # @pytest.mark.skip(reason="no way of currently testing this")
 def test_processing_cpam0046_version_annotation_tasks(
-    version_task_annotate, none_task_annotate, http_task_annotate, forge_task_annotate, annotate_extract_mock, cpam0046_annotation_queue
+    version_task_annotate, cpam0046_annotation_queue
 ):
     """
      Verifies that each item on the annotation queue is read and executed along with its Version
@@ -92,14 +93,9 @@ def test_processing_cpam0046_version_annotation_tasks(
     AnnotationService.process_tasks(cpam0046_annotation_queue, mock_genomic_unit_collection)
     assert cpam0046_annotation_queue.empty()
 
-    # assert http_task_annotate.call_count == 35
-    # assert none_task_annotate.call_count == 0
-    # assert forge_task_annotate.call_count == 14
     assert version_task_annotate.call_count == 2
-
-    # assert annotate_extract_mock.call_count == 49
-    
     return {}
+
 
 @patch(
     "src.core.annotation_task.AnnotationTaskInterface.extract",
@@ -147,4 +143,3 @@ def fixture_cpam0046_hgvs_variant(cpam0046_analysis):
             unit = genomic_unit
 
     return unit
-

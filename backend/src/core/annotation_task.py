@@ -198,11 +198,10 @@ class VersionAnnotationTask(AnnotationTaskInterface):
         """initializes the task with the genomic_unit"""
         AnnotationTaskInterface.__init__(self, genomic_unit_json)
         self.version_types = {
-        "rest": self.get_annotation_version_from_rest,
-        "rosalution": self.get_annotation_version_from_rosalution,
-        "date": self.get_annotation_version_from_date
-    }
-        
+            "rest": self.get_annotation_version_from_rest, "rosalution": self.get_annotation_version_from_rosalution,
+            "date": self.get_annotation_version_from_date
+        }
+
     def annotate(self):
         """placeholder for annotating a genomic unit with version"""
         return self.versioning_by_method()
@@ -213,9 +212,9 @@ class VersionAnnotationTask(AnnotationTaskInterface):
         if version_type not in self.version_types:
             logger.error(('Failed versioning: "%s" is an Invalid Version Type', version_type))
             return
-        
+
         version = self.version_types[version_type]()
-        
+
         return version
 
     def get_annotation_version_from_rest(self):
