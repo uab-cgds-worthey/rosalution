@@ -1,0 +1,19 @@
+{
+    "date": "2022-07-16T16:07:38.000Z",
+    "external_id": "CLI_2-5K_NME7_R334Q",
+    "variants": [
+        {
+            "transcript": "NM_013330.5",
+            "gene": "ENSG00000143156",
+            "reference_genome": "GRCh37",
+            "protein": "p.Arg334Gln",
+            "cdna": "c.1001G>A"
+        }
+    ],
+    "genes": [
+        {
+            "gene": "NME7",
+            "id": "ENSG00000143156"
+        }
+    ]
+}
