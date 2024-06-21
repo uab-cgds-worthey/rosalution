@@ -268,7 +268,7 @@ class AnnotationTaskFactory:
         cls.tasks[key] = annotation_task_interface
 
     @classmethod
-    def create(cls, genomic_unit_json: dict, dataset: dict):
+    def create_annotation_task(cls, genomic_unit_json: dict, dataset: dict):
         """
         Creates an annotation task with a genomic_units and dataset json.  Instantiates the class according to
         a datasets 'annotation_source_type' from the datasets configurtion.
@@ -276,5 +276,16 @@ class AnnotationTaskFactory:
         # In the future, this could be modified to use a static function instead
         # and those would be set to the dict, or an additional dictionary
         new_task = cls.tasks[dataset["annotation_source_type"]](genomic_unit_json)
+        new_task.set(dataset)
+        return new_task
+
+    @classmethod
+    def create_version_task(cls, genomic_unit_json: dict, dataset: dict):
+
+        """
+        Creates an annotation task with a genomic_units and dataset json.  Instantiates the class according to
+        a datasets 'annotation_source_type' from the datasets configurtion.
+        """
+        new_task = cls.tasks["version"](genomic_unit_json)
         new_task.set(dataset)
         return new_task
