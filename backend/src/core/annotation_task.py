@@ -243,7 +243,7 @@ class VersionAnnotationTask(AnnotationTaskInterface):
             # if needs to reannotate, reannotate
             # all 3 date-versioning-types are http-annotation-tasks
             # should we call httpAnnotationTask here directly or add it as a task to the queue?
-            continue
+            print("SOMETHING HAPPENS HERE")
 
         # return new date version
         return datetime_now

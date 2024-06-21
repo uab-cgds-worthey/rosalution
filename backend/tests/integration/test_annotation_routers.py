@@ -10,7 +10,7 @@ def test_get_annotations_by_gene(client, mock_access_token, mock_repositories, g
         headers={"Authorization": "Bearer " + mock_access_token},
     )
 
-    assert len(response.json()) == 2
+    assert len(response.json()) == 3
 
 
 def test_get_annotations_by_hgvs_variant(

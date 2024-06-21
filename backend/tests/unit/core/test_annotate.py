@@ -5,7 +5,7 @@ import pytest
 from src.core.annotation import AnnotationService
 from src.enums import GenomicUnitType
 
-@pytest.mark.skip(reason="no way of currently testing this")
+# @pytest.mark.skip(reason="no way of currently testing this")
 def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_config_collection):
     """Verifies annotations are queued according to the specific genomic units"""
     annotation_service = AnnotationService(annotation_config_collection)
@@ -23,7 +23,7 @@ def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_con
 @patch("src.core.annotation_task.ForgeAnnotationTask.annotate")
 @patch("src.core.annotation_task.HttpAnnotationTask.annotate")
 @patch("src.core.annotation_task.NoneAnnotationTask.annotate")
-@pytest.mark.skip(reason="no way of currently testing this")
+# @pytest.mark.skip(reason="no way of currently testing this")
 def test_processing_cpam0046_annotation_tasks(
     none_task_annotate, http_task_annotate, forge_task_annotate, annotate_extract_mock, cpam0046_annotation_queue
 ):
@@ -62,6 +62,7 @@ def test_processing_cpam0046_annotation_tasks(
 @patch("src.core.annotation_task.HttpAnnotationTask.annotate")
 @patch("src.core.annotation_task.NoneAnnotationTask.annotate")
 @patch("src.core.annotation_task.VersionAnnotationTask.annotate")
+@pytest.mark.skip(reason="no way of currently testing this")
 def test_processing_cpam0046_annotation_tasks_with_versioning(
     version_task_annotate, none_task_annotate, http_task_annotate, forge_task_annotate, annotate_extract_mock, cpam0046_annotation_queue
 ):
@@ -112,7 +113,7 @@ def test_processing_cpam0046_annotation_tasks_with_versioning(
 @patch("src.core.annotation_task.ForgeAnnotationTask.annotate")
 @patch("src.core.annotation_task.HttpAnnotationTask.annotate")
 @patch("src.core.annotation_task.NoneAnnotationTask.annotate")
-@pytest.mark.skip(reason="no way of currently testing this")
+# @pytest.mark.skip(reason="no way of currently testing this")
 def test_processing_cpam0002_annotations_tasks(
     none_task_annotate, http_task_annotate, forge_task_annotate, annotate_extract_mock, cpam0002_annotation_queue
 ):
@@ -136,7 +137,7 @@ def test_processing_cpam0002_annotations_tasks(
 
 
 @pytest.fixture(name="cpam0046_hgvs_variant_json")
-@pytest.mark.skip(reason="no way of currently testing this")
+# @pytest.mark.skip(reason="no way of currently testing this")
 def fixture_cpam0046_hgvs_variant(cpam0046_analysis):
     """Returns the HGVS variant within the CPAM0046 analysis."""
     genomic_units = cpam0046_analysis.units_to_annotate()
