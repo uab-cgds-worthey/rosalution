@@ -7,7 +7,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from jose import jwt
+import jwt
 
 from fastapi import HTTPException, Response
 from fastapi.security import SecurityScopes

@@ -4,9 +4,10 @@ import string
 
 from typing import Optional
 
+import jwt
 from datetime import datetime, timedelta
 from pydantic import ValidationError
-from jose import jwt, JWTError
+from jwt.exceptions import InvalidTokenError
 
 from fastapi import Depends, HTTPException, Response, status
 from fastapi.security import SecurityScopes
@@ -93,7 +94,7 @@ def get_current_user(
                 detail="Could not validate credentials",
                 headers={"WWW-Autenticate": authenticate_value, "set-cookie": response.headers["set-cookie"]},
             )
-    except JWTError as jwt_error:
+    except InvalidTokenError as jwt_error:
         response.delete_cookie(key="rosalution_TOKEN")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -132,7 +133,7 @@ def get_authorization(
         if client_id is None:
             raise credentials_exception
         user_scopes = payload.get("scopes", str)
-    except (JWTError, ValidationError) as validation_exception:
+    except (InvalidTokenError, ValidationError) as validation_exception:
         raise validation_exception
     # for scope in security_scopes.scopes:
     if "write" in security_scopes.scopes and "write" not in user_scopes:
