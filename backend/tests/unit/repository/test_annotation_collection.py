@@ -3,12 +3,14 @@ import pytest
 
 from src.enums import GenomicUnitType
 
+
 @pytest.mark.skip(reason="future problems - will manage later when all config its back in")
 def test_get_datasets_configuration_by_type(annotation_config_collection):
     """Tests getting the datasets for the provided types of genomic units"""
     types = set({GenomicUnitType.GENE, GenomicUnitType.HGVS_VARIANT})
     datasets = annotation_config_collection.datasets_to_annotate_by_type(types)
     assert len(datasets) == 49
+
 
 @pytest.mark.skip(reason="future problems - will manage later when all config its back in")
 def test_get_datasets_to_annotate_for_units(annotation_config_collection, genomic_units_for_annotation):

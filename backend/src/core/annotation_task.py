@@ -278,7 +278,6 @@ class AnnotationTaskFactory:
 
     @classmethod
     def create_version_task(cls, genomic_unit_json: dict, dataset: dict):
-
         """
         Creates an annotation task with a genomic_units and dataset json.  Instantiates the class according to
         a datasets 'annotation_source_type' from the datasets configurtion.

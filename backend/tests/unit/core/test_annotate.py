@@ -64,8 +64,9 @@ def test_processing_cpam0046_annotation_tasks(
 @patch("src.core.annotation_task.NoneAnnotationTask.annotate")
 @patch("src.core.annotation_task.VersionAnnotationTask.annotate")
 # @pytest.mark.skip(reason="no way of currently testing this")
-def test_processing_cpam0046_version_annotation_tasks(
-    version_task_annotate, none_task_annotate, http_task_annotate, forge_task_annotate, annotate_extract_mock, cpam0002_annotation_queue
+def test_processing_cpam0002_version_annotation_tasks(
+    version_task_annotate, none_task_annotate, http_task_annotate, forge_task_annotate, annotate_extract_mock,
+    cpam0002_annotation_queue
 ):
     """
      Verifies that each item on the annotation queue is read and executed along with its Version

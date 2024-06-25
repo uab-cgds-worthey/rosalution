@@ -24,9 +24,10 @@ class AnnotationUnit:
     def get_missing_dependencies(self):
         """Returns dependencies of the dataset of the annotation unit"""
         missing_dependencies = []
-        for dependency in self.dataset['dependencies']:
-            if dependency not in self.genomic_unit:
-                missing_dependencies = [dependency]
+        if 'dependencies' in self.dataset:
+            for dependency in self.dataset['dependencies']:
+                if dependency not in self.genomic_unit:
+                    missing_dependencies = [dependency]
 
         return missing_dependencies
 
@@ -92,7 +93,7 @@ class AnnotationUnit:
     def is_version_latest(self):
         """Checks if the annotated Annotation Unit has the latest version or not"""
         # Once we are getting versions, latest will be initialized as False
-        latest = True
+        latest = False
 
         if self.version_exists():
             # code to be added to check if version is latest
