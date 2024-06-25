@@ -1,11 +1,13 @@
 """ Provides necessary functions to handle passwords and determining whether users are a verified user  """
+
 import secrets
 import string
 
+from datetime import datetime, timedelta
 from typing import Optional
 
 import jwt
-from datetime import datetime, timedelta
+
 from pydantic import ValidationError
 from jwt.exceptions import InvalidTokenError
 
