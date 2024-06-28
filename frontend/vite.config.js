@@ -11,7 +11,7 @@ export default defineConfig({
     global: true,
     environment: 'happy-dom',
     coverage: {
-      exclude: ['test', 'src/requests.js', '.eslintrc.js', 'src/main.js'],
+      exclude: ['test', 'src/requests.js', '.eslintrc.cjs', 'src/main.js'],
       lines: 80,
       functions: 80,
       branches: 80,
