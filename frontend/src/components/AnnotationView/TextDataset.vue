@@ -62,7 +62,7 @@ export default {
   flex: 0 0 130px;
   font-weight: 600;
   color: v-bind(dataAvailabilityColour);
-};
+}
 
 a:hover {
   color: var(--rosalution-purple-100);

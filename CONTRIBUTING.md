@@ -52,7 +52,7 @@ GitHub Actions are configured to automate these operations upon a git push into 
 To reference configuration files:
 
 - General & Markdown: `./etc/static-analysis/`
-- Frontend: `./frontend/.eslintrc.js`
+- Frontend: `./frontend/.eslintrc.cjs`
 - Backend: `./backend/.pylintrc`
 
 ---

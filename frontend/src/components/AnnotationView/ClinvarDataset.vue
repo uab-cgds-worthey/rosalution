@@ -54,7 +54,7 @@ export default {
   flex: 0 0 125px;
   font-weight: 600;
   font-size: 1.25rem;
-};
+}
 
 .dataset-label-available {
   color: var(--rosalution-purple-300)
