@@ -3,7 +3,7 @@ import {defineConfig} from 'vite';
 import vue from '@vitejs/plugin-vue';
 import strip from '@rollup/plugin-strip';
 
-const path = require('path');
+import * as path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -11,7 +11,7 @@ export default defineConfig({
     global: true,
     environment: 'happy-dom',
     coverage: {
-      exclude: ['test', 'src/requests.js'],
+      exclude: ['test', 'src/requests.js', '.eslintrc.js', 'src/main.js'],
       lines: 80,
       functions: 80,
       branches: 80,
