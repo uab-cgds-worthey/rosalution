@@ -3,6 +3,7 @@ import pytest
 
 from src.core.annotation_task import AnnotationTaskFactory, ForgeAnnotationTask, HttpAnnotationTask
 from src.enums import GenomicUnitType
+from src.core.annotation_unit import AnnotationUnit
 
 
 def test_http_annotation_base_url(http_annotation_transcript_id):
@@ -24,9 +25,9 @@ def test_http_annotation_task_build_url_with_dependency(http_annotation_task_gen
     assert actual == "https://hpo.jax.org/api/hpo/gene/45614"
 
 
-def test_annotation_task_create_http_task(hgvs_variant_genomic_unit, transcript_id_dataset):
+def test_annotation_task_create_http_task(hgvs_variant_annotation_unit):
     """Verifies that the annotation task factory creates the correct annotation task according to the dataset type"""
-    actual_task = AnnotationTaskFactory.create(hgvs_variant_genomic_unit, transcript_id_dataset)
+    actual_task = AnnotationTaskFactory.create(hgvs_variant_annotation_unit)
     assert isinstance(actual_task, HttpAnnotationTask)
 
 
@@ -187,6 +188,15 @@ def fixture_transcript_id_dataset():
         "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;refseq=1;",
         "attribute": ".[].transcript_consequences[] | { transcript_id: .transcript_id }",
     }
+
+
+@pytest.fixture(name="hgvs_variant_annotation_unit")
+def fixture_hgvs_variant_annotation_unit(hgvs_variant_genomic_unit, transcript_id_dataset):
+    """
+    Returns the annotation unit with hgvs_variant genomic unit and transcript_id dataset
+    """
+    annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit, transcript_id_dataset)
+    return annotation_unit
 
 
 @pytest.fixture(name="http_annotation_transcript_id")

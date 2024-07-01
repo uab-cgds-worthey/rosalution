@@ -10,6 +10,8 @@ import logging
 import jq
 import requests
 
+from ..core.annotation_unit import AnnotationUnit
+
 # create logger
 logger = logging.getLogger(__name__)
 
@@ -26,9 +28,9 @@ def empty_gen():
 class AnnotationTaskInterface:
     """Abstract class to define the interface for the the types of Annotation Task"""
 
-    def __init__(self, genomic_unit_json: dict):
+    def __init__(self, genomic_unit: dict):
         self.dataset = {}
-        self.genomic_unit = genomic_unit_json
+        self.genomic_unit = genomic_unit
 
     def set(self, dataset: dict):
         """Adds the dataset configuration for the annotation"""
@@ -110,9 +112,9 @@ class ForgeAnnotationTask(AnnotationTaskInterface):
     annotation depedencies and its genomic unit
     """
 
-    def __init__(self, genomic_unit_json):
+    def __init__(self, genomic_unit):
         """Instantiates the force annotation task with the genomic unit's json"""
-        AnnotationTaskInterface.__init__(self, genomic_unit_json)
+        AnnotationTaskInterface.__init__(self, genomic_unit)
 
     def annotate(self):
         """
@@ -126,9 +128,9 @@ class ForgeAnnotationTask(AnnotationTaskInterface):
 class NoneAnnotationTask(AnnotationTaskInterface):
     """An empty annotation task to be a place holder for datasets that do not have an annotation type yet"""
 
-    def __init__(self, genomic_unit_json):
+    def __init__(self, genomic_unit):
         """Instantiates the annotation task for the fake annotation with a genomic unit"""
-        AnnotationTaskInterface.__init__(self, genomic_unit_json)
+        AnnotationTaskInterface.__init__(self, genomic_unit)
 
     def annotate(self):
         """Creates a fake 'annotation' using a randomly generated pause time to a query io operation"""
@@ -144,9 +146,9 @@ class NoneAnnotationTask(AnnotationTaskInterface):
 class CsvAnnotationTask(AnnotationTaskInterface):
     """Example placeholder for a future type of annotation task"""
 
-    def __init__(self, genomic_unit_json):
+    def __init__(self, genomic_unit):
         """Insantiates the annotation task associated with the genomic unit"""
-        AnnotationTaskInterface.__init__(self, genomic_unit_json)
+        AnnotationTaskInterface.__init__(self, genomic_unit)
 
     def annotate(self):
         """placeholder for annotating a genomic unit"""
@@ -156,9 +158,9 @@ class CsvAnnotationTask(AnnotationTaskInterface):
 class HttpAnnotationTask(AnnotationTaskInterface):
     """Initializes the annotation that uses an HTTP request to fetch the annotation"""
 
-    def __init__(self, genomic_unit_json):
+    def __init__(self, genomic_unit):
         """initializes the task with the genomic_unit"""
-        AnnotationTaskInterface.__init__(self, genomic_unit_json)
+        AnnotationTaskInterface.__init__(self, genomic_unit)
 
     def annotate(self):
         """builds the complete url and fetches the annotation with an http request"""
@@ -191,9 +193,9 @@ class HttpAnnotationTask(AnnotationTaskInterface):
 class VersionAnnotationTask(AnnotationTaskInterface):
     """An annotation task that gets the version of the annotation"""
 
-    def __init__(self, genomic_unit_json):
+    def __init__(self, genomic_unit):
         """initializes the task with the genomic_unit"""
-        AnnotationTaskInterface.__init__(self, genomic_unit_json)
+        AnnotationTaskInterface.__init__(self, genomic_unit)
 
     def annotate(self):
         """placeholder for annotating a genomic unit with version"""
@@ -250,13 +252,13 @@ class AnnotationTaskFactory:
         cls.tasks[key] = annotation_task_interface
 
     @classmethod
-    def create(cls, genomic_unit_json: dict, dataset: dict):
+    def create(cls, annotation_unit: AnnotationUnit):
         """
         Creates an annotation task with a genomic_units and dataset json.  Instantiates the class according to
         a datasets 'annotation_source_type' from the datasets configurtion.
         """
         # In the future, this could be modified to use a static function instead
         # and those would be set to the dict, or an additional dictionary
-        new_task = cls.tasks[dataset["annotation_source_type"]](genomic_unit_json)
-        new_task.set(dataset)
+        new_task = cls.tasks[annotation_unit.dataset["annotation_source_type"]](annotation_unit.genomic_unit)
+        new_task.set(annotation_unit.dataset)
         return new_task

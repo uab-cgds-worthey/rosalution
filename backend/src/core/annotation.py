@@ -122,7 +122,7 @@ class AnnotationService:
 
                     continue
 
-                task = AnnotationTaskFactory.create(annotation_unit.genomic_unit, annotation_unit.dataset)
+                task = AnnotationTaskFactory.create(annotation_unit)
                 logger.info('%s Creating Task To Annotate...', format_annotation_logging(annotation_unit))
 
                 annotation_task_futures[executor.submit(task.annotate)] = (annotation_unit.genomic_unit, task)
