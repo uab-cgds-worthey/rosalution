@@ -97,9 +97,10 @@ class AnnotationService:
                                                            ) and annotation_unit.is_version_latest():
                     logger.info('%s Annotation Exists...', format_annotation_logging(annotation_unit))
                     latest = True
+                    ready = True
                     print("Reaching check to check if annotation exists and if version is latest")
                     continue
-                ready = True
+                # ready = True
                 print("Surpassed check to check if annotation exists and if version is latest ")
 
                 if annotation_unit.has_dependencies():
@@ -111,7 +112,19 @@ class AnnotationService:
                         )
                         ready = annotation_unit.ready_for_annotation(annotation_value, missing)
 
-                if not ready and not latest:
+                if not latest:
+                    version_task = AnnotationTaskFactory.create_version_task(
+                        annotation_unit.genomic_unit, annotation_unit.dataset
+                    )
+                    logger.info('%s Creating Task To Version...', format_annotation_logging(annotation_unit))
+                    annotation_task_futures[executor.submit(version_task.annotate)
+                                           ] = (annotation_unit.genomic_unit, version_task)
+                    
+                    # annotation_queue.put(annotation_unit)
+
+                    continue
+
+                if not ready:
                     print("Reaching check to check if annotation unit is not ready and not latest")
                     if annotation_unit.should_continue_annotation():
                         logger.info(
@@ -126,14 +139,6 @@ class AnnotationService:
                         )
 
                     continue
-
-                if not latest:
-                    version_task = AnnotationTaskFactory.create_version_task(
-                        annotation_unit.genomic_unit, annotation_unit.dataset
-                    )
-                    logger.info('%s Creating Task To Version...', format_annotation_logging(annotation_unit))
-                    annotation_task_futures[executor.submit(version_task.annotate)
-                                           ] = (annotation_unit.genomic_unit, version_task)
 
                 task = AnnotationTaskFactory.create_annotation_task(
                     annotation_unit.genomic_unit, annotation_unit.dataset
