@@ -152,16 +152,16 @@ def fixture_gene_genomic_unit():
 @pytest.fixture(name="http_annotation_task_gene")
 def fixture_http_annotation_empty(gene_genomic_unit, gene_hpo_dataset):
     """Returns an HTTP annotation taskd"""
-    task = HttpAnnotationTask(gene_genomic_unit)
-    task.set(gene_hpo_dataset)
+    annotation_unit = AnnotationUnit(gene_genomic_unit, gene_hpo_dataset)
+    task = HttpAnnotationTask(annotation_unit)
     return task
 
 
 @pytest.fixture(name="forge_annotation_task_gene")
 def fixture_forge_annotation_task_gene_ncbi_linkout(gene_genomic_unit, gene_ncbi_linkout_dataset):
     """Returns a Forge annotation task for the NCBI linkout for the VMA21 Gene genomic unit"""
-    task = ForgeAnnotationTask(gene_genomic_unit)
-    task.set(gene_ncbi_linkout_dataset)
+    annotation_unit = AnnotationUnit(gene_genomic_unit, gene_ncbi_linkout_dataset)
+    task = ForgeAnnotationTask(annotation_unit)
     return task
 
 
@@ -202,8 +202,8 @@ def fixture_hgvs_variant_annotation_unit(hgvs_variant_genomic_unit, transcript_i
 @pytest.fixture(name="http_annotation_transcript_id")
 def fixture_http_annotation_transcript_id(hgvs_variant_genomic_unit, transcript_id_dataset):
     """An HTTP annotation task with a single dataset"""
-    task = HttpAnnotationTask(hgvs_variant_genomic_unit)
-    task.set(transcript_id_dataset)
+    annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit, transcript_id_dataset)
+    task = HttpAnnotationTask(annotation_unit)
     return task
 
 
@@ -228,8 +228,8 @@ def fixture_polyphen_prediction_dataset():
 @pytest.fixture(name="http_annotation_polyphen_prediction")
 def fixture_http_annotation_polyphen_prediction(hgvs_variant_genomic_unit, polyphen_prediction_dataset):
     """An HTTP annotation task with a single dataset"""
-    task = HttpAnnotationTask(hgvs_variant_genomic_unit)
-    task.set(polyphen_prediction_dataset)
+    annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit, polyphen_prediction_dataset)
+    task = HttpAnnotationTask(annotation_unit)
     return task
 
 

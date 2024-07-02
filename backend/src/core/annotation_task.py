@@ -34,10 +34,6 @@ class AnnotationTaskInterface:
         self.genomic_unit = self.annotation_unit.genomic_unit
         self.version = self.annotation_unit.version
 
-    def set(self, dataset: dict):
-        """Adds the dataset configuration for the annotation"""
-        self.dataset = dataset
-
     def aggregate_string_replacements(self, base_string):
         """
         Replaces the content 'base_string' where strings within the pattern
@@ -114,9 +110,9 @@ class ForgeAnnotationTask(AnnotationTaskInterface):
     annotation depedencies and its genomic unit
     """
 
-    def __init__(self, genomic_unit):
+    def __init__(self, annotation_unit):
         """Instantiates the force annotation task with the genomic unit's json"""
-        AnnotationTaskInterface.__init__(self, genomic_unit)
+        AnnotationTaskInterface.__init__(self, annotation_unit)
 
     def annotate(self):
         """
@@ -130,9 +126,9 @@ class ForgeAnnotationTask(AnnotationTaskInterface):
 class NoneAnnotationTask(AnnotationTaskInterface):
     """An empty annotation task to be a place holder for datasets that do not have an annotation type yet"""
 
-    def __init__(self, genomic_unit):
+    def __init__(self, annotation_unit):
         """Instantiates the annotation task for the fake annotation with a genomic unit"""
-        AnnotationTaskInterface.__init__(self, genomic_unit)
+        AnnotationTaskInterface.__init__(self, annotation_unit)
 
     def annotate(self):
         """Creates a fake 'annotation' using a randomly generated pause time to a query io operation"""
@@ -148,9 +144,9 @@ class NoneAnnotationTask(AnnotationTaskInterface):
 class CsvAnnotationTask(AnnotationTaskInterface):
     """Example placeholder for a future type of annotation task"""
 
-    def __init__(self, genomic_unit):
+    def __init__(self, annotation_unit):
         """Insantiates the annotation task associated with the genomic unit"""
-        AnnotationTaskInterface.__init__(self, genomic_unit)
+        AnnotationTaskInterface.__init__(self, annotation_unit)
 
     def annotate(self):
         """placeholder for annotating a genomic unit"""
@@ -160,9 +156,9 @@ class CsvAnnotationTask(AnnotationTaskInterface):
 class HttpAnnotationTask(AnnotationTaskInterface):
     """Initializes the annotation that uses an HTTP request to fetch the annotation"""
 
-    def __init__(self, genomic_unit):
+    def __init__(self, annotation_unit):
         """initializes the task with the genomic_unit"""
-        AnnotationTaskInterface.__init__(self, genomic_unit)
+        AnnotationTaskInterface.__init__(self, annotation_unit)
 
     def annotate(self):
         """builds the complete url and fetches the annotation with an http request"""
