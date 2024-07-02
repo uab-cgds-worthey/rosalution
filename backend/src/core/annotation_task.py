@@ -28,9 +28,11 @@ def empty_gen():
 class AnnotationTaskInterface:
     """Abstract class to define the interface for the the types of Annotation Task"""
 
-    def __init__(self, genomic_unit: dict):
-        self.dataset = {}
-        self.genomic_unit = genomic_unit
+    def __init__(self, annotation_unit: AnnotationUnit):
+        self.annotation_unit = annotation_unit
+        self.dataset = self.annotation_unit.dataset
+        self.genomic_unit = self.annotation_unit.genomic_unit
+        self.version = self.annotation_unit.version
 
     def set(self, dataset: dict):
         """Adds the dataset configuration for the annotation"""
@@ -66,7 +68,7 @@ class AnnotationTaskInterface:
         # The following if statement has grown too large, however it would needs
         # to be refactored at a later time
         if 'attribute' in self.dataset:  # pylint: disable=too-many-nested-blocks
-            annotation_unit = {
+            annotation_unit_json = {
                 "data_set": self.dataset['data_set'],
                 "data_source": self.dataset['data_source'],
                 "version": "",
@@ -79,15 +81,15 @@ class AnnotationTaskInterface:
                 jq_results = iter(jq.compile(replaced_attributes).input(json_result).all())
             except ValueError as value_error:
                 logger.info((
-                    'Failed to annotate "%s" from "%s" on %s with error "%s"', annotation_unit['data_set'],
-                    annotation_unit['data_source'], json.dumps(json_result), value_error
+                    'Failed to annotate "%s" from "%s" on %s with error "%s"', annotation_unit_json['data_set'],
+                    annotation_unit_json['data_source'], json.dumps(json_result), value_error
                 ))
             jq_result = next(jq_results, None)
             while jq_result is not None:
                 result_keys = list(jq_result.keys())
 
                 if 'transcript' in self.dataset:
-                    transcript_annotation_unit = annotation_unit.copy()
+                    transcript_annotation_unit = annotation_unit_json.copy()
                     for key in result_keys:
                         if key == 'transcript_id':
                             transcript_identifier = jq_result['transcript_id']
@@ -98,8 +100,8 @@ class AnnotationTaskInterface:
                             transcript_annotation_unit['value'] = jq_result[key]
                     annotations.append(transcript_annotation_unit)
                 else:
-                    annotation_unit['value'] = jq_result[result_keys[0]]
-                    annotations.append(annotation_unit)
+                    annotation_unit_json['value'] = jq_result[result_keys[0]]
+                    annotations.append(annotation_unit_json)
 
                 jq_result = next(jq_results, None)
 
@@ -193,9 +195,9 @@ class HttpAnnotationTask(AnnotationTaskInterface):
 class VersionAnnotationTask(AnnotationTaskInterface):
     """An annotation task that gets the version of the annotation"""
 
-    def __init__(self, genomic_unit):
+    def __init__(self, annotation_unit):
         """initializes the task with the genomic_unit"""
-        AnnotationTaskInterface.__init__(self, genomic_unit)
+        AnnotationTaskInterface.__init__(self, annotation_unit)
 
     def annotate(self):
         """placeholder for annotating a genomic unit with version"""
@@ -259,6 +261,7 @@ class AnnotationTaskFactory:
         """
         # In the future, this could be modified to use a static function instead
         # and those would be set to the dict, or an additional dictionary
-        new_task = cls.tasks[annotation_unit.dataset["annotation_source_type"]](annotation_unit.genomic_unit)
-        new_task.set(annotation_unit.dataset)
+        annotation_task_type = annotation_unit.dataset["annotation_source_type"]
+        new_task = cls.tasks[annotation_task_type](annotation_unit)
+        # new_task.set(annotation_unit.dataset)
         return new_task

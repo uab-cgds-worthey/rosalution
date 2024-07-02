@@ -285,6 +285,6 @@ def fixture_hpo_annotation_response():
 @pytest.fixture(name="rest_genenames_response")
 def fixture_genenames_annotation_response():
     """
-    Returns an object that contains the actual return aoutput for GENE VMA21
+    Returns an object that contains the actual return output for GENE VMA21
     """
     return {}
