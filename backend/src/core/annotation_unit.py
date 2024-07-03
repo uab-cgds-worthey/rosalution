@@ -81,16 +81,19 @@ class AnnotationUnit:
 
     def set_latest_version(self, version_details):
         """Sets the Annotation Unit with the version details"""
+        # This has not been implemented yet
         self.version = version_details
 
     def version_exists(self):
         """Checks if the Annotation Unit is versioned or not"""
+        # This is currently a placeholder, and just returning True for now
         if self.version == "":
             return True
         return False
 
     def is_version_latest(self):
         """Checks if the annotated Annotation Unit has the latest version or not"""
+        # Not implemented currently
         # Once we are getting versions, latest will be initialized as False
         latest = True
 

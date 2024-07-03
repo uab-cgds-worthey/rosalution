@@ -43,13 +43,15 @@ class AnnotationTaskInterface:
         The follow are examples of the genomic_unit's dict's attributes like
         genomic_unit['gene'] or genomic_unit['Entrez Gene Id']
         """
-        genomic_unit_string = f"{{{self.dataset['genomic_unit_type']}}}"
-        replace_string = base_string.replace(genomic_unit_string, self.genomic_unit['unit'])
+        genomic_unit_string = f"{{{self.annotation_unit.dataset['genomic_unit_type']}}}"
+        replace_string = base_string.replace(genomic_unit_string, self.annotation_unit.get_genomic_unit())
 
-        if 'dependencies' in self.dataset:
-            for dependency in self.dataset['dependencies']:
+        if self.annotation_unit.has_dependencies():
+            for dependency in self.annotation_unit.dataset['dependencies']:
                 dependency_string = f"{{{dependency}}}"
-                replace_string = replace_string.replace(dependency_string, str(self.genomic_unit[dependency]))
+                replace_string = replace_string.replace(
+                    dependency_string, str(self.annotation_unit.genomic_unit[dependency])
+                )
 
         return replace_string
 
@@ -120,7 +122,10 @@ class ForgeAnnotationTask(AnnotationTaskInterface):
         of the genomic unit and its dataset depedencies to generate the new dataset.  Will be returned within
         an object that has the name of the dataset as the attribute.
         """
-        return {self.dataset['data_set']: self.aggregate_string_replacements(self.dataset['base_string'])}
+        return {
+            self.annotation_unit.dataset['data_set']:
+                self.aggregate_string_replacements(self.annotation_unit.dataset['base_string'])
+        }
 
 
 class NoneAnnotationTask(AnnotationTaskInterface):
@@ -134,10 +139,10 @@ class NoneAnnotationTask(AnnotationTaskInterface):
         """Creates a fake 'annotation' using a randomly generated pause time to a query io operation"""
         value = randint(0, 10)
         time.sleep(value)
-        # logger.info(f'Slept: {value} - Fake annotation for {self.genomic_unit["unit"]}'
+        # logger.info(f'Slept: {value} - Fake annotation for {self.annotation_unit.genomic_unit["unit"]}'
         #             f' for dataset {self.dataset["data_set"]} from {self.dataset["data_source"]}\n')
 
-        result = {'not-real': self.dataset["data_set"]}
+        result = {'not-real': self.annotation_unit.dataset["data_set"]}
         return result
 
 
@@ -172,27 +177,31 @@ class HttpAnnotationTask(AnnotationTaskInterface):
         Creates the base url for the annotation according to the configuration.  Searches for string {genomic_unit_type}
         within the 'url' attribute and replaces it with the genomic_unit being annotated.
         """
-        string_to_replace = f"{{{self.dataset['genomic_unit_type']}}}"
-        replace_string = self.dataset['url'].replace(string_to_replace, self.genomic_unit['unit'])
+        string_to_replace = f"{{{self.annotation_unit.dataset['genomic_unit_type']}}}"
+        replace_string = self.annotation_unit.dataset['url'].replace(
+            string_to_replace, self.annotation_unit.get_genomic_unit()
+        )
 
-        if 'dependencies' in self.dataset:
-            for depedency in self.dataset['dependencies']:
+        if 'dependencies' in self.annotation_unit.dataset:
+            for depedency in self.annotation_unit.dataset['dependencies']:
                 depedency_replace_string = f"{{{depedency}}}"
-                replace_string = replace_string.replace(depedency_replace_string, self.genomic_unit[depedency])
+                replace_string = replace_string.replace(
+                    depedency_replace_string, self.annotation_unit.genomic_unit[depedency]
+                )
         return replace_string
 
     def build_url(self):
         """
         Builds the URL from the base_url and then appends the list of query parameters for the list of datasets.
         """
-        return self.aggregate_string_replacements(self.dataset['url'])
+        return self.aggregate_string_replacements(self.annotation_unit.dataset['url'])
 
 
 class VersionAnnotationTask(AnnotationTaskInterface):
     """An annotation task that gets the version of the annotation"""
 
     def __init__(self, annotation_unit):
-        """initializes the task with the genomic_unit"""
+        """initializes the task with the annotation_unit.genomic_unit"""
         AnnotationTaskInterface.__init__(self, annotation_unit)
 
     def annotate(self):
