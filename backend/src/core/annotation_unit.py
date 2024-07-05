@@ -10,19 +10,32 @@ class AnnotationUnit:
         self.version = ""
 
     def get_genomic_unit(self):
-        """Getter method"""
+        """Returs 'unit' from genomic_unit"""
         return self.genomic_unit['unit']
 
     def get_dataset(self):
-        """Getter method"""
+        """Return's 'data_set' from dataset"""
         return self.dataset['data_set']
+
+    def get_genomic_unit_type(self):
+        """Return's 'genomic_unit_type' from dataset"""
+        return self.dataset['genomic_unit_type']
 
     def has_dependencies(self):
         """Checks if the annotation unit's dataset has dependencies"""
         return "dependencies" in self.dataset
 
-    def get_missing_dependencies(self):
+    def get_dependencies(self):
         """Returns dependencies of the dataset of the annotation unit"""
+        if self.has_dependencies():
+            return self.dataset['dependencies']
+        return []
+
+    def get_missing_dependencies(self):
+        """
+        Returns missing dependencies of the dataset of the annotation unit 
+        if they are missing from the genomic_unit
+        """
         missing_dependencies = []
         for dependency in self.dataset['dependencies']:
             if dependency not in self.genomic_unit:

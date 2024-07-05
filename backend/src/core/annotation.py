@@ -137,10 +137,13 @@ class AnnotationService:
                         for annotation in annotation_task.extract(result_temp):
                             logger.info(
                                 '%s Saving %s...',
-                                format_annotation_logging(annotation_unit, annotation_task.dataset['data_set']),
-                                annotation['value']
+                                format_annotation_logging(
+                                    annotation_unit, annotation_task.annotation_unit.dataset['data_set']
+                                ), annotation['value']
                             )
-                            genomic_unit_collection.annotate_genomic_unit(annotation_task.genomic_unit, annotation)
+                            genomic_unit_collection.annotate_genomic_unit(
+                                annotation_task.annotation_unit.genomic_unit, annotation
+                            )
 
                     except FileNotFoundError as error:
                         logger.info(

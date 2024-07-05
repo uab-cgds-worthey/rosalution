@@ -30,9 +30,6 @@ class AnnotationTaskInterface:
 
     def __init__(self, annotation_unit: AnnotationUnit):
         self.annotation_unit = annotation_unit
-        self.dataset = self.annotation_unit.dataset
-        self.genomic_unit = self.annotation_unit.genomic_unit
-        self.version = self.annotation_unit.version
 
     def aggregate_string_replacements(self, base_string):
         """
@@ -43,11 +40,11 @@ class AnnotationTaskInterface:
         The follow are examples of the genomic_unit's dict's attributes like
         genomic_unit['gene'] or genomic_unit['Entrez Gene Id']
         """
-        genomic_unit_string = f"{{{self.annotation_unit.dataset['genomic_unit_type']}}}"
+        genomic_unit_string = f"{{{self.annotation_unit.get_genomic_unit_type()}}}"
         replace_string = base_string.replace(genomic_unit_string, self.annotation_unit.get_genomic_unit())
 
         if self.annotation_unit.has_dependencies():
-            for dependency in self.annotation_unit.dataset['dependencies']:
+            for dependency in self.annotation_unit.get_dependencies():
                 dependency_string = f"{{{dependency}}}"
                 replace_string = replace_string.replace(
                     dependency_string, str(self.annotation_unit.genomic_unit[dependency])
@@ -65,15 +62,15 @@ class AnnotationTaskInterface:
 
         # The following if statement has grown too large, however it would needs
         # to be refactored at a later time
-        if 'attribute' in self.dataset:  # pylint: disable=too-many-nested-blocks
+        if 'attribute' in self.annotation_unit.dataset:  # pylint: disable=too-many-nested-blocks
             annotation_unit_json = {
-                "data_set": self.dataset['data_set'],
-                "data_source": self.dataset['data_source'],
+                "data_set": self.annotation_unit.dataset['data_set'],
+                "data_source": self.annotation_unit.dataset['data_source'],
                 "version": "",
                 "value": "",
             }
 
-            replaced_attributes = self.aggregate_string_replacements(self.dataset['attribute'])
+            replaced_attributes = self.aggregate_string_replacements(self.annotation_unit.dataset['attribute'])
             jq_results = empty_gen()
             try:
                 jq_results = iter(jq.compile(replaced_attributes).input(json_result).all())
@@ -86,7 +83,7 @@ class AnnotationTaskInterface:
             while jq_result is not None:
                 result_keys = list(jq_result.keys())
 
-                if 'transcript' in self.dataset:
+                if 'transcript' in self.annotation_unit.dataset:
                     transcript_annotation_unit = annotation_unit_json.copy()
                     for key in result_keys:
                         if key == 'transcript_id':
@@ -208,7 +205,7 @@ class VersionAnnotationTask(AnnotationTaskInterface):
         """placeholder for annotating a genomic unit with version"""
         return "not-implemented"
 
-    def versioning_by_method(self, versioning_type):
+    def versioning_by_type(self, versioning_type):
         """Gets version by versioning type and returns the version data to the annotation unit"""
         version = ""
 
