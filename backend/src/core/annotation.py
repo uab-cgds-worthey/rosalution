@@ -91,11 +91,17 @@ class AnnotationService:
             annotation_task_futures = {}
             while not annotation_queue.empty():
                 annotation_unit = annotation_queue.get()
-                latest = False
-                if genomic_unit_collection.annotation_exist(annotation_unit.genomic_unit, annotation_unit.dataset
-                                                           ) and annotation_unit.is_version_latest():
+
+                if not annotation_unit.version_exists():  # version = ""
+                    version_task = AnnotationTaskFactory.create_version_task(annotation_unit)
+                    logger.info('%s Creating Task To Version...', format_annotation_logging(annotation_unit))
+                    annotation_task_futures[executor.submit(version_task.annotate)
+                                           ] = (annotation_unit.genomic_unit, version_task)
+                    # annotation_queue.put(annotation_unit)
+                    continue
+
+                if genomic_unit_collection.annotation_exist(annotation_unit.genomic_unit, annotation_unit.dataset):
                     logger.info('%s Annotation Exists...', format_annotation_logging(annotation_unit))
-                    latest = True
                     continue
                 ready = True
 
@@ -107,7 +113,7 @@ class AnnotationService:
                         )
                         ready = annotation_unit.ready_for_annotation(annotation_value, missing)
 
-                if not ready and not latest:
+                if not ready:
                     if annotation_unit.should_continue_annotation():
                         logger.info(
                             '%s Delaying Annotation, Missing %s Dependencies...',
@@ -122,7 +128,7 @@ class AnnotationService:
 
                     continue
 
-                task = AnnotationTaskFactory.create(annotation_unit)
+                task = AnnotationTaskFactory.create_annotation_task(annotation_unit)
                 logger.info('%s Creating Task To Annotate...', format_annotation_logging(annotation_unit))
 
                 annotation_task_futures[executor.submit(task.annotate)] = (annotation_unit.genomic_unit, task)
@@ -133,17 +139,23 @@ class AnnotationService:
 
                     try:
                         result_temp = future.result()
-
+                        # [{ "Rat_Alliance_Genome_url": "http:/wweeeeeeeee"}]
+                        # [{"version": "1.2.3"}]
+                        # if its annotation task
                         for annotation in annotation_task.extract(result_temp):
                             logger.info(
                                 '%s Saving %s...',
                                 format_annotation_logging(
-                                    annotation_unit, annotation_task.annotation_unit.dataset['data_set']
+                                    annotation_unit, annotation_task.annotation_unit.get_dataset()
                                 ), annotation['value']
                             )
+                            #update one day to include maybe just the annotation_unit
+                            #that has the version attribute in it
                             genomic_unit_collection.annotate_genomic_unit(
                                 annotation_task.annotation_unit.genomic_unit, annotation
                             )
+
+                        # if its an versioning ask,
 
                     except FileNotFoundError as error:
                         logger.info(

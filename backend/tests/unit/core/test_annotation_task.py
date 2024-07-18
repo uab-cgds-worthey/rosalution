@@ -27,7 +27,7 @@ def test_http_annotation_task_build_url_with_dependency(http_annotation_task_gen
 
 def test_annotation_task_create_http_task(hgvs_variant_annotation_unit):
     """Verifies that the annotation task factory creates the correct annotation task according to the dataset type"""
-    actual_task = AnnotationTaskFactory.create(hgvs_variant_annotation_unit)
+    actual_task = AnnotationTaskFactory.create_annotation_task(hgvs_variant_annotation_unit)
     assert isinstance(actual_task, HttpAnnotationTask)
 
 

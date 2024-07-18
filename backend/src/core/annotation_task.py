@@ -219,19 +219,19 @@ class VersionAnnotationTask(AnnotationTaskInterface):
 
     def get_annotation_version_from_rest(self):
         """Gets version for rest type and returns the version data"""
-        version_from_rest = ""
+        version_from_rest = "REST-VERSION-PLACEHOLDER"
         # getting version from rest
         return version_from_rest
 
     def get_annotation_version_from_rosalution(self):
         """Gets version for rosalution type and returns the version data"""
-        version_from_rosalution = ""
+        version_from_rosalution = "ROSALUTION-VERSION-PLACEHOLDER"
         # getting version from rosalution
         return version_from_rosalution
 
     def get_annotation_version_from_date(self):
         """Gets version for date type and returns the version data"""
-        version_from_date = ""
+        version_from_date = "DATE-VERSION-PLACEHOLDER"
         # getting version from date
         return version_from_date
 
@@ -256,7 +256,7 @@ class AnnotationTaskFactory:
         cls.tasks[key] = annotation_task_interface
 
     @classmethod
-    def create(cls, annotation_unit: AnnotationUnit):
+    def create_annotation_task(cls, annotation_unit: AnnotationUnit):
         """
         Creates an annotation task with a genomic_units and dataset json.  Instantiates the class according to
         a datasets 'annotation_source_type' from the datasets configurtion.
@@ -266,4 +266,13 @@ class AnnotationTaskFactory:
         annotation_task_type = annotation_unit.dataset["annotation_source_type"]
         new_task = cls.tasks[annotation_task_type](annotation_unit)
         # new_task.set(annotation_unit.dataset)
+        return new_task
+
+    @classmethod
+    def create_version_task(cls, annotation_unit: AnnotationUnit):
+        """
+        Creates an annotation task with a genomic_units and dataset json.  Instantiates the class according to
+        a datasets 'annotation_source_type' from the datasets configurtion.
+        """
+        new_task = cls.tasks["version"](annotation_unit)
         return new_task
