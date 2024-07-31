@@ -120,7 +120,7 @@ def test_processing_cpam0002_version_annotation_tasks(version_task_annotate, cpa
     AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
     # assert cpam0002_annotation_queue.empty()
 
-    assert version_task_annotate.call_count == 2
+    assert version_task_annotate.call_count == 4
     return {}
 
 

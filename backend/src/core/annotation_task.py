@@ -65,9 +65,7 @@ class AnnotationTaskInterface:
         if 'attribute' in self.annotation_unit.dataset:  # pylint: disable=too-many-nested-blocks
             annotation_unit_json = {
                 "data_set": self.annotation_unit.dataset['data_set'],
-                "data_source": self.annotation_unit.dataset['data_source'],
-                "version": "",
-                "value": "",
+                "data_source": self.annotation_unit.dataset['data_source'], "value": "", "version": ""
             }
 
             replaced_attributes = self.aggregate_string_replacements(self.annotation_unit.dataset['attribute'])
@@ -101,6 +99,21 @@ class AnnotationTaskInterface:
                 jq_result = next(jq_results, None)
 
         return annotations
+
+    def extract_version(self, version_result):
+        """ Interface extraction method for Version annotation tasks """
+        version = []
+
+        # depending on versioning_type have following
+
+        #  version_type = "rest" get jq result
+
+        # version_type = "date" just save as is ? (NOT SURE)
+
+        # version_type = "rosalution" hardcode type, save as is
+        version.append(version_result['date'])
+
+        return version
 
 
 class ForgeAnnotationTask(AnnotationTaskInterface):
@@ -197,24 +210,28 @@ class HttpAnnotationTask(AnnotationTaskInterface):
 class VersionAnnotationTask(AnnotationTaskInterface):
     """An annotation task that gets the version of the annotation"""
 
+    version_types = {}
+
     def __init__(self, annotation_unit):
         """initializes the task with the annotation_unit.genomic_unit"""
         AnnotationTaskInterface.__init__(self, annotation_unit)
+        self.version_types = {
+            "rest": self.get_annotation_version_from_rest, "rosalution": self.get_annotation_version_from_rosalution,
+            "date": self.get_annotation_version_from_date
+        }
 
     def annotate(self):
-        """placeholder for annotating a genomic unit with version"""
-        return "not-implemented"
-
-    def versioning_by_type(self, versioning_type):
         """Gets version by versioning type and returns the version data to the annotation unit"""
+        # logger.info(self.annotation_unit.dataset)
+        version_type = self.annotation_unit.dataset["versioning_type"]
         version = ""
+        logger.info('REACHING VERSION TASK ANNOTATE! %s', self.annotation_unit.dataset["versioning_type"])
+        if version_type not in self.version_types:
+            logger.error(('Failed versioning: "%s" is an Invalid Version Type', version_type))
+            return {}
 
-        if versioning_type == "rest":
-            version = self.get_annotation_version_from_rest()
-        elif versioning_type == "rosalution":
-            version = self.get_annotation_version_from_rosalution()
-        elif versioning_type == "date":
-            version = self.get_annotation_version_from_date()
+        version = self.version_types[version_type]()
+        logger.info('Type Version is %s', version)
         return version
 
     def get_annotation_version_from_rest(self):
@@ -231,7 +248,7 @@ class VersionAnnotationTask(AnnotationTaskInterface):
 
     def get_annotation_version_from_date(self):
         """Gets version for date type and returns the version data"""
-        version_from_date = "DATE-VERSION-PLACEHOLDER"
+        version_from_date = {'date': "DATE-VERSION-PLACEHOLDER"}
         # getting version from date
         return version_from_date
 
