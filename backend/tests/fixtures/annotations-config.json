@@ -17,25 +17,5 @@
     "url": "https://ontology.jax.org/api/network/search/GENE?q={gene}&page=0&limit=10",
     "attribute": "{ \"HPO_NCBI_GENE_ID\": .results[] | select( .name == \"{gene}\") | .id }",
     "versioning_type": "date" 
-  },
-  {
-    "data_set": "OMIM",
-    "data_source": "HPO",
-    "genomic_unit_type": "gene",
-    "annotation_source_type": "http",
-    "url": "https://ontology.jax.org/api/network/annotation/{HPO_NCBI_GENE_ID}",
-    "attribute": "{ \"diseaseAssoc\": [.diseases[] | select( .id | contains(\"OMIM\") ) | .name ]}",
-    "dependencies": ["HPO_NCBI_GENE_ID"],
-    "versioning_type": "date"
-  },
-  {
-    "data_set": "HPO",
-    "data_source": "HPO",
-    "genomic_unit_type": "gene",
-    "annotation_source_type": "http",
-    "url": "https://ontology.jax.org/api/network/annotation/{HPO_NCBI_GENE_ID}",
-    "attribute": "{ \"termAssoc\": [.phenotypes[] | .id + \": \" + .name]}",
-    "dependencies": ["HPO_NCBI_GENE_ID"],
-    "versioning_type": "date"
   }
 ]

@@ -96,48 +96,77 @@ class AnnotationService:
                     version_task = AnnotationTaskFactory.create_version_task(annotation_unit)
                     logger.info('%s Creating Task To Version...', format_annotation_logging(annotation_unit))
                     annotation_task_futures[executor.submit(version_task.annotate)] = version_task
+                    version_task_created = True
                 else:
                     logger.info(
-                        '%s Version querried according to cnofiguration, now to check if it exists in database',
+                        '%s Version queried according to configuration, now to check if it exists in database',
                         format_annotation_logging(annotation_unit)
                     )
                     if genomic_unit_collection.annotation_exist(annotation_unit.genomic_unit, annotation_unit.dataset):
                         logger.info('%s Annotation Exists...', format_annotation_logging(annotation_unit))
                         continue
-                    # ready = True
+
+                    if annotation_unit.has_dependencies():
+                        missing_dependencies = annotation_unit.get_missing_dependencies()
+                        for missing in missing_dependencies:
+                            annotation_value = genomic_unit_collection.find_genomic_unit_annotation_value(
+                                annotation_unit.genomic_unit, missing
+                            )
+                            ready = annotation_unit.ready_for_annotation(annotation_value, missing)
+
+                    if not ready:
+                        if annotation_unit.should_continue_annotation():
+                            logger.info(
+                                '%s Delaying Annotation, Missing %s Dependencies...',
+                                format_annotation_logging(annotation_unit), annotation_unit.get_missing_dependencies()
+                            )
+                            annotation_queue.put(annotation_unit)
+                        else:
+                            logger.info(
+                                '%s Canceling Annotation, Missing %s  Dependencies...',
+                                format_annotation_logging(annotation_unit), annotation_unit.get_missing_dependencies()
+                            )
+                        continue
+
+                    annotation_task = AnnotationTaskFactory.create_annotation_task(annotation_unit)
+                    logger.info('%s Creating Task To Annotate...', format_annotation_logging(annotation_unit))
+
+                    annotation_task_futures[executor.submit(annotation_task.annotate)] = annotation_task
 
                 for future in concurrent.futures.as_completed(annotation_task_futures):
                     logger.info('PLZ')
-                    annotation_task = annotation_task_futures[future]
+                    task = annotation_task_futures[future]
                     logger.info('%s Query completed...', format_annotation_logging(annotation_unit))
 
                     try:
                         result_temp = future.result()
                         logger.info('Result Temp is %s', result_temp)
-                        logger.info('Annotation Task Type %s', type(annotation_task))
-                        if isinstance(annotation_task, VersionAnnotationTask):
+                        logger.info('Annotation Task Type %s', type(task))
+                        if isinstance(task, VersionAnnotationTask):
                             logger.info('Determined that is Version Task Type')
-                            annotation_unit = annotation_task.annotation_unit
+                            annotation_unit = task.annotation_unit
+                            # extracting and setting the version for now since we haven't coded out them to return json
+                            # extracted_annotations = task.extract_version(result_temp)
                             annotation_unit.set_latest_version(result_temp)
                             annotation_queue.put(annotation_unit)
                             logger.info('Put Annotation Unit back in queue')
                         else:
-                            for annotation in annotation_task.extract(result_temp):
+                            #extracted_annotations = task.extract(result_temp)
+                            for annotation in task.extract(result_temp):
                                 logger.info(
                                     '%s Saving %s...',
-                                    format_annotation_logging(
-                                        annotation_unit, annotation_task.annotation_unit.get_dataset()
-                                    ), annotation['value']
+                                    format_annotation_logging(annotation_unit, task.annotation_unit.get_dataset()),
+                                    annotation['value']
                                 )
                                 #update one day to include maybe just the annotation_unit
                                 #that has the version attribute in it
                                 genomic_unit_collection.annotate_genomic_unit(
-                                    annotation_task.annotation_unit.genomic_unit, annotation
+                                    task.annotation_unit.genomic_unit, annotation
                                 )
                     except FileNotFoundError as error:
                         logger.info(
                             '%s exception happened %s with %s and %s', annotation_log_label(), error,
-                            annotation_unit.genomic_unit, annotation_task
+                            annotation_unit.genomic_unit, task
                         )
 
                     del annotation_task_futures[future]

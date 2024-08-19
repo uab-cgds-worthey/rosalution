@@ -3,54 +3,19 @@
   "gene": "VMA21",
   "annotations": [
     {
-      "Entrez Gene Id": [ {
+      "Entrez Gene Id": [
+        {
+          "data_source": "HPO",
+          "version": "ROSOLUTION-VERSION-PLACEHOLDER",
+          "value": 203547
+        }
+      ]
+    },
+    {
+      "HPO_NCBI_GENE_ID": [ {
         "data_source": "HPO",
-        "version": "",
-        "value": 203547 } ]
-    },
-    {
-      "OMIM": [
-        {
-          "data_source": "HPO",
-          "version": "2022-10-09T21:13:22.687000",
-          "value": [
-            "Myopathy, X-linked, with excessive autophagy"
-          ]
-        }
-      ]
-    },
-    {
-      "HPO": [
-        {
-          "data_source": "HPO",
-          "version": "2022-10-09T21:13:22.687000",
-          "value": [
-            "HP:0001270: Motor delay",
-            "HP:0003677: Slowly progressive",
-            "HP:0001419: X-linked recessive inheritance",
-            "HP:0008956: Proximal lower limb amyotrophy",
-            "HP:0001371: Flexion contracture",
-            "HP:0003391: Gowers sign",
-            "HP:0001626: Abnormality of the cardiovascular system",
-            "HP:0025717: Skeletal muscle autophagosome accumulation",
-            "HP:0011463: Childhood onset",
-            "HP:0002650: Scoliosis",
-            "HP:0008994: Proximal muscle weakness in lower limbs",
-            "HP:0003551: Difficulty climbing stairs",
-            "HP:0002093: Respiratory insufficiency",
-            "HP:0003198: Myopathy",
-            "HP:0009046: Difficulty running",
-            "HP:0003202: Skeletal muscle atrophy",
-            "HP:0003713: Muscle fiber necrosis",
-            "HP:0003829: Typified by incomplete penetrance",
-            "HP:0001319: Neonatal hypotonia",
-            "HP:0001249: Intellectual disability",
-            "HP:0003236: Elevated circulating creatine kinase concentration",
-            "HP:0002486: Myotonia",
-            "HP:0007941: Limited extraocular movements"
-          ]
-        }
-      ]
+        "version": "REST-VERSION-PLACEHOLDER",
+        "value": "NCBIGene:203547" } ]
     }
   ]
 }

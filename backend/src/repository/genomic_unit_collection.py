@@ -23,12 +23,14 @@ class GenomicUnitCollection:
         """ Returns all genomic units that are currently stored """
         return self.collection.find()
 
-    def annotation_exist(self, genomic_unit, dataset):
+    def annotation_exist(self, annotation_unitt):
         """ Returns true if the genomic_unit already has that dataset annotated """
         data_set_name = dataset['data_set']
         find_query = {
             genomic_unit['type'].value: genomic_unit['unit'],
         }
+
+        #find_query = { 'gene': 'VMA21 }
 
         if 'transcript' in dataset:
             hgvs_genomic_unit = self.collection.find_one(find_query)
@@ -46,6 +48,12 @@ class GenomicUnitCollection:
 
         annotation_field_key = f"annotations.{data_set_name}"
         find_query[annotation_field_key] = {'$exists': True}
+        # find_query = {
+        #   'gene': 'VMA21',
+        #   'annotations.CADD': {'$exists': True },
+        #   'annotations.CADD.data_source': 'Ensembl',
+        #   'annotations.CADD.version': 'HARD_CODED_VERSION'
+        #}}
         return bool(self.collection.count_documents(find_query, limit=1))
 
     def find_genomic_unit_annotation_value(self, genomic_unit, dataset):
