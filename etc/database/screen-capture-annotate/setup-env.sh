@@ -1,5 +1,5 @@
-python3 -m venv screenshot_annotations_env
-source screenshot_annotations_env/bin/activate
+python3 -m venv screen_capture_annotate_env
+source screen_capture_annotate_env/bin/activate
 
 # install requirements
 pip3 install -r requirements.txt
