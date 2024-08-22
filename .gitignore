@@ -76,4 +76,4 @@ etc/.rosalution-db-backups
 
 *.env
 
-**/rosalution-screenshot-annotations/**
+**/screenshot_annotations_env/**

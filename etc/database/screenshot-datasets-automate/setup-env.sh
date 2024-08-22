@@ -1,5 +1,5 @@
-python3 -m venv rosalution-screenshot-annotations
-source rosalution-screenshot-annotations/bin/activate
+python3 -m venv screenshot_annotations_env
+source screenshot_annotations_env/bin/activate
 
 # install requirements
 pip3 install -r requirements.txt
