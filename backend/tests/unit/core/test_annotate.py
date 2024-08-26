@@ -23,7 +23,6 @@ def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_con
 @patch("src.core.annotation_task.ForgeAnnotationTask.annotate")
 @patch("src.core.annotation_task.HttpAnnotationTask.annotate")
 @patch("src.core.annotation_task.NoneAnnotationTask.annotate")
-@pytest.mark.skip(reason="Skipping for now")
 def test_processing_cpam0046_annotation_tasks(
     none_task_annotate, http_task_annotate, forge_task_annotate, annotate_extract_mock, cpam0046_annotation_queue
 ):
@@ -83,10 +82,10 @@ def test_processing_cpam0002_annotations_tasks(
     AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
 
     assert http_task_annotate.call_count == 1
-    assert forge_task_annotate.call_count == 0
+    assert forge_task_annotate.call_count == 1
     assert none_task_annotate.call_count == 0
 
-    assert annotate_extract_mock.call_count == 1
+    assert annotate_extract_mock.call_count == 2
 
     mock_genomic_unit_collection.annotate_genomic_unit.assert_called()
 
@@ -95,7 +94,7 @@ def test_processing_cpam0002_annotations_tasks(
 @patch("src.core.annotation_task.ForgeAnnotationTask.annotate")
 @patch("src.core.annotation_task.HttpAnnotationTask.annotate")
 @patch("src.core.annotation_task.NoneAnnotationTask.annotate")
-def test_processing_cpam0002_annotation_tasks_datasets_with_dependencies(
+def test_processing_cpam0002_annotation_tasks_for_datasets_with_dependencies(
     none_task_annotate, http_task_annotate, forge_task_annotate, annotate_extract_mock, cpam0002_annotation_queue
 ):
     """Verifies that each item on the annotation queue is read and executed"""
@@ -127,6 +126,47 @@ def test_processing_cpam0002_annotation_tasks_datasets_with_dependencies(
 
     assert annotate_extract_mock.call_count == 2
 
+@patch("src.core.annotation_task.VersionAnnotationTask.annotate")
+@patch("src.core.annotation_task.AnnotationTaskInterface.extract")
+@patch("src.core.annotation_task.ForgeAnnotationTask.annotate")
+@patch("src.core.annotation_task.HttpAnnotationTask.annotate")
+@patch("src.core.annotation_task.NoneAnnotationTask.annotate")
+def test_processing_cpam0002_all_tasks_for_datasets_with_dependencies(
+    none_task_annotate, http_task_annotate, forge_task_annotate, annotate_extract_mock, version_task_annotate, cpam0002_annotation_queue
+):
+    """
+     Verifies that each item on the annotation queue is executes all relevant tasks for datasets with dependencies
+    """
+
+    flag = {'dependency_flag_passed': False}
+
+    def dependency_mock_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
+        query, value = args  # pylint: disable=unused-variable
+        if value != 'HGNC_ID':
+            return 'value_HGNC_ID'
+
+        if flag['dependency_flag_passed']:
+            return 'dependency_flag_passed'
+
+        flag['dependency_flag_passed'] = True
+        return None
+
+    mock_genomic_unit_collection = Mock()
+    mock_genomic_unit_collection.find_genomic_unit_annotation_value = Mock()
+    mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = dependency_mock_side_effect
+    mock_genomic_unit_collection.annotation_exist.return_value = False
+
+    assert not cpam0002_annotation_queue.empty()
+    AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
+    assert cpam0002_annotation_queue.empty()
+
+    assert http_task_annotate.call_count == 1
+    assert none_task_annotate.call_count == 0
+    assert forge_task_annotate.call_count == 1
+
+    assert annotate_extract_mock.call_count == 2
+    assert version_task_annotate.call_count == 2
+
 
 @patch("src.core.annotation_task.VersionAnnotationTask.annotate")
 def test_processing_cpam0002_version_annotation_tasks(version_task_annotate, cpam0002_annotation_queue):
@@ -154,10 +194,8 @@ def test_processing_cpam0002_version_annotation_tasks(version_task_annotate, cpa
 
     assert not cpam0002_annotation_queue.empty()
     AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
-    # assert cpam0002_annotation_queue.empty()
-
-    assert version_task_annotate.call_count == 4
-    return {}
+    
+    assert version_task_annotate.call_count == 2
 
 
 @pytest.fixture(name="cpam0046_hgvs_variant_json")
