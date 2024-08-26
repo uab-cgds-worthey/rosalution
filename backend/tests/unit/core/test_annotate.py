@@ -4,6 +4,7 @@ import pytest
 
 from src.core.annotation import AnnotationService
 from src.enums import GenomicUnitType
+from src.repository.genomic_unit_collection import GenomicUnitCollection
 
 
 def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_config_collection):
@@ -11,10 +12,13 @@ def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_con
     annotation_service = AnnotationService(annotation_config_collection)
     mock_queue = Mock()
     annotation_service.queue_annotation_tasks(cpam0046_analysis, mock_queue)
-    assert mock_queue.put.call_count == 49
-    actual_first_annotation_unit_queued = mock_queue.put.call_args[0][0]
-    expected_genomic_unit_queued = "NM_170707.3:c.745C>T"
-    assert actual_first_annotation_unit_queued.genomic_unit['unit'] == expected_genomic_unit_queued
+    assert mock_queue.put.call_count == 7
+
+    for put_call in mock_queue.put.call_args_list:
+        print(put_call)
+    actual_queued_genomic_units = [put_call.args[0].genomic_unit['unit'] for put_call in mock_queue.put.call_args_list]
+
+    assert "NM_170707.3:c.745C>T" in actual_queued_genomic_units
 
 
 # The patched method sare done provided in reverse order within the test param arguments.  Was accidently getting
@@ -27,33 +31,20 @@ def test_processing_cpam0046_annotation_tasks(
     none_task_annotate, http_task_annotate, forge_task_annotate, annotate_extract_mock, cpam0046_annotation_queue
 ):
     """Verifies that each item on the annotation queue is read and executed"""
-    flag = {'dependency_flag_passed': False}
-
-    def dependency_mock_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
-        query, value = args  # pylint: disable=unused-variable
-        if value != 'HGNC_ID':
-            return 'kfldjsfds'
-
-        if flag['dependency_flag_passed']:
-            return 'klfjdsfdsfa'
-
-        flag['dependency_flag_passed'] = True
-        return None
-
-    mock_genomic_unit_collection = Mock()
-    mock_genomic_unit_collection.find_genomic_unit_annotation_value = Mock()
-    mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = dependency_mock_side_effect
+    skip_depends = SkipDepedencies()
+    mock_genomic_unit_collection = Mock(spec=GenomicUnitCollection)
+    mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = skip_depends.skip_hgncid_get_value_first_time_mock
     mock_genomic_unit_collection.annotation_exist.return_value = False
 
     assert not cpam0046_annotation_queue.empty()
     AnnotationService.process_tasks(cpam0046_annotation_queue, mock_genomic_unit_collection)
     assert cpam0046_annotation_queue.empty()
 
-    assert http_task_annotate.call_count == 35
+    assert http_task_annotate.call_count == 5
     assert none_task_annotate.call_count == 0
-    assert forge_task_annotate.call_count == 14
+    assert forge_task_annotate.call_count == 2
 
-    assert annotate_extract_mock.call_count == 49
+    assert annotate_extract_mock.call_count == 7
 
 
 @patch(
@@ -76,16 +67,16 @@ def test_processing_cpam0002_annotations_tasks(
         CPAM analysis 0002
     """
 
-    mock_genomic_unit_collection = Mock()
+    mock_genomic_unit_collection = Mock(spec=GenomicUnitCollection)
     mock_genomic_unit_collection.annotation_exist.return_value = False
 
     AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
 
-    assert http_task_annotate.call_count == 1
-    assert forge_task_annotate.call_count == 1
+    assert http_task_annotate.call_count == 5
+    assert forge_task_annotate.call_count == 2
     assert none_task_annotate.call_count == 0
 
-    assert annotate_extract_mock.call_count == 2
+    assert annotate_extract_mock.call_count == 7
 
     mock_genomic_unit_collection.annotate_genomic_unit.assert_called()
 
@@ -98,33 +89,24 @@ def test_processing_cpam0002_annotation_tasks_for_datasets_with_dependencies(
     none_task_annotate, http_task_annotate, forge_task_annotate, annotate_extract_mock, cpam0002_annotation_queue
 ):
     """Verifies that each item on the annotation queue is read and executed"""
-    flag = {'dependency_flag_passed': False}
-
-    def dependency_mock_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
-        query, value = args  # pylint: disable=unused-variable
-        if value != 'HGNC_ID':
-            return 'HGNC_ID_value'
-
-        if flag['dependency_flag_passed']:
-            return 'dependency_flag'
-
-        flag['dependency_flag_passed'] = True
-        return None
-
-    mock_genomic_unit_collection = Mock()
-    mock_genomic_unit_collection.find_genomic_unit_annotation_value = Mock()
-    mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = dependency_mock_side_effect
+    skip_depends = SkipDepedencies()
+    mock_genomic_unit_collection = Mock(spec=GenomicUnitCollection)
+    mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = skip_depends.skip_hgncid_get_value_first_time_mock
     mock_genomic_unit_collection.annotation_exist.return_value = False
 
     assert not cpam0002_annotation_queue.empty()
     AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
     assert cpam0002_annotation_queue.empty()
 
-    assert http_task_annotate.call_count == 1
+    assert http_task_annotate.call_count == 5
     assert none_task_annotate.call_count == 0
-    assert forge_task_annotate.call_count == 1
+    assert forge_task_annotate.call_count == 2
 
-    assert annotate_extract_mock.call_count == 2
+    assert annotate_extract_mock.call_count == 7
+
+    # 3 datasets with dependencies, and am forcing HGNC_ID to not exist first time called
+    assert mock_genomic_unit_collection.find_genomic_unit_annotation_value.call_count == 4
+
 
 @patch("src.core.annotation_task.VersionAnnotationTask.annotate")
 @patch("src.core.annotation_task.AnnotationTaskInterface.extract")
@@ -132,70 +114,60 @@ def test_processing_cpam0002_annotation_tasks_for_datasets_with_dependencies(
 @patch("src.core.annotation_task.HttpAnnotationTask.annotate")
 @patch("src.core.annotation_task.NoneAnnotationTask.annotate")
 def test_processing_cpam0002_all_tasks_for_datasets_with_dependencies(
-    none_task_annotate, http_task_annotate, forge_task_annotate, annotate_extract_mock, version_task_annotate, cpam0002_annotation_queue
+    none_task_annotate, http_task_annotate, forge_task_annotate, annotate_extract_mock, version_task_annotate,
+    cpam0002_annotation_queue
 ):
     """
      Verifies that each item on the annotation queue is executes all relevant tasks for datasets with dependencies
     """
 
-    flag = {'dependency_flag_passed': False}
-
-    def dependency_mock_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
-        query, value = args  # pylint: disable=unused-variable
-        if value != 'HGNC_ID':
-            return 'value_HGNC_ID'
-
-        if flag['dependency_flag_passed']:
-            return 'dependency_flag_passed'
-
-        flag['dependency_flag_passed'] = True
-        return None
-
-    mock_genomic_unit_collection = Mock()
-    mock_genomic_unit_collection.find_genomic_unit_annotation_value = Mock()
-    mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = dependency_mock_side_effect
+    skip_depends = SkipDepedencies()
+    mock_genomic_unit_collection = Mock(spec=GenomicUnitCollection)
+    mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = skip_depends.skip_hgncid_get_value_first_time_mock
     mock_genomic_unit_collection.annotation_exist.return_value = False
 
     assert not cpam0002_annotation_queue.empty()
     AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
     assert cpam0002_annotation_queue.empty()
 
-    assert http_task_annotate.call_count == 1
+    assert http_task_annotate.call_count == 5
     assert none_task_annotate.call_count == 0
-    assert forge_task_annotate.call_count == 1
+    assert forge_task_annotate.call_count == 2
 
-    assert annotate_extract_mock.call_count == 2
-    assert version_task_annotate.call_count == 2
+    assert annotate_extract_mock.call_count == 7
+    assert version_task_annotate.call_count == 7
 
 
+@patch(
+    "src.core.annotation_task.AnnotationTaskInterface.extract",
+    return_value=[{
+        'data_set': 'mock_datset',
+        'data_source': 'mock_source',
+        'version': '0.0',
+        'value': '9000',
+    }]
+)
 @patch("src.core.annotation_task.VersionAnnotationTask.annotate")
-def test_processing_cpam0002_version_annotation_tasks(version_task_annotate, cpam0002_annotation_queue):
+@patch("src.core.annotation_task.ForgeAnnotationTask.annotate")
+@patch("src.core.annotation_task.HttpAnnotationTask.annotate")
+@patch("src.core.annotation_task.NoneAnnotationTask.annotate")
+def test_processing_cpam0002_version_annotation_tasks(
+    extract_task_annotate, none_task_annotate, http_task_annotate, forge_task_annotate, version_task_annotate,
+    cpam0002_annotation_queue
+):
     """
      Verifies that each item on the annotation queue is executes a version task
     """
 
-    flag = {'dependency_flag_passed': False}
-
-    def dependency_mock_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
-        query, value = args  # pylint: disable=unused-variable
-        if value != 'HGNC_ID':
-            return 'value_HGNC_ID'
-
-        if flag['dependency_flag_passed']:
-            return 'dependency_flag_passed'
-
-        flag['dependency_flag_passed'] = True
-        return None
-
-    mock_genomic_unit_collection = Mock()
-    mock_genomic_unit_collection.find_genomic_unit_annotation_value = Mock()
-    mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = dependency_mock_side_effect
+    skip_depends = SkipDepedencies()
+    mock_genomic_unit_collection = Mock(spec=GenomicUnitCollection)
+    mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = skip_depends.skip_hgncid_get_value_first_time_mock
     mock_genomic_unit_collection.annotation_exist.return_value = False
 
     assert not cpam0002_annotation_queue.empty()
     AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
-    
-    assert version_task_annotate.call_count == 2
+
+    assert version_task_annotate.call_count == 7
 
 
 @pytest.fixture(name="cpam0046_hgvs_variant_json")
@@ -208,3 +180,16 @@ def fixture_cpam0046_hgvs_variant(cpam0046_analysis):
             unit = genomic_unit
 
     return unit
+
+
+class SkipDepedencies:
+
+    def __init__(self, dependencies_to_skip=["HGNC_ID"]):
+        self.skip_tracker = {}
+        self.to_skip = dependencies_to_skip
+
+    def skip_hgncid_get_value_first_time_mock(self, *args):
+        unit, name = args
+
+        should_skip = (name in self.to_skip and name not in self.skip_tracker)
+        return self.skip_tracker.setdefault(name, None) if should_skip else f"{unit['unit']}-{name}-value"

@@ -1,11 +1,13 @@
 """ Class to instantiate Annotation Units and support its functions"""
 
+import copy
+
 
 class AnnotationUnit:
     """ Annotation Unit Class that houses the Genomic Unit and its corresponding dataset """
 
     def __init__(self, genomic_unit, dataset):
-        self.genomic_unit = genomic_unit
+        self.genomic_unit = copy.deepcopy(genomic_unit)
         self.dataset = dataset
         self.version = ""
 
@@ -43,24 +45,19 @@ class AnnotationUnit:
 
         return missing_dependencies
 
-    def ready_for_annotation(self, dependency_annotation, missing_dependency):
+    def ready_for_annotation(self):
         """
         Checks for annotation unit is ready for annotation
         and calls the assign_annotation_value_to_dependency() function if ready
         """
-        ready = True
-        if dependency_annotation:
-            self.set_annotation_for_dependency(missing_dependency, dependency_annotation)
-        else:
-            ready = False
-        return ready
+        missing_dependencies = self.get_missing_dependencies()
+        return len(missing_dependencies) == 0
 
     def set_annotation_for_dependency(self, missing_dependency, dependency_annotation):
         """
         Assigns annotation value to the genomic unit's missing dependency
         """
         self.genomic_unit[missing_dependency] = dependency_annotation
-        return
 
     def should_continue_annotation(self):
         """

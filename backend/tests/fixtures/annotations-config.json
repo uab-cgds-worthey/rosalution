@@ -17,5 +17,56 @@
     "url": "https://ontology.jax.org/api/network/search/GENE?q={gene}&page=0&limit=10",
     "attribute": "{ \"HPO_NCBI_GENE_ID\": .results[] | select( .name == \"{gene}\") | .id }",
     "versioning_type": "date" 
+  },
+  {
+    "data_set": "Ensembl Gene Id",
+    "data_source": "Ensembl",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "http://grch37.rest.ensembl.org/lookup/symbol/homo_sapiens/{gene}?content-type=application/json",
+    "attribute": "{ \"Ensemble Gene Id\": .id }",
+    "versioning_type": "rest",
+    "version_url": "https://grch37.rest.ensembl.org/info/data/?content-type=application/json",
+    "version_attribute": ".releases[]"
+  },
+  {
+    "data_set": "HGNC_ID",
+    "data_source": "Ensembl",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "http://rest.genenames.org/fetch/symbol/{gene}",
+    "attribute": ".response | .docs[] | select( .symbol | contains(\"{gene}\")) | { HGNC_ID : .\"hgnc_id\"}",
+    "versioning_type": "rest",
+    "version_url": "https://grch37.rest.ensembl.org/info/data/?content-type=application/json",
+    "version_attribute": ".releases[]"
+  },
+  {
+    "data_set": "ClinGen_gene_url",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "forge",
+    "base_string": "https://search.clinicalgenome.org/kb/genes/{HGNC_ID}",
+    "attribute": "{ \"ClinGen_gene_url\": .ClinGen_gene_url }",
+    "dependencies": ["HGNC_ID"],
+    "versioning_type": "rosalution"
+  },
+  {
+    "data_set": "OMIM",
+    "data_source": "HPO",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://ontology.jax.org/api/network/annotation/{HPO_NCBI_GENE_ID}",
+    "attribute": "{ \"diseaseAssoc\": [.diseases[] | select( .id | contains(\"OMIM\") ) | .name ]}",
+    "dependencies": ["HPO_NCBI_GENE_ID"],
+    "versioning_type": "date"
+  },
+  {
+    "data_set": "ClinVar_Variantion_Id",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "http",
+    "attribute": ".[] | select(.colocated_variants != null) | .colocated_variants[] | select(.var_synonyms != null) | .var_synonyms | select( .ClinVar != null ) | select(.ClinVar != []) | .ClinVar[] | select(contains(\"VCV\")) | sub(\"VCV0+\"; \"\") | {\"ClinVar_Variantion_Id\": . } ",
+    "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;clinvar=1;",
+    "versioning_type": "rosalution"
   }
 ]

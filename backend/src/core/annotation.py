@@ -112,9 +112,11 @@ class AnnotationService:
                             annotation_value = genomic_unit_collection.find_genomic_unit_annotation_value(
                                 annotation_unit.genomic_unit, missing
                             )
-                            ready = annotation_unit.ready_for_annotation(annotation_value, missing)
+                            if annotation_value:
+                                annotation_unit.set_annotation_for_dependency(missing, annotation_value)
+                        ready_with_all_dependencies = annotation_unit.ready_for_annotation()
 
-                    if not ready:
+                    if not ready_with_all_dependencies:
                         if annotation_unit.should_continue_annotation():
                             logger.info(
                                 '%s Delaying Annotation, Missing %s Dependencies...',
