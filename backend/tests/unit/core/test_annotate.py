@@ -81,93 +81,23 @@ def test_processing_cpam0002_annotations_tasks(
     mock_genomic_unit_collection.annotate_genomic_unit.assert_called()
 
 
-@patch("src.core.annotation_task.AnnotationTaskInterface.extract")
-@patch("src.core.annotation_task.ForgeAnnotationTask.annotate")
-@patch("src.core.annotation_task.HttpAnnotationTask.annotate")
-@patch("src.core.annotation_task.NoneAnnotationTask.annotate")
-def test_processing_cpam0002_annotation_tasks_for_datasets_with_dependencies(
-    none_task_annotate, http_task_annotate, forge_task_annotate, annotate_extract_mock, cpam0002_annotation_queue
-):
-    """Verifies that each item on the annotation queue is read and executed"""
-    skip_depends = SkipDepedencies()
-    mock_genomic_unit_collection = Mock(spec=GenomicUnitCollection)
-    mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = skip_depends.skip_hgncid_get_value_first_time_mock
-    mock_genomic_unit_collection.annotation_exist.return_value = False
+def test_processing_cpam0002_annotation_tasks_for_datasets_with_dependencies(cpam0002_annotation_queue, process_cpam0002_tasks):
+    """Tests that the dependencies will put the annotation task back onto the processing queue when its missing a depedency"""
 
-    assert not cpam0002_annotation_queue.empty()
-    AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
+    assert process_cpam0002_tasks['genomic_unit_collection'].find_genomic_unit_annotation_value.call_count == 4
+
+
+def test_processing_cpam0002_datasets_with_dependencies(cpam0002_annotation_queue, process_cpam0002_tasks):
     assert cpam0002_annotation_queue.empty()
 
-    assert http_task_annotate.call_count == 5
-    assert none_task_annotate.call_count == 0
-    assert forge_task_annotate.call_count == 2
+    assert process_cpam0002_tasks['http'].call_count == 5
+    assert process_cpam0002_tasks['none'].call_count == 0
+    assert process_cpam0002_tasks['forge'].call_count == 2
 
-    assert annotate_extract_mock.call_count == 7
+    assert process_cpam0002_tasks['extract'].call_count == 7
 
-    # 3 datasets with dependencies, and am forcing HGNC_ID to not exist first time called
-    assert mock_genomic_unit_collection.find_genomic_unit_annotation_value.call_count == 4
-
-
-@patch("src.core.annotation_task.VersionAnnotationTask.annotate")
-@patch("src.core.annotation_task.AnnotationTaskInterface.extract")
-@patch("src.core.annotation_task.ForgeAnnotationTask.annotate")
-@patch("src.core.annotation_task.HttpAnnotationTask.annotate")
-@patch("src.core.annotation_task.NoneAnnotationTask.annotate")
-def test_processing_cpam0002_all_tasks_for_datasets_with_dependencies(
-    none_task_annotate, http_task_annotate, forge_task_annotate, annotate_extract_mock, version_task_annotate,
-    cpam0002_annotation_queue
-):
-    """
-     Verifies that each item on the annotation queue is executes all relevant tasks for datasets with dependencies
-    """
-
-    skip_depends = SkipDepedencies()
-    mock_genomic_unit_collection = Mock(spec=GenomicUnitCollection)
-    mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = skip_depends.skip_hgncid_get_value_first_time_mock
-    mock_genomic_unit_collection.annotation_exist.return_value = False
-
-    assert not cpam0002_annotation_queue.empty()
-    AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
-    assert cpam0002_annotation_queue.empty()
-
-    assert http_task_annotate.call_count == 5
-    assert none_task_annotate.call_count == 0
-    assert forge_task_annotate.call_count == 2
-
-    assert annotate_extract_mock.call_count == 7
-    assert version_task_annotate.call_count == 7
-
-
-@patch(
-    "src.core.annotation_task.AnnotationTaskInterface.extract",
-    return_value=[{
-        'data_set': 'mock_datset',
-        'data_source': 'mock_source',
-        'version': '0.0',
-        'value': '9000',
-    }]
-)
-@patch("src.core.annotation_task.VersionAnnotationTask.annotate")
-@patch("src.core.annotation_task.ForgeAnnotationTask.annotate")
-@patch("src.core.annotation_task.HttpAnnotationTask.annotate")
-@patch("src.core.annotation_task.NoneAnnotationTask.annotate")
-def test_processing_cpam0002_version_annotation_tasks(
-    extract_task_annotate, none_task_annotate, http_task_annotate, forge_task_annotate, version_task_annotate,
-    cpam0002_annotation_queue
-):
-    """
-     Verifies that each item on the annotation queue is executes a version task
-    """
-
-    skip_depends = SkipDepedencies()
-    mock_genomic_unit_collection = Mock(spec=GenomicUnitCollection)
-    mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = skip_depends.skip_hgncid_get_value_first_time_mock
-    mock_genomic_unit_collection.annotation_exist.return_value = False
-
-    assert not cpam0002_annotation_queue.empty()
-    AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
-
-    assert version_task_annotate.call_count == 7
+def test_processing_cpam0002_version_annotation_tasks(cpam0002_annotation_queue, process_cpam0002_tasks):
+    assert process_cpam0002_tasks['version'].call_count == 7
 
 
 @pytest.fixture(name="cpam0046_hgvs_variant_json")
@@ -181,6 +111,53 @@ def fixture_cpam0046_hgvs_variant(cpam0046_analysis):
 
     return unit
 
+@pytest.fixture(name="process_cpam0002_tasks")
+def fixture_extract_and_annotate(extract_task_annotate, version_task_annotate, http_task_annotate, none_task_annotate, forge_task_annotate, cpam0002_annotation_queue):
+
+    skip_depends = SkipDepedencies()
+    mock_genomic_unit_collection = Mock(spec=GenomicUnitCollection)
+    mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = skip_depends.skip_hgncid_get_value_first_time_mock
+    mock_genomic_unit_collection.annotation_exist.return_value = False
+
+    AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
+    return {
+        'extract': extract_task_annotate,
+        'version': version_task_annotate,
+        'http': http_task_annotate,
+        'none': none_task_annotate,
+        'forge': forge_task_annotate,
+        'genomic_unit_collection': mock_genomic_unit_collection
+    }
+
+@pytest.fixture(name="extract_task_annotate")
+def fixture_version_task_anntoate():
+    with patch("src.core.annotation_task.AnnotationTaskInterface.extract", return_value=[{
+        'data_set': 'mock_datset',
+        'data_source': 'mock_source',
+        'version': '0.0',
+        'value': '9000',
+    }]) as mock:
+        yield mock
+
+@pytest.fixture(name="version_task_annotate")
+def fixture_version_task_anntoate():
+    with patch("src.core.annotation_task.VersionAnnotationTask.annotate") as mock:
+        yield mock
+
+@pytest.fixture(name="forge_task_annotate")
+def fixture_version_task_anntoate():
+    with patch("src.core.annotation_task.ForgeAnnotationTask.annotate") as mock:
+        yield mock
+
+@pytest.fixture(name="http_task_annotate")
+def fixture_version_task_anntoate():
+    with patch("src.core.annotation_task.HttpAnnotationTask.annotate") as mock:
+        yield mock
+
+@pytest.fixture(name="none_task_annotate")
+def fixture_version_task_anntoate():
+    with patch("src.core.annotation_task.NoneAnnotationTask.annotate") as mock:
+        yield mock
 
 class SkipDepedencies:
 
@@ -193,3 +170,4 @@ class SkipDepedencies:
 
         should_skip = (name in self.to_skip and name not in self.skip_tracker)
         return self.skip_tracker.setdefault(name, None) if should_skip else f"{unit['unit']}-{name}-value"
+
