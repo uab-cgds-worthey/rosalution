@@ -83,7 +83,6 @@ def aggregate_string_replacement(key, value, base_string):
 class ScreenCaptureDatasets(contextlib.ExitStack):
     def __init__(self):
         super().__init__()
-        self.captured_datasets = {}
     
     def __enter__(self):
         super().__enter__()
@@ -177,6 +176,7 @@ class ScreenCaptureDatasets(contextlib.ExitStack):
 class RosalutionAnalysis():
     def __init__(self, analysis_name):
         self.analysis_name = analysis_name
+        self.captured_datasets = {}
 
     def get_genomic_units(self):
         response = requests.get(f"{config['ROSALUTION_API_URL']}analysis/{self.analysis_name}/genomic_units", verify=False)
@@ -197,8 +197,9 @@ class RosalutionAnalysis():
             for unit in genomic_units[genomic_unit_type]:
                 unit_annotations = self.get_annotations(genomic_unit_type, unit)
                 for genomic_unit_dataset in DATASETS[genomic_unit_type]:
-                    capture.screencapture_dataset(genomic_unit_type, unit, unit_annotations, genomic_unit_dataset)
-
+                    captured_dataset = capture.screencapture_dataset(genomic_unit_type, unit, unit_annotations, genomic_unit_dataset)
+                    if captured_dataset:
+                        captured_dataset[()]
 rosalution_analyses = sys.argv[1:]
 
 print("Capturing Rosalution Analyses")
