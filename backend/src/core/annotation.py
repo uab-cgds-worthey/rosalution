@@ -83,7 +83,7 @@ class AnnotationService:
                 annotation_task_queue.put(annotation_unit_queued)
 
     @staticmethod
-    def process_tasks(annotation_queue, genomic_unit_collection):  # pylint: disable=too-many-locals
+    def process_tasks(annotation_queue, genomic_unit_collection):  # pylint: disable=too-many-branches
         """Processes items that have been added to the queue"""
         logger.info("%s Processing annotation tasks queue ...", annotation_log_label())
 
@@ -92,11 +92,10 @@ class AnnotationService:
             while not annotation_queue.empty():
                 annotation_unit = annotation_queue.get()
 
-                if not annotation_unit.version_exists():  # version = ""
+                if not annotation_unit.version_exists():
                     version_task = AnnotationTaskFactory.create_version_task(annotation_unit)
                     logger.info('%s Creating Task To Version...', format_annotation_logging(annotation_unit))
                     annotation_task_futures[executor.submit(version_task.annotate)] = version_task
-                    version_task_created = True
                 else:
                     logger.info(
                         '%s Version queried according to configuration, now to check if it exists in database',
@@ -108,15 +107,14 @@ class AnnotationService:
 
                     if annotation_unit.has_dependencies():
                         missing_dependencies = annotation_unit.get_missing_dependencies()
-                        for missing in missing_dependencies:
+                        for missing_dataset_name in missing_dependencies:
                             annotation_value = genomic_unit_collection.find_genomic_unit_annotation_value(
-                                annotation_unit.genomic_unit, missing
+                                annotation_unit.genomic_unit, missing_dataset_name
                             )
                             if annotation_value:
-                                annotation_unit.set_annotation_for_dependency(missing, annotation_value)
-                        ready_with_all_dependencies = annotation_unit.ready_for_annotation()
+                                annotation_unit.set_annotation_for_dependency(missing_dataset_name, annotation_value)
 
-                    if not ready_with_all_dependencies:
+                    if not annotation_unit.conditions_met_to_gather_annotation():
                         if annotation_unit.should_continue_annotation():
                             logger.info(
                                 '%s Delaying Annotation, Missing %s Dependencies...',

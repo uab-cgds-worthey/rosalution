@@ -65,7 +65,8 @@ class AnnotationTaskInterface:
         if 'attribute' in self.annotation_unit.dataset:  # pylint: disable=too-many-nested-blocks
             annotation_unit_json = {
                 "data_set": self.annotation_unit.dataset['data_set'],
-                "data_source": self.annotation_unit.dataset['data_source'], "value": "", "version": ""
+                "data_source": self.annotation_unit.dataset['data_source'], "value": "",
+                "version": self.annotation_unit.version
             }
 
             replaced_attributes = self.aggregate_string_replacements(self.annotation_unit.dataset['attribute'])

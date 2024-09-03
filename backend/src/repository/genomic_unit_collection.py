@@ -23,7 +23,7 @@ class GenomicUnitCollection:
         """ Returns all genomic units that are currently stored """
         return self.collection.find()
 
-    def annotation_exist(self, annotation_unitt):
+    def annotation_exist(self, genomic_unit, dataset):
         """ Returns true if the genomic_unit already has that dataset annotated """
         data_set_name = dataset['data_set']
         find_query = {
@@ -109,6 +109,9 @@ class GenomicUnitCollection:
         that can be sent to mongo to update the genomic unit's document in the collection
         """
 
+        # logger.info(f"{genomic_unit}")
+        # logger.info(f"{genomic_annotation}")
+        # logger.info("Updating with the above information")
         annotation_data_set = {
             genomic_annotation['data_set']: [{
                 'data_source': genomic_annotation['data_source'],
