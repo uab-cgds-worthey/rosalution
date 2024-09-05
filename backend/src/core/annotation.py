@@ -83,7 +83,7 @@ class AnnotationService:
                 annotation_task_queue.put(annotation_unit_queued)
 
     @staticmethod
-    def process_tasks(annotation_queue, genomic_unit_collection, analysis_name, analysis_collection):  # pylint: disable=too-many-branches
+    def process_tasks(annotation_queue, genomic_unit_collection):  # pylint: disable=too-many-branches
         """Processes items that have been added to the queue"""
         logger.info("%s Processing annotation tasks queue ...", annotation_log_label())
 
@@ -92,7 +92,7 @@ class AnnotationService:
             while not annotation_queue.empty():
                 annotation_unit = annotation_queue.get()
 
-                if not annotation_unit.version_exists(): #is configured dataset version calculated
+                if not annotation_unit.version_exists():  #is configured dataset version calculated
                     version_task = AnnotationTaskFactory.create_version_task(annotation_unit)
                     logger.info('%s Creating Task To Version...', format_annotation_logging(annotation_unit))
                     annotation_task_futures[executor.submit(version_task.annotate)] = version_task
@@ -111,11 +111,11 @@ class AnnotationService:
                                 annotation_unit.set_annotation_for_dependency(missing_dataset_name, annotation_value)
 
                     if not annotation_unit.conditions_met_to_gather_annotation():
-                        if annotation_unit.should_continue_annotation(): #maybe could try to annotation
-                            delay_count_1s_based = annotation_unit.get_delay_count() + 1
+                        if annotation_unit.should_continue_annotation():  #maybe could try to annotation
                             logger.info(
                                 '%s Delaying Annotation, Missing %s Dependencies %s/10 times...',
-                                format_annotation_logging(annotation_unit), annotation_unit.get_missing_dependencies(), delay_count_1s_based
+                                format_annotation_logging(annotation_unit), annotation_unit.get_missing_dependencies(),
+                                annotation_unit.get_delay_count() + 1
                             )
                             annotation_queue.put(annotation_unit)
                         else:
@@ -134,14 +134,17 @@ class AnnotationService:
                     task = annotation_task_futures[future]
 
                     try:
-                        result_temp = future.result()
+                        task_process_result = future.result()
                         if isinstance(task, VersionAnnotationTask):
                             annotation_unit = task.annotation_unit
-                            annotation_unit.set_latest_version(result_temp)
-                            logger.info('%s Version Calculated %s...', format_annotation_logging(annotation_unit), result_temp)
+                            annotation_unit.set_latest_version(task_process_result)
+                            logger.info(
+                                '%s Version Calculated %s...', format_annotation_logging(annotation_unit),
+                                task_process_result
+                            )
                             annotation_queue.put(annotation_unit)
                         else:
-                            for annotation in task.extract(result_temp):
+                            for annotation in task.extract(task_process_result):
                                 logger.info(
                                     '%s Saving %s...',
                                     format_annotation_logging(annotation_unit, task.annotation_unit.get_dataset_name()),
@@ -151,7 +154,7 @@ class AnnotationService:
                                 genomic_unit_collection.annotate_genomic_unit(
                                     task.annotation_unit.genomic_unit, annotation
                                 )
-                                # update analysis with the configuration
+
                     except FileNotFoundError as error:
                         logger.info(
                             '%s exception happened %s with %s and %s', annotation_log_label(), error,

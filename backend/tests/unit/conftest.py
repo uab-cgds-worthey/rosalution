@@ -99,11 +99,13 @@ def fixture_genomic_unit_collection(genomic_unit_collection_json):
 
     return GenomicUnitCollection(mock_collection)
 
+
 @pytest.fixture(name="annotation_config_collection_json")
 def fixture_annotation_config_collection_json():
     """Returns the json for the annotation configuration"""
 
     return read_test_fixture("annotations-config.json")
+
 
 @pytest.fixture(name="annotation_config_collection")
 def fixture_annotation_config_collection(annotation_config_collection_json):
@@ -113,29 +115,36 @@ def fixture_annotation_config_collection(annotation_config_collection_json):
     mock_collection.find_one = Mock(return_value=read_test_fixture("annotations-config.json"))
     return AnnotationConfigCollection(mock_collection)
 
+
 @pytest.fixture(name='get_annotation_unit')
 def get_standard_annotation_unit(annotation_config_collection_json):
-    def _create_annotation_unit(genomic_unit_name, genomic_unit_type, dataset_name  ):
-        genomic_unit = {'unit': genomic_unit_name, 'type': genomic_unit_type}
-        dataset_config = next((
-            unit for unit in annotation_config_collection_json
-            if unit['data_set'] == dataset_name
-        ), None)
+    """Fixture factory method to create an AnnotationUnit from the genomic unit information and name of the datset."""
 
-        return AnnotationUnit(genomic_unit,dataset_config)
+    def _create_annotation_unit(genomic_unit_name, genomic_unit_type, dataset_name):
+        """Method to create the Annotation Unit"""
+        genomic_unit = {'unit': genomic_unit_name, 'type': genomic_unit_type}
+        dataset_config = next((unit for unit in annotation_config_collection_json if unit['data_set'] == dataset_name),
+                              None)
+
+        return AnnotationUnit(genomic_unit, dataset_config)
 
     return _create_annotation_unit
 
+
 @pytest.fixture(name='get_annotation_json')
 def get_annotation_json(genomic_unit_collection_json):
+    """Fixture factory method to create an return the JSON from the genomic unit """
+
     def _get_annotation_json(genomic_unit_name, genomic_unit_type):
-        type = genomic_unit_type.value
+        """ Provides a genomic unit from the genomic unit collection, otherwise returns false"""
+
+        unit_type = genomic_unit_type.value
         return next((
-            unit for unit in genomic_unit_collection_json
-            if type in unit and unit[type] == genomic_unit_name
+            unit for unit in genomic_unit_collection_json if unit_type in unit and unit[unit_type] == genomic_unit_name
         ), None)
 
-    return _get_annotation_json  
+    return _get_annotation_json
+
 
 @pytest.fixture(name="cpam0046_annotation_queue")
 def fixture_cpam0046_annotation_queue(annotation_config_collection, cpam0046_analysis):

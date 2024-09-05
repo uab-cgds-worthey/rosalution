@@ -55,7 +55,7 @@ class AnnotationTaskInterface:
     @abstractmethod
     def annotate(self):
         """Interface for implementation of of retrieving the annotation for a genomic unit and its set of datasets"""
-    
+
     def __json_extract__(self, jq_query, json_to_parse):
         """Private ethod to execute jq to extract JSON"""
         replaced_attributes = self.aggregate_string_replacements(jq_query)
@@ -109,8 +109,6 @@ class AnnotationTaskInterface:
     def extract_version(self, version_result):
         """ Interface extraction method for Version annotation tasks """
         version = []
-
-        jq_query = ""
 
         # depending on versioning_type have following
 

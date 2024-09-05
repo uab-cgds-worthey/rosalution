@@ -2,6 +2,7 @@
 
 import copy
 
+
 class AnnotationUnit:
     """ Annotation Unit Class that houses the Genomic Unit and its corresponding dataset """
 
@@ -17,11 +18,11 @@ class AnnotationUnit:
     def get_dataset_name(self):
         """Return's the name of the dataset from the configuration"""
         return self.dataset['data_set']
-    
+
     def get_dataset_source(self):
         """Returns the dataset's source"""
         return self.dataset['data_source']
-    
+
     def is_transcript_dataset(self):
         """Returns true if the dataset is for a transcript"""
         return 'transcript' in self.dataset
@@ -29,7 +30,7 @@ class AnnotationUnit:
     def get_genomic_unit_type(self):
         """Return's 'genomic_unit_type' from dataset"""
         return self.dataset['genomic_unit_type']
-    
+
     def get_genomic_unit_type_string(self):
         """Return's 'genomic_unit_type' from dataset"""
         return self.genomic_unit['type'].value
@@ -82,7 +83,7 @@ class AnnotationUnit:
         self.increment_delay_count()
 
         return not self.delay_count_exceeds()
-    
+
     def get_delay_count(self):
         """Returns the current annotation delay count"""
         return self.dataset['delay_count'] if 'delay_count' in self.dataset else 0
@@ -109,6 +110,9 @@ class AnnotationUnit:
         return f"{self.get_genomic_unit()} for {self.get_dataset_name()}"
 
     def get_version(self):
+        """
+        Returns the version of this annotation unit, if none set, returns an empty string.
+        """
         return self.version
 
     def set_latest_version(self, version_details):
