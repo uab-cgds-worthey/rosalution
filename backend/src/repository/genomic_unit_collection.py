@@ -8,9 +8,24 @@ import logging
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 from bson import ObjectId
 
+from src.core.annotation_unit import AnnotationUnit
+
 # create logger
 logger = logging.getLogger(__name__)
 
+
+def transcript_unit_exist(dataset, data_source, version, annotation):
+    """Helper method to evaluate if transcript annotations have existing annotation"""
+    if dataset not in annotation:
+        return False
+    
+    annotation_unit_match = next((
+        unit for unit in annotation[dataset]
+        if unit['data_source'] == data_source and unit['version'] == version
+    ), None) 
+
+
+    return annotation_unit_match is not None
 
 class GenomicUnitCollection:
     """ Repository for managing genomic units and their annotations """
@@ -18,62 +33,95 @@ class GenomicUnitCollection:
     def __init__(self, genomic_units_collection):
         """Initializes with the 'PyMongo' Collection object for the Genomic Units collection"""
         self.collection = genomic_units_collection
+    
+    def __find_genomic_unit_query(self, annotation_unit: AnnotationUnit):
+        """
+            # find_query = {
+            #   'gene': 'VMA21',
+            #   'annotations.CADD': {'$exists': True },
+            #   'annotations.CADD.data_source': 'Ensembl',
+            #   'annotations.CADD.version': 'HARD_CODED_VERSION'
+            #}}
+        """
+        genomic_unit_type_string = annotation_unit.get_genomic_unit_type_string()
+        genomic_unit_name = annotation_unit.get_genomic_unit()
+        return {
+                genomic_unit_type_string: genomic_unit_name
+        }
+
+    
+    def __find_annotation_query(self, annotation_unit: AnnotationUnit):
+        """
+            find_query = {
+              'gene': 'VMA21',
+              'annotations.CADD': {'$exists': True },
+              'annotations.CADD.data_source': 'Ensembl',
+              'annotations.CADD.version': 'HARD_CODED_VERSION'
+            }}
+        """
+        find_query = self.__find_genomic_unit_query(annotation_unit)
+        data_set_name = annotation_unit.get_dataset_name()
+        dataset_attribute_base = f"annotations.{data_set_name}"
+        datasource_attribute = f"{dataset_attribute_base}.data_source"
+        version_attribute = f"{dataset_attribute_base}.version"
+
+        return {
+            **find_query, 
+            **{
+                dataset_attribute_base: {'$exists': True},
+                datasource_attribute: annotation_unit.get_dataset_source(),
+                version_attribute: annotation_unit.get_version()
+            }
+        }
 
     def all(self):
         """ Returns all genomic units that are currently stored """
         return self.collection.find()
 
-    def annotation_exist(self, genomic_unit, dataset):
+    def annotation_exist(self, annotation_unit: AnnotationUnit):
         """ Returns true if the genomic_unit already has that dataset annotated """
-        data_set_name = dataset['data_set']
-        find_query = {
-            genomic_unit['type'].value: genomic_unit['unit'],
-        }
+        data_set_name = annotation_unit.get_dataset_name()
+        dataset_version = annotation_unit.get_version()
+        dataset_source = annotation_unit.get_dataset_source()
+        
+        find_query = self.__find_genomic_unit_query(annotation_unit)
 
-        #find_query = { 'gene': 'VMA21 }
-
-        if 'transcript' in dataset:
+        if annotation_unit.is_transcript_dataset():
             hgvs_genomic_unit = self.collection.find_one(find_query)
-
-            if not hgvs_genomic_unit['transcripts']:
-                return False
 
             for transcript in hgvs_genomic_unit['transcripts']:
                 dataset_in_transcript_annotation = next(
-                    (annotation for annotation in transcript['annotations'] if data_set_name in annotation), None
+                    (annotation for annotation in transcript['annotations'] if transcript_unit_exist(data_set_name, dataset_source, dataset_version, annotation )), None
                 )
                 if not dataset_in_transcript_annotation:
                     return False
+                
             return True
 
-        annotation_field_key = f"annotations.{data_set_name}"
-        find_query[annotation_field_key] = {'$exists': True}
-        # find_query = {
-        #   'gene': 'VMA21',
-        #   'annotations.CADD': {'$exists': True },
-        #   'annotations.CADD.data_source': 'Ensembl',
-        #   'annotations.CADD.version': 'HARD_CODED_VERSION'
-        #}}
+        find_query = self.__find_annotation_query(annotation_unit)
+
         return bool(self.collection.count_documents(find_query, limit=1))
 
-    def find_genomic_unit_annotation_value(self, genomic_unit, dataset):
+    def find_genomic_unit_annotation_value(self, annotation_unit: AnnotationUnit):
         """ Returns the annotation value for a genomic unit according the the dataset"""
-        data_set_name = dataset
-        find_query = {
-            genomic_unit['type'].value: genomic_unit['unit'],
-            f"annotations.{data_set_name}": {'$exists': True},
+
+        dataset_name = annotation_unit.get_dataset_name()
+        find_query = self.__find_annotation_query(annotation_unit)
+        projection = {
+            f"annotations.{dataset_name}.value.$": 1,
+            "_id": 0
         }
-        result = self.collection.find_one(find_query)
+        result = self.collection.find_one(find_query, projection)
 
         if result is None:
             return None
 
-        for annotation in result['annotations']:
-            if dataset in annotation:
-                for data in annotation[dataset]:
-                    return data['value']
-
-        return None
+        return next(
+            (annotation[dataset_name][0].get('value') 
+            for annotation in result['annotations'] 
+            if dataset_name in annotation),
+            None
+        )
 
     def find_genomic_unit(self, genomic_unit):
         """ Returns the given genomic unit from the genomic unit collection """
@@ -109,9 +157,6 @@ class GenomicUnitCollection:
         that can be sent to mongo to update the genomic unit's document in the collection
         """
 
-        # logger.info(f"{genomic_unit}")
-        # logger.info(f"{genomic_annotation}")
-        # logger.info("Updating with the above information")
         annotation_data_set = {
             genomic_annotation['data_set']: [{
                 'data_source': genomic_annotation['data_source'],

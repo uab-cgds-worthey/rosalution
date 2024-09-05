@@ -6,7 +6,7 @@
       "Entrez Gene Id": [
         {
           "data_source": "HPO",
-          "version": "ROSOLUTION-VERSION-PLACEHOLDER",
+          "version": "rosalution-manifest-01",
           "value": 203547
         }
       ]
@@ -14,7 +14,7 @@
     {
       "HPO_NCBI_GENE_ID": [ {
         "data_source": "HPO",
-        "version": "REST-VERSION-PLACEHOLDER",
+        "version": "2024-01-01",
         "value": "NCBIGene:203547" } ]
     }
   ]

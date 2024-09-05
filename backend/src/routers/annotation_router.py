@@ -72,7 +72,7 @@ def get_annotations_by_gene(gene, repositories=Depends(database)):
     return annotations
 
 
-@router.get("/hgvsVariant/{variant}")
+@router.get("/hgvsVariant/{variant}/analysis/CPAM0002")
 def get_annotations_by_hgvs_variant(variant: str, repositories=Depends(database)):
     """Returns annotations data by calling method to find annotations for variant and relevant transcripts
     by HGVS Variant"""

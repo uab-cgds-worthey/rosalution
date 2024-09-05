@@ -9,7 +9,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "112",
               "value": "NM_001017980.4"
             }
           ]
@@ -18,7 +18,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "112",
               "value": 0.597
             }
           ]
@@ -27,7 +27,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "112",
               "value": "possibly_damaging"
             }
           ]
@@ -36,7 +36,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "112",
               "value": 0.02
             }
           ]
@@ -45,7 +45,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "112",
               "value": [
                 "missense_variant",
                 "splice_region_variant"
@@ -57,7 +57,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "112",
               "value": "deleterious"
             }
           ]
@@ -71,7 +71,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "112",
               "value": "NM_001363810.1"
             }
           ]
@@ -80,7 +80,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "112",
               "value": 0.998
             }
           ]
@@ -89,7 +89,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "112",
               "value": "probably_damaging"
             }
           ]
@@ -98,7 +98,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "112",
               "value": 0.01
             }
           ]
@@ -107,7 +107,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "112",
               "value": [
                 "missense_variant",
                 "splice_region_variant"
@@ -119,7 +119,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "112",
               "value": "deleterious"
             }
           ]
@@ -129,13 +129,13 @@
   ],
   "annotations": [
     {
-      "ClinVar_Variantion_Id": [ { "data_source": "Rosalution", "version": "", "value": "581244" } ]
+      "ClinVar_Variantion_Id": [ { "data_source": "Rosalution", "version": "rosalution-manifest-01", "value": "581244" } ]
     },
     {
       "ClinVar_variant_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-manifest-01",
           "value": "https://www.ncbi.nlm.nih.gov/clinvar/variation/581244"
         }
       ]

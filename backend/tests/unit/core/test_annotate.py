@@ -14,8 +14,6 @@ def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_con
     annotation_service.queue_annotation_tasks(cpam0046_analysis, mock_queue)
     assert mock_queue.put.call_count == 7
 
-    for put_call in mock_queue.put.call_args_list:
-        print(put_call)
     actual_queued_genomic_units = [put_call.args[0].genomic_unit['unit'] for put_call in mock_queue.put.call_args_list]
 
     assert "NM_170707.3:c.745C>T" in actual_queued_genomic_units

@@ -2,7 +2,6 @@
 
 import copy
 
-
 class AnnotationUnit:
     """ Annotation Unit Class that houses the Genomic Unit and its corresponding dataset """
 
@@ -15,13 +14,25 @@ class AnnotationUnit:
         """Returs 'unit' from genomic_unit"""
         return self.genomic_unit['unit']
 
-    def get_dataset(self):
-        """Return's 'data_set' from dataset"""
+    def get_dataset_name(self):
+        """Return's the name of the dataset from the configuration"""
         return self.dataset['data_set']
+    
+    def get_dataset_source(self):
+        """Returns the dataset's source"""
+        return self.dataset['data_source']
+    
+    def is_transcript_dataset(self):
+        """Returns true if the dataset is for a transcript"""
+        return 'transcript' in self.dataset
 
     def get_genomic_unit_type(self):
         """Return's 'genomic_unit_type' from dataset"""
         return self.dataset['genomic_unit_type']
+    
+    def get_genomic_unit_type_string(self):
+        """Return's 'genomic_unit_type' from dataset"""
+        return self.genomic_unit['type'].value
 
     def has_dependencies(self):
         """Checks if the annotation unit's dataset has dependencies"""
@@ -71,6 +82,10 @@ class AnnotationUnit:
         self.increment_delay_count()
 
         return not self.delay_count_exceeds()
+    
+    def get_delay_count(self):
+        """Returns the current annotation delay count"""
+        return self.dataset['delay_count'] if 'delay_count' in self.dataset else 0
 
     def increment_delay_count(self):
         """Sets the delay count of the annotation unit"""
@@ -91,7 +106,10 @@ class AnnotationUnit:
         """
         Returns the annotation unit's genomic_unit and corresponding dataset.
         """
-        return f"{self.get_genomic_unit()} for {self.get_dataset()}"
+        return f"{self.get_genomic_unit()} for {self.get_dataset_name()}"
+
+    def get_version(self):
+        return self.version
 
     def set_latest_version(self, version_details):
         """Sets the Annotation Unit with the version details"""
@@ -102,15 +120,3 @@ class AnnotationUnit:
         """Checks if the Annotation Unit is versioned or not"""
         # This is currently a placeholder, and just returning True for now
         return self.version != ""
-
-    def is_version_latest(self):
-        """Checks if the annotated Annotation Unit has the latest version or not"""
-        # Not implemented currently
-        # Once we are getting versions, latest will be initialized as False
-        latest = False
-
-        if self.version_exists():
-            # code to be added to check if version is latest
-            latest = True
-
-        return latest

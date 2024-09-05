@@ -2,6 +2,14 @@
   "name": "CPAM0002",
   "description": "Vacuolar myopathy with autophagy, X-linked vacuolar myopathy with autophagy",
   "nominated_by": "Dr. Person One",
+  "dataset_configuration": [
+    {
+      "Polyphen Prediction": {
+        "data_source": "Ensembl",
+        "version": "112"
+      }
+    }
+  ],
   "genomic_units": [
     {
       "gene": "VMA21",

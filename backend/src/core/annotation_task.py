@@ -55,8 +55,14 @@ class AnnotationTaskInterface:
     @abstractmethod
     def annotate(self):
         """Interface for implementation of of retrieving the annotation for a genomic unit and its set of datasets"""
+    
+    def __json_extract__(self, jq_query, json_to_parse):
+        """Private ethod to execute jq to extract JSON"""
+        replaced_attributes = self.aggregate_string_replacements(jq_query)
+        jq_results = iter(jq.compile(replaced_attributes).input(json_to_parse).all())
+        return jq_results
 
-    def extract(self, json_result):
+    def extract(self, incomming_json):
         """ Interface extraction method for annotation tasks """
         annotations = []
 
@@ -69,14 +75,13 @@ class AnnotationTaskInterface:
                 "version": self.annotation_unit.version
             }
 
-            replaced_attributes = self.aggregate_string_replacements(self.annotation_unit.dataset['attribute'])
             jq_results = empty_gen()
             try:
-                jq_results = iter(jq.compile(replaced_attributes).input(json_result).all())
+                jq_results = self.__json_extract__(self.annotation_unit.dataset['attribute'], incomming_json)
             except ValueError as value_error:
                 logger.info((
                     'Failed to annotate "%s" from "%s" on %s with error "%s"', annotation_unit_json['data_set'],
-                    annotation_unit_json['data_source'], json.dumps(json_result), value_error
+                    annotation_unit_json['data_source'], json.dumps(incomming_json), value_error
                 ))
             jq_result = next(jq_results, None)
             while jq_result is not None:
@@ -104,6 +109,8 @@ class AnnotationTaskInterface:
     def extract_version(self, version_result):
         """ Interface extraction method for Version annotation tasks """
         version = []
+
+        jq_query = ""
 
         # depending on versioning_type have following
 
@@ -223,28 +230,24 @@ class VersionAnnotationTask(AnnotationTaskInterface):
 
     def annotate(self):
         """Gets version by versioning type and returns the version data to the annotation unit"""
-        # logger.info(self.annotation_unit.dataset)
         version_type = self.annotation_unit.dataset["versioning_type"]
         version = ""
-        logger.info('REACHING VERSION TASK ANNOTATE! %s', self.annotation_unit.dataset["versioning_type"])
+
         if version_type not in self.version_types:
             logger.error(('Failed versioning: "%s" is an Invalid Version Type', version_type))
             return {}
 
         version = self.version_types[version_type]()
-        logger.info('Type Version is %s', version)
         return version
 
     def get_annotation_version_from_rest(self):
         """Gets version for rest type and returns the version data"""
         version_from_rest = "REST-VERSION-PLACEHOLDER"
-        # getting version from rest
         return version_from_rest
 
     def get_annotation_version_from_rosalution(self):
         """Gets version for rosalution type and returns the version data"""
         version_from_rosalution = "ROSALUTION-VERSION-PLACEHOLDER"
-        # getting version from rosalution
         return version_from_rosalution
 
     def get_annotation_version_from_date(self):
