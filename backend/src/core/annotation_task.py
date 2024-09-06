@@ -240,17 +240,17 @@ class VersionAnnotationTask(AnnotationTaskInterface):
 
     def get_annotation_version_from_rest(self):
         """Gets version for rest type and returns the version data"""
-        version_from_rest = "REST-VERSION-PLACEHOLDER"
+        version_from_rest = "rosalution-temp-manifest-00"
         return version_from_rest
 
     def get_annotation_version_from_rosalution(self):
         """Gets version for rosalution type and returns the version data"""
-        version_from_rosalution = "ROSALUTION-VERSION-PLACEHOLDER"
+        version_from_rosalution = "rosalution-temp-manifest-00"
         return version_from_rosalution
 
     def get_annotation_version_from_date(self):
         """Gets version for date type and returns the version data"""
-        version_from_date = {'date': "DATE-VERSION-PLACEHOLDER"}
+        version_from_date = "rosalution-temp-manifest-00"
         # getting version from date
         return version_from_date
 

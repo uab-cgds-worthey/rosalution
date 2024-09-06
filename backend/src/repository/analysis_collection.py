@@ -6,6 +6,8 @@ from uuid import uuid4
 
 from pymongo import ReturnDocument
 
+from backend.src.core.annotation_unit import AnnotationUnit
+
 from ..models.analysis import Section
 from ..models.event import Event
 from ..enums import EventType
@@ -129,6 +131,30 @@ class AnalysisCollection:
             genomic_units_return["variants"].extend(variants)
 
         return genomic_units_return
+
+    def add_dataset_to_manifest(self, analysis_name: str, annotation_unit: AnnotationUnit):
+        """Adds this dataset and its version to this Analysis."""
+
+        dataset = {
+            annotation_unit.get_dataset_name(): {
+                annotation_unit.get_dataset_source(),
+                annotation_unit.get_version()
+            }
+        }
+   
+        updated_document = self.collection.find_one_and_update({"name": analysis_name},
+                                                               {"$push": {"manifest": dataset}},
+                                                               return_document=ReturnDocument.AFTER)
+
+        return updated_document['manifest']
+    
+    def get_manifest_dataset(self, analysis_name: str, dataset_name: str):
+        dataset_attribute = f"manifest.{dataset_name}"
+        return self.collection.find_one({
+            "name": analysis_name,
+            dataset_attribute : {'$exists': True }
+        })
+
 
     def create_analysis(self, analysis_data: dict):
         """Creates a new analysis if the name does not already exist"""

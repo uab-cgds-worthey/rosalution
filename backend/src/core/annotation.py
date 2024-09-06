@@ -3,6 +3,9 @@ import concurrent
 import logging
 import queue
 
+from backend.src.repository.analysis_collection import AnalysisCollection
+from backend.src.repository.genomic_unit_collection import GenomicUnitCollection
+
 from .annotation_task import AnnotationTaskFactory, VersionAnnotationTask
 from ..models.analysis import Analysis
 from ..repository.annotation_config_collection import AnnotationConfigCollection
@@ -83,7 +86,7 @@ class AnnotationService:
                 annotation_task_queue.put(annotation_unit_queued)
 
     @staticmethod
-    def process_tasks(annotation_queue, genomic_unit_collection):  # pylint: disable=too-many-branches
+    def process_tasks(annotation_queue: AnnotationQueue, analysis_name: str, genomic_unit_collection: GenomicUnitCollection, analysis_collection: AnalysisCollection):  # pylint: disable=too-many-branches
         """Processes items that have been added to the queue"""
         logger.info("%s Processing annotation tasks queue ...", annotation_log_label())
 
@@ -104,8 +107,11 @@ class AnnotationService:
                     if annotation_unit.has_dependencies():
                         missing_dependencies = annotation_unit.get_missing_dependencies()
                         for missing_dataset_name in missing_dependencies:
+                            # missing_dataset_name
+                            dependency_dataset = analysis_collection.get_manifest_dataset(analysis_name, missing_dataset_name)
+                            dependency_annotation_unit = AnnotationUnit(annotation_unit.genomic_unit, dependency_dataset)
                             annotation_value = genomic_unit_collection.find_genomic_unit_annotation_value(
-                                annotation_unit.genomic_unit, missing_dataset_name
+                                dependency_annotation_unit
                             )
                             if annotation_value:
                                 annotation_unit.set_annotation_for_dependency(missing_dataset_name, annotation_value)
@@ -154,6 +160,7 @@ class AnnotationService:
                                 genomic_unit_collection.annotate_genomic_unit(
                                     task.annotation_unit.genomic_unit, annotation
                                 )
+                                analysis_collection.add_dataset_to_manifest(analysis_name, annotation_unit)
 
                     except FileNotFoundError as error:
                         logger.info(

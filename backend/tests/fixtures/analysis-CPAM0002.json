@@ -2,11 +2,41 @@
   "name": "CPAM0002",
   "description": "Vacuolar myopathy with autophagy, X-linked vacuolar myopathy with autophagy",
   "nominated_by": "Dr. Person One",
-  "dataset_configuration": [
+  "manifest": [
     {
       "Polyphen Prediction": {
         "data_source": "Ensembl",
         "version": "112"
+      }
+    }, {
+      "Entrez Gene Id": {
+        "data_source": "Ensembl",
+        "version": "rosalution-manifest-00"
+      }
+    },{
+      "HPO_NCBI_GENE_ID": {
+        "data_source": "Ensembl",
+        "version": "2024-09-06"
+      }
+    },{
+      "Ensembl Gene Id": {
+        "data_source": "Ensembl",
+        "version": "112"
+      }
+    },{
+      "ClinGen_gene_url": {
+        "data_source": "Ensembl",
+        "version": "rosalution-manifest-00"
+      }
+    },{
+      "OMIM": {
+        "data_source": "Ensembl",
+        "version": "2024-09-06"
+      }
+    },{
+      "ClinVar_Variantion_Id": {
+        "data_source": "Ensembl",
+        "version": "rosalution-manifest-00"
       }
     }
   ],

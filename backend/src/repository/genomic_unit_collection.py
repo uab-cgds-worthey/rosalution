@@ -38,10 +38,7 @@ class GenomicUnitCollection:
         """
             # find_query = {
             #   'gene': 'VMA21',
-            #   'annotations.CADD': {'$exists': True },
-            #   'annotations.CADD.data_source': 'Ensembl',
-            #   'annotations.CADD.version': 'HARD_CODED_VERSION'
-            #}}
+            #}
         """
         genomic_unit_type_string = annotation_unit.get_genomic_unit_type_string()
         genomic_unit_name = annotation_unit.get_genomic_unit()
@@ -54,7 +51,7 @@ class GenomicUnitCollection:
               'annotations.CADD': {'$exists': True },
               'annotations.CADD.data_source': 'Ensembl',
               'annotations.CADD.version': 'HARD_CODED_VERSION'
-            }}
+            }
         """
         find_query = self.__find_genomic_unit_query__(annotation_unit)
         data_set_name = annotation_unit.get_dataset_name()
@@ -78,7 +75,7 @@ class GenomicUnitCollection:
         data_set_name = annotation_unit.get_dataset_name()
         dataset_version = annotation_unit.get_version()
         dataset_source = annotation_unit.get_dataset_source()
-
+ 
         find_query = self.__find_genomic_unit_query__(annotation_unit)
 
         if annotation_unit.is_transcript_dataset():
@@ -103,11 +100,22 @@ class GenomicUnitCollection:
 
         dataset_name = annotation_unit.get_dataset_name()
         find_query = self.__find_annotation_query__(annotation_unit)
+
+        if dataset_name == "HPO_NCBI_GENE_ID" and annotation_unit.get_genomic_unit() == "DLG4":
+            logger.info("\n\n\n")
+            logger.info(f"{find_query}")
+            logger.fino("\n\n\n")
+
         projection = {f"annotations.{dataset_name}.value.$": 1, "_id": 0}
         result = self.collection.find_one(find_query, projection)
 
         if result is None:
             return None
+        
+        if dataset_name == "HPO_NCBI_GENE_ID" and annotation_unit.get_genomic_unit() == "DLG4":
+            logger.info("\n\n\n")
+            logger.info(f"{result}")
+            logger.fino("\n\n\n")
 
         return next((
             annotation[dataset_name][0].get('value')
@@ -247,6 +255,7 @@ class GenomicUnitCollection:
         # Make sure the genomic unit doesn't already exist
         if self.collection.find_one(genomic_unit):
             logging.info("Genomic unit already exists, skipping creation")
+            return
 
         self.collection.insert_one(genomic_unit)
         return

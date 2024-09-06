@@ -90,6 +90,8 @@ class Analysis(BaseAnalysis):
     sections: List[Section] = []
     discussions: List = []
     supporting_evidence_files: List = []
+    manifest: List = [
+    ]
 
     def units_to_annotate(self):
         """Returns the types of genomic units within the analysis"""
