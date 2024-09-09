@@ -115,6 +115,28 @@ def fixture_annotation_config_collection(annotation_config_collection_json):
     mock_collection.find_one = Mock(return_value=read_test_fixture("annotations-config.json"))
     return AnnotationConfigCollection(mock_collection)
 
+@pytest.fixture(name='get_dataset_manifest_config')
+def get_dataset_manifest_config(analysis_collection_json):
+    """Fixture factory method to create an dataset from the genomic unit information and name of the datset."""
+
+    def _create_dataset_manifest(analysis_name, dataset_name):
+        """Method to create the dataset manifest config"""
+
+        analysis_json = next((item for item in analysis_collection_json if item['name'] == analysis_name),
+                        None)
+        analysis = Analysis(**analysis_json)
+        dataset_manifest = next((item for item in analysis.manifest if dataset_name in item),
+                None)
+        
+        dataset_config = {
+            "data_set": dataset_name,
+            "data_source": dataset_manifest[dataset_name]['data_source'],
+            "version": dataset_manifest[dataset_name]['version']
+        }
+        
+        return dataset_config
+
+    return _create_dataset_manifest
 
 @pytest.fixture(name='get_annotation_unit')
 def get_standard_annotation_unit(annotation_config_collection_json):

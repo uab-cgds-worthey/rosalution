@@ -6,7 +6,7 @@ from uuid import uuid4
 
 from pymongo import ReturnDocument
 
-from backend.src.core.annotation_unit import AnnotationUnit
+from ..core.annotation_unit import AnnotationUnit
 
 from ..models.analysis import Section
 from ..models.event import Event
@@ -148,13 +148,28 @@ class AnalysisCollection:
 
         return updated_document['manifest']
     
-    def get_manifest_dataset(self, analysis_name: str, dataset_name: str):
+    def get_manifest_dataset_config(self, analysis_name: str, dataset_name: str):
         dataset_attribute = f"manifest.{dataset_name}"
-        return self.collection.find_one({
+        result = self.collection.find_one({
             "name": analysis_name,
             dataset_attribute : {'$exists': True }
         })
 
+        if not result:
+            return None
+        
+        return {
+            "data_set": dataset_name,
+            "data_source": result[dataset_name]['data_source'],
+            "version": result[dataset_name]['version']
+        }
+    
+    def get_dataset_manifest(self, analysis_name):
+        analysis = self.find_by_name(analysis_name)
+        if analysis is None:
+            return
+
+        return analysis['manifest']
 
     def create_analysis(self, analysis_data: dict):
         """Creates a new analysis if the name does not already exist"""

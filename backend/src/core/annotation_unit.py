@@ -9,7 +9,7 @@ class AnnotationUnit:
     def __init__(self, genomic_unit, dataset):
         self.genomic_unit = copy.deepcopy(genomic_unit)
         self.dataset = dataset
-        self.version = "" if not dataset['version'] else dataset['version']
+        self.version = ""
 
     def get_genomic_unit(self):
         """Returs 'unit' from genomic_unit"""

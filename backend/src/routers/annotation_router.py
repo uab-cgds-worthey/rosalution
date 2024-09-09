@@ -49,7 +49,7 @@ def annotate_analysis(
     return {"name": f"{name} annotations queued."}
 
 
-@router.get("/gene/{gene}")
+@router.get("/gene/{gene}/analysis/{analysis_name}")
 def get_annotations_by_gene(gene, repositories=Depends(database)):
     """Returns annotations data by calling method to find annotations by gene"""
 
@@ -72,8 +72,8 @@ def get_annotations_by_gene(gene, repositories=Depends(database)):
     return annotations
 
 
-@router.get("/hgvsVariant/{variant}/analysis/CPAM0002")
-def get_annotations_by_hgvs_variant(variant: str, repositories=Depends(database)):
+@router.get("/hgvsVariant/{variant}/analysis/{analysis_name}")
+def get_annotations_by_hgvs_variant(variant: str, analysis_name: str, repositories=Depends(database)):
     """Returns annotations data by calling method to find annotations for variant and relevant transcripts
     by HGVS Variant"""
 
@@ -82,6 +82,7 @@ def get_annotations_by_hgvs_variant(variant: str, repositories=Depends(database)
         'unit': variant,
     }
 
+    dataset_manifest = repositories["analyses"].get_dataset_manifest(analysis_name)
     queried_genomic_unit = repositories["genomic_unit"].find_genomic_unit(genomic_unit)
 
     if queried_genomic_unit is None:
@@ -90,8 +91,12 @@ def get_annotations_by_hgvs_variant(variant: str, repositories=Depends(database)
     annotations = {}
     for annotation in queried_genomic_unit['annotations']:
         for dataset in annotation:
-            if len(annotation[dataset]) > 0:
-                annotations[dataset] = annotation[dataset][0]['value']
+            dataset_config = next((config for config in dataset_manifest if dataset in config), None)
+            if dataset_config is None:
+                continue
+            "annotation[dataset][0]['value']"
+            found_dataset = next((by_version for by_version in annotation[dataset] if dataset in dataset_manifest), None)
+            annotations[dataset] = 
 
     transcript_annotation_list = []
     for transcript_annotation in queried_genomic_unit['transcripts']:

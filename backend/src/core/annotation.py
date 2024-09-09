@@ -3,8 +3,8 @@ import concurrent
 import logging
 import queue
 
-from backend.src.repository.analysis_collection import AnalysisCollection
-from backend.src.repository.genomic_unit_collection import GenomicUnitCollection
+from ..repository.analysis_collection import AnalysisCollection
+from ..repository.genomic_unit_collection import GenomicUnitCollection
 
 from .annotation_task import AnnotationTaskFactory, VersionAnnotationTask
 from ..models.analysis import Analysis
@@ -108,7 +108,7 @@ class AnnotationService:
                         missing_dependencies = annotation_unit.get_missing_dependencies()
                         for missing_dataset_name in missing_dependencies:
                             # missing_dataset_name
-                            dependency_dataset = analysis_collection.get_manifest_dataset(analysis_name, missing_dataset_name)
+                            dependency_dataset = analysis_collection.get_manifest_dataset_config(analysis_name, missing_dataset_name)
                             dependency_annotation_unit = AnnotationUnit(annotation_unit.genomic_unit, dependency_dataset)
                             annotation_value = genomic_unit_collection.find_genomic_unit_annotation_value(
                                 dependency_annotation_unit

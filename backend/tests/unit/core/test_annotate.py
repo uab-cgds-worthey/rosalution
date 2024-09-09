@@ -2,8 +2,10 @@
 from unittest.mock import Mock, patch
 import pytest
 
+from src.core.annotation_unit import AnnotationUnit
 from src.core.annotation import AnnotationService
 from src.enums import GenomicUnitType
+from src.repository.analysis_collection import AnalysisCollection
 from src.repository.genomic_unit_collection import GenomicUnitCollection
 
 
@@ -81,7 +83,7 @@ def fixture_cpam0046_hgvs_variant(cpam0046_analysis):
 
 
 @pytest.fixture(name="process_cpam0002_tasks")
-def fixture_extract_and_annotate_cpam0002(cpam0002_annotation_queue):
+def fixture_extract_and_annotate_cpam0002(cpam0002_annotation_queue, get_dataset_manifest_config):
     """
     Emulates processing the annotations for the configured genomic unit's datasets within the CPAM0002 analysis.
     """
@@ -101,12 +103,14 @@ def fixture_extract_and_annotate_cpam0002(cpam0002_annotation_queue):
     ):
         skip_depends = SkipDepedencies()
         mock_genomic_unit_collection = Mock(spec=GenomicUnitCollection)
+        mock_analysis_collection = Mock(spec=AnalysisCollection)
         mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = (
             skip_depends.skip_hgncid_get_value_first_time_mock
         )
+        mock_analysis_collection.get_manifest_dataset_config.return_value = get_dataset_manifest_config("CPAM0002",'HGNC_ID')
         mock_genomic_unit_collection.annotation_exist.return_value = False
 
-        AnnotationService.process_tasks(cpam0002_annotation_queue, mock_genomic_unit_collection)
+        AnnotationService.process_tasks(cpam0002_annotation_queue, "CPAM0002", mock_genomic_unit_collection,mock_analysis_collection)
         yield {
             'extract': extract_task_annotate, 'version': version_task_annotate, 'http': http_task_annotate,
             'none': none_task_annotate, 'forge': forge_task_annotate,
@@ -126,14 +130,15 @@ class SkipDepedencies:  # pylint: disable=too-few-public-methods
 
     def skip_hgncid_get_value_first_time_mock(self, *args):
         """ Mock method that tracks if the provided dependencies are one of the ones indicated to skip"""
-        unit, name = args
-
+        annotation_unit = args[0]
+        name = annotation_unit.get_dataset_name()
+        genomic_unit = annotation_unit.get_genomic_unit()
         should_skip = (name in self.to_skip and name not in self.skip_tracker)
-        return self.skip_tracker.setdefault(name, None) if should_skip else f"{unit['unit']}-{name}-value"
+        return self.skip_tracker.setdefault(name, None) if should_skip else f"{genomic_unit}-{name}-value"
 
 
 @pytest.fixture(name="process_cpam0046_tasks")
-def fixture_extract_and_annotate_cpam0046(cpam0046_annotation_queue):
+def fixture_extract_and_annotate_cpam0046(cpam0046_annotation_queue, get_dataset_manifest_config):
     """
     Emulates processing the annotations for the configured genomic unit's datasets within the CPAM0046 analysis.
     """
@@ -153,12 +158,15 @@ def fixture_extract_and_annotate_cpam0046(cpam0046_annotation_queue):
     ):
         skip_depends = SkipDepedencies()
         mock_genomic_unit_collection = Mock(spec=GenomicUnitCollection)
+        mock_analysis_collection = Mock(spec=AnalysisCollection)
         mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = (
             skip_depends.skip_hgncid_get_value_first_time_mock
         )
+        dependency_dataset =  get_dataset_manifest_config("CPAM0046", 'HGNC_ID')
+        mock_analysis_collection.get_manifest_dataset_config.return_value = dependency_dataset
         mock_genomic_unit_collection.annotation_exist.return_value = False
 
-        AnnotationService.process_tasks(cpam0046_annotation_queue, mock_genomic_unit_collection)
+        AnnotationService.process_tasks(cpam0046_annotation_queue, "CPAM0046", mock_genomic_unit_collection, mock_analysis_collection)
         yield {
             'extract': extract_task_annotate, 'version': version_task_annotate, 'http': http_task_annotate,
             'none': none_task_annotate, 'forge': forge_task_annotate,

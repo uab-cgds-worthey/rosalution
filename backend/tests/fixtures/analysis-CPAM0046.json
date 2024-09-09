@@ -38,7 +38,12 @@
        "data_source": "Ensembl",
        "version": "rosalution-manifest-00"
      }
-   }],
+   },{
+      "HGNC_ID": {
+        "data_source": "Ensembl",
+        "version": "rosalution-manifest-00"
+      }
+    }],
   "genomic_units":[
      {
         "gene":"LMNA",
