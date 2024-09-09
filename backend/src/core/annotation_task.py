@@ -106,10 +106,10 @@ class AnnotationTaskInterface:
 
         return annotations
 
-    def extract_version(self, version_result):
-        """ Interface extraction method for Version annotation tasks """
-        version = []
+    def extract_version(self, incomming_version_json):
+        """ Extracts and returns as a 'string' to be saved in the database"""
 
+        jq_query = ""
         # depending on versioning_type have following
 
         #  version_type = "rest" get jq result
@@ -117,9 +117,17 @@ class AnnotationTaskInterface:
         # version_type = "date" just save as is ? (NOT SURE)
 
         # version_type = "rosalution" hardcode type, save as is
-        version.append(version_result['date'])
 
-        return version
+        jq_results = empty_gen()
+        try:
+            jq_results = self.__json_extract__(jq_query, incomming_version_json)
+        except ValueError as value_error:
+            logger.info((
+                'Failed to extract ',  value_error
+            ))
+        jq_result = next(jq_results, None)
+
+        return jq_result
 
 
 class ForgeAnnotationTask(AnnotationTaskInterface):
@@ -246,12 +254,20 @@ class VersionAnnotationTask(AnnotationTaskInterface):
     def get_annotation_version_from_rosalution(self):
         """Gets version for rosalution type and returns the version data"""
         version_from_rosalution = "rosalution-temp-manifest-00"
-        return version_from_rosalution
+
+        version = {
+            "rosalution": "rosalution-temp-manifest-00"
+        }
+        return version
 
     def get_annotation_version_from_date(self):
         """Gets version for date type and returns the version data"""
         version_from_date = "rosalution-temp-manifest-00"
         # getting version from date
+
+        version = {
+            "date": "rosalution-temp-manifest-00"
+        }
         return version_from_date
 
 
