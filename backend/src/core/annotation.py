@@ -86,7 +86,10 @@ class AnnotationService:
                 annotation_task_queue.put(annotation_unit_queued)
 
     @staticmethod
-    def process_tasks(annotation_queue: AnnotationQueue, analysis_name: str, genomic_unit_collection: GenomicUnitCollection, analysis_collection: AnalysisCollection):  # pylint: disable=too-many-branches
+    def process_tasks(
+        annotation_queue: AnnotationQueue, analysis_name: str, genomic_unit_collection: GenomicUnitCollection,
+        analysis_collection: AnalysisCollection
+    ):  # pylint: disable=too-many-branches
         """Processes items that have been added to the queue"""
         logger.info("%s Processing annotation tasks queue ...", annotation_log_label())
 
@@ -108,8 +111,12 @@ class AnnotationService:
                         missing_dependencies = annotation_unit.get_missing_dependencies()
                         for missing_dataset_name in missing_dependencies:
                             # missing_dataset_name
-                            dependency_dataset = analysis_collection.get_manifest_dataset_config(analysis_name, missing_dataset_name)
-                            dependency_annotation_unit = AnnotationUnit(annotation_unit.genomic_unit, dependency_dataset)
+                            dependency_dataset = analysis_collection.get_manifest_dataset_config(
+                                analysis_name, missing_dataset_name
+                            )
+                            dependency_annotation_unit = AnnotationUnit(
+                                annotation_unit.genomic_unit, dependency_dataset
+                            )
                             annotation_value = genomic_unit_collection.find_genomic_unit_annotation_value(
                                 dependency_annotation_unit
                             )

@@ -122,9 +122,7 @@ class AnnotationTaskInterface:
         try:
             jq_results = self.__json_extract__(jq_query, incomming_version_json)
         except ValueError as value_error:
-            logger.info((
-                'Failed to extract ',  value_error
-            ))
+            logger.info(('Failed to extract ', value_error))
         jq_result = next(jq_results, None)
 
         return jq_result
@@ -255,9 +253,7 @@ class VersionAnnotationTask(AnnotationTaskInterface):
         """Gets version for rosalution type and returns the version data"""
         version_from_rosalution = "rosalution-temp-manifest-00"
 
-        version = {
-            "rosalution": "rosalution-temp-manifest-00"
-        }
+        version = {"rosalution": "rosalution-temp-manifest-00"}
         return version
 
     def get_annotation_version_from_date(self):
@@ -265,9 +261,7 @@ class VersionAnnotationTask(AnnotationTaskInterface):
         version_from_date = "rosalution-temp-manifest-00"
         # getting version from date
 
-        version = {
-            "date": "rosalution-temp-manifest-00"
-        }
+        version = {"date": "rosalution-temp-manifest-00"}
         return version_from_date
 
 

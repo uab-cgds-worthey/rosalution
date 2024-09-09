@@ -75,7 +75,7 @@ class GenomicUnitCollection:
         data_set_name = annotation_unit.get_dataset_name()
         dataset_version = annotation_unit.get_version()
         dataset_source = annotation_unit.get_dataset_source()
- 
+
         find_query = self.__find_genomic_unit_query__(annotation_unit)
 
         if annotation_unit.is_transcript_dataset():
@@ -111,7 +111,7 @@ class GenomicUnitCollection:
 
         if result is None:
             return None
-        
+
         if dataset_name == "HPO_NCBI_GENE_ID" and annotation_unit.get_genomic_unit() == "DLG4":
             logger.info("\n\n\n")
             logger.info(f"{result}")

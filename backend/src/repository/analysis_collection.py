@@ -136,34 +136,28 @@ class AnalysisCollection:
         """Adds this dataset and its version to this Analysis."""
 
         dataset = {
-            annotation_unit.get_dataset_name(): {
-                annotation_unit.get_dataset_source(),
-                annotation_unit.get_version()
-            }
+            annotation_unit.get_dataset_name(): {annotation_unit.get_dataset_source(),
+                                                 annotation_unit.get_version()}
         }
-   
+
         updated_document = self.collection.find_one_and_update({"name": analysis_name},
                                                                {"$push": {"manifest": dataset}},
                                                                return_document=ReturnDocument.AFTER)
 
         return updated_document['manifest']
-    
+
     def get_manifest_dataset_config(self, analysis_name: str, dataset_name: str):
         dataset_attribute = f"manifest.{dataset_name}"
-        result = self.collection.find_one({
-            "name": analysis_name,
-            dataset_attribute : {'$exists': True }
-        })
+        result = self.collection.find_one({"name": analysis_name, dataset_attribute: {'$exists': True}})
 
         if not result:
             return None
-        
+
         return {
-            "data_set": dataset_name,
-            "data_source": result[dataset_name]['data_source'],
+            "data_set": dataset_name, "data_source": result[dataset_name]['data_source'],
             "version": result[dataset_name]['version']
         }
-    
+
     def get_dataset_manifest(self, analysis_name):
         analysis = self.find_by_name(analysis_name)
         if analysis is None:
