@@ -95,7 +95,7 @@ def get_annotations_by_hgvs_variant(variant: str, analysis_name: str, repositori
             if dataset_config is None:
                 continue
             "annotation[dataset][0]['value']"
-            found_dataset = next((by_version for by_version in annotation[dataset] if dataset in dataset_manifest), None)
+            found_dataset = next((by_version for by_version in annotation[dataset] if by_version in dataset_manifest), None)
             annotations[dataset] = 
 
     transcript_annotation_list = []
