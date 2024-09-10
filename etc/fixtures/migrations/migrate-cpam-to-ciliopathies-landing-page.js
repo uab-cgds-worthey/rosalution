@@ -1,5 +1,5 @@
 const usage = `
-mongosh --eval 'var ciliAnalysis=""' /tmp/fixtures/migrations/ciliopathies-landing-page.js
+mongosh --eval 'var ciliAnalysis=""' /tmp/fixtures/migrations/migrate-cpam-to-ciliopathies-landing-page.js
 
 Script Options:
     help : Bool : Optional
@@ -10,9 +10,9 @@ Run mongosh help for mongosh connection and authentication usage.
 
 Example:
 
-    mongosh --host localhost --port 27017 --eval 'var help=True;' /tmp/fixtures/migrations/ciliopathies-landing-page.js
+    mongosh --host localhost --port 27017 --eval 'var help=True;' /tmp/fixtures/migrations/migrate-cpam-to-ciliopathies-landing-page.js
 
-    docker exec -it <rosalution_db_container> mongosh --eval 'var ciliAnalysis="CILI_2_5K ARMC9_L510V"' /tmp/fixtures/migrations/ciliopathies-landing-page.js
+    docker exec -it <rosalution_db_container> mongosh --eval 'var ciliAnalysis="CILI_2_5K ARMC9_L510V"' /tmp/fixtures/migrations/migrate-cpam-to-ciliopathies-landing-page.js
 `
 
 if (help === true) {
