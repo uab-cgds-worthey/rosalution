@@ -31,7 +31,7 @@ class AnnotationTaskInterface:
     def __init__(self, annotation_unit: AnnotationUnit):
         self.annotation_unit = annotation_unit
 
-    def aggregate_string_replacements(self, base_string):
+    def aggregate_string_replacements(self, base_string) -> str:
         """
         Replaces the content 'base_string' where strings within the pattern
         {item} are replaced, 'item' can be the genomic unit's type such as
@@ -39,6 +39,20 @@ class AnnotationTaskInterface:
 
         The follow are examples of the genomic_unit's dict's attributes like
         genomic_unit['gene'] or genomic_unit['Entrez Gene Id']
+
+        example base string:
+               https://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;CADD=1;refseq=1;
+            return value: https://grch37.rest.ensembl.org/vep/human/hgvs/NM_001017980.3:c.164G>T?content-type=application/json;CADD=1;refseq=1;
+        
+        example base string:
+                .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { CADD: .cadd_phred }
+            return value: .[].transcript_consequences[] | select( .transcript_id | contains(\"NM_001017980\") ) | { CADD: .cadd_phred }
+
+        genomic unit within the annotation unit in this task to be
+        {
+            'hgvs_variant': "hgvs_variant",
+            'transcript': 'NM_001017980',
+        }
         """
         genomic_unit_string = f"{{{self.annotation_unit.get_genomic_unit_type()}}}"
         replace_string = base_string.replace(genomic_unit_string, self.annotation_unit.get_genomic_unit())
@@ -194,24 +208,6 @@ class HttpAnnotationTask(AnnotationTaskInterface):
         json_result = result.json()
         return json_result
 
-    def base_url(self):
-        """
-        Creates the base url for the annotation according to the configuration.  Searches for string {genomic_unit_type}
-        within the 'url' attribute and replaces it with the genomic_unit being annotated.
-        """
-        string_to_replace = f"{{{self.annotation_unit.dataset['genomic_unit_type']}}}"
-        replace_string = self.annotation_unit.dataset['url'].replace(
-            string_to_replace, self.annotation_unit.get_genomic_unit()
-        )
-
-        if 'dependencies' in self.annotation_unit.dataset:
-            for depedency in self.annotation_unit.dataset['dependencies']:
-                depedency_replace_string = f"{{{depedency}}}"
-                replace_string = replace_string.replace(
-                    depedency_replace_string, self.annotation_unit.genomic_unit[depedency]
-                )
-        return replace_string
-
     def build_url(self):
         """
         Builds the URL from the base_url and then appends the list of query parameters for the list of datasets.
@@ -234,7 +230,8 @@ class VersionAnnotationTask(AnnotationTaskInterface):
 
     def annotate(self):
         """Gets version by versioning type and returns the version data to the annotation unit"""
-        version_type = self.annotation_unit.dataset["versioning_type"]
+
+        version_type = self.annotation_unit.dataset['versioning_type']
         version = ""
 
         if version_type not in self.version_types:
@@ -242,27 +239,37 @@ class VersionAnnotationTask(AnnotationTaskInterface):
             return {}
 
         version = self.version_types[version_type]()
+        print("THIS IS THE VERSION RETREIVED FROM VERSION URL FOR " + version_type + " TYPE")
+        print(version)
         return version
 
     def get_annotation_version_from_rest(self):
         """Gets version for rest type and returns the version data"""
-        version_from_rest = "rosalution-temp-manifest-00"
-        return version_from_rest
+        version = {"rest": "rosalution-temp-manifest-00"}
+
+        url_to_query = self.build_versioning_url()
+        result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"}, timeout=30)
+        version = result.json()
+        return version
+
+    def build_versioning_url(self):
+        """
+        Builds the version URL from aggregate_string_replacements and then appends the list of query parameters for the list of datasets.
+        """
+        return self.aggregate_string_replacements(self.annotation_unit.dataset['version_url'])
 
     def get_annotation_version_from_rosalution(self):
         """Gets version for rosalution type and returns the version data"""
-        version_from_rosalution = "rosalution-temp-manifest-00"
 
-        version = {"rosalution": "rosalution-temp-manifest-00"}
+        version = {"rosalution": "rosalution-manifest-00"}
         return version
 
     def get_annotation_version_from_date(self):
         """Gets version for date type and returns the version data"""
-        version_from_date = "rosalution-temp-manifest-00"
         # getting version from date
 
         version = {"date": "rosalution-temp-manifest-00"}
-        return version_from_date
+        return version
 
 
 class AnnotationTaskFactory:

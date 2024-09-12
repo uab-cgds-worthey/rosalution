@@ -3,6 +3,7 @@ import queue
 from unittest.mock import Mock
 import pytest
 
+from backend.src.enums import GenomicUnitType
 from src.core.annotation_unit import AnnotationUnit
 from src.config import Settings
 from src.core.annotation import AnnotationService
@@ -137,12 +138,38 @@ def get_dataset_manifest_config(analysis_collection_json):
     return _create_dataset_manifest
 
 
+@pytest.fixture(name="cpam0046_analysis")
+def fixture_cpam0046_analysis(cpam0046_analysis_json):
+    """Returns the Analysis for CPAM0046 to verify creating annotation tasks"""
+    return Analysis(**cpam0046_analysis_json)
+
+
+@pytest.fixture(name="genomic_units_with_types")
+def fixture_genomic_units_with_types(analysis_collection_json):
+    """Returns the multiple analyses being mocked as an array"""
+
+    def get_units(analysis_json):
+        analysis = Analysis(**analysis_json)
+        return analysis.units_to_annotate()
+
+    genomic_units_lists = list(map(get_units, analysis_collection_json))
+    flattened_list = [unit for analysis_units in genomic_units_lists for unit in analysis_units]
+    types = {unit['unit']: unit['type'] for unit in flattened_list}
+    return types
+
+
 @pytest.fixture(name='get_annotation_unit')
-def get_standard_annotation_unit(annotation_config_collection_json):
+def get_standard_annotation_unit(annotation_config_collection_json, genomic_units_with_types):
     """Fixture factory method to create an AnnotationUnit from the genomic unit information and name of the datset."""
 
-    def _create_annotation_unit(genomic_unit_name, genomic_unit_type, dataset_name):
+    # units = {
+    #     'VMA21': GenomicUnitType.GENE,
+    #     'NM_001017980.3:c.164G>T': GenomicUnitType.HGVS_VARIANT
+    # }
+
+    def _create_annotation_unit(genomic_unit_name, dataset_name):
         """Method to create the Annotation Unit"""
+        genomic_unit_type = genomic_units_with_types[genomic_unit_name]
         genomic_unit = {'unit': genomic_unit_name, 'type': genomic_unit_type}
         dataset_config = next((unit for unit in annotation_config_collection_json if unit['data_set'] == dataset_name),
                               None)

@@ -1,15 +1,10 @@
 """Tests Annotation Tasks and the creation of them"""
 import pytest
+from unittest.mock import patch
 
-from src.core.annotation_task import AnnotationTaskFactory, ForgeAnnotationTask, HttpAnnotationTask
+from src.core.annotation_task import AnnotationTaskFactory, ForgeAnnotationTask, HttpAnnotationTask, VersionAnnotationTask
 from src.enums import GenomicUnitType
 from src.core.annotation_unit import AnnotationUnit
-
-
-def test_http_annotation_base_url(http_annotation_transcript_id):
-    """Verifies if the HTTP annotation creates the base url using the url and genomic_unit as expected."""
-    actual = http_annotation_transcript_id.base_url()
-    assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;refseq=1;"  # pylint: disable=line-too-long
 
 
 def test_http_annotation_task_build_url(http_annotation_transcript_id):
@@ -104,7 +99,82 @@ def test_annotation_extraction_value_error_exception(http_annotation_task_gene, 
     assert len(actual_extractions) == 0
 
 
+@pytest.mark.parametrize(
+    "test_case", [('VMA21', GenomicUnitType.GENE, 'Entrez Gene Id'),
+                  ('NM_001017980.3:c.164G>T', GenomicUnitType.HGVS_VARIANT, 'ClinVar_Variantion_Id')]
+)
+def test_annotation_versioning_task_created(test_case, get_annotation_unit):
+    """Verifies that the annotation task factory creates the correct version annotation task for the annotation unit"""
+    genomic_unit, genomic_unit_type, dataset_name = test_case
+    annotation_unit = get_annotation_unit(genomic_unit, genomic_unit_type, dataset_name)
+    actual_task = AnnotationTaskFactory.create_version_task(annotation_unit)
+    assert isinstance(actual_task, VersionAnnotationTask)
+
+
+@pytest.mark.parametrize(
+    "genomic_unit,genomic_unit_type,dataset_name,expected", [
+        ('VMA21', GenomicUnitType.GENE, 'Entrez Gene Id', {"rosalution": "rosalution-manifest-00"}),
+        (
+            'NM_001017980.3:c.164G>T', GenomicUnitType.HGVS_VARIANT, 'ClinVar_Variantion_Id',
+            {"rosalution": "rosalution-manifest-00"}
+        ),
+        ('VMA21', GenomicUnitType.GENE, 'Ensembl Gene Id', {"releases": [112]}),
+        ('NM_001017980.3:c.164G>T', GenomicUnitType.HGVS_VARIANT, 'Polyphen Prediction', {"releases": [112]}),
+        ('VMA21', GenomicUnitType.GENE, 'HPO_NCBI_GENE_ID', {"date": "rosalution-temp-manifest-00"}),
+        ('LMNA', GenomicUnitType.GENE, 'OMIM', {"date": "rosalution-temp-manifest-00"}),
+    ]
+)
+def test_process_annotation_versioning_all_types(
+    genomic_unit, genomic_unit_type, dataset_name, expected, get_version_task
+):
+    """Verifies that Version Annotation Tasks process and annotate for all 3 versioning types- date, rest, rosalution"""
+    task = get_version_task(genomic_unit, dataset_name)
+    actual_version_json = task.annotate()
+    assert actual_version_json == expected
+
+
+@pytest.mark.parametrize(
+    "test_case",
+    [
+        (
+            'VMA21',
+            GenomicUnitType.GENE,
+            'Entrez Gene Id',
+        ),
+        # ('NM_001017980.3:c.164G>T', GenomicUnitType.HGVS_VARIANT, 'ClinVar_Variantion_Id')
+    ]
+)
+def test_version_extraction(test_case, get_annotation_unit):
+    genomic_unit, genomic_unit_type, dataset_name = test_case
+    annotation_unit = get_annotation_unit(genomic_unit, genomic_unit_type, dataset_name)
+    version_task = AnnotationTaskFactory.create_version_task(annotation_unit)
+    version_json = version_task.annotate()
+    actual_version_extraction = version_task.extract_version(version_json)
+    assert actual_version_extraction == "rosalution-temp-manifest-00"
+
+
 ## Fixtures ##
+
+
+@pytest.fixture(name="get_version_task")
+def get_version_annotation_task(get_annotation_unit, genomic_units_with_types):
+    """creating version task"""
+
+    def _create_version_task(genomic_unit, dataset_name):
+
+        annotation_unit = get_annotation_unit(genomic_unit, dataset_name)
+
+        return VersionAnnotationTask(annotation_unit)
+
+    return _create_version_task
+
+
+# @pytest.fixture(name="get_patch")
+# def fixture_requests_patch():
+#     with(
+#         patch("requests.get") as requests_get
+#     ):
+# yield: requests_get
 
 
 @pytest.fixture(name="gene_ncbi_linkout_dataset")
