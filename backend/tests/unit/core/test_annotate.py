@@ -2,7 +2,6 @@
 from unittest.mock import Mock, patch
 import pytest
 
-from src.core.annotation_unit import AnnotationUnit
 from src.core.annotation import AnnotationService
 from src.enums import GenomicUnitType
 from src.repository.analysis_collection import AnalysisCollection

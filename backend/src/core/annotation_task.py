@@ -41,12 +41,15 @@ class AnnotationTaskInterface:
         genomic_unit['gene'] or genomic_unit['Entrez Gene Id']
 
         example base string:
-               https://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;CADD=1;refseq=1;
-            return value: https://grch37.rest.ensembl.org/vep/human/hgvs/NM_001017980.3:c.164G>T?content-type=application/json;CADD=1;refseq=1;
+            https://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;CADD=1;refseq=1;
+        return value: 
+        https://grch37.rest.ensembl.org/vep/human/hgvs/NM_001017980.3:c.164G>T?content-type=application/json;CADD=1;refseq=1;
         
         example base string:
-                .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { CADD: .cadd_phred }
-            return value: .[].transcript_consequences[] | select( .transcript_id | contains(\"NM_001017980\") ) | { CADD: .cadd_phred }
+                .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) 
+                | { CADD: .cadd_phred }
+            return value: .[].transcript_consequences[] | select( .transcript_id | 
+                contains(\"NM_001017980\") ) | { CADD: .cadd_phred }
 
         genomic unit within the annotation unit in this task to be
         {
@@ -120,26 +123,29 @@ class AnnotationTaskInterface:
 
         return annotations
 
-    def extract_version(self, incomming_version_json):
-        """ Extracts and returns as a 'string' to be saved in the database"""
+    def extract_version(self, incoming_version_json):
+        """ Interface extraction method for Version Annotation tasks"""
 
-        jq_query = ""
-        # depending on versioning_type have following
+        version = ""
+        annotation_unit_json = {"version": self.annotation_unit.version}
 
-        #  version_type = "rest" get jq result
+        if self.annotation_unit.dataset['versioning_type'] == "rosalution":
+            annotation_unit_json["version"] = incoming_version_json["rosalution"]
+        elif self.annotation_unit.dataset['versioning_type'] == "date":
+            annotation_unit_json["version"] = incoming_version_json["date"]
+        else:
+            jq_query = self.annotation_unit.dataset['version_attribute']
 
-        # version_type = "date" just save as is ? (NOT SURE)
+            jq_result = empty_gen()
+            try:
+                jq_result = self.__json_extract__(jq_query, incoming_version_json)
+            except ValueError as value_error:
+                logger.info(('Failed to extract version', value_error))
+            jq_result = next(jq_result, None)
+            annotation_unit_json["version"] = jq_result
 
-        # version_type = "rosalution" hardcode type, save as is
-
-        jq_results = empty_gen()
-        try:
-            jq_results = self.__json_extract__(jq_query, incomming_version_json)
-        except ValueError as value_error:
-            logger.info(('Failed to extract ', value_error))
-        jq_result = next(jq_results, None)
-
-        return jq_result
+        version = annotation_unit_json
+        return version
 
 
 class ForgeAnnotationTask(AnnotationTaskInterface):
@@ -239,8 +245,6 @@ class VersionAnnotationTask(AnnotationTaskInterface):
             return {}
 
         version = self.version_types[version_type]()
-        print("THIS IS THE VERSION RETREIVED FROM VERSION URL FOR " + version_type + " TYPE")
-        print(version)
         return version
 
     def get_annotation_version_from_rest(self):
@@ -254,7 +258,8 @@ class VersionAnnotationTask(AnnotationTaskInterface):
 
     def build_versioning_url(self):
         """
-        Builds the version URL from aggregate_string_replacements and then appends the list of query parameters for the list of datasets.
+        Builds the version URL from aggregate_string_replacements and 
+        then appends the list of query parameters for the list of datasets.
         """
         return self.aggregate_string_replacements(self.annotation_unit.dataset['version_url'])
 

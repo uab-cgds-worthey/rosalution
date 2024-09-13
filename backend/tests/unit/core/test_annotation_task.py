@@ -1,6 +1,5 @@
 """Tests Annotation Tasks and the creation of them"""
 import pytest
-from unittest.mock import patch
 
 from src.core.annotation_task import AnnotationTaskFactory, ForgeAnnotationTask, HttpAnnotationTask, VersionAnnotationTask
 from src.enums import GenomicUnitType
@@ -124,9 +123,7 @@ def test_annotation_versioning_task_created(test_case, get_annotation_unit):
         ('LMNA', GenomicUnitType.GENE, 'OMIM', {"date": "rosalution-temp-manifest-00"}),
     ]
 )
-def test_process_annotation_versioning_all_types(
-    genomic_unit, genomic_unit_type, dataset_name, expected, get_version_task
-):
+def test_process_annotation_versioning_all_types(genomic_unit, dataset_name, expected, get_version_task):
     """Verifies that Version Annotation Tasks process and annotate for all 3 versioning types- date, rest, rosalution"""
     task = get_version_task(genomic_unit, dataset_name)
     actual_version_json = task.annotate()
@@ -134,30 +131,24 @@ def test_process_annotation_versioning_all_types(
 
 
 @pytest.mark.parametrize(
-    "test_case",
-    [
-        (
-            'VMA21',
-            GenomicUnitType.GENE,
-            'Entrez Gene Id',
-        ),
-        # ('NM_001017980.3:c.164G>T', GenomicUnitType.HGVS_VARIANT, 'ClinVar_Variantion_Id')
+    "genomic_unit,genomic_unit_type,dataset_name,expected", [
+        ('VMA21', GenomicUnitType.GENE, 'Entrez Gene Id', {"version": "rosalution-manifest-00"}),
+        ('VMA21', GenomicUnitType.GENE, 'Ensembl Gene Id', {"version": 112}),
+        ('LMNA', GenomicUnitType.GENE, 'OMIM', {"version": "rosalution-temp-manifest-00"}),
     ]
 )
-def test_version_extraction(test_case, get_annotation_unit):
-    genomic_unit, genomic_unit_type, dataset_name = test_case
-    annotation_unit = get_annotation_unit(genomic_unit, genomic_unit_type, dataset_name)
-    version_task = AnnotationTaskFactory.create_version_task(annotation_unit)
-    version_json = version_task.annotate()
-    actual_version_extraction = version_task.extract_version(version_json)
-    assert actual_version_extraction == "rosalution-temp-manifest-00"
+def test_version_extraction(genomic_unit, dataset_name, expected, get_version_task):
+    """ Verifies extraction for datasets for all 3 versioning types - rest, date, rosalution"""
+    task = get_version_task(genomic_unit, dataset_name)
+    actual_version_extraction = task.extract_version(task.annotate())
+    assert actual_version_extraction == expected
 
 
 ## Fixtures ##
 
 
 @pytest.fixture(name="get_version_task")
-def get_version_annotation_task(get_annotation_unit, genomic_units_with_types):
+def get_version_annotation_task(get_annotation_unit):
     """creating version task"""
 
     def _create_version_task(genomic_unit, dataset_name):

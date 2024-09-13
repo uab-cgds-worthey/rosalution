@@ -3,7 +3,6 @@ import queue
 from unittest.mock import Mock
 import pytest
 
-from backend.src.enums import GenomicUnitType
 from src.core.annotation_unit import AnnotationUnit
 from src.config import Settings
 from src.core.annotation import AnnotationService
