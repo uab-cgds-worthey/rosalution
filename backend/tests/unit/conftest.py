@@ -137,6 +137,7 @@ def get_dataset_manifest_config(analysis_collection_json):
     return _create_dataset_manifest
 
 
+
 @pytest.fixture(name="cpam0046_analysis")
 def fixture_cpam0046_analysis(cpam0046_analysis_json):
     """Returns the Analysis for CPAM0046 to verify creating annotation tasks"""

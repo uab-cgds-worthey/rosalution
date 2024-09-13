@@ -7,6 +7,7 @@ import logging
 # pylint: disable=too-few-public-methods
 # Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 from bson import ObjectId
+from pymongo import ReturnDocument
 
 from src.core.annotation_unit import AnnotationUnit
 
@@ -50,7 +51,7 @@ class GenomicUnitCollection:
               'gene': 'VMA21',
               'annotations.CADD': {'$exists': True },
               'annotations.CADD.data_source': 'Ensembl',
-              'annotations.CADD.version': 'HARD_CODED_VERSION'
+              'annotations.CADD.version': '112'
             }
         """
         find_query = self.__find_genomic_unit_query__(annotation_unit)
@@ -101,21 +102,11 @@ class GenomicUnitCollection:
         dataset_name = annotation_unit.get_dataset_name()
         find_query = self.__find_annotation_query__(annotation_unit)
 
-        if dataset_name == "HPO_NCBI_GENE_ID" and annotation_unit.get_genomic_unit() == "DLG4":
-            logger.info("\n\n\n")
-            logger.info(f"{find_query}")
-            logger.fino("\n\n\n")
-
         projection = {f"annotations.{dataset_name}.value.$": 1, "_id": 0}
         result = self.collection.find_one(find_query, projection)
 
         if result is None:
             return None
-
-        if dataset_name == "HPO_NCBI_GENE_ID" and annotation_unit.get_genomic_unit() == "DLG4":
-            logger.info("\n\n\n")
-            logger.info(f"{result}")
-            logger.fino("\n\n\n")
 
         return next((
             annotation[dataset_name][0].get('value')
@@ -146,10 +137,10 @@ class GenomicUnitCollection:
     def update_genomic_unit_annotation_by_mongo_id(self, genomic_unit_document):
         """ Takes a genomic unit and overwrites the existing object based on the object's id """
         genomic_unit_id = genomic_unit_document['_id']
-        self.collection.update_one(
-            {'_id': ObjectId(str(genomic_unit_id))},
-            {'$set': genomic_unit_document},
-        )
+
+        return self.collection.find_one_and_update({'_id': ObjectId(str(genomic_unit_id))},
+                                                   {'$set': genomic_unit_document},
+                                                   return_document=ReturnDocument.AFTER)
 
     def annotate_genomic_unit(self, genomic_unit, genomic_annotation):
         """
@@ -164,6 +155,8 @@ class GenomicUnitCollection:
                 'value': genomic_annotation['value'],
             }]
         }
+
+        updated_document = None
 
         if 'transcript_id' in genomic_annotation:
             genomic_unit_document = self.find_genomic_unit_with_transcript_id(
@@ -180,14 +173,14 @@ class GenomicUnitCollection:
                 if transcript['transcript_id'] == genomic_annotation['transcript_id']:
                     transcript['annotations'].append(annotation_data_set)
 
-            self.update_genomic_unit_annotation_by_mongo_id(genomic_unit_document)
+            updated_document = self.update_genomic_unit_annotation_by_mongo_id(genomic_unit_document)
 
         else:
             genomic_unit_document = self.find_genomic_unit(genomic_unit)
             genomic_unit_document['annotations'].append(annotation_data_set)
-            self.update_genomic_unit_annotation_by_mongo_id(genomic_unit_document)
+            updated_document = self.update_genomic_unit_annotation_by_mongo_id(genomic_unit_document)
 
-        return
+        return updated_document
 
     def annotate_genomic_unit_with_file(self, genomic_unit, genomic_annotation):
         """ Ensures that an annotation is created for the annotation image upload and only one image is allowed """
@@ -198,8 +191,7 @@ class GenomicUnitCollection:
         for annotation in genomic_unit_document['annotations']:
             if data_set in annotation:
                 annotation[data_set][0]['value'].append(genomic_annotation['value'])
-                self.update_genomic_unit_annotation_by_mongo_id(genomic_unit_document)
-                return
+                return self.update_genomic_unit_annotation_by_mongo_id(genomic_unit_document)
 
         annotation_data_set = {
             genomic_annotation['data_set']: [{
@@ -210,9 +202,7 @@ class GenomicUnitCollection:
         }
 
         genomic_unit_document['annotations'].append(annotation_data_set)
-        self.update_genomic_unit_annotation_by_mongo_id(genomic_unit_document)
-
-        return
+        return self.update_genomic_unit_annotation_by_mongo_id(genomic_unit_document)
 
     def update_genomic_unit_file_annotation(self, genomic_unit, data_set, annotation_value, file_id_old):
         """ Replaces existing annotation image with new image """
@@ -243,9 +233,7 @@ class GenomicUnitCollection:
                         annotation[data_set][0]['value'].pop(i)
                         break
 
-        self.update_genomic_unit_annotation_by_mongo_id(genomic_unit_document)
-
-        return
+        return self.update_genomic_unit_annotation_by_mongo_id(genomic_unit_document)
 
     def create_genomic_unit(self, genomic_unit):
         """

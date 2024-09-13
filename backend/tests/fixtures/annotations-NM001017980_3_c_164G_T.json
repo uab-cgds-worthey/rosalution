@@ -129,13 +129,13 @@
   ],
   "annotations": [
     {
-      "ClinVar_Variantion_Id": [ { "data_source": "Rosalution", "version": "rosalution-manifest-01", "value": "581244" } ]
+      "ClinVar_Variantion_Id": [ { "data_source": "Rosalution", "version": "rosalution-manifest-00", "value": "581244" } ]
     },
     {
       "ClinVar_variant_url": [
         {
           "data_source": "Rosalution",
-          "version": "rosalution-manifest-01",
+          "version": "rosalution-manifest-00",
           "value": "https://www.ncbi.nlm.nih.gov/clinvar/variation/581244"
         }
       ]

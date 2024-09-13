@@ -147,6 +147,7 @@ class AnalysisCollection:
         return updated_document['manifest']
 
     def get_manifest_dataset_config(self, analysis_name: str, dataset_name: str):
+        """ Returns an individual dataset manifest """
         dataset_attribute = f"manifest.{dataset_name}"
         result = self.collection.find_one({"name": analysis_name, dataset_attribute: {'$exists': True}})
 
@@ -159,9 +160,10 @@ class AnalysisCollection:
         }
 
     def get_dataset_manifest(self, analysis_name):
+        """Returns the analysis' dataset manifest for annotation versions and sources"""
         analysis = self.find_by_name(analysis_name)
         if analysis is None:
-            return
+            return None
 
         return analysis['manifest']
 
