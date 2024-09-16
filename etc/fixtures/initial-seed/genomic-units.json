@@ -6,7 +6,7 @@
       "Entrez Gene Id": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": 203547
         }
       ]
@@ -15,7 +15,7 @@
       "OMIM": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             "Myopathy, X-linked, with excessive autophagy"
           ]
@@ -26,7 +26,7 @@
       "HPO": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             "HP:0001270: Motor delay",
             "HP:0003677: Slowly progressive",
@@ -59,7 +59,7 @@
       "Ensembl Gene Id": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "ENSG00000160131"
         }
       ]
@@ -68,7 +68,7 @@
       "Rat Gene Identifier": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "RGD:1566155"
         }
       ]
@@ -77,7 +77,7 @@
       "Rat_Alliance_Genome_Automated_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Predicted to be involved in vacuolar proton-transporting V-type ATPase complex assembly. Predicted to be located in lysosome. Predicted to be active in endoplasmic reticulum membrane. Human ortholog(s) of this gene implicated in X-linked myopathy with excessive autophagy. Orthologous to human VMA21 (vacuolar ATPase assembly factor VMA21)."
         }
       ]
@@ -86,7 +86,7 @@
       "OMIM_gene_search_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.omim.org/search?index=entry&start=1&sort=score+desc%2C+prefix_sort+desc&search=VMA21"
         }
       ]
@@ -95,7 +95,7 @@
       "Rat_Alliance_Genome_RGD_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Predicted to be involved in vacuolar proton-transporting V-type ATPase complex assembly. Predicted to be located in lysosome. Predicted to be active in endoplasmic reticulum membrane. Human ortholog(s) of this gene implicated in X-linked myopathy with excessive autophagy. Orthologous to human VMA21 (vacuolar ATPase assembly factor VMA21); INTERACTS WITH 2,3,7,8-Tetrachlorodibenzofuran; 3-chloropropane-1,2-diol; bisphenol A."
         }
       ]
@@ -104,7 +104,7 @@
       "Rat_Alliance_Genome_Models": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": []
         }
       ]
@@ -113,7 +113,7 @@
       "HGNC_ID": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "HGNC:22082"
         }
       ]
@@ -122,7 +122,7 @@
       "ClinGen_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://search.clinicalgenome.org/kb/genes/HGNC:22082"
         }
       ]
@@ -131,7 +131,7 @@
       "Zebrafish Gene Identifier": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "ZFIN:ZDB-GENE-081104-272"
         }
       ]
@@ -140,7 +140,7 @@
       "Zebrafish_Alliance_Genome_Automated_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Predicted to be involved in vacuolar proton-transporting V-type ATPase complex assembly. Predicted to be located in ER to Golgi transport vesicle membrane; endoplasmic reticulum membrane; and endoplasmic reticulum-Golgi intermediate compartment membrane. Human ortholog(s) of this gene implicated in X-linked myopathy with excessive autophagy. Orthologous to human VMA21 (vacuolar ATPase assembly factor VMA21)."
         }
       ]
@@ -149,7 +149,7 @@
       "Zebrafish_Alliance_Genome_ZFIN_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": ""
         }
       ]
@@ -158,7 +158,7 @@
       "Zebrafish_Alliance_Genome_Models": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": []
         }
       ]
@@ -167,7 +167,7 @@
       "Mouse Gene Identifier": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "MGI:1914298"
         }
       ]
@@ -176,7 +176,7 @@
       "HPO_gene_search_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://hpo.jax.org/app/browse/search?q=VMA21&navFilter=all"
         }
       ]
@@ -185,7 +185,7 @@
       "NCBI_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=203547"
         }
       ]
@@ -194,7 +194,7 @@
       "Gene Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "This gene encodes a chaperone for assembly of lysosomal vacuolar ATPase.[provided by RefSeq, Jul 2012]"
         }
       ]
@@ -203,7 +203,7 @@
       "gnomAD_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://gnomad.broadinstitute.org/gene/ENSG00000160131?dataset=gnomad_r2_1"
         }
       ]
@@ -212,7 +212,7 @@
       "Mouse_Alliance_Genome_Models": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": []
         }
       ]
@@ -221,7 +221,7 @@
       "Mouse_Alliance_Genome_MGI_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": ""
         }
       ]
@@ -230,7 +230,7 @@
       "Mouse_Alliance_Genome_Automated_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Predicted to be involved in vacuolar proton-transporting V-type ATPase complex assembly. Predicted to be located in lysosome. Predicted to be active in endoplasmic reticulum membrane. Human ortholog(s) of this gene implicated in X-linked myopathy with excessive autophagy. Orthologous to human VMA21 (vacuolar ATPase assembly factor VMA21)."
         }
       ]
@@ -239,7 +239,7 @@
       "Rat_Alliance_Genome_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.alliancegenome.org/gene/RGD:1566155"
         }
       ]
@@ -248,7 +248,7 @@
       "Rat_Rat_Genome_Database_url": [
         {
           "data_source": "Alliance genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=RGD:1566155"
         }
       ]
@@ -257,7 +257,7 @@
       "Zebrafish_Alliance_Genome_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.alliancegenome.org/gene/ZFIN:ZDB-GENE-081104-272"
         }
       ]
@@ -266,7 +266,7 @@
       "Zebrafish_Zebrafish_Information_Network_url": [
         {
           "data_source": "Alliance genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://zfin.org/ZDB-GENE-081104-272"
         }
       ]
@@ -275,7 +275,7 @@
       "Mouse_Alliance_Genome_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.alliancegenome.org/gene/MGI:1914298"
         }
       ]
@@ -284,7 +284,7 @@
       "Mouse_Mouse_Genome_Database_url": [
         {
           "data_source": "Alliance genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "http://www.informatics.jax.org/marker/MGI:1914298"
         }
       ]
@@ -301,7 +301,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001017980.4"
             }
           ]
@@ -310,7 +310,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "possibly_damaging"
             }
           ]
@@ -319,7 +319,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0.597
             }
           ]
@@ -328,7 +328,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "deleterious"
             }
           ]
@@ -337,7 +337,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0.02
             }
           ]
@@ -346,7 +346,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "missense_variant",
                 "splice_region_variant"
@@ -358,7 +358,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODERATE"
             }
           ]
@@ -372,7 +372,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001363810.1"
             }
           ]
@@ -381,7 +381,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "probably_damaging"
             }
           ]
@@ -390,7 +390,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0.998
             }
           ]
@@ -399,7 +399,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "deleterious"
             }
           ]
@@ -408,7 +408,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0.01
             }
           ]
@@ -417,7 +417,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "missense_variant",
                 "splice_region_variant"
@@ -429,7 +429,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODERATE"
             }
           ]
@@ -442,7 +442,7 @@
       "ClinVar_Variantion_Id": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "581244"
         }
       ]
@@ -451,7 +451,7 @@
       "CADD": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": 33
         }
       ]
@@ -460,7 +460,7 @@
       "ClinVar_variant_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.ncbi.nlm.nih.gov/clinvar/variation/581244"
         }
       ]
@@ -482,7 +482,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_005249.5"
             }
           ]
@@ -491,7 +491,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -500,7 +500,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -509,7 +509,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -518,7 +518,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "stop_gained"
               ]
@@ -529,7 +529,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "HIGH"
             }
           ]
@@ -538,7 +538,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_005249.5"
             }
           ]
@@ -547,7 +547,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -561,7 +561,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NR_026731.1"
             }
           ]
@@ -570,7 +570,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -579,7 +579,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -588,7 +588,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -597,7 +597,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -606,7 +606,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "upstream_gene_variant"
               ]
@@ -617,7 +617,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -626,7 +626,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NR_026731.1"
             }
           ]
@@ -635,7 +635,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -649,7 +649,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -658,7 +658,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -667,7 +667,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -676,7 +676,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -685,7 +685,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "upstream_gene_variant"
               ]
@@ -696,7 +696,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -705,7 +705,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NR_026732.1"
             }
           ]
@@ -714,7 +714,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -728,7 +728,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -737,7 +737,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -746,7 +746,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -755,7 +755,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -764,7 +764,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "upstream_gene_variant"
               ]
@@ -775,7 +775,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -784,7 +784,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NR_125758.1"
             }
           ]
@@ -793,7 +793,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -806,7 +806,7 @@
       "ClinVar_Variantion_Id": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "13871"
         }
       ]
@@ -815,7 +815,7 @@
       "CADD": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": 37
         }
       ]
@@ -824,7 +824,7 @@
       "ClinVar_variant_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.ncbi.nlm.nih.gov/clinvar/variation/13871"
         }
       ]
@@ -841,7 +841,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_005249.5"
             }
           ]
@@ -850,7 +850,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -859,7 +859,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -868,7 +868,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -877,7 +877,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -886,7 +886,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "frameshift_variant"
               ]
@@ -897,7 +897,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "HIGH"
             }
           ]
@@ -911,7 +911,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NR_125758.1"
             }
           ]
@@ -920,7 +920,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -929,7 +929,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -938,7 +938,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -947,7 +947,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -956,7 +956,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "upstream_gene_variant"
               ]
@@ -967,7 +967,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -980,7 +980,7 @@
       "CADD": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": 25.2
         }
       ]
@@ -997,7 +997,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001257374.3"
             }
           ]
@@ -1006,7 +1006,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "probably_damaging"
             }
           ]
@@ -1015,7 +1015,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0.999
             }
           ]
@@ -1024,7 +1024,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "deleterious"
             }
           ]
@@ -1033,7 +1033,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0
             }
           ]
@@ -1042,7 +1042,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "missense_variant"
               ]
@@ -1053,7 +1053,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODERATE"
             }
           ]
@@ -1067,7 +1067,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001282624.2"
             }
           ]
@@ -1076,7 +1076,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "probably_damaging"
             }
           ]
@@ -1085,7 +1085,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 1
             }
           ]
@@ -1094,7 +1094,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "deleterious"
             }
           ]
@@ -1103,7 +1103,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0
             }
           ]
@@ -1112,7 +1112,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "missense_variant"
               ]
@@ -1123,7 +1123,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODERATE"
             }
           ]
@@ -1137,7 +1137,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001282625.2"
             }
           ]
@@ -1146,7 +1146,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "probably_damaging"
             }
           ]
@@ -1155,7 +1155,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 1
             }
           ]
@@ -1164,7 +1164,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "deleterious"
             }
           ]
@@ -1173,7 +1173,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0
             }
           ]
@@ -1182,7 +1182,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "missense_variant"
               ]
@@ -1193,7 +1193,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODERATE"
             }
           ]
@@ -1207,7 +1207,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001282626.2"
             }
           ]
@@ -1216,7 +1216,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "probably_damaging"
             }
           ]
@@ -1225,7 +1225,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 1
             }
           ]
@@ -1234,7 +1234,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "deleterious"
             }
           ]
@@ -1243,7 +1243,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0
             }
           ]
@@ -1252,7 +1252,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "missense_variant"
               ]
@@ -1263,7 +1263,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODERATE"
             }
           ]
@@ -1277,7 +1277,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_005572.4"
             }
           ]
@@ -1286,7 +1286,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "probably_damaging"
             }
           ]
@@ -1295,7 +1295,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 1
             }
           ]
@@ -1304,7 +1304,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "deleterious"
             }
           ]
@@ -1313,7 +1313,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0
             }
           ]
@@ -1322,7 +1322,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "missense_variant"
               ]
@@ -1333,7 +1333,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODERATE"
             }
           ]
@@ -1347,7 +1347,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_170707.4"
             }
           ]
@@ -1356,7 +1356,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "probably_damaging"
             }
           ]
@@ -1365,7 +1365,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 1
             }
           ]
@@ -1374,7 +1374,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "deleterious"
             }
           ]
@@ -1383,7 +1383,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0
             }
           ]
@@ -1392,7 +1392,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "missense_variant"
               ]
@@ -1403,7 +1403,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODERATE"
             }
           ]
@@ -1417,7 +1417,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_170708.4"
             }
           ]
@@ -1426,7 +1426,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "probably_damaging"
             }
           ]
@@ -1435,7 +1435,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0.999
             }
           ]
@@ -1444,7 +1444,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "deleterious"
             }
           ]
@@ -1453,7 +1453,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0
             }
           ]
@@ -1462,7 +1462,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "missense_variant"
               ]
@@ -1473,7 +1473,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODERATE"
             }
           ]
@@ -1486,7 +1486,7 @@
       "ClinVar_Variantion_Id": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "14524"
         }
       ]
@@ -1495,7 +1495,7 @@
       "ClinVar_Variantion_Id": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "14524"
         }
       ]
@@ -1504,7 +1504,7 @@
       "CADD": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": 26.5
         }
       ]
@@ -1513,7 +1513,7 @@
       "ClinVar_variant_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.ncbi.nlm.nih.gov/clinvar/variation/14524"
         }
       ]
@@ -1530,7 +1530,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001374425.1"
             }
           ]
@@ -1539,7 +1539,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1548,7 +1548,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1557,7 +1557,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "missense_variant"
               ]
@@ -1568,7 +1568,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1577,7 +1577,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1586,7 +1586,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODERATE"
             }
           ]
@@ -1600,7 +1600,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001374426.1"
             }
           ]
@@ -1609,7 +1609,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1618,7 +1618,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1627,7 +1627,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "missense_variant"
               ]
@@ -1638,7 +1638,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1647,7 +1647,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1656,7 +1656,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODERATE"
             }
           ]
@@ -1670,7 +1670,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001374427.1"
             }
           ]
@@ -1679,7 +1679,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1688,7 +1688,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1697,7 +1697,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "missense_variant"
               ]
@@ -1708,7 +1708,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1717,7 +1717,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1726,7 +1726,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODERATE"
             }
           ]
@@ -1740,7 +1740,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_002617.4"
             }
           ]
@@ -1749,7 +1749,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0.999
             }
           ]
@@ -1758,7 +1758,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "probably_damaging"
             }
           ]
@@ -1767,7 +1767,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "missense_variant"
               ]
@@ -1778,7 +1778,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "deleterious"
             }
           ]
@@ -1787,7 +1787,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0
             }
           ]
@@ -1796,7 +1796,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODERATE"
             }
           ]
@@ -1810,7 +1810,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_007033.5"
             }
           ]
@@ -1819,7 +1819,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1828,7 +1828,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1837,7 +1837,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "downstream_gene_variant"
               ]
@@ -1848,7 +1848,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1857,7 +1857,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1866,7 +1866,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -1880,7 +1880,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_153818.2"
             }
           ]
@@ -1889,7 +1889,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0.999
             }
           ]
@@ -1898,7 +1898,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "probably_damaging"
             }
           ]
@@ -1907,7 +1907,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "missense_variant"
               ]
@@ -1918,7 +1918,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "deleterious"
             }
           ]
@@ -1927,7 +1927,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0
             }
           ]
@@ -1936,7 +1936,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODERATE"
             }
           ]
@@ -1950,7 +1950,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NR_164636.1"
             }
           ]
@@ -1959,7 +1959,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1968,7 +1968,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1977,7 +1977,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "non_coding_transcript_exon_variant"
               ]
@@ -1988,7 +1988,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -1997,7 +1997,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2006,7 +2006,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -2019,7 +2019,7 @@
       "ClinVar_Variantion_Id": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "552930"
         }
       ]
@@ -2028,7 +2028,7 @@
       "CADD": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": 27.4
         }
       ]
@@ -2037,7 +2037,7 @@
       "ClinVar_variant_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.ncbi.nlm.nih.gov/clinvar/variation/552930"
         }
       ]
@@ -2054,7 +2054,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001365819.1"
             }
           ]
@@ -2063,7 +2063,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2072,7 +2072,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2081,7 +2081,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2090,7 +2090,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2099,7 +2099,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "frameshift_variant",
                 "splice_region_variant"
@@ -2111,7 +2111,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "HIGH"
             }
           ]
@@ -2125,7 +2125,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_002972.4"
             }
           ]
@@ -2134,7 +2134,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2143,7 +2143,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2152,7 +2152,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2161,7 +2161,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2170,7 +2170,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "frameshift_variant",
                 "splice_region_variant"
@@ -2182,7 +2182,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "HIGH"
             }
           ]
@@ -2195,7 +2195,7 @@
       "CADD": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": null
         }
       ]
@@ -2212,7 +2212,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001374425.1"
             }
           ]
@@ -2221,7 +2221,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2230,7 +2230,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2239,7 +2239,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2248,7 +2248,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2257,7 +2257,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "frameshift_variant"
               ]
@@ -2268,7 +2268,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "HIGH"
             }
           ]
@@ -2282,7 +2282,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001374426.1"
             }
           ]
@@ -2291,7 +2291,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2300,7 +2300,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2309,7 +2309,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2318,7 +2318,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2327,7 +2327,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "intron_variant"
               ]
@@ -2338,7 +2338,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -2352,7 +2352,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001374427.1"
             }
           ]
@@ -2361,7 +2361,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2370,7 +2370,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2379,7 +2379,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2388,7 +2388,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2397,7 +2397,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "intron_variant"
               ]
@@ -2408,7 +2408,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -2422,7 +2422,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_002617.4"
             }
           ]
@@ -2431,7 +2431,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2440,7 +2440,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2449,7 +2449,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2458,7 +2458,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2467,7 +2467,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "frameshift_variant"
               ]
@@ -2478,7 +2478,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "HIGH"
             }
           ]
@@ -2492,7 +2492,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_153818.2"
             }
           ]
@@ -2501,7 +2501,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2510,7 +2510,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2519,7 +2519,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2528,7 +2528,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2537,7 +2537,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "frameshift_variant"
               ]
@@ -2548,7 +2548,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "HIGH"
             }
           ]
@@ -2562,7 +2562,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NR_164636.1"
             }
           ]
@@ -2571,7 +2571,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2580,7 +2580,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2589,7 +2589,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2598,7 +2598,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2607,7 +2607,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "intron_variant",
                 "non_coding_transcript_variant"
@@ -2619,7 +2619,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -2632,7 +2632,7 @@
       "CADD": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": null
         }
       ]
@@ -2649,7 +2649,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001242898.2"
             }
           ]
@@ -2658,7 +2658,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2667,7 +2667,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2676,7 +2676,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2685,7 +2685,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2694,7 +2694,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "downstream_gene_variant"
               ]
@@ -2705,7 +2705,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -2719,7 +2719,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001242899.2"
             }
           ]
@@ -2728,7 +2728,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2737,7 +2737,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2746,7 +2746,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2755,7 +2755,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2764,7 +2764,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "downstream_gene_variant"
               ]
@@ -2775,7 +2775,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -2789,7 +2789,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001242900.2"
             }
           ]
@@ -2798,7 +2798,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2807,7 +2807,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2816,7 +2816,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2825,7 +2825,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2834,7 +2834,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "downstream_gene_variant"
               ]
@@ -2845,7 +2845,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -2859,7 +2859,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001351641.2"
             }
           ]
@@ -2868,7 +2868,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2877,7 +2877,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2886,7 +2886,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2895,7 +2895,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2904,7 +2904,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "downstream_gene_variant"
               ]
@@ -2915,7 +2915,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -2929,7 +2929,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001351642.2"
             }
           ]
@@ -2938,7 +2938,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2947,7 +2947,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2956,7 +2956,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2965,7 +2965,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -2974,7 +2974,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "downstream_gene_variant"
               ]
@@ -2985,7 +2985,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -2999,7 +2999,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001351643.2"
             }
           ]
@@ -3008,7 +3008,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3017,7 +3017,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3026,7 +3026,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3035,7 +3035,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3044,7 +3044,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "downstream_gene_variant"
               ]
@@ -3055,7 +3055,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -3069,7 +3069,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001351644.2"
             }
           ]
@@ -3078,7 +3078,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3087,7 +3087,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3096,7 +3096,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3105,7 +3105,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3114,7 +3114,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "downstream_gene_variant"
               ]
@@ -3125,7 +3125,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -3139,7 +3139,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001351645.2"
             }
           ]
@@ -3148,7 +3148,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3157,7 +3157,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3166,7 +3166,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3175,7 +3175,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3184,7 +3184,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "downstream_gene_variant"
               ]
@@ -3195,7 +3195,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -3209,7 +3209,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001351646.2"
             }
           ]
@@ -3218,7 +3218,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3227,7 +3227,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3236,7 +3236,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3245,7 +3245,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3254,7 +3254,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "downstream_gene_variant"
               ]
@@ -3265,7 +3265,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -3279,7 +3279,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001351647.2"
             }
           ]
@@ -3288,7 +3288,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3297,7 +3297,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3306,7 +3306,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3315,7 +3315,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3324,7 +3324,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "downstream_gene_variant"
               ]
@@ -3335,7 +3335,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -3349,7 +3349,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001351648.2"
             }
           ]
@@ -3358,7 +3358,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3367,7 +3367,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3376,7 +3376,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3385,7 +3385,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3394,7 +3394,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "downstream_gene_variant"
               ]
@@ -3405,7 +3405,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -3419,7 +3419,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001365819.1"
             }
           ]
@@ -3428,7 +3428,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3437,7 +3437,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3446,7 +3446,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3455,7 +3455,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3464,7 +3464,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "frameshift_variant"
               ]
@@ -3475,7 +3475,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "HIGH"
             }
           ]
@@ -3489,7 +3489,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001365836.1"
             }
           ]
@@ -3498,7 +3498,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3507,7 +3507,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3516,7 +3516,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3525,7 +3525,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3534,7 +3534,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "downstream_gene_variant"
               ]
@@ -3545,7 +3545,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -3559,7 +3559,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_002972.4"
             }
           ]
@@ -3568,7 +3568,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3577,7 +3577,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3586,7 +3586,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3595,7 +3595,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3604,7 +3604,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "frameshift_variant"
               ]
@@ -3615,7 +3615,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "HIGH"
             }
           ]
@@ -3629,7 +3629,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_014678.5"
             }
           ]
@@ -3638,7 +3638,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3647,7 +3647,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3656,7 +3656,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3665,7 +3665,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -3674,7 +3674,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "downstream_gene_variant"
               ]
@@ -3685,7 +3685,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -3698,7 +3698,7 @@
       "CADD": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": null
         }
       ]
@@ -3713,7 +3713,7 @@
       "Entrez Gene Id": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": 5192
         }
       ]
@@ -3722,7 +3722,7 @@
       "Rat Gene Identifier": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "RGD:1591776"
         }
       ]
@@ -3731,7 +3731,7 @@
       "OMIM_gene_search_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.omim.org/search?index=entry&start=1&sort=score+desc%2C+prefix_sort+desc&search=PEX10"
         }
       ]
@@ -3740,7 +3740,7 @@
       "Ensembl Gene Id": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "ENSG00000157911"
         }
       ]
@@ -3749,7 +3749,7 @@
       "Rat_Alliance_Genome_Automated_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Predicted to enable ubiquitin protein ligase activity. Predicted to be involved in cellular response to reactive oxygen species; protein import into peroxisome matrix, receptor recycling; and protein polyubiquitination. Located in peroxisomal membrane. Human ortholog(s) of this gene implicated in peroxisomal biogenesis disorder and peroxisome biogenesis disorder 6A. Orthologous to human PEX10 (peroxisomal biogenesis factor 10)."
         }
       ]
@@ -3758,7 +3758,7 @@
       "Rat_Alliance_Genome_RGD_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Predicted to enable protein C-terminus binding activity. Predicted to be involved in protein import into peroxisome matrix. Located in peroxisomal membrane. Human ortholog(s) of this gene implicated in peroxisomal biogenesis disorder and peroxisome biogenesis disorder 6A. Orthologous to human PEX10 (peroxisomal biogenesis factor 10); INTERACTS WITH 2,3,7,8-tetrachlorodibenzodioxine; bisphenol A; paracetamol."
         }
       ]
@@ -3767,7 +3767,7 @@
       "Rat_Alliance_Genome_Models": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": []
         }
       ]
@@ -3776,7 +3776,7 @@
       "Zebrafish Gene Identifier": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "ZFIN:ZDB-GENE-041010-71"
         }
       ]
@@ -3785,7 +3785,7 @@
       "HPO_gene_search_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://hpo.jax.org/app/browse/search?q=PEX10&navFilter=all"
         }
       ]
@@ -3794,7 +3794,7 @@
       "Mouse Gene Identifier": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "MGI:2684988"
         }
       ]
@@ -3803,7 +3803,7 @@
       "HGNC_ID": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "HGNC:8851"
         }
       ]
@@ -3812,7 +3812,7 @@
       "NCBI_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=5192"
         }
       ]
@@ -3821,7 +3821,7 @@
       "Gene Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "This gene encodes a protein involved in import of peroxisomal matrix proteins. This protein localizes to the peroxisomal membrane. Mutations in this gene result in phenotypes within the Zellweger spectrum of peroxisomal biogenesis disorders, ranging from neonatal adrenoleukodystrophy to Zellweger syndrome. Alternative splicing results in two transcript variants encoding different isoforms. [provided by RefSeq, Jul 2008]"
         }
       ]
@@ -3830,7 +3830,7 @@
       "gnomAD_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://gnomad.broadinstitute.org/gene/ENSG00000157911?dataset=gnomad_r2_1"
         }
       ]
@@ -3839,7 +3839,7 @@
       "OMIM": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             "Neonatal adrenoleukodystrophy",
             "Peroxisome biogenesis disorder 6B",
@@ -3855,7 +3855,7 @@
       "ClinGen_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://search.clinicalgenome.org/kb/genes/HGNC:8851"
         }
       ]
@@ -3864,7 +3864,7 @@
       "Mouse_Alliance_Genome_Models": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             {
               "id": "MGI:5639146",
@@ -4120,7 +4120,7 @@
       "HPO": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             "HP:0000952: Jaundice",
             "HP:0000268: Dolichocephaly",
@@ -4264,7 +4264,7 @@
       "Zebrafish_Alliance_Genome_Automated_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Predicted to enable metal ion binding activity. Predicted to be involved in protein import into peroxisome matrix. Predicted to be located in peroxisome. Predicted to be active in peroxisomal membrane. Human ortholog(s) of this gene implicated in peroxisomal biogenesis disorder and peroxisome biogenesis disorder 6A. Orthologous to human PEX10 (peroxisomal biogenesis factor 10)."
         }
       ]
@@ -4273,7 +4273,7 @@
       "Mouse_Alliance_Genome_MGI_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "PHENOTYPE: Mice homozygous for an ENU-induced allele exhibit partial neonatal mortality due to respiratory distress, loss of embryonic movement, and prenatal pathology including altered biochemistry, defects in axonal integrity, decreased Schwann cell number, and defects at the neuromuscular junction.   [provided by MGI curators]"
         }
       ]
@@ -4282,7 +4282,7 @@
       "Zebrafish_Alliance_Genome_ZFIN_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": ""
         }
       ]
@@ -4291,7 +4291,7 @@
       "Zebrafish_Alliance_Genome_Models": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": []
         }
       ]
@@ -4300,7 +4300,7 @@
       "Mouse_Alliance_Genome_Automated_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Predicted to enable ubiquitin protein ligase activity. Predicted to be involved in cellular response to reactive oxygen species; protein import into peroxisome matrix, receptor recycling; and protein polyubiquitination. Predicted to act upstream of or within protein transport. Predicted to be located in peroxisome. Predicted to be active in peroxisomal membrane. Is expressed in dorsal grey horn; medulla oblongata alar plate mantle layer; medulla oblongata basal plate mantle layer; midbrain mantle layer; and pons mantle layer. Human ortholog(s) of this gene implicated in peroxisomal biogenesis disorder and peroxisome biogenesis disorder 6A. Orthologous to human PEX10 (peroxisomal biogenesis factor 10)."
         }
       ]
@@ -4309,7 +4309,7 @@
       "Rat_Alliance_Genome_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.alliancegenome.org/gene/RGD:1591776"
         }
       ]
@@ -4318,7 +4318,7 @@
       "Rat_Rat_Genome_Database_url": [
         {
           "data_source": "Alliance genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=RGD:1591776"
         }
       ]
@@ -4327,7 +4327,7 @@
       "Zebrafish_Alliance_Genome_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.alliancegenome.org/gene/ZFIN:ZDB-GENE-041010-71"
         }
       ]
@@ -4336,7 +4336,7 @@
       "Zebrafish_Zebrafish_Information_Network_url": [
         {
           "data_source": "Alliance genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://zfin.org/ZDB-GENE-041010-71"
         }
       ]
@@ -4345,7 +4345,7 @@
       "Mouse_Alliance_Genome_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.alliancegenome.org/gene/MGI:2684988"
         }
       ]
@@ -4354,7 +4354,7 @@
       "Mouse_Mouse_Genome_Database_url": [
         {
           "data_source": "Alliance genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "http://www.informatics.jax.org/marker/MGI:2684988"
         }
       ]
@@ -4376,7 +4376,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001128827.4"
             }
           ]
@@ -4385,7 +4385,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4394,7 +4394,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4403,7 +4403,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4412,7 +4412,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4421,7 +4421,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "frameshift_variant"
               ]
@@ -4432,7 +4432,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "HIGH"
             }
           ]
@@ -4446,7 +4446,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001321074.1"
             }
           ]
@@ -4455,7 +4455,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4464,7 +4464,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4473,7 +4473,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4482,7 +4482,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4491,7 +4491,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "frameshift_variant"
               ]
@@ -4502,7 +4502,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "HIGH"
             }
           ]
@@ -4516,7 +4516,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001321075.3"
             }
           ]
@@ -4525,7 +4525,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4534,7 +4534,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4543,7 +4543,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4552,7 +4552,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4561,7 +4561,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "frameshift_variant"
               ]
@@ -4572,7 +4572,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "HIGH"
             }
           ]
@@ -4586,7 +4586,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001321076.3"
             }
           ]
@@ -4595,7 +4595,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4604,7 +4604,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4613,7 +4613,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4622,7 +4622,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4631,7 +4631,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "frameshift_variant"
               ]
@@ -4642,7 +4642,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "HIGH"
             }
           ]
@@ -4656,7 +4656,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001321077.3"
             }
           ]
@@ -4665,7 +4665,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4674,7 +4674,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4683,7 +4683,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4692,7 +4692,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4701,7 +4701,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "frameshift_variant"
               ]
@@ -4712,7 +4712,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "HIGH"
             }
           ]
@@ -4726,7 +4726,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001365.4"
             }
           ]
@@ -4735,7 +4735,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4744,7 +4744,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4753,7 +4753,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4762,7 +4762,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4771,7 +4771,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "frameshift_variant"
               ]
@@ -4782,7 +4782,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "HIGH"
             }
           ]
@@ -4796,7 +4796,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001369566.3"
             }
           ]
@@ -4805,7 +4805,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4814,7 +4814,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4823,7 +4823,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4832,7 +4832,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4841,7 +4841,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "frameshift_variant"
               ]
@@ -4852,7 +4852,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "HIGH"
             }
           ]
@@ -4866,7 +4866,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NR_135527.1"
             }
           ]
@@ -4875,7 +4875,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4884,7 +4884,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4893,7 +4893,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4902,7 +4902,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": null
             }
           ]
@@ -4911,7 +4911,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "non_coding_transcript_exon_variant"
               ]
@@ -4922,7 +4922,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODIFIER"
             }
           ]
@@ -4935,7 +4935,7 @@
       "CADD": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": null
         }
       ]
@@ -4950,7 +4950,7 @@
       "Entrez Gene Id": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": 6305
         }
       ]
@@ -4959,7 +4959,7 @@
       "Rat Gene Identifier": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "RGD:1307090"
         }
       ]
@@ -4968,7 +4968,7 @@
       "Ensembl Gene Id": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "ENSG00000100241"
         }
       ]
@@ -4977,7 +4977,7 @@
       "OMIM_gene_search_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.omim.org/search?index=entry&start=1&sort=score+desc%2C+prefix_sort+desc&search=SBF1"
         }
       ]
@@ -4986,7 +4986,7 @@
       "Rat_Alliance_Genome_Automated_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Predicted to enable guanyl-nucleotide exchange factor activity. Involved in spermatid development. Predicted to be located in cytoplasm and nuclear body. Human ortholog(s) of this gene implicated in Charcot-Marie-Tooth disease type 4B3. Orthologous to human SBF1 (SET binding factor 1)."
         }
       ]
@@ -4995,7 +4995,7 @@
       "Rat_Alliance_Genome_RGD_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Predicted to enable guanyl-nucleotide exchange factor activity. Involved in spermatid development. Located in cytoplasm. Human ortholog(s) of this gene implicated in Charcot-Marie-Tooth disease type 4B3. Orthologous to human SBF1 (SET binding factor 1); INTERACTS WITH 2,3,7,8-tetrachlorodibenzodioxine; 2,6-dinitrotoluene; 6-propyl-2-thiouracil."
         }
       ]
@@ -5004,7 +5004,7 @@
       "Rat_Alliance_Genome_Models": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             {
               "id": "RGD:631848",
@@ -5194,7 +5194,7 @@
       "Zebrafish Gene Identifier": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "ZFIN:ZDB-GENE-040718-139"
         }
       ]
@@ -5203,7 +5203,7 @@
       "Zebrafish_Alliance_Genome_Automated_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Predicted to enable guanyl-nucleotide exchange factor activity and phosphatase regulator activity. Predicted to act upstream of or within regulation of GTPase activity. Human ortholog(s) of this gene implicated in Charcot-Marie-Tooth disease type 4B3. Orthologous to human SBF1 (SET binding factor 1)."
         }
       ]
@@ -5212,7 +5212,7 @@
       "Zebrafish_Alliance_Genome_ZFIN_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": ""
         }
       ]
@@ -5221,7 +5221,7 @@
       "Zebrafish_Alliance_Genome_Models": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": []
         }
       ]
@@ -5230,7 +5230,7 @@
       "Mouse Gene Identifier": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "MGI:1925230"
         }
       ]
@@ -5239,7 +5239,7 @@
       "HPO_gene_search_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://hpo.jax.org/app/browse/search?q=SBF1&navFilter=all"
         }
       ]
@@ -5248,7 +5248,7 @@
       "HGNC_ID": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "HGNC:10542"
         }
       ]
@@ -5257,7 +5257,7 @@
       "NCBI_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=6305"
         }
       ]
@@ -5266,7 +5266,7 @@
       "Gene Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "This gene encodes a member of the protein-tyrosine phosphatase family. However, the encoded protein does not appear to be a catalytically active phosphatase because it lacks several amino acids in the catalytic pocket. This protein contains a Guanine nucleotide exchange factor (GEF) domain which is necessary for its role in growth and differentiation. Mutations in this gene have been associated with Charcot-Marie-Tooth disease 4B3. Pseudogenes of this gene have been defined on chromosomes 1 and 8. [provided by RefSeq, Dec 2014]"
         }
       ]
@@ -5275,7 +5275,7 @@
       "gnomAD_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://gnomad.broadinstitute.org/gene/ENSG00000100241?dataset=gnomad_r2_1"
         }
       ]
@@ -5284,7 +5284,7 @@
       "OMIM": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             "Charcot-Marie-Tooth disease, type 4B3"
           ]
@@ -5295,7 +5295,7 @@
       "ClinGen_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://search.clinicalgenome.org/kb/genes/HGNC:10542"
         }
       ]
@@ -5304,7 +5304,7 @@
       "HPO": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             "HP:0001763: Pes planus",
             "HP:0003676: Progressive",
@@ -5338,7 +5338,7 @@
       "Mouse_Alliance_Genome_Models": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             {
               "id": "MGI:7316771",
@@ -5802,7 +5802,7 @@
       "Mouse_Alliance_Genome_MGI_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "PHENOTYPE: Male homozygotes for a targeted null mutation exhibit male infertility associated with azoospermia, vacuolation of Sertoli cells, reduced spermatid formation, and eventual depletion of germ cells. [provided by MGI curators]"
         }
       ]
@@ -5811,7 +5811,7 @@
       "Mouse_Alliance_Genome_Automated_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Predicted to enable guanyl-nucleotide exchange factor activity. Acts upstream of or within spermatogenesis. Predicted to be located in cytoplasm and nuclear body. Is expressed in craniocervical region bone; nervous system; and neural retina. Used to study Charcot-Marie-Tooth disease type 4B3. Human ortholog(s) of this gene implicated in Charcot-Marie-Tooth disease type 4B3. Orthologous to human SBF1 (SET binding factor 1)."
         }
       ]
@@ -5820,7 +5820,7 @@
       "Rat_Alliance_Genome_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.alliancegenome.org/gene/RGD:1307090"
         }
       ]
@@ -5829,7 +5829,7 @@
       "Rat_Rat_Genome_Database_url": [
         {
           "data_source": "Alliance genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=RGD:1307090"
         }
       ]
@@ -5838,7 +5838,7 @@
       "Zebrafish_Alliance_Genome_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.alliancegenome.org/gene/ZFIN:ZDB-GENE-040718-139"
         }
       ]
@@ -5847,7 +5847,7 @@
       "Zebrafish_Zebrafish_Information_Network_url": [
         {
           "data_source": "Alliance genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://zfin.org/ZDB-GENE-040718-139"
         }
       ]
@@ -5856,7 +5856,7 @@
       "Mouse_Alliance_Genome_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.alliancegenome.org/gene/MGI:1925230"
         }
       ]
@@ -5865,7 +5865,7 @@
       "Mouse_Mouse_Genome_Database_url": [
         {
           "data_source": "Alliance genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "http://www.informatics.jax.org/marker/MGI:1925230"
         }
       ]
@@ -5887,7 +5887,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_000402.4"
             }
           ]
@@ -5896,7 +5896,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "benign"
             }
           ]
@@ -5905,7 +5905,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0.018
             }
           ]
@@ -5914,7 +5914,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "deleterious"
             }
           ]
@@ -5923,7 +5923,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0
             }
           ]
@@ -5932,7 +5932,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "missense_variant"
               ]
@@ -5943,7 +5943,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODERATE"
             }
           ]
@@ -5957,7 +5957,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001042351.3"
             }
           ]
@@ -5966,7 +5966,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "benign"
             }
           ]
@@ -5975,7 +5975,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0.03
             }
           ]
@@ -5984,7 +5984,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "deleterious"
             }
           ]
@@ -5993,7 +5993,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0
             }
           ]
@@ -6002,7 +6002,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "missense_variant"
               ]
@@ -6013,7 +6013,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODERATE"
             }
           ]
@@ -6027,7 +6027,7 @@
           "transcript_id": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "NM_001360016.2"
             }
           ]
@@ -6036,7 +6036,7 @@
           "Polyphen Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "benign"
             }
           ]
@@ -6045,7 +6045,7 @@
           "Polyphen Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0.03
             }
           ]
@@ -6054,7 +6054,7 @@
           "SIFT Prediction": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "deleterious"
             }
           ]
@@ -6063,7 +6063,7 @@
           "SIFT Score": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": 0
             }
           ]
@@ -6072,7 +6072,7 @@
           "Consequences": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": [
                 "missense_variant"
               ]
@@ -6083,7 +6083,7 @@
           "Impact": [
             {
               "data_source": "Ensembl",
-              "version": "",
+              "version": "rosalution-temp-manifest-00",
               "value": "MODERATE"
             }
           ]
@@ -6096,7 +6096,7 @@
       "ClinVar_Variantion_Id": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "100057"
         }
       ]
@@ -6105,7 +6105,7 @@
       "CADD": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": 24.5
         }
       ]
@@ -6114,7 +6114,7 @@
       "ClinVar_variant_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.ncbi.nlm.nih.gov/clinvar/variation/100057"
         }
       ]
@@ -6129,7 +6129,7 @@
       "Entrez Gene Id": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": 1742
         }
       ]
@@ -6138,7 +6138,7 @@
       "OMIM": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             "Intellectual developmental disorder 62"
           ]
@@ -6149,7 +6149,7 @@
       "HPO": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             "HP:0003593: Infantile onset",
             "HP:0012771: Increased arm span",
@@ -6173,7 +6173,7 @@
       "Ensembl Gene Id": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "ENSG00000132535"
         }
       ]
@@ -6182,7 +6182,7 @@
       "Rat Gene Identifier": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "RGD:68424"
         }
       ]
@@ -6191,7 +6191,7 @@
       "Rat_Alliance_Genome_Automated_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Enables several functions, including PDZ domain binding activity; enzyme binding activity; and signaling receptor binding activity. A structural constituent of postsynaptic density. Involved in several processes, including modulation of chemical synaptic transmission; positive regulation of cellular component organization; and postsynapse organization. Located in several cellular components, including dendrite; juxtaparanode region of axon; and postsynaptic density. Is active in glutamatergic synapse and postsynaptic density membrane. Colocalizes with postsynaptic membrane. Biomarker of Parkinson's disease and temporal lobe epilepsy. Human ortholog(s) of this gene implicated in autosomal dominant intellectual developmental disorder. Orthologous to human DLG4 (discs large MAGUK scaffold protein 4)."
         }
       ]
@@ -6200,7 +6200,7 @@
       "OMIM_gene_search_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.omim.org/search?index=entry&start=1&sort=score+desc%2C+prefix_sort+desc&search=DLG4"
         }
       ]
@@ -6209,7 +6209,7 @@
       "Rat_Alliance_Genome_RGD_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Enables several functions, including PDZ domain binding activity; enzyme binding activity; and signaling receptor binding activity. A structural constituent of postsynaptic density. Involved in several processes, including modulation of chemical synaptic transmission; positive regulation of cellular component organization; and postsynapse organization. Located in several cellular components, including dendrite; juxtaparanode region of axon; and postsynaptic density. Is active in glutamatergic synapse. Colocalizes with postsynaptic membrane. Biomarker of Parkinson's disease and temporal lobe epilepsy. Human ortholog(s) of this gene implicated in autosomal dominant intellectual developmental disorder. Orthologous to human DLG4 (discs large MAGUK scaffold protein 4); PARTICIPATES IN glutamate signaling pathway; Huntington's disease pathway; INTERACTS WITH (S)-nicotine; 17beta-estradiol; 2,2',4,4',5,5'-hexachlorobiphenyl."
         }
       ]
@@ -6218,7 +6218,7 @@
       "Rat_Alliance_Genome_Models": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": []
         }
       ]
@@ -6227,7 +6227,7 @@
       "HGNC_ID": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "HGNC:2903"
         }
       ]
@@ -6236,7 +6236,7 @@
       "ClinGen_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://search.clinicalgenome.org/kb/genes/HGNC:2903"
         }
       ]
@@ -6245,7 +6245,7 @@
       "Mouse Gene Identifier": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "MGI:1277959"
         }
       ]
@@ -6254,7 +6254,7 @@
       "HPO_gene_search_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://hpo.jax.org/app/browse/search?q=DLG4&navFilter=all"
         }
       ]
@@ -6263,7 +6263,7 @@
       "NCBI_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=1742"
         }
       ]
@@ -6272,7 +6272,7 @@
       "Gene Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "This gene encodes a member of the membrane-associated guanylate kinase (MAGUK) family. It heteromultimerizes with another MAGUK protein, DLG2, and is recruited into NMDA receptor and potassium channel clusters. These two MAGUK proteins may interact at postsynaptic sites to form a multimeric scaffold for the clustering of receptors, ion channels, and associated signaling proteins. Multiple transcript variants encoding different isoforms have been found for this gene. [provided by RefSeq, Jul 2008]"
         }
       ]
@@ -6281,7 +6281,7 @@
       "gnomAD_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://gnomad.broadinstitute.org/gene/ENSG00000132535?dataset=gnomad_r2_1"
         }
       ]
@@ -6290,7 +6290,7 @@
       "Mouse_Alliance_Genome_Models": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             {
               "id": "MGI:5295223",
@@ -7381,7 +7381,7 @@
       "Mouse_Alliance_Genome_MGI_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "PHENOTYPE: Homozygotes for a targeted null mutation exhibit severely impaired spatial learning, alterations in long-term potentiation and depression, and lack of hyperalgesia responses in a neuropathic pain model. [provided by MGI curators]"
         }
       ]
@@ -7390,7 +7390,7 @@
       "Mouse_Alliance_Genome_Automated_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Enables ionotropic glutamate receptor binding activity and scaffold protein binding activity. Involved in several processes, including dendritic spine morphogenesis; locomotory exploration behavior; and neurotransmitter receptor localization to postsynaptic specialization membrane. Acts upstream of or within protein localization to synapse; regulation of long-term neuronal synaptic plasticity; and synaptic vesicle maturation. Located in several cellular components, including axon; postsynaptic density membrane; and synaptic vesicle. Part of AMPA glutamate receptor complex. Is active in glutamatergic synapse. Colocalizes with postsynaptic membrane. Is expressed in central nervous system; dorsal root ganglion; olfactory epithelium; and retina. Used to study Williams-Beuren syndrome and autism spectrum disorder. Human ortholog(s) of this gene implicated in autosomal dominant intellectual developmental disorder. Orthologous to human DLG4 (discs large MAGUK scaffold protein 4)."
         }
       ]
@@ -7399,7 +7399,7 @@
       "Rat_Alliance_Genome_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.alliancegenome.org/gene/RGD:68424"
         }
       ]
@@ -7408,7 +7408,7 @@
       "Rat_Rat_Genome_Database_url": [
         {
           "data_source": "Alliance genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=RGD:68424"
         }
       ]
@@ -7417,7 +7417,7 @@
       "Mouse_Alliance_Genome_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.alliancegenome.org/gene/MGI:1277959"
         }
       ]
@@ -7426,7 +7426,7 @@
       "Mouse_Mouse_Genome_Database_url": [
         {
           "data_source": "Alliance genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "http://www.informatics.jax.org/marker/MGI:1277959"
         }
       ]
@@ -7441,7 +7441,7 @@
       "Entrez Gene Id": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": 2539
         }
       ]
@@ -7450,7 +7450,7 @@
       "OMIM": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             "Hemolytic anemia, G6PD deficient (favism)"
           ]
@@ -7461,7 +7461,7 @@
       "HPO": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             "HP:0003593: Infantile onset",
             "HP:0000952: Jaundice",
@@ -7493,7 +7493,7 @@
       "Ensembl Gene Id": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "ENSG00000160211"
         }
       ]
@@ -7502,7 +7502,7 @@
       "OMIM_gene_search_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.omim.org/search?index=entry&start=1&sort=score+desc%2C+prefix_sort+desc&search=G6PD"
         }
       ]
@@ -7511,7 +7511,7 @@
       "Rat Gene Identifier": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "RGD:2645"
         }
       ]
@@ -7520,7 +7520,7 @@
       "Zebrafish Gene Identifier": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "ZFIN:ZDB-GENE-070508-4"
         }
       ]
@@ -7529,7 +7529,7 @@
       "Zebrafish_Alliance_Genome_Automated_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Enables UDP-glucose 6-dehydrogenase activity and glucose-6-phosphate dehydrogenase activity. Acts upstream of or within epiboly. Predicted to be active in cytosol. Used to study hemolytic anemia. Human ortholog(s) of this gene implicated in several diseases, including anemia (multiple); cerebrovascular disease; favism; malaria (multiple); and neonatal jaundice. Orthologous to human G6PD (glucose-6-phosphate dehydrogenase)."
         }
       ]
@@ -7538,7 +7538,7 @@
       "Zebrafish_Alliance_Genome_ZFIN_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": ""
         }
       ]
@@ -7547,7 +7547,7 @@
       "Zebrafish_Alliance_Genome_Models": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             {
               "id": "ZFIN:ZDB-FISH-190605-7",
@@ -8262,7 +8262,7 @@
       "HPO_gene_search_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://hpo.jax.org/app/browse/search?q=G6PD&navFilter=all"
         }
       ]
@@ -8271,7 +8271,7 @@
       "HGNC_ID": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "HGNC:4057"
         }
       ]
@@ -8280,7 +8280,7 @@
       "NCBI_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=2539"
         }
       ]
@@ -8289,7 +8289,7 @@
       "Gene Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "This gene encodes glucose-6-phosphate dehydrogenase. This protein is a cytosolic enzyme encoded by a housekeeping X-linked gene whose main function is to produce NADPH, a key electron donor in the defense against oxidizing agents and in reductive biosynthetic reactions. G6PD is remarkable for its genetic diversity. Many variants of G6PD, mostly produced from missense mutations, have been described with wide ranging levels of enzyme activity and associated clinical symptoms. G6PD deficiency may cause neonatal jaundice, acute hemolysis, or severe chronic non-spherocytic hemolytic anemia. Two transcript variants encoding different isoforms have been found for this gene. [provided by RefSeq, Jul 2008]"
         }
       ]
@@ -8298,7 +8298,7 @@
       "gnomAD_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://gnomad.broadinstitute.org/gene/ENSG00000160211?dataset=gnomad_r2_1"
         }
       ]
@@ -8307,7 +8307,7 @@
       "Rat_Alliance_Genome_Automated_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Enables NADP binding activity; glucose binding activity; and glucose-6-phosphate dehydrogenase activity. Involved in several processes, including negative regulation of cell growth involved in cardiac muscle cell development; pentose-phosphate shunt, oxidative branch; and positive regulation of calcium ion transmembrane transport via high voltage-gated calcium channel. Predicted to be located in several cellular components, including centriolar satellite; cytoplasmic side of plasma membrane; and intracellular membrane-bounded organelle. Predicted to be active in cytosol. Used to study cataract and transient cerebral ischemia. Biomarker of several diseases, including artery disease (multiple); hepatic encephalopathy; hyperhomocysteinemia; obesity; and phenylketonuria. Human ortholog(s) of this gene implicated in several diseases, including anemia (multiple); cerebrovascular disease; favism; malaria (multiple); and neonatal jaundice. Orthologous to human G6PD (glucose-6-phosphate dehydrogenase)."
         }
       ]
@@ -8316,7 +8316,7 @@
       "Rat_Alliance_Genome_RGD_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Enables NADP binding activity; glucose binding activity; and glucose-6-phosphate dehydrogenase activity. Involved in several processes, including negative regulation of cell growth involved in cardiac muscle cell development; pentose-phosphate shunt, oxidative branch; and positive regulation of calcium ion transmembrane transport via high voltage-gated calcium channel. Located in cytosol and nucleus. Used to study cataract and transient cerebral ischemia. Biomarker of several diseases, including artery disease (multiple); hepatic encephalopathy; hyperhomocysteinemia; obesity; and phenylketonuria. Human ortholog(s) of this gene implicated in several diseases, including anemia (multiple); cerebrovascular disease; favism; malaria (multiple); and neonatal jaundice. Orthologous to human G6PD (glucose-6-phosphate dehydrogenase); PARTICIPATES IN pentose phosphate pathway; pentose phosphate pathway - oxidative phase; ribose 5-phosphate isomerase deficiency pathway; INTERACTS WITH (+)-schisandrin B; (+)-taxifolin; (R)-noradrenaline."
         }
       ]
@@ -8325,7 +8325,7 @@
       "ClinGen_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://search.clinicalgenome.org/kb/genes/HGNC:4057"
         }
       ]
@@ -8334,7 +8334,7 @@
       "Rat_Alliance_Genome_Models": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": []
         }
       ]
@@ -8343,7 +8343,7 @@
       "Rat_Alliance_Genome_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.alliancegenome.org/gene/RGD:2645"
         }
       ]
@@ -8352,7 +8352,7 @@
       "Rat_Rat_Genome_Database_url": [
         {
           "data_source": "Alliance genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=RGD:2645"
         }
       ]
@@ -8361,7 +8361,7 @@
       "Zebrafish_Alliance_Genome_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.alliancegenome.org/gene/ZFIN:ZDB-GENE-070508-4"
         }
       ]
@@ -8370,7 +8370,7 @@
       "Zebrafish_Zebrafish_Information_Network_url": [
         {
           "data_source": "Alliance genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://zfin.org/ZDB-GENE-070508-4"
         }
       ]
@@ -8385,7 +8385,7 @@
       "Entrez Gene Id": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": 2290
         }
       ]
@@ -8394,7 +8394,7 @@
       "Rat Gene Identifier": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "RGD:2619"
         }
       ]
@@ -8403,7 +8403,7 @@
       "Ensembl Gene Id": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "ENSG00000176165"
         }
       ]
@@ -8412,7 +8412,7 @@
       "OMIM_gene_search_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.omim.org/search?index=entry&start=1&sort=score+desc%2C+prefix_sort+desc&search=FOXG1"
         }
       ]
@@ -8421,7 +8421,7 @@
       "Rat_Alliance_Genome_Automated_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Predicted to enable sequence-specific double-stranded DNA binding activity. Predicted to be involved in negative regulation of DNA-templated transcription and regulation of transcription by RNA polymerase II. Predicted to act upstream of or within several processes, including neuron differentiation; positive regulation of neuroblast proliferation; and regulation of neuron differentiation. Predicted to be active in nucleus. Orthologous to human FOXG1 (forkhead box G1)."
         }
       ]
@@ -8430,7 +8430,7 @@
       "Rat_Alliance_Genome_RGD_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Predicted to enable sequence-specific double-stranded DNA binding activity. Involved in aging and brain development. Predicted to be active in nucleus. Orthologous to human FOXG1 (forkhead box G1); INTERACTS WITH Cuprizon; dexamethasone; flavonoids."
         }
       ]
@@ -8439,7 +8439,7 @@
       "Rat_Alliance_Genome_Models": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": []
         }
       ]
@@ -8448,7 +8448,7 @@
       "Mouse Gene Identifier": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "MGI:1347464"
         }
       ]
@@ -8457,7 +8457,7 @@
       "HPO_gene_search_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://hpo.jax.org/app/browse/search?q=FOXG1&navFilter=all"
         }
       ]
@@ -8466,7 +8466,7 @@
       "HGNC_ID": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "HGNC:3811"
         }
       ]
@@ -8475,7 +8475,7 @@
       "NCBI_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=2290"
         }
       ]
@@ -8484,7 +8484,7 @@
       "gnomAD_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://gnomad.broadinstitute.org/gene/ENSG00000176165?dataset=gnomad_r2_1"
         }
       ]
@@ -8493,7 +8493,7 @@
       "Gene Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "This locus encodes a member of the fork-head transcription factor family. The encoded protein, which functions as a transcriptional repressor, is highly expressed in neural tissues during brain development. Mutations at this locus have been associated with Rett syndrome and a diverse spectrum of neurodevelopmental disorders defined as part of the FOXG1 syndrome. This gene is disregulated in many types of cancer and is the target of multiple microRNAs that regulate the proliferation of tumor cells. [provided by RefSeq, Jul 2020]"
         }
       ]
@@ -8502,7 +8502,7 @@
       "ClinGen_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://search.clinicalgenome.org/kb/genes/HGNC:3811"
         }
       ]
@@ -8511,7 +8511,7 @@
       "HPO": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             "HP:0002020: Gastroesophageal reflux",
             "HP:0003781: Excessive salivation",
@@ -8582,7 +8582,7 @@
       "OMIM": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             "FOXG1 syndrome due to 14q12 microdeletion",
             "Rett syndrome, congenital variant"
@@ -8594,7 +8594,7 @@
       "Mouse_Alliance_Genome_Models": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             {
               "id": "MGI:3530074",
@@ -14069,7 +14069,7 @@
       "Mouse_Alliance_Genome_Automated_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Enables sequence-specific DNA binding activity. Acts upstream of or within several processes, including neuron differentiation; positive regulation of neuroblast proliferation; and regulation of neuron differentiation. Located in nucleus. Is expressed in several structures, including central nervous system; embryo ectoderm; embryo endoderm; hemolymphoid system; and sensory organ. Used to study Rett syndrome. Orthologous to human FOXG1 (forkhead box G1)."
         }
       ]
@@ -14078,7 +14078,7 @@
       "Mouse_Alliance_Genome_MGI_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "PHENOTYPE: Homozygous mutants exhibit dramatically reduced cerebral hemispheres, missing ventral telencephalic structures, impaired migration of efferent thalamocortical axons, and multiple eye defects.  Mutants die at birth from respiratory failure. [provided by MGI curators]"
         }
       ]
@@ -14087,7 +14087,7 @@
       "Rat_Alliance_Genome_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.alliancegenome.org/gene/RGD:2619"
         }
       ]
@@ -14096,7 +14096,7 @@
       "Rat_Rat_Genome_Database_url": [
         {
           "data_source": "Alliance genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=RGD:2619"
         }
       ]
@@ -14105,7 +14105,7 @@
       "Mouse_Alliance_Genome_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.alliancegenome.org/gene/MGI:1347464"
         }
       ]
@@ -14114,7 +14114,7 @@
       "Mouse_Mouse_Genome_Database_url": [
         {
           "data_source": "Alliance genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "http://www.informatics.jax.org/marker/MGI:1347464"
         }
       ]
@@ -14129,7 +14129,7 @@
       "Entrez Gene Id": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": 4000
         }
       ]
@@ -14138,7 +14138,7 @@
       "Rat Gene Identifier": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "RGD:620456"
         }
       ]
@@ -14147,7 +14147,7 @@
       "Ensembl Gene Id": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "ENSG00000160789"
         }
       ]
@@ -14156,7 +14156,7 @@
       "OMIM_gene_search_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.omim.org/search?index=entry&start=1&sort=score+desc%2C+prefix_sort+desc&search=LMNA"
         }
       ]
@@ -14165,7 +14165,7 @@
       "Rat_Alliance_Genome_Automated_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Enables protein phosphatase 1 binding activity. Involved in several processes, including cellular senescence; negative regulation of adipose tissue development; and positive regulation of osteoblast differentiation. Located in nuclear envelope and nuclear matrix. Used to study transient cerebral ischemia. Biomarker of arteriosclerosis. Human ortholog(s) of this gene implicated in several diseases, including Charcot-Marie-Tooth disease type 2B1; intrinsic cardiomyopathy (multiple); lipodystrophy (multiple); muscular dystrophy (multiple); and type 2 diabetes mellitus (multiple). Orthologous to human LMNA (lamin A/C)."
         }
       ]
@@ -14174,7 +14174,7 @@
       "Rat_Alliance_Genome_Models": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": []
         }
       ]
@@ -14183,7 +14183,7 @@
       "Rat_Alliance_Genome_RGD_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Enables protein phosphatase 1 binding activity. Involved in several processes, including cellular senescence; negative regulation of adipose tissue development; and positive regulation of osteoblast differentiation. Located in nuclear envelope and nuclear matrix. Used to study transient cerebral ischemia. Biomarker of arteriosclerosis. Human ortholog(s) of this gene implicated in several diseases, including Charcot-Marie-Tooth disease type 2B1; intrinsic cardiomyopathy (multiple); lipodystrophy (multiple); muscular dystrophy (multiple); and type 2 diabetes mellitus (multiple). Orthologous to human LMNA (lamin A/C); PARTICIPATES IN atherosclerosis pathway; arrhythmogenic right ventricular cardiomyopathy pathway; dilated cardiomyopathy pathway; INTERACTS WITH (+)-schisandrin B; 1,1,1-trichloro-2,2-bis(4-hydroxyphenyl)ethane; 1,1,1-Trichloro-2-(o-chlorophenyl)-2-(p-chlorophenyl)ethane."
         }
       ]
@@ -14192,7 +14192,7 @@
       "Zebrafish Gene Identifier": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "ZFIN:ZDB-GENE-020424-3"
         }
       ]
@@ -14201,7 +14201,7 @@
       "Mouse Gene Identifier": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "MGI:96794"
         }
       ]
@@ -14210,7 +14210,7 @@
       "HPO_gene_search_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://hpo.jax.org/app/browse/search?q=LMNA&navFilter=all"
         }
       ]
@@ -14219,7 +14219,7 @@
       "HGNC_ID": [
         {
           "data_source": "Ensembl",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "HGNC:6636"
         }
       ]
@@ -14228,7 +14228,7 @@
       "NCBI_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=4000"
         }
       ]
@@ -14237,7 +14237,7 @@
       "Gene Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "The protein encoded by this gene is part of the nuclear lamina, a two-dimensional matrix of proteins located next to the inner nuclear membrane. The lamin family of proteins make up the matrix and are highly conserved in evolution. During mitosis, the lamina matrix is reversibly disassembled as the lamin proteins are phosphorylated. Lamin proteins are thought to be involved in nuclear stability, chromatin structure and gene expression. Vertebrate lamins consist of two types, A and B. Alternative splicing results in multiple transcript variants. Mutations in this gene lead to several diseases: Emery-Dreifuss muscular dystrophy, familial partial lipodystrophy, limb girdle muscular dystrophy, dilated cardiomyopathy, Charcot-Marie-Tooth disease, and Hutchinson-Gilford progeria syndrome. [provided by RefSeq, May 2022]"
         }
       ]
@@ -14246,7 +14246,7 @@
       "gnomAD_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://gnomad.broadinstitute.org/gene/ENSG00000160789?dataset=gnomad_r2_1"
         }
       ]
@@ -14255,7 +14255,7 @@
       "OMIM": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             "Familial isolated dilated cardiomyopathy",
             "LMNA-related congenital muscular dystrophy",
@@ -14292,7 +14292,7 @@
       "ClinGen_gene_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://search.clinicalgenome.org/kb/genes/HGNC:6636"
         }
       ]
@@ -14301,7 +14301,7 @@
       "HPO": [
         {
           "data_source": "HPO",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             "HP:0011968: Feeding difficulties",
             "HP:0004492: Widely patent fontanelles and sutures",
@@ -14793,7 +14793,7 @@
       "Mouse_Alliance_Genome_Models": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             {
               "id": "MGI:4459466",
@@ -22384,7 +22384,7 @@
       "Mouse_Alliance_Genome_MGI_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "PHENOTYPE: Homozygotes for targeted mutations exhibit retarded postnatal growth, muscular dystrophy, reduced fat stores, micrognathy, abnormal dentition, impaired gonadal development, malformed scapulae, hyperkeratosis, and die by 8 weeks of age. [provided by MGI curators]"
         }
       ]
@@ -22393,7 +22393,7 @@
       "Zebrafish_Alliance_Genome_ZFIN_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": ""
         }
       ]
@@ -22402,7 +22402,7 @@
       "Zebrafish_Alliance_Genome_Models": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": [
             {
               "id": "ZFIN:ZDB-FISH-230123-3",
@@ -23102,7 +23102,7 @@
       "Mouse_Alliance_Genome_Automated_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Predicted to enable identical protein binding activity and protein phosphatase 1 binding activity. Predicted to be a structural constituent of cytoskeleton. Involved in several processes, including establishment or maintenance of microtubule cytoskeleton polarity; negative regulation of cardiac muscle hypertrophy in response to stress; and protein localization to nucleus. Acts upstream of or within several processes, including negative regulation of apoptotic signaling pathway; protein import into nucleus; and ventricular cardiac muscle cell development. Located in lamin filament and nuclear membrane. Is expressed in several structures, including embryo mesenchyme; epithelium; heart; immune system; and musculature. Used to study several diseases, including Charcot-Marie-Tooth disease type 2B1; achalasia; dilated cardiomyopathy 1A; muscular dystrophy (multiple); and progeria. Human ortholog(s) of this gene implicated in several diseases, including Charcot-Marie-Tooth disease type 2B1; intrinsic cardiomyopathy (multiple); lipodystrophy (multiple); muscular dystrophy (multiple); and type 2 diabetes mellitus (multiple). Orthologous to human LMNA (lamin A/C)."
         }
       ]
@@ -23111,7 +23111,7 @@
       "Zebrafish_Alliance_Genome_Automated_Summary": [
         {
           "data_source": "Alliance Genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "Predicted to be a structural constituent of cytoskeleton. Acts upstream of or within several processes, including heart contraction; regulation of cellular senescence; and skeletal muscle tissue development. Predicted to be located in intermediate filament. Predicted to be active in nuclear envelope and nuclear lamina. Is expressed in several structures, including fin; head; mesoderm; musculature system; and pleuroperitoneal region. Used to study muscle tissue disease. Human ortholog(s) of this gene implicated in several diseases, including Charcot-Marie-Tooth disease type 2B1; intrinsic cardiomyopathy (multiple); lipodystrophy (multiple); muscular dystrophy (multiple); and type 2 diabetes mellitus (multiple). Orthologous to human LMNA (lamin A/C)."
         }
       ]
@@ -23120,7 +23120,7 @@
       "Rat_Alliance_Genome_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.alliancegenome.org/gene/RGD:620456"
         }
       ]
@@ -23129,7 +23129,7 @@
       "Rat_Rat_Genome_Database_url": [
         {
           "data_source": "Alliance genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=RGD:620456"
         }
       ]
@@ -23138,7 +23138,7 @@
       "Zebrafish_Alliance_Genome_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.alliancegenome.org/gene/ZFIN:ZDB-GENE-020424-3"
         }
       ]
@@ -23147,7 +23147,7 @@
       "Zebrafish_Zebrafish_Information_Network_url": [
         {
           "data_source": "Alliance genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://zfin.org/ZDB-GENE-020424-3"
         }
       ]
@@ -23156,7 +23156,7 @@
       "Mouse_Alliance_Genome_url": [
         {
           "data_source": "Rosalution",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "https://www.alliancegenome.org/gene/MGI:96794"
         }
       ]
@@ -23165,7 +23165,7 @@
       "Mouse_Mouse_Genome_Database_url": [
         {
           "data_source": "Alliance genome",
-          "version": "",
+          "version": "rosalution-temp-manifest-00",
           "value": "http://www.informatics.jax.org/marker/MGI:96794"
         }
       ]

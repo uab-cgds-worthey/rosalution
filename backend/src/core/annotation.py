@@ -89,7 +89,7 @@ class AnnotationService:
     def process_tasks(
         annotation_queue: AnnotationQueue, analysis_name: str, genomic_unit_collection: GenomicUnitCollection,
         analysis_collection: AnalysisCollection
-    ):  # pylint: disable=too-many-branches
+    ):  # pylint: disable=too-many-branches,too-many-locals
         """Processes items that have been added to the queue"""
         logger.info("%s Processing annotation tasks queue ...", annotation_log_label())
 
@@ -110,7 +110,6 @@ class AnnotationService:
                     if annotation_unit.has_dependencies():
                         missing_dependencies = annotation_unit.get_missing_dependencies()
                         for missing_dataset_name in missing_dependencies:
-                            # missing_dataset_name
                             dependency_dataset = analysis_collection.get_manifest_dataset_config(
                                 analysis_name, missing_dataset_name
                             )

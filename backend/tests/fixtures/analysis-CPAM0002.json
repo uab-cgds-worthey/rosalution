@@ -9,13 +9,18 @@
         "version": "112"
       }
     }, {
+      "Polyphen Score": {
+          "data_source": "Ensembl",
+          "version": "112"
+        }
+    },{
       "Entrez Gene Id": {
-        "data_source": "Ensembl",
+        "data_source": "Rosalution",
         "version": "rosalution-manifest-00"
       }
     },{
       "HPO_NCBI_GENE_ID": {
-        "data_source": "Ensembl",
+        "data_source": "HPO",
         "version": "2024-09-06"
       }
     },{
@@ -25,25 +30,56 @@
       }
     },{
       "ClinGen_gene_url": {
-        "data_source": "Ensembl",
+        "data_source": "Rosalution",
         "version": "rosalution-manifest-00"
       }
     },{
       "OMIM": {
-        "data_source": "Ensembl",
+        "data_source": "HPO",
         "version": "2024-09-06"
       }
     },{
       "ClinVar_Variantion_Id": {
-        "data_source": "Ensembl",
+        "data_source": "Rosalution",
         "version": "rosalution-manifest-00"
       }
     },{
       "HGNC_ID": {
         "data_source": "Ensembl",
-        "version": "rosalution-manifest-00"
+        "version": "112"
       }
+    },{
+      "ClinVar_variant_url": {
+          "data_source": "Rosalution",
+          "version": "rosalution-manifest-00"
     }
+    }, {
+    "SIFT Score": 
+      {
+        "data_source": "Ensembl",
+        "version": "112"
+      }
+    }, {
+      "Consequences": 
+        {
+          "data_source": "Ensembl",
+          "version": "112"
+        }
+      },
+      {
+      "SIFT Prediction": 
+        {
+          "data_source": "Ensembl",
+          "version": "112"
+        }
+      },
+      {
+        "transcript_id": 
+          {
+            "data_source": "Ensembl",
+            "version": "112"
+          }
+        }
   ],
   "genomic_units": [
     {

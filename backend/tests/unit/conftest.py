@@ -137,10 +137,10 @@ def get_dataset_manifest_config(analysis_collection_json):
     return _create_dataset_manifest
 
 
-@pytest.fixture(name="cpam0046_analysis")
-def fixture_cpam0046_analysis(cpam0046_analysis_json):
-    """Returns the Analysis for CPAM0046 to verify creating annotation tasks"""
-    return Analysis(**cpam0046_analysis_json)
+# @pytest.fixture(name="cpam0046_analysis")
+# def fixture_cpam0046_analysis(cpam0046_analysis_json):
+#     """Returns the Analysis for CPAM0046 to verify creating annotation tasks"""
+#     return Analysis(**cpam0046_analysis_json)
 
 
 @pytest.fixture(name="genomic_units_with_types")
@@ -159,12 +159,16 @@ def fixture_genomic_units_with_types(analysis_collection_json):
 
 @pytest.fixture(name='get_annotation_unit')
 def get_standard_annotation_unit(annotation_config_collection_json, genomic_units_with_types):
-    """Fixture factory method to create an AnnotationUnit from the genomic unit information and name of the datset."""
+    """
+    Fixture factory method to create an AnnotationUnit from the available genomic units in the analyses from
+    'analysis_collection_json' fixture. It searches the 'annotation_config_collection_json' to pair with
+    the genomic unit to create an AnnotationUnit.
 
-    # units = {
-    #     'VMA21': GenomicUnitType.GENE,
-    #     'NM_001017980.3:c.164G>T': GenomicUnitType.HGVS_VARIANT
-    # }
+    {
+      'VMA21': GenomicUnitType.GENE,
+      'NM_001017980.3:c.164G>T': GenomicUnitType.HGVS_VARIANT
+    }
+    """
 
     def _create_annotation_unit(genomic_unit_name, dataset_name):
         """Method to create the Annotation Unit"""
