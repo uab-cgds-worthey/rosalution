@@ -104,28 +104,23 @@ def test_annotation_extraction_value_error_exception(http_annotation_task_gene, 
 
 
 @pytest.mark.parametrize(
-    "test_case", [('VMA21', GenomicUnitType.GENE, 'Entrez Gene Id'),
-                  ('NM_001017980.3:c.164G>T', GenomicUnitType.HGVS_VARIANT, 'ClinVar_Variantion_Id')]
+    "genomic_unit,dataset_name", [('VMA21', 'Entrez Gene Id'), ('NM_001017980.3:c.164G>T', 'ClinVar_Variantion_Id')]
 )
-def test_annotation_versioning_task_created(test_case, get_annotation_unit):
+def test_annotation_versioning_task_created(genomic_unit, dataset_name, get_annotation_unit):
     """Verifies that the annotation task factory creates the correct version annotation task for the annotation unit"""
-    genomic_unit, genomic_unit_type, dataset_name = test_case
-    annotation_unit = get_annotation_unit(genomic_unit, genomic_unit_type, dataset_name)
+    annotation_unit = get_annotation_unit(genomic_unit, dataset_name)
     actual_task = AnnotationTaskFactory.create_version_task(annotation_unit)
     assert isinstance(actual_task, VersionAnnotationTask)
 
 
 @pytest.mark.parametrize(
-    "genomic_unit,genomic_unit_type,dataset_name,expected", [
-        ('VMA21', GenomicUnitType.GENE, 'Entrez Gene Id', {"rosalution": "rosalution-manifest-00"}),
-        (
-            'NM_001017980.3:c.164G>T', GenomicUnitType.HGVS_VARIANT, 'ClinVar_Variantion_Id',
-            {"rosalution": "rosalution-manifest-00"}
-        ),
-        ('VMA21', GenomicUnitType.GENE, 'Ensembl Gene Id', {"releases": [112]}),
-        ('NM_001017980.3:c.164G>T', GenomicUnitType.HGVS_VARIANT, 'Polyphen Prediction', {"releases": [112]}),
-        ('VMA21', GenomicUnitType.GENE, 'HPO_NCBI_GENE_ID', {"date": "rosalution-temp-manifest-00"}),
-        ('LMNA', GenomicUnitType.GENE, 'OMIM', {"date": "rosalution-temp-manifest-00"}),
+    "genomic_unit,dataset_name,expected", [
+        ('VMA21', 'Entrez Gene Id', {"rosalution": "rosalution-manifest-00"}),
+        ('NM_001017980.3:c.164G>T', 'ClinVar_Variantion_Id', {"rosalution": "rosalution-manifest-00"}),
+        ('VMA21', 'Ensembl Gene Id', {"releases": [112]}),
+        ('NM_001017980.3:c.164G>T', 'Polyphen Prediction', {"releases": [112]}),
+        ('VMA21', 'HPO_NCBI_GENE_ID', {"date": "rosalution-temp-manifest-00"}),
+        ('LMNA', 'OMIM', {"date": "rosalution-temp-manifest-00"}),
     ]
 )
 def test_process_annotation_versioning_all_types(genomic_unit, dataset_name, expected, get_version_task):
@@ -136,10 +131,10 @@ def test_process_annotation_versioning_all_types(genomic_unit, dataset_name, exp
 
 
 @pytest.mark.parametrize(
-    "genomic_unit,genomic_unit_type,dataset_name,expected", [
-        ('VMA21', GenomicUnitType.GENE, 'Entrez Gene Id', {"version": "rosalution-manifest-00"}),
-        ('VMA21', GenomicUnitType.GENE, 'Ensembl Gene Id', {"version": 112}),
-        ('LMNA', GenomicUnitType.GENE, 'OMIM', {"version": "rosalution-temp-manifest-00"}),
+    "genomic_unit,dataset_name,expected", [
+        ('VMA21', 'Entrez Gene Id', {"version": "rosalution-manifest-00"}),
+        ('VMA21', 'Ensembl Gene Id', {"version": 112}),
+        ('LMNA', 'OMIM', {"version": "rosalution-temp-manifest-00"}),
     ]
 )
 def test_version_extraction(genomic_unit, dataset_name, expected, get_version_task):

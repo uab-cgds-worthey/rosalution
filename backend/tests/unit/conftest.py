@@ -159,12 +159,16 @@ def fixture_genomic_units_with_types(analysis_collection_json):
 
 @pytest.fixture(name='get_annotation_unit')
 def get_standard_annotation_unit(annotation_config_collection_json, genomic_units_with_types):
-    """Fixture factory method to create an AnnotationUnit from the genomic unit information and name of the datset."""
+    """
+    Fixture factory method to create an AnnotationUnit from the available genomic units in the analyses from
+    'analysis_collection_json' fixture. It searches the 'annotation_config_collection_json' to pair with
+    the genomic unit to create an AnnotationUnit.
 
-    # units = {
-    #     'VMA21': GenomicUnitType.GENE,
-    #     'NM_001017980.3:c.164G>T': GenomicUnitType.HGVS_VARIANT
-    # }
+    {
+      'VMA21': GenomicUnitType.GENE,
+      'NM_001017980.3:c.164G>T': GenomicUnitType.HGVS_VARIANT
+    }
+    """
 
     def _create_annotation_unit(genomic_unit_name, dataset_name):
         """Method to create the Annotation Unit"""

@@ -21,9 +21,10 @@ def test_find_genomic_units(genomic_unit_collection):
         ('Polyphen Prediction', 'Ensembl', '112', '112', True),
         ('Polyphen Prediction', 'Ensembl', '', '120', False),
     ],
-    indirect=['transcript_annotation_unit']
+    indirect=True,
+    ids=["polyphen_exists_different_version", "polyphen_exists", "polyphen_not_exists"]
 )
-def test_transcripts_annotations_exists(genomic_unit_collection, transcript_annotation_unit):
+def test_transcripts_annotations_exists(transcript_annotation_unit, genomic_unit_collection):
     """ Tests if a transcript annotation does not exist """
     annotation_unit, variant_in_database_json, expected = transcript_annotation_unit
     genomic_unit_collection.collection.find_one.return_value = variant_in_database_json
@@ -32,14 +33,14 @@ def test_transcripts_annotations_exists(genomic_unit_collection, transcript_anno
 
 
 @pytest.mark.parametrize(
-    "test_case", [('VMA21', GenomicUnitType.GENE, 'Entrez Gene Id', True),
-                  ('VMA21', GenomicUnitType.GENE, 'Entrez Gene Id', False),
-                  ('NM_001017980.3:c.164G>T', GenomicUnitType.HGVS_VARIANT, 'ClinVar_Variantion_Id', True)]
+    "genomic_unit,dataset_name,expected", [('VMA21', 'Entrez Gene Id', True), ('VMA21', 'Entrez Gene Id', False),
+                                           ('NM_001017980.3:c.164G>T', 'ClinVar_Variantion_Id', True)]
 )
-def test_genomic_units_annotations_exists(test_case, genomic_unit_collection, get_annotation_unit):
+def test_genomic_units_annotations_exists(
+    genomic_unit, dataset_name, expected, genomic_unit_collection, get_annotation_unit
+):
     """ Tests if an annotation exists for a gene. This test does not utilize the JSON fixtures to verify if exists"""
-    genomic_unit, genomic_unit_type, dataset_name, expected = test_case
-    annotation_unit = get_annotation_unit(genomic_unit, genomic_unit_type, dataset_name)
+    annotation_unit = get_annotation_unit(genomic_unit, dataset_name)
 
     genomic_unit_collection.collection.count_documents.return_value = int(expected)
 
@@ -50,7 +51,7 @@ def test_genomic_units_annotations_exists(test_case, genomic_unit_collection, ge
     version_attribute = f"{dataset_attribute}.version"
 
     expected_find_query = {
-        genomic_unit_type.value: genomic_unit, dataset_attribute: {'$exists': True},
+        annotation_unit.get_genomic_unit_type_string(): genomic_unit, dataset_attribute: {'$exists': True},
         datasource_attribute: annotation_unit.get_dataset_source(), version_attribute: annotation_unit.get_version()
     }
 
@@ -80,16 +81,16 @@ def test_find_genomic_unit_with_transcript_id(genomic_unit_collection):
 
 
 @pytest.mark.parametrize(
-    "test_case", [('VMA21', GenomicUnitType.GENE, 'Entrez Gene Id', 'wup'),
-                  ('VMA21', GenomicUnitType.GENE, 'Entrez Gene Id', None),
-                  ('NM_001017980.3:c.164G>T', GenomicUnitType.HGVS_VARIANT, 'ClinVar_Variantion_Id', 'wup2')]
+    "genomic_unit,dataset_name,expected", [('VMA21', 'Entrez Gene Id', 'wup'), ('VMA21', 'Entrez Gene Id', None),
+                                           ('NM_001017980.3:c.164G>T', 'ClinVar_Variantion_Id', 'wup2')]
 )
-def test_find_genomic_unit_annotation_values(test_case, genomic_unit_collection, get_annotation_unit):
+def test_find_genomic_unit_annotation_values(
+    genomic_unit, dataset_name, expected, genomic_unit_collection, get_annotation_unit
+):
     """
     Finds the Genomic Unit's Annotation when the value exists within the mongo collection
     """
-    genomic_unit, genomic_unit_type, dataset_name, expected = test_case
-    annotation_unit = get_annotation_unit(genomic_unit, genomic_unit_type, dataset_name)
+    annotation_unit = get_annotation_unit(genomic_unit, dataset_name)
     genomic_unit_collection.collection.find_one.return_value = {
         'annotations': [{dataset_name: [{'value': expected}]}]
     } if expected else None
@@ -273,7 +274,7 @@ def variant_with_datasets_annotation_unit(request, get_annotation_unit, get_anno
     """ Fixture that creates generates the test data for verifying transcript annotation operations"""
     dataset, data_source, existing_version, calculated_version, expected = request.param
 
-    annotation_unit = get_annotation_unit('NM_001017980.3:c.164G>T', GenomicUnitType.HGVS_VARIANT, dataset)
+    annotation_unit = get_annotation_unit('NM_001017980.3:c.164G>T', dataset)
     annotation_unit.version = calculated_version
 
     variant_in_database_json = get_annotation_json("NM_001017980.3:c.164G>T", GenomicUnitType.HGVS_VARIANT)
