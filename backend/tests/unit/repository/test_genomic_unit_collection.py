@@ -1,6 +1,7 @@
 """ Manages the genomic unit collection. Including reading, writing, fetching various genomic units. """
 from unittest.mock import Mock
 import copy
+from pymongo import ReturnDocument
 import pytest
 
 from bson import ObjectId
@@ -131,10 +132,10 @@ def test_update_genomic_unit_annotation_by_mongo_id(genomic_unit_collection):
 
     genomic_unit_collection.update_genomic_unit_annotation_by_mongo_id(genomic_unit_document)
 
-    genomic_unit_collection.collection.update_one.assert_called_once_with(
-        {'_id': ObjectId('62fbfa5f616a9799131174c8')},
-        {'$set': genomic_unit_document},
-    )
+    genomic_unit_collection.collection.find_one_and_update.assert_called_once_with({
+        '_id': ObjectId('62fbfa5f616a9799131174c8')
+    }, {'$set': genomic_unit_document},
+                                                                                   return_document=ReturnDocument.AFTER)
 
 
 def test_annotate_transcript_genomic_unit(genomic_unit_collection):
@@ -159,15 +160,17 @@ def test_annotate_transcript_genomic_unit(genomic_unit_collection):
 
     genomic_unit_collection.annotate_genomic_unit(genomic_unit, transcript_annotation_unit)
 
-    genomic_unit_collection.collection.update_one.assert_called_once_with({'_id':
-        ObjectId("62fbfa5f616a9799131174ca")}, {
-            '$set': {
-                "_id": ObjectId("62fbfa5f616a9799131174ca"),
-                "hgvs_variant": "NM_001017980.3:c.164G>T",
-                "transcripts": [{'transcript_id': 'NM_001363810.1', 'annotations': []}],
-                "annotations": {},
-            }
-        })
+    genomic_unit_collection.collection.find_one_and_update.assert_called_once_with({
+        '_id': ObjectId("62fbfa5f616a9799131174ca")
+    }, {
+        '$set': {
+            "_id": ObjectId("62fbfa5f616a9799131174ca"),
+            "hgvs_variant": "NM_001017980.3:c.164G>T",
+            "transcripts": [{'transcript_id': 'NM_001363810.1', 'annotations': []}],
+            "annotations": {},
+        }
+    },
+                                                                                   return_document=ReturnDocument.AFTER)
 
 
 def test_annotation_genomic_unit_with_file(genomic_unit_collection, get_annotation_json):
