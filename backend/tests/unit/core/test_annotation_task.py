@@ -1,7 +1,8 @@
 """Tests Annotation Tasks and the creation of them"""
 import pytest
 
-from src.core.annotation_task import AnnotationTaskFactory, ForgeAnnotationTask, HttpAnnotationTask, VersionAnnotationTask
+from src.core.annotation_task import AnnotationTaskFactory, ForgeAnnotationTask, \
+    HttpAnnotationTask, VersionAnnotationTask
 from src.enums import GenomicUnitType
 from src.core.annotation_unit import AnnotationUnit
 
@@ -9,7 +10,11 @@ from src.core.annotation_unit import AnnotationUnit
 def test_http_annotation_task_build_url(http_annotation_transcript_id):
     """Verifies that the HTTP annotation task creates the base url using the 'url' and the genomic unit"""
     actual = http_annotation_transcript_id.build_url()
-    assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;refseq=1;"  # pylint: disable=line-too-long
+
+    assert (
+        actual ==
+        "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;refseq=1;"
+    )
     # This link cannot be shortened, will just disable for this one due to the nature of the long URL dependency
 
 
@@ -158,14 +163,6 @@ def get_version_annotation_task(get_annotation_unit):
         return VersionAnnotationTask(annotation_unit)
 
     return _create_version_task
-
-
-# @pytest.fixture(name="get_patch")
-# def fixture_requests_patch():
-#     with(
-#         patch("requests.get") as requests_get
-#     ):
-# yield: requests_get
 
 
 @pytest.fixture(name="gene_ncbi_linkout_dataset")
