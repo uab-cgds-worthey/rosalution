@@ -60,12 +60,10 @@ class GenomicUnitCollection:
         datasource_attribute = f"{dataset_attribute_base}.data_source"
         version_attribute = f"{dataset_attribute_base}.version"
 
-        return {
-            **find_query, **{
-                dataset_attribute_base: {'$exists': True}, datasource_attribute: annotation_unit.get_dataset_source(),
-                version_attribute: annotation_unit.get_version()
-            }
-        }
+        find_query[dataset_attribute_base] = {'$exists': True}
+        find_query[datasource_attribute] = annotation_unit.get_dataset_source()
+        find_query[version_attribute] = annotation_unit.get_version()
+        return find_query
 
     def all(self):
         """ Returns all genomic units that are currently stored """
@@ -82,6 +80,10 @@ class GenomicUnitCollection:
         if annotation_unit.is_transcript_dataset():
             hgvs_genomic_unit = self.collection.find_one(find_query)
 
+            logger.info(
+                '%s (%s): dataset - %s', annotation_unit.to_name_string(), annotation_unit.get_version(),
+                hgvs_genomic_unit
+            )
             for transcript in hgvs_genomic_unit['transcripts']:
                 dataset_in_transcript_annotation = next((
                     annotation for annotation in transcript['annotations']
@@ -100,10 +102,15 @@ class GenomicUnitCollection:
         """ Returns the annotation value for a genomic unit according the the dataset"""
 
         dataset_name = annotation_unit.get_dataset_name()
-        find_query = self.__find_annotation_query__(annotation_unit)
 
+        find_query = self.__find_annotation_query__(annotation_unit)
         projection = {f"annotations.{dataset_name}.value.$": 1, "_id": 0}
+
+        # logger.info('find query: %s', find_query)
+        # logger.info('projection: %s', projection)
         result = self.collection.find_one(find_query, projection)
+
+        # logger.info('retrieved the genomic unit value for "%s"', result);
 
         if result is None:
             return None

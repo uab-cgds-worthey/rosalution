@@ -110,12 +110,18 @@ class AnnotationService:
                     if annotation_unit.has_dependencies():
                         missing_dependencies = annotation_unit.get_missing_dependencies()
                         for missing_dataset_name in missing_dependencies:
-                            dependency_dataset = analysis_collection.get_manifest_dataset_config(
+                            # logger.info(f"for annotation_unit '%s' looking for missing '%s'", annotation_unit.to_name_string(), missing_dataset_name)
+                            analysis_manifest_dataset = analysis_collection.get_manifest_dataset_config(
                                 analysis_name, missing_dataset_name
                             )
+                            if analysis_manifest_dataset is None:
+                                continue
+                            # logger.info('manifest entry in %s for %s datset: %s', analysis_name, missing_dataset_name, analysis_manifest_dataset)
+
                             dependency_annotation_unit = AnnotationUnit(
-                                annotation_unit.genomic_unit, dependency_dataset
+                                annotation_unit.genomic_unit, analysis_manifest_dataset
                             )
+                            dependency_annotation_unit.set_latest_version(analysis_manifest_dataset['version'])
                             annotation_value = genomic_unit_collection.find_genomic_unit_annotation_value(
                                 dependency_annotation_unit
                             )
@@ -149,10 +155,10 @@ class AnnotationService:
                         task_process_result = future.result()
                         if isinstance(task, VersionAnnotationTask):
                             annotation_unit = task.annotation_unit
-                            annotation_unit.set_latest_version(task_process_result)
+                            version = task.extract_version(task_process_result)
+                            annotation_unit.set_latest_version(version)
                             logger.info(
-                                '%s Version Calculated %s...', format_annotation_logging(annotation_unit),
-                                task_process_result
+                                '%s Version Calculated %s...', format_annotation_logging(annotation_unit), version
                             )
                             annotation_queue.put(annotation_unit)
                         else:

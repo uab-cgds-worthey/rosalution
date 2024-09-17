@@ -19,10 +19,11 @@ def test_find_genomic_units(genomic_unit_collection):
     "transcript_annotation_unit", [
         ('Polyphen Prediction', 'Ensembl', '112', '120', False),
         ('Polyphen Prediction', 'Ensembl', '112', '112', True),
+        ('transcript_id', 'Ensembl', '', '120', False),
         ('Polyphen Prediction', 'Ensembl', '', '120', False),
     ],
     indirect=True,
-    ids=["polyphen_exists_different_version", "polyphen_exists", "polyphen_not_exists"]
+    ids=["polyphen_exists_different_version", "polyphen_exists", "no_transcripts_yet", "polyphen_not_exists"]
 )
 def test_transcripts_annotations_exists(transcript_annotation_unit, genomic_unit_collection):
     """ Tests if a transcript annotation does not exist """
@@ -284,10 +285,12 @@ def variant_with_datasets_annotation_unit(request, get_annotation_unit, get_anno
             if dataset in transcript_annotation:
                 transcript_annotation[dataset].data_source = data_source
                 transcript_annotation[dataset].version = existing_version
+    elif dataset == 'transcript_id':
+        variant_in_database_json['transcripts'] = []
     else:
-        variant_in_database_json['transcripts'] = [
-            transcript_annotation for transcript_annotation in variant_in_database_json['transcripts']
-            if dataset not in transcript_annotation
-        ]
+        for transcript in variant_in_database_json['transcripts']:
+            transcript['annotations'] = [
+                annotation for annotation in transcript['annotations'] if dataset not in annotation
+            ]
 
     return (annotation_unit, variant_in_database_json, expected)

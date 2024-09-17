@@ -23,6 +23,10 @@ class AnnotationUnit:
         """Returns the dataset's source"""
         return self.dataset['data_source']
 
+    def get_dataset_version_type(self):
+        """Returns the dataset's versioning type"""
+        return self.dataset['versioning_type']
+
     def is_transcript_dataset(self):
         """Returns true if the dataset is for a transcript"""
         return 'transcript' in self.dataset

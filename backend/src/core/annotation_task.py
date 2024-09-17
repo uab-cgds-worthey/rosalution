@@ -1,5 +1,6 @@
 """Tasks for annotating a genomic unit with datasets"""
 from abc import abstractmethod
+from datetime import date
 import json
 from random import randint
 import time
@@ -46,10 +47,10 @@ class AnnotationTaskInterface:
         https://grch37.rest.ensembl.org/vep/human/hgvs/NM_001017980.3:c.164G>T?content-type=application/json;CADD=1;refseq=1;
         
         example base string:
-                .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) 
-                | { CADD: .cadd_phred }
-            return value: .[].transcript_consequences[] | select( .transcript_id | 
-                contains(\"NM_001017980\") ) | { CADD: .cadd_phred }
+        .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { CADD: .cadd_phred }
+        
+        return value: 
+        .[].transcript_consequences[] | select( .transcript_id | contains(\"NM_001017980\") ) | { CADD: .cadd_phred }
 
         genomic unit within the annotation unit in this task to be
         {
@@ -75,8 +76,7 @@ class AnnotationTaskInterface:
 
     def __json_extract__(self, jq_query, json_to_parse):
         """Private ethod to execute jq to extract JSON"""
-        replaced_attributes = self.aggregate_string_replacements(jq_query)
-        jq_results = iter(jq.compile(replaced_attributes).input(json_to_parse).all())
+        jq_results = iter(jq.compile(jq_query).input(json_to_parse).all())
         return jq_results
 
     def extract(self, incomming_json):
@@ -94,7 +94,8 @@ class AnnotationTaskInterface:
 
             jq_results = empty_gen()
             try:
-                jq_results = self.__json_extract__(self.annotation_unit.dataset['attribute'], incomming_json)
+                replaced_attributes = self.aggregate_string_replacements(self.annotation_unit.dataset['attribute'])
+                jq_results = self.__json_extract__(replaced_attributes, incomming_json)
             except ValueError as value_error:
                 logger.info((
                     'Failed to annotate "%s" from "%s" on %s with error "%s"', annotation_unit_json['data_set'],
@@ -127,12 +128,12 @@ class AnnotationTaskInterface:
         """ Interface extraction method for Version Annotation tasks"""
 
         version = ""
-        annotation_unit_json = {"version": self.annotation_unit.version}
 
-        if self.annotation_unit.dataset['versioning_type'] == "rosalution":
-            annotation_unit_json["version"] = incoming_version_json["rosalution"]
-        elif self.annotation_unit.dataset['versioning_type'] == "date":
-            annotation_unit_json["version"] = incoming_version_json["date"]
+        versioning_type = self.annotation_unit.get_dataset_version_type()
+        if versioning_type == "rosalution":
+            version = incoming_version_json["rosalution"]
+        elif versioning_type == "date":
+            version = incoming_version_json["date"]
         else:
             jq_query = self.annotation_unit.dataset['version_attribute']
 
@@ -142,9 +143,8 @@ class AnnotationTaskInterface:
             except ValueError as value_error:
                 logger.info(('Failed to extract version', value_error))
             jq_result = next(jq_result, None)
-            annotation_unit_json["version"] = jq_result
+            version = jq_result
 
-        version = annotation_unit_json
         return version
 
 
@@ -251,17 +251,10 @@ class VersionAnnotationTask(AnnotationTaskInterface):
         """Gets version for rest type and returns the version data"""
         version = {"rest": "rosalution-temp-manifest-00"}
 
-        url_to_query = self.build_versioning_url()
+        url_to_query = self.annotation_unit.dataset['version_url']
         result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"}, timeout=30)
         version = result.json()
         return version
-
-    def build_versioning_url(self):
-        """
-        Builds the version URL from aggregate_string_replacements and 
-        then appends the list of query parameters for the list of datasets.
-        """
-        return self.aggregate_string_replacements(self.annotation_unit.dataset['version_url'])
 
     def get_annotation_version_from_rosalution(self):
         """Gets version for rosalution type and returns the version data"""
@@ -271,9 +264,8 @@ class VersionAnnotationTask(AnnotationTaskInterface):
 
     def get_annotation_version_from_date(self):
         """Gets version for date type and returns the version data"""
-        # getting version from date
 
-        version = {"date": "rosalution-temp-manifest-00"}
+        version = {"date": str(date.today())}
         return version
 
 

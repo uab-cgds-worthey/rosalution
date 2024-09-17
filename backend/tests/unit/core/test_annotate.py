@@ -94,8 +94,10 @@ def fixture_extract_and_annotate_cpam0002(cpam0002_annotation_queue, get_dataset
     }]
 
     with (
-        patch("src.core.annotation_task.AnnotationTaskInterface.extract", return_value=mock_extract_result) as
-        extract_task_annotate, patch("src.core.annotation_task.VersionAnnotationTask.annotate") as
+        patch("src.core.annotation_task.AnnotationTaskInterface.extract",
+              return_value=mock_extract_result) as extract_task_annotate,
+        patch("src.core.annotation_task.AnnotationTaskInterface.extract_version", return_value='fake-version') as
+        extract_task_version_annotate, patch("src.core.annotation_task.VersionAnnotationTask.annotate") as
         version_task_annotate, patch("src.core.annotation_task.ForgeAnnotationTask.annotate") as forge_task_annotate,
         patch("src.core.annotation_task.HttpAnnotationTask.annotate") as http_task_annotate,
         patch("src.core.annotation_task.NoneAnnotationTask.annotate") as none_task_annotate
@@ -117,7 +119,7 @@ def fixture_extract_and_annotate_cpam0002(cpam0002_annotation_queue, get_dataset
         yield {
             'extract': extract_task_annotate, 'version': version_task_annotate, 'http': http_task_annotate,
             'none': none_task_annotate, 'forge': forge_task_annotate,
-            'genomic_unit_collection': mock_genomic_unit_collection
+            'genomic_unit_collection': mock_genomic_unit_collection, 'extract_version': extract_task_version_annotate
         }
 
 
@@ -153,8 +155,10 @@ def fixture_extract_and_annotate_cpam0046(cpam0046_annotation_queue, get_dataset
     }]
 
     with (
-        patch("src.core.annotation_task.AnnotationTaskInterface.extract", return_value=mock_extract_result) as
-        extract_task_annotate, patch("src.core.annotation_task.VersionAnnotationTask.annotate") as
+        patch("src.core.annotation_task.AnnotationTaskInterface.extract",
+              return_value=mock_extract_result) as extract_task_annotate,
+        patch("src.core.annotation_task.AnnotationTaskInterface.extract_version", return_value='fake-version') as
+        extract_task_version_annotate, patch("src.core.annotation_task.VersionAnnotationTask.annotate") as
         version_task_annotate, patch("src.core.annotation_task.ForgeAnnotationTask.annotate") as forge_task_annotate,
         patch("src.core.annotation_task.HttpAnnotationTask.annotate") as http_task_annotate,
         patch("src.core.annotation_task.NoneAnnotationTask.annotate") as none_task_annotate
@@ -175,5 +179,5 @@ def fixture_extract_and_annotate_cpam0046(cpam0046_annotation_queue, get_dataset
         yield {
             'extract': extract_task_annotate, 'version': version_task_annotate, 'http': http_task_annotate,
             'none': none_task_annotate, 'forge': forge_task_annotate,
-            'genomic_unit_collection': mock_genomic_unit_collection
+            'genomic_unit_collection': mock_genomic_unit_collection, 'extract_version': extract_task_version_annotate
         }
