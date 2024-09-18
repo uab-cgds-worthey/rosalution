@@ -91,15 +91,12 @@ def test_annotation_extraction_for_genomic_unit(http_annotation_task_gene, hpo_a
     } in actual_extractions
 
 
-# Patching the temporary helper method that is writing to a file, this will be
-# removed once that helper method is no longer needed for the development
-
-
 def test_annotation_extraction_value_error_exception(http_annotation_task_gene, hpo_annotation_response):
-    """Verifying annotation failure does not cause crash in application during extraction"""
+    """
+    Verifying annotation failure does not cause crash in application during extraction. Removes the expected value
+    in the json to force jq parse error to more closelyemulate the failure instead of mocking the jq response to fail.
+    """
 
-    # Removing the expected value in the json to force a jq parse error to more closely
-    # emulate the failure instead of mocking the jq response to fail.
     del hpo_annotation_response['diseaseAssoc']
 
     actual_extractions = http_annotation_task_gene.extract(hpo_annotation_response)

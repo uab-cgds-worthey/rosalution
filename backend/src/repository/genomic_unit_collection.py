@@ -4,8 +4,6 @@ type of Genomic Unit.
 """
 import logging
 
-# pylint: disable=too-few-public-methods
-# Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 from bson import ObjectId
 from pymongo import ReturnDocument
 
@@ -79,11 +77,6 @@ class GenomicUnitCollection:
 
         if annotation_unit.is_transcript_dataset():
             hgvs_genomic_unit = self.collection.find_one(find_query)
-
-            logger.info(
-                '%s (%s): dataset - %s', annotation_unit.to_name_string(), annotation_unit.get_version(),
-                hgvs_genomic_unit
-            )
 
             if 'transcripts' not in hgvs_genomic_unit or len(hgvs_genomic_unit['transcripts']) == 0:
                 return False
@@ -248,14 +241,14 @@ class GenomicUnitCollection:
         """
         type_to_save = GenomicUnitType.string_types() & genomic_unit.keys()
 
-        if (len(type_to_save) != 1):
+        if len(type_to_save) != 1:
             logger.error(
-                'Failed to create new Genomic Unit "%s", contains more then one genomic_unit type',genomic_unit
+                'Failed to create new Genomic Unit "%s", contains more then one genomic_unit type', genomic_unit
             )
+            return
+
         genomic_unit_type = type_to_save.pop()
-        find_query = {
-            genomic_unit_type: genomic_unit[genomic_unit_type]
-        }
+        find_query = {genomic_unit_type: genomic_unit[genomic_unit_type]}
 
         if self.collection.find_one(find_query):
             logger.info("Genomic unit already exists, skipping creation")

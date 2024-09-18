@@ -1,12 +1,8 @@
 """ Analysis endpoint routes that provide an interface to interact with an Analysis' discussions """
-import logging
-
 from fastapi import (APIRouter, Depends, HTTPException)
 
 from ..dependencies import database
 from ..enums import GenomicUnitType
-
-logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["analysis annotations"], dependencies=[Depends(database)])
 

@@ -1,5 +1,4 @@
 """ Analysis endpoint routes that serve up information regarding anaysis cases for rosalution """
-import logging
 import json
 
 from typing import List, Union
@@ -21,8 +20,6 @@ from . import analysis_annotation_router
 from . import analysis_attachment_router
 from . import analysis_discussion_router
 from . import analysis_section_router
-
-logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/analysis", dependencies=[Depends(database)])
 router.include_router(analysis_annotation_router.router)

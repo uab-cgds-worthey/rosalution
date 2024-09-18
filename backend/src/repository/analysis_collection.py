@@ -3,7 +3,6 @@ Collection with retrieves, creates, and modify analyses.
 """
 from typing import List
 from uuid import uuid4
-import logging
 
 from pymongo import ReturnDocument
 
@@ -14,8 +13,7 @@ from ..models.event import Event
 from ..enums import EventType
 
 # pylint: disable=too-many-public-methods
-# Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
-logger = logging.getLogger(__name__)
+# Disabling due to pushing a refactor of Analysis Collection to a later time.
 
 
 class AnalysisCollection:
@@ -160,7 +158,6 @@ class AnalysisCollection:
 
         manifest_entry = next((dataset for dataset in analysis['manifest'] if dataset_name in dataset), None)
 
-        # logger.info('manifest entry in %s for %s datset: %s', analysis_name, dataset_name, manifest_entry)
         return {
             "data_set": dataset_name, "data_source": manifest_entry[dataset_name]['data_source'],
             "version": manifest_entry[dataset_name]['version']

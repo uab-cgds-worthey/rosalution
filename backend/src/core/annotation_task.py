@@ -5,15 +5,12 @@ import json
 from random import randint
 import time
 
-# pylint: disable=too-few-public-methods
-# Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 import logging
 import jq
 import requests
 
 from ..core.annotation_unit import AnnotationUnit
 
-# create logger
 logger = logging.getLogger(__name__)
 
 

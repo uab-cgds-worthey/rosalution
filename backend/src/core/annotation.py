@@ -98,7 +98,7 @@ class AnnotationService:
             while not annotation_queue.empty():
                 annotation_unit = annotation_queue.get()
 
-                if not annotation_unit.version_exists():  #is configured dataset version calculated
+                if not annotation_unit.version_exists():
                     version_task = AnnotationTaskFactory.create_version_task(annotation_unit)
                     logger.info('%s Creating Task To Version...', format_annotation_logging(annotation_unit))
                     annotation_task_futures[executor.submit(version_task.annotate)] = version_task
@@ -110,13 +110,11 @@ class AnnotationService:
                     if annotation_unit.has_dependencies():
                         missing_dependencies = annotation_unit.get_missing_dependencies()
                         for missing_dataset_name in missing_dependencies:
-                            # logger.info(f"for annotation_unit '%s' looking for missing '%s'", annotation_unit.to_name_string(), missing_dataset_name)
                             analysis_manifest_dataset = analysis_collection.get_manifest_dataset_config(
                                 analysis_name, missing_dataset_name
                             )
                             if analysis_manifest_dataset is None:
                                 continue
-                            # logger.info('manifest entry in %s for %s datset: %s', analysis_name, missing_dataset_name, analysis_manifest_dataset)
 
                             dependency_annotation_unit = AnnotationUnit(
                                 annotation_unit.genomic_unit, analysis_manifest_dataset
@@ -129,7 +127,7 @@ class AnnotationService:
                                 annotation_unit.set_annotation_for_dependency(missing_dataset_name, annotation_value)
 
                     if not annotation_unit.conditions_met_to_gather_annotation():
-                        if annotation_unit.should_continue_annotation():  #maybe could try to annotation
+                        if annotation_unit.should_continue_annotation():
                             logger.info(
                                 '%s Delaying Annotation, Missing %s Dependencies %s/10 times...',
                                 format_annotation_logging(annotation_unit), annotation_unit.get_missing_dependencies(),

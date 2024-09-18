@@ -24,9 +24,13 @@ class GenomicUnitType(str, Enum):
 
     @classmethod
     def string_types(cls):
-        return (GenomicUnitType.GENE.value,GenomicUnitType.TRANSCRIPT, GenomicUnitType.VARIANT, GenomicUnitType.HGVS_VARIANT.value)
-
-
+        """
+        Provides a Set of each genomic unit type's corresponding string values.
+        """
+        return (
+            GenomicUnitType.GENE.value, GenomicUnitType.TRANSCRIPT, GenomicUnitType.VARIANT,
+            GenomicUnitType.HGVS_VARIANT.value
+        )
 
 
 class AnnotationSourceType(str, Enum):
