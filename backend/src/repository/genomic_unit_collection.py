@@ -9,9 +9,9 @@ import logging
 from bson import ObjectId
 from pymongo import ReturnDocument
 
+from src.enums import GenomicUnitType
 from src.core.annotation_unit import AnnotationUnit
 
-# create logger
 logger = logging.getLogger(__name__)
 
 
@@ -84,6 +84,10 @@ class GenomicUnitCollection:
                 '%s (%s): dataset - %s', annotation_unit.to_name_string(), annotation_unit.get_version(),
                 hgvs_genomic_unit
             )
+
+            if 'transcripts' not in hgvs_genomic_unit or len(hgvs_genomic_unit['transcripts']) == 0:
+                return False
+
             for transcript in hgvs_genomic_unit['transcripts']:
                 dataset_in_transcript_annotation = next((
                     annotation for annotation in transcript['annotations']
@@ -106,11 +110,7 @@ class GenomicUnitCollection:
         find_query = self.__find_annotation_query__(annotation_unit)
         projection = {f"annotations.{dataset_name}.value.$": 1, "_id": 0}
 
-        # logger.info('find query: %s', find_query)
-        # logger.info('projection: %s', projection)
         result = self.collection.find_one(find_query, projection)
-
-        # logger.info('retrieved the genomic unit value for "%s"', result);
 
         if result is None:
             return None
@@ -246,10 +246,19 @@ class GenomicUnitCollection:
         """
         Takes a genomic_unit and adds it to the collection if it doesn't already exist (exact match).
         """
+        type_to_save = GenomicUnitType.string_types() & genomic_unit.keys()
 
-        # Make sure the genomic unit doesn't already exist
-        if self.collection.find_one(genomic_unit):
-            logging.info("Genomic unit already exists, skipping creation")
+        if (len(type_to_save) != 1):
+            logger.error(
+                'Failed to create new Genomic Unit "%s", contains more then one genomic_unit type',genomic_unit
+            )
+        genomic_unit_type = type_to_save.pop()
+        find_query = {
+            genomic_unit_type: genomic_unit[genomic_unit_type]
+        }
+
+        if self.collection.find_one(find_query):
+            logger.info("Genomic unit already exists, skipping creation")
             return
 
         self.collection.insert_one(genomic_unit)

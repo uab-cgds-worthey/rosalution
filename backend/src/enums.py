@@ -22,6 +22,12 @@ class GenomicUnitType(str, Enum):
     HGVS_VARIANT = "hgvs_variant"
     INVALID = "invalid"
 
+    @classmethod
+    def string_types(cls):
+        return (GenomicUnitType.GENE.value,GenomicUnitType.TRANSCRIPT, GenomicUnitType.VARIANT, GenomicUnitType.HGVS_VARIANT.value)
+
+
+
 
 class AnnotationSourceType(str, Enum):
     """Enumeration of the different types of annotation sources in the configuration"""

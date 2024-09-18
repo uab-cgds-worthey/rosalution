@@ -80,5 +80,17 @@
     "versioning_type": "rest",
     "version_url": "https://grch37.rest.ensembl.org/info/data/?content-type=application/json",
     "version_attribute": ".releases[]"
-  }
+  },
+  {
+    "data_set": "transcript_id",
+    "data_source": "Ensembl",
+    "genomic_unit_type": "hgvs_variant",
+    "transcript": true,
+    "annotation_source_type": "http",
+    "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;refseq=1;",
+    "attribute": ".[].transcript_consequences[] | { transcript_id: .transcript_id }",
+    "versioning_type": "rest",
+    "version_url": "https://grch37.rest.ensembl.org/info/data/?content-type=application/json",
+    "version_attribute": ".releases[]"
+   }
 ]
