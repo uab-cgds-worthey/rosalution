@@ -1,5 +1,4 @@
 """ Analysis endpoint routes that serve up information regarding anaysis cases for rosalution """
-import logging
 import json
 
 from typing import List, Union
@@ -17,13 +16,13 @@ from ..models.phenotips_json import BasePhenotips
 from ..models.user import VerifyUser
 from ..security.security import get_authorization, get_current_user
 
+from . import analysis_annotation_router
 from . import analysis_attachment_router
 from . import analysis_discussion_router
 from . import analysis_section_router
 
-logger = logging.getLogger(__name__)
-
 router = APIRouter(prefix="/analysis", dependencies=[Depends(database)])
+router.include_router(analysis_annotation_router.router)
 router.include_router(analysis_attachment_router.router)
 router.include_router(analysis_discussion_router.router)
 router.include_router(analysis_section_router.router)
@@ -67,7 +66,10 @@ async def create_file(
     analysis = Analysis(**new_analysis)
     annotation_service = AnnotationService(repositories["annotation_config"])
     annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
-    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, repositories['genomic_unit'])
+    background_tasks.add_task(
+        AnnotationService.process_tasks, annotation_task_queue, analysis.name, repositories['genomic_unit'],
+        repositories["analysis"]
+    )
 
     return new_analysis
 

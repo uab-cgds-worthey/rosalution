@@ -49,67 +49,11 @@ def annotate_analysis(
     return {"name": f"{name} annotations queued."}
 
 
-@router.get("/gene/{gene}")
-def get_annotations_by_gene(gene, repositories=Depends(database)):
-    """Returns annotations data by calling method to find annotations by gene"""
-
-    genomic_unit = {
-        'type': GenomicUnitType.GENE,
-        'unit': gene,
-    }
-
-    queried_genomic_unit = repositories["genomic_unit"].find_genomic_unit(genomic_unit)
-
-    if queried_genomic_unit is None:
-        raise HTTPException(status_code=404, detail="Item not found")
-
-    annotations = {}
-    for annotation in queried_genomic_unit['annotations']:
-        for dataset in annotation:
-            if len(annotation[dataset]) > 0:
-                annotations[dataset] = annotation[dataset][0]['value']
-
-    return annotations
-
-
-@router.get("/hgvsVariant/{variant}")
-def get_annotations_by_hgvs_variant(variant: str, repositories=Depends(database)):
-    """Returns annotations data by calling method to find annotations for variant and relevant transcripts
-    by HGVS Variant"""
-
-    genomic_unit = {
-        'type': GenomicUnitType.HGVS_VARIANT,
-        'unit': variant,
-    }
-
-    queried_genomic_unit = repositories["genomic_unit"].find_genomic_unit(genomic_unit)
-
-    if queried_genomic_unit is None:
-        raise HTTPException(status_code=404, detail="Item not found")
-
-    annotations = {}
-    for annotation in queried_genomic_unit['annotations']:
-        for dataset in annotation:
-            if len(annotation[dataset]) > 0:
-                annotations[dataset] = annotation[dataset][0]['value']
-
-    transcript_annotation_list = []
-    for transcript_annotation in queried_genomic_unit['transcripts']:
-        queried_transcript_annotation = {}
-        for annotation in transcript_annotation['annotations']:
-            for dataset in annotation:
-                if len(annotation[dataset]) > 0:
-                    queried_transcript_annotation[dataset] = annotation[dataset][0]['value']
-        transcript_annotation_list.append(queried_transcript_annotation)
-
-    return {**annotations, "transcripts": transcript_annotation_list}
-
-
-@router.post("/{genomic_unit}/{data_set}/attachment", response_model=List)
+@router.post("/{genomic_unit}/{data_set_name}/attachment", response_model=List)
 def upload_annotation_section(
     response: Response,
     genomic_unit: str,
-    data_set: str,
+    data_set_name: str,
     genomic_unit_type: GenomicUnitType,
     upload_file: UploadFile = File(...),
     repositories=Depends(database),
@@ -133,30 +77,32 @@ def upload_annotation_section(
     }
 
     annotation_unit = {
-        "data_set": data_set,
+        "data_set": data_set_name,
         "data_source": "rosalution-manual",
         "version": str(date.today()),
         "value": {"file_id": str(new_file_object_id), "created_date": str(datetime.now())},
     }
 
     try:
-        repositories['genomic_unit'].annotate_genomic_unit_with_file(genomic_unit_json, annotation_unit)
+        updated_genomic_unit = repositories['genomic_unit'].annotate_genomic_unit_with_file(
+            genomic_unit_json, annotation_unit
+        )
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
     response.status_code = status.HTTP_201_CREATED
 
-    updated_annotation_value = repositories['genomic_unit'].find_genomic_unit_annotation_value(
-        genomic_unit_json, data_set
+    updated_annotation = next(
+        (annotation for annotation in updated_genomic_unit['annotations'] if data_set_name in annotation), None
     )
 
-    return updated_annotation_value
+    return updated_annotation[data_set_name][0]['value']
 
 
-@router.put("/{genomic_unit}/{data_set}/attachment/{old_file_id}", response_model=List)
+@router.put("/{genomic_unit}/{data_set_name}/attachment/{old_file_id}", response_model=List)
 def update_annotation_image(
     genomic_unit: str,
-    data_set: str,
+    data_set_name: str,
     old_file_id: str,
     genomic_unit_type: GenomicUnitType,
     upload_file: UploadFile = File(...),
@@ -174,13 +120,15 @@ def update_annotation_image(
 
     try:
         repositories['genomic_unit'].update_genomic_unit_file_annotation(
-            genomic_unit_json, data_set, annotation_value, old_file_id
+            genomic_unit_json, data_set_name, annotation_value, old_file_id
         )
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
     try:
-        repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit_json, data_set, old_file_id)
+        updated_genomic_unit = repositories["genomic_unit"].remove_genomic_unit_file_annotation(
+            genomic_unit_json, data_set_name, old_file_id
+        )
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
@@ -189,17 +137,17 @@ def update_annotation_image(
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
-    updated_annotation_value = repositories['genomic_unit'].find_genomic_unit_annotation_value(
-        genomic_unit_json, data_set
+    updated_annotation = next(
+        (annotation for annotation in updated_genomic_unit['annotations'] if data_set_name in annotation), None
     )
 
-    return updated_annotation_value
+    return updated_annotation[data_set_name][0]['value']
 
 
-@router.delete("/{genomic_unit}/{data_set}/attachment/{file_id}", response_model=List)
+@router.delete("/{genomic_unit}/{data_set_name}/attachment/{file_id}", response_model=List)
 def remove_annotation_image(
     genomic_unit: str,
-    data_set: str,
+    data_set_name: str,
     file_id: str,
     genomic_unit_type: GenomicUnitType,
     repositories=Depends(database),
@@ -209,7 +157,9 @@ def remove_annotation_image(
     genomic_unit_json = {'unit': genomic_unit, 'type': genomic_unit_type}
 
     try:
-        repositories["genomic_unit"].remove_genomic_unit_file_annotation(genomic_unit_json, data_set, file_id)
+        updated_genomic_unit = repositories["genomic_unit"].remove_genomic_unit_file_annotation(
+            genomic_unit_json, data_set_name, file_id
+        )
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
@@ -218,8 +168,8 @@ def remove_annotation_image(
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
-    updated_annotation_value = repositories['genomic_unit'].find_genomic_unit_annotation_value(
-        genomic_unit_json, data_set
+    updated_annotation = next(
+        (annotation for annotation in updated_genomic_unit['annotations'] if data_set_name in annotation), None
     )
 
-    return updated_annotation_value
+    return updated_annotation[data_set_name][0]['value']

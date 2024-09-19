@@ -1,18 +1,16 @@
 """Tasks for annotating a genomic unit with datasets"""
 from abc import abstractmethod
+from datetime import date
 import json
 from random import randint
 import time
 
-# pylint: disable=too-few-public-methods
-# Disabling too few public metods due to utilizing Pydantic/FastAPI BaseSettings class
 import logging
 import jq
 import requests
 
 from ..core.annotation_unit import AnnotationUnit
 
-# create logger
 logger = logging.getLogger(__name__)
 
 
@@ -31,7 +29,7 @@ class AnnotationTaskInterface:
     def __init__(self, annotation_unit: AnnotationUnit):
         self.annotation_unit = annotation_unit
 
-    def aggregate_string_replacements(self, base_string):
+    def aggregate_string_replacements(self, base_string) -> str:
         """
         Replaces the content 'base_string' where strings within the pattern
         {item} are replaced, 'item' can be the genomic unit's type such as
@@ -39,6 +37,23 @@ class AnnotationTaskInterface:
 
         The follow are examples of the genomic_unit's dict's attributes like
         genomic_unit['gene'] or genomic_unit['Entrez Gene Id']
+
+        example base string:
+            https://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;CADD=1;refseq=1;
+        return value: 
+        https://grch37.rest.ensembl.org/vep/human/hgvs/NM_001017980.3:c.164G>T?content-type=application/json;CADD=1;refseq=1;
+        
+        example base string:
+        .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { CADD: .cadd_phred }
+        
+        return value: 
+        .[].transcript_consequences[] | select( .transcript_id | contains(\"NM_001017980\") ) | { CADD: .cadd_phred }
+
+        genomic unit within the annotation unit in this task to be
+        {
+            'hgvs_variant': "hgvs_variant",
+            'transcript': 'NM_001017980',
+        }
         """
         genomic_unit_string = f"{{{self.annotation_unit.get_genomic_unit_type()}}}"
         replace_string = base_string.replace(genomic_unit_string, self.annotation_unit.get_genomic_unit())
@@ -56,7 +71,12 @@ class AnnotationTaskInterface:
     def annotate(self):
         """Interface for implementation of of retrieving the annotation for a genomic unit and its set of datasets"""
 
-    def extract(self, json_result):
+    def __json_extract__(self, jq_query, json_to_parse):
+        """Private ethod to execute jq to extract JSON"""
+        jq_results = iter(jq.compile(jq_query).input(json_to_parse).all())
+        return jq_results
+
+    def extract(self, incomming_json):
         """ Interface extraction method for annotation tasks """
         annotations = []
 
@@ -65,19 +85,18 @@ class AnnotationTaskInterface:
         if 'attribute' in self.annotation_unit.dataset:  # pylint: disable=too-many-nested-blocks
             annotation_unit_json = {
                 "data_set": self.annotation_unit.dataset['data_set'],
-                "data_source": self.annotation_unit.dataset['data_source'],
-                "version": "",
-                "value": "",
+                "data_source": self.annotation_unit.dataset['data_source'], "value": "",
+                "version": self.annotation_unit.version
             }
 
-            replaced_attributes = self.aggregate_string_replacements(self.annotation_unit.dataset['attribute'])
             jq_results = empty_gen()
             try:
-                jq_results = iter(jq.compile(replaced_attributes).input(json_result).all())
+                replaced_attributes = self.aggregate_string_replacements(self.annotation_unit.dataset['attribute'])
+                jq_results = self.__json_extract__(replaced_attributes, incomming_json)
             except ValueError as value_error:
                 logger.info((
                     'Failed to annotate "%s" from "%s" on %s with error "%s"', annotation_unit_json['data_set'],
-                    annotation_unit_json['data_source'], json.dumps(json_result), value_error
+                    annotation_unit_json['data_source'], json.dumps(incomming_json), value_error
                 ))
             jq_result = next(jq_results, None)
             while jq_result is not None:
@@ -101,6 +120,29 @@ class AnnotationTaskInterface:
                 jq_result = next(jq_results, None)
 
         return annotations
+
+    def extract_version(self, incoming_version_json):
+        """ Interface extraction method for Version Annotation tasks"""
+
+        version = ""
+
+        versioning_type = self.annotation_unit.get_dataset_version_type()
+        if versioning_type == "rosalution":
+            version = incoming_version_json["rosalution"]
+        elif versioning_type == "date":
+            version = incoming_version_json["date"]
+        else:
+            jq_query = self.annotation_unit.dataset['version_attribute']
+
+            jq_result = empty_gen()
+            try:
+                jq_result = self.__json_extract__(jq_query, incoming_version_json)
+            except ValueError as value_error:
+                logger.info(('Failed to extract version', value_error))
+            jq_result = next(jq_result, None)
+            version = jq_result
+
+        return version
 
 
 class ForgeAnnotationTask(AnnotationTaskInterface):
@@ -169,24 +211,6 @@ class HttpAnnotationTask(AnnotationTaskInterface):
         json_result = result.json()
         return json_result
 
-    def base_url(self):
-        """
-        Creates the base url for the annotation according to the configuration.  Searches for string {genomic_unit_type}
-        within the 'url' attribute and replaces it with the genomic_unit being annotated.
-        """
-        string_to_replace = f"{{{self.annotation_unit.dataset['genomic_unit_type']}}}"
-        replace_string = self.annotation_unit.dataset['url'].replace(
-            string_to_replace, self.annotation_unit.get_genomic_unit()
-        )
-
-        if 'dependencies' in self.annotation_unit.dataset:
-            for depedency in self.annotation_unit.dataset['dependencies']:
-                depedency_replace_string = f"{{{depedency}}}"
-                replace_string = replace_string.replace(
-                    depedency_replace_string, self.annotation_unit.genomic_unit[depedency]
-                )
-        return replace_string
-
     def build_url(self):
         """
         Builds the URL from the base_url and then appends the list of query parameters for the list of datasets.
@@ -197,43 +221,49 @@ class HttpAnnotationTask(AnnotationTaskInterface):
 class VersionAnnotationTask(AnnotationTaskInterface):
     """An annotation task that gets the version of the annotation"""
 
+    version_types = {}
+
     def __init__(self, annotation_unit):
         """initializes the task with the annotation_unit.genomic_unit"""
         AnnotationTaskInterface.__init__(self, annotation_unit)
+        self.version_types = {
+            "rest": self.get_annotation_version_from_rest, "rosalution": self.get_annotation_version_from_rosalution,
+            "date": self.get_annotation_version_from_date
+        }
 
     def annotate(self):
-        """placeholder for annotating a genomic unit with version"""
-        return "not-implemented"
-
-    def versioning_by_type(self, versioning_type):
         """Gets version by versioning type and returns the version data to the annotation unit"""
+
+        version_type = self.annotation_unit.dataset['versioning_type']
         version = ""
 
-        if versioning_type == "rest":
-            version = self.get_annotation_version_from_rest()
-        elif versioning_type == "rosalution":
-            version = self.get_annotation_version_from_rosalution()
-        elif versioning_type == "date":
-            version = self.get_annotation_version_from_date()
+        if version_type not in self.version_types:
+            logger.error(('Failed versioning: "%s" is an Invalid Version Type', version_type))
+            return {}
+
+        version = self.version_types[version_type]()
         return version
 
     def get_annotation_version_from_rest(self):
         """Gets version for rest type and returns the version data"""
-        version_from_rest = ""
-        # getting version from rest
-        return version_from_rest
+        version = {"rest": "rosalution-temp-manifest-00"}
+
+        url_to_query = self.annotation_unit.dataset['version_url']
+        result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"}, timeout=30)
+        version = result.json()
+        return version
 
     def get_annotation_version_from_rosalution(self):
         """Gets version for rosalution type and returns the version data"""
-        version_from_rosalution = ""
-        # getting version from rosalution
-        return version_from_rosalution
+
+        version = {"rosalution": "rosalution-manifest-00"}
+        return version
 
     def get_annotation_version_from_date(self):
         """Gets version for date type and returns the version data"""
-        version_from_date = ""
-        # getting version from date
-        return version_from_date
+
+        version = {"date": str(date.today())}
+        return version
 
 
 class AnnotationTaskFactory:
@@ -256,7 +286,7 @@ class AnnotationTaskFactory:
         cls.tasks[key] = annotation_task_interface
 
     @classmethod
-    def create(cls, annotation_unit: AnnotationUnit):
+    def create_annotation_task(cls, annotation_unit: AnnotationUnit):
         """
         Creates an annotation task with a genomic_units and dataset json.  Instantiates the class according to
         a datasets 'annotation_source_type' from the datasets configurtion.
@@ -266,4 +296,13 @@ class AnnotationTaskFactory:
         annotation_task_type = annotation_unit.dataset["annotation_source_type"]
         new_task = cls.tasks[annotation_task_type](annotation_unit)
         # new_task.set(annotation_unit.dataset)
+        return new_task
+
+    @classmethod
+    def create_version_task(cls, annotation_unit: AnnotationUnit):
+        """
+        Creates an annotation task with a genomic_units and dataset json.  Instantiates the class according to
+        a datasets 'annotation_source_type' from the datasets configurtion.
+        """
+        new_task = cls.tasks["version"](annotation_unit)
         return new_task

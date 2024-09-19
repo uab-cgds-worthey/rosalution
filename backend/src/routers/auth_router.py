@@ -22,7 +22,6 @@ router = APIRouter(
     dependencies=[Depends(database)],
 )
 
-# create logger
 logger = logging.getLogger(__name__)
 
 # URLs for interacting with UAB CAS Padlock system for BlazerID
@@ -66,7 +65,7 @@ async def login(
     cas_user, attributes, pgtiou = cas_client.verify_ticket(ticket)
 
     if not cas_user:
-        logging.info("Failed Padlock ticket user verification, redirect back to login page")
+        logger.info("Failed Padlock ticket user verification, redirect back to login page")
         # Failed ticket verification, this should be an error page of some kind maybe?
 
         redirect_frontend_route_response = settings.web_base_url + settings.auth_web_failure_redirect_route

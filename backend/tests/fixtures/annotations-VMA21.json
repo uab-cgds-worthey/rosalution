@@ -3,21 +3,43 @@
   "gene": "VMA21",
   "annotations": [
     {
-      "Entrez Gene Id": [ {
-        "data_source": "HPO",
-        "version": "",
-        "value": 203547 } ]
-    },
-    {
-      "HPO": [
+      "Entrez Gene Id": [
         {
-          "data_source": "HPO",
-          "version": "",
-          "value": [
-            "Myopathy, X-linked, With Excessive Autophagy"
-          ]
+          "data_source": "Rosalution",
+          "version": "rosalution-manifest-00",
+          "value": 203547
         }
       ]
+    },
+    {
+      "HPO_NCBI_GENE_ID": [ {
+        "data_source": "HPO",
+        "version": "2024-09-06",
+        "value": "NCBIGene:203547" } ]
+    },
+    {
+      "Ensembl Gene Id": [ {
+        "data_source": "Ensembl",
+        "version": "112",
+        "value": "NCBIGene:203547" } ]
+    },
+    {
+      "HGNC_ID": [ {
+        "data_source": "Ensembl",
+        "version": "112",
+        "value": "NCBIGene:203547" } ]
+    },
+    {
+      "ClinGen_gene_url": [ {
+        "data_source": "Rosalution",
+        "version": "112",
+        "value": "URL_HERE" } ]
+    },
+    {
+      "OMIM": [ {
+        "data_source": "HPO",
+        "version": "2024-09-06",
+        "value": "URL_HERE" } ]
     }
   ]
 }
