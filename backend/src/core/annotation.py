@@ -158,6 +158,7 @@ class AnnotationService:
                             logger.info(
                                 '%s Version Calculated %s...', format_annotation_logging(annotation_unit), version
                             )
+                            analysis_collection.add_dataset_to_manifest(analysis_name, annotation_unit)
                             annotation_queue.put(annotation_unit)
                         else:
                             for annotation in task.extract(task_process_result):
@@ -170,7 +171,6 @@ class AnnotationService:
                                 genomic_unit_collection.annotate_genomic_unit(
                                     task.annotation_unit.genomic_unit, annotation
                                 )
-                                analysis_collection.add_dataset_to_manifest(analysis_name, annotation_unit)
 
                     except FileNotFoundError as error:
                         logger.info(
