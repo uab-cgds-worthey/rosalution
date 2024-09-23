@@ -141,7 +141,7 @@ def test_process_annotation_versioning_all_types(genomic_unit, dataset_name, exp
     "genomic_unit,dataset_name,version_to_extract,expected", [
         ('VMA21', 'Entrez Gene Id', {"rosalution": "rosalution-manifest-00"}, "rosalution-manifest-00"),
         ('VMA21', 'Ensembl Gene Id', {"releases": [112]}, 112),
-        ('LMNA', 'OMIM', {"date": "rosalution-temp-manifest-00"}, "rosalution-temp-manifest-00"),
+        ('LMNA', 'OMIM', {"date": "rosalution-manifest-00"}, "rosalution-manifest-00"),
     ]
 )
 def test_version_extraction(genomic_unit, dataset_name, expected, version_to_extract, get_version_task):

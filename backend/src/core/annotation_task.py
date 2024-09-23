@@ -246,7 +246,7 @@ class VersionAnnotationTask(AnnotationTaskInterface):
 
     def get_annotation_version_from_rest(self):
         """Gets version for rest type and returns the version data"""
-        version = {"rest": "rosalution-temp-manifest-00"}
+        version = {"rest": "rosalution-manifest-00"}
 
         url_to_query = self.annotation_unit.dataset['version_url']
         result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"}, timeout=30)
