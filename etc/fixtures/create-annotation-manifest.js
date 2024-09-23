@@ -11,7 +11,7 @@ mongosh /tmp/database/create-annotation-manifests.js
     Example: 
     
     mongosh --host localhost --port 27017 --file /tmp/fixtures/create-annotation-manifest.js overwrite --eval="databaseName='rosalution_db'"
-    docker exec -it <rosalution_db_container> mongosh /tmp/fixtures/create-annotation-manifest.js --file /tmp/fixtures/create-annotation-manifest.js overwrite --eval="databaseName='rosalution_db'"
+    docker exec -it <rosalution_db_container> mongosh --file /tmp/fixtures/create-annotation-manifest.js overwrite --eval="databaseName='rosalution_db'"
 `
 
 overwrite = process.argv.includes('overwrite')
