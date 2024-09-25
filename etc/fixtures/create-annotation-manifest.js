@@ -2,17 +2,13 @@ const usage = `
 mongosh /tmp/database/create-annotation-manifests.js
     Script Options:
         help: if true print this help message
-        overwrite: replace the existing analysis' annotation manifest
         databaseName: different name of the database if needed
 
+    Generates an annotation manifest for each Rosalution analysis and updates
+    genomic unit annotations with matching dataset source and version.  
     
-    Run mongosh help for mongosh connection and authentication usage.
-    
-    Example: 
-    
+    docker exec -it rosalution-rosalution-db-1 mongosh --file /tmp/fixtures/create-annotation-manifest.js
     mongosh --host localhost --port 27017 --file /tmp/fixtures/create-annotation-manifest.js --eval="databaseName='rosalution_db'"
-    docker exec -it <rosalution_db_container> mongosh --file /tmp/fixtures/create-annotation-manifest.js --eval="databaseName='rosalution_db'"
-    docker exec -it <rosalution_db_container> mongosh --file /tmp/fixtures/create-annotation-manifest.js help
 `
 
 help = process.argv.includes('help')
