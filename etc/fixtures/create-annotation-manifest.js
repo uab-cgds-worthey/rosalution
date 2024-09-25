@@ -10,11 +10,11 @@ mongosh /tmp/database/create-annotation-manifests.js
     
     Example: 
     
-    mongosh --host localhost --port 27017 --file /tmp/fixtures/create-annotation-manifest.js overwrite --eval="databaseName='rosalution_db'"
-    docker exec -it <rosalution_db_container> mongosh --file /tmp/fixtures/create-annotation-manifest.js overwrite --eval="databaseName='rosalution_db'"
+    mongosh --host localhost --port 27017 --file /tmp/fixtures/create-annotation-manifest.js --eval="databaseName='rosalution_db'"
+    docker exec -it <rosalution_db_container> mongosh --file /tmp/fixtures/create-annotation-manifest.js --eval="databaseName='rosalution_db'"
+    docker exec -it <rosalution_db_container> mongosh --file /tmp/fixtures/create-annotation-manifest.js help
 `
 
-overwrite = process.argv.includes('overwrite')
 help = process.argv.includes('help')
 
 if (help) {
@@ -30,11 +30,6 @@ if (typeof databaseName === 'undefined') {
 }
 
 db = db.getSiblingDB(databaseName);
-
-const annotationSectionsRename = {
-  'Modelability': 'Orthology',
-  'Protein Expression': 'Human_Gene_Expression',
-}
 
 let yourDate = new Date()
 yourDateString = yourDate.toISOString().split('T')[0].split('T')[0]
@@ -55,8 +50,13 @@ function createAnalysisManifestEntry(incomingDataset) {
   versionType = incomingDataset['versioning_type']
   annotationSource = incomingDataset['data_source']
   versionString =  versionType in versionMapping ? versionMapping[versionType] : versionMapping[annotationSource]
+
+  if ('Alliance genome' == annotationSource) {
+    annotationSource = 'Alliance Genome'
+  }
+
   datasetManifest[datasetName] = {
-    'data_source': incomingDataset['data_source'],
+    'data_source': annotationSource,
     'version': versionString,
   }
 
@@ -78,27 +78,29 @@ function getVersionFromManifest(manifest, datasetName) {
 }
 
 try {
+
+  const annotation_configuration = db.annotations_config.find();
+  newManifest = []
+  annotation_configuration.forEach(dataset => {
+    datasetName = dataset['data_set']
+
+    if( 'Alliance genome' == dataset['data_source'] ) {
+      dataset['data_source'] = 'Alliance Genome'
+      result = db.annotations_config.updateOne(
+        {'_id': dataset._id},
+        {'$set': dataset}
+      )
+    }
+    datasetManifest = createAnalysisManifestEntry(dataset)
+
+    newManifest.push(datasetManifest)
+  });
+
   const analyses = db.analyses.find();
   analyses.forEach(element => {
     print(`Creating analysis: '${element.name}' manifest...`);
-    const annotation_configuration = db.annotations_config.find();
 
-    if( overwrite ) {
-      element['manifest']= []
-    }
-
-
-    annotation_configuration.forEach(dataset => {
-      datasetName = dataset['data_set']
-      datasetManifest = createAnalysisManifestEntry(dataset)
-
-      if (!overwrite && element.manifest.some(e => datasetName in e)){
-        print("Dataset already in manifest", datasetName)
-        return
-      }
-      element['manifest'].push(datasetManifest)
-
-    });
+    element['manifest'] = newManifest
 
     analysisGenomicUnits = getAnalysisGenomicUnits(element['genomic_units'])
     analysisGenomicUnits.forEach((genomicUnit) => {
@@ -109,6 +111,9 @@ try {
       genomicUnitDocument.annotations.forEach( annotation =>  {
         for (const annotationUnitDataset of Object.keys(annotation)) {
           annotation[annotationUnitDataset].forEach(annotationUnit => {
+            if( 'Alliance genome' == annotationUnit.data_source) {
+              annotationUnit.data_source = 'Alliance Genome'
+            }
             annotationUnit.version = getVersionFromManifest(element['manifest'], annotationUnitDataset)
           })
         }
@@ -119,6 +124,9 @@ try {
           transcript.annotations.forEach((annotation) => {
             for (const annotationUnitDataset of Object.keys(annotation)) {
               annotation[annotationUnitDataset].forEach(annotationUnit => {
+                if( 'Alliance genome' == annotationUnit.data_source) {
+                  annotationUnit.data_source = 'Alliance Genome'
+                }
                 annotationUnit.version = getVersionFromManifest(element['manifest'], annotationUnitDataset)
               }); 
             }
