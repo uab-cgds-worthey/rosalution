@@ -26,6 +26,18 @@ def transcript_unit_exist(dataset, data_source, version, annotation):
     return annotation_unit_match is not None
 
 
+def create_annotation_entry(dataset_name, processed_annotation):
+    """ Helper method that restructures a dataset and the queried annotation into an entry for MongoDBc"""
+    annotation_entry = {
+        'data_source': processed_annotation['data_source'],
+        'version': processed_annotation['version'],
+        'value': processed_annotation['value'],
+    }
+    new_dataset_entry = {dataset_name: [annotation_entry]}
+
+    return new_dataset_entry, annotation_entry
+
+
 class GenomicUnitCollection:
     """ Repository for managing genomic units and their annotations """
 
@@ -134,7 +146,7 @@ class GenomicUnitCollection:
             {'$addToSet': {'transcripts': {'transcript_id': transcript_id, 'annotations': []}}},
         )
 
-    def update_genomic_unit_annotation_by_mongo_id(self, genomic_unit_document):
+    def __update_genomic_unit_by_mongo_id(self, genomic_unit_document):
         """ Takes a genomic unit and overwrites the existing object based on the object's id """
         genomic_unit_id = genomic_unit_document['_id']
 
@@ -145,42 +157,58 @@ class GenomicUnitCollection:
     def annotate_genomic_unit(self, genomic_unit, genomic_annotation):
         """
         Takes a genomic_unit from an annotation task as well as a genomic_annotation and arranges them in a pattern
-        that can be sent to mongo to update the genomic unit's document in the collection
-        """
+        that can be sent to mongo to update the genomic unit's document in the collection.  Saves annotation as the
+        following example
 
-        annotation_data_set = {
-            genomic_annotation['data_set']: [{
-                'data_source': genomic_annotation['data_source'],
-                'version': genomic_annotation['version'],
-                'value': genomic_annotation['value'],
+        example:
+        {
+            'Entrez Gene Id': [{
+                'data_source': 'Rosalution',
+                'version': 'rosalution-manifest-00',
+                'value': 203547   
             }]
         }
-
-        updated_document = None
+        """
 
         if 'transcript_id' in genomic_annotation:
-            genomic_unit_document = self.find_genomic_unit_with_transcript_id(
-                genomic_unit, genomic_annotation['transcript_id']
-            )
+            transcript_id = genomic_annotation['transcript_id']
+            updated_document = self.__annotate_transcript_dataset(genomic_unit, transcript_id, genomic_annotation)
+            return updated_document
 
-            if not genomic_unit_document:
-                self.add_transcript_to_genomic_unit(genomic_unit, genomic_annotation['transcript_id'])
-                genomic_unit_document = self.find_genomic_unit_with_transcript_id(
-                    genomic_unit, genomic_annotation['transcript_id']
-                )
+        dataset_name = genomic_annotation['data_set']
 
-            for transcript in genomic_unit_document['transcripts']:
-                if transcript['transcript_id'] == genomic_annotation['transcript_id']:
-                    transcript['annotations'].append(annotation_data_set)
+        genomic_unit_json = self.find_genomic_unit(genomic_unit)
+        self.__add_to_annotations_from_document(genomic_unit_json['annotations'], dataset_name, genomic_annotation)
 
-            updated_document = self.update_genomic_unit_annotation_by_mongo_id(genomic_unit_document)
-
-        else:
-            genomic_unit_document = self.find_genomic_unit(genomic_unit)
-            genomic_unit_document['annotations'].append(annotation_data_set)
-            updated_document = self.update_genomic_unit_annotation_by_mongo_id(genomic_unit_document)
+        updated_document = self.__update_genomic_unit_by_mongo_id(genomic_unit_json)
 
         return updated_document
+
+    def __annotate_transcript_dataset(self, genomic_unit, transcript_id: str, genomic_annotation):
+        dataset_name = genomic_annotation['data_set']
+
+        genomic_unit_document = self.find_genomic_unit_with_transcript_id(genomic_unit, transcript_id)
+
+        if not genomic_unit_document:
+            self.add_transcript_to_genomic_unit(genomic_unit, transcript_id)
+            genomic_unit_document = self.find_genomic_unit_with_transcript_id(genomic_unit, transcript_id)
+
+        for transcript in genomic_unit_document['transcripts']:
+            if transcript["transcript_id"] == transcript_id:
+                self.__add_to_annotations_from_document(transcript['annotations'], dataset_name, genomic_annotation)
+
+        return self.__update_genomic_unit_by_mongo_id(genomic_unit_document)
+
+    def __add_to_annotations_from_document(self, list_of_annotations, dataset_name, genomic_annotation):
+        new_dataset_entry, annotation_entry = create_annotation_entry(dataset_name, genomic_annotation)
+
+        existing_dataset = next((dataset for dataset in list_of_annotations if dataset_name in dataset), None)
+        if existing_dataset:
+            existing_dataset[dataset_name].append(annotation_entry)
+        else:
+            list_of_annotations.append(new_dataset_entry)
+
+        return list_of_annotations
 
     def annotate_genomic_unit_with_file(self, genomic_unit, genomic_annotation):
         """ Ensures that an annotation is created for the annotation image upload and only one image is allowed """
@@ -191,7 +219,7 @@ class GenomicUnitCollection:
         for annotation in genomic_unit_document['annotations']:
             if data_set in annotation:
                 annotation[data_set][0]['value'].append(genomic_annotation['value'])
-                return self.update_genomic_unit_annotation_by_mongo_id(genomic_unit_document)
+                return self.__update_genomic_unit_by_mongo_id(genomic_unit_document)
 
         annotation_data_set = {
             genomic_annotation['data_set']: [{
@@ -202,7 +230,7 @@ class GenomicUnitCollection:
         }
 
         genomic_unit_document['annotations'].append(annotation_data_set)
-        return self.update_genomic_unit_annotation_by_mongo_id(genomic_unit_document)
+        return self.__update_genomic_unit_by_mongo_id(genomic_unit_document)
 
     def update_genomic_unit_file_annotation(self, genomic_unit, data_set, annotation_value, file_id_old):
         """ Replaces existing annotation image with new image """
@@ -217,7 +245,7 @@ class GenomicUnitCollection:
                         annotation[data_set][0]['value'].append(annotation_value)
                         break
 
-        self.update_genomic_unit_annotation_by_mongo_id(genomic_unit_document)
+        self.__update_genomic_unit_by_mongo_id(genomic_unit_document)
 
         return
 
@@ -233,7 +261,7 @@ class GenomicUnitCollection:
                         annotation[data_set][0]['value'].pop(i)
                         break
 
-        return self.update_genomic_unit_annotation_by_mongo_id(genomic_unit_document)
+        return self.__update_genomic_unit_by_mongo_id(genomic_unit_document)
 
     def create_genomic_unit(self, genomic_unit):
         """

@@ -12,7 +12,7 @@ class AnnotationUnit:
         self.version = ""
 
     def get_genomic_unit(self):
-        """Returs 'unit' from genomic_unit"""
+        """Returns 'unit' from genomic_unit"""
         return self.genomic_unit['unit']
 
     def get_dataset_name(self):

@@ -175,6 +175,42 @@ def test_annotate_transcript_genomic_unit(genomic_unit_collection):
                                                                                    return_document=ReturnDocument.AFTER)
 
 
+@pytest.mark.parametrize(
+    "prepare_test_annotate", [('VMA21', 'Entrez Gene Id', "rosalution-manifest-01", 203547, False),
+                              ('VMA21', 'Entrez Gene Id', "rosalution-manifest-00", 203550, True),
+                              ('NM_001017980.3:c.164G>T', 'ClinVar_Variantion_Id', "2024-09-06", "581270", False)],
+    indirect=True,
+    ids=["new_VMA21_annotation_for_dataset", "new_VMA21_dataset", "new_variant_annotation"]
+)
+def test_annotate_genomic_unit(prepare_test_annotate, genomic_unit_collection):
+    """
+    Tests if a genomic unit's new annotation either adds a new dataset or adds the annotation to an exists dataset.
+    """
+
+    genomic_unit_json, dataset_name, genomic_annotation, annotation_unit, expected_amount = prepare_test_annotate
+
+    genomic_unit_collection.collection.find_one.return_value = genomic_unit_json
+
+    genomic_unit_collection.annotate_genomic_unit(annotation_unit.genomic_unit, genomic_annotation)
+
+    updated_genomic_unit = genomic_unit_collection.collection.find_one_and_update.call_args_list[0][0][1]['$set']
+    annotations = updated_genomic_unit['annotations']
+    actual_updated_dataset = next((dataset for dataset in annotations if dataset_name in dataset), None)
+
+    assert actual_updated_dataset is not None
+
+    assert len(actual_updated_dataset[dataset_name]) == expected_amount
+
+    def is_entry(entry):
+        return entry['data_source'] == genomic_annotation['data_source'] and entry['version'] == genomic_annotation[
+            'version']
+
+    actual_updated_annotation = next((entry for entry in actual_updated_dataset[dataset_name] if is_entry(entry)), None)
+
+    assert actual_updated_annotation is not None
+    assert actual_updated_annotation['value'] == genomic_annotation['value']
+
+
 def test_annotation_genomic_unit_with_file(genomic_unit_collection, get_annotation_json):
     """ Accepts a file and adds it as an annotation to the given genomic unit """
     genomic_unit = get_annotation_json('NM_001017980.3:c.164G>T', GenomicUnitType.HGVS_VARIANT)
@@ -268,6 +304,33 @@ def test_remove_existing_genomic_unit_file_annotation(genomic_unit_collection, g
     genomic_unit_collection.remove_genomic_unit_file_annotation(incoming_genomic_unit, data_set, file_id)
 
     genomic_unit_collection.update_genomic_unit_annotation_by_mongo_id.assert_called_once_with(expected_genomic_unit)
+
+
+@pytest.fixture(name="prepare_test_annotate", scope="function")
+def prepare_test_annotate_genomic_units(request, get_annotation_unit, get_annotation_json):
+    """ Provides a genomic unit from the genomic unit collection, otherwise returns false"""
+
+    genomic_unit, dataset_name, version, value, remove_dataset = request.param
+
+    annotation_unit = get_annotation_unit(genomic_unit, dataset_name)
+    annotation_unit.set_latest_version(version)
+
+    genomic_unit_json = get_annotation_json(genomic_unit, annotation_unit.genomic_unit['type'])
+    if remove_dataset:
+        genomic_unit_json['annotations'] = [
+            dataset for dataset in genomic_unit_json['annotations'] if dataset_name not in dataset
+        ]
+
+    genomic_annotation = {
+        "data_set": annotation_unit.get_dataset_name(),
+        "data_source": annotation_unit.get_dataset_source(),
+        "version": annotation_unit.get_version(),
+        "value": value,
+    }
+
+    expected_annotation_amount = 1 if remove_dataset else 2
+
+    return (genomic_unit_json, dataset_name, genomic_annotation, annotation_unit, expected_annotation_amount)
 
 
 @pytest.fixture(name="transcript_annotation_unit", scope="function")
