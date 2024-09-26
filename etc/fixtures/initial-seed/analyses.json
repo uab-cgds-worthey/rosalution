@@ -3668,7 +3668,7 @@
         {
           "Polyphen Prediction": {
             "data_source": "Ensembl",
-            "version": 112
+            "version": 100
           }
         },
         {
