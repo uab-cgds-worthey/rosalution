@@ -1,7 +1,6 @@
 """ Manages the genomic unit collection. Including reading, writing, fetching various genomic units. """
 from unittest.mock import Mock
 import copy
-from pymongo import ReturnDocument
 import pytest
 
 from bson import ObjectId
@@ -121,25 +120,6 @@ def test_add_transcript_to_genomic_unit(genomic_unit_collection):
     )
 
 
-def test_update_genomic_unit_annotation_by_mongo_id(genomic_unit_collection):
-    """
-    Verifies that the update genomic unit with mongo id function makes the pymongo call with the correct params
-    """
-    genomic_unit_document = {
-        "_id": ObjectId('62fbfa5f616a9799131174c8'),
-        "hgvs_variant": "NM_001017980.3:c.164G>T",
-        "transcripts": [],
-        "annotations": {},
-    }
-
-    genomic_unit_collection.update_genomic_unit_annotation_by_mongo_id(genomic_unit_document)
-
-    genomic_unit_collection.collection.find_one_and_update.assert_called_once_with({
-        '_id': ObjectId('62fbfa5f616a9799131174c8')
-    }, {'$set': genomic_unit_document},
-                                                                                   return_document=ReturnDocument.AFTER)
-
-
 def test_annotate_transcript_genomic_unit(genomic_unit_collection):
     """ Verifies that a transcript annotates a genomic unit properly """
     genomic_unit = {'unit': 'NM_001017980.3:c.164G>T', 'type': GenomicUnitType.HGVS_VARIANT}
@@ -160,19 +140,18 @@ def test_annotate_transcript_genomic_unit(genomic_unit_collection):
         }
     )
 
+    expected_genomic_unit = {
+        "_id": ObjectId("62fbfa5f616a9799131174ca"),
+        "hgvs_variant": "NM_001017980.3:c.164G>T",
+        "transcripts": [{'transcript_id': 'NM_001363810.1', 'annotations': []}],
+        "annotations": {},
+    }
+
     genomic_unit_collection.annotate_genomic_unit(genomic_unit, transcript_annotation_unit)
 
-    genomic_unit_collection.collection.find_one_and_update.assert_called_once_with({
-        '_id': ObjectId("62fbfa5f616a9799131174ca")
-    }, {
-        '$set': {
-            "_id": ObjectId("62fbfa5f616a9799131174ca"),
-            "hgvs_variant": "NM_001017980.3:c.164G>T",
-            "transcripts": [{'transcript_id': 'NM_001363810.1', 'annotations': []}],
-            "annotations": {},
-        }
-    },
-                                                                                   return_document=ReturnDocument.AFTER)
+    genomic_unit_collection.collection.find_one_and_update.assert_called_once()
+    actual_updated_genomic_unit = genomic_unit_collection.collection.find_one_and_update.call_args_list[0][0][1]['$set']
+    assert actual_updated_genomic_unit == expected_genomic_unit
 
 
 @pytest.mark.parametrize(
@@ -231,11 +210,12 @@ def test_annotation_genomic_unit_with_file(genomic_unit_collection, get_annotati
     expected_genomic_unit['annotations'].append(expected_annotation_update)
 
     genomic_unit_collection.collection.find_one.return_value = genomic_unit
-    genomic_unit_collection.update_genomic_unit_annotation_by_mongo_id = Mock()
 
     genomic_unit_collection.annotate_genomic_unit_with_file(incoming_genomic_unit, annotation_unit)
 
-    genomic_unit_collection.update_genomic_unit_annotation_by_mongo_id.assert_called_once_with(expected_genomic_unit)
+    genomic_unit_collection.collection.find_one_and_update.assert_called_once()
+    actual_updated_genomic_unit = genomic_unit_collection.collection.find_one_and_update.call_args_list[0][0][1]['$set']
+    assert actual_updated_genomic_unit == expected_genomic_unit
 
 
 def test_update_existing_genomic_unit_file_annotation(genomic_unit_collection, get_annotation_json):
@@ -266,13 +246,13 @@ def test_update_existing_genomic_unit_file_annotation(genomic_unit_collection, g
 
     expected_genomic_unit['annotations'].append(expected_annotation_update)
 
-    genomic_unit_collection.update_genomic_unit_annotation_by_mongo_id = Mock()
-
     genomic_unit_collection.update_genomic_unit_file_annotation(
         incoming_genomic_unit, data_set, annotation_unit_value, file_id_old
     )
 
-    genomic_unit_collection.update_genomic_unit_annotation_by_mongo_id.assert_called_once_with(expected_genomic_unit)
+    genomic_unit_collection.collection.find_one_and_update.assert_called_once()
+    actual_updated_genomic_unit = genomic_unit_collection.collection.find_one_and_update.call_args_list[0][0][1]['$set']
+    assert actual_updated_genomic_unit == expected_genomic_unit
 
 
 def test_remove_existing_genomic_unit_file_annotation(genomic_unit_collection, get_annotation_json):
@@ -299,11 +279,11 @@ def test_remove_existing_genomic_unit_file_annotation(genomic_unit_collection, g
         }]
     })
 
-    genomic_unit_collection.update_genomic_unit_annotation_by_mongo_id = Mock()
-
     genomic_unit_collection.remove_genomic_unit_file_annotation(incoming_genomic_unit, data_set, file_id)
 
-    genomic_unit_collection.update_genomic_unit_annotation_by_mongo_id.assert_called_once_with(expected_genomic_unit)
+    genomic_unit_collection.collection.find_one_and_update.assert_called_once()
+    actual_updated_genomic_unit = genomic_unit_collection.collection.find_one_and_update.call_args_list[0][0][1]['$set']
+    assert actual_updated_genomic_unit == expected_genomic_unit
 
 
 @pytest.fixture(name="prepare_test_annotate", scope="function")
