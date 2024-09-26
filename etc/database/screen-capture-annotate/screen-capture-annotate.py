@@ -133,41 +133,41 @@ class ScreenCaptureDatasets(contextlib.ExitStack):
         image_name = today.strftime("%Y-%m-%d")
         image_name = f"{unit}-{dataset['dataset']}-{image_name}"
 
-        # Set the path where the screenshot will be saved
-        print(f'{url}: Visiting', end='\r', flush=True)
+        # # Set the path where the screenshot will be saved
+        # print(f'{url}: Visiting', end='\r', flush=True)
 
-        self.driver.get(url)
+        # self.driver.get(url)
 
-        width = self.driver.execute_script(
-            "return Math.max( document.body.scrollWidth, document.body.offsetWidth, document.documentElement.clientWidth, document.documentElement.scrollWidth, document.documentElement.offsetWidth );"
-        )
-        height = self.driver.execute_script(
-            "return Math.max( document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );"
-        )
+        # width = self.driver.execute_script(
+        #     "return Math.max( document.body.scrollWidth, document.body.offsetWidth, document.documentElement.clientWidth, document.documentElement.scrollWidth, document.documentElement.offsetWidth );"
+        # )
+        # height = self.driver.execute_script(
+        #     "return Math.max( document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );"
+        # )
 
-        self.driver.set_window_size(width, height)
+        # self.driver.set_window_size(width, height)
 
-        if 'popup_selectors' in dataset:
-            for selector in dataset['popup_selectors']:
-                self.click_popup(url, selector)
+        # if 'popup_selectors' in dataset:
+        #     for selector in dataset['popup_selectors']:
+        #         self.click_popup(url, selector)
 
-        try:
-            WebDriverWait(self.driver, 30).until(
-                EC.presence_of_element_located((dataset['selenium_by'], dataset["dom_attribute"]))
-            )
+        # try:
+        #     WebDriverWait(self.driver, 30).until(
+        #         EC.presence_of_element_located((dataset['selenium_by'], dataset["dom_attribute"]))
+        #     )
 
-            if "extra_dom_element_wait" in dataset:
-                WebDriverWait(self.driver, 30).until(
-                    EC.presence_of_element_located((By.TAG_NAME,"circle"))
-                )
-        except TimeoutException as err:
-            print(f'{url}: Failed to locate visualization {err}', end='\r', flush=True)
-            return None
+        #     if "extra_dom_element_wait" in dataset:
+        #         WebDriverWait(self.driver, 30).until(
+        #             EC.presence_of_element_located((By.TAG_NAME,"circle"))
+        #         )
+        # except TimeoutException as err:
+        #     print(f'{url}: Failed to locate visualization {err}', end='\r', flush=True)
+        #     return None
 
-        page_element = self.driver.find_element(dataset['selenium_by'], dataset["dom_attribute"])
+        # page_element = self.driver.find_element(dataset['selenium_by'], dataset["dom_attribute"])
         print(f'{url}: Found visualization, saving image', end='\r', flush=True)
         file_name = f"tmp/{image_name}.png"
-        page_element.screenshot(file_name)
+        # page_element.screenshot(file_name)
 
         print(f'{url}: Saving Operation Complete              ', end='\n', flush=True)
         return file_name
@@ -197,10 +197,41 @@ class RosalutionAnalysis():
             for unit in genomic_units[genomic_unit_type]:
                 unit_annotations = self.get_annotations(genomic_unit_type, unit)
                 for genomic_unit_dataset in DATASETS[genomic_unit_type]:
-                    captured_dataset = capture.screencapture_dataset(genomic_unit_type, unit, unit_annotations, genomic_unit_dataset)
-                    if captured_dataset:
-                        captured_dataset[()]
+                    captured_dataset_filepath = capture.screencapture_dataset(genomic_unit_type, unit, unit_annotations, genomic_unit_dataset)
+                    if captured_dataset_filepath:
+                        self.captured_datasets[(genomic_unit_type, unit, genomic_unit_dataset['dataset'])] = captured_dataset_filepath
+
+    def save_to_rosalution(self, rosalution_auth_header):
+        for entry in self.captured_datasets:
+            unit_type, unit, dataset = entry
+            api_url=f"{config['ROSALUTION_API_URL']}annotation/{unit}/{dataset}/attachment?genomic_unit_type={unit_type}"
+            filename = self.captured_datasets[entry].strip('/')[1]
+            files = {'upload_file': (filename, open(self.captured_datasets[entry], 'rb'), 'application/png', {'Expires': '0'})}
+            print(f'{entry}: Upload Operation Begin              ', end='\r', flush=True)
+            response = requests.post(api_url, headers=rosalution_auth_header, files=files, verify=False)
+            # print(response.json())
+            # print(response.status_code)
+            result_text = "Success" if response.status_code == 201 or response.status_code == 200 else "Failed"
+            print(f'{entry}: Upload Operation {result_text}              ', end='\n', flush=True)
+
 rosalution_analyses = sys.argv[1:]
+
+print(f'🔒 Authenticating with Rosalution...', end='\r', flush=True)
+auth_headers = {
+    'Content-Type': 'application/x-www-form-urlencoded'
+}
+auth_data = f"grant_type=&scope=&client_id={config['ROSALUTION_CLIENT_ID']}&client_secret={config['ROSALUTION_CLIENT_SECRET']}"
+auth_response = requests.post(f"{config['ROSALUTION_API_URL']}auth/token", headers=auth_headers, data=auth_data, verify=False)
+auth_response_json = auth_response.json()
+if 'access_token' not in auth_response_json:
+    print(f'🔒 Authenticating with Rosalution...Failed', end='\n', flush=True)
+    print(auth_response_json)
+    exit(2)
+
+print(f'🔓 Authenticating with Rosalution...Complete', end='\n', flush=True)
+rosalution_header = {
+    'Authorization': f"Bearer {auth_response_json['access_token']}"
+}
 
 print("Capturing Rosalution Analyses")
 print(*[ f"   🧬 {analysis}" for analysis in rosalution_analyses], sep="\n")
@@ -209,4 +240,5 @@ with ScreenCaptureDatasets() as capture:
     for analysis_name in rosalution_analyses:
         analysis = RosalutionAnalysis(analysis_name)
         analysis.capture_analysis(capture)
+        analysis.save_to_rosalution(rosalution_header)
 
