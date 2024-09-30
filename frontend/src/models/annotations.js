@@ -2,7 +2,7 @@ import Requests from '@/requests.js';
 
 export default {
   async getAnnotations(analysisName, gene, variant) {
-    const baseUrl = '/rosalution/api/annotation';
+    const baseUrl = '/rosalution/api/analysis';
 
     const variantWithoutProtein = variant.replace(/\(.*/, '');
 
@@ -19,8 +19,8 @@ export default {
     }
 
     const [geneAnnotations, variantAnnotations] = await Promise.all([
-      Requests.get(`${baseUrl}/gene/${gene}`),
-      ...insertIf(variant !== '', Requests.get(`${baseUrl}/hgvsVariant/${variantWithoutProtein}`)),
+      Requests.get(`${baseUrl}/${analysisName}/gene/${gene}`),
+      ...insertIf(variant !== '', Requests.get(`${baseUrl}/${analysisName}/hgvsVariant/${variantWithoutProtein}`)),
     ]);
     return {...geneAnnotations, ...variantAnnotations};
   },

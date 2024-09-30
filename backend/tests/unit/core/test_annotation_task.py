@@ -1,20 +1,23 @@
 """Tests Annotation Tasks and the creation of them"""
+from datetime import date
+from unittest.mock import Mock, patch
 import pytest
+import requests
 
-from src.core.annotation_task import AnnotationTaskFactory, ForgeAnnotationTask, HttpAnnotationTask
+from src.core.annotation_task import AnnotationTaskFactory, ForgeAnnotationTask, \
+    HttpAnnotationTask, VersionAnnotationTask
 from src.enums import GenomicUnitType
-
-
-def test_http_annotation_base_url(http_annotation_transcript_id):
-    """Verifies if the HTTP annotation creates the base url using the url and genomic_unit as expected."""
-    actual = http_annotation_transcript_id.base_url()
-    assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;refseq=1;"  # pylint: disable=line-too-long
+from src.core.annotation_unit import AnnotationUnit
 
 
 def test_http_annotation_task_build_url(http_annotation_transcript_id):
     """Verifies that the HTTP annotation task creates the base url using the 'url' and the genomic unit"""
     actual = http_annotation_transcript_id.build_url()
-    assert actual == "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;refseq=1;"  # pylint: disable=line-too-long
+
+    assert (
+        actual ==
+        "http://grch37.rest.ensembl.org/vep/human/hgvs/NM_170707.3:c.745C>T?content-type=application/json;refseq=1;"
+    )
     # This link cannot be shortened, will just disable for this one due to the nature of the long URL dependency
 
 
@@ -24,9 +27,9 @@ def test_http_annotation_task_build_url_with_dependency(http_annotation_task_gen
     assert actual == "https://hpo.jax.org/api/hpo/gene/45614"
 
 
-def test_annotation_task_create_http_task(hgvs_variant_genomic_unit, transcript_id_dataset):
+def test_annotation_task_create_http_task(hgvs_variant_annotation_unit):
     """Verifies that the annotation task factory creates the correct annotation task according to the dataset type"""
-    actual_task = AnnotationTaskFactory.create(hgvs_variant_genomic_unit, transcript_id_dataset)
+    actual_task = AnnotationTaskFactory.create_annotation_task(hgvs_variant_annotation_unit)
     assert isinstance(actual_task, HttpAnnotationTask)
 
 
@@ -88,22 +91,80 @@ def test_annotation_extraction_for_genomic_unit(http_annotation_task_gene, hpo_a
     } in actual_extractions
 
 
-# Patching the temporary helper method that is writing to a file, this will be
-# removed once that helper method is no longer needed for the development
-
-
 def test_annotation_extraction_value_error_exception(http_annotation_task_gene, hpo_annotation_response):
-    """Verifying annotation failure does not cause crash in application during extraction"""
+    """
+    Verifying annotation failure does not cause crash in application during extraction. Removes the expected value
+    in the json to force jq parse error to more closelyemulate the failure instead of mocking the jq response to fail.
+    """
 
-    # Removing the expected value in the json to force a jq parse error to more closely
-    # emulate the failure instead of mocking the jq response to fail.
     del hpo_annotation_response['diseaseAssoc']
 
     actual_extractions = http_annotation_task_gene.extract(hpo_annotation_response)
     assert len(actual_extractions) == 0
 
 
+@pytest.mark.parametrize(
+    "genomic_unit,dataset_name", [('VMA21', 'Entrez Gene Id'), ('NM_001017980.3:c.164G>T', 'ClinVar_Variantion_Id')]
+)
+def test_annotation_versioning_task_created(genomic_unit, dataset_name, get_annotation_unit):
+    """Verifies that the annotation task factory creates the correct version annotation task for the annotation unit"""
+    annotation_unit = get_annotation_unit(genomic_unit, dataset_name)
+    actual_task = AnnotationTaskFactory.create_version_task(annotation_unit)
+    assert isinstance(actual_task, VersionAnnotationTask)
+
+
+@pytest.mark.parametrize(
+    "genomic_unit,dataset_name,expected", [
+        ('VMA21', 'Entrez Gene Id', {"rosalution": "rosalution-manifest-00"}),
+        ('NM_001017980.3:c.164G>T', 'ClinVar_Variantion_Id', {"rosalution": "rosalution-manifest-00"}),
+        ('VMA21', 'Ensembl Gene Id', {"releases": [112]}),
+        ('NM_001017980.3:c.164G>T', 'Polyphen Prediction', {"releases": [112]}),
+        ('VMA21', 'HPO_NCBI_GENE_ID', {"date": "2024-09-16"}),
+        ('LMNA', 'OMIM', {"date": "2024-09-16"}),
+    ]
+)
+def test_process_annotation_versioning_all_types(genomic_unit, dataset_name, expected, get_version_task):
+    """Verifies that Version Annotation Tasks process and annotate for all 3 versioning types- date, rest, rosalution"""
+
+    mock_response = Mock(spec=requests.Response)
+    mock_response.json.return_value = {"releases": [112]}
+
+    with (patch("requests.get", return_value=mock_response), patch('src.core.annotation_task.date') as mock_date):
+        mock_date.today.return_value = date(2024, 9, 16)
+
+        task = get_version_task(genomic_unit, dataset_name)
+        actual_version_json = task.annotate()
+        assert actual_version_json == expected
+
+
+@pytest.mark.parametrize(
+    "genomic_unit,dataset_name,version_to_extract,expected", [
+        ('VMA21', 'Entrez Gene Id', {"rosalution": "rosalution-manifest-00"}, "rosalution-manifest-00"),
+        ('VMA21', 'Ensembl Gene Id', {"releases": [112]}, 112),
+        ('LMNA', 'OMIM', {"date": "rosalution-manifest-00"}, "rosalution-manifest-00"),
+    ]
+)
+def test_version_extraction(genomic_unit, dataset_name, expected, version_to_extract, get_version_task):
+    """ Verifies extraction for datasets for all 3 versioning types - rest, date, rosalution"""
+    task = get_version_task(genomic_unit, dataset_name)
+    actual_version_extraction = task.extract_version(version_to_extract)
+    assert actual_version_extraction == expected
+
+
 ## Fixtures ##
+
+
+@pytest.fixture(name="get_version_task")
+def get_version_annotation_task(get_annotation_unit):
+    """creating version task"""
+
+    def _create_version_task(genomic_unit, dataset_name):
+
+        annotation_unit = get_annotation_unit(genomic_unit, dataset_name)
+
+        return VersionAnnotationTask(annotation_unit)
+
+    return _create_version_task
 
 
 @pytest.fixture(name="gene_ncbi_linkout_dataset")
@@ -151,16 +212,16 @@ def fixture_gene_genomic_unit():
 @pytest.fixture(name="http_annotation_task_gene")
 def fixture_http_annotation_empty(gene_genomic_unit, gene_hpo_dataset):
     """Returns an HTTP annotation taskd"""
-    task = HttpAnnotationTask(gene_genomic_unit)
-    task.set(gene_hpo_dataset)
+    annotation_unit = AnnotationUnit(gene_genomic_unit, gene_hpo_dataset)
+    task = HttpAnnotationTask(annotation_unit)
     return task
 
 
 @pytest.fixture(name="forge_annotation_task_gene")
 def fixture_forge_annotation_task_gene_ncbi_linkout(gene_genomic_unit, gene_ncbi_linkout_dataset):
     """Returns a Forge annotation task for the NCBI linkout for the VMA21 Gene genomic unit"""
-    task = ForgeAnnotationTask(gene_genomic_unit)
-    task.set(gene_ncbi_linkout_dataset)
+    annotation_unit = AnnotationUnit(gene_genomic_unit, gene_ncbi_linkout_dataset)
+    task = ForgeAnnotationTask(annotation_unit)
     return task
 
 
@@ -189,11 +250,20 @@ def fixture_transcript_id_dataset():
     }
 
 
+@pytest.fixture(name="hgvs_variant_annotation_unit")
+def fixture_hgvs_variant_annotation_unit(hgvs_variant_genomic_unit, transcript_id_dataset):
+    """
+    Returns the annotation unit with hgvs_variant genomic unit and transcript_id dataset
+    """
+    annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit, transcript_id_dataset)
+    return annotation_unit
+
+
 @pytest.fixture(name="http_annotation_transcript_id")
 def fixture_http_annotation_transcript_id(hgvs_variant_genomic_unit, transcript_id_dataset):
     """An HTTP annotation task with a single dataset"""
-    task = HttpAnnotationTask(hgvs_variant_genomic_unit)
-    task.set(transcript_id_dataset)
+    annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit, transcript_id_dataset)
+    task = HttpAnnotationTask(annotation_unit)
     return task
 
 
@@ -218,8 +288,8 @@ def fixture_polyphen_prediction_dataset():
 @pytest.fixture(name="http_annotation_polyphen_prediction")
 def fixture_http_annotation_polyphen_prediction(hgvs_variant_genomic_unit, polyphen_prediction_dataset):
     """An HTTP annotation task with a single dataset"""
-    task = HttpAnnotationTask(hgvs_variant_genomic_unit)
-    task.set(polyphen_prediction_dataset)
+    annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit, polyphen_prediction_dataset)
+    task = HttpAnnotationTask(annotation_unit)
     return task
 
 
@@ -275,6 +345,6 @@ def fixture_hpo_annotation_response():
 @pytest.fixture(name="rest_genenames_response")
 def fixture_genenames_annotation_response():
     """
-    Returns an object that contains the actual return aoutput for GENE VMA21
+    Returns an object that contains the actual return output for GENE VMA21
     """
     return {}

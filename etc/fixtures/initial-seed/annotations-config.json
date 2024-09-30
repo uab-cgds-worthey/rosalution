@@ -445,7 +445,7 @@
   },
   {
     "data_set": "Rat_Rat_Genome_Database_url",
-    "data_source": "Alliance genome",
+    "data_source": "Alliance Genome",
     "annotation_source_type": "http",
     "genomic_unit_type": "gene",
     "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}",
@@ -467,7 +467,7 @@
   },
   {
     "data_set": "Mouse_Mouse_Genome_Database_url",
-    "data_source": "Alliance genome",
+    "data_source": "Alliance Genome",
     "annotation_source_type": "http",
     "genomic_unit_type": "gene",
     "url": "https://www.alliancegenome.org/api/gene/{Mouse Gene Identifier}",
@@ -489,7 +489,7 @@
   },
   {
     "data_set": "Zebrafish_Zebrafish_Information_Network_url",
-    "data_source": "Alliance genome",
+    "data_source": "Alliance Genome",
     "annotation_source_type": "http",
     "genomic_unit_type": "gene",
     "url": "https://www.alliancegenome.org/api/gene/{Zebrafish Gene Identifier}",
@@ -511,7 +511,7 @@
   },
   {
     "data_set": "C-Elegens_Worm_Base_url",
-    "data_source": "Alliance genome",
+    "data_source": "Alliance Genome",
     "annotation_source_type": "http",
     "genomic_unit_type": "gene",
     "url": "https://www.alliancegenome.org/api/gene/{C-Elegens Gene Identifier}",
@@ -523,7 +523,7 @@
   },
   {
     "data_set": "Frog_General_Xenbase_Database_url",
-    "data_source": "Alliance genome",
+    "data_source": "Alliance Genome",
     "annotation_source_type": "http",
     "genomic_unit_type": "gene",
     "url": "https://www.alliancegenome.org/api/search?q={gene}",

@@ -1,9 +1,5 @@
-# pylint: disable=too-many-arguments
-# Due to adding scope checks, it's adding too many arguments (7/6) to functions, so diabling this for now.
-# Need to refactor later.
 """ Analysis endpoint routes that provide an interface to interact with an Analysis' discussions """
 from datetime import datetime, timezone
-import logging
 from uuid import uuid4
 
 from fastapi import (APIRouter, Depends, Form, Security, HTTPException, status)
@@ -12,8 +8,6 @@ from ..dependencies import database
 from ..models.user import VerifyUser
 from ..models.analysis import Analysis
 from ..security.security import get_current_user
-
-logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["analysis discussions"], dependencies=[Depends(database)])
 
@@ -42,9 +36,6 @@ def add_analysis_discussion(
     client_id: VerifyUser = Security(get_current_user)
 ):
     """ Adds a new analysis topic """
-    logger.info("Adding the analysis '%s' from user '%s'", analysis_name, client_id)
-    logger.info("The message: %s", discussion_content)
-
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
 
     if not found_analysis:
@@ -77,11 +68,6 @@ def update_analysis_discussion_post(
     client_id: VerifyUser = Security(get_current_user)
 ):
     """ Updates a discussion post's content in an analysis by the discussion post id """
-    logger.info(
-        "Editing post '%s' by user '%s' from the analysis '%s' with new content: '%s'", discussion_post_id, client_id,
-        analysis_name, discussion_content
-    )
-
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
 
     if not found_analysis:
@@ -113,8 +99,6 @@ def delete_analysis_discussion(
     client_id: VerifyUser = Security(get_current_user)
 ):
     """ Deletes a discussion post in an analysis by the discussion post id """
-    logger.info("Deleting post %s by user '%s' from the analysis '%s'", discussion_post_id, client_id, analysis_name)
-
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
 
     if not found_analysis:

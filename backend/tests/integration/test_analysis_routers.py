@@ -67,10 +67,11 @@ def test_import_analysis_with_phenotips_json( # pylint: disable=too-many-argumen
 
             phenotips_file.close()
 
-            assert mock_annotation_queue.put.call_count == 49
+            assert mock_annotation_queue.put.call_count == 9
 
             mock_background_add_task.assert_called_once_with(
-                AnnotationService.process_tasks, mock_annotation_queue, mock_repositories['genomic_unit']
+                AnnotationService.process_tasks, mock_annotation_queue, "CPAM0112", mock_repositories['genomic_unit'],
+                mock_repositories['analysis']
             )
 
     assert response.status_code == 200
