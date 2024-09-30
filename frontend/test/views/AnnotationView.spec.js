@@ -236,15 +236,15 @@ describe('AnnotationView', () => {
     });
 
     describe('when an image section has an image', () => {
-      const initialImageAnnotation = {'file_id': 'fake-image-id-1', 'created_date': 'fake-date'};
-      beforeEach(() => {
+      
+
+      it('allows user to add an image when an image already exists', async () => {
+        const initialImageAnnotation = {'file_id': 'fake-image-id-1', 'created_date': 'fake-date'};
         const annotationsWithNewEvidence = mockAnnotationsForCPAM0002;
         annotationsWithNewEvidence['GeneHomology_Multi-SequenceAlignment'] = [initialImageAnnotation];
         mockAnnotations.returns(annotationsWithNewEvidence);
         wrapper = getMountedComponent();
-      });
 
-      it('allows user to add an image when an image already exists', async () => {
         const newImageResult = {
           file_id: 'fake-image-id-2',
           section: 'GeneHomology_Multi-SequenceAlignment',
