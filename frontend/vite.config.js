@@ -16,6 +16,9 @@ export default defineConfig({
       functions: 80,
       branches: 80,
     },
+    sequence: {
+      hooks: 'parallel',
+    },
   },
   resolve: {
     alias: {

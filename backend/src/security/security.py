@@ -18,10 +18,7 @@ import bcrypt
 
 from ..dependencies import oauth2_scheme
 
-# from ..models.token import TokenData
 from ..config import Settings, get_settings
-
-# pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 SECURITY_SCOPES = {
     "pre-clinical-intake": "Pre-Clinical Intake",

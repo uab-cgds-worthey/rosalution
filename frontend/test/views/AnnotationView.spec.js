@@ -252,10 +252,6 @@ describe('AnnotationView', () => {
 
         annotationAttachMock.returns([initialImageAnnotation, newImageResult]);
 
-        const lookingFor = wrapper.findAllComponents(SectionImage);
-
-        // expect(lookingFor.length).to.equal(1);
-
         const annotationSection = wrapper.findComponent('[id=Gene_Homology]');
 
         annotationSection.vm.$emit('attach-image', 'GeneHomology_Multi-SequenceAlignment', 'hgvs_variant');
