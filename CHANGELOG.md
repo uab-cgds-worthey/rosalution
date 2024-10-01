@@ -1,11 +1,17 @@
 <!-- markdownlint-disable-file MD024 -->
 # Changelog
 
-## 0.7.0 - latest
+## 0.7.0
 
 ### Features
 
-### Bug Fixes
+- Support for attaching documents, URLs, and Images to fields on an Analysis landing page.
+- HTTPs by default for deployments
+- Versioning for Annotations as dictated by configuration
+- Analyses have a version manifest of annotation's dataset, source, and version
+- Render's annotations for an analysis according to it's version manifest
+- Timestamped discussions for analyses to which allow users to create, update, and remove text-based
+  messages to each other within an analysis.
 
 ## 0.6.0
 

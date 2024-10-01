@@ -7,7 +7,7 @@ jq==1.6.0
 
 python-multipart==0.0.7
 PyJWT[crypto]==2.8.0
-passlib[bcrypt]==1.7.4
+bcrypt==4.2.0
 
 # dev
 pytest-cov==4.0.0

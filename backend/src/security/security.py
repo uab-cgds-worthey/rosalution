@@ -14,14 +14,11 @@ from jwt.exceptions import InvalidTokenError
 from fastapi import Depends, HTTPException, Response, status
 from fastapi.security import SecurityScopes
 
-from passlib.context import CryptContext
+import bcrypt
 
 from ..dependencies import oauth2_scheme
 
-# from ..models.token import TokenData
 from ..config import Settings, get_settings
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 SECURITY_SCOPES = {
     "pre-clinical-intake": "Pre-Clinical Intake",
@@ -56,12 +53,17 @@ def create_access_token(
 
 def get_password_hash(password):
     """Takes the plain password and makes a hash from it using CryptContext"""
-    return pwd_context.hash(password)
+    pwd_bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password=pwd_bytes, salt=salt)
+    return hashed_password
 
 
 def verify_password(plain_password, hashed_password):
     """This will use the CryptContext to hash the plain password and check against the stored pass hash to verify"""
-    return pwd_context.verify(plain_password, hashed_password)
+    password_byte_encoded = plain_password.encode('utf-8')
+    hashed_password = hashed_password.encode('utf-8')
+    return bcrypt.checkpw(password=password_byte_encoded, hashed_password=hashed_password)
 
 
 def authenticate_password(user: Optional[dict], password: str):

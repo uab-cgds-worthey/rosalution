@@ -21,6 +21,7 @@ rosalution-annotation-log.txt*
 *.graphql
 
 **/node_modules/**
+**/.vite/**
 
 # e2e run captures
 /system-tests/cypress/downloads
