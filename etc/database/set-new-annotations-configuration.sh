@@ -23,7 +23,7 @@ usage() {
   echo " "
 }
 
-target_backup_path=/home/centos/backups/rosalution-annotation-configuration-backup
+target_backup_path=/home/angelina
 docker_container_name=""
 docker_exec_prefix=""
 connection_string="localhost:27017"

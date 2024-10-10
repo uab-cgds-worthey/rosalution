@@ -38,47 +38,86 @@ from selenium.webdriver.support import expected_conditions as EC
 
 import requests
 
-
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 config = dotenv_values('.env')
 
-FORCE_APPEND = 'FORCE_APPEND' in config and (
-    config['FORCE_APPEND'].lower() in ('true', '1', 't', 'on')
-)
+FORCE_APPEND = 'FORCE_APPEND' in config and (config['FORCE_APPEND'].lower() in ('true', '1', 't', 'on'))
 
 OVERWRITE_LOCAL_SAVE = 'OVERWRITE_LOCAL_SAVE' in config and (
     config['OVERWRITE_LOCAL_SAVE'].lower() in ('true', '1', 't', 'on')
 )
 
 DATASETS = {
-    "gene": [{
-        "dataset": "Druggability", "url": "https://pharos.nih.gov/targets/{gene}#ppi", "dom_attribute": "ppi",
-        "extra_dom_element_wait": "circle", "dependencies": [], "selenium_by": By.ID, "popup_selectors": [
-            '.shepherd-cancel-icon',
-            '.shepherd-cancel-icon',
-        ]
-    }, {
-        "dataset": "Gene Expression",
-        "url": "https://gtexportal.org/home/gene/{gene}",
-        "dom_attribute": "geneExpression",
-        "dependencies": [],
-        "selenium_by": By.ID,
-    }, {
-        "dataset": "Orthology",
-        "url": "https://www.alliancegenome.org/gene/{HGNC_ID}",
-        "dom_attribute": "a#orthology",
-        "dependencies": ["HGNC_ID"],
-        "selenium_by": By.CSS_SELECTOR,
-    }, {
-        "dataset": "Human_Gene_vs_Protein_Expression_Profile",
-        "url": "https://www.proteinatlas.org/{Ensembl Gene Id}-{gene}/tissue",
-        "dom_attribute":
-            "//table[@class='main_table']/tbody/tr/td[2]/div[@class='tissue_summary menu_margin']/table[@class='darkheader_white'][1]/tbody/tr[@class='roundbottom']", #pylint: disable=line-too-long
-        "dependencies": ["Ensembl Gene Id"],
-        "selenium_by": By.XPATH,
-    }],
-    "hgvsVariant": [],
+    "gene": [
+        {
+            "dataset": "Druggability", "url": "https://pharos.nih.gov/targets/{gene}",
+            "dom_attribute": "scrollspy-main", "extra_dom_element_wait": "pharos-radar-chart", "dependencies": [],
+            "selenium_by": By.ID, "popup_selectors": [
+                '.shepherd-cancel-icon',
+                '.shepherd-cancel-icon',
+            ], "additional_script_execution":
+                """
+            document.querySelectorAll('mat-card').forEach(el => {
+                if (el.id !== 'development' && el.id !== 'ppi' && !el.classList.contains('target-card')) {
+                    el.remove();
+                }
+            });
+        """
+        },
+        {
+            "dataset": "Human_Gene_Expression",
+            "url": "https://gtexportal.org/home/gene/{gene}",
+            "dom_attribute": "geneExpression",
+            "extra_dom_element_wait": "svg",
+            "file_postfix": "-0",
+            "dependencies": [],
+            "selenium_by": By.ID,
+        },
+        {
+            "dataset": "Human_Gene_Expression",
+            "url": "https://www.proteinatlas.org/{Ensembl Gene Id}-{gene}/single+cell+type",
+            "dependencies": ["Ensembl Gene Id"],
+            "selenium_by": By.XPATH,
+            "file_postfix": "-1",
+            "dom_attribute": "(//table[contains(@class, \"main_table\")])",  #pylint: disable=line-too-long
+            "additional_script_execution":
+                """
+            let tables = document.evaluate(
+                '(//table[contains(@class, "main_table")])[1]//table',
+                document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null
+            );
+            for (let i = 3; i < tables.snapshotLength; i++) tables.snapshotItem(i).remove();
+            """
+        },
+        {
+            "dataset": "Orthology",
+            "url": "https://www.alliancegenome.org/gene/{HGNC_ID}",
+            "dom_attribute": "a#orthology",
+            "dependencies": ["HGNC_ID"],
+            "selenium_by": By.CSS_SELECTOR,
+        },
+        {
+            "dataset": "Human_Gene_versus_Protein_Expression_Profile",
+            "url": "https://www.proteinatlas.org/{Ensembl Gene Id}-{gene}/tissue",
+            "dom_attribute":
+                "//table[@class='main_table']/tbody/tr/td[2]/div[@class='tissue_summary menu_margin']/table[@class='darkheader_white'][1]/tbody/tr[@class='roundbottom']",  #pylint: disable=line-too-long
+            "dependencies": ["Ensembl Gene Id"],
+            "selenium_by": By.XPATH,
+        }
+    ],
+    "hgvsVariant": [
+        # Disabling this annotaiton until additional time can be investigated to support
+        # more then just SNV variants for this.
+        #     {
+        #     "dataset": "GeneHomology_Multi-SequenceAlignment",
+        #     "url": "https://marrvel.org/human/variant/{hgvsVariant}",
+        #     "dom_attribute":
+        #         "app-diopt-alignment", #pylint: disable=line-too-long
+        #     "selenium_by": By.TAG_NAME ,
+        #     "dependencies": [],
+        # }
+    ],
 }
 
 
@@ -91,6 +130,7 @@ def aggregate_string_replacement(key, value, base_string):
     """Replace placeholders in the base string with corresponding values."""
     genomic_unit_string = f"{{{key}}}"
     return base_string.replace(genomic_unit_string, value)
+
 
 class ScreenCaptureDatasets(contextlib.ExitStack):
     """Manages Selenium WebDriver to capture screenshots of genomic datasets."""
@@ -119,7 +159,7 @@ class ScreenCaptureDatasets(contextlib.ExitStack):
         self.path = os.path.dirname(os.path.abspath(__file__))
         return self
 
-    def __exit__(self, *exec): # pylint: disable=redefined-builtin
+    def __exit__(self, *exec):  # pylint: disable=redefined-builtin
         """Clean up WebDriver resources on exit."""
         super().__exit__(*exec)
         self.driver.__exit__(*exec)
@@ -129,9 +169,8 @@ class ScreenCaptureDatasets(contextlib.ExitStack):
         start_time = time.time()
         try:
             print(f'{url}: Checking for Popup Element', end='\r', flush=True)
-            popup_element = WebDriverWait(self.driver, 22).until(
-                lambda driver: driver.find_element(By.CSS_SELECTOR, selector)
-            )
+            popup_element = WebDriverWait(self.driver,
+                                          22).until(lambda driver: driver.find_element(By.CSS_SELECTOR, selector))
             print(f'{url}: Found Popup element {selector}', end='\r', flush=True)
             if popup_element:
                 popup_element.click()
@@ -152,9 +191,9 @@ class ScreenCaptureDatasets(contextlib.ExitStack):
         print(url, end='\r', flush=True)
 
         # Get the current timestamp for the image name
-        today = datetime.now()
-        image_name = today.strftime("%Y-%m-%d")
-        image_name = f"{unit}-{dataset['dataset']}-{image_name}"
+        postfix = '' if 'file_postfix' not in dataset else dataset['file_postfix']
+        image_name = datetime.now().strftime("%Y-%m-%d")
+        image_name = f"{unit}-{dataset['dataset']}-{image_name}{postfix}"
         file_name = f"tmp/{image_name}.png"
 
         if os.path.exists(file_name) and (not OVERWRITE_LOCAL_SAVE):
@@ -167,10 +206,10 @@ class ScreenCaptureDatasets(contextlib.ExitStack):
         self.driver.get(url)
 
         width = self.driver.execute_script(
-            "return Math.max( document.body.scrollWidth, document.body.offsetWidth, document.documentElement.clientWidth, document.documentElement.scrollWidth, document.documentElement.offsetWidth );" # pylint: disable=line-too-long
+            "return Math.max( document.body.scrollWidth, document.body.offsetWidth, document.documentElement.clientWidth, document.documentElement.scrollWidth, document.documentElement.offsetWidth );"  # pylint: disable=line-too-long
         )
         height = self.driver.execute_script(
-            "return Math.max( document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );" # pylint: disable=line-too-long
+            "return Math.max( document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );"  # pylint: disable=line-too-long
         )
 
         self.driver.set_window_size(width, height)
@@ -180,18 +219,25 @@ class ScreenCaptureDatasets(contextlib.ExitStack):
                 self.click_popup(url, selector)
 
         try:
-            WebDriverWait(self.driver,30).until(
+            WebDriverWait(self.driver, 200).until(
                 EC.presence_of_element_located((dataset['selenium_by'], dataset["dom_attribute"]))
             )
 
             if "extra_dom_element_wait" in dataset:
-                WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.TAG_NAME, "circle")))
+                WebDriverWait(self.driver, 60).until(
+                    EC.presence_of_element_located((By.TAG_NAME, dataset['extra_dom_element_wait']))
+                )
+                time.sleep(20)
         except TimeoutException as err:
             print(f'{url}: Failed to locate visualization {err}', end='\r', flush=True)
             return None
 
         page_element = self.driver.find_element(dataset['selenium_by'], dataset["dom_attribute"])
         print(f'{url}: Found visualization, saving image', end='\r', flush=True)
+
+        if 'additional_script_execution' in dataset:
+            self.driver.execute_script(dataset['additional_script_execution'])
+
         page_element.screenshot(file_name)
 
         print(f'{url}: Saving Operation Complete              ', end='\n', flush=True)
@@ -203,6 +249,7 @@ class RosalutionAnalysis():
     Representing a Rosalution analysisf for genomic units and annotations,
     and screencaptures datasets to save.
     """
+
     def __init__(self, analysis_name_string, rosalution_auth_header):
         """Initialize the Rosalution screencapture analyses"""
         self.analysis_name = analysis_name_string
@@ -214,10 +261,9 @@ class RosalutionAnalysis():
         Retrieve the genomic units from the analysis.
         """
         response = requests.get(
-            f"{config['ROSALUTION_API_URL']}analysis/{self.analysis_name}/genomic_units",
-            verify=False,
-            timeout=20
+            f"{config['ROSALUTION_API_URL']}analysis/{self.analysis_name}/genomic_units", verify=False, timeout=20
         )
+
         genomic_units_json = response.json()
         genomic_units = {
             "gene": list(genomic_units_json['genes'].keys()),
@@ -228,9 +274,7 @@ class RosalutionAnalysis():
     def get_annotations(self, unit_type, unit):
         """Fetch annotations for a genomic unit."""
         response_unit_annotations = requests.get(
-            f"{config['ROSALUTION_API_URL']}annotation/{unit_type}/{unit}",
-            verify=False,
-            timeout=20
+            f"{config['ROSALUTION_API_URL']}analysis/{self.analysis_name}/{unit_type}/{unit}", verify=False, timeout=20
         )
         return response_unit_annotations.json()
 
@@ -240,14 +284,21 @@ class RosalutionAnalysis():
         for genomic_unit_type, genomic_unit in genomic_units.items():
             for unit in genomic_unit:
                 unit_annotations = self.get_annotations(genomic_unit_type, unit)
+                if unit == "EXOC3L2":
+                    unit_annotations["Ensembl Gene Id"] = "ENSG00000283632"
+                if unit == "FOPNL":
+                    unit_annotations["HGNC_ID"] = "HGNC:26435"
+                    unit_annotations["Ensembl Gene Id"] = "ENSG00000133393"
                 for genomic_unit_dataset in DATASETS[genomic_unit_type]:
                     captured_dataset_filepath = screen_capture.screencapture_dataset(
                         genomic_unit_type, unit, unit_annotations, genomic_unit_dataset
                     )
                     if captured_dataset_filepath:
+                        extra_in_set = (genomic_unit_dataset['file_postfix']
+                                       ) if 'file_postfix' in genomic_unit_dataset else ()
                         self.captured_datasets[
-                            (genomic_unit_type, unit, genomic_unit_dataset['dataset'])
-                        ] = captured_dataset_filepath
+                            (genomic_unit_type, unit, genomic_unit_dataset['dataset'],
+                             *extra_in_set)] = captured_dataset_filepath
 
     def save_to_rosalution(self):
         """Save captured dataset screenshots to the Rosalution API."""
@@ -255,29 +306,25 @@ class RosalutionAnalysis():
         annotations = {}
         for each_unit in types_and_genes:
             unit_type, unit = each_unit
-            annotations[(type, unit)] = self.get_annotations(unit_type, unit)
+            annotations[(unit_type, unit)] = self.get_annotations(unit_type, unit)
 
         for entry, file_path in self.captured_datasets.items():
-            unit_type, unit, dataset = entry
-            not_empty = dataset in annotations[(unit_type, unit)]
+            unit_type, unit, dataset, *post = entry  #pylint: disable=unused-variable
+            not_empty = dataset in annotations[(unit_type, unit)] and len(annotations[(unit_type, unit)][dataset]) > 0
             if not_empty and (not FORCE_APPEND):
                 print(f'{entry}: Upload Operation Skipped, Annotation Exists          ', end='\n', flush=True)
                 continue
-
             self.upload_file_to_rosalution(entry, file_path)
 
     def upload_file_to_rosalution(self, entry: tuple, file_path: str):
         """Uploads spceific file to the dataset entry"""
-        unit_type, unit, dataset = entry
+        unit_type, unit, dataset, *post = entry  #pylint: disable=unused-variable
         api_url = \
             f"{config['ROSALUTION_API_URL']}annotation/{unit}/{dataset}/attachment?genomic_unit_type={unit_type}"
         filename = file_path.strip('/')[1]
 
         with open(file_path, 'rb') as captured_dataset:
-            files = {
-                'upload_file':
-                    (filename, captured_dataset, 'application/png', {'Expires': '0'})
-            }
+            files = {'upload_file': (filename, captured_dataset, 'application/png', {'Expires': '0'})}
 
             print(f'{entry}: Upload Operation Begin              ', end='\r', flush=True)
             response = requests.post(api_url, headers=self.auth_header, files=files, verify=False, timeout=20)
@@ -285,23 +332,29 @@ class RosalutionAnalysis():
             print(f'{entry}: Upload Operation {result_text}              ', end='\n', flush=True)
 
 
+def rosalution_authenticate():
+    """ Authenticates and returns the request header to authenticate with Rosalution """
+    print('🔒 Authenticating with Rosalution...', end='\r', flush=True)
+    client_id, client_secret = config['ROSALUTION_CLIENT_ID'], config['ROSALUTION_CLIENT_SECRET']
+    auth_headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+    auth_data = \
+        f"grant_type=&scope=&client_id={client_id}&client_secret={client_secret}"
+    auth_response = requests.post(
+        f"{config['ROSALUTION_API_URL']}auth/token", headers=auth_headers, data=auth_data, verify=False, timeout=20
+    )
+    auth_response_json = auth_response.json()
+    if 'access_token' not in auth_response_json:
+        print('🔒 Authenticating with Rosalution...Failed', end='\n', flush=True)
+        print(auth_response_json)
+        sys.exit(2)
+
+    print('🔓 Authenticating with Rosalution...Complete', end='\n', flush=True)
+    return {'Authorization': f"Bearer {auth_response_json['access_token']}"}
+
+
 rosalution_analyses = sys.argv[1:]
 
-print('🔒 Authenticating with Rosalution...', end='\r', flush=True)
-auth_headers = {'Content-Type': 'application/x-www-form-urlencoded'}
-auth_data = \
-    f"grant_type=&scope=&client_id={config['ROSALUTION_CLIENT_ID']}&client_secret={config['ROSALUTION_CLIENT_SECRET']}"
-auth_response = requests.post(
-    f"{config['ROSALUTION_API_URL']}auth/token", headers=auth_headers, data=auth_data, verify=False, timeout=20
-)
-auth_response_json = auth_response.json()
-if 'access_token' not in auth_response_json:
-    print('🔒 Authenticating with Rosalution...Failed', end='\n', flush=True)
-    print(auth_response_json)
-    sys.exit(2)
-
-print('🔓 Authenticating with Rosalution...Complete', end='\n', flush=True)
-rosalution_header = {'Authorization': f"Bearer {auth_response_json['access_token']}"}
+rosalution_header = rosalution_authenticate()
 
 print("📷 Capturing Rosalution Analyses")
 print(*[f"   🧬 {analysis}" for analysis in rosalution_analyses], sep="\n")

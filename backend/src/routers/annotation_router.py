@@ -44,7 +44,7 @@ def annotate_analysis(
     analysis = Analysis(**analysis_json)
     annotation_service = AnnotationService(repositories["annotation_config"])
     annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
-    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, repositories['genomic_unit'])
+    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue,  analysis.name, repositories['genomic_unit'], repositories["analysis"])
 
     return {"name": f"{name} annotations queued."}
 

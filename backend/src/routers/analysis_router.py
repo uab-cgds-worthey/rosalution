@@ -77,7 +77,11 @@ async def create_file(
 @router.get("/{analysis_name}", tags=["analysis"], response_model=Analysis, response_model_exclude_none=True)
 def get_analysis_by_name(analysis_name: str, repositories=Depends(database)):
     """Returns analysis case data by calling method to find case by it's analysis_name"""
-    return repositories["analysis"].find_by_name(analysis_name)
+    analysis = repositories["analysis"].find_by_name(analysis_name)
+
+    if analysis is None:
+        raise HTTPException(status_code=404, detail=f"{analysis_name} does not exist.")
+    return analysis
 
 
 @router.get("/{analysis_name}/genomic_units", tags=["analysis"])
