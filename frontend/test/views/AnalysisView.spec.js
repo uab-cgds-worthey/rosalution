@@ -1,4 +1,4 @@
-import {expect, describe, it, afterEach, beforeEach} from 'vitest';
+import {expect, describe, it, afterEach, beforeEach, vi} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 import sinon from 'sinon';
 
@@ -19,7 +19,14 @@ import toast from '@/toast.js';
 import AnalysisView from '@/views/AnalysisView.vue';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
-import {RouterLink} from 'vue-router';
+import { useRouter } from 'vue-router'
+
+
+vi.mock('vue-router', () => ({
+  useRouter: sinon.mock(() => ({
+    push: () => {}
+  }))
+}))
 
 /**
  * Helper mounts and returns the rendered component
@@ -33,15 +40,6 @@ function getMountedComponent(props) {
     global: {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
-        'router-link': RouterLink,
-      },
-      mocks: {
-        $route: {
-          push: sinon.spy(),
-        },
-        $router: {
-          push: sinon.spy(),
-        },
       },
     },
   });
@@ -130,7 +128,7 @@ describe('AnalysisView', () => {
     sandbox.restore();
   });
 
-  it('contains the expected content body element', () => {
+  it.only('contains the expected content body element', () => {
     const appContent = wrapper.find('app-content');
     expect(appContent.exists()).to.be.true;
   });
