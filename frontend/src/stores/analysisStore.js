@@ -110,7 +110,7 @@ export const analysisStore = reactive({
 
   async removeAttachment(attachmentToDelete) {
     await Analyses.removeSupportingEvidence(
-        this.analysis_name,
+        this.analysis.name,
         attachmentToDelete.attachment_id,
     );
     const attachmentIndex = this.analysis.supporting_evidence_files.findIndex((attachment) => {
