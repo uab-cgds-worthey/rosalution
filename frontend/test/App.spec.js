@@ -3,8 +3,8 @@ import {shallowMount} from '@vue/test-utils';
 
 import {createRouter, createWebHistory} from 'vue-router';
 
-import App from '../src/App.vue';
-import AnalysisListingView from '../src/views/AnalysisListingView.vue';
+import App from '@/App.vue';
+import AnalysisListingView from '@/views/AnalysisListingView.vue';
 
 test('Contains a the <router-view> to display the application with routes', () => {
   const router = createRouter({

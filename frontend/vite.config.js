@@ -19,6 +19,10 @@ export default defineConfig({
     sequence: {
       hooks: 'parallel',
     },
+    deps: {
+      moduleDirectories: ['node_modules', path.resolve('./test/__mocks__')],
+    },
+    setupFiles: ['./test/setup-tests.js'],
   },
   resolve: {
     alias: {
