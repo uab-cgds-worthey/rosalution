@@ -383,7 +383,7 @@ async function addSectionAttachment(section, field, evidence) {
 
   try {
     const updatedSectionField = await Analyses.attachSectionSupportingEvidence(
-        analysisName,
+        analysisName.value,
         section,
         field,
         attachment,
@@ -416,7 +416,7 @@ async function removeSectionAttachment(section, field, attachment) {
   try {
     const updatedSectionField =
       await Analyses.removeSectionAttachment(
-          analysisStore.analysis.analysis_name, section, field, attachment.attachment_id,
+          analysisStore.analysisName(), section, field, attachment.attachment_id,
       );
     const sectionWithReplacedField = analysisStore.replaceFieldInSection(section, updatedSectionField);
 
@@ -556,7 +556,7 @@ async function addMondayLink() {
 
   try {
     const updatedAnalysis = await Analyses.attachThirdPartyLink(
-        analysisName,
+        analysisName.value,
         'monday_com',
         mondayLink.data,
     );
@@ -585,7 +585,7 @@ async function addPhenotipsLink() {
 
   try {
     const updatedAnalysis = await Analyses.attachThirdPartyLink(
-        analysisName,
+        analysisName.value,
         'phenotips_com',
         phenotipsLink.data,
     );
@@ -603,7 +603,7 @@ async function addPhenotipsLink() {
  */
 async function pushAnalysisEvent(eventType) {
   try {
-    const updatedAnalysis = await Analyses.pushAnalysisEvent(analysisName, eventType);
+    const updatedAnalysis = await Analyses.pushAnalysisEvent(analysisName.value, eventType);
     analysisStore.forceUpdate(updatedAnalysis);
     toast.success(`Analysis event '${eventType}' successful.`);
   } catch (error) {
@@ -617,7 +617,7 @@ async function pushAnalysisEvent(eventType) {
  * @param {string} newPostContent - The content of the new discussion post.
  */
 async function addDiscussionPost(newPostContent) {
-  const discussions = await Analyses.postNewDiscussionThread(analysisName, newPostContent);
+  const discussions = await Analyses.postNewDiscussionThread(analysisName.value, newPostContent);
   analysisStore.analysis.discussions = discussions;
 }
 
@@ -628,7 +628,7 @@ async function addDiscussionPost(newPostContent) {
  * @param {string} postContent - The content of the updated discussion post.
  */
 async function editDiscussionPost(postId, postContent) {
-  const discussions = await Analyses.editDiscussionThreadById(analysisName, postId, postContent);
+  const discussions = await Analyses.editDiscussionThreadById(analysisName.value, postId, postContent);
   analysisStore.analysis.discussions = discussions;
 }
 
@@ -647,7 +647,7 @@ async function deleteDiscussionPost(postId) {
     return;
   }
   try {
-    const discussions = await Analyses.deleteDiscussionThreadById(analysisName, postId);
+    const discussions = await Analyses.deleteDiscussionThreadById(analysisName.value, postId);
     analysisStore.analysis.discussions = discussions;
   } catch (error) {
     await notificationDialog.title('Failure').confirmText('Ok').alert(error);
