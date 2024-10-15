@@ -14,13 +14,10 @@ export const analysisStore = reactive({
   },
 
   latestStatus() {
-    return thisa.analysis.latest_status;
+    return this.analysis.latest_status;
   },
   async getAnalysis(analysisName) {
-    console.log(analysisName)
-    console.log('getting analysis for things')
     this.analysis = await Analyses.getAnalysis(analysisName);
-    console.log(this.analysis)
   },
 
   async saveChanges() {

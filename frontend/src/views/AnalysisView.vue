@@ -5,7 +5,7 @@
         :actions="menuActions"
         :titleText="analysisName"
         :sectionAnchors="sectionsHeaders"
-        :username="username"
+        :username="authStore.getUsername()"
         :workflow_status="latestStatus"
         @logout="onLogout"
         :third_party_links="thirdPartyLinks"
@@ -32,7 +32,7 @@
         :header="section.header"
         :content="section.content"
         :attachmentField="section.attachment_field"
-        :writePermissions="auth.hasWritePermissions()"
+        :writePermissions="authStore.hasWritePermissions()"
         :edit="edit"
         @attach-image="attachSectionImage"
         @update-image="updateSectionImage"
@@ -42,7 +42,7 @@
       <DiscussionSection
         id="Discussion"
         :discussions="discussions"
-        :userClientId="clientId"
+        :userClientId="authStore.getClientId()"
         :actions="discussionContextActions"
         @discussion:new-post="addDiscussionPost"
         @discussion:edit-post="editDiscussionPost"
@@ -51,7 +51,7 @@
       <SupplementalFormList
         id="Supporting_Evidence"
         :attachments="attachments"
-        :writePermissions="auth.hasWritePermissions()"
+        :writePermissions="authStore.hasWritePermissions()"
         @open-modal="addSupportingEvidence"
         @delete="removeSupportingEvidence"
         @edit="editSupportingEvidence"
@@ -92,8 +92,6 @@ import {analysisStore} from '@/stores/analysisStore.js';
 import {StatusType} from '@/config.js';
 import {useRouter} from 'vue-router';
 
-
-console.log(analysisStore)
 const router = useRouter();
 
 const props = defineProps({
@@ -105,30 +103,17 @@ const props = defineProps({
 
 const edit = ref(false);
 
-const auth = computed(() => {
-  return authStore
-})
-
 const analysisName = computed(() => {
-  return analysisStore.analysis.name
-})
+  return analysisStore.analysis.name;
+});
 
 const latestStatus = computed(() => {
-  return analysisStore.analysis.latest_status
-})
+  return analysisStore.analysis.latest_status;
+});
 
 const thirdPartyLinks = computed(() => {
-  return analysisStore.analysis.third_party_links
-})
-
-const clientId = computed(() => {
-  return authStore.getClientId()
-})
-
-
-const username = computed(() => {
-  return authStore.getUsername()
-})
+  return analysisStore.analysis.third_party_links;
+});
 
 const sectionsHeaders = computed(() => {
   const sections = analysisStore.analysis.sections.map((section) => {
@@ -147,7 +132,7 @@ const menuActions = computed(() => {
     operation: addSupportingEvidence,
   });
 
-  if ( !authStore.hasWritePermissions() ) {
+  if ( authStore.hasWritePermissions() ) {
     return actionChoices;
   }
 
@@ -291,7 +276,7 @@ function cancelAnalysisChanges() {
 
 /**
  * Attaches an image to a specified section and field.
- * 
+ *
  * @param {string} sectionName - name of the section.
  * @param {string} field - The section's field to attach an image to
  */
@@ -317,7 +302,7 @@ async function attachSectionImage(sectionName, field) {
 
 /**
  * Removes an image from a specified section and field.
- * 
+ *
  * @param {string} fileId - ID of the file to remove.
  * @param {string} sectionName - name of the section.
  * @param {string} field - The section's field to remove image from
@@ -344,7 +329,7 @@ async function removeSectionImage(fileId, sectionName, field) {
 
 /**
  * Updates an image in a specified section and field.
- * 
+ *
  * @param {string} fileId - The ID of the file to update.
  * @param {string} sectionName - name of the section.
  * @param {string} field - The section's field to update image
@@ -390,7 +375,7 @@ async function addSectionAttachment(section, field, evidence) {
 
   try {
     const updatedSectionField = await Analyses.attachSectionSupportingEvidence(
-      analysisName,
+        analysisName,
         section,
         field,
         attachment,
@@ -522,7 +507,7 @@ async function addMondayLink() {
 
   try {
     const updatedAnalysis = await Analyses.attachThirdPartyLink(
-      analysisName,
+        analysisName,
         'monday_com',
         mondayLink.data,
     );
@@ -548,7 +533,7 @@ async function addPhenotipsLink() {
 
   try {
     const updatedAnalysis = await Analyses.attachThirdPartyLink(
-      analysisName,
+        analysisName,
         'phenotips_com',
         phenotipsLink.data,
     );
