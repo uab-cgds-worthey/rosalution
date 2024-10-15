@@ -113,9 +113,10 @@ export const analysisStore = reactive({
         this.analysis_name,
         attachmentToDelete.attachment_id,
     );
-    const attachmentIndex = this.attachments.findIndex((attachment) => {
+    const attachmentIndex = this.analysis.supporting_evidence_files.findIndex((attachment) => {
       return attachment.name == attachmentToDelete.name;
     });
+
     this.analysis.supporting_evidence_files.splice(attachmentIndex, 1);
   },
 

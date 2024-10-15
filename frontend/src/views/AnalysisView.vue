@@ -132,7 +132,7 @@ const menuActions = computed(() => {
     operation: addSupportingEvidence,
   });
 
-  if ( authStore.hasWritePermissions() ) {
+  if ( !authStore.hasWritePermissions() ) {
     return actionChoices;
   }
 
@@ -359,6 +359,14 @@ async function updateSectionImage(fileId, sectionName, field) {
   }
 }
 
+/**
+ * * COME BACK
+ * Adds an attachment to a specified section and field.
+ *
+ * @param {string} section - The section to which the attachment is added.
+ * @param {string} field - The field within the section for the attachment.
+ * @param {Object} evidence - The evidence to be attached.
+ */
 async function addSectionAttachment(section, field, evidence) {
   const includeComments = true;
   const includeName = true;
@@ -386,6 +394,14 @@ async function addSectionAttachment(section, field, evidence) {
     console.error('Updating the analysis did not work');
   }
 }
+
+/**
+ * Removes the specified attachment from the section and field
+ *
+ * @param {string} section - The section name to which the attachment is added.
+ * @param {string} field - The field name within the section for the attachment.
+ * @param {Object} attachment - The attachment to add
+ */
 async function removeSectionAttachment(section, field, attachment) {
   const confirmedDelete = await notificationDialog
       .title(`Remove attachment`)
@@ -410,6 +426,15 @@ async function removeSectionAttachment(section, field, attachment) {
   }
 }
 
+/**
+ * Handles changes to section attachments based on the provided operation.
+ *
+ * @param {Object} contentRow - The content row containing the operation, header, field, and value.
+ * @param {string} contentRow.operation - String that indicates the type of operation 'attach' or 'delete'
+ * @param {string} contentRow.header - The name of the section the attachment is in
+ * @param {string} contentRow.header - The name of the field being operated on within a section
+ * @param {Object} contentRow.value - the modified content
+ */
 async function fieldSectionAttachmentChanged(contentRow) {
   const operations = {
     'attach': addSectionAttachment,
@@ -424,6 +449,9 @@ async function fieldSectionAttachmentChanged(contentRow) {
   operations[contentRow.operation](contentRow.header, contentRow.field, contentRow.value);
 }
 
+/**
+ * Prompts input dialog to add new attachment to the Analysis.
+ */
 async function addSupportingEvidence() {
   const includeComments = true;
   const includeName = true;
@@ -445,6 +473,11 @@ async function addSupportingEvidence() {
   }
 }
 
+/**
+ * Prompts input dialog to modify existing attachment in the Analysis.
+ *
+ * @param {Object} attachment Attachment to edit
+ */
 async function editSupportingEvidence(attachment) {
   const updatedAttachment = await inputDialog
       .confirmText('Update')
@@ -463,6 +496,11 @@ async function editSupportingEvidence(attachment) {
   }
 }
 
+/**
+ * Prompts input dialog to remove existing attachment in the Analysis.
+ *
+ * @param {Object} attachmentToDelete to remove
+ */
 async function removeSupportingEvidence(attachmentToDelete) {
   const confirmedDelete = await notificationDialog
       .title('Delete Supporting Information?')
@@ -481,6 +519,11 @@ async function removeSupportingEvidence(attachmentToDelete) {
   }
 }
 
+/**
+ * Downloads an attachment by its ID within the analysis.
+ *
+ * @param {Object} attachmentToDownload to download
+ */
 function downloadSupportingEvidence(attachmentToDownload) {
   Analyses.downloadSupportingEvidence(
       attachmentToDownload.attachment_id,
@@ -488,10 +531,16 @@ function downloadSupportingEvidence(attachmentToDownload) {
   );
 }
 
+/**
+ * Logs user out of Rosalution
+ */
 function onLogout() {
   router.push({name: 'logout'});
 }
 
+/**
+ * Attaches Monday 3rd Party linkout for C-PAM Case management
+ */
 async function addMondayLink() {
   const includeComments = false;
   const includeName = false;
@@ -518,6 +567,9 @@ async function addMondayLink() {
   }
 }
 
+/**
+ * Attaches Phenotips linkout for C-PAM Case management
+ */
 async function addPhenotipsLink() {
   const includeComments = false;
   const includeName = false;
@@ -544,6 +596,11 @@ async function addPhenotipsLink() {
   }
 }
 
+/**
+ * Updates the Analysis with a new event.
+ *
+ * @param {string} eventType The type of event to push to Analysis
+ */
 async function pushAnalysisEvent(eventType) {
   try {
     const updatedAnalysis = await Analyses.pushAnalysisEvent(analysisName, eventType);
@@ -554,16 +611,32 @@ async function pushAnalysisEvent(eventType) {
   }
 }
 
+/**
+ * Adds a new discussion post to the analysis.
+ *
+ * @param {string} newPostContent - The content of the new discussion post.
+ */
 async function addDiscussionPost(newPostContent) {
   const discussions = await Analyses.postNewDiscussionThread(analysisName, newPostContent);
   analysisStore.analysis.discussions = discussions;
 }
 
+/**
+ * Edits a discussion post in the analysis.
+ *
+ * @param {string} postId - The identifier of the post to edit
+ * @param {string} postContent - The content of the updated discussion post.
+ */
 async function editDiscussionPost(postId, postContent) {
   const discussions = await Analyses.editDiscussionThreadById(analysisName, postId, postContent);
   analysisStore.analysis.discussions = discussions;
 }
 
+/**
+ * Prompts to delete a discussion post in the analysis.
+ *
+ * @param {string} postId - The identifier of the post to delete
+ */
 async function deleteDiscussionPost(postId) {
   const confirmedDelete = await notificationDialog
       .title(`Remove Discussion Post`)
@@ -581,10 +654,18 @@ async function deleteDiscussionPost(postId) {
   }
 }
 
+/**
+ * Toast to indicate text to the clipboard.
+ *
+ * @param {string} copiedText Text that was copied to the browser clipboard
+ */
 function copyToClipboard(copiedText) {
   toast.success(`Copied ${copiedText} to clipboard!`);
 }
 
+/**
+ * When view is mounted, queries the analysis' state.
+ */
 onMounted(async () => {
   await analysisStore.getAnalysis(props.analysis_name);
 });

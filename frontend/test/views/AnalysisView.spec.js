@@ -19,9 +19,9 @@ import toast from '@/toast.js';
 import AnalysisView from '@/views/AnalysisView.vue';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import {useRouter} from 'vue-router';
 
-
-vi.mock( import('vue-router'), async (importOriginal) => {
+vi.mock(import('vue-router'), async (importOriginal) => {
   const mod = await importOriginal();
   return {
     ...mod,
@@ -72,7 +72,7 @@ async function triggerAction(wrapper, actionText) {
  * @param {object} mockedData The mocked data to be used
  * @return {Promise<VueWrapper>} A promise that resolves with the mocked Vue wrapper
  */
-async function getMockedWrapper(latestStatus, mockedData) {
+async function getWrapperWithLatestLatestStatus(latestStatus, mockedData) {
   const analysisData = fixtureData();
   analysisData.latest_status = latestStatus;
   mockedData.returns(analysisData);
@@ -83,34 +83,64 @@ async function getMockedWrapper(latestStatus, mockedData) {
 
 describe('AnalysisView', () => {
   let mockedData;
-  let mockAuthStore;
 
   let wrapper;
   let sandbox;
+
+  let mockVueRouterPush;
+
+  let mockAnalysisEventPush;
+
+  let attachSectionImageMock;
+  let updateSectionImageMock;
+  let removeSectionAttachmentMock;
+  let attachSectionAttachmentMock;
+
+  let attachAttachmentMock;
+  let removeAttachmentMock;
+
+  let postNewDiscussionThreadMock;
+  let deleteDiscussionThreadByIdMock;
+  let editDiscussionThreadByIdMock;
+
+  let mockedAttachThirdPartyLink;
+  let updateAnalysisSectionsMock;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     mockedData = sandbox.stub(Analyses, 'getAnalysis');
     mockedData.returns(fixtureData());
 
-    mockAuthStore = sandbox.stub();
+    authStore.hasWritePermissions = sandbox.fake.returns(true);
 
-    // attachSectionImageMock = sandbox.stub(Analyses, 'attachSectionImage');
-    // updateSectionImageMock = sandbox.stub(Analyses, 'updateSectionImage');
-    // removeSectionAttachment = sandbox.stub(Analyses, 'removeSectionAttachment');
-    // mockedAttachSectionSupportingEvidence = sandbox.stub(Analyses, 'attachSectionSupportingEvidence');
+    mockVueRouterPush = sandbox.fake.returns(true);
+    useRouter.mockImplementation(() => {
+      return {
+        push: () => {
+          mockVueRouterPush();
+        },
+      };
+    });
 
-    // mockedAttachSupportingEvidence = sandbox.stub(Analyses, 'attachSupportingEvidence');
-    // mockedRemoveSupportingEvidence = sandbox.stub(Analyses, 'removeSupportingEvidence');
-    // mockedAttachThirdPartyLink = sandbox.stub(Analyses, 'attachThirdPartyLink');
 
-    // markReadyMock = sandbox.stub(Analyses, 'pushAnalysisEvent');
+    mockAnalysisEventPush = sandbox.stub(Analyses, 'pushAnalysisEvent');
 
-    // updateAnalysisSectionsMock = sandbox.stub(Analyses, 'updateAnalysisSections');
 
-    // postNewDiscussionThreadMock = sandbox.stub(Analyses, 'postNewDiscussionThread');
-    // deleteDiscussionThreadByIdMock = sandbox.stub(Analyses, 'deleteDiscussionThreadById');
-    // editDiscussionThreadByIdMock = sandbox.stub(Analyses, 'editDiscussionThreadById');
+    attachSectionImageMock = sandbox.stub(Analyses, 'attachSectionImage');
+    updateSectionImageMock = sandbox.stub(Analyses, 'updateSectionImage');
+    removeSectionAttachmentMock = sandbox.stub(Analyses, 'removeSectionAttachment');
+    attachSectionAttachmentMock = sandbox.stub(Analyses, 'attachSectionSupportingEvidence');
+
+    attachAttachmentMock = sandbox.stub(Analyses, 'attachSupportingEvidence');
+    removeAttachmentMock = sandbox.stub(Analyses, 'removeSupportingEvidence');
+
+    mockedAttachThirdPartyLink = sandbox.stub(Analyses, 'attachThirdPartyLink');
+
+    updateAnalysisSectionsMock = sandbox.stub(Analyses, 'updateAnalysisSections');
+
+    postNewDiscussionThreadMock = sandbox.stub(Analyses, 'postNewDiscussionThread');
+    deleteDiscussionThreadByIdMock = sandbox.stub(Analyses, 'deleteDiscussionThreadById');
+    editDiscussionThreadByIdMock = sandbox.stub(Analyses, 'editDiscussionThreadById');
 
     // mockAuthWritePermissions = sandbox.stub(authStore, 'hasWritePermissions');
     // mockAuthWritePermissions.returns(true);
@@ -127,622 +157,622 @@ describe('AnalysisView', () => {
     expect(appContent.exists()).to.be.true;
   });
 
-  // it('should display a toast when a copy text to clipboard button', async () => {
-  //   const geneBox = wrapper.getComponent(GeneBox);
-
-  //   geneBox.vm.$emit('clipboard-copy', 'NM_001017980.3:c.164G>T');
-  //   await wrapper.vm.$nextTick();
-
-  //   expect(toast.state.active).to.be.true;
-  //   expect(toast.state.type).to.equal('success');
-  //   expect(toast.state.message).to.equal('Copied NM_001017980.3:c.164G>T to clipboard!');
-  // });
-
-  // describe('the header', () => {
-  //   it('contains a header element', () => {
-  //     const appHeader = wrapper.find('app-header');
-  //     expect(appHeader.exists()).to.be.true;
-  //   });
-
-  //   it('should logout on the header logout event', async () => {
-  //     const headerComponent = wrapper.getComponent(
-  //         '[data-test=analysis-view-header]',
-  //     );
-  //     headerComponent.vm.$emit('logout');
-  //     await headerComponent.vm.$nextTick();
-
-  //     expect(wrapper.vm.$router.push.called).to.be.true;
-  //   });
-
-  //   it('provides the expected headings of sections to be used as anchors', () => {
-  //     const headerComponent = wrapper.get('[data-test="analysis-view-header"]');
-  //     expect(headerComponent.attributes('sectionanchors')).to.equal(
-  //         'Brief,Medical Summary,Mus musculus (Mouse) Model System,Pedigree,' +
-  //         'Case Information,Discussion,Supporting Evidence',
-  //     );
-  //   });
-
-  //   it('should mark an analysis as ready', async () => {
-  //     const wrapper = await getMockedWrapper('Preparation', mockedData);
-
-  //     await triggerAction(wrapper, 'Mark Ready');
-
-  //     expect(markReadyMock.called).to.be.true;
-  //   });
-
-  //   it('should display success toast with correct message when marking analysis as ready', async () => {
-  //     const wrapper = await getMockedWrapper('Preparation', mockedData);
-
-  //     await triggerAction(wrapper, 'Mark Ready');
-
-  //     expect(toast.state.active).to.be.true;
-  //     expect(toast.state.type).to.equal('success');
-  //     expect(toast.state.message).to.equal('Analysis event \'ready\' successful.');
-  //   });
-
-  //   it('should display error toast with correct message when marking analysis as ready fails', async () => {
-  //     const wrapper = await getMockedWrapper('Preparation', mockedData);
-  //     const error = new Error('Error updating the event \'ready\'.');
-  //     markReadyMock.throws(error);
-
-  //     try {
-  //       await triggerAction(wrapper, 'Mark Ready');
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //     expect(toast.state.active).to.be.true;
-  //     expect(toast.state.type).to.equal('error');
-  //     expect(toast.state.message).to.equal('Error updating the event \'ready\'.');
-  //   });
-
-  //   it('should display info toast with correct message when marking analysis as active', async () => {
-  //     const wrapper = await getMockedWrapper('Ready', mockedData);
-
-  //     await triggerAction(wrapper, 'Mark Active');
-
-  //     expect(toast.state.active).to.be.true;
-  //     expect(toast.state.type).to.equal('success');
-  //     expect(toast.state.message).to.equal('Analysis event \'opened\' successful.');
-  //   });
-
-  //   it('should display info toast with correct message when entering edit mode', async () => {
-  //     const wrapper = getMountedComponent();
-
-  //     await triggerAction(wrapper, 'Edit');
-
-  //     expect(toast.state.active).to.be.true;
-  //     expect(toast.state.type).to.equal('success');
-  //     expect(toast.state.message).to.equal('Edit mode has been enabled.');
-  //   });
-  //   it('should display info toast with correct message when exiting edit mode', async () => {
-  //     const wrapper = getMountedComponent();
-  //     await wrapper.setData({edit: true});
-  //     await triggerAction(wrapper, 'Edit');
-
-  //     expect(toast.state.active).to.be.true;
-  //     expect(toast.state.type).to.equal('info');
-  //     expect(toast.state.message).to.equal('Edit mode has been disabled and changes have not been saved.');
-  //   });
-  // });
-
-  // describe('third party links', () => {
-  //   it('should render the input dialog when the attach monday link menu action is clicked', async () => {
-  //     const headerComponent = wrapper.getComponent(
-  //         '[data-test=analysis-view-header]',
-  //     );
-  //     const actionsProps = headerComponent.props('actions');
-
-  //     for (const action of actionsProps) {
-  //       if (action.text === 'Attach Monday.com') {
-  //         action.operation();
-  //       }
-  //     }
-
-  //     const mondayDialog = wrapper.findComponent(InputDialog);
-  //     expect(mondayDialog.exists()).to.be.true;
-  //   });
-
-  //   it('should add a link to monday_com', async () => {
-  //     const newAttachmentData = {
-  //       data: 'https://monday.com',
-  //       type: 'link',
-  //     };
-  //     const analysisWithMondayLink = fixtureData();
-  //     analysisWithMondayLink['monday_com'] = 'https://monday.com';
-  //     mockedAttachThirdPartyLink.returns(analysisWithMondayLink);
-
-  //     wrapper = getMountedComponent();
-  //     const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
-  //     const actionsProps = headerComponent.props('actions');
-
-  //     for (const action of actionsProps) {
-  //       if (action.text === 'Attach Monday.com') {
-  //         action.operation();
-  //       }
-  //     }
+  it('should display a toast when a copy text to clipboard button', async () => {
+    const geneBox = wrapper.getComponent(GeneBox);
+
+    geneBox.vm.$emit('clipboard-copy', 'NM_001017980.3:c.164G>T');
+    await wrapper.vm.$nextTick();
+
+    expect(toast.state.active).to.be.true;
+    expect(toast.state.type).to.equal('success');
+    expect(toast.state.message).to.equal('Copied NM_001017980.3:c.164G>T to clipboard!');
+  });
+
+  describe('the header', () => {
+    it('contains a header element', () => {
+      const appHeader = wrapper.find('app-header');
+      expect(appHeader.exists()).to.be.true;
+    });
+
+    it('should logout on the header logout event', async () => {
+      const headerComponent = wrapper.getComponent(
+          '[data-test=analysis-view-header]',
+      );
+      headerComponent.vm.$emit('logout');
+      await headerComponent.vm.$nextTick();
+
+      expect(mockVueRouterPush.called).to.be.true;
+    });
+
+    it('provides the expected headings of sections to be used as anchors', () => {
+      const headerComponent = wrapper.get('[data-test="analysis-view-header"]');
+      expect(headerComponent.attributes('sectionanchors')).to.equal(
+          'Brief,Medical Summary,Mus musculus (Mouse) Model System,Pedigree,' +
+        'Case Information,Discussion,Supporting Evidence',
+      );
+    });
+
+    it('should mark an analysis as ready', async () => {
+      const modifiedWrapper = await getWrapperWithLatestLatestStatus('Preparation', mockedData);
+
+      await triggerAction(modifiedWrapper, 'Mark Ready');
+
+      expect(mockAnalysisEventPush.called).to.be.true;
+    });
+
+    it('should display success toast with correct message when marking analysis as ready', async () => {
+      const modifiedWrapper = await getWrapperWithLatestLatestStatus('Preparation', mockedData);
+
+      await triggerAction(modifiedWrapper, 'Mark Ready');
+
+      expect(toast.state.active).to.be.true;
+      expect(toast.state.type).to.equal('success');
+      expect(toast.state.message).to.equal('Analysis event \'ready\' successful.');
+    });
+
+    it('should display error toast with correct message when marking analysis as ready fails', async () => {
+      const modifiedWrapper = await getWrapperWithLatestLatestStatus('Preparation', mockedData);
+      const error = new Error('Error updating the event \'ready\'.');
+      mockAnalysisEventPush.throws(error);
+
+      try {
+        await triggerAction(modifiedWrapper, 'Mark Ready');
+      } catch (error) {
+        console.error(error);
+      }
+      expect(toast.state.active).to.be.true;
+      expect(toast.state.type).to.equal('error');
+      expect(toast.state.message).to.equal('Error updating the event \'ready\'.');
+    });
+
+    it('should display info toast with correct message when marking analysis as active', async () => {
+      const modifiedWrapper = await getWrapperWithLatestLatestStatus('Ready', mockedData);
+
+      await triggerAction(modifiedWrapper, 'Mark Active');
+
+      expect(toast.state.active).to.be.true;
+      expect(toast.state.type).to.equal('success');
+      expect(toast.state.message).to.equal('Analysis event \'opened\' successful.');
+    });
+
+    it('should display info toast with correct message when entering edit mode', async () => {
+      const initialViewWrapper = getMountedComponent();
+
+      await triggerAction(initialViewWrapper, 'Edit');
+
+      expect(toast.state.active).to.be.true;
+      expect(toast.state.type).to.equal('success');
+      expect(toast.state.message).to.equal('Edit mode has been enabled.');
+    });
+    it('should display info toast with correct message when exiting edit mode', async () => {
+      const initialViewWrapper = getMountedComponent();
+
+      // Places the Initial wrapper into the 'Edit' mode
+      await triggerAction(initialViewWrapper, 'Edit');
+
+      // Disabling the 'edit mode and notifying edits haven't been made
+      await triggerAction(initialViewWrapper, 'Edit');
+
+      await wrapper.vm.$nextTick();
+
+      expect(toast.state.active).to.be.true;
+      expect(toast.state.type).to.equal('info');
+      expect(toast.state.message).to.equal('Edit mode has been disabled and changes have not been saved.');
+    });
+  });
+
+  describe('third party links', () => {
+    it('should render the input dialog when the attach monday link menu action is clicked', async () => {
+      const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
+      const actionsProps = headerComponent.props('actions');
+
+      for (const action of actionsProps) {
+        if (action.text === 'Attach Monday.com') {
+          action.operation();
+        }
+      }
+
+      const mondayDialog = wrapper.findComponent(InputDialog);
+      expect(mondayDialog.exists()).to.be.true;
+    });
+
+    it('should add a link to monday_com', async () => {
+      const newAttachmentData = {
+        data: 'https://monday.com',
+        type: 'link',
+      };
+      const analysisWithMondayLink = fixtureData({['monday_com']: 'https://monday.com'});
+      mockedAttachThirdPartyLink.returns(analysisWithMondayLink);
 
-  //     inputDialog.confirmation(newAttachmentData);
+      wrapper = getMountedComponent();
+      const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
+      const actionsProps = headerComponent.props('actions');
 
-  //     await wrapper.vm.$nextTick();
+      for (const action of actionsProps) {
+        if (action.text === 'Attach Monday.com') {
+          action.operation();
+        }
+      }
 
-  //     expect(mockedAttachThirdPartyLink.called).to.be.true;
-  //   });
+      inputDialog.confirmation(newAttachmentData);
 
-  //   it('should render the input dialog when the attach phenotips link menu action is clicked', async () => {
-  //     const headerComponent = wrapper.getComponent(
-  //         '[data-test=analysis-view-header]',
-  //     );
-  //     const actionsProps = headerComponent.props('actions');
+      await wrapper.vm.$nextTick();
 
-  //     for (const action of actionsProps) {
-  //       if (action.text === 'Connect PhenoTips') {
-  //         action.operation();
-  //       }
-  //     }
+      expect(mockedAttachThirdPartyLink.called).to.be.true;
+    });
 
-  //     const phenotipsDialog = wrapper.findComponent(InputDialog);
-  //     expect(phenotipsDialog.exists()).to.be.true;
-  //   });
+    it('should render the input dialog when the attach phenotips link menu action is clicked', async () => {
+      const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
+      const actionsProps = headerComponent.props('actions');
 
-  //   it('should add a link to phenotips_com', async () => {
-  //     const newAttachmentData = {
-  //       data: 'https://phenotips.com',
-  //       type: 'link',
-  //     };
-  //     const analysisWithPhenotipsLink = fixtureData();
-  //     analysisWithPhenotipsLink['phenotips_com'] = 'https://phenotips.com';
-  //     mockedAttachThirdPartyLink.returns(analysisWithPhenotipsLink);
+      for (const action of actionsProps) {
+        if (action.text === 'Connect PhenoTips') {
+          action.operation();
+        }
+      }
 
-  //     wrapper = getMountedComponent();
-  //     const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
-  //     const actionsProps = headerComponent.props('actions');
+      const phenotipsDialog = wrapper.findComponent(InputDialog);
+      expect(phenotipsDialog.exists()).to.be.true;
+    });
 
-  //     for (const action of actionsProps) {
-  //       if (action.text === 'Connect PhenoTips') {
-  //         action.operation();
-  //       }
-  //     }
+    it('should add a link to phenotips_com', async () => {
+      const analysisWithPhenotipsLink = fixtureData({['phenotips_com']: 'https://phenotips.com'});
+      mockedAttachThirdPartyLink.returns(analysisWithPhenotipsLink);
 
-  //     inputDialog.confirmation(newAttachmentData);
+      wrapper = getMountedComponent();
+      const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
+      const actionsProps = headerComponent.props('actions');
 
-  //     await wrapper.vm.$nextTick();
+      for (const action of actionsProps) {
+        if (action.text === 'Connect PhenoTips') {
+          action.operation();
+        }
+      }
 
-  //     expect(mockedAttachThirdPartyLink.called).to.be.true;
-  //   });
-  // });
+      const newAttachmentData = {
+        data: 'https://phenotips.com',
+        type: 'link',
+      };
+      inputDialog.confirmation(newAttachmentData);
 
-  // describe('discussions', () => {
-  //   it('Should display a discussion section with three posts', () => {
-  //     const discussionSectionComponent = wrapper.getComponent(DiscussionSection);
+      await wrapper.vm.$nextTick();
 
-  //     expect(typeof discussionSectionComponent).toBe('object');
+      expect(mockedAttachThirdPartyLink.called).to.be.true;
+    });
+  });
 
-  //     expect(discussionSectionComponent.props('discussions').length).to.equal(3);
-  //   });
+  describe('discussions', () => {
+    it('Should display a discussion section with three posts', () => {
+      const discussionSectionComponent = wrapper.getComponent(DiscussionSection);
 
-  //   it('Should recieve an new post publish emit and add a new discussion post', async () => {
-  //     const discussionSectionComponent = wrapper.getComponent(DiscussionSection);
-  //     const newPostContent = 'Hello world';
+      expect(typeof discussionSectionComponent).toBe('object');
 
-  //     const discussionFixtureData = fixtureData()['discussions'];
+      expect(discussionSectionComponent.props('discussions').length).to.equal(3);
+    });
 
-  //     const newDiscussionPost = {
-  //       post_id: 'e60239a34-h941-44aa-912e-912a993255fe',
-  //       author_id: 'exqkhvidr7uh2ndslsdymbzfbmqjlunk',
-  //       author_fullname: 'Variant Review Report Preparer Person',
-  //       publish_timestamp: '2023-11-01T21:13:22.687000',
-  //       content: newPostContent,
-  //       attachments: [],
-  //       thread: [],
-  //     };
+    it('Should recieve an new post publish emit and add a new discussion post', async () => {
+      const discussionSectionComponent = wrapper.getComponent(DiscussionSection);
+      const newPostContent = 'Hello world';
 
-  //     discussionFixtureData.push(newDiscussionPost);
+      const discussionFixtureData = fixtureData()['discussions'];
 
-  //     postNewDiscussionThreadMock.returns(discussionFixtureData);
+      const newDiscussionPost = {
+        post_id: 'e60239a34-h941-44aa-912e-912a993255fe',
+        author_id: 'exqkhvidr7uh2ndslsdymbzfbmqjlunk',
+        author_fullname: 'Variant Review Report Preparer Person',
+        publish_timestamp: '2023-11-01T21:13:22.687000',
+        content: newPostContent,
+        attachments: [],
+        thread: [],
+      };
 
-  //     expect(discussionSectionComponent.props('discussions').length).to.equal(3);
+      discussionFixtureData.push(newDiscussionPost);
 
-  //     discussionSectionComponent.vm.$emit('discussion:new-post', newPostContent);
+      postNewDiscussionThreadMock.returns(discussionFixtureData);
 
-  //     await wrapper.vm.$nextTick();
-  //     await wrapper.vm.$nextTick();
+      expect(discussionSectionComponent.props('discussions').length).to.equal(3);
 
-  //     expect(discussionSectionComponent.props('discussions').length).to.equal(4);
-  //   });
+      discussionSectionComponent.vm.$emit('discussion:new-post', newPostContent);
 
-  //   it('Should receive a discussion:delete-post emit and remove the discussion post', async () => {
-  //     const discussionSectionComponent = wrapper.getComponent(DiscussionSection);
+      await wrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick();
 
-  //     const deletePostId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
+      expect(discussionSectionComponent.props('discussions').length).to.equal(4);
+    });
 
-  //     const discussionFixtureData = fixtureData()['discussions'].filter((post) => post.post_id != deletePostId);
+    it('Should receive a discussion:delete-post emit and remove the discussion post', async () => {
+      const discussionSectionComponent = wrapper.getComponent(DiscussionSection);
 
-  //     deleteDiscussionThreadByIdMock.returns(discussionFixtureData);
+      const deletePostId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
 
-  //     discussionSectionComponent.vm.$emit('discussion:delete-post', deletePostId);
+      const discussionFixtureData = fixtureData()['discussions'].filter((post) => post.post_id != deletePostId);
 
-  //     await wrapper.vm.$nextTick();
-  //     await wrapper.vm.$nextTick();
+      deleteDiscussionThreadByIdMock.returns(discussionFixtureData);
 
-  //     notificationDialog.confirmation();
+      discussionSectionComponent.vm.$emit('discussion:delete-post', deletePostId);
 
-  //     await wrapper.vm.$nextTick();
-  //     await wrapper.vm.$nextTick();
-  //     await wrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick();
 
-  //     expect(discussionSectionComponent.props('discussions').length).toBe(2);
-  //   });
+      notificationDialog.confirmation();
 
-  //   it('Should receive a discussion:edit-post emit and work to edit the selected post with new content', async () => {
-  //     const discussionSectionComponent = wrapper.getComponent(DiscussionSection);
+      await wrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick();
 
-  //     const editPostId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
-  //     const editPostContent = 'Well my mind is changed, Gundam Wing is the best anime!';
+      expect(discussionSectionComponent.props('discussions').length).toBe(2);
+    });
 
-  //     const discussionFixtureData = fixtureData()['discussions'];
-  //     const postIndex = discussionFixtureData.findIndex((post) => post.post_id == editPostId);
+    it('Should receive a discussion:edit-post emit and work to edit the selected post with new content', async () => {
+      const discussionSectionComponent = wrapper.getComponent(DiscussionSection);
 
-  //     discussionFixtureData[postIndex].content = editPostContent;
+      const editPostId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
+      const editPostContent = 'Well my mind is changed, Gundam Wing is the best anime!';
 
-  //     editDiscussionThreadByIdMock.returns(discussionFixtureData);
+      const discussionFixtureData = fixtureData()['discussions'];
+      const postIndex = discussionFixtureData.findIndex((post) => post.post_id == editPostId);
 
-  //     discussionSectionComponent.vm.$emit('discussion:edit-post', editPostId, editPostContent);
+      discussionFixtureData[postIndex].content = editPostContent;
 
-  //     await wrapper.vm.$nextTick();
-  //     await wrapper.vm.$nextTick();
+      editDiscussionThreadByIdMock.returns(discussionFixtureData);
 
-  //     const updatedPosts = discussionSectionComponent.props('discussions');
-  //     const updatedPostIndex = updatedPosts.findIndex((post) => post.post_id == editPostId);
+      discussionSectionComponent.vm.$emit('discussion:edit-post', editPostId, editPostContent);
 
-  //     expect(updatedPosts[updatedPostIndex].content).toBe(editPostContent);
-  //   });
-  // });
+      await wrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick();
 
-  // describe('supporting evidence', () => {
-  //   describe('when adding supporting evidence as an attachment', () => {
-  //     it('displays the attachment modal when the supplemental form list requests dialog', async () => {
-  //       const supplementalComponent =
-  //         wrapper.getComponent(SupplementalFormList);
-  //       supplementalComponent.vm.$emit('open-modal');
+      const updatedPosts = discussionSectionComponent.props('discussions');
+      const updatedPostIndex = updatedPosts.findIndex((post) => post.post_id == editPostId);
 
-  //       await wrapper.vm.$nextTick();
+      expect(updatedPosts[updatedPostIndex].content).toBe(editPostContent);
+    });
+  });
 
-  //       const attachmentDialog = wrapper.findComponent(InputDialog);
-  //       expect(attachmentDialog.exists()).to.be.true;
-  //     });
+  describe('supporting evidence', () => {
+    describe('when adding supporting evidence as an attachment', () => {
+      it('displays the attachment modal when the supplemental form list requests dialog', async () => {
+        const supplementalComponent =
+          wrapper.getComponent(SupplementalFormList);
+        supplementalComponent.vm.$emit('open-modal');
 
-  //     it('attachment dialog adds a new attachment to the analysis', async () => {
-  //       const newAttachmentData = {
-  //         name: 'fake-attachment-evidence-name',
-  //         data: 'http://sites.uab.edu/cgds',
-  //         attachment_id: 'new-failure-id',
-  //         type: 'link',
-  //         comments: '',
-  //       };
-  //       const analysisWithNewEvidence = fixtureData();
-  //       analysisWithNewEvidence.supporting_evidence_files.push(
-  //           newAttachmentData,
-  //       );
-  //       mockedAttachSupportingEvidence.returns(analysisWithNewEvidence.supporting_evidence_files);
+        await wrapper.vm.$nextTick();
 
-  //       const supplementalComponent =
-  //         wrapper.getComponent(SupplementalFormList);
-  //       expect(supplementalComponent.props('attachments').length).to.equal(1);
+        const attachmentDialog = wrapper.findComponent(InputDialog);
+        expect(attachmentDialog.exists()).to.be.true;
+      });
 
-  //       supplementalComponent.vm.$emit('open-modal');
-  //       await wrapper.vm.$nextTick();
+      it('attachment dialog adds a new attachment to the analysis', async () => {
+        const newAttachmentData = {
+          name: 'fake-attachment-evidence-name',
+          data: 'http://sites.uab.edu/cgds',
+          attachment_id: 'new-failure-id',
+          type: 'link',
+          comments: '',
+        };
+        const analysisWithNewEvidence = fixtureData();
+        analysisWithNewEvidence.supporting_evidence_files.push(
+            newAttachmentData,
+        );
+        attachAttachmentMock.returns(analysisWithNewEvidence.supporting_evidence_files);
 
-  //       inputDialog.confirmation(newAttachmentData);
+        const supplementalComponent =
+          wrapper.getComponent(SupplementalFormList);
+        expect(supplementalComponent.props('attachments').length).to.equal(1);
 
-  //       // Needs to cycle through updating the prop in the view and then another
-  //       // tick for vuejs to reactively update the supplemental component
-  //       await wrapper.vm.$nextTick();
-  //       await wrapper.vm.$nextTick();
-  //       expect(supplementalComponent.props('attachments').length).to.equal(2);
-  //     });
-  //   });
+        supplementalComponent.vm.$emit('open-modal');
+        await wrapper.vm.$nextTick();
 
-  //   describe('when removing supporting evidence', async () => {
-  //     it('prompts a confirmation when an attachment is to be deleted', async () => {
-  //       const supplementalComponent =
-  //         wrapper.getComponent(SupplementalFormList);
-  //       expect(supplementalComponent.props('attachments').length).to.equal(1);
-
-  //       const fakeAttachment = {name: 'fake.txt'};
-  //       supplementalComponent.vm.$emit('delete', fakeAttachment);
-
-  //       const confirmationDialog = wrapper.findComponent(NotificationDialog);
-  //       expect(confirmationDialog.exists()).to.be.true;
-  //     });
-
-  //     it('can cancel deleting the attachment via the confirmation and not delete the attachment', async () => {
-  //       const fakeAttachment = {name: 'fake.txt'};
-  //       const supplementalComponent =
-  //         wrapper.getComponent(SupplementalFormList);
-  //       expect(supplementalComponent.props('attachments').length).to.equal(1);
-
-  //       supplementalComponent.vm.$emit('delete', fakeAttachment);
-  //       notificationDialog.cancel();
-
-  //       expect(supplementalComponent.props('attachments').length).to.equal(1);
-  //     });
-
-  //     it('should confirmation to remove the supporting evidence from the analysis', async () => {
-  //       const fakeAttachment = {name: 'fake.txt'};
-  //       const supplementalComponent =
-  //         wrapper.getComponent(SupplementalFormList);
+        inputDialog.confirmation(newAttachmentData);
 
-  //       expect(supplementalComponent.props('attachments').length).to.equal(1);
-
-  //       supplementalComponent.vm.$emit('delete', fakeAttachment);
+        // Needs to cycle through updating the prop in the view and then another
+        // tick for vuejs to reactively update the supplemental component
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+        expect(supplementalComponent.props('attachments').length).to.equal(2);
+      });
+    });
 
-  //       notificationDialog.confirmation();
-  //       await wrapper.vm.$nextTick();
-  //       await wrapper.vm.$nextTick();
+    describe('when removing supporting evidence', async () => {
+      it('prompts a confirmation when an attachment is to be deleted', async () => {
+        const supplementalComponent =
+          wrapper.getComponent(SupplementalFormList);
+        expect(supplementalComponent.props('attachments').length).to.equal(1);
 
-  //       expect(supplementalComponent.props('attachments').length).to.equal(0);
-  //       expect(mockedRemoveSupportingEvidence.called).to.be.true;
-  //     });
+        const fakeAttachment = {name: 'fake.txt'};
+        supplementalComponent.vm.$emit('delete', fakeAttachment);
 
-  //     it('should alert user when fails to delete', async () => {
-  //       mockedRemoveSupportingEvidence.throws('Failed to delete');
+        const confirmationDialog = wrapper.findComponent(NotificationDialog);
+        expect(confirmationDialog.exists()).to.be.true;
+      });
 
-  //       const fakeAttachment = {name: 'fake.txt'};
-  //       const supplementalComponent =
-  //         wrapper.getComponent(SupplementalFormList);
+      it('can cancel deleting the attachment via the confirmation and not delete the attachment', async () => {
+        const fakeAttachment = {name: 'fake.txt'};
+        const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+        expect(supplementalComponent.props('attachments').length).to.equal(1);
 
-  //       expect(supplementalComponent.props('attachments').length).to.equal(1);
+        supplementalComponent.vm.$emit('delete', fakeAttachment);
+        notificationDialog.cancel();
 
-  //       supplementalComponent.vm.$emit('delete', fakeAttachment);
+        expect(supplementalComponent.props('attachments').length).to.equal(1);
+      });
 
-  //       notificationDialog.confirmation();
-  //       await wrapper.vm.$nextTick();
+      it('should confirmation to remove the supporting evidence from the analysis', async () => {
+        const fakeAttachment = {name: 'fake.txt'};
+        const supplementalComponent = wrapper.getComponent(SupplementalFormList);
 
-  //       expect(supplementalComponent.props('attachments').length).to.equal(1);
-  //       expect(mockedRemoveSupportingEvidence.called).to.be.true;
-  //     });
-  //   });
-  // });
+        expect(supplementalComponent.props('attachments').length).to.equal(1);
 
-  // describe('sections', () => {
-  //   describe('when an image section does not have an image', () => {
-  //     it('accepts an image render as content', async () => {
-  //       const updatedSectionField= {
-  //         type: 'images-dataset',
-  //         field: 'Pedigree',
-  //         value: [{file_id: '64a2f06a4d4d29b8dc93c2d8'}],
-  //       };
-  //       attachSectionImageMock.returns(updatedSectionField);
+        supplementalComponent.vm.$emit('delete', fakeAttachment);
 
-  //       const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
-  //       pedigreeSection.vm.$emit('attach-image', 'Pedigree');
-  //       await wrapper.vm.$nextTick();
+        notificationDialog.confirmation();
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
 
-  //       const fakeImage = {data: 'fakeImage.png'};
-  //       inputDialog.confirmation(fakeImage);
+        expect(supplementalComponent.props('attachments').length).to.equal(0);
+        expect(removeAttachmentMock.called).to.be.true;
+      });
 
-  //       // Needs to cycle through updating the props in the view and then additional
-  //       // ticks for vuejs to reactively update the supplemental component
-  //       await wrapper.vm.$nextTick();
-  //       await wrapper.vm.$nextTick();
-  //       await wrapper.vm.$nextTick();
-  //       const reRenderedPedigreeSection = wrapper.findComponent('[id=Pedigree]');
+      it('should alert user when fails to delete', async () => {
+        removeAttachmentMock.throws('Failed to delete');
 
-  //       expect(reRenderedPedigreeSection.props('content').length).to.equal(1);
-  //     });
-  //   });
+        const fakeAttachment = {name: 'fake.txt'};
+        const supplementalComponent =
+          wrapper.getComponent(SupplementalFormList);
 
-  //   describe('when an image section has an image in it', () => {
-  //     beforeEach(() => {
-  //       const imageFieldValue = {file_id: '635a89aea7b2f21802b74539'};
-  //       const analysisWithNewEvidence = fixtureData();
-  //       analysisWithNewEvidence.sections = addSectionFieldValue('Pedigree', 'Pedigree', imageFieldValue);
-  //       mockedData.returns(analysisWithNewEvidence);
-  //       wrapper = getMountedComponent();
-  //     });
+        expect(supplementalComponent.props('attachments').length).to.equal(1);
 
-  //     it.skip('updates section image content with input dialog', async () => {
-  //       updateSectionImageMock.returns({
-  //         section: 'Pedigree',
-  //         field: 'Pedigree',
-  //         image_id: 'different-image-635a89aea7b2f21802b74539',
-  //       });
+        supplementalComponent.vm.$emit('delete', fakeAttachment);
 
-  //       const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
-  //       pedigreeSection.vm.$emit('update-image', '635a89aea7b2f21802b74539', 'Pedigree', 'Pedigree');
-  //       await wrapper.vm.$nextTick();
+        notificationDialog.confirmation();
+        await wrapper.vm.$nextTick();
 
-  //       const fakeImageForUpdate = {data: 'fakeImage.png'};
-  //       inputDialog.confirmation(fakeImageForUpdate);
+        expect(supplementalComponent.props('attachments').length).to.equal(1);
+        expect(removeAttachmentMock.called).to.be.true;
+      });
+    });
+  });
 
-  //       await wrapper.vm.$nextTick();
-  //       await wrapper.vm.$nextTick();
+  describe('sections', () => {
+    describe('when an image section does not have an image', () => {
+      it('accepts an image render as content', async () => {
+        const updatedSectionField= {
+          type: 'images-dataset',
+          field: 'Pedigree',
+          value: [{file_id: '64a2f06a4d4d29b8dc93c2d8'}],
+        };
+        attachSectionImageMock.returns(updatedSectionField);
 
-  //       const reRenderedPedigreeSection = wrapper.findComponent('[id=Pedigree]');
-  //       expect(updateSectionImageMock.called).to.be.true;
-  //       expect(reRenderedPedigreeSection.props().content[0].value[0].file_id)
-  //           .to.equal('different-image-635a89aea7b2f21802b74539');
-  //     });
+        const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
+        pedigreeSection.vm.$emit('attach-image', 'Pedigree');
+        await wrapper.vm.$nextTick();
 
-  //     it('notifies user when updating section image content fails', async () => {
-  //       updateSectionImageMock.throws('failure happened');
+        const fakeImage = {data: 'fakeImage.png'};
+        inputDialog.confirmation(fakeImage);
 
-  //       const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
-  //       pedigreeSection.vm.$emit('update-image', '635a89aea7b2f21802b74539', 'Pedigree', 'Pedigree');
-  //       await wrapper.vm.$nextTick();
+        // Needs to cycle through updating the props in the view and then additional
+        // ticks for vuejs to reactively update the supplemental component
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+        const reRenderedPedigreeSection = wrapper.findComponent('[id=Pedigree]');
 
-  //       const fakeImageForUpdate = {data: 'fakeImage.png'};
-  //       inputDialog.confirmation(fakeImageForUpdate);
+        expect(reRenderedPedigreeSection.props('content').length).to.equal(1);
+      });
+    });
 
-  //       await wrapper.vm.$nextTick();
-  //       await wrapper.vm.$nextTick();
+    describe('when an image section has an image in it', () => {
+      beforeEach(() => {
+        const imageFieldValue = {file_id: '635a89aea7b2f21802b74539'};
+        const analysisWithNewEvidence = fixtureData();
+        analysisWithNewEvidence.sections = addSectionFieldValue('Pedigree', 'Pedigree', imageFieldValue);
+        mockedData.returns(analysisWithNewEvidence);
+        wrapper = getMountedComponent();
+      });
 
-  //       const reRenderedPedigreeSection = wrapper.findComponent('[id=Pedigree]');
+      it.skip('updates section image content with input dialog', async () => {
+        updateSectionImageMock.returns({
+          section: 'Pedigree',
+          field: 'Pedigree',
+          image_id: 'different-image-635a89aea7b2f21802b74539',
+        });
 
-  //       const failureDialog = wrapper.findComponent(NotificationDialog);
-  //       expect(failureDialog.exists()).to.be.true;
+        const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
+        pedigreeSection.vm.$emit('update-image', '635a89aea7b2f21802b74539', 'Pedigree', 'Pedigree');
+        await wrapper.vm.$nextTick();
 
-  //       expect(updateSectionImageMock.called).to.be.true;
-  //       expect(reRenderedPedigreeSection.props('content').length).to.equal(1);
-  //     });
+        const fakeImageForUpdate = {data: 'fakeImage.png'};
+        inputDialog.confirmation(fakeImageForUpdate);
 
-  //     it('allows user to remove section image with input dialog confirmation', async () => {
-  //       const sectionName = 'Pedigree';
-  //       const fieldName = 'Pedigree';
-  //       removeSectionAttachment.resolves(removeFieldValue('Pedigree', 'Pedigree'));
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
 
-  //       const pedigreeSection = wrapper.findComponent(`[id=${sectionName}]`);
-  //       pedigreeSection.vm.$emit('update-image', '635a89aea7b2f21802b74539', sectionName, fieldName);
-  //       await wrapper.vm.$nextTick();
+        const reRenderedPedigreeSection = wrapper.findComponent('[id=Pedigree]');
+        expect(updateSectionImageMock.called).to.be.true;
+        expect(reRenderedPedigreeSection.props().content[0].value[0].file_id)
+            .to.equal('different-image-635a89aea7b2f21802b74539');
+      });
 
-  //       inputDialog.delete();
-
-  //       await wrapper.vm.$nextTick();
-  //       await wrapper.vm.$nextTick();
+      it('notifies user when updating section image content fails', async () => {
+        updateSectionImageMock.throws('failure happened');
 
-  //       const confirmationDialog = wrapper.findComponent(NotificationDialog);
-  //       expect(confirmationDialog.exists()).to.be.true;
-
-  //       notificationDialog.confirmation();
-  //       await wrapper.vm.$nextTick();
-
-  //       // Neccesary to process several ticks to re-render the section
-  //       await wrapper.vm.$nextTick();
-  //       await wrapper.vm.$nextTick();
-
-  //       const reRenderedPedigreeSection = wrapper.findComponent('[id=Pedigree]');
-
-  //       expect(removeSectionAttachment.called).to.be.true;
-  //       expect(reRenderedPedigreeSection.props('content')[0].value.length).to.equal(0);
-  //     });
-
-  //     it('notifies the user when the image content fails to be removed', async () => {
-  //       removeSectionAttachment.throws('sad-it-did not remove');
-
-  //       const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
-  //       pedigreeSection.vm.$emit('update-image', 'Pedigree');
-  //       await wrapper.vm.$nextTick();
-
-  //       inputDialog.delete();
-
-  //       await wrapper.vm.$nextTick();
-
-  //       notificationDialog.confirmation();
-  //       await wrapper.vm.$nextTick();
-
-  //       // Neccesary to process several ticks to re-render the section
-  //       await wrapper.vm.$nextTick();
-  //       await wrapper.vm.$nextTick();
-
-  //       const failureNotificationDialog = wrapper.findComponent(NotificationDialog);
-  //       expect(failureNotificationDialog.exists()).to.be.true;
-  //     });
-  //   });
-
-  //   describe('when a section has a field that allows attachments', () => {
-  //     it('may attach a link to that field', async () => {
-  //       const sectionName = 'Mus musculus (Mouse) Model System';
-  //       const sectionId = 'Mus_musculus (Mouse) Model System';
-  //       const fieldName = 'Veterinary Pathology Imaging';
-  //       const newAttachmentData = {
-  //         name: 'fake-attachment-evidence-name',
-  //         data: 'http://sites.uab.edu/cgds',
-  //         attachment_id: 'new-failure-id',
-  //         type: 'link',
-  //         comments: '',
-  //       };
-
-  //       mockedAttachSectionSupportingEvidence.returns(addFieldValue(sectionName, fieldName, newAttachmentData));
-
-  //       const mouseSection = wrapper.getComponent(`[id=${sectionId}]`);
-  //       const mouseFieldToUpdate = mouseSection.props('content').find((row) => {
-  //         return row.field == fieldName;
-  //       });
-
-  //       expect(mouseFieldToUpdate.value.length).to.equal(0);
-
-  //       mouseSection.vm.$emit('update:content-row', {
-  //         type: 'supporting-evidence',
-  //         operation: 'attach',
-  //         header: sectionName,
-  //         field: fieldName,
-  //         value: {},
-  //       });
-  //       await wrapper.vm.$nextTick();
-
-  //       inputDialog.confirmation(newAttachmentData);
-
-  //       // Needs to cycle through updating the prop in the view and then another
-  //       // tick for vuejs to reactively update the supplemental component
-  //       await wrapper.vm.$nextTick();
-  //       await wrapper.vm.$nextTick();
-
-  //       const updatedMouseSection = wrapper.getComponent(`[id=${sectionId}]`);
-  //       const mouseFieldUpdated = updatedMouseSection.props('content').find((row) => {
-  //         return row.field == fieldName;
-  //       });
-  //       expect(mouseFieldUpdated.value.length).to.equal(1);
-  //     });
-
-  //     it('removes the supporting evidence from field', async () => {
-  //       const sectionId = 'Mus_musculus (Mouse) Model System';
-  //       const sectionName = 'Mus musculus (Mouse) Model System';
-  //       const fieldName = 'Veterinary Histology Report';
-
-  //       removeSectionAttachment.resolves(removeFieldValue(sectionName, fieldName));
-
-  //       const mouseSection = wrapper.getComponent(`[id=${sectionId}]`);
-  //       const mouseFieldToUpdate = mouseSection.props('content').find((row) => {
-  //         return row.field == fieldName;
-  //       });
-  //       expect(mouseFieldToUpdate.value.length).to.equal(1);
-
-  //       mouseSection.vm.$emit('update:content-row', {
-  //         type: 'supporting-evidence',
-  //         operation: 'delete',
-  //         header: sectionName,
-  //         field: fieldName,
-  //         value: {
-  //           type: 'file',
-  //           attachment_id: 'FJKLJFKLDJSKLFDS',
-  //         },
-  //       });
-  //       await wrapper.vm.$nextTick();
-
-  //       notificationDialog.confirmation();
-  //       await wrapper.vm.$nextTick();
-
-  //       // Neccesary to process several ticks to re-render the section
-  //       await wrapper.vm.$nextTick();
-  //       await wrapper.vm.$nextTick();
-
-  //       const updatedMouseSection = wrapper.getComponent(`[id=${sectionId}]`);
-  //       const mouseFieldUpdated = updatedMouseSection.props('content').find((row) => {
-  //         return row.field == fieldName;
-  //       });
-  //       expect(mouseFieldUpdated.value.length).to.equal(0);
-  //     });
-  //   });
-  // });
-
-  // describe('Saving and canceling analysis changes displays toasts', () => {
-  //   beforeEach(() => {
-  //     updateAnalysisSectionsMock.resolves([]);
-  //   });
-
-  //   it('should display success toast when saving analysis changes', async () => {
-  //     const wrapper = getMountedComponent();
-  //     await wrapper.setData({edit: true});
-  //     const saveModal = wrapper.findComponent(SaveModal);
-
-  //     saveModal.vm.$emit('save');
-  //     await wrapper.vm.$nextTick();
-
-  //     expect(toast.state.active).to.be.true;
-  //     expect(toast.state.type).to.equal('success');
-  //     expect(toast.state.message).to.equal('Analysis updated successfully.');
-  //   });
-  // });
+        const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
+        pedigreeSection.vm.$emit('update-image', '635a89aea7b2f21802b74539', 'Pedigree', 'Pedigree');
+        await wrapper.vm.$nextTick();
+
+        const fakeImageForUpdate = {data: 'fakeImage.png'};
+        inputDialog.confirmation(fakeImageForUpdate);
+
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+
+        const reRenderedPedigreeSection = wrapper.findComponent('[id=Pedigree]');
+
+        const failureDialog = wrapper.findComponent(NotificationDialog);
+        expect(failureDialog.exists()).to.be.true;
+
+        expect(updateSectionImageMock.called).to.be.true;
+        expect(reRenderedPedigreeSection.props('content').length).to.equal(1);
+      });
+
+      it('allows user to remove section image with input dialog confirmation', async () => {
+        const sectionName = 'Pedigree';
+        const fieldName = 'Pedigree';
+        removeSectionAttachmentMock.resolves(removeFieldValue('Pedigree', 'Pedigree'));
+
+        const pedigreeSection = wrapper.findComponent(`[id=${sectionName}]`);
+        pedigreeSection.vm.$emit('update-image', '635a89aea7b2f21802b74539', sectionName, fieldName);
+        await wrapper.vm.$nextTick();
+
+        inputDialog.delete();
+
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+
+        const confirmationDialog = wrapper.findComponent(NotificationDialog);
+        expect(confirmationDialog.exists()).to.be.true;
+
+        notificationDialog.confirmation();
+        await wrapper.vm.$nextTick();
+
+        // Neccesary to process several ticks to re-render the section
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+
+        const reRenderedPedigreeSection = wrapper.findComponent('[id=Pedigree]');
+
+        expect(removeSectionAttachmentMock.called).to.be.true;
+        expect(reRenderedPedigreeSection.props('content')[0].value.length).to.equal(0);
+      });
+
+      it('notifies the user when the image content fails to be removed', async () => {
+        removeSectionAttachmentMock.throws('sad-it-did not remove');
+
+        const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
+        pedigreeSection.vm.$emit('update-image', 'Pedigree');
+        await wrapper.vm.$nextTick();
+
+        inputDialog.delete();
+
+        await wrapper.vm.$nextTick();
+
+        notificationDialog.confirmation();
+        await wrapper.vm.$nextTick();
+
+        // Neccesary to process several ticks to re-render the section
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+
+        const failureNotificationDialog = wrapper.findComponent(NotificationDialog);
+        expect(failureNotificationDialog.exists()).to.be.true;
+      });
+    });
+
+    describe('when a section has a field that allows attachments', () => {
+      it('may attach a link to that field', async () => {
+        const sectionName = 'Mus musculus (Mouse) Model System';
+        const sectionId = 'Mus_musculus (Mouse) Model System';
+        const fieldName = 'Veterinary Pathology Imaging';
+        const newAttachmentData = {
+          name: 'fake-attachment-evidence-name',
+          data: 'http://sites.uab.edu/cgds',
+          attachment_id: 'new-failure-id',
+          type: 'link',
+          comments: '',
+        };
+
+        attachSectionAttachmentMock.returns(addFieldValue(sectionName, fieldName, newAttachmentData));
+
+        const mouseSection = wrapper.getComponent(`[id=${sectionId}]`);
+        const mouseFieldToUpdate = mouseSection.props('content').find((row) => {
+          return row.field == fieldName;
+        });
+
+        expect(mouseFieldToUpdate.value.length).to.equal(0);
+
+        mouseSection.vm.$emit('update:content-row', {
+          type: 'supporting-evidence',
+          operation: 'attach',
+          header: sectionName,
+          field: fieldName,
+          value: {},
+        });
+        await wrapper.vm.$nextTick();
+
+        inputDialog.confirmation(newAttachmentData);
+
+        // Needs to cycle through updating the prop in the view and then another
+        // tick for vuejs to reactively update the supplemental component
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+
+        const updatedMouseSection = wrapper.getComponent(`[id=${sectionId}]`);
+        const mouseFieldUpdated = updatedMouseSection.props('content').find((row) => {
+          return row.field == fieldName;
+        });
+        expect(mouseFieldUpdated.value.length).to.equal(1);
+      });
+
+      it('removes the supporting evidence from field', async () => {
+        const sectionId = 'Mus_musculus (Mouse) Model System';
+        const sectionName = 'Mus musculus (Mouse) Model System';
+        const fieldName = 'Veterinary Histology Report';
+
+        removeSectionAttachmentMock.resolves(removeFieldValue(sectionName, fieldName));
+
+        const mouseSection = wrapper.getComponent(`[id=${sectionId}]`);
+        const mouseFieldToUpdate = mouseSection.props('content').find((row) => {
+          return row.field == fieldName;
+        });
+        expect(mouseFieldToUpdate.value.length).to.equal(1);
+
+        mouseSection.vm.$emit('update:content-row', {
+          type: 'supporting-evidence',
+          operation: 'delete',
+          header: sectionName,
+          field: fieldName,
+          value: {
+            type: 'file',
+            attachment_id: 'FJKLJFKLDJSKLFDS',
+          },
+        });
+        await wrapper.vm.$nextTick();
+
+        notificationDialog.confirmation();
+        await wrapper.vm.$nextTick();
+
+        // Neccesary to process several ticks to re-render the section
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+
+        const updatedMouseSection = wrapper.getComponent(`[id=${sectionId}]`);
+        const mouseFieldUpdated = updatedMouseSection.props('content').find((row) => {
+          return row.field == fieldName;
+        });
+        expect(mouseFieldUpdated.value.length).to.equal(0);
+      });
+    });
+  });
+
+  describe('Saving and canceling analysis changes displays toasts', () => {
+    beforeEach(() => {
+      updateAnalysisSectionsMock.resolves([]);
+    });
+
+    it('should display success toast when saving analysis changes', async () => {
+      const modifiedWrapper = getMountedComponent();
+      await triggerAction(modifiedWrapper, 'Edit');
+
+      const saveModal = modifiedWrapper.findComponent(SaveModal);
+
+      saveModal.vm.$emit('save');
+      await modifiedWrapper.vm.$nextTick();
+      await modifiedWrapper.vm.$nextTick();
+
+      expect(toast.state.active).to.be.true;
+      expect(toast.state.type).to.equal('success');
+      expect(toast.state.message).to.equal('Analysis updated successfully.');
+    });
+  });
 });
 
 
@@ -820,9 +850,11 @@ function removeFieldValue(sectionName, fieldName) {
 
 /**
  * Returns fixture data
+ *
+ * @param {Object} attributes from the analysis to override
  * @return {Object} containing analysis data for CPAM0046.
  */
-function fixtureData() {
+function fixtureData(attributes) {
   return {
     name: 'CPAM0046',
     description: ': LMNA-related congenital muscular dystropy',
@@ -1020,5 +1052,6 @@ function fixtureData() {
         comments: '  ',
       },
     ],
+    ...attributes,
   };
 }
