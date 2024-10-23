@@ -8,7 +8,6 @@ import * as path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   test: {
-    global: true,
     environment: 'happy-dom',
     coverage: {
       exclude: ['test', 'src/requests.js', '.eslintrc.cjs', 'src/main.js'],
@@ -19,6 +18,7 @@ export default defineConfig({
     sequence: {
       hooks: 'parallel',
     },
+    include: ['test/**/*.spec.js'],
     deps: {
       moduleDirectories: ['node_modules', path.resolve('./test/__mocks__')],
     },
