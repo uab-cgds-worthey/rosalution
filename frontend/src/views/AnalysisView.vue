@@ -2,10 +2,10 @@
   <div>
     <app-header>
       <AnalysisViewHeader
-        :actions="menuActions"
+        :actions="actionChoices"
         :titleText="analysisName"
         :sectionAnchors="sectionsHeaders"
-        :username="authStore.getUsername()"
+        :username="username"
         :workflow_status="latestStatus"
         @logout="onLogout"
         :third_party_links="thirdPartyLinks"
@@ -32,7 +32,7 @@
         :header="section.header"
         :content="section.content"
         :attachmentField="section.attachment_field"
-        :writePermissions="authStore.hasWritePermissions()"
+        :writePermissions="hasWritePermissions"
         :edit="edit"
         @attach-image="attachSectionImage"
         @update-image="updateSectionImage"
@@ -42,7 +42,7 @@
       <DiscussionSection
         id="Discussion"
         :discussions="discussions"
-        :userClientId="authStore.getClientId()"
+        :userClientId="clientId"
         :actions="discussionContextActions"
         @discussion:new-post="addDiscussionPost"
         @discussion:edit-post="editDiscussionPost"
@@ -51,7 +51,7 @@
       <SupplementalFormList
         id="Supporting_Evidence"
         :attachments="attachments"
-        :writePermissions="authStore.hasWritePermissions()"
+        :writePermissions="hasWritePermissions"
         @open-modal="addSupportingEvidence"
         @delete="removeSupportingEvidence"
         @edit="editSupportingEvidence"
@@ -70,7 +70,7 @@
 </template>
 
 <script setup>
-import {onMounted, ref, computed} from 'vue';
+import {onMounted, ref, computed, watch} from 'vue';
 
 import Analyses from '@/models/analyses.js';
 import AnalysisViewHeader from '@/components/AnalysisView/AnalysisViewHeader.vue';
@@ -81,7 +81,7 @@ import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import Toast from '@/components/Dialogs/Toast.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
 import SaveModal from '@/components/AnalysisView/SaveModal.vue';
-import DiscussionSection from '../components/AnalysisView/DiscussionSection.vue';
+import DiscussionSection from '@/components/AnalysisView/DiscussionSection.vue';
 
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
@@ -89,8 +89,8 @@ import toast from '@/toast.js';
 
 import {authStore} from '@/stores/authStore.js';
 import {analysisStore} from '@/stores/analysisStore.js';
-import {StatusType} from '@/config.js';
 import {useRouter} from 'vue-router';
+import {useActionMenu} from '@/components/AnalysisView/useActionMenu.js';
 
 const router = useRouter();
 
@@ -103,13 +103,15 @@ const props = defineProps({
 
 const edit = ref(false);
 
+
 const analysisName = computed(() => {
-  return analysisStore.analysis.name;
+  return analysisStore.analysisName();
 });
 
 const latestStatus = computed(() => {
-  return analysisStore.analysis.latest_status;
+  return analysisStore.latestStatus();
 });
+
 
 const thirdPartyLinks = computed(() => {
   return analysisStore.analysis.third_party_links;
@@ -124,83 +126,36 @@ const sectionsHeaders = computed(() => {
   return sections;
 });
 
-const menuActions = computed(() => {
-  const actionChoices = [];
-  actionChoices.push({
-    icon: 'paperclip',
-    text: 'Attach',
-    operation: addSupportingEvidence,
-  });
+const username = computed(() => {
+  return authStore.getUsername();
+});
 
+const clientId = computed(() => {
+  return authStore.getClientId();
+});
+
+const hasWritePermissions = computed(() => {
+  return authStore.hasWritePermissions();
+});
+
+const {actionChoices, builder} = useActionMenu();
+
+watch([hasWritePermissions, latestStatus], () => {
+  // console.log('AnalysisView::watch-latestStatus&hasWritePermissions - watch start')
+  builder.clear();
   if ( !authStore.hasWritePermissions() ) {
-    return actionChoices;
+    builder.addMenuAction('Attach', 'paperclip', addSupportingEvidence);
   }
 
-  const prependingActions = [];
-  prependingActions.push({
-    icon: 'pencil',
-    text: 'Edit',
-    operation: () => {
-      if (!edit.value) {
-        toast.success('Edit mode has been enabled.');
-      } else {
-        toast.info('Edit mode has been disabled and changes have not been saved.');
-      }
-      edit.value = !edit.value;
-    },
-  });
+  builder.addMenuAction('Edit', 'pencil', enableEditing);
+  builder.addMenuAction('Attach', 'paperclip', addSupportingEvidence);
+  builder.addDivider();
 
-  if (analysisStore.analysis.latest_status === 'Preparation') {
-    prependingActions.push({
-      icon: StatusType['Ready'].icon,
-      text: 'Mark Ready',
-      operation: () => {
-        pushAnalysisEvent(Analyses.EventType.READY);
-      },
-    });
-  } else if (analysisStore.analysis.latest_status === 'Ready') {
-    prependingActions.push({
-      icon: StatusType['Active'].icon,
-      text: 'Mark Active',
-      operation: () => {
-        pushAnalysisEvent(Analyses.EventType.OPEN);
-      },
-    });
-  } else {
-    prependingActions.push({
-      icon: StatusType['Approved'].icon,
-      text: 'Approve',
-      operation: () => {
-        pushAnalysisEvent(Analyses.EventType.APPROVE);
-      },
-    }, {
-      icon: StatusType['On-Hold'].icon,
-      text: 'Hold',
-      operation: () => {
-        pushAnalysisEvent(Analyses.EventType.HOLD);
-      },
-    }, {
-      icon: StatusType['Declined'].icon,
-      text: 'Decline',
-      operation: () => {
-        pushAnalysisEvent(Analyses.EventType.DECLINE);
-      },
-    });
-  }
-  prependingActions.push({divider: true});
-  actionChoices.unshift(...prependingActions);
+  builder.addWorkflowActions(latestStatus.value, pushAnalysisEvent);
 
-  actionChoices.push({
-    text: 'Attach Monday.com',
-    operation: addMondayLink,
-  });
-
-  actionChoices.push({
-    text: 'Connect PhenoTips',
-    operation: addPhenotipsLink,
-  });
-
-  return actionChoices;
+  builder.addMenuAction('Attach Monday.com', null, addMondayLink);
+  builder.addMenuAction('Connect PhenoTips', null, addPhenotipsLink);
+  // console.log('AnalysisView::watch-latestStatus&hasWritePermissions - watch complete')
 });
 
 const discussionContextActions = computed(() => {
@@ -235,6 +190,21 @@ const discussions = computed(() => {
 const genomicUnitsList = computed(() => {
   return analysisStore.analysis.genomic_units;
 });
+
+/**
+ * Enables the view to support in-line editing of the analysis.
+ */
+function enableEditing() {
+  // console.log("AnalysisView:enableEditing - Called")
+  if (!edit.value) {
+    toast.success('Edit mode has been enabled.');
+  } else {
+    // console.log("AnalysisView:enableEditing - DISABLING")
+    toast.info('Edit mode has been disabled and changes have not been saved.');
+  }
+  edit.value = !edit.value;
+  // console.log("AnalysisView:enableEditing - Complete")
+}
 
 /**
  * Handles updates to analysis content when a content row is modified. If the content type is 'supporting-evidence'
@@ -603,9 +573,10 @@ async function addPhenotipsLink() {
  */
 async function pushAnalysisEvent(eventType) {
   try {
-    const updatedAnalysis = await Analyses.pushAnalysisEvent(analysisName.value, eventType);
-    analysisStore.forceUpdate(updatedAnalysis);
+    // console.log(`AnalysisView:pushAnalysisEvent - CALLED '${eventType}'`)
+    await analysisStore.pushEvent(eventType);
     toast.success(`Analysis event '${eventType}' successful.`);
+    // console.log(toast.state)
   } catch (error) {
     toast.error(`Error updating the event '${eventType}'.`);
   }
@@ -667,7 +638,9 @@ function copyToClipboard(copiedText) {
  * When view is mounted, queries the analysis' state.
  */
 onMounted(async () => {
+  // console.log("AnalysisView::onMounted - BEGIN")
   await analysisStore.getAnalysis(props.analysis_name);
+  // console.log("AnalysisView::onMounted - COMPLETE")
 });
 </script>
 

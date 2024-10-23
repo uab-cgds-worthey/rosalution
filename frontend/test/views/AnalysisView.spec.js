@@ -1,4 +1,4 @@
-import {expect, describe, it, afterEach, beforeEach, vi} from 'vitest';
+import {expect, describe, it, afterEach, beforeEach, vi, beforeAll, afterAll} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 import sinon from 'sinon';
 
@@ -20,6 +20,7 @@ import AnalysisView from '@/views/AnalysisView.vue';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {useRouter} from 'vue-router';
+import {analysisStore} from '@/stores/analysisStore.js';
 
 vi.mock(import('vue-router'), async (importOriginal) => {
   const mod = await importOriginal();
@@ -60,7 +61,7 @@ async function triggerAction(wrapper, actionText) {
   const actionsProps = headerComponent.props('actions');
   for (const action of actionsProps) {
     if (action.text === actionText) {
-      action.operation();
+      await action.operation();
       break;
     }
   }
@@ -68,16 +69,14 @@ async function triggerAction(wrapper, actionText) {
 
 /**
  * Helper sets up a mocked wrapper with the given latest status and returns it
- * @param {string} latestStatus The latest status of the analysis to set
- * @param {object} mockedData The mocked data to be used
+ * @param {Object} wrapper VueJS component to update the latest status for
+ * @param {string} latestStatus The latest status string value
  * @return {Promise<VueWrapper>} A promise that resolves with the mocked Vue wrapper
  */
-async function getWrapperWithLatestLatestStatus(latestStatus, mockedData) {
+function updateAnalysisStoreLatestStatus(wrapper, latestStatus) {
   const analysisData = fixtureData();
   analysisData.latest_status = latestStatus;
-  mockedData.returns(analysisData);
-  const wrapper = getMountedComponent();
-  await wrapper.vm.$nextTick();
+  analysisStore.forceUpdate(analysisData);
   return wrapper;
 }
 
@@ -106,10 +105,9 @@ describe('AnalysisView', () => {
   let mockedAttachThirdPartyLink;
   let updateAnalysisSectionsMock;
 
-  beforeEach(() => {
+  beforeAll(() => {
     sandbox = sinon.createSandbox();
-    mockedData = sandbox.stub(Analyses, 'getAnalysis');
-    mockedData.returns(fixtureData());
+    mockedData = sandbox.stub(Analyses, 'getAnalysis').resolves(fixtureData());
 
     authStore.hasWritePermissions = sandbox.fake.returns(true);
 
@@ -122,9 +120,7 @@ describe('AnalysisView', () => {
       };
     });
 
-
     mockAnalysisEventPush = sandbox.stub(Analyses, 'pushAnalysisEvent');
-
 
     attachSectionImageMock = sandbox.stub(Analyses, 'attachSectionImage');
     updateSectionImageMock = sandbox.stub(Analyses, 'updateSectionImage');
@@ -142,48 +138,51 @@ describe('AnalysisView', () => {
     deleteDiscussionThreadByIdMock = sandbox.stub(Analyses, 'deleteDiscussionThreadById');
     editDiscussionThreadByIdMock = sandbox.stub(Analyses, 'editDiscussionThreadById');
 
-    // mockAuthWritePermissions = sandbox.stub(authStore, 'hasWritePermissions');
-    // mockAuthWritePermissions.returns(true);
-
     wrapper = getMountedComponent();
   });
 
+  beforeEach(() => {
+    // console.log("AnalysisView.spec.js:beforeEach - CALLED")
+    mockedData.resolves(fixtureData());
+  });
+
   afterEach(() => {
+    sandbox.reset();
+  });
+
+  afterAll(() => {
     sandbox.restore();
   });
 
-  it('contains the expected content body element', () => {
-    const appContent = wrapper.find('app-content');
-    expect(appContent.exists()).to.be.true;
-  });
+  describe('when the view renders', () => {
+    it('contains the expected content body element', () => {
+      const appContent = wrapper.find('app-content');
+      expect(appContent.exists()).to.be.true;
+    });
 
-  it('should display a toast when a copy text to clipboard button', async () => {
-    const geneBox = wrapper.getComponent(GeneBox);
-
-    geneBox.vm.$emit('clipboard-copy', 'NM_001017980.3:c.164G>T');
-    await wrapper.vm.$nextTick();
-
-    expect(toast.state.active).to.be.true;
-    expect(toast.state.type).to.equal('success');
-    expect(toast.state.message).to.equal('Copied NM_001017980.3:c.164G>T to clipboard!');
-  });
-
-  describe('the header', () => {
     it('contains a header element', () => {
       const appHeader = wrapper.find('app-header');
       expect(appHeader.exists()).to.be.true;
     });
 
-    it('should logout on the header logout event', async () => {
-      const headerComponent = wrapper.getComponent(
-          '[data-test=analysis-view-header]',
-      );
+    it('allows user logout', () => {
+      const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
       headerComponent.vm.$emit('logout');
-      await headerComponent.vm.$nextTick();
-
       expect(mockVueRouterPush.called).to.be.true;
     });
 
+    it('should have a copy button and show a toast with the copied content within it', () => {
+      const geneBox = wrapper.getComponent(GeneBox);
+
+      geneBox.vm.$emit('clipboard-copy', 'NM_001017980.3:c.164G>T');
+
+      expect(toast.state.active).to.be.true;
+      expect(toast.state.type).to.equal('success');
+      expect(toast.state.message).to.equal('Copied NM_001017980.3:c.164G>T to clipboard!');
+    });
+  });
+
+  describe('the header', () => {
     it('provides the expected headings of sections to be used as anchors', () => {
       const headerComponent = wrapper.get('[data-test="analysis-view-header"]');
       expect(headerComponent.attributes('sectionanchors')).to.equal(
@@ -193,17 +192,17 @@ describe('AnalysisView', () => {
     });
 
     it('should mark an analysis as ready', async () => {
-      const modifiedWrapper = await getWrapperWithLatestLatestStatus('Preparation', mockedData);
+      wrapper = await updateAnalysisStoreLatestStatus(wrapper, 'Preparation');
 
-      await triggerAction(modifiedWrapper, 'Mark Ready');
+      triggerAction(wrapper, 'Mark Ready');
 
       expect(mockAnalysisEventPush.called).to.be.true;
     });
 
     it('should display success toast with correct message when marking analysis as ready', async () => {
-      const modifiedWrapper = await getWrapperWithLatestLatestStatus('Preparation', mockedData);
+      wrapper = await updateAnalysisStoreLatestStatus(wrapper, 'Preparation');
 
-      await triggerAction(modifiedWrapper, 'Mark Ready');
+      triggerAction(wrapper, 'Mark Ready');
 
       expect(toast.state.active).to.be.true;
       expect(toast.state.type).to.equal('success');
@@ -211,49 +210,49 @@ describe('AnalysisView', () => {
     });
 
     it('should display error toast with correct message when marking analysis as ready fails', async () => {
-      const modifiedWrapper = await getWrapperWithLatestLatestStatus('Preparation', mockedData);
+      wrapper = await updateAnalysisStoreLatestStatus(wrapper, 'Preparation');
       const error = new Error('Error updating the event \'ready\'.');
       mockAnalysisEventPush.throws(error);
 
       try {
-        await triggerAction(modifiedWrapper, 'Mark Ready');
+        await triggerAction(wrapper, 'Mark Ready');
       } catch (error) {
         console.error(error);
       }
       expect(toast.state.active).to.be.true;
       expect(toast.state.type).to.equal('error');
       expect(toast.state.message).to.equal('Error updating the event \'ready\'.');
+
+      mockAnalysisEventPush.reset();
     });
 
     it('should display info toast with correct message when marking analysis as active', async () => {
-      const modifiedWrapper = await getWrapperWithLatestLatestStatus('Ready', mockedData);
+      wrapper = await updateAnalysisStoreLatestStatus(wrapper, 'Ready');
 
-      await triggerAction(modifiedWrapper, 'Mark Active');
+      await triggerAction(wrapper, 'Mark Active');
 
       expect(toast.state.active).to.be.true;
-      expect(toast.state.type).to.equal('success');
       expect(toast.state.message).to.equal('Analysis event \'opened\' successful.');
+      expect(toast.state.type).to.equal('success');
     });
 
-    it('should display info toast with correct message when entering edit mode', async () => {
-      const initialViewWrapper = getMountedComponent();
-
-      await triggerAction(initialViewWrapper, 'Edit');
+    it('should display info toast with correct message when entering edit mode', () => {
+      triggerAction(wrapper, 'Edit');
 
       expect(toast.state.active).to.be.true;
       expect(toast.state.type).to.equal('success');
       expect(toast.state.message).to.equal('Edit mode has been enabled.');
-    });
-    it('should display info toast with correct message when exiting edit mode', async () => {
-      const initialViewWrapper = getMountedComponent();
 
+      // This is done to reset the component to the non-editing state after testing.
+      triggerAction(wrapper, 'Edit');
+    });
+
+    it('should display info toast with correct message when exiting edit mode', () => {
       // Places the Initial wrapper into the 'Edit' mode
-      await triggerAction(initialViewWrapper, 'Edit');
+      triggerAction(wrapper, 'Edit');
 
       // Disabling the 'edit mode and notifying edits haven't been made
-      await triggerAction(initialViewWrapper, 'Edit');
-
-      await wrapper.vm.$nextTick();
+      triggerAction(wrapper, 'Edit');
 
       expect(toast.state.active).to.be.true;
       expect(toast.state.type).to.equal('info');
@@ -262,7 +261,7 @@ describe('AnalysisView', () => {
   });
 
   describe('third party links', () => {
-    it('should render the input dialog when the attach monday link menu action is clicked', async () => {
+    it('should render the input dialog when the attach monday link menu action is clicked', () => {
       const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
       const actionsProps = headerComponent.props('actions');
 
@@ -281,10 +280,9 @@ describe('AnalysisView', () => {
         data: 'https://monday.com',
         type: 'link',
       };
-      const analysisWithMondayLink = fixtureData({['monday_com']: 'https://monday.com'});
-      mockedAttachThirdPartyLink.returns(analysisWithMondayLink);
 
-      wrapper = getMountedComponent();
+      analysisStore.forceUpdate(fixtureData({['monday_com']: 'https://monday.com'}));
+
       const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
       const actionsProps = headerComponent.props('actions');
 
@@ -301,7 +299,7 @@ describe('AnalysisView', () => {
       expect(mockedAttachThirdPartyLink.called).to.be.true;
     });
 
-    it('should render the input dialog when the attach phenotips link menu action is clicked', async () => {
+    it('should render the input dialog when the attach phenotips link menu action is clicked', () => {
       const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
       const actionsProps = headerComponent.props('actions');
 
@@ -316,10 +314,7 @@ describe('AnalysisView', () => {
     });
 
     it('should add a link to phenotips_com', async () => {
-      const analysisWithPhenotipsLink = fixtureData({['phenotips_com']: 'https://phenotips.com'});
-      mockedAttachThirdPartyLink.returns(analysisWithPhenotipsLink);
-
-      wrapper = getMountedComponent();
+      analysisStore.forceUpdate(fixtureData({['phenotips_com']: 'https://phenotips.com'}));
       const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
       const actionsProps = headerComponent.props('actions');
 
@@ -391,9 +386,6 @@ describe('AnalysisView', () => {
 
       discussionSectionComponent.vm.$emit('discussion:delete-post', deletePostId);
 
-      await wrapper.vm.$nextTick();
-      await wrapper.vm.$nextTick();
-
       notificationDialog.confirmation();
 
       await wrapper.vm.$nextTick();
@@ -435,8 +427,6 @@ describe('AnalysisView', () => {
           wrapper.getComponent(SupplementalFormList);
         supplementalComponent.vm.$emit('open-modal');
 
-        await wrapper.vm.$nextTick();
-
         const attachmentDialog = wrapper.findComponent(InputDialog);
         expect(attachmentDialog.exists()).to.be.true;
       });
@@ -450,17 +440,13 @@ describe('AnalysisView', () => {
           comments: '',
         };
         const analysisWithNewEvidence = fixtureData();
-        analysisWithNewEvidence.supporting_evidence_files.push(
-            newAttachmentData,
-        );
+        analysisWithNewEvidence.supporting_evidence_files.push(newAttachmentData);
         attachAttachmentMock.returns(analysisWithNewEvidence.supporting_evidence_files);
 
-        const supplementalComponent =
-          wrapper.getComponent(SupplementalFormList);
+        const supplementalComponent = wrapper.getComponent(SupplementalFormList);
         expect(supplementalComponent.props('attachments').length).to.equal(1);
 
         supplementalComponent.vm.$emit('open-modal');
-        await wrapper.vm.$nextTick();
 
         inputDialog.confirmation(newAttachmentData);
 
@@ -473,9 +459,11 @@ describe('AnalysisView', () => {
     });
 
     describe('when removing supporting evidence', async () => {
+      beforeEach(() => {
+        analysisStore.forceUpdate(fixtureData());
+      });
       it('prompts a confirmation when an attachment is to be deleted', async () => {
-        const supplementalComponent =
-          wrapper.getComponent(SupplementalFormList);
+        const supplementalComponent = wrapper.getComponent(SupplementalFormList);
         expect(supplementalComponent.props('attachments').length).to.equal(1);
 
         const fakeAttachment = {name: 'fake.txt'};
@@ -486,6 +474,7 @@ describe('AnalysisView', () => {
       });
 
       it('can cancel deleting the attachment via the confirmation and not delete the attachment', async () => {
+        // console.log(analysisStore.analysis)
         const fakeAttachment = {name: 'fake.txt'};
         const supplementalComponent = wrapper.getComponent(SupplementalFormList);
         expect(supplementalComponent.props('attachments').length).to.equal(1);
@@ -516,8 +505,7 @@ describe('AnalysisView', () => {
         removeAttachmentMock.throws('Failed to delete');
 
         const fakeAttachment = {name: 'fake.txt'};
-        const supplementalComponent =
-          wrapper.getComponent(SupplementalFormList);
+        const supplementalComponent = wrapper.getComponent(SupplementalFormList);
 
         expect(supplementalComponent.props('attachments').length).to.equal(1);
 
@@ -544,16 +532,10 @@ describe('AnalysisView', () => {
 
         const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
         pedigreeSection.vm.$emit('attach-image', 'Pedigree');
-        await wrapper.vm.$nextTick();
 
         const fakeImage = {data: 'fakeImage.png'};
         inputDialog.confirmation(fakeImage);
 
-        // Needs to cycle through updating the props in the view and then additional
-        // ticks for vuejs to reactively update the supplemental component
-        await wrapper.vm.$nextTick();
-        await wrapper.vm.$nextTick();
-        await wrapper.vm.$nextTick();
         const reRenderedPedigreeSection = wrapper.findComponent('[id=Pedigree]');
 
         expect(reRenderedPedigreeSection.props('content').length).to.equal(1);
@@ -565,10 +547,10 @@ describe('AnalysisView', () => {
         const imageFieldValue = {file_id: '635a89aea7b2f21802b74539'};
         const analysisWithNewEvidence = fixtureData();
         analysisWithNewEvidence.sections = addSectionFieldValue('Pedigree', 'Pedigree', imageFieldValue);
-        mockedData.returns(analysisWithNewEvidence);
-        wrapper = getMountedComponent();
+        analysisStore.forceUpdate(analysisWithNewEvidence);
       });
 
+      // INVESTIGATE ANGELINA
       it.skip('updates section image content with input dialog', async () => {
         updateSectionImageMock.returns({
           section: 'Pedigree',
@@ -578,13 +560,9 @@ describe('AnalysisView', () => {
 
         const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
         pedigreeSection.vm.$emit('update-image', '635a89aea7b2f21802b74539', 'Pedigree', 'Pedigree');
-        await wrapper.vm.$nextTick();
 
         const fakeImageForUpdate = {data: 'fakeImage.png'};
         inputDialog.confirmation(fakeImageForUpdate);
-
-        await wrapper.vm.$nextTick();
-        await wrapper.vm.$nextTick();
 
         const reRenderedPedigreeSection = wrapper.findComponent('[id=Pedigree]');
         expect(updateSectionImageMock.called).to.be.true;
@@ -597,12 +575,10 @@ describe('AnalysisView', () => {
 
         const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
         pedigreeSection.vm.$emit('update-image', '635a89aea7b2f21802b74539', 'Pedigree', 'Pedigree');
-        await wrapper.vm.$nextTick();
 
         const fakeImageForUpdate = {data: 'fakeImage.png'};
         inputDialog.confirmation(fakeImageForUpdate);
 
-        await wrapper.vm.$nextTick();
         await wrapper.vm.$nextTick();
 
         const reRenderedPedigreeSection = wrapper.findComponent('[id=Pedigree]');
@@ -621,18 +597,15 @@ describe('AnalysisView', () => {
 
         const pedigreeSection = wrapper.findComponent(`[id=${sectionName}]`);
         pedigreeSection.vm.$emit('update-image', '635a89aea7b2f21802b74539', sectionName, fieldName);
-        await wrapper.vm.$nextTick();
 
         inputDialog.delete();
 
-        await wrapper.vm.$nextTick();
         await wrapper.vm.$nextTick();
 
         const confirmationDialog = wrapper.findComponent(NotificationDialog);
         expect(confirmationDialog.exists()).to.be.true;
 
         notificationDialog.confirmation();
-        await wrapper.vm.$nextTick();
 
         // Neccesary to process several ticks to re-render the section
         await wrapper.vm.$nextTick();
@@ -649,18 +622,10 @@ describe('AnalysisView', () => {
 
         const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
         pedigreeSection.vm.$emit('update-image', 'Pedigree');
-        await wrapper.vm.$nextTick();
 
         inputDialog.delete();
 
-        await wrapper.vm.$nextTick();
-
         notificationDialog.confirmation();
-        await wrapper.vm.$nextTick();
-
-        // Neccesary to process several ticks to re-render the section
-        await wrapper.vm.$nextTick();
-        await wrapper.vm.$nextTick();
 
         const failureNotificationDialog = wrapper.findComponent(NotificationDialog);
         expect(failureNotificationDialog.exists()).to.be.true;
@@ -696,7 +661,6 @@ describe('AnalysisView', () => {
           field: fieldName,
           value: {},
         });
-        await wrapper.vm.$nextTick();
 
         inputDialog.confirmation(newAttachmentData);
 
@@ -735,10 +699,8 @@ describe('AnalysisView', () => {
             attachment_id: 'FJKLJFKLDJSKLFDS',
           },
         });
-        await wrapper.vm.$nextTick();
 
         notificationDialog.confirmation();
-        await wrapper.vm.$nextTick();
 
         // Neccesary to process several ticks to re-render the section
         await wrapper.vm.$nextTick();
@@ -759,14 +721,13 @@ describe('AnalysisView', () => {
     });
 
     it('should display success toast when saving analysis changes', async () => {
-      const modifiedWrapper = getMountedComponent();
-      await triggerAction(modifiedWrapper, 'Edit');
+      await triggerAction(wrapper, 'Edit');
 
-      const saveModal = modifiedWrapper.findComponent(SaveModal);
+      const saveModal = wrapper.findComponent(SaveModal);
 
       saveModal.vm.$emit('save');
-      await modifiedWrapper.vm.$nextTick();
-      await modifiedWrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick();
 
       expect(toast.state.active).to.be.true;
       expect(toast.state.type).to.equal('success');

@@ -10,14 +10,18 @@ export const analysisStore = reactive({
   updatedContent: {},
 
   analysisName() {
-    return this.analysis.name;
+    // console.log(`AnalysisStore:analysisName = ${this.analysis?.name}`)
+    return this.analysis?.name;
   },
 
   latestStatus() {
-    return this.analysis.latest_status;
+    // console.log(`AnalysisStore:latestStatus = ${this.analysis?.latest_status || 'Preparation'}`)
+    return this.analysis?.latest_status;
   },
   async getAnalysis(analysisName) {
+    // console.log(`AnalysisStore::getAnalysis - FROM MODEL BEGIN`)
     this.analysis = await Analyses.getAnalysis(analysisName);
+    // console.log(`AnalysisStore::getAnalysis - FROM MODEL END`)
   },
 
   async saveChanges() {
@@ -29,8 +33,14 @@ export const analysisStore = reactive({
     this.analysis.sections.push(...updatedSections);
     this.updatedContent = {};
   },
+
   cancelChanges() {
     this.updatedContent = {};
+  },
+
+  async pushEvent(eventType) {
+    const updatedAnalysis = await Analyses.pushAnalysisEvent(this.analysisName(), eventType);
+    this.forceUpdate(updatedAnalysis);
   },
 
   async attachSectionImage(sectionName, field, attachment) {
@@ -121,6 +131,7 @@ export const analysisStore = reactive({
   },
 
   forceUpdate(updatedAnalysis) {
+    // console.log(`AnalysisStore:forceUpdate - CALLED`)
     this.analysis = {...this.analysis, ...updatedAnalysis};
   },
 });
