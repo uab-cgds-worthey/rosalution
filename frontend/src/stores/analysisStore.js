@@ -43,6 +43,10 @@ export const analysisStore = reactive({
     this.forceUpdate(updatedAnalysis);
   },
 
+  /**
+   * Section Images
+   */
+
   async attachSectionImage(sectionName, field, attachment) {
     const updatedSectionField = await Analyses.attachSectionImage(
         this.analysis.name,
@@ -75,6 +79,10 @@ export const analysisStore = reactive({
     this.replaceAnalysisSection(sectionWithReplacedField);
   },
 
+  /**
+   * Section Operations
+   */
+
   replaceFieldInSection(sectionName, updatedField) {
     const sectionToUpdate = this.analysis.sections.find((section) => {
       return section.header == sectionName;
@@ -95,6 +103,10 @@ export const analysisStore = reactive({
     );
     this.analysis.sections.splice(originalSectionIndex, 1, sectionToReplace);
   },
+
+  /**
+   * Analysis Attachments
+   */
 
   async addAttachment(attachment) {
     const updatedAnalysisAttachments = await Analyses.attachSupportingEvidence(
@@ -130,8 +142,13 @@ export const analysisStore = reactive({
     this.analysis.supporting_evidence_files.splice(attachmentIndex, 1);
   },
 
+  /**
+   * Analysis Operations
+   */
+
   forceUpdate(updatedAnalysis) {
     // console.log(`AnalysisStore:forceUpdate - CALLED`)
-    this.analysis = {...this.analysis, ...updatedAnalysis};
+    Object.assign(this.analysis, updatedAnalysis);
+    // this.analysis = {...this.analysis, ...updatedAnalysis};
   },
 });

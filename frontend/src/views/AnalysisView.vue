@@ -145,14 +145,14 @@ watch([hasWritePermissions, latestStatus], () => {
   builder.clear();
   if ( !authStore.hasWritePermissions() ) {
     builder.addMenuAction('Attach', 'paperclip', addSupportingEvidence);
+    return;
   }
 
   builder.addMenuAction('Edit', 'pencil', enableEditing);
-  builder.addMenuAction('Attach', 'paperclip', addSupportingEvidence);
+  builder.addWorkflowActions(latestStatus.value, pushAnalysisEvent);
   builder.addDivider();
 
-  builder.addWorkflowActions(latestStatus.value, pushAnalysisEvent);
-
+  builder.addMenuAction('Attach', 'paperclip', addSupportingEvidence);
   builder.addMenuAction('Attach Monday.com', null, addMondayLink);
   builder.addMenuAction('Connect PhenoTips', null, addPhenotipsLink);
   // console.log('AnalysisView::watch-latestStatus&hasWritePermissions - watch complete')

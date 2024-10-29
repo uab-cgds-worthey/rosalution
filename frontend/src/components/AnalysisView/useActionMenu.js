@@ -1,5 +1,5 @@
 import {ref} from 'vue';
-import {StatusType} from '@/config.js';
+import {StatusType, getWorkflowStatusIcon} from '@/config.js';
 
 
 /**
@@ -12,8 +12,9 @@ export function useActionMenu() {
   const builder = {
     addWorkflowActions: (latest, operation) => {
       if ( latest in StatusType ) {
-        for ( const [text, nextEvent] of StatusType[latest].transitions) {
-          builder.addMenuAction(text, StatusType[latest].icon, () => {
+        for ( const [text, nextEvent, nextStatus] of StatusType[latest].transitions) {
+          console.log(text, nextEvent, nextStatus);
+          builder.addMenuAction(text, getWorkflowStatusIcon(nextStatus), () => {
             operation(nextEvent);
           });
         }
