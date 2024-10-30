@@ -7,6 +7,14 @@ describe('Case Model System', () => {
     cy.resetDatabase();
     cy.login('vrr-prep');
     cy.intercept('/rosalution/api/analysis/CPAM0002').as('analysisLoad');
+    cy.get('[data-test="user-menu"]')
+        .find('.grey-rounded-menu')
+        .invoke('attr', 'style', 'display: block; visibility: visible; opacity: 1;')
+        .as('openUserMenu');
+    cy.get('[data-test="user-menu"]')
+        .find('.grey-rounded-menu')
+        .invoke('attr', 'style', 'display: block; visibility: hidden; opacity: 0;')
+        .as('closeUserMenu');
     cy.visit('analysis/CPAM0002');
   });
 
