@@ -29,13 +29,27 @@ export const analysisStore = reactive({
    * User Edit Operations
    */
 
+  addUpdatedContent(header, field, value) {
+    if (!(header in this.updatedContent)) {
+      this.updatedContent[header] = {};
+    }
+  
+    this.updatedContent[header][field] = value;
+  },
+
   async saveChanges() {
     const updatedSections = await Analyses.updateAnalysisSections(
         this.analysis.name,
         this.updatedContent,
     );
-    this.analysis.sections.splice(0);
-    this.analysis.sections.push(...updatedSections);
+
+    const updated = {
+      sections: updatedSections
+    }
+
+    this.forceUpdate(updated)
+    // this.analysis.sections.splice(0);
+    // this.analysis.sections.push(...updatedSections);
     this.updatedContent = {};
   },
 

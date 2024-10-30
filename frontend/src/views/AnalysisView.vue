@@ -210,11 +210,7 @@ function onAnalysisContentUpdated(contentRow) {
     return;
   }
 
-  if (!(contentRow.header in analysisStore.updatedContent)) {
-    analysisStore.updatedContent[contentRow.header] = {};
-  }
-
-  analysisStore.updatedContent[contentRow.header][contentRow.field] = contentRow.value;
+  analysisStore.addUpdatedContent(contentRow.header, contentRow.field, contentRow.value)
 }
 
 /**
