@@ -72,7 +72,6 @@
 <script setup>
 import {onMounted, ref, computed, watch} from 'vue';
 
-import Analyses from '@/models/analyses.js';
 import AnalysisViewHeader from '@/components/AnalysisView/AnalysisViewHeader.vue';
 import SectionBox from '@/components/AnalysisView/SectionBox.vue';
 import GeneBox from '@/components/AnalysisView/GeneBox.vue';
@@ -141,7 +140,6 @@ const hasWritePermissions = computed(() => {
 const {actionChoices, builder} = useActionMenu();
 
 watch([hasWritePermissions, latestStatus], () => {
-  // console.log('AnalysisView::watch-latestStatus&hasWritePermissions - watch start')
   builder.clear();
   if ( !authStore.hasWritePermissions() ) {
     builder.addMenuAction('Attach', 'paperclip', addSupportingEvidence);
@@ -155,25 +153,22 @@ watch([hasWritePermissions, latestStatus], () => {
   builder.addMenuAction('Attach', 'paperclip', addSupportingEvidence);
   builder.addMenuAction('Attach Monday.com', null, addMondayLink);
   builder.addMenuAction('Connect PhenoTips', null, addPhenotipsLink);
-  // console.log('AnalysisView::watch-latestStatus&hasWritePermissions - watch complete')
 });
 
-const discussionContextActions = computed(() => {
-  return [
-    {
-      icon: 'pencil',
-      text: 'Edit',
-      emit: 'edit',
-      operation: () => {},
-    },
-    {
-      icon: 'xmark',
-      text: 'Delete',
-      emit: 'delete',
-      operation: () => {},
-    },
-  ];
-});
+const discussionContextActions = [
+  {
+    icon: 'pencil',
+    text: 'Edit',
+    emit: 'edit',
+    operation: () => {},
+  },
+  {
+    icon: 'xmark',
+    text: 'Delete',
+    emit: 'delete',
+    operation: () => {},
+  },
+];
 
 const sectionsList = computed(() => {
   return analysisStore.analysis.sections;
@@ -195,15 +190,12 @@ const genomicUnitsList = computed(() => {
  * Enables the view to support in-line editing of the analysis.
  */
 function enableEditing() {
-  // console.log("AnalysisView:enableEditing - Called")
   if (!edit.value) {
     toast.success('Edit mode has been enabled.');
   } else {
-    // console.log("AnalysisView:enableEditing - DISABLING")
     toast.info('Edit mode has been disabled and changes have not been saved.');
   }
   edit.value = !edit.value;
-  // console.log("AnalysisView:enableEditing - Complete")
 }
 
 /**
@@ -352,14 +344,7 @@ async function addSectionAttachment(section, field, evidence) {
   }
 
   try {
-    const updatedSectionField = await Analyses.attachSectionSupportingEvidence(
-        analysisName.value,
-        section,
-        field,
-        attachment,
-    );
-    const sectionWithReplacedField = analysisStore.replaceFieldInSection(section, updatedSectionField);
-    analysisStore.replaceAnalysisSection(sectionWithReplacedField);
+    await analysisStore.attachSectionAttachment(section, field, attachment);
   } catch (error) {
     console.error('Updating the analysis did not work');
   }
@@ -384,13 +369,7 @@ async function removeSectionAttachment(section, field, attachment) {
   }
 
   try {
-    const updatedSectionField =
-      await Analyses.removeSectionAttachment(
-          analysisStore.analysisName(), section, field, attachment.attachment_id,
-      );
-    const sectionWithReplacedField = analysisStore.replaceFieldInSection(section, updatedSectionField);
-
-    analysisStore.replaceAnalysisSection(sectionWithReplacedField);
+    await analysisStore.removeSectionAttachment(section, field, attachment.attachment_id);
   } catch (error) {
     await notificationDialog.title('Failure').confirmText('Ok').alert(error);
   }
@@ -412,11 +391,11 @@ async function fieldSectionAttachmentChanged(contentRow) {
   };
 
   if (!Object.hasOwn(operations, contentRow.operation)) {
-    // Warning here that the operation is invalid and move on
+    console.warning(`${contentRow.operation} is not an available operation for section attachments.`);
     return;
   }
 
-  operations[contentRow.operation](contentRow.header, contentRow.field, contentRow.value);
+  await operations[contentRow.operation](contentRow.header, contentRow.field, contentRow.value);
 }
 
 /**
@@ -495,10 +474,7 @@ async function removeSupportingEvidence(attachmentToDelete) {
  * @param {Object} attachmentToDownload to download
  */
 function downloadSupportingEvidence(attachmentToDownload) {
-  Analyses.downloadSupportingEvidence(
-      attachmentToDownload.attachment_id,
-      attachmentToDownload.name,
-  );
+  analysisStore.downloadAttachment(attachmentToDownload);
 }
 
 /**
@@ -525,13 +501,7 @@ async function addMondayLink() {
   }
 
   try {
-    const updatedAnalysis = await Analyses.attachThirdPartyLink(
-        analysisName.value,
-        'monday_com',
-        mondayLink.data,
-    );
-
-    analysisStore.forceUpdate(updatedAnalysis);
+    await analysisStore.attachThirdPartyLink('monday_com', mondayLink.data);
   } catch (error) {
     console.error('Updating the analysis did not work', error);
   }
@@ -554,13 +524,7 @@ async function addPhenotipsLink() {
   }
 
   try {
-    const updatedAnalysis = await Analyses.attachThirdPartyLink(
-        analysisName.value,
-        'phenotips_com',
-        phenotipsLink.data,
-    );
-
-    analysisStore.forceUpdate(updatedAnalysis);
+    await analysisStore.attachThirdPartyLink('phenotips_com', phenotipsLink.data);
   } catch (error) {
     console.error('Updating the analysis did not work', error);
   }
@@ -573,10 +537,8 @@ async function addPhenotipsLink() {
  */
 async function pushAnalysisEvent(eventType) {
   try {
-    // console.log(`AnalysisView:pushAnalysisEvent - CALLED '${eventType}'`)
     await analysisStore.pushEvent(eventType);
     toast.success(`Analysis event '${eventType}' successful.`);
-    // console.log(toast.state)
   } catch (error) {
     toast.error(`Error updating the event '${eventType}'.`);
   }
@@ -588,8 +550,7 @@ async function pushAnalysisEvent(eventType) {
  * @param {string} newPostContent - The content of the new discussion post.
  */
 async function addDiscussionPost(newPostContent) {
-  const discussions = await Analyses.postNewDiscussionThread(analysisName.value, newPostContent);
-  analysisStore.analysis.discussions = discussions;
+  await analysisStore.addDiscussionPost(newPostContent);
 }
 
 /**
@@ -599,8 +560,7 @@ async function addDiscussionPost(newPostContent) {
  * @param {string} postContent - The content of the updated discussion post.
  */
 async function editDiscussionPost(postId, postContent) {
-  const discussions = await Analyses.editDiscussionThreadById(analysisName.value, postId, postContent);
-  analysisStore.analysis.discussions = discussions;
+  await analysisStore.editDiscussionPost(postId, postContent);
 }
 
 /**
@@ -618,8 +578,7 @@ async function deleteDiscussionPost(postId) {
     return;
   }
   try {
-    const discussions = await Analyses.deleteDiscussionThreadById(analysisName.value, postId);
-    analysisStore.analysis.discussions = discussions;
+    await analysisStore.deleteDiscussionPost(postId);
   } catch (error) {
     await notificationDialog.title('Failure').confirmText('Ok').alert(error);
   }
@@ -638,9 +597,7 @@ function copyToClipboard(copiedText) {
  * When view is mounted, queries the analysis' state.
  */
 onMounted(async () => {
-  // console.log("AnalysisView::onMounted - BEGIN")
   await analysisStore.getAnalysis(props.analysis_name);
-  // console.log("AnalysisView::onMounted - COMPLETE")
 });
 </script>
 

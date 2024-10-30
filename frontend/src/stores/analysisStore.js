@@ -10,19 +10,24 @@ export const analysisStore = reactive({
   updatedContent: {},
 
   analysisName() {
-    // console.log(`AnalysisStore:analysisName = ${this.analysis?.name}`)
     return this.analysis?.name;
   },
 
   latestStatus() {
-    // console.log(`AnalysisStore:latestStatus = ${this.analysis?.latest_status || 'Preparation'}`)
     return this.analysis?.latest_status;
   },
+
   async getAnalysis(analysisName) {
-    // console.log(`AnalysisStore::getAnalysis - FROM MODEL BEGIN`)
     this.analysis = await Analyses.getAnalysis(analysisName);
-    // console.log(`AnalysisStore::getAnalysis - FROM MODEL END`)
   },
+
+  downloadAttachment(attachmentToDownload) {
+    Analyses.downloadSupportingEvidence(attachmentToDownload.attachment_id, attachmentToDownload.name);
+  },
+
+  /**
+   * User Edit Operations
+   */
 
   async saveChanges() {
     const updatedSections = await Analyses.updateAnalysisSections(
@@ -41,6 +46,12 @@ export const analysisStore = reactive({
   async pushEvent(eventType) {
     const updatedAnalysis = await Analyses.pushAnalysisEvent(this.analysisName(), eventType);
     this.forceUpdate(updatedAnalysis);
+  },
+
+  async attachThirdPartyLink(thirdParty, data) {
+    const updatedAnalysis = await Analyses.attachThirdPartyLink(this.analysis.name, thirdParty, data);
+
+    analysisStore.forceUpdate(updatedAnalysis);
   },
 
   /**
@@ -80,6 +91,25 @@ export const analysisStore = reactive({
   },
 
   /**
+   * Section Attachments
+   */
+
+  async attachSectionAttachment(section, field, attachment) {
+    const updatedSectionField =
+      await Analyses.attachSectionSupportingEvidence(this.analysis.name, section, field, attachment);
+    const sectionWithReplacedField = this.replaceFieldInSection(section, updatedSectionField);
+    this.replaceAnalysisSection(sectionWithReplacedField);
+  },
+
+  async removeSectionAttachment(section, field, attachmentId) {
+    const updatedSectionField =
+      await Analyses.removeSectionAttachment(this.analysis.name, section, field, attachmentId);
+
+    const sectionWithReplacedField = this.replaceFieldInSection(section, updatedSectionField);
+    this.replaceAnalysisSection(sectionWithReplacedField);
+  },
+
+  /**
    * Section Operations
    */
 
@@ -102,6 +132,25 @@ export const analysisStore = reactive({
         (section) => section.header == sectionToReplace.header,
     );
     this.analysis.sections.splice(originalSectionIndex, 1, sectionToReplace);
+  },
+
+  /**
+   * Discussions
+   */
+
+  async addDiscussionPost(newPostContent) {
+    const discussions = await Analyses.postNewDiscussionThread(this.analysis.name, newPostContent);
+    this.analysis.discussions = discussions;
+  },
+
+  async editDiscussionPost(postId, postContent) {
+    const discussions = await Analyses.editDiscussionThreadById(this.analysis.name, postId, postContent);
+    this.analysis.discussions = discussions;
+  },
+
+  async deleteDiscussionPost(postId) {
+    const discussions = await Analyses.deleteDiscussionThreadById(this.analysis.name, postId);
+    this.analysis.discussions = discussions;
   },
 
   /**
@@ -147,8 +196,6 @@ export const analysisStore = reactive({
    */
 
   forceUpdate(updatedAnalysis) {
-    // console.log(`AnalysisStore:forceUpdate - CALLED`)
     Object.assign(this.analysis, updatedAnalysis);
-    // this.analysis = {...this.analysis, ...updatedAnalysis};
   },
 });

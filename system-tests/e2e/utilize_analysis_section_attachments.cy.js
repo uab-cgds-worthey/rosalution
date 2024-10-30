@@ -7,8 +7,7 @@ describe('Case Model System', () => {
     cy.resetDatabase();
     cy.login('vrr-prep');
     cy.intercept('/rosalution/api/analysis/CPAM0002').as('analysisLoad');
-    cy.visit('/');
-    cy.get('[href="/rosalution/analysis/CPAM0002"]').click();
+    cy.visit('analysis/CPAM0002');
   });
 
   it('Should attach file evidence to the Mouse Model Systems Veterinary Histology Report', () => {

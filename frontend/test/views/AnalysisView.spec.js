@@ -142,7 +142,6 @@ describe('AnalysisView', () => {
   });
 
   beforeEach(() => {
-    // console.log("AnalysisView.spec.js:beforeEach - CALLED")
     mockedData.resolves(fixtureData());
   });
 
@@ -474,7 +473,6 @@ describe('AnalysisView', () => {
       });
 
       it('can cancel deleting the attachment via the confirmation and not delete the attachment', async () => {
-        // console.log(analysisStore.analysis)
         const fakeAttachment = {name: 'fake.txt'};
         const supplementalComponent = wrapper.getComponent(SupplementalFormList);
         expect(supplementalComponent.props('attachments').length).to.equal(1);

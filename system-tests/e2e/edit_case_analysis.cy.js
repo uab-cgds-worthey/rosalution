@@ -1,8 +1,9 @@
 describe('edit_case_analysis.cy.js', () => {
   beforeEach(() => {
     cy.resetDatabase();
-    cy.visit('/');
-    cy.get('.analysis-card').first().click();
+    cy.intercept('/rosalution/api/analysis/CPAM0002').as('analysisLoad');
+    cy.visit('analysis/CPAM0002');
+    cy.wait('@analysisLoad');
   });
 
   it('edits a value & saves to the analysis', () => {
