@@ -1,6 +1,7 @@
 describe('Rosalution home', () => {
   beforeEach(() => {
     cy.resetDatabase();
+    cy.intercept('/rosalution/api/analysis/CPAM0002').as('analysisLoad');
     cy.visit('/');
   });
 
@@ -12,6 +13,7 @@ describe('Rosalution home', () => {
     cy.get('.analysis-card')
         .find(':contains(CPAM0002)')
         .find('.case-name').click();
+    cy.wait('@analysisLoad');
 
     cy.get('.grey-rounded-menu').invoke('attr', 'style', 'display: block; visibility: visible; opacity: 1;');
     cy.get('[data-test="user-menu"] > .grey-rounded-menu > :nth-child(7)').contains('Attach Monday.com').click();
