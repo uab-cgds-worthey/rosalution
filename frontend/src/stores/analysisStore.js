@@ -33,7 +33,7 @@ export const analysisStore = reactive({
     if (!(header in this.updatedContent)) {
       this.updatedContent[header] = {};
     }
-  
+
     this.updatedContent[header][field] = value;
   },
 
@@ -44,10 +44,10 @@ export const analysisStore = reactive({
     );
 
     const updated = {
-      sections: updatedSections
-    }
+      sections: updatedSections,
+    };
 
-    this.forceUpdate(updated)
+    this.forceUpdate(updated);
     // this.analysis.sections.splice(0);
     // this.analysis.sections.push(...updatedSections);
     this.updatedContent = {};

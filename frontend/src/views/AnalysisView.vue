@@ -210,7 +210,7 @@ function onAnalysisContentUpdated(contentRow) {
     return;
   }
 
-  analysisStore.addUpdatedContent(contentRow.header, contentRow.field, contentRow.value)
+  analysisStore.addUpdatedContent(contentRow.header, contentRow.field, contentRow.value);
 }
 
 /**
