@@ -1,4 +1,4 @@
-<template>
+54<template>
   <div>
     <app-header>
       <AnalysisViewHeader
@@ -12,7 +12,7 @@
         data-test="analysis-view-header"
       >
       </AnalysisViewHeader>
-      <Toast data-test="toast" />
+      <RosalutionToast data-test="toast" ref="rosalution-toast"/>
     </app-header>
     <app-content>
       <GeneBox
@@ -70,21 +70,20 @@
 </template>
 
 <script setup>
-import {onMounted, ref, computed, watch} from 'vue';
+import {onMounted, ref, computed, watch, useTemplateRef} from 'vue';
 
 import AnalysisViewHeader from '@/components/AnalysisView/AnalysisViewHeader.vue';
 import SectionBox from '@/components/AnalysisView/SectionBox.vue';
 import GeneBox from '@/components/AnalysisView/GeneBox.vue';
 import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
-import Toast from '@/components/Dialogs/Toast.vue';
+import RosalutionToast from '@/components/Dialogs/RosalutionToast.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
 import SaveModal from '@/components/AnalysisView/SaveModal.vue';
 import DiscussionSection from '@/components/AnalysisView/DiscussionSection.vue';
 
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
-import toast from '@/toast.js';
 
 import {authStore} from '@/stores/authStore.js';
 import {analysisStore} from '@/stores/analysisStore.js';
@@ -102,6 +101,8 @@ const props = defineProps({
 
 const edit = ref(false);
 
+const toastRef = useTemplateRef('rosalution-toast');
+let toast = {};
 
 const analysisName = computed(() => {
   return analysisStore.analysisName();
@@ -318,7 +319,6 @@ async function updateSectionImage(fileId, sectionName, field) {
 }
 
 /**
- * * COME BACK
  * Adds an attachment to a specified section and field.
  *
  * @param {string} section - The section to which the attachment is added.
@@ -594,6 +594,7 @@ function copyToClipboard(copiedText) {
  */
 onMounted(async () => {
   await analysisStore.getAnalysis(props.analysis_name);
+  toast = toastRef.value;
 });
 </script>
 

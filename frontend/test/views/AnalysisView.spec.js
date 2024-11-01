@@ -9,12 +9,12 @@ import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import DiscussionSection from '@/components/AnalysisView/DiscussionSection.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
+import RosalutionToast from '@/components/Dialogs/RosalutionToast.vue';
 import SaveModal from '@/components/AnalysisView/SaveModal.vue';
 
 import {authStore} from '@/stores/authStore.js';
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
-import toast from '@/toast.js';
 
 import AnalysisView from '@/views/AnalysisView.vue';
 
@@ -45,6 +45,10 @@ function getMountedComponent(props) {
     global: {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
+      },
+      stubs: {
+        transition: false,
+        RosalutionToast: false,
       },
     },
   });
@@ -170,14 +174,15 @@ describe('AnalysisView', () => {
       expect(mockVueRouterPush.called).to.be.true;
     });
 
-    it('should have a copy button and show a toast with the copied content within it', () => {
+    it('should have a copy button and show a toast with the copied content within it', async () => {
       const geneBox = wrapper.getComponent(GeneBox);
 
-      geneBox.vm.$emit('clipboard-copy', 'NM_001017980.3:c.164G>T');
+      await geneBox.vm.$emit('clipboard-copy', 'NM_001017980.3:c.164G>T');
 
-      expect(toast.state.active).to.be.true;
-      expect(toast.state.type).to.equal('success');
-      expect(toast.state.message).to.equal('Copied NM_001017980.3:c.164G>T to clipboard!');
+      const toastWrapper = wrapper.getComponent(RosalutionToast);
+
+      expect(toastWrapper.text()).to.contain('Success');
+      expect(toastWrapper.text()).to.contain('Copied NM_001017980.3:c.164G>T to clipboard!');
     });
   });
 
@@ -193,6 +198,8 @@ describe('AnalysisView', () => {
     it('should mark an analysis as ready', async () => {
       wrapper = await updateAnalysisStoreLatestStatus(wrapper, 'Preparation');
 
+      expect(mockAnalysisEventPush.called).to.be.false;
+
       triggerAction(wrapper, 'Mark Ready');
 
       expect(mockAnalysisEventPush.called).to.be.true;
@@ -201,11 +208,11 @@ describe('AnalysisView', () => {
     it('should display success toast with correct message when marking analysis as ready', async () => {
       wrapper = await updateAnalysisStoreLatestStatus(wrapper, 'Preparation');
 
-      triggerAction(wrapper, 'Mark Ready');
+      await triggerAction(wrapper, 'Mark Ready');
+      await wrapper.vm.$nextTick();
 
-      expect(toast.state.active).to.be.true;
-      expect(toast.state.type).to.equal('success');
-      expect(toast.state.message).to.equal('Analysis event \'ready\' successful.');
+      const toastWrapper = wrapper.getComponent(RosalutionToast);
+      expect(toastWrapper.text()).to.contain('Analysis event \'ready\' successful.');
     });
 
     it('should display error toast with correct message when marking analysis as ready fails', async () => {
@@ -218,9 +225,12 @@ describe('AnalysisView', () => {
       } catch (error) {
         console.error(error);
       }
-      expect(toast.state.active).to.be.true;
-      expect(toast.state.type).to.equal('error');
-      expect(toast.state.message).to.equal('Error updating the event \'ready\'.');
+
+      await wrapper.vm.$nextTick();
+
+      const toastWrapper = wrapper.getComponent(RosalutionToast);
+      expect(toastWrapper.text()).to.contain('Error updating the event \'ready\'.');
+      expect(toastWrapper.text()).to.contain('Error');
 
       mockAnalysisEventPush.reset();
     });
@@ -229,33 +239,35 @@ describe('AnalysisView', () => {
       wrapper = await updateAnalysisStoreLatestStatus(wrapper, 'Ready');
 
       await triggerAction(wrapper, 'Mark Active');
+      await wrapper.vm.$nextTick();
 
-      expect(toast.state.active).to.be.true;
-      expect(toast.state.message).to.equal('Analysis event \'opened\' successful.');
-      expect(toast.state.type).to.equal('success');
+      const toastWrapper = wrapper.getComponent(RosalutionToast);
+      expect(toastWrapper.text()).to.contain('Success');
+      expect(toastWrapper.text()).to.contain('Analysis event \'opened\' successful.');
     });
 
-    it('should display info toast with correct message when entering edit mode', () => {
+    it('should display info toast with correct message when entering edit mode', async () => {
       triggerAction(wrapper, 'Edit');
+      await wrapper.vm.$nextTick();
 
-      expect(toast.state.active).to.be.true;
-      expect(toast.state.type).to.equal('success');
-      expect(toast.state.message).to.equal('Edit mode has been enabled.');
+      const toastWrapper = wrapper.getComponent(RosalutionToast);
+      expect(toastWrapper.text()).to.contain('Edit mode has been enabled.');
+      expect(toastWrapper.text()).to.contain('Success');
 
       // This is done to reset the component to the non-editing state after testing.
-      triggerAction(wrapper, 'Edit');
+      await triggerAction(wrapper, 'Edit');
     });
 
-    it('should display info toast with correct message when exiting edit mode', () => {
+    it('should display info toast with correct message when exiting edit mode', async () => {
       // Places the Initial wrapper into the 'Edit' mode
-      triggerAction(wrapper, 'Edit');
+      await triggerAction(wrapper, 'Edit');
 
       // Disabling the 'edit mode and notifying edits haven't been made
-      triggerAction(wrapper, 'Edit');
+      await triggerAction(wrapper, 'Edit');
 
-      expect(toast.state.active).to.be.true;
-      expect(toast.state.type).to.equal('info');
-      expect(toast.state.message).to.equal('Edit mode has been disabled and changes have not been saved.');
+      const toastWrapper = wrapper.getComponent(RosalutionToast);
+      expect(toastWrapper.text()).to.contain('Edit mode has been disabled and changes have not been saved.');
+      expect(toastWrapper.text()).to.contain('Info');
     });
   });
 
@@ -548,23 +560,22 @@ describe('AnalysisView', () => {
         analysisStore.forceUpdate(analysisWithNewEvidence);
       });
 
-      // INVESTIGATE ANGELINA
-      it.skip('updates section image content with input dialog', async () => {
+      it('updates section image content with input dialog', async () => {
         updateSectionImageMock.returns({
-          section: 'Pedigree',
+          type: 'images-dataset',
           field: 'Pedigree',
-          image_id: 'different-image-635a89aea7b2f21802b74539',
+          value: [{file_id: 'different-image-635a89aea7b2f21802b74539'}],
         });
 
         const pedigreeSection = wrapper.findComponent('[id=Pedigree]');
-        pedigreeSection.vm.$emit('update-image', '635a89aea7b2f21802b74539', 'Pedigree', 'Pedigree');
+        await pedigreeSection.vm.$emit('update-image', '635a89aea7b2f21802b74539', 'Pedigree', 'Pedigree');
 
         const fakeImageForUpdate = {data: 'fakeImage.png'};
-        inputDialog.confirmation(fakeImageForUpdate);
+        await inputDialog.confirmation(fakeImageForUpdate);
 
-        const reRenderedPedigreeSection = wrapper.findComponent('[id=Pedigree]');
+        await pedigreeSection.vm.$nextTick();
         expect(updateSectionImageMock.called).to.be.true;
-        expect(reRenderedPedigreeSection.props().content[0].value[0].file_id)
+        expect(pedigreeSection.props().content[0].value[0].file_id)
             .to.equal('different-image-635a89aea7b2f21802b74539');
       });
 
@@ -720,16 +731,27 @@ describe('AnalysisView', () => {
 
     it('should display success toast when saving analysis changes', async () => {
       await triggerAction(wrapper, 'Edit');
+      await wrapper.vm.$nextTick();
+
+      const toastWrapper = wrapper.getComponent(RosalutionToast);
+      expect(toastWrapper.text()).to.contain('Edit mode has been enabled.');
 
       const saveModal = wrapper.findComponent(SaveModal);
+      await saveModal.vm.$emit('save');
 
-      saveModal.vm.$emit('save');
-      await wrapper.vm.$nextTick();
-      await wrapper.vm.$nextTick();
+      /** Ticks neccesarry for the events from Save to View be emitted and processed */
+      await toastWrapper.vm.$nextTick();
+      await toastWrapper.vm.$nextTick();
 
-      expect(toast.state.active).to.be.true;
-      expect(toast.state.type).to.equal('success');
-      expect(toast.state.message).to.equal('Analysis updated successfully.');
+      expect(toastWrapper.text()).to.contain('Analysis updated successfully.');
+
+      const closeIconElement = toastWrapper.get('[data-test=toast-close-button]');
+      await closeIconElement.trigger('click');
+
+      /** The Toast Hides itself, so while the component exists, its content is empty */
+      const closedToast = toastWrapper.find('[data-test=toast]');
+      expect(closedToast.exists()).to.be.false;
+      expect(toastWrapper.text()).to.contain('');
     });
   });
 });
