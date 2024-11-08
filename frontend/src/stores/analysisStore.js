@@ -25,9 +25,9 @@ export const analysisStore = reactive({
     Analyses.downloadSupportingEvidence(attachmentToDownload.attachment_id, attachmentToDownload.name);
   },
 
-  /**
-   * User Edit Operations
-   */
+  // -----------------------------------
+  // Edit Operations
+  // -----------------------------------
 
   addUpdatedContent(header, field, value) {
     if (!(header in this.updatedContent)) {
@@ -48,8 +48,6 @@ export const analysisStore = reactive({
     };
 
     this.forceUpdate(updated);
-    // this.analysis.sections.splice(0);
-    // this.analysis.sections.push(...updatedSections);
     this.updatedContent = {};
   },
 
@@ -68,9 +66,9 @@ export const analysisStore = reactive({
     analysisStore.forceUpdate(updatedAnalysis);
   },
 
-  /**
-   * Section Images
-   */
+  // -----------------------------------
+  // Section Images
+  // -----------------------------------
 
   async attachSectionImage(sectionName, field, attachment) {
     const updatedSectionField = await Analyses.attachSectionImage(
@@ -123,9 +121,9 @@ export const analysisStore = reactive({
     this.replaceAnalysisSection(sectionWithReplacedField);
   },
 
-  /**
-   * Section Operations
-   */
+  // -----------------------------------
+  // Section Attachments
+  // -----------------------------------
 
   replaceFieldInSection(sectionName, updatedField) {
     const sectionToUpdate = this.analysis.sections.find((section) => {
@@ -167,9 +165,9 @@ export const analysisStore = reactive({
     this.analysis.discussions = discussions;
   },
 
-  /**
-   * Analysis Attachments
-   */
+  // -----------------------------------
+  // Analysis Attachments
+  // -----------------------------------
 
   async addAttachment(attachment) {
     const updatedAnalysisAttachments = await Analyses.attachSupportingEvidence(
@@ -205,9 +203,9 @@ export const analysisStore = reactive({
     this.analysis.supporting_evidence_files.splice(attachmentIndex, 1);
   },
 
-  /**
-   * Analysis Operations
-   */
+  // -----------------------------------
+  // Analysis Operations
+  // -----------------------------------
 
   forceUpdate(updatedAnalysis) {
     Object.assign(this.analysis, updatedAnalysis);
