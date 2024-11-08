@@ -4,7 +4,7 @@ import sinon from 'sinon';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
-import RosalutionToast from '@/components/Dialogs/RosalutionToast.vue';
+import ToastDialog from '@/components/Dialogs/ToastDialog.vue';
 
 describe('Toast.vue', () => {
   let wrapper;
@@ -16,7 +16,7 @@ describe('Toast.vue', () => {
   });
 
   beforeEach(() => {
-    wrapper = shallowMount(RosalutionToast, {
+    wrapper = shallowMount(ToastDialog, {
       global: {
         components: {
           'font-awesome-icon': FontAwesomeIcon,

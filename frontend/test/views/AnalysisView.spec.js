@@ -9,7 +9,7 @@ import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import DiscussionSection from '@/components/AnalysisView/DiscussionSection.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
-import RosalutionToast from '@/components/Dialogs/RosalutionToast.vue';
+import ToastDialog from '@/components/Dialogs/ToastDialog.vue';
 import SaveModal from '@/components/AnalysisView/SaveModal.vue';
 
 import {authStore} from '@/stores/authStore.js';
@@ -48,7 +48,7 @@ function getMountedComponent(props) {
       },
       stubs: {
         transition: false,
-        RosalutionToast: false,
+        ToastDialog: false,
       },
     },
   });
@@ -179,7 +179,7 @@ describe('AnalysisView', () => {
 
       await geneBox.vm.$emit('clipboard-copy', 'NM_001017980.3:c.164G>T');
 
-      const toastWrapper = wrapper.getComponent(RosalutionToast);
+      const toastWrapper = wrapper.getComponent(ToastDialog);
 
       expect(toastWrapper.text()).to.contain('Success');
       expect(toastWrapper.text()).to.contain('Copied NM_001017980.3:c.164G>T to clipboard!');
@@ -211,7 +211,7 @@ describe('AnalysisView', () => {
       await triggerAction(wrapper, 'Mark Ready');
       await wrapper.vm.$nextTick();
 
-      const toastWrapper = wrapper.getComponent(RosalutionToast);
+      const toastWrapper = wrapper.getComponent(ToastDialog);
       expect(toastWrapper.text()).to.contain('Analysis event \'ready\' successful.');
     });
 
@@ -228,7 +228,7 @@ describe('AnalysisView', () => {
 
       await wrapper.vm.$nextTick();
 
-      const toastWrapper = wrapper.getComponent(RosalutionToast);
+      const toastWrapper = wrapper.getComponent(ToastDialog);
       expect(toastWrapper.text()).to.contain('Error updating the event \'ready\'.');
       expect(toastWrapper.text()).to.contain('Error');
 
@@ -241,7 +241,7 @@ describe('AnalysisView', () => {
       await triggerAction(wrapper, 'Mark Active');
       await wrapper.vm.$nextTick();
 
-      const toastWrapper = wrapper.getComponent(RosalutionToast);
+      const toastWrapper = wrapper.getComponent(ToastDialog);
       expect(toastWrapper.text()).to.contain('Success');
       expect(toastWrapper.text()).to.contain('Analysis event \'opened\' successful.');
     });
@@ -250,7 +250,7 @@ describe('AnalysisView', () => {
       triggerAction(wrapper, 'Edit');
       await wrapper.vm.$nextTick();
 
-      const toastWrapper = wrapper.getComponent(RosalutionToast);
+      const toastWrapper = wrapper.getComponent(ToastDialog);
       expect(toastWrapper.text()).to.contain('Edit mode has been enabled.');
       expect(toastWrapper.text()).to.contain('Success');
 
@@ -265,7 +265,7 @@ describe('AnalysisView', () => {
       // Disabling the 'edit mode and notifying edits haven't been made
       await triggerAction(wrapper, 'Edit');
 
-      const toastWrapper = wrapper.getComponent(RosalutionToast);
+      const toastWrapper = wrapper.getComponent(ToastDialog);
       expect(toastWrapper.text()).to.contain('Edit mode has been disabled and changes have not been saved.');
       expect(toastWrapper.text()).to.contain('Info');
     });
@@ -733,7 +733,7 @@ describe('AnalysisView', () => {
       await triggerAction(wrapper, 'Edit');
       await wrapper.vm.$nextTick();
 
-      const toastWrapper = wrapper.getComponent(RosalutionToast);
+      const toastWrapper = wrapper.getComponent(ToastDialog);
       expect(toastWrapper.text()).to.contain('Edit mode has been enabled.');
 
       const saveModal = wrapper.findComponent(SaveModal);

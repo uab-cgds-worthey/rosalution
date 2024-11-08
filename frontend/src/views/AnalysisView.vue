@@ -12,7 +12,7 @@
         data-test="analysis-view-header"
       >
       </AnalysisViewHeader>
-      <RosalutionToast data-test="toast" ref="rosalution-toast"/>
+      <ToastDialog data-test="toast" ref="rosalution-toast"/>
     </app-header>
     <app-content>
       <GeneBox
@@ -77,7 +77,7 @@ import SectionBox from '@/components/AnalysisView/SectionBox.vue';
 import GeneBox from '@/components/AnalysisView/GeneBox.vue';
 import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
-import RosalutionToast from '@/components/Dialogs/RosalutionToast.vue';
+import ToastDialog from '@/components/Dialogs/ToastDialog.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
 import SaveModal from '@/components/AnalysisView/SaveModal.vue';
 import DiscussionSection from '@/components/AnalysisView/DiscussionSection.vue';
