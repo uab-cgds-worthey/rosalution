@@ -64,10 +64,11 @@ async def create_file(
         raise HTTPException(status_code=409) from exception
 
     analysis = Analysis(**new_analysis)
+    analysis_name = analysis.name
     annotation_service = AnnotationService(repositories["annotation_config"])
     annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
     background_tasks.add_task(
-        AnnotationService.process_tasks, annotation_task_queue, analysis.name, repositories['genomic_unit'],
+        AnnotationService.process_tasks, annotation_task_queue, analysis_name, repositories['genomic_unit'],
         repositories["analysis"]
     )
 
