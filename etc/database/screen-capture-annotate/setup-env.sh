@@ -1,4 +1,8 @@
+#!/bin/bash
+
 python3 -m venv screen_capture_annotate_env
+
+# shellcheck source=/dev/null
 source screen_capture_annotate_env/bin/activate
 
 # install requirements
