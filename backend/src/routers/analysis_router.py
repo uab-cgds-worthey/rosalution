@@ -64,10 +64,11 @@ async def create_file(
         raise HTTPException(status_code=409) from exception
 
     analysis = Analysis(**new_analysis)
+    analysis_name = analysis.name
     annotation_service = AnnotationService(repositories["annotation_config"])
     annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
     background_tasks.add_task(
-        AnnotationService.process_tasks, annotation_task_queue, analysis.name, repositories['genomic_unit'],
+        AnnotationService.process_tasks, annotation_task_queue, analysis_name, repositories['genomic_unit'],
         repositories["analysis"]
     )
 
@@ -77,7 +78,11 @@ async def create_file(
 @router.get("/{analysis_name}", tags=["analysis"], response_model=Analysis, response_model_exclude_none=True)
 def get_analysis_by_name(analysis_name: str, repositories=Depends(database)):
     """Returns analysis case data by calling method to find case by it's analysis_name"""
-    return repositories["analysis"].find_by_name(analysis_name)
+    analysis = repositories["analysis"].find_by_name(analysis_name)
+
+    if analysis is None:
+        raise HTTPException(status_code=404, detail=f"{analysis_name} does not exist.")
+    return analysis
 
 
 @router.get("/{analysis_name}/genomic_units", tags=["analysis"])

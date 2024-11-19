@@ -150,8 +150,10 @@ class AnalysisCollection:
     def get_manifest_dataset_config(self, analysis_name: str, dataset_name: str):
         """ Returns an individual dataset manifest """
         dataset_attribute = f"manifest.{dataset_name}"
+
         projection = {"manifest.$": 1}
-        analysis = self.collection.find_one({"name": analysis_name, dataset_attribute: {'$exists': True}}, projection)
+        query = {"name": analysis_name, dataset_attribute: {'$exists': True}}
+        analysis = self.collection.find_one(query, projection)
 
         if not analysis:
             return None
@@ -176,7 +178,6 @@ class AnalysisCollection:
         if self.collection.find_one({"name": analysis_data["name"]}) is not None:
             raise ValueError(f"Analysis with name {analysis_data['name']} already exists")
 
-        # returns an instance of InsertOneResult.
         return self.collection.insert_one(analysis_data)
 
     def attach_third_party_link(self, analysis_name: str, third_party_enum: str, link: str):
