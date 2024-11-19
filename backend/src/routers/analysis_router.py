@@ -29,7 +29,7 @@ router.include_router(analysis_section_router.router)
 
 
 @router.get("", tags=["analysis"], response_model=List[Analysis])
-def get_all_analyses(repositories=Depends(database), username: VerifyUser = Security(get_current_user)): #pylint: disable=unused-argument
+def get_all_analyses(repositories=Depends(database), username: VerifyUser = Security(get_current_user)):  #pylint: disable=unused-argument
     """Returns every analysis available"""
     return repositories["analysis"].all()
 
@@ -79,7 +79,7 @@ async def create_file(
 def get_analysis_by_name(
     analysis_name: str,
     repositories=Depends(database),
-    username: VerifyUser = Security(get_current_user) #pylint: disable=unused-argument
+    username: VerifyUser = Security(get_current_user)  #pylint: disable=unused-argument
 ):
     """Returns analysis case data by calling method to find case by it's analysis_name"""
     analysis = repositories["analysis"].find_by_name(analysis_name)
@@ -124,7 +124,7 @@ def update_event(
 def download_file_by_id(
     file_id: str,
     repositories=Depends(database),
-    username: VerifyUser = Security(get_current_user) #pylint: disable=unused-argument
+    username: VerifyUser = Security(get_current_user)  #pylint: disable=unused-argument
 ):
     """ Returns a file from GridFS using the file's id """
     grid_fs_file = repositories['bucket'].stream_analysis_file_by_id(file_id)
@@ -136,7 +136,7 @@ def download(
     analysis_name: str,
     file_name: str,
     repositories=Depends(database),
-    username: VerifyUser = Security(get_current_user) #pylint: disable=unused-argument
+    username: VerifyUser = Security(get_current_user)  #pylint: disable=unused-argument
 ):
     """ Returns a file saved to an analysis from GridFS by file name """
     # Does file exist by name in the given analysis?

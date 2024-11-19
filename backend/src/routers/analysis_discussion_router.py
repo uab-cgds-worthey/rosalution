@@ -16,7 +16,7 @@ router = APIRouter(tags=["analysis discussions"], dependencies=[Depends(database
 def get_analysis_discussions(
     analysis_name: str,
     repositories=Depends(database),
-    username: VerifyUser = Security(get_current_user) #pylint: disable=unused-argument
+    username: VerifyUser = Security(get_current_user)  #pylint: disable=unused-argument
 ):
     """ Returns a list of discussion posts for a given analysis """
 
