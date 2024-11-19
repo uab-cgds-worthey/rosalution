@@ -10,3 +10,5 @@ pip3 install -r requirements.txt
 
 # deactivate venv and return to root directory
 deactivate
+
+mkdir -p tmp
