@@ -1,9 +1,7 @@
 describe('discussions_analysis.cy.js', () => {
   beforeEach(() => {
     cy.resetDatabase();
-    cy.visit('/');
-    cy.get('.analysis-card').first().click();
-    cy.get('[href="#Discussion"]').click();
+    cy.visit('/analysis/CPAM0002#Discussion');
   });
 
   it('should publish a new post to the discussion section', () => {
@@ -77,10 +75,10 @@ describe('discussions_analysis.cy.js', () => {
         .eq(3)
         .find('[data-test="discussion-post-header"]')
         .find('[data-test="discussion-post-context-menu"]')
-        .click()
+        .click({force: true})
         .find('.grey-rounded-menu > :nth-child(2)')
         .contains('Delete')
-        .click();
+        .click({force: true});
 
     cy.get('[data-test="notification-dialog"]').find('[data-test="cancel-button"]').contains('Cancel').click();
 
@@ -127,10 +125,10 @@ describe('discussions_analysis.cy.js', () => {
         .eq(3)
         .find('[data-test="discussion-post-header"]')
         .find('[data-test="discussion-post-context-menu"]')
-        .click()
+        .click({force: true})
         .find('.grey-rounded-menu > :nth-child(1)')
         .contains('Edit')
-        .click();
+        .click({force: true});
 
     cy.get('[data-test="edit-discussion-input"]').clear();
     cy.get('[data-test="edit-discussion-input"]').type('Editing a system test.');

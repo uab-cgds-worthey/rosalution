@@ -120,6 +120,7 @@ class AnnotationService:
                                 annotation_unit.genomic_unit, analysis_manifest_dataset
                             )
                             dependency_annotation_unit.set_latest_version(analysis_manifest_dataset['version'])
+
                             annotation_value = genomic_unit_collection.find_genomic_unit_annotation_value(
                                 dependency_annotation_unit
                             )

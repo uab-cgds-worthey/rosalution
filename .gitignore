@@ -72,3 +72,8 @@ media/
 *.pem
 
 etc/.rosalution-db-backups
+
+
+*.env
+
+**/screen_capture_annotate_env/**
