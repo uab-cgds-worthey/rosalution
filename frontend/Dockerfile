@@ -21,7 +21,7 @@ ARG VERSION_BUILD_TAG=latest
 
 ENV VITE_ROSALUTION_VERSION=$VERSION_BUILD_TAG
 
-RUN yarn install --frozen-lockfile && yarn build --bASe=/rosalution/
+RUN yarn install --frozen-lockfile && yarn build --base=/rosalution/
 
 FROM nginx:1.25.2-alpine3.18 AS production-stage
 
