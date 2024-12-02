@@ -25,6 +25,15 @@ export const analysisStore = reactive({
     Analyses.downloadSupportingEvidence(attachmentToDownload.attachment_id, attachmentToDownload.name);
   },
 
+  clear() {
+    this.analysis = {
+      name: '',
+      sections: [],
+    };
+
+    this.updatedContent = {};
+  },
+
   // -----------------------------------
   // Edit Operations
   // -----------------------------------

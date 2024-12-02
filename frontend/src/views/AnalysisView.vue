@@ -1,4 +1,4 @@
-54<template>
+<template>
   <div>
     <app-header>
       <AnalysisViewHeader
@@ -593,6 +593,9 @@ function copyToClipboard(copiedText) {
  * When view is mounted, queries the analysis' state.
  */
 onMounted(async () => {
+  if ( analysisStore.analysis.name !== props.analysis_name) {
+    analysisStore.clear();
+  }
   await analysisStore.getAnalysis(props.analysis_name);
   toast = toastRef.value;
 });
