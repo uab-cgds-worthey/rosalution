@@ -7,18 +7,16 @@ describe('Case Model System', () => {
     cy.resetDatabase();
     cy.login('vrr-prep');
     cy.intercept('/rosalution/api/analysis/CPAM0002').as('analysisLoad');
-    cy.visit('/');
-    cy.get('[href="/rosalution/analysis/CPAM0002"]').click();
+    cy.visit('analysis/CPAM0002');
   });
 
   it('Should attach file evidence to the Mouse Model Systems Veterinary Histology Report', () => {
     cy.get('[data-test="user-menu"]')
         .find('.grey-rounded-menu')
+        .as('userActionMenu')
         .invoke('attr', 'style', 'display: block; visibility: visible; opacity: 1;');
-    cy.get('[data-test="user-menu"] > .grey-rounded-menu').contains('Edit').click();
-    cy.get('[data-test="user-menu"]')
-        .find('.grey-rounded-menu')
-        .invoke('attr', 'style', 'display: block; visibility: hidden; opacity: 0;');
+    cy.get('@userActionMenu').contains('Edit').click();
+    cy.get('@userActionMenu').invoke('attr', 'style', 'display: block; visibility: hidden; opacity: 0;');
     cy.wait('@analysisLoad');
     cy.get('[href="#Mus_musculus (Mouse) Model System"]').click();
 
@@ -29,9 +27,7 @@ describe('Case Model System', () => {
         .find('[data-test="button-input-dialog-upload-file"]')
         .click();
 
-    cy.get('.drop-file-box-content').selectFile('fixtures/section-evidence-1.pdf', {
-      action: 'drag-drop',
-    });
+    cy.get('.drop-file-box-content').selectFile('fixtures/section-evidence-1.pdf', { action: 'drag-drop' });
     cy.get('.modal-container').find('[data-test="confirm"]').click();
 
     cy.get('[data-test="Veterinary Histology Report"]')

@@ -29,7 +29,7 @@ router.include_router(analysis_section_router.router)
 
 
 @router.get("", tags=["analysis"], response_model=List[Analysis])
-def get_all_analyses(repositories=Depends(database)):
+def get_all_analyses(repositories=Depends(database), username: VerifyUser = Security(get_current_user)):  #pylint: disable=unused-argument
     """Returns every analysis available"""
     return repositories["analysis"].all()
 
@@ -76,7 +76,11 @@ async def create_file(
 
 
 @router.get("/{analysis_name}", tags=["analysis"], response_model=Analysis, response_model_exclude_none=True)
-def get_analysis_by_name(analysis_name: str, repositories=Depends(database)):
+def get_analysis_by_name(
+    analysis_name: str,
+    repositories=Depends(database),
+    username: VerifyUser = Security(get_current_user)  #pylint: disable=unused-argument
+):
     """Returns analysis case data by calling method to find case by it's analysis_name"""
     analysis = repositories["analysis"].find_by_name(analysis_name)
 
@@ -116,15 +120,24 @@ def update_event(
         raise HTTPException(status_code=409, detail=str(exception)) from exception
 
 
-@router.get("/download/{file_id}")
-def download_file_by_id(file_id: str, repositories=Depends(database)):
+@router.get("/download/{file_id}", tags=["analysis"])
+def download_file_by_id(
+    file_id: str,
+    repositories=Depends(database),
+    username: VerifyUser = Security(get_current_user)  #pylint: disable=unused-argument
+):
     """ Returns a file from GridFS using the file's id """
     grid_fs_file = repositories['bucket'].stream_analysis_file_by_id(file_id)
     return StreamingResponse(grid_fs_file, media_type=grid_fs_file.content_type)
 
 
-@router.get("/{analysis_name}/download/{file_name}")
-def download(analysis_name: str, file_name: str, repositories=Depends(database)):
+@router.get("/{analysis_name}/download/{file_name}", tags=["analysis"])
+def download(
+    analysis_name: str,
+    file_name: str,
+    repositories=Depends(database),
+    username: VerifyUser = Security(get_current_user)  #pylint: disable=unused-argument
+):
     """ Returns a file saved to an analysis from GridFS by file name """
     # Does file exist by name in the given analysis?
     file = repositories['analysis'].find_file_by_name(analysis_name, file_name)
@@ -135,7 +148,7 @@ def download(analysis_name: str, file_name: str, repositories=Depends(database))
     return StreamingResponse(repositories['bucket'].stream_analysis_file_by_id(file['attachment_id']))
 
 
-@router.put("/{analysis_name}/attach/{third_party_enum}")
+@router.put("/{analysis_name}/attach/{third_party_enum}", tags=["analysis"])
 def attach_third_party_link(
     analysis_name: str,
     third_party_enum: ThirdPartyLinkType,
