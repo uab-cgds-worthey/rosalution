@@ -13,7 +13,11 @@ router = APIRouter(tags=["analysis discussions"], dependencies=[Depends(database
 
 
 @router.get("/{analysis_name}/discussions")
-def get_analysis_discussions(analysis_name: str, repositories=Depends(database)):
+def get_analysis_discussions(
+    analysis_name: str,
+    repositories=Depends(database),
+    username: VerifyUser = Security(get_current_user)  #pylint: disable=unused-argument
+):
     """ Returns a list of discussion posts for a given analysis """
 
     found_analysis = repositories['analysis'].find_by_name(analysis_name)

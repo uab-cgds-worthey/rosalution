@@ -31,6 +31,7 @@ def annotate_analysis(
     background_tasks: BackgroundTasks,
     repositories=Depends(database),
     annotation_task_queue=Depends(annotation_queue),
+    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """
     Placeholder to initiate annotations for an analysis. This queueing/running

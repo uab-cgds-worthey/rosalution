@@ -162,7 +162,4 @@ export default {
   async putForm(url, data) {
     return await sendFormData('PUT', url, data);
   },
-  async deleteForm(url, data) {
-    return await sendFormData('DELETE', url, data);
-  },
 };
