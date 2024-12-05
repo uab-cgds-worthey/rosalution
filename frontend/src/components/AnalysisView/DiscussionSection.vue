@@ -26,6 +26,12 @@
             />
             <div class="discussion-actions">
               <button
+                  class="primary-button attach-button"
+                  @click="addAttachmentToDiscussionPost"
+              >
+                Attach
+              </button>
+              <button
                   class="secondary-button"
                   @click="cancelNewDiscussionPost"
                   data-test="new-discussion-cancel"
@@ -115,6 +121,9 @@ export default {
     deleteDiscussionPost(postId) {
       this.$emit('discussion:delete-post', postId);
     },
+    addAttachmentToDiscussionPost() {
+
+    }
   },
 };
 
@@ -158,6 +167,11 @@ export default {
 
 .publish-button {
     margin-left: var(--p-8);
+}
+
+.attach-button {
+  background-color:   var(--rosalution-grey-300);
+  color: var(--rosalution-black)
 }
 
 .collapsable-icon {
