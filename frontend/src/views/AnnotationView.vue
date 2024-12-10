@@ -32,7 +32,7 @@
             />
         </template>
         <template #default>
-          <div v-for="(row, index) in section.rows" :key="`row-${index}`">
+          <div v-for="(row, index) in section.rows" :key="`row-${index}`" :class="row.class">
             <component
                 v-for="(datasetConfig, index) in row.datasets"
                 :key="`${datasetConfig.dataset}-${index}`"
@@ -294,6 +294,12 @@ app-header {
   display: flex;
   flex-direction: column;
   flex: 1
+}
+
+.fill-horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .sidebar {

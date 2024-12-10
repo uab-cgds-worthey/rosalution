@@ -378,7 +378,7 @@ const annotationRenderingTemporary = [
     }],
     'rows': [
       {
-        'class': '',
+        'class': 'fill-horizontal',
         'datasets': [
           {
             'dataset': 'CADD',
@@ -426,7 +426,7 @@ const annotationRenderingTemporary = [
             'dataset': 'AlphaMissense',
             'type': 'score-dataset',
             'props': {
-              'label': 'REVEL',
+              'label': 'AlphaMissense',
               'minimum': 0,
               'maximum': 1,
               'bounds': {
