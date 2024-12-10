@@ -465,6 +465,24 @@
             "value": "https://www.ncbi.nlm.nih.gov/clinvar/variation/581244"
           }
         ]
+      },
+      {
+        "ensembl_vep_vcf_string": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "X-151404916-G-T"
+          }
+        ]
+      },
+      {
+        "gnomAD_variant_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://gnomad.broadinstitute.org/gene/X-151404916-G-T?dataset=gnomad_r4"
+          }
+        ]
       }
     ]
   },

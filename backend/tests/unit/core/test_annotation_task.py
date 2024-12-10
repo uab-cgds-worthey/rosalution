@@ -47,6 +47,13 @@ def test_extraction_forge_gene_linkout_dataset(forge_annotation_task_gene):
     assert extracted_annotations[0]['value'] == 'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=45614'
 
 
+def test_extraction_forge_hgvs_variant_without_transcript_version(hgvs_without_transcript_version_annotation_task):
+    """Verifies the jq query used to forge create the transcript without a version dataset for a variant"""
+    forge_annotation = hgvs_without_transcript_version_annotation_task.annotate()
+    actual_extractions = hgvs_without_transcript_version_annotation_task.extract(forge_annotation)
+    assert(actual_extractions, "NM_170707:c.745C>T")
+
+
 def test_annotation_extraction_for_transcript_id_dataset(http_annotation_transcript_id, transcript_annotation_response):
     """Verifying genomic unit extraction for a transcript using the the transcript ID dataset"""
     actual_extractions = http_annotation_transcript_id.extract(transcript_annotation_response)
@@ -248,6 +255,20 @@ def fixture_transcript_id_dataset():
         "url": "http://grch37.rest.ensembl.org/vep/human/hgvs/{hgvs_variant}?content-type=application/json;refseq=1;",
         "attribute": ".[].transcript_consequences[] | { transcript_id: .transcript_id }",
     }
+
+@pytest.fixture(name="hgvs_without_transcript_version_annotation_task")
+def fixture_hgvs_without_transcript_version(hgvs_variant_genomic_unit):
+    annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit, {
+        "data_set": "hgvs_variant_without_transcript_version",
+        "data_source": "Rosalution",
+        "annotation_source_type": "forge",
+        "genomic_unit_type": "hgvs_variant",
+        "base_string": "{hgvs_variant}",
+        "attribute": ".hgvs_variant_without_transcript_version | split(\":\") as $transcript_split | $transcript_split[0] | split(\".\")[0] | . + \":\" + $transcript_split[1] | {\"hgvs_variant_without_transcript_version\": .}",
+        "versioning_type": "rosalution"
+    })
+    task = ForgeAnnotationTask(annotation_unit)
+    return task
 
 
 @pytest.fixture(name="hgvs_variant_annotation_unit")
