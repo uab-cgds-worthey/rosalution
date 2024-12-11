@@ -256,18 +256,23 @@ def fixture_transcript_id_dataset():
         "attribute": ".[].transcript_consequences[] | { transcript_id: .transcript_id }",
     }
 
+
 @pytest.fixture(name="hgvs_without_transcript_version_annotation_task")
 def fixture_hgvs_without_transcript_version(hgvs_variant_genomic_unit):
     """An Annotation Unit to experiment with jq parsing and rebuilding a string in a result."""
-    annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit, {
-        "data_set": "hgvs_variant_without_transcript_version",
-        "data_source": "Rosalution",
-        "annotation_source_type": "forge",
-        "genomic_unit_type": "hgvs_variant",
-        "base_string": "{hgvs_variant}",
-        "attribute": ".hgvs_variant_without_transcript_version | split(\":\") as $transcript_split | $transcript_split[0] | split(\".\")[0] | . + \":\" + $transcript_split[1] | {\"hgvs_variant_without_transcript_version\": .}", # pylint: disable=line-too-long 
-        "versioning_type": "rosalution"
-    })
+    annotation_unit = AnnotationUnit(
+        hgvs_variant_genomic_unit,
+        {
+            "data_set": "hgvs_variant_without_transcript_version",
+            "data_source": "Rosalution",
+            "annotation_source_type": "forge",
+            "genomic_unit_type": "hgvs_variant",
+            "base_string": "{hgvs_variant}",
+            "attribute":
+                ".hgvs_variant_without_transcript_version | split(\":\") as $transcript_split | $transcript_split[0] | split(\".\")[0] | . + \":\" + $transcript_split[1] | {\"hgvs_variant_without_transcript_version\": .}",  # pylint: disable=line-too-long 
+            "versioning_type": "rosalution"
+        }
+    )
     task = ForgeAnnotationTask(annotation_unit)
     return task
 
