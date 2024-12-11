@@ -100,7 +100,6 @@ class AnnotationTaskInterface:
                 ))
             jq_result = next(jq_results, None)
             while jq_result is not None:
-                print(jq_result)
                 result_keys = list(jq_result.keys())
 
                 if 'transcript' in self.annotation_unit.dataset:
