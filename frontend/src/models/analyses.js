@@ -317,11 +317,18 @@ const annotationRenderingTemporary = [
         'altText': 'National Center for Biotechnology Information Gene Linkout',
       },
     }, {
+      'dataset': 'COSMIC_gene_url',
+      'type': 'icon-linkout-dataset',
+      'props': {
+        'imageFilename': 'cosmic_logo.png',
+        'altText': 'Catalogue Of Somatic Mutations In Cancer, COSMIC',
+      },
+    }, {
       'dataset': 'gnomAD_gene_url',
       'type': 'icon-linkout-dataset',
       'props': {
         'imageFilename': 'gnomad-logo.png',
-        'altText': 'Genome Aggregation Database (gnomAD) from Broad Institute',
+        'altText': 'Genome Aggregation Database (gnomAD) for variants from Broad Institute',
       },
     }],
     'rows': [
@@ -368,10 +375,17 @@ const annotationRenderingTemporary = [
     'class': '',
     'header': 'variant',
     'anchor': 'Variant',
-    'header_datasets': [],
+    'header_datasets': [{
+      'dataset': 'gnomAD_variant_url',
+      'type': 'icon-linkout-dataset',
+      'props': {
+        'imageFilename': 'gnomad-logo.png',
+        'altText': 'Genome Aggregation Database (gnomAD) for genes from Broad Institute',
+      },
+    }],
     'rows': [
       {
-        'class': '',
+        'class': 'fill-horizontal',
         'datasets': [
           {
             'dataset': 'CADD',
@@ -399,6 +413,46 @@ const annotationRenderingTemporary = [
                 'upperBound': 0.79,
               },
               'cutoff': 1,
+            },
+          },
+          {
+            'dataset': 'REVEL',
+            'type': 'score-dataset',
+            'props': {
+              'label': 'REVEL',
+              'minimum': 0,
+              'maximum': 1,
+              'bounds': {
+                'lowerBound': 0.5,
+                'upperBound': 0.79,
+              },
+              'cutoff': 1,
+            },
+          },
+          {
+            'dataset': 'alphamissense_pathogenicity',
+            'type': 'score-dataset',
+            'props': {
+              'label': 'AlphaMissense Score',
+              'minimum': 0,
+              'maximum': 1,
+              'bounds': {
+                'lowerBound': 0.34,
+                'upperBound': 0.564,
+              },
+              'cutoff': 1,
+            },
+          },
+          {
+            'dataset': 'alphamissense_classification',
+            'type': 'set-dataset',
+            'props': {
+              'label': 'AlphaMissense Pathogenicity',
+              'set': [
+                {'value': 'likely_benign', 'classification': 'Likely Benign', 'colour': 'Blue'},
+                {'value': 'ambiguous', 'classification': 'Ambiguous', 'colour': 'Yellow'},
+                {'value': 'likely_pathogenic', 'classification': 'Likely Pathogenic', 'colour': 'Red'},
+              ],
             },
           },
           // {
