@@ -154,11 +154,11 @@ describe('AnnotationView', () => {
     });
 
     it('should render each header dataset', () => {
-      expect(linkoutElements.length).to.equal(3);
+      expect(linkoutElements.length).to.equal(4);
     });
 
     it('should not render any linkouts if none provided', () => {
-      const variantSection = wrapper.find('#Variant');
+      const variantSection = wrapper.find('#Causal_Variant');
       const variantSectionHeader = variantSection.get('[data-test=header-datasets]');
       const noLinkouteElements = variantSectionHeader.findAll('a');
       expect(noLinkouteElements.length).to.equal(0);
@@ -172,6 +172,7 @@ describe('AnnotationView', () => {
 
     it('should render each linkout with an href', () => {
       linkoutElements.forEach((linkDomElement) => {
+        console.log(linkDomElement.attributes('href'))
         expect([
           'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=203547',
           'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=HGNC:22082',
@@ -439,6 +440,7 @@ const mockAnnotationsForCPAM0002 = {
     'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=203547',
   'gnomAD_gene_url':
     'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=ENSG00000160131',
+  'COSMIC_gene_url': 'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=ENSG00000160131',
   'OMIM': ['Myopathy, X-linked, With Excessive Autophagy'],
   'HPO': [
     'HP:0001270: Motor delay',
