@@ -6,14 +6,16 @@
 ### Features
 
 - Composition API Migration for moving towards real-time collaboration
-- New annotation linkouts for COSMIC, and gnomAD4 Variant, and annotations for REVEL and AlphaMissense.  New data source using OpenCravat. VCF string provided by Ensembl's API is cached in the MongoDB database.
-- Updated a row to render datasets horizontal if the associated class is included in the rendering configuration. Variant annotations were rendering vertically and it was taking too much space.
+- New annotation linkouts for COSMIC, and gnomAD4 Variant, and annotations for REVEL and AlphaMissense.  New data source
+using OpenCravat. VCF string provided by Ensembl's API is cached in the MongoDB database.
+- Updated a row to render datasets horizontal if the associated class is included in the rendering configuration.
+Variant annotations were rendering vertically and it was taking too much space.
 - Analyses have a version manifest of annotation's dataset, source, and version
-- Increased VueJS version to 3.5.12 to use TempalteRef as a feature
+- Increased VueJS version to 3.5.12 to use TemplateRef as a feature
 
 ### Bugs
 
- - Fixed developer API endpoint so that existing analyses can queue their annotations to be rendered again if desired.
+- Fixed developer API endpoint so that existing analyses can queue their annotations to be rendered again if desired.
 
 ## 0.7.0
 
