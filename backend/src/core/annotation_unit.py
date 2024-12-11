@@ -100,7 +100,7 @@ class AnnotationUnit:
 
     def delay_count_exceeds(self):
         """
-        Checks if the annotation unit has exceeded the delay count within the queue.
+        Checks if the annotation unit has exceeded the delay count within the queue
         Delay count is set as a magic number (10).
         """
         if self.dataset['delay_count'] < 15:

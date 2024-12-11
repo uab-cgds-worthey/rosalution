@@ -51,7 +51,7 @@ def test_extraction_forge_hgvs_variant_without_transcript_version(hgvs_without_t
     """Verifies the jq query used to forge create the transcript without a version dataset for a variant"""
     forge_annotation = hgvs_without_transcript_version_annotation_task.annotate()
     actual_extractions = hgvs_without_transcript_version_annotation_task.extract(forge_annotation)
-    assert actual_extractions == "NM_170707:c.745C>T"
+    assert actual_extractions[0]['value'] == "NM_170707:c.745C>T"
 
 
 def test_annotation_extraction_for_transcript_id_dataset(http_annotation_transcript_id, transcript_annotation_response):
