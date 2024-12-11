@@ -51,7 +51,7 @@ def test_extraction_forge_hgvs_variant_without_transcript_version(hgvs_without_t
     """Verifies the jq query used to forge create the transcript without a version dataset for a variant"""
     forge_annotation = hgvs_without_transcript_version_annotation_task.annotate()
     actual_extractions = hgvs_without_transcript_version_annotation_task.extract(forge_annotation)
-    assert(actual_extractions, "NM_170707:c.745C>T")
+    assert actual_extractions == "NM_170707:c.745C>T"
 
 
 def test_annotation_extraction_for_transcript_id_dataset(http_annotation_transcript_id, transcript_annotation_response):
@@ -258,13 +258,14 @@ def fixture_transcript_id_dataset():
 
 @pytest.fixture(name="hgvs_without_transcript_version_annotation_task")
 def fixture_hgvs_without_transcript_version(hgvs_variant_genomic_unit):
+    """An Annotation Unit to experiment with jq parsing and rebuilding a string in a result."""
     annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit, {
         "data_set": "hgvs_variant_without_transcript_version",
         "data_source": "Rosalution",
         "annotation_source_type": "forge",
         "genomic_unit_type": "hgvs_variant",
         "base_string": "{hgvs_variant}",
-        "attribute": ".hgvs_variant_without_transcript_version | split(\":\") as $transcript_split | $transcript_split[0] | split(\".\")[0] | . + \":\" + $transcript_split[1] | {\"hgvs_variant_without_transcript_version\": .}",
+        "attribute": ".hgvs_variant_without_transcript_version | split(\":\") as $transcript_split | $transcript_split[0] | split(\".\")[0] | . + \":\" + $transcript_split[1] | {\"hgvs_variant_without_transcript_version\": .}", # pylint: disable=line-too-long 
         "versioning_type": "rosalution"
     })
     task = ForgeAnnotationTask(annotation_unit)

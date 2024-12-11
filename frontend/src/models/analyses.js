@@ -323,7 +323,7 @@ const annotationRenderingTemporary = [
         'imageFilename': 'cosmic_logo.png',
         'altText': 'Catalogue Of Somatic Mutations In Cancer, COSMIC',
       },
-    },{
+    }, {
       'dataset': 'gnomAD_gene_url',
       'type': 'icon-linkout-dataset',
       'props': {
@@ -451,7 +451,7 @@ const annotationRenderingTemporary = [
               'set': [
                 {'value': 'likely_benign', 'classification': 'Likely Benign', 'colour': 'Blue'},
                 {'value': 'ambiguous', 'classification': 'Ambiguous', 'colour': 'Yellow'},
-                {'value': 'likely_pathogenic', 'classification': 'Likely Pathogenic', 'colour': 'Red'}
+                {'value': 'likely_pathogenic', 'classification': 'Likely Pathogenic', 'colour': 'Red'},
               ],
             },
           },
