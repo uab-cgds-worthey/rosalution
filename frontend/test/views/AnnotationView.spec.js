@@ -172,7 +172,6 @@ describe('AnnotationView', () => {
 
     it('should render each linkout with an href', () => {
       linkoutElements.forEach((linkDomElement) => {
-        console.log(linkDomElement.attributes('href'))
         expect([
           'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=203547',
           'https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=HGNC:22082',
