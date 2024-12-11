@@ -64,5 +64,5 @@ def fixture_annotation_unit_lmna_has_dependencies(annotation_unit_lmna):
 @pytest.fixture(name="annotation_unit_lmna_exceeded_delay_count")
 def fixture_annotation_unit_lmna_with_annotated_dependency(annotation_unit_lmna):
     """Returns the annotation unit for the genomic unit LMNA and the dataset Clingen gene url"""
-    annotation_unit_lmna.dataset['delay_count'] = 10
+    annotation_unit_lmna.dataset['delay_count'] = 20
     return annotation_unit_lmna
