@@ -243,7 +243,7 @@
     "data_source": "OpenCravat",
     "genomic_unit_type": "hgvs_variant",
     "annotation_source_type": "http",
-    "base_string": "https://run.opencravat.org/submit/annotate?{opencravat_search_variant_vcf_string}&annotators=gnomad4",
+    "url": "https://run.opencravat.org/submit/annotate?{opencravat_search_variant_vcf_string}&annotators=gnomad4",
     "attribute": "{ \"gnomad4\": .gnomad4 }",
     "dependencies": ["opencravat_search_variant_vcf_string"],
     "versioning_type": "date"
