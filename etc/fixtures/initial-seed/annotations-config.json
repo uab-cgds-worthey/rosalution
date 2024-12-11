@@ -231,11 +231,20 @@
   {
     "data_set": "gnomAD_variant_url",
     "data_source": "Rosalution",
-    "genomic_unit_type": "gene",
+    "genomic_unit_type": "hgvs_variant",
     "annotation_source_type": "forge",
     "base_string": "https://gnomad.broadinstitute.org/variant/{ensembl_vep_vcf_string}?dataset=gnomad_r4",
     "attribute": "{ \"gnomAD_variant_url\": .gnomAD_variant_url }",
     "dependencies": ["ensembl_vep_vcf_string"],
+    "versioning_type": "rosalution"
+  },
+  {
+    "data_set": "COSMIC_gene_url",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "forge",
+    "base_string": "https://cancer.sanger.ac.uk/cosmic/gene/analysis?ln={gene}",
+    "attribute": "{ \"COSMIC_gene_url\": .COSMIC_gene_url }",
     "versioning_type": "rosalution"
   },
   {
@@ -474,7 +483,7 @@
      "attribute": ".[].transcript_consequences[] | { consequence_terms: .consequence_terms, transcript_id: .transcript_id }",
      "dependencies": ["hgvs_variant_without_transcript_version"],
      "versioning_type": "rest",
-     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
+    "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
      "version_attribute": ".releases[]"
    },
    {
@@ -484,6 +493,42 @@
     "annotation_source_type": "http",
     "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;CADD=1;refseq=1;",
     "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { CADD: .cadd_phred }",
+    "dependencies": ["transcript","hgvs_variant_without_transcript_version"],
+    "versioning_type": "rest",
+    "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
+    "version_attribute": ".releases[]"
+  },
+  {
+    "data_set": "alphamissense_pathogenicity",
+    "data_source": "Ensembl",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "http",
+    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;AlphaMissense=1;refseq=1;",
+    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { alphamissense: .alphamissense.am_pathogenicity }",
+    "dependencies": ["transcript","hgvs_variant_without_transcript_version"],
+    "versioning_type": "rest",
+    "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
+    "version_attribute": ".releases[]"
+  },
+  {
+    "data_set": "alphamissense_classification",
+    "data_source": "Ensembl",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "http",
+    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;AlphaMissense=1;refseq=1;",
+    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { alphamissense: .alphamissense.am_class }",
+    "dependencies": ["transcript","hgvs_variant_without_transcript_version"],
+    "versioning_type": "rest",
+    "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
+    "version_attribute": ".releases[]"
+  },
+  {
+    "data_set": "revel",
+    "data_source": "Ensembl",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "http",
+    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;AlphaMissense=1;refseq=1;",
+    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { revel: .revel }",
     "dependencies": ["transcript","hgvs_variant_without_transcript_version"],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",

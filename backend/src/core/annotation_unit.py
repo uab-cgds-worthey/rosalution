@@ -103,7 +103,7 @@ class AnnotationUnit:
         Checks if the annotation unit has exceeded the delay count within the queue.
         Delay count is set as a magic number (10).
         """
-        if self.dataset['delay_count'] < 10:
+        if self.dataset['delay_count'] < 15:
             return False
         return True
 

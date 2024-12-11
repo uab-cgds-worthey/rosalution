@@ -317,6 +317,13 @@ const annotationRenderingTemporary = [
         'altText': 'National Center for Biotechnology Information Gene Linkout',
       },
     }, {
+      'dataset': 'COSMIC_gene_url',
+      'type': 'icon-linkout-dataset',
+      'props': {
+        'imageFilename': 'cosmic_logo.png',
+        'altText': 'Catalogue Of Somatic Mutations In Cancer, COSMIC',
+      },
+    },{
       'dataset': 'gnomAD_gene_url',
       'type': 'icon-linkout-dataset',
       'props': {
@@ -423,10 +430,10 @@ const annotationRenderingTemporary = [
             },
           },
           {
-            'dataset': 'AlphaMissense',
+            'dataset': 'alphamissense_pathogenicity',
             'type': 'score-dataset',
             'props': {
-              'label': 'AlphaMissense',
+              'label': 'AlphaMissense Score',
               'minimum': 0,
               'maximum': 1,
               'bounds': {
@@ -434,6 +441,18 @@ const annotationRenderingTemporary = [
                 'upperBound': 0.564,
               },
               'cutoff': 1,
+            },
+          },
+          {
+            'dataset': 'alphamissense_classification',
+            'type': 'set-dataset',
+            'props': {
+              'label': 'AlphaMissense Pathogenicity',
+              'set': [
+                {'value': 'likely_benign', 'classification': 'Likely Benign', 'colour': 'Blue'},
+                {'value': 'ambiguous', 'classification': 'Ambiguous', 'colour': 'Yellow'},
+                {'value': 'likely_pathogenic', 'classification': 'Likely Pathogenic', 'colour': 'Red'}
+              ],
             },
           },
           // {

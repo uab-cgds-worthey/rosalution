@@ -70,6 +70,7 @@ import ClinvarDataset from '@/components/AnnotationView/ClinvarDataset.vue';
 import IconLinkoutDataset from '@/components/AnnotationView/IconLinkoutDataset.vue';
 import ImagesDataset from '@/components/AnnotationView/ImagesDataset.vue';
 import ScoreDataset from '@/components/AnnotationView/ScoreDataset.vue';
+import SetDataset from '@/components/AnnotationView/SetDataset.vue';
 import TextDataset from '@/components/AnnotationView/TextDataset.vue';
 import TranscriptDatasets from '@/components/AnnotationView/TranscriptDatasets.vue';
 import InputDialog from '@/components/Dialogs/InputDialog.vue';
@@ -94,6 +95,7 @@ export default {
     InputDialog,
     NotificationDialog,
     ScoreDataset,
+    SetDataset,
     TextDataset,
     TranscriptDatasets,
     TagDataset,
@@ -300,6 +302,7 @@ app-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .sidebar {

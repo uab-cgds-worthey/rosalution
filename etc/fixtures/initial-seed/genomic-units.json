@@ -458,6 +458,34 @@
         ]
       },
       {
+        "alphamissense_classification": [
+          {
+            "data_source": "Ensembl",
+            "version": 112,
+            "value": "ambiguous"
+          }
+        ]
+      },
+      {
+        "alphamissense_pathogenicity": [
+          {
+            "data_source": "Ensembl",
+            "version": 112,
+            "value": 0.5303
+          }
+        ]
+      },
+      {
+        "alphamissense": [{
+            "data_source": "Ensembl",
+            "version": 112,
+            "value": {
+              "am_class": "ambiguous",
+              "am_pathogenicity": "0.5303"
+            }
+        }]
+      },
+      {
         "ClinVar_variant_url": [
           {
             "data_source": "Rosalution",
@@ -480,7 +508,7 @@
           {
             "data_source": "Rosalution",
             "version": "rosalution-manifest-00",
-            "value": "https://gnomad.broadinstitute.org/gene/X-151404916-G-T?dataset=gnomad_r4"
+            "value": "https://gnomad.broadinstitute.org/variant/X-151404916-G-T?dataset=gnomad_r4"
           }
         ]
       }
