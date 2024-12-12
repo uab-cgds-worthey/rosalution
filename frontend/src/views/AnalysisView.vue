@@ -46,6 +46,7 @@
         @discussion:new-post="addDiscussionPost"
         @discussion:edit-post="editDiscussionPost"
         @discussion:delete-post="deleteDiscussionPost"
+        @discussion:open-modal="openDiscussionModal"
       />
       <SupplementalFormList
         id="Supporting_Evidence"
@@ -573,6 +574,38 @@ async function deleteDiscussionPost(postId) {
   }
   try {
     await analysisStore.deleteDiscussionPost(postId);
+  } catch (error) {
+    await notificationDialog.title('Failure').confirmText('Ok').alert(error);
+  }
+}
+
+
+/**
+ * Prompts to add an attachment to a discussion post in the analysis.
+ *
+ * @param {string} postId - The identifier of the post to delete
+ */
+async function openDiscussionModal(postId) {
+  console.log('Doing something here');
+  const includeComments = false;
+  const includeName = true;
+  // const defaultComments = 'This attachment is referenced in the Discussion attachment.';
+  const attachment = await inputDialog
+      .confirmText('Attach')
+      .cancelText('Cancel')
+      .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp')
+      .url(includeComments, includeName)
+      .prompt();
+
+  if (!attachment) {
+    return;
+  }
+
+  try {
+    // if attachment not existing in already attachment list
+    await analysisStore.addDiscussionAttachment(attachment);
+    console.log('The attachment was received');
+    console.log(attachment);
   } catch (error) {
     await notificationDialog.title('Failure').confirmText('Ok').alert(error);
   }

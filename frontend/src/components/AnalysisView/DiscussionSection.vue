@@ -71,7 +71,7 @@ import DiscussionPost from './DiscussionPost.vue';
 
 export default {
   name: 'discussion-section',
-  emits: ['discussion:new-post', 'discussion:edit-post', 'discussion:delete-post'],
+  emits: ['discussion:new-post', 'discussion:edit-post', 'discussion:delete-post', 'discussion:open-modal'],
   components: {
     DiscussionPost,
   },
@@ -121,9 +121,9 @@ export default {
     deleteDiscussionPost(postId) {
       this.$emit('discussion:delete-post', postId);
     },
-    addAttachmentToDiscussionPost() {
-
-    }
+    addAttachmentToDiscussionPost(postId) {
+      this.$emit('discussion:open-modal', postId);
+    },
   },
 };
 
@@ -171,7 +171,10 @@ export default {
 
 .attach-button {
   background-color:   var(--rosalution-grey-300);
-  color: var(--rosalution-black)
+  color: var(--rosalution-black);
+  position:absolute;
+  margin-left: var(--p-16);
+  left: var(--p-28);
 }
 
 .collapsable-icon {
