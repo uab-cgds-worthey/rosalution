@@ -18,6 +18,11 @@
         </div>
         <div v-if="!editingPostFlag" class="discussion-content" data-test="discussion-post-content">
             {{ content }}
+            <div v-if="attachments.length" class="discussion-new-attachments">
+              <span v-for="attachment in attachments" :key="attachment.id" class="discussion-new-attachment">
+                {{ attachment.name }}
+              </span>
+            </div>
         </div>
         <div v-else class="discussion-edit-post">
           <textarea
