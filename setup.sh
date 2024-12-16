@@ -22,6 +22,7 @@ clean_option="clean"
 if [[ $# -ne 0 ]] && [[ $1 -eq $clean_option ]]
 then
     clean frontend
+    clean system-tests
     rm -rf backend/rosalution_env
 fi
 

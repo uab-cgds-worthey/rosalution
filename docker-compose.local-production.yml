@@ -52,7 +52,7 @@ services:
     environment:
       - ROSALUTION_ENV=production
       - MONGODB_HOST=rosalution-db
-    entrypoint: ['/bin/sh', '-c', './entrypoint-init.sh']
+    command: ['./etc/entrypoint-init.sh']
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=rosalution-network"

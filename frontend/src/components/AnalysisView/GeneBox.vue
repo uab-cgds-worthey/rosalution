@@ -3,15 +3,17 @@
     <div>
       <div class="gene-box-header">
         <router-link class="gene-link" :to="{
-          name: 'annotation',
-          params: {
-            analysis_name: this.name,
-          },
-          state: {
-            gene: this.gene,
-            ...(variants.length > 0 ? { variant: getCompleteHgvsVariantName(variants[0]) } : {}),
-          }
-        }" data-test="gene-route">
+            name: 'annotation',
+            params: {
+              analysis_name: this.name,
+            },
+            state: {
+              gene: this.gene,
+              ...(variants.length > 0 ? { variant: getCompleteHgvsVariantName(variants[0]) } : {}),
+            }
+          }"
+          data-test="gene-route"
+        >
           <font-awesome-icon icon="angles-right" size="sm" />
           <h2 data-test="gene-name"> {{ gene }} </h2>
         </router-link>
@@ -30,13 +32,15 @@
                   gene: this.gene,
                   variant: getCompleteHgvsVariantName(variant),
                 },
-              }" :data-test="`variant-route-${index}`">
+              }"
+:data-test="`variant-route-${index}`">
               <font-awesome-icon icon="angles-right" size="sm" />
               <span class="variant-transcript">{{ variant.hgvs_variant.split(':')[0] }}:</span>
               <span>{{ variant.c_dot }}</span>
               <span v-if="variant.p_dot">({{ variant.p_dot }})</span>
             </router-link>
-            <font-awesome-icon :icon="['far', 'copy']" class="copy-icon" @click="copyToClipboard(variant.hgvs_variant)"
+            <font-awesome-icon :icon="['far', 'copy']" class="copy-icon"
+@click="copyToClipboard(variant.hgvs_variant)"
               data-test="copy-button" />
             <span class="genomic-build"> {{ getBuild(variant.build) }} </span>
           </div>

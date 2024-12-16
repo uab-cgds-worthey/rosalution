@@ -1,11 +1,13 @@
 <template>
   <div class="legend">
     <div v-for="status in workflow" :key="status" :data-test="status" class="status" @click="toggleFilter(status)">
-      <font-awesome-icon :icon="StatusType[status].icon" size="lg" :style="{
-        color: isFiltered(status)
-          ? `var(${StatusType[status].color})`
-          : 'var(--rosalution-grey-300)',
-      }" />
+      <font-awesome-icon :icon="StatusType[status].icon" size="lg"
+        :style="{
+          color: isFiltered(status)
+            ? `var(${StatusType[status].color})`
+            : 'var(--rosalution-grey-300)',
+        }"
+      />
       <p :style="{
         color: isFiltered(status)
           ? 'var(--rosalution-black)'
