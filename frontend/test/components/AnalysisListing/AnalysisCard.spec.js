@@ -81,7 +81,8 @@ describe('AnalysisCard.vue', () => {
     });
     it('should show the coordinates information for a case', () => {
       const wrapper = getMountedComponent();
-      expect(wrapper.html()).to.contains('c.745C>T');
+      const variantListItem = wrapper.find('.variant-genomic-unit-text');
+      expect(variantListItem.text()).to.contains('c.745C>T');
     });
   });
 
