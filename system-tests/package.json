@@ -6,15 +6,15 @@
   "license": "UNLICENSED",
   "private": true,
   "devDependencies": {
+    "@stylistic/eslint-plugin-js": "2.12.1",
     "cypress": "13.8.1",
-    "eslint": "8.50.0",
-    "eslint-config-google": "0.14.0",
-    "eslint-plugin-cypress": "2.15.1"
+    "eslint": "9.16.0",
+    "eslint-plugin-cypress": "4.1.0"
   },
   "scripts": {
     "test:e2e": "cypress run --browser chrome",
     "test:e2e:open": "cypress open --e2e",
-    "lint": "eslint --ext .js,.ts ./",
-    "lint:auto": "eslint --ext .js,.ts ./ --fix"
+    "lint": "eslint ./",
+    "lint:auto": "eslint --fix"
   }
 }

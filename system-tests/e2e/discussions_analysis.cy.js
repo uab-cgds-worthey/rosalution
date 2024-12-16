@@ -51,7 +51,9 @@ describe('discussions_analysis.cy.js', () => {
         .eq(3)
         .find('[data-test="discussion-post-header"]')
         .find('[data-test="discussion-post-context-menu"]')
-        .click()
+        .click();
+
+    cy.get('[data-test="discussion-post"]')
         .find('.grey-rounded-menu > :nth-child(2)')
         .contains('Delete')
         .click();
@@ -75,10 +77,13 @@ describe('discussions_analysis.cy.js', () => {
         .eq(3)
         .find('[data-test="discussion-post-header"]')
         .find('[data-test="discussion-post-context-menu"]')
-        .click({force: true})
+        .click();
+
+    cy.get('[data-test="discussion-post"]')
         .find('.grey-rounded-menu > :nth-child(2)')
         .contains('Delete')
         .click({force: true});
+
 
     cy.get('[data-test="notification-dialog"]').find('[data-test="cancel-button"]').contains('Cancel').click();
 
@@ -97,8 +102,10 @@ describe('discussions_analysis.cy.js', () => {
         .eq(3)
         .find('[data-test="discussion-post-header"]')
         .find('[data-test="discussion-post-context-menu"]')
-        .click()
-        .find('.grey-rounded-menu > :nth-child(1)')
+        .click();
+
+    cy.get('[data-test="discussion-post"]')
+        .find('.grey-rounded-menu > :nth-child(2)')
         .contains('Edit')
         .click();
 
@@ -125,8 +132,10 @@ describe('discussions_analysis.cy.js', () => {
         .eq(3)
         .find('[data-test="discussion-post-header"]')
         .find('[data-test="discussion-post-context-menu"]')
-        .click({force: true})
-        .find('.grey-rounded-menu > :nth-child(1)')
+        .click({force: true});
+
+    cy.get('[data-test="discussion-post"]')
+        .find('.grey-rounded-menu > :nth-child(2)')
         .contains('Edit')
         .click({force: true});
 

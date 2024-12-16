@@ -8,7 +8,7 @@ for analysis.
 
 ### Dependencies
 
-- [Node.JS 20.8+](https://nodejs.org/en/)
+- [Node.JS 23.4.0+](https://nodejs.org/en/)
     - Recommended to manageNode.JS versions with [nvm](https://www.npmjs.com/package/npx) - [install](https://github.com/nvm-sh/nvm#install--update-script)
 - [Yarn - Classic](https://classic.yarnpkg.com/en/docs/getting-started) - [install](https://classic.yarnpkg.com/en/docs/install#windows-stable)
 
