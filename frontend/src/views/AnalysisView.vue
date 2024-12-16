@@ -331,7 +331,7 @@ async function addSectionAttachment(section, field, evidence) {
   const attachment = await inputDialog
       .confirmText('Add')
       .cancelText('Cancel')
-      .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png')
+      .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png, .gb')
       .url(includeComments, includeName)
       .prompt();
 
@@ -403,7 +403,7 @@ async function addSupportingEvidence() {
   const attachment = await inputDialog
       .confirmText('Add')
       .cancelText('Cancel')
-      .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png')
+      .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png, .gb')
       .url(includeComments, includeName)
       .prompt();
 
