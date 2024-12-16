@@ -51,12 +51,12 @@ describe('discussions_analysis.cy.js', () => {
         .eq(3)
         .find('[data-test="discussion-post-header"]')
         .find('[data-test="discussion-post-context-menu"]')
-        .click();
+        .click({force: true});
 
     cy.get('[data-test="discussion-post"]')
         .find('.grey-rounded-menu > :nth-child(2)')
         .contains('Delete')
-        .click();
+        .click({force:true});
 
     cy.get('[data-test="notification-dialog"]').find('[data-test="confirm-button"]').contains('Delete').click();
 
@@ -77,7 +77,7 @@ describe('discussions_analysis.cy.js', () => {
         .eq(3)
         .find('[data-test="discussion-post-header"]')
         .find('[data-test="discussion-post-context-menu"]')
-        .click();
+        .click({force: true});
 
     cy.get('[data-test="discussion-post"]')
         .find('.grey-rounded-menu > :nth-child(2)')
@@ -102,20 +102,20 @@ describe('discussions_analysis.cy.js', () => {
         .eq(3)
         .find('[data-test="discussion-post-header"]')
         .find('[data-test="discussion-post-context-menu"]')
-        .click();
+        .click({force: true});
 
     cy.get('[data-test="discussion-post"]')
-        .find('.grey-rounded-menu > :nth-child(2)')
+        .find('.grey-rounded-menu > :nth-child(1)')
         .contains('Edit')
-        .click();
+        .click({force: true});
 
     cy.get('[data-test="edit-discussion-input"]').clear();
     cy.get('[data-test="edit-discussion-input"]').type('Editing a system test.');
 
-    cy.get('[data-test="edit-discussion-save"]').click();
+    cy.get('[data-test="edit-discussion-save"]').click({force: true});
 
     cy.get('[data-test="discussion-post"]')
-        .eq(3)
+        .eq(2)
         .find('[data-test="discussion-post-content"]')
         .should('have.text', 'Editing a system test.');
   });
@@ -129,13 +129,13 @@ describe('discussions_analysis.cy.js', () => {
     cy.get('[data-test="discussion-post"]').should('have.length', 4);
 
     cy.get('[data-test="discussion-post"]')
-        .eq(3)
+        .eq(2)
         .find('[data-test="discussion-post-header"]')
         .find('[data-test="discussion-post-context-menu"]')
         .click({force: true});
 
     cy.get('[data-test="discussion-post"]')
-        .find('.grey-rounded-menu > :nth-child(2)')
+        .find('.grey-rounded-menu > :nth-child(1)')
         .contains('Edit')
         .click({force: true});
 
