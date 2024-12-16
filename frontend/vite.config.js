@@ -10,10 +10,11 @@ export default defineConfig({
   test: {
     environment: 'happy-dom',
     coverage: {
-      exclude: ['test', 'src/requests.js', '.eslintrc.cjs', 'src/main.js'],
+      exclude: ['test', 'src/requests.js', 'eslint.config.js', 'eslint-config-cgds.js', 'src/main.js', 'vite.config.js'],
       lines: 80,
       functions: 80,
       branches: 80,
+      provider: 'v8',
     },
     sequence: {
       hooks: 'parallel',
