@@ -15,12 +15,16 @@
           Attach
         </button>
         <font-awesome-icon v-if="!isDataUnavailable" :icon="typeIcon" size="lg" />
-        <div v-if="!isDataUnavailable && content.type == 'file'" @click="$emit('download', content)" target="_blank"
-          rel="noreferrer noopener" class="attachment-name">
+        <div v-if="!isDataUnavailable && content.type == 'file'" @click="$emit('download', content)"
+          target="_blank" rel="noreferrer noopener"
+          class="attachment-name"
+        >
           {{ content.name }}
         </div>
-        <a v-if="!isDataUnavailable && content.type == 'link'" :href="content.data" target="_blank"
-          rel="noreferrer noopener" class="attachment-name">
+        <a v-if="!isDataUnavailable && content.type == 'link'" :href="content.data"
+          target="_blank" rel="noreferrer noopener"
+          class="attachment-name"
+        >
           {{ content.name }}
         </a>
       </div>

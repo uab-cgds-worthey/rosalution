@@ -1,11 +1,13 @@
 <template>
     <div class="image-row">
       <router-link :to="{
-        name: 'file',
-        params: {
-          file_id: imageId,
-        },
-      }" target="_blank" rel="noreferrer noopener">
+          name: 'file',
+          params: {
+            file_id: imageId,
+          },
+        }"
+        target="_blank" rel="noreferrer noopener"
+      >
         <img class="section-image" :src="imageSrc" data-test="annotation-image" :id="imageId"/>
       </router-link>
       <!-- TODO: Since both AnalysisView and AnnotationView are using this component,

@@ -1,6 +1,6 @@
-const {defineConfig} = require('cypress');
+import {defineConfig} from 'cypress';
 
-module.exports = defineConfig({
+export default defineConfig({
   e2e: {
     video: false,
     baseUrl: 'https://local.rosalution.cgds/rosalution',

@@ -11,7 +11,8 @@
       {{ field }}
     </label>
     <span class="section-content">
-      <span v-if="this.editable" role="textbox" class="editable-section-content-values" contenteditable
+      <span v-if="this.editable" role="textbox"
+        class="editable-section-content-values" contenteditable
         data-test="editable-value" @input="onContentChanged($event)"
       >
         {{ value.join("\r\n") }}

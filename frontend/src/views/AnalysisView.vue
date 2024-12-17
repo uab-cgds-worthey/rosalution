@@ -331,7 +331,7 @@ async function addSectionAttachment(section, field, evidence) {
   const attachment = await inputDialog
       .confirmText('Add')
       .cancelText('Cancel')
-      .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png')
+      .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png, .gb')
       .url(includeComments, includeName)
       .prompt();
 
@@ -342,7 +342,7 @@ async function addSectionAttachment(section, field, evidence) {
   try {
     await analysisStore.attachSectionAttachment(section, field, attachment);
   } catch (error) {
-    console.error('Updating the analysis did not work');
+    console.error(`Updating the analysis did not work. Error: ${error}`);
   }
 }
 
@@ -403,7 +403,7 @@ async function addSupportingEvidence() {
   const attachment = await inputDialog
       .confirmText('Add')
       .cancelText('Cancel')
-      .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png')
+      .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png, .gb')
       .url(includeComments, includeName)
       .prompt();
 
@@ -536,7 +536,7 @@ async function pushAnalysisEvent(eventType) {
     await analysisStore.pushEvent(eventType);
     toast.success(`Analysis event '${eventType}' successful.`);
   } catch (error) {
-    toast.error(`Error updating the event '${eventType}'.`);
+    toast.error(`Error updating the event '${eventType}'. Error: ${error}`);
   }
 }
 

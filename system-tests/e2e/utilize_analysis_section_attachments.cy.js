@@ -1,4 +1,4 @@
-const path = require('path');
+import * as path from 'path';
 
 describe('Case Model System', () => {
   const downloadsFolder = Cypress.config('downloadsFolder');
@@ -27,7 +27,7 @@ describe('Case Model System', () => {
         .find('[data-test="button-input-dialog-upload-file"]')
         .click();
 
-    cy.get('.drop-file-box-content').selectFile('fixtures/section-evidence-1.pdf', { action: 'drag-drop' });
+    cy.get('.drop-file-box-content').selectFile('fixtures/section-evidence-1.pdf', {action: 'drag-drop'});
     cy.get('.modal-container').find('[data-test="confirm"]').click();
 
     cy.get('[data-test="Veterinary Histology Report"]')

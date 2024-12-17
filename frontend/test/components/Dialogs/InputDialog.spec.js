@@ -30,7 +30,7 @@ describe('InputDialog.vue', () => {
       inputDialog
           .confirmText('Add')
           .cancelText('Cancel')
-          .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png')
+          .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png, .gb')
           .url(includeComments, includeName)
           .message('Warning message')
           .prompt();

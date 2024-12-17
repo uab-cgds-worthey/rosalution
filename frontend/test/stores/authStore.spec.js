@@ -32,7 +32,8 @@ describe('user.js', () => {
   it('Returns the rosalution_Token stored in the browsers document with lots of other cookies', () => {
     Object.defineProperty(window.document, 'cookie', {
       writable: true,
-      // eslint-disable-next-line max-len
+
+      /* eslint-disable-next-line  @stylistic/js/max-len */
       value: '_gcl_au=gcl-au-fake; _ga_35R7WJH7GD=GS1.1.111111111.1.1.1111111111.0.0.0; screenResolution=1000x1000; rosalution_TOKEN=cookieomnomnom',
     });
 

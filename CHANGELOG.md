@@ -12,10 +12,17 @@ using OpenCravat. VCF string provided by Ensembl's API is cached in the MongoDB 
 Variant annotations were rendering vertically and it was taking too much space.
 - Analyses have a version manifest of annotation's dataset, source, and version
 - Increased VueJS version to 3.5.12 to use TemplateRef as a feature
+- Added support for attaching genbank (.gb) files for supporting evidence attachments
+
+### Development
+
+- Minimum NodeJS version increased to v23.4 to support upgrading package dependencies to avoid reported vulnerabilities
+- ESlint upgrade to 9 and migrating configuration to flat file config
 
 ### Bugs
 
 - Fixed developer API endpoint so that existing analyses can queue their annotations to be rendered again if desired.
+- Backend starts takes over the shell process allowing it to receive SIGTERM for graceful shutdown
 
 ## 0.7.0
 

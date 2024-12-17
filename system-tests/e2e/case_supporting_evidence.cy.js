@@ -1,4 +1,4 @@
-const path = require('path');
+import * as path from 'path';
 
 describe('case_supporting_evidence.cy.js', () => {
   const downloadsFolder = Cypress.config('downloadsFolder');
