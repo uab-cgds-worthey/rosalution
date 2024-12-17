@@ -36,6 +36,9 @@
     "sinon": "19.0.2",
     "vite": "6.0.3",
     "vitest": "v3.0.0-beta.2"
-    
+  },
+  "resolutions": {
+    "nanoid": "3.3.8",
+    "cross-spawn": "7.0.5"
   }
 }

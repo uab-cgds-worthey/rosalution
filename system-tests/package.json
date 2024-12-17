@@ -17,5 +17,8 @@
     "test:e2e:open": "cypress open --e2e",
     "lint": "eslint ./",
     "lint:auto": "eslint --fix"
+  },
+  "resolutions": {
+    "cross-spawn": "7.0.5"
   }
 }
