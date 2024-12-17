@@ -91,6 +91,23 @@ export default {
     state.activeTabName = attachUrlInput.name;
     return this;
   },
+  existing(includeComments=false, includeIcon='rosalution') {
+    const fileInput = {
+      name: 'input-dialog-existing-attachments',
+      icon: includeIcon,
+      input: {
+        data: '',
+        ...(includeComments) && {comments: ''},
+        type: 'rosalution',
+      },
+      props: {
+      },
+    };
+
+    state.tabs.push(fileInput);
+    state.activeTabName = fileInput.name;
+    return this;
+  },
   edit(attachmentInput) {
     const attachUrlInput = {
       name: attachmentInput.type == 'link' ? 'input-dialog-attach-url' : 'input-dialog-upload-file',

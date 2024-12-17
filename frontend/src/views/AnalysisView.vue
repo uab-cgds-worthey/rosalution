@@ -597,6 +597,7 @@ async function openDiscussionModal(postId) {
       .cancelText('Cancel')
       .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp')
       .url(includeComments, includeName)
+      .existing(includeComments, 'rosalution')
       .prompt();
 
   if (!attachment) {
