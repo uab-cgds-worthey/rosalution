@@ -48,6 +48,7 @@
 <script>
 import InputDialogAttachUrl from '@/components/Dialogs/InputDialogAttachUrl.vue';
 import InputDialogUploadFile from '@/components/Dialogs/InputDialogUploadFile.vue';
+import InputDialogExistingEvidence from './InputDialogExistingAttachments.vue';
 
 import dialog from '@/inputDialog.js';
 
@@ -56,6 +57,7 @@ export default {
   components: {
     InputDialogAttachUrl,
     InputDialogUploadFile,
+    InputDialogExistingEvidence,
   },
   data: function() {
     return {
