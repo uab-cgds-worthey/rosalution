@@ -92,7 +92,7 @@ export default {
     return this;
   },
   existing() {
-    console.log('Reaching the existing')
+    console.log('Reaching the existing');
     const existingEvidenceSelection = {
       name: 'input-dialog-existing-attachments',
       icon: 'rosalution',
@@ -105,8 +105,9 @@ export default {
     };
     state.tabs.push(existingEvidenceSelection);
     state.activeTabName = existingEvidenceSelection.name;
-    console.log(this)
-    console.log('existing state is pushed')
+    console.log(state.activeTabName);
+    // console.log(this)
+    // console.log('existing state is pushed')
     return this;
   },
   edit(attachmentInput) {
