@@ -8,6 +8,7 @@ import InputDialogUploadFile from '@/components/Dialogs/InputDialogUploadFile.vu
 import inputDialog from '@/inputDialog.js';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import InputDialogExistingAttachments from '../../../src/components/Dialogs/InputDialogExistingAttachments.vue';
 
 describe('InputDialog.vue', () => {
   let wrapper;
@@ -32,6 +33,7 @@ describe('InputDialog.vue', () => {
           .cancelText('Cancel')
           .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png, .gb')
           .url(includeComments, includeName)
+          .existing()
           .message('Warning message')
           .prompt();
     });
@@ -74,6 +76,14 @@ describe('InputDialog.vue', () => {
       await wrapper.find('[data-test=button-input-dialog-upload-file]').trigger('click');
       const uploadFileComponent = wrapper.findComponent(InputDialogUploadFile);
       expect(uploadFileComponent.exists()).to.be.true;
+    });
+
+    it.only('Should show the rosalution existing evidence tab when clicking the Rosalution tab', async () => {
+      const inputDialogRosalutionTab = wrapper.find('[data-test=button-input-dialog-existing-attachments]');
+      console.log(inputDialogRosalutionTab.html());
+      await inputDialogRosalutionTab.trigger('click');
+      const existingAttachmentsComponent = wrapper.findComponent(InputDialogExistingAttachments);
+      expect(existingAttachmentsComponent.exists()).to.be.true;
     });
 
     it('Should show the warning message when one is set', async () => {

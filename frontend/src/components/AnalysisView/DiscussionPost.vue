@@ -79,6 +79,9 @@ export default {
     attachments: {
       type: Array,
     },
+    existingEvidence: {
+      type: Array,
+    },
     thread: {
       type: Array,
     },
