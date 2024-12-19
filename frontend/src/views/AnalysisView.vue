@@ -42,6 +42,7 @@
       <DiscussionSection
         id="Discussion"
         :discussions="discussions"
+        :existingEvidence="attachments"
         :userClientId="clientId"
         :actions="discussionContextActions"
         @discussion:new-post="addDiscussionPost"
@@ -597,7 +598,7 @@ async function openDiscussionModal(postId) {
       .cancelText('Cancel')
       .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp')
       .url(includeComments, includeName)
-      .existing(includeComments, 'rosalution')
+      .existing()
       .prompt();
 
   if (!attachment) {
