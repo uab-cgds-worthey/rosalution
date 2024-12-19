@@ -1,7 +1,7 @@
 <template>
-  <div class="attach-existing-evidence">
+  <div>
     Existiing evidence list
-    <div class="existing-evidences" v-for="evidence in existingEvidence" v-bind:key="evidence.attachment_id">
+    <!-- <div class="existing-evidences" v-for="evidence in existingEvidence" v-bind:key="evidence.attachment_id">
       Evidence here
       <tr class="evidence-row">
         <td class="evidence-logo">
@@ -12,37 +12,44 @@
           {{ evidence.name }}
         </td>
       </tr>
-    </div>
+    </div> -->
   </div>
 </template>
 
-<script>
-export default {
-  name: 'input-dialog-existing-attachments',
-  emits: ['update:userInput'],
-  props: {
-    userInput: {
-      type: Object,
-      required: true,
+<script setup>
+console.log('SETUPPING THE THING');
+import {computed, onMounted, reactive} from 'vue';
+
+const emit = defineEmits(['update:userInput']);
+
+defineOptions({
+  name: 'input-dialog-existing-attachments'
+})
+
+const props = defineProps({
+  userInput: {
+    type: Object,
+    required: false,
+  },
+  existingEvidence: {
+    type: Array,
+    default: () => {
+      return [];
     },
-    existingEvidence: {
-      type: Array,
-      default: () => {
-        return [];
-      },
-    },
   },
-  computed: {
-  },
-  methods: {
-  },
-};
+});
+
+console.log(props.existingEvidence);
+
+onMounted(async () => {
+  console.log("awhyyyyyyyyyyyy")
+});
 </script>
 
-<style scoped>
+<!-- <style scoped>
 
 .attach-existing-evidence {
   width: 3rem;
 }
 
-</style>
+</style> -->

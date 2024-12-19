@@ -14,16 +14,16 @@
             v-if="tab.icon == 'phenotips'"
             src="@/assets/phenotips-favicon-96x96.png"
           />
-          <font-awesome-icon v-else
-            :icon="'file' == tab.icon ? ['far', 'file'] : tab.icon"
-            size="2xl">
-          </font-awesome-icon>
           <img
-            v-if="tab.icon == 'rosalution'"
+            v-else-if="tab.icon == 'rosalution'"
             src="@/assets/rosalution-logo.svg"
             class="rosalution-tab"
             data-test="button-input-dialog-existing-attachments"
           />
+          <font-awesome-icon v-else
+            :icon="'file' == tab.icon ? ['far', 'file'] : tab.icon"
+            size="2xl">
+          </font-awesome-icon>
         </button>
       </div>
       <div v-if="dialog.state.message"
