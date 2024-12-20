@@ -91,20 +91,19 @@ export default {
     state.activeTabName = attachUrlInput.name;
     return this;
   },
-  existing() {
+  existing(attachments=[]) {
     console.log('Reaching the existing');
-    const existingEvidenceSelection = {
+    const existingAttachmentsSelected = {
       name: 'input-dialog-existing-attachments',
       icon: 'rosalution',
       input: {
-        data: '',
-        type: 'existing-evidence',
       },
       props: {
+        existingAttachments: attachments,
       },
     };
-    state.tabs.push(existingEvidenceSelection);
-    state.activeTabName = existingEvidenceSelection.name;
+    state.tabs.push(existingAttachmentsSelected);
+    state.activeTabName = existingAttachmentsSelected.name;
     console.log(state.activeTabName);
     // console.log(this)
     // console.log('existing state is pushed')

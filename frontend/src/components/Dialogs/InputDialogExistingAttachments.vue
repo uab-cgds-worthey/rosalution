@@ -1,18 +1,18 @@
 <template>
-  <div class="input-dialog-existing-evidence">
-    Existiing evidence list
-    <!-- <div class="existing-evidences" v-for="evidence in existingEvidence" v-bind:key="evidence.attachment_id">
-      Evidence here
-      <tr class="evidence-row">
-        <td class="evidence-logo">
-          <font-awesome-icon :icon="['far', 'file']" size="lg" v-if="evidence.type==='file'"/>
-          <font-awesome-icon icon="link" size="lg" v-else-if="evidence.type==='link'"/>
-        </td>
-        <td class="evidence-data">
-          {{ evidence.name }}
-        </td>
-      </tr>
-    </div> -->
+  <div class="existing-attachments-list">
+    <div 
+      class="existing-attachments-list-row"
+      v-for="existingAttachment in existingAttachments" 
+      v-bind:key="existingAttachment.attachment_id"
+      data-test="existing-attachments-list"
+    >
+      <span class="existing-attachment-logo">
+        <font-awesome-icon :icon="['far', 'file']" size="lg" v-if="existingAttachment.type==='file'"/>
+        <font-awesome-icon icon="link" size="lg" v-else-if="existingAttachment.type==='link'"/>
+      </span>
+      <label for="existing-attachment-row" class="existing-attachment-name">{{ existingAttachment.name }}</label>
+      <input type="checkbox" class="existing-attachment-checkbox" name="existing-attachment-row"/>
+    </div>
   </div>
 </template>
 
@@ -31,7 +31,7 @@ const props = defineProps({
     type: Object,
     required: false,
   },
-  existingEvidence: {
+  existingAttachments: {
     type: Array,
     default: () => {
       return [];
@@ -39,17 +39,51 @@ const props = defineProps({
   },
 });
 
-console.log(props.existingEvidence);
+console.log(props.existingAttachments);
 
 onMounted(async () => {
   console.log('awhyyyyyyyyyyyy');
 });
 </script>
 
-<!-- <style scoped>
+<style scoped>
 
-.attach-existing-evidence {
-  width: 3rem;
+.existing-attachments-list {
+  background-color: var(--rosalution-white);
+  margin: auto;
+  border: 3px var(--rosalution-grey-100) solid;
+  border-radius: var(--input-border-radius);
+  padding: var(--p-8);
 }
 
-</style> -->
+.existing-attachments-list-row {
+  background-color: var(--rosalution-grey-50);
+  padding: var(--p-8);
+  margin: auto;
+  border: 5px var(--rosalution-white) solid;
+  border-radius: var(--input-border-radius);
+}
+
+.existing-attachment-logo {
+  padding: var(--p-8);
+  color: var(--rosalution-black);
+}
+
+.existing-attachment-name {
+  color: var(--rosalution-purple-300);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* .existing-attachment-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+} */
+
+.existing-attachment-checkbox {
+  display: flex;
+}
+</style>
