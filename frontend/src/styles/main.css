@@ -35,7 +35,7 @@ html {
   --primary-background-color: #F3F5F9;
   --secondary-background-color: var(--rosalution-white);
 
-  
+  --checkbox-border-radius: 5px;
   --content-border-radius: 10px;
   --input-border-radius: 15px;
   --button-border-radius: 25px;
@@ -121,6 +121,15 @@ textarea:hover,
 textarea:focus {
   border: 2px solid var(--rosalution-purple-300);
   box-shadow:  0px 0 0 4px rgba(69, 28, 137, 0.10);
+}
+
+input[type=checkbox] {
+  appearance: none;
+  aspect-ratio: 1;
+  outline: 3px solid var(--rosalution-purple-300);
+  accent-color: var(--rosalution-grey-50);
+  border-radius: var(--checkbox-border-radius);
+  background-color: var(--rosalution-grey-50);
 }
 
 /** || Primary Grid Site Layout **/

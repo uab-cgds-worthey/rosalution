@@ -41,7 +41,7 @@
       <DiscussionSection
         id="Discussion"
         :discussions="discussions"
-        :existingEvidence="attachments"
+        :existingAttachments="attachments"
         :userClientId="clientId"
         :actions="discussionContextActions"
         @discussion:new-post="addDiscussionPost"
@@ -590,13 +590,14 @@ async function openDiscussionModal(postId) {
   console.log('Doing something here');
   const includeComments = false;
   const includeName = true;
+
   // const defaultComments = 'This attachment is referenced in the Discussion attachment.';
   const attachment = await inputDialog
       .confirmText('Attach')
       .cancelText('Cancel')
       .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp')
       .url(includeComments, includeName)
-      .existing()
+      .existing(attachments)
       .prompt();
 
   if (!attachment) {
