@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="input-dialog-existing-evidence">
     Existiing evidence list
     <!-- <div class="existing-evidences" v-for="evidence in existingEvidence" v-bind:key="evidence.attachment_id">
       Evidence here
@@ -23,8 +23,8 @@ import {computed, onMounted, reactive} from 'vue';
 const emit = defineEmits(['update:userInput']);
 
 defineOptions({
-  name: 'input-dialog-existing-attachments'
-})
+  name: 'input-dialog-existing-attachments',
+});
 
 const props = defineProps({
   userInput: {
@@ -42,7 +42,7 @@ const props = defineProps({
 console.log(props.existingEvidence);
 
 onMounted(async () => {
-  console.log("awhyyyyyyyyyyyy")
+  console.log('awhyyyyyyyyyyyy');
 });
 </script>
 
