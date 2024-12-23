@@ -73,6 +73,8 @@ onMounted(async () => {
   color: var(--rosalution-purple-300);
   font-weight: bold;
   cursor: pointer;
+  display:inline-block;
+  vertical-align: middle;
 }
 
 /* .existing-attachment-checkbox input {
@@ -84,6 +86,6 @@ onMounted(async () => {
 } */
 
 .existing-attachment-checkbox {
-  display: flex;
+  float: right;
 }
 </style>

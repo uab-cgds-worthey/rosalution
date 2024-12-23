@@ -123,13 +123,42 @@ textarea:focus {
   box-shadow:  0px 0 0 4px rgba(69, 28, 137, 0.10);
 }
 
-input[type=checkbox] {
-  appearance: none;
+input[type=checkbox]{
+  /* appearance: none; */
   aspect-ratio: 1;
-  outline: 3px solid var(--rosalution-purple-300);
+  box-sizing: border-box;
+  border: 3px solid var(--rosalution-purple-300);
   accent-color: var(--rosalution-grey-50);
   border-radius: var(--checkbox-border-radius);
+  font: inherit;
+  /* transform: translateY(-0.075em);
+  display: grid;
+  place-content: center; */
+}
+
+input[type=checkbox]::before {
+  content: "";
+  /* width: 0.5rem;
+  height: 0.5rem; */
+  /* transform: scale(0);
+  transition: 120ms transform ease-in-out; */
   background-color: var(--rosalution-grey-50);
+  /* transform-origin: bottom left;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%); */
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+input[type=checkbox]::after {
+  /* border-color: var(--rosalution-purple-300);
+  border-style: solid;
+  border-width: 3px; */
+  /* box-sizing: border-box; */
+  content: '';
+  /* rotate: 40deg; */
+  /* width: 0.375em; */
 }
 
 /** || Primary Grid Site Layout **/
