@@ -347,7 +347,7 @@ docker-compose -f docker-compose.local-production.yml up --build
 To deploy a production build locally, the following command can be uses.
 
 ```bash
-docker-compose -f docker-compose.local-production.yml up --build
+docker compose -f docker-compose.local-production.yml up --build
 ```
 
  This command uses the `docker-compose` tool to build and run the necessary containers for the production
