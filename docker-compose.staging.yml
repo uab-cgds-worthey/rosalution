@@ -24,7 +24,7 @@ services:
       - ROSALUTION_ENV=production
       - MONGODB_HOST=rosalution-db
       - CAS_LOGIN_ENABLE=True
-    command: ['./etc/entrypoint-init.sh']
+    command: ['./entrypoint-init.sh']
     deploy:
       labels:
         - "traefik.enable=true"

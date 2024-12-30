@@ -1,5 +1,3 @@
-version: '3.5'
-
 services:
   reverse-proxy:
     image: traefik
@@ -8,17 +6,28 @@ services:
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
+      - "--providers.file.filename=/etc/traefik/config.yml"
       - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.websecure.address=:443"
     ports: 
       - 80:80
+      - 443:443
       - 8080:8080
     volumes:
+      - ./etc/traefik/config.yml:/etc/traefik/config.yml:ro
+      - ./etc/.certificates:/etc/certs:ro
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - rosalution-network
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=rosalution-network"
+      - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.rule=Host(`localhost`)"
+      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
   
   frontend:
     build:
@@ -33,8 +42,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=rosalution-network"
-      - "traefik.http.routers.frontend-router.entrypoints=web"
-      - "traefik.http.routers.frontend-router.rule=Host(`localhost`)"
+      - "traefik.http.routers.frontend-router.tls=true"
+      - "traefik.http.routers.frontend-router.rule=Host(`local.rosalution.cgds`)"
       - "traefik.http.routers.frontend-router.rule=PathPrefix(`/rosalution`)"
       - "traefik.http.routers.frontend-router.middlewares=frontend-strip-prefix"
       - "traefik.http.middlewares.frontend-strip-prefix.stripprefix.prefixes=/rosalution"
@@ -52,12 +61,12 @@ services:
     environment:
       - ROSALUTION_ENV=production
       - MONGODB_HOST=rosalution-db
-    command: ['./etc/entrypoint-init.sh']
+    command: ['./entrypoint-init.sh']
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=rosalution-network"
-      - "traefik.http.routers.backend-router.entrypoints=web"
-      - "traefik.http.routers.backend-router.rule=PathPrefix(`/rosalution/api`)"
+      - "traefik.http.routers.backend-router.tls=true"
+      - "traefik.http.routers.backend-router.rule=Host(`local.rosalution.cgds`) && PathPrefix(`/rosalution/api`)"
       - "traefik.http.routers.backend-router.service=backend-api-service"
       - "traefik.http.routers.backend-router.middlewares=backend-strip-prefix"
       - "traefik.http.middlewares.backend-strip-prefix.stripprefix.prefixes=/rosalution/api"
