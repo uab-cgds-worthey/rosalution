@@ -3,9 +3,34 @@
 
 ## 0.9.0
 
+### Features - In Progress
+
+- Discussion Attachments
+
+## 0.8.3
+
 ### Features
 
 - Rendering layout for annotations of genes and variants are configurable without code update.
+
+## 0.8.2
+
+### Features
+
+- New annotation linkouts for COSMIC, and gnomAD4 Variant, and annotations for REVEL and AlphaMissense.  New data source
+using OpenCravat. VCF string provided by Ensembl's API is cached in the MongoDB database.
+- Updated a row to render datasets horizontal if the associated class is included in the rendering configuration.
+Variant annotations were rendering vertically and it was taking too much space.
+- Added support for attaching genbank (.gb) files for supporting evidence attachments
+
+### Development
+
+- Minimum NodeJS version increased to v23.4 to support upgrading package dependencies to avoid reported vulnerabilities
+- ESlint upgrade to 9 and migrating configuration to flat file config
+
+### Bugs
+
+- Backend starts takes over the shell process allowing it to receive SIGTERM for graceful shutdown
 
 ## 0.8.1
 
@@ -18,17 +43,26 @@ using OpenCravat. VCF string provided by Ensembl's API is cached in the MongoDB 
 Variant annotations were rendering vertically and it was taking too much space.
 - Analyses have a version manifest of annotation's dataset, source, and version
 - Increased VueJS version to 3.5.12 to use TemplateRef as a feature
-- Added support for attaching genbank (.gb) files for supporting evidence attachments
 
-### Development
+### Bugs
 
-- Minimum NodeJS version increased to v23.4 to support upgrading package dependencies to avoid reported vulnerabilities
-- ESlint upgrade to 9 and migrating configuration to flat file config
+- Fixed developer API endpoint so that existing analyses can queue their annotations to be rendered again if desired.\
+
+## 0.8.0
+
+### Features
+
+- Support for attaching documents, URLs, and Images to fields on an Analysis landing page.
+- HTTPs by default for deployments
+- Versioning for Annotations as dictated by configuration
+- Analyses have a version manifest of annotation's dataset, source, and version
+- Render's annotations for an analysis according to it's version manifest
+- Timestamped discussions for analyses to which allow users to create, update, and remove text-based
+  messages to each other within an analysis.
 
 ### Bugs
 
 - Fixed developer API endpoint so that existing analyses can queue their annotations to be rendered again if desired.
-- Backend starts takes over the shell process allowing it to receive SIGTERM for graceful shutdown
 
 ## 0.7.0
 
