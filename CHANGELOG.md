@@ -1,6 +1,12 @@
 <!-- markdownlint-disable-file MD024 -->
 # Changelog
 
+## 0.9.0
+
+### Features
+
+- Rendering layout for annotations of genes and variants are configurable without code update.
+
 ## 0.8.1
 
 ### Features
