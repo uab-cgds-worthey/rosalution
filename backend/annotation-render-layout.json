@@ -7,6 +7,18 @@
           "imageFilename": "ncbi-logo.png",
           "altText": "National Center for Biotechnology Information Gene Linkout"
       }
+  }, {
+      "dataset": "COSMIC_gene_url", "type": "icon-linkout-dataset",
+      "props": {
+        "imageFilename": "cosmic_logo.png",
+        "altText": "Catalogue Of Somatic Mutations In Cancer, COSMIC"
+      }
+  }, {
+      "dataset": "gnomAD_gene_url", "type": "icon-linkout-dataset",
+      "props": {
+        "imageFilename": "gnomad-logo.png",
+        "altText": "Genome Aggregation Database (gnomAD) for variants from Broad Institute"
+      }
   }], "rows": [{"class": "", "datasets": [{"dataset": "Gene Summary", "type": "text-dataset", "props": {}}]}, {
       "class": "", "datasets": [{
           "dataset": "OMIM", "type": "text-dataset", "linkout_dataset": "OMIM_gene_search_url",
