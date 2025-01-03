@@ -1,9 +1,11 @@
 """
 End points for backend
 """
+import json
 import logging
 import logging.config
 from os import path
+from pathlib import Path
 import urllib3
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -80,6 +82,20 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get("/render-layout/annotations", tags=["config"])
+def get_annotations_render_layout():
+    """
+    Returns the configurable render layout for the annotations. The configuration is read from a file each time
+    the endpoint is called.
+    """
+    render_layout = []
+    with open(
+        Path(__file__).resolve().parent / '../annotation-render-layout.json', mode="r", encoding="utf-8"
+    ) as layout_file:
+        render_layout = json.load(layout_file)
+    return render_layout
 
 
 @app.get("/heart-beat", tags=["lifecycle"])
