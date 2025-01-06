@@ -1,4 +1,5 @@
-[{
+[
+  {
     "_id": "fakeuseridhash",
     "username": "johndoe",
     "full_name": "John Doe",
@@ -6,4 +7,5 @@
     "scope": "modify",
     "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
     "disabled": false
-}]
+  }
+]

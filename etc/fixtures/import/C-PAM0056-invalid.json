@@ -19,8 +19,12 @@
     "maternal_ethnicity": [],
     "paternal_ethnicity": []
   },
-  "date_of_birth": { "year": 2002 },
-  "solved": { "status": "unsolved" },
+  "date_of_birth": {
+    "year": 2002
+  },
+  "solved": {
+    "status": "unsolved"
+  },
   "external_id": "C-PAM0056",
   "variants": [
     {
@@ -163,7 +167,10 @@
     }
   ],
   "last_modification_date": "2022-08-30T20:49:59.000Z",
-  "patient_name": { "last_name": "", "first_name": "" },
+  "patient_name": {
+    "last_name": "",
+    "first_name": ""
+  },
   "specificity": {
     "date": "2022-08-30T20:50:16.105Z",
     "score": 0.9074705883608583,
@@ -192,19 +199,25 @@
     {
       "gene": "LAMA2",
       "id": "ENSG00000196569",
-      "strategy": ["sequencing"],
+      "strategy": [
+        "sequencing"
+      ],
       "status": "candidate"
     },
     {
       "gene": "LAMA1",
       "id": "ENSG00000101680",
-      "strategy": ["sequencing"],
+      "strategy": [
+        "sequencing"
+      ],
       "status": "carrier"
     },
     {
       "gene": "ADNP",
       "id": "ENSG00000101126",
-      "strategy": ["sequencing"],
+      "strategy": [
+        "sequencing"
+      ],
       "status": "candidate"
     }
   ],

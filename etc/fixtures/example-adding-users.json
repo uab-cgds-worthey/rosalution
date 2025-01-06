@@ -1,18 +1,18 @@
 [
-   {
-      "username":"janedoe",
-      "full_name":"Jane Doe",
-      "email":"janedoe@example.com",
-      "scope":"researcher",
-      "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
-   },
-   {
-      "username":"johndoe",
-      "full_name":"John Doe",
-      "email":"johndoe@example.com",
-      "scope":"developer",
-      "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false
-   }
+  {
+    "username": "janedoe",
+    "full_name": "Jane Doe",
+    "email": "janedoe@example.com",
+    "scope": "researcher",
+    "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+    "disabled": false
+  },
+  {
+    "username": "johndoe",
+    "full_name": "John Doe",
+    "email": "johndoe@example.com",
+    "scope": "developer",
+    "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+    "disabled": false
+  }
 ]

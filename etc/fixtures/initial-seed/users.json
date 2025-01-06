@@ -1,32 +1,32 @@
 [
-   {
-      "username":"developer",
-      "full_name":"Developer",
-      "email":"fake-developer@example.com",
-      "scope":"write",
-      "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false,
-      "client_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
-      "client_secret": ""
-   },
-   {
-      "username":"vrr-prep",
-      "full_name":"Variant Review Report Preparer",
-      "email":"fake-vrr-prep@example.com",
-      "scope":"write",
-      "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false,
-      "client_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
-      "client_secret": ""
-   },
-   {
-      "username":"researcher",
-      "full_name":"Researcher",
-      "email":"fake-researcher@example.com",
-      "scope":"read",
-      "hashed_password":"$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-      "disabled":false,
-      "client_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
-      "client_secret": ""
-   }
+  {
+    "username": "developer",
+    "full_name": "Developer",
+    "email": "fake-developer@example.com",
+    "scope": "write",
+    "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+    "disabled": false,
+    "client_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
+    "client_secret": ""
+  },
+  {
+    "username": "vrr-prep",
+    "full_name": "Variant Review Report Preparer",
+    "email": "fake-vrr-prep@example.com",
+    "scope": "write",
+    "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+    "disabled": false,
+    "client_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
+    "client_secret": ""
+  },
+  {
+    "username": "researcher",
+    "full_name": "Researcher",
+    "email": "fake-researcher@example.com",
+    "scope": "read",
+    "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
+    "disabled": false,
+    "client_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
+    "client_secret": ""
+  }
 ]
