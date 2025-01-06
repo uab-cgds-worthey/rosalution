@@ -85,6 +85,9 @@ the respective installation instructions for your target environment.
     - Note: Local deployment will still work without self-signed certificates. The browser will just throw an insecure
   warning, the application can still be used.
 
+- [jq](https://stedolan.github.io/jq/) (optional)
+    - Optionally install for formatting JSON consistently.
+
 ### Browser Support
 
 | Chrome | Firefox |
