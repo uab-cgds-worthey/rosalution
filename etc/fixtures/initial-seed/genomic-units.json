@@ -476,14 +476,16 @@
         ]
       },
       {
-        "alphamissense": [{
+        "alphamissense": [
+          {
             "data_source": "Ensembl",
             "version": 112,
             "value": {
               "am_class": "ambiguous",
               "am_pathogenicity": "0.5303"
             }
-        }]
+          }
+        ]
       },
       {
         "ClinVar_variant_url": [

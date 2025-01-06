@@ -17,7 +17,9 @@
     {
       "gene": "VMA21",
       "id": "ENSG00000160131",
-      "strategy": ["sequencing"],
+      "strategy": [
+        "sequencing"
+      ],
       "status": "candidate"
     }
   ],

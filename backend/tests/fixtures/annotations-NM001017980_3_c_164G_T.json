@@ -1,8 +1,7 @@
 {
   "_id": "62fbfa5f616a9799131174c9",
   "hgvs_variant": "NM_001017980.3:c.164G>T",
-  "transcripts": 
-  [
+  "transcripts": [
     {
       "transcript_id": "NM_001017980.4",
       "annotations": [
@@ -130,7 +129,13 @@
   ],
   "annotations": [
     {
-      "ClinVar_Variantion_Id": [ { "data_source": "Rosalution", "version": "rosalution-manifest-00", "value": "581244" } ]
+      "ClinVar_Variantion_Id": [
+        {
+          "data_source": "Rosalution",
+          "version": "rosalution-manifest-00",
+          "value": "581244"
+        }
+      ]
     },
     {
       "ClinVar_variant_url": [

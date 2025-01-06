@@ -2,18 +2,18 @@
   "date": "2022-07-16T16:07:38.000Z",
   "external_id": "CILI_2_5K ARMC9_L510V",
   "variants": [
-      {
-          "transcript": "NM_025139.6",
-          "gene": "ENSG00000135931",
-          "reference_genome": "GRCh37",
-          "protein": "p.Leu510Val",
-          "cdna": "c.1528C>G"
-      }
+    {
+      "transcript": "NM_025139.6",
+      "gene": "ENSG00000135931",
+      "reference_genome": "GRCh37",
+      "protein": "p.Leu510Val",
+      "cdna": "c.1528C>G"
+    }
   ],
   "genes": [
-      {
-          "gene": "ARMC9",
-          "id": "ENSG00000135931"
-      }
+    {
+      "gene": "ARMC9",
+      "id": "ENSG00000135931"
+    }
   ]
 }

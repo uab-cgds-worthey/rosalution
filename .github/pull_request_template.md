@@ -11,7 +11,7 @@ Any contributions to this repository should follow the
  and [Code of Conduct](https://github.com/uab-cgds-worthey/rosalution/blob/main/CODE_OF_CONDUCT.md).
 
 <!-- Pull Request template begins here -->
-<!-- Delete everything from begining of file to here -->
+<!-- Delete everything from beginning of file to here -->
 ## Checklist before requesting a review
 
 - [ ] I have performed a self-review of my code.
@@ -19,6 +19,7 @@ Any contributions to this repository should follow the
 - [ ] If it is a core feature, I have added thorough tests.
 - [ ] My changes generate no new warnings.
 - [ ] New and existing unit tests pass locally with my changes.
+- [ ] New or existing JSON is formatted using JQ
 - [ ] Will this be part of a product update? If yes, please write one phrase about this update.
 
 <!-- Delete the tasks from the above list that are Not Applicable for your pull request -->

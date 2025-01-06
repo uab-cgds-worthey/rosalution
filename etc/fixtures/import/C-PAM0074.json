@@ -15,9 +15,16 @@
     "medical_history": "",
     "diagnosis_notes": ""
   },
-  "ethnicity": { "maternal_ethnicity": [], "paternal_ethnicity": [] },
-  "date_of_birth": { "year": 2017 },
-  "solved": { "status": "unsolved" },
+  "ethnicity": {
+    "maternal_ethnicity": [],
+    "paternal_ethnicity": []
+  },
+  "date_of_birth": {
+    "year": 2017
+  },
+  "solved": {
+    "status": "unsolved"
+  },
   "external_id": "C-PAM0074",
   "variants": [
     {
@@ -81,7 +88,10 @@
     }
   ],
   "last_modification_date": "2022-08-30T20:58:07.000Z",
-  "patient_name": { "last_name": "", "first_name": "" },
+  "patient_name": {
+    "last_name": "",
+    "first_name": ""
+  },
   "specificity": {
     "date": "2022-08-30T20:58:17.663Z",
     "score": 0.7364767305362588,
@@ -110,7 +120,9 @@
     {
       "gene": "GRIN2D",
       "id": "ENSG00000105464",
-      "strategy": ["sequencing"],
+      "strategy": [
+        "sequencing"
+      ],
       "status": "candidate"
     }
   ],

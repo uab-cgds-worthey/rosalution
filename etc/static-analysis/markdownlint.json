@@ -8,6 +8,9 @@
     "tables": false
   },
   "MD033": {
-    "allowed_elements": [ "img", "p" ]
+    "allowed_elements": [
+      "img",
+      "p"
+    ]
   }
 }

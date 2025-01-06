@@ -15,14 +15,23 @@
     "medical_history": "",
     "diagnosis_notes": ""
   },
-  "ethnicity": { "maternal_ethnicity": [], "paternal_ethnicity": [] },
+  "ethnicity": {
+    "maternal_ethnicity": [],
+    "paternal_ethnicity": []
+  },
   "date_of_birth": {},
-  "solved": { "status": "unsolved" },
+  "solved": {
+    "status": "unsolved"
+  },
   "external_id": "C-PAM0076",
   "variants": [
     {
       "start_position": "42531913",
-      "evidence": ["rare", "predicted", "reported"],
+      "evidence": [
+        "rare",
+        "predicted",
+        "reported"
+      ],
       "gene": "ENSG00000152217",
       "chromosome": "18",
       "inheritance": "denovo_germline",
@@ -106,7 +115,10 @@
     }
   ],
   "last_modification_date": "2022-08-30T17:17:56.000Z",
-  "patient_name": { "last_name": "", "first_name": "" },
+  "patient_name": {
+    "last_name": "",
+    "first_name": ""
+  },
   "specificity": {
     "date": "2022-08-30T21:08:50.972Z",
     "score": 0.9117832147117026,
@@ -135,7 +147,9 @@
     {
       "gene": "SETBP1",
       "id": "ENSG00000152217",
-      "strategy": ["sequencing"],
+      "strategy": [
+        "sequencing"
+      ],
       "status": "solved"
     }
   ],
