@@ -1,6 +1,6 @@
 services:
   reverse-proxy:
-    image: traefik
+    image: traefik:3.2.3
     command:
       - "--log.level=DEBUG"
       - "--api.insecure=true"
