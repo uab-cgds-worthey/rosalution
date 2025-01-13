@@ -108,6 +108,7 @@ textarea {
   border: 2px solid var(--rosalution-grey-100);
   background-color: var(--secondary-background-color);
   outline: none;
+  appearance: none;
 }
 
 input:placeholder,
@@ -124,11 +125,10 @@ textarea:focus {
 }
 
 input[type=checkbox]{
-  /* opacity: 0; */
-  cursor: pointer;
-  /* height: 0.625rem;
-  width: 0.625rem; */
-  background-color: var(--rosalution-grey-200);
+  background-color: var(--rosalution-grey-100);
+  border-radius: var(--checkbox-border-radius);
+  border-color: var(--rosalution-purple-300);
+  transform: translateY(-0.075em);
 }
 
 input[type=checkbox]:hover {
@@ -136,13 +136,25 @@ input[type=checkbox]:hover {
 }
 
 input[type=checkbox]:checked {
-  background-color: var(--rosalution-purple-300);
+  background-color: var(--rosalution-purple-200);
 }
 
-input[type=checkbox]:checked::after {
-  content: "";
-  display: block;
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
 }
+
+input[type=checkbox]:checked {
+  background-color: var(--rosalution-purple-300);
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+
+input[type="checkbox"]:focus:hover {
+  outline: max(2px, 0.15em) solid var(--rosalution-purple-300);
+  outline-offset: max(2px, 0.15em);
+}
+
+
 
 
 
