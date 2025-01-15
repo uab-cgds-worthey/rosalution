@@ -56,6 +56,8 @@ onMounted(async () => {
   border: 3px var(--rosalution-grey-100) solid;
   border-radius: var(--input-border-radius);
   padding: var(--p-8);
+  max-width: 100%;
+  flex: content;
 }
 
 .existing-attachments-list-row {
@@ -64,6 +66,9 @@ onMounted(async () => {
   margin: auto;
   border: 5px var(--rosalution-white) solid;
   border-radius: var(--input-border-radius);
+  /* flex-wrap:wrap; */
+  /* position: relative; */
+  max-width: 100%;
 }
 
 .existing-attachment-logo {
@@ -77,9 +82,18 @@ onMounted(async () => {
   cursor: pointer;
   display:inline-block;
   vertical-align: middle;
+  width: max-content;
+  flex-wrap:wrap;
+  position: relative;
+  padding-right: var(--p-28);
 }
 
 .existing-attachment-checkbox {
   float: right;
+  right: 6%;
+  position: fixed;
+  align-content: center;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 </style>
