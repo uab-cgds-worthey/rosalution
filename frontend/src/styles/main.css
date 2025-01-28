@@ -129,8 +129,7 @@ input[type=checkbox]{
   border-radius: var(--checkbox-border-radius);
   border-color: var(--rosalution-purple-300);
   border-width: 0.15rem;
-  transform: translateY(-0.2rem);
-  margin-bottom: 10px;
+  transform: translateY(-0.25rem);
 }
 
 input[type=checkbox]:hover {

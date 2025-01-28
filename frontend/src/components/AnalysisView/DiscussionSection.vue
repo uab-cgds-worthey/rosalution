@@ -25,27 +25,42 @@
                 data-test="new-discussion-input"
             />
             <div class="discussion-actions">
-              <button
+              <span class="attachments-actions">
+                <button
                   class="primary-button attach-button"
                   @click="addAttachmentToDiscussionPost"
-              >
-                Attach
-              </button>
-              <button
+                >
+                  Attach
+                </button>
+                <div class="new-attachments-list">
+                  <span class="new-attachment">
+                    <span class="new-attachment-logo">
+                      <font-awesome-icon :icon="['far', 'file']" size="lg"/>
+                      <!-- <font-awesome-icon icon="link" size="lg" v-else-if="attachment.type==='link'"/> -->
+                    </span>
+                    <span class="new-attachment-name">
+                      New Attachment Name
+                    </span>
+                  </span>
+                </div>
+              </span>
+              <span class="post-actions">
+                <button
                   class="secondary-button"
                   @click="cancelNewDiscussionPost"
                   data-test="new-discussion-cancel"
-              >
-                Cancel
-              </button>
-              <button
-                  class="primary-button publish-button"
-                  @click="newDiscussionPost"
-                  data-test="new-discussion-publish"
-                  :disabled="this.checkPostContent"
-              >
-                Publish
-              </button>
+                >
+                  Cancel
+                </button>
+                <button
+                    class="primary-button publish-button"
+                    @click="newDiscussionPost"
+                    data-test="new-discussion-publish"
+                    :disabled="this.checkPostContent"
+                >
+                  Publish
+                </button>
+              </span>
             </div>
           </div>
           <DiscussionPost v-for="discussion in discussions"
@@ -92,6 +107,7 @@ export default {
   data: function() {
     return {
       newPostContent: '',
+      newAttachments: '',
       showNewPost: false,
     };
   },
@@ -122,7 +138,7 @@ export default {
       this.$emit('discussion:delete-post', postId);
     },
     addAttachmentToDiscussionPost(postId) {
-      this.$emit('discussion:open-modal', postId);
+      this.$emit('discussion:open-modal', this.newAttachments);
     },
   },
 };
@@ -160,21 +176,48 @@ export default {
 .discussion-actions {
     width: 100%;
     display: flex;
-    justify-content: right;
+    justify-content: space-between;
+    flex-wrap: wrap;
     margin-right: var(--p-16);
     margin-bottom: var(--p-10);
+}
+
+.post-actions {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .publish-button {
     margin-left: var(--p-8);
 }
 
+.attachments-actions {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .attach-button {
   background-color:   var(--rosalution-grey-300);
   color: var(--rosalution-black);
-  position:absolute;
   margin-left: var(--p-16);
+  margin-right: var(--p-10);
   left: var(--p-28);
+  float: left;
+}
+
+.new-attachments-list {
+  float: left;
+  display: flex;
+}
+
+.new-attachment {
+  background-color:   var(--rosalution-white);
+  color: var(--rosalution-black);
+  border-radius: var(--input-border-radius);
+  border: 2px solid var(--rosalution-black);
+  padding: var(--p-8);
+  margin-right: var(--p-16);
+  align-content:flex-start;
 }
 
 .collapsable-icon {
