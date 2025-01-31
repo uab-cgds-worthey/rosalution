@@ -39,17 +39,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-
-.linkout {
-  background-color: var(--rosalution-white);
-  overflow:hidden;
-}
-
-.linkout img {
-  max-height: 1.5rem;
-  padding-right: var(--p-10)
-}
-
-</style>

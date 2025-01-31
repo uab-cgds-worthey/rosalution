@@ -54,37 +54,9 @@ export default {
 </script>
 
 <style scoped>
-.dataset-container {
-  display: flex;
-  padding: var(--p-1);
-  line-height: 1.5rem;
-}
 
 .dataset-label {
-  flex: 0 0 130px;
-  font-weight: 600;
   color: v-bind(dataAvailabilityColour)
 }
 
-.tags-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--p-8) var(--p-1);
-}
-
-.tag {
-  padding: var(--p-1) var(--p-8);
-  background-color: transparent;
-  border-radius: var(--p-16);
-  border: 2px solid var(--rosalution-black);
-  color: var(--rosalution-black);
-}
-
-a:hover {
-  color: var(--rosalution-purple-100);
-}
-
-.text-value {
-  white-space: pre-wrap;
-}
 </style>

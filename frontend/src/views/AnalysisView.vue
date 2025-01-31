@@ -1,5 +1,4 @@
 <template>
-  <div>
     <app-header>
       <AnalysisViewHeader
         :actions="actionChoices"
@@ -66,7 +65,6 @@
         @save="saveAnalysisChanges"
       />
     </app-content>
-  </div>
 </template>
 
 <script setup>

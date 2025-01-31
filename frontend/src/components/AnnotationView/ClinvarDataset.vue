@@ -5,6 +5,7 @@
       :class="isLinkoutAvailable ? 'dataset-label-available' : 'dataset-label-unavailable'"
       data-test="text-label"
       target="_blank" rel="noreferrer noopener"
+      style="font-size: 1.25rem;"
     >
       {{ label }}
       <font-awesome-icon v-if="isLinkoutAvailable" icon="up-right-from-square" size="2xs"/>
@@ -40,32 +41,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-
-.dataset-container {
-  display: flex;
-  padding: var(--p-1);
-  padding-top: var(--p-10);
-  line-height: 24px; /**temproary until I see how things look */
-}
-
-.dataset-label {
-  flex: 0 0 125px;
-  font-weight: 600;
-  font-size: 1.25rem;
-}
-
-.dataset-label-available {
-  color: var(--rosalution-purple-300)
-}
-
-.dataset-label-unavailable {
-  color: var(--rosalution-grey-100)
-}
-
-a:hover .dataset-label {
-  color: var(--rosalution-purple-100);
-}
-
-</style>
