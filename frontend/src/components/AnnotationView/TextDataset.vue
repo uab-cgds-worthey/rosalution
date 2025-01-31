@@ -54,24 +54,8 @@ export default {
 
 <style scoped>
 
-.dataset-container {
-  display: flex;
-  padding: var(--p-1);
-  line-height: 24px;
-}
-
 .dataset-label {
-  flex: 0 0 130px;
-  font-weight: 600;
   color: v-bind(dataAvailabilityColour);
-}
-
-a:hover {
-  color: var(--rosalution-purple-100);
-}
-
-.text-value {
-  white-space: pre-wrap;
 }
 
 </style>

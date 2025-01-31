@@ -127,35 +127,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.dataset-container {
-  display: flex;
-  padding: var(--p-1);
-  align-items: center;
-}
-
-.dataset-label {
-  flex: 0 0 110px;
-  font-weight: 600;
-}
-
-.score-background {
-  overflow: hidden;
-  width: 10.75rem;
-  height: 1rem;
-  border-radius: 9999px;
-  display: flex;
-}
-
-.score-fill {
-  box-shadow: 0 0 #0000;
-  border-radius: 9999px;
-}
-
-.score-text {
-  padding-left: var(--p-1);
-  font-size: 1rem;
-  /* margin:auto; */
-}
-</style>

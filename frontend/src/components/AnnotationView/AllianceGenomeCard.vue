@@ -200,11 +200,6 @@ export default {
 </script>
 
 <style scoped>
-
-div {
-  font-family: "Proxima Nova", sans-serif;
-}
-
 ul {
   list-style-type: disc;
   padding-left: 7%;

@@ -51,23 +51,3 @@ export default {
   },
 };
 </script>
-
-
-<style scoped>
-.dataset-container {
-  display: flex;
-  gap: var(--p-5);
-  align-items: center;
-}
-
-.dataset-label {
-  flex: 0 0 content;
-  font-weight: 600;
-}
-
-.highlight-text {
-  padding: 0 var(--p-8) 0 var(--p-8);
-  border-radius: 9999px;
-}
-
-</style>
