@@ -1,14 +1,15 @@
 /** transcript dataset-container padding: var(--p-0); **/
 
 .dataset-container {
-  display: flex;
+  /* display: flex; */
   padding: var(--p-1);
   line-height: 24px; /**  was rem in tag-dataset line-height: 1.5rem; **/
   align-items: center; /** from score-dataset, set-dataset only **/
-  flex: 4 1 auto; /** set-dataset only **/
+  /* flex: 4 1 auto; * set-dataset only * */
   padding-top: var(--p-10); /** from clinvar-dataset **/
 
   gap: var(--p-5); /** text highlight dataset **/
+  /* flex-shrink: 0; */
 }
 
 /* score-dataset label flex: 0 0 110px */
