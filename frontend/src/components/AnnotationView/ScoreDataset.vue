@@ -85,7 +85,7 @@ const scoreFillValue = (parseFloat(Math.abs(props.minimum) + props.value) /
 
 const scoreFillWidthPercentage = Math.floor(Math.abs(scoreFillValue) * 100) + '%';
 
-const isAvailable = isDatasetAvailable(datasetValue);
+const isAvailable = isDatasetAvailable(props.value);
 const scoreStyling = styles.nominalColours;
 
 function withinBounds(score) {

@@ -5,7 +5,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import DatasetLabel from '@/components/AnnotationView/DatasetLabel.vue';
 
 const props = defineProps({

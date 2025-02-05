@@ -2,11 +2,13 @@
       <!-- <dt class="dataset-label dataset-label-position" ">
       {{ label }}
     </dt> -->
-    <span v-if="label && !linkout" class="dataset-label" :style="{ color: dataAvailabilityColour }">{{ label }}</span>
-    <a v-else-if="label && linkout" :href="linkout" class="dataset-label" target="_blank" rel="noreferrer noopener">
-      {{ label }}
-      <font-awesome-icon icon="up-right-from-square" size="2xs" />
-    </a>
+    <div class="dataset-container">
+      <span v-if="label && !linkout" class="dataset-label" :style="{ color: dataAvailabilityColour }">{{ label }}</span>
+      <a v-else-if="label && linkout" :href="linkout" class="dataset-label" target="_blank" rel="noreferrer noopener">
+        {{ label }}
+        <font-awesome-icon icon="up-right-from-square" size="2xs" />
+      </a>
+  </div>
 </template>
 
 <script setup>
@@ -23,7 +25,7 @@ const props = defineProps({
   },
 });
 
-const isAvailable = isDatasetAvailable(datasetValue);
+const isAvailable = isDatasetAvailable(props.datasetValue);
 const dataAvailabilityColour =  isAvailable ? "black" : ".dataset-label-unavailable"
 
 // dataAvailabilityColour() {
