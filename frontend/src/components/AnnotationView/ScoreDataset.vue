@@ -1,8 +1,6 @@
 <template>
-  <div class="dataset-container">
-    <span class="dataset-label dataset-label-position" :style="{ color: dataAvailabilityColour }">
-      {{ label }}
-    </span>
+  <DatasetLabel :label="label" :datasetValue="value"></DatasetLabel>
+  <span>
     <span
       class="score-background"
       :style="{
@@ -25,14 +23,17 @@
     <span class="score-text" :style="{ color: scoreStyling.textColour }" data-test="score-text">
       {{ value }}
     </span>
-  </div>
+  </span >
 </template>
 
-<script>
-export default {
-  name: 'score-dataset',
-  props: {
-    label: {
+<script setup>
+
+import DatasetLabel from '@/components/AnnotationView/DatasetLabel.vue';
+
+import {isDatasetAvailable} from '@/components/AnnotationView/datasetRenderingUtility.js'
+
+const props = defineProps({
+  label: {
       type: String,
     },
     value: {
@@ -50,80 +51,59 @@ export default {
     cutoff: {
       type: Number,
     },
-  },
-  data: function() {
-    return {
-      unavailableColours: {
-        fillColour: '',
-        backgroundColour: 'var(--rosalution-grey-100)',
-        borderColour: '',
-        textColour: 'var(--rosalution-grey-300)',
-      },
-      nominalColours: {
-        fillColour: 'var(--rosalution-blue-200)',
-        backgroundColour: 'var(--rosalution-blue-300)',
-        borderColour: 'var(--rosalution-blue-100)',
-        textColour: 'var(--rosalution-blue-300)',
-      },
-      closeToThresholdColours: {
-        fillColour: 'var(--rosalution-yellow-200)',
-        backgroundColour: 'var(--rosalution-yellow-300)',
-        borderColour: 'var(--rosalution-yellow-100)',
-        textColour: 'var(--rosalution-yellow-300)',
-      },
-      outOfThresholdColours: {
-        fillColour: 'var(--rosalution-red-200)',
-        backgroundColour: 'var(--rosalution-red-300)',
-        borderColour: 'var(--rosalution-red-100)',
-        textColour: 'var(--rosalution-red-300)',
-      },
-    };
-  },
-  computed: {
-    unavailableData: function() {
-      return this.value == '.' || this.value == 'null' || this.value == null;
-    },
-    scoreFillValue: function() {
-      return (
-        parseFloat(Math.abs(this.minimum) + this.value) /
-        (Math.abs(this.minimum) + Math.abs(this.maximum))
-      );
-    },
-    scoreFillWidthPercentage: function() {
-      return Math.floor(Math.abs(this.scoreFillValue) * 100) + '%';
-    },
-    scoreStyling: function() {
-      if (this.unavailableData) {
-        return this.unavailableColours;
-      }
+});
 
-      let score = 0;
-
-      if (this.cutoff) {
-        score = this.value / this.cutoff;
-        if (this.withinBounds(score)) {
-          return this.closeToThresholdColours;
-        }
-        if (this.belowBounds(score)) {
-          return this.outOfThresholdColours;
-        }
-      }
-
-      return this.nominalColours;
-    },
-    dataAvailabilityColour: function() {
-      return this.unavailableData ?
-        'var(--rosalution-grey-300)' :
-        'var(--rosalution-black)';
-    },
+const styles =  {
+  unavailableColours: {
+    fillColour: '',
+    backgroundColour: 'var(--rosalution-grey-100)',
+    borderColour: '',
+    textColour: 'var(--rosalution-grey-300)',
   },
-  methods: {
-    withinBounds: function(score) {
-      return score > this.bounds.lowerBound && score < this.bounds.upperBound;
-    },
-    belowBounds: function(score) {
-      return score > this.bounds.upperBound;
-    },
+  nominalColours: {
+    fillColour: 'var(--rosalution-blue-200)',
+    backgroundColour: 'var(--rosalution-blue-300)',
+    borderColour: 'var(--rosalution-blue-100)',
+    textColour: 'var(--rosalution-blue-300)',
   },
+  closeToThresholdColours: {
+    fillColour: 'var(--rosalution-yellow-200)',
+    backgroundColour: 'var(--rosalution-yellow-300)',
+    borderColour: 'var(--rosalution-yellow-100)',
+    textColour: 'var(--rosalution-yellow-300)',
+  },
+  outOfThresholdColours: {
+    fillColour: 'var(--rosalution-red-200)',
+    backgroundColour: 'var(--rosalution-red-300)',
+    borderColour: 'var(--rosalution-red-100)',
+    textColour: 'var(--rosalution-red-300)',
+  },
+};
+
+const scoreFillValue = (parseFloat(Math.abs(props.minimum) + props.value) /
+                      (Math.abs(props.minimum) + Math.abs(props.maximum)))
+
+const scoreFillWidthPercentage = Math.floor(Math.abs(scoreFillValue) * 100) + '%';
+
+const isAvailable = isDatasetAvailable(datasetValue);
+const scoreStyling = styles.nominalColours;
+
+function withinBounds(score) {
+  return score > props.bounds.lowerBound && score < props.bounds.upperBound;
+}
+function belowBounds(score) {
+  return score > props.bounds.upperBound;
+}
+
+if (!isAvailable) {
+  scoreStyling = styles.unavailableColours;
+} else if (props.cutoff) {
+  let score = 0;
+  score = props.value / props.cutoff;
+  if (withinBounds(score)) {
+    scoreStyling = styles.closeToThresholdColours;
+  } else if (belowBounds(score)) {
+    scoreStyling = styles.outOfThresholdColours;
+  }
 };
 </script>

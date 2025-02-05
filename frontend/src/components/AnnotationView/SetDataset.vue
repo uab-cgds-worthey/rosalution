@@ -1,21 +1,19 @@
 <template>
-  <div class="dataset-container">
-    <span class="dataset-label" :style="{'color': labelTextColor}">{{ label }}</span>
-    <div class="set-section">
+    <dt class="dataset-label" :style="{'color': labelTextColor}">{{ label }}</dt>
+    <dd class="set-section">
       <div v-if="!value || availableData"
         class="set-background set-fill-unavailable set-fill"
         data-test="set-unavailable">
       </div>
-      <div v-else class="set-background set-text set-fill" data-test="set-fill">
-        <span v-for="(item, index) in set"
-          :key="`${item.value}-${index}`"
-          :style="this.setItemStyle(item)"
-        >
-          {{ classificationText(item) }}
-        </span>
-    </div>
-    </div>
-  </div>
+        <div v-else class="set-background set-text set-fill" data-test="set-fill">
+          <span v-for="(item, index) in set"
+            :key="`${item.value}-${index}`"
+            :style="this.setItemStyle(item)"
+          >
+            {{ classificationText(item) }}
+          </span>
+      </div>
+    </dd>
 </template>
 
 <script>

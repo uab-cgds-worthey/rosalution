@@ -22,14 +22,14 @@
   flex: 0 0 130px;
   font-weight: 600;
 }
-
+/* 
 a:hover {
   color: var(--rosalution-purple-100);
-}
-
+} */
+/* 
 .dataset-label-available {
   color: var(--rosalution-purple-300)
-}
+} */
 
 .dataset-label-unavailable {
   color: var(--rosalution-grey-100)

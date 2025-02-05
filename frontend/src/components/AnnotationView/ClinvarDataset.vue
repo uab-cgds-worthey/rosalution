@@ -1,16 +1,17 @@
 <template>
-  <div class="dataset-container">
-    <a :href="linkout"
-      class="dataset-label"
-      :class="isLinkoutAvailable ? 'dataset-label-available' : 'dataset-label-unavailable'"
-      data-test="text-label"
-      target="_blank" rel="noreferrer noopener"
-      style="font-size: 1.25rem;"
-    >
-      {{ label }}
+    <dt>
+      <a :href="linkout"
+        class="dataset-label"
+        :class="isLinkoutAvailable ? 'dataset-label-available' : 'dataset-label-unavailable'"
+        data-test="text-label"
+        target="_blank" rel="noreferrer noopener"
+        style="font-size: 1.25rem;"
+      >
+        {{ label }}
+      </a>
       <font-awesome-icon v-if="isLinkoutAvailable" icon="up-right-from-square" size="2xs"/>
-    </a>
-  </div>
+    </dt>
+    <dd></dd>
 </template>
 
 <script>

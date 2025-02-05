@@ -1,16 +1,9 @@
 <template>
-  <div class="dataset-container">
-    <span v-if="label && !linkout" class="dataset-label">{{ label }}</span>
-    <a v-else-if="label && linkout" :href="linkout" class="dataset-label" target="_blank" rel="noreferrer noopener">
-      {{ label }}
-      <font-awesome-icon icon="up-right-from-square" size="2xs" />
-    </a>
     <div v-if="!isDataUnavailable" class="tags-container">
       <div class="tag" v-for="(item, index) in content" :key="index">
         {{ item }}
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -53,10 +46,4 @@ export default {
 };
 </script>
 
-<style scoped>
 
-.dataset-label {
-  color: v-bind(dataAvailabilityColour)
-}
-
-</style>
