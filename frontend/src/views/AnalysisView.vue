@@ -586,7 +586,7 @@ async function deleteDiscussionPost(postId) {
  *
  * @param {string} postId - The identifier of the post to delete
  */
-async function openDiscussionModal(postId) {
+async function openDiscussionModal(newAttachments) {
   console.log('Doing something here');
   const includeComments = false;
   const includeName = true;
@@ -595,17 +595,18 @@ async function openDiscussionModal(postId) {
   const attachment = await inputDialog
       .confirmText('Attach')
       .cancelText('Cancel')
-      .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp')
+      .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp, .png, .gb')
       .url(includeComments, includeName)
       .existing(attachments)
       .prompt();
+
+  console.log(attachment)
 
   if (!attachment) {
     return;
   }
 
   try {
-    // if attachment not existing in already attachment list
     await analysisStore.addDiscussionAttachment(attachment);
     console.log('The attachment was received');
     console.log(attachment);

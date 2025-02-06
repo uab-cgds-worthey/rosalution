@@ -263,11 +263,38 @@ export default {
     return await Requests.putForm(url, attachmentForm);
   },
 
+  async attachDiscussionAttachments(analysisName, attachment) {
+    const attachmentForm = {};
+    const url = `/rosalution/api/analysis/${analysisName}/attachment`;
+
+    // Either a single object to attach, or a list of objects to attach
+    console.log(attachment)
+
+    // if (!['file', 'link'].includes(attachment.type) ) {
+    //   throw new Error(`Evidence attachment ${attachment} type is invalid.`);
+    // }
+
+    const newAttachment = {
+    };
+
+    if (attachment.type == 'file') {
+      attachmentForm['upload_file'] = attachment.data;
+    } else if ( attachment.type == 'link') {
+      newAttachment['link_name'] = attachment.name;
+      newAttachment['link'] = attachment.data;
+    }
+
+    attachmentForm['new_attachment'] = JSON.stringify(newAttachment);
+
+    return await Requests.postForm(url, attachmentForm);
+  },
+
   async postNewDiscussionThread(analysisName, postContent) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions`;
 
     const attachmentForm = {
       'discussion_content': postContent,
+      'attachments': [],
     };
 
     const success = await Requests.postForm(url, attachmentForm);
