@@ -1,13 +1,11 @@
 <template>
   <a :href="value" target="_blank" rel="noreferrer noopener" class="linkout">
-    <img :src="linkoutImageSrc(imageFilename)" :alt="altText" :style="linkoutStyle" />
+    <img :src="likoutImageSrc" :alt="altText" :style="linkoutStyle" />
   </a>
 </template>
 
-<script>
-export default {
-  name: 'icon-linkout-dataset',
-  props: {
+<script setup>
+const props = defineProps({
     value: {
       type: String,
     },
@@ -19,23 +17,8 @@ export default {
       type: String,
       required: true,
     },
-  },
-  computed: {
-    linkoutStyle: function() {
-      if (typeof(this.value) == 'undefined') {
-        return {
-          opacity: 0.25,
-        };
-      }
-      return {
-        opacity: 1,
-      };
-    },
-  },
-  methods: {
-    linkoutImageSrc(imageFilename) {
-      return new URL(`/src/assets/${imageFilename}`, import.meta.url);
-    },
-  },
-};
+  });
+
+  const linkoutStyle = (typeof(props.value) == 'undefined') ? { opacity: 0.25 } : { opacity: 1 };
+  const likoutImageSrc = new URL(`/src/assets/${props.imageFilename}`, import.meta.url);
 </script>

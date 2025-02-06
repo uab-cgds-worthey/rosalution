@@ -1,29 +1,31 @@
-<template>
-  <DatasetLabel :label="label" :datasetValue="value"></DatasetLabel>
-  <span>
-    <span
-      class="score-background"
-      :style="{
-        'background-color': scoreStyling.backgroundColour,
-        'border-color': `2px solid ${scoreStyling.borderColour}`,
-      }"
-      data-test="score-background"
-    >
+<template>           
+  <div class="dataset-container">
+    <DatasetLabel :label="label" :datasetValue="value"></DatasetLabel>
+    <span>
       <span
-        v-if="value"
-        class="score-fill"
+        class="score-background"
         :style="{
-          'background-color': scoreStyling.fillColour,
-          width: scoreFillWidthPercentage,
+          'background-color': scoreStyling.backgroundColour,
+          'border-color': `2px solid ${scoreStyling.borderColour}`,
         }"
-        data-test="score-fill"
+        data-test="score-background"
       >
+        <span
+          v-if="value"
+          class="score-fill"
+          :style="{
+            'background-color': scoreStyling.fillColour,
+            width: scoreFillWidthPercentage,
+          }"
+          data-test="score-fill"
+        >
+        </span>
       </span>
-    </span>
-    <span class="score-text" :style="{ color: scoreStyling.textColour }" data-test="score-text">
-      {{ value }}
-    </span>
-  </span >
+      <span class="score-text" :style="{ color: scoreStyling.textColour }" data-test="score-text">
+        {{ value }}
+      </span>
+    </span >
+  </div>
 </template>
 
 <script setup>
@@ -86,7 +88,7 @@ const scoreFillValue = (parseFloat(Math.abs(props.minimum) + props.value) /
 const scoreFillWidthPercentage = Math.floor(Math.abs(scoreFillValue) * 100) + '%';
 
 const isAvailable = isDatasetAvailable(props.value);
-const scoreStyling = styles.nominalColours;
+let scoreStyling = styles.nominalColours;
 
 function withinBounds(score) {
   return score > props.bounds.lowerBound && score < props.bounds.upperBound;

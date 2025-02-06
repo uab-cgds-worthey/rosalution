@@ -188,6 +188,11 @@ export default {
       this.experimentalConditions = this.model.conditions.has_condition;
     },
     determineSectionTextColor(section) {
+      // Added this check due to section being undefined at times even though it is expected to exist.
+      if(section === undefined || section=== null) {
+        return 'color: black';
+      }
+
       if (Object.keys(section).length === 0) {
         return {color: `var(--rosalution-grey-300)`};
       }

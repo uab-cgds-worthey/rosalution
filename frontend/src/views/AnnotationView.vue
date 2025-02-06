@@ -13,7 +13,7 @@
     >
     </AnnotationViewHeader>
   </app-header>
-  <app-content>
+  <app-content v-if="renderReady">
     <div class="sections">
       <AnnotationSection
         v-for="(section, index) in this.rendering" :key="`${section.type}-${section.anchor}-${index}`"
@@ -123,6 +123,9 @@ export default {
     };
   },
   computed: {
+    renderReady() {
+      return !( Object.keys(this.annotations).length === 0 || this.rendering.length === 0 )
+    },
     sectionAnchors() {
       return this.rendering.map((section) => {
         return section.anchor;

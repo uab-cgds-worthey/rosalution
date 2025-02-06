@@ -69,7 +69,9 @@ a:hover .dataset-label {
   width: 10.75rem;
   height: 1rem;
   border-radius: 9999px;
-  display: flex;
+  /* display: flex; - changed to inline block, so that the dom element this is applies to. 
+  Keeps it inline but the block allows the width and height to be set*/
+  display: inline-block;
 }
 
 /** set dataset **/
@@ -150,11 +152,18 @@ a:hover .dataset-label {
 .transcript-header {
   display: flex;
   align-items: baseline;
-  gap: var(--p-8)
+  gap: var(--p-8);
+
 }
 
 .transcript-header-text {
-  margin: 0px
+  margin: 0px;
+
+    /** mimicing the h2 css **/
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-block: 0px;
+    margin-inline: 0px;
 }
 
 .transcript-scores {

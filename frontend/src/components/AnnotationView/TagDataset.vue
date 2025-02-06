@@ -1,49 +1,35 @@
 <template>
-    <div v-if="!isDataUnavailable" class="tags-container">
+    <div class="tags-container dataset-container">
+      <DatasetLabel :label="label" :linkout="linkout" :datasetValue="value" style="flex: inherit"></DatasetLabel>
       <div class="tag" v-for="(item, index) in content" :key="index">
         {{ item }}
       </div>
     </div>
 </template>
 
-<script>
-export default {
-  name: 'tag-dataset',
-  props: {
-    label: {
-      type: String,
-    },
-    linkout: {
-      type: String,
-      required: false,
-    },
-    value: {
-      type: [String, Array],
-    },
-    delimeter: {
-      type: String,
-      default: '; ',
-    },
-  },
-  computed: {
-    isDataUnavailable() {
-      return this.value == '.' || this.value == 'null' || this.value == null;
-    },
-    dataAvailabilityColour() {
-      return this.isDataUnavailable ?
-        'var(--rosalution-grey-300)' :
-        this.linkout ? 'var(--rosalution-purple-300)' :
-          'var(--rosalution-black)';
-    },
-    content() {
-      if (typeof (this.value) == 'object') {
-        return this.value;
-      }
+<script setup>
+import DatasetLabel from '@/components/AnnotationView/DatasetLabel.vue';
 
-      return this.value.split(this.delimeter);
-    },
+const props = defineProps({
+  label: {
+    type: String,
+    required: false
   },
-};
+  linkout: {
+    type: String,
+    required: false,
+  },
+  value: {
+    type: [String, Array],
+    default: ""
+  },
+  delimeter: {
+    type: String,
+    default: ';   ',
+  },
+});
+
+const content = (typeof(props.value) == 'object') ?  props.value : props.value.join(props.delimeter)
 </script>
 
 

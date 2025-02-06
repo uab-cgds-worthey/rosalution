@@ -1,16 +1,18 @@
-<template class="dataset-container">
+<template>
   <div class="dataset-container">
-    <DatasetLabel></DatasetLabel>
+    <DatasetLabel :label="label" :linkout="linkout" :datasetValue="value"></DatasetLabel>
     <span class="text-value" data-test="text-value" >{{ content }}</span>
   </div>
 </template>
 
 <script setup>
+import {ref} from 'vue'
 import DatasetLabel from '@/components/AnnotationView/DatasetLabel.vue';
 
 const props = defineProps({
   label: {
     type: String,
+    required: false
   },
   linkout: {
     type: String,
@@ -18,6 +20,7 @@ const props = defineProps({
   },
   value: {
     type: [String, Array],
+    default: "",
   },
   delimeter: {
     type: String,
@@ -25,6 +28,16 @@ const props = defineProps({
   },
 });
 
-const content =  (typeof(props.value) == 'object') ? props.value.join(props.delimeter) : props.value;
+function calculateContent() {
+  if(props.value == null || props.value == undefined) {
+
+    console.log(`Dataset ${props.label} not defined`)
+    return ""
+  }
+
+  return ( typeof(props.value) == 'object')?props.value.join(props.delimeter) : props.value
+}
+
+const content = ref(calculateContent())
 
 </script>
