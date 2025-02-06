@@ -45,6 +45,27 @@ describe('DiscussionSection.vue', () => {
     expect(emittedObjects[0]).to.include('Test post content');
   });
 
+  it.skip('Should show new attachments in the action row in a new discussion post', async () => {
+    // await wrapper.setData({newPostContent: 'Test post content'});
+
+    // const newDiscussionButton = wrapper.find('[data-test=new-discussion-button]');
+    // await newDiscussionButton.trigger('click');
+  });
+
+  it.skip('Should attach attachments when a new discussion post is Published', async () => {
+    // await wrapper.setData({newPostContent: 'Test post content'});
+
+    // const newDiscussionButton = wrapper.find('[data-test=new-discussion-button]');
+    // await newDiscussionButton.trigger('click');
+  });
+
+  it.skip('Should show Discussion Attachments in Supporting Evidence', async () => {
+    // await wrapper.setData({newPostContent: 'Test post content'});
+
+    // const newDiscussionButton = wrapper.find('[data-test=new-discussion-button]');
+    // await newDiscussionButton.trigger('click');
+  });
+
   it('Should not be able to publish a post if the new post content field is empty', async () => {
     const newDiscussionButton = wrapper.find('[data-test=new-discussion-button]');
     await newDiscussionButton.trigger('click');

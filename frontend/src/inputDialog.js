@@ -149,6 +149,7 @@ export default {
   updateActiveTabInput(updatedUserInput) {
     const tab = state.tabs.find((tab) => tab.name === state.activeTabName);
     tab.input = updatedUserInput;
+    console.log('reaching updateActiveTabInput');
   },
 };
 

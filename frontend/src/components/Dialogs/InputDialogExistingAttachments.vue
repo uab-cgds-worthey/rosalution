@@ -10,19 +10,26 @@
         <font-awesome-icon :icon="['far', 'file']" size="lg" v-if="existingAttachment.type==='file'"/>
         <font-awesome-icon icon="link" size="lg" v-else-if="existingAttachment.type==='link'"/>
       </span>
-      <label for="existing-attachment-row" class="existing-attachment-name">
+      <label :for="existingAttachment.attachment_id" class="existing-attachment-name">
         {{ existingAttachment.name }}
-        <input type="checkbox" class="existing-attachment-checkbox" name="existing-attachment-row"/>
+        <input type="checkbox"
+        :id="existingAttachment.attachment_id"
+        class="existing-attachment-checkbox"
+        :value="existingAttachment"
+        v-model="checkedAttachments"
+        @change="onChanged($event)"
+        />
       </label>
     </div>
   </div>
 </template>
 
 <script setup>
-console.log('SETUPPING THE THING');
-import {onMounted} from 'vue';
+console.log('SETUPPING THE Input Dialog Existing Attachments');
+import {onMounted, ref, toRaw} from 'vue';
 
 const emit = defineEmits(['update:userInput']);
+const checkedAttachments = ref([]);
 
 defineOptions({
   name: 'input-dialog-existing-attachments',
@@ -41,11 +48,22 @@ const props = defineProps({
   },
 });
 
-console.log(props.existingAttachments);
+// console.log(props.existingAttachments);
 
 onMounted(async () => {
-  console.log('awhyyyyyyyyyyyy');
+  console.log('Input Dialog Existing Attachments');
 });
+
+function onChanged() {
+  console.log('checked attachments');
+  console.log(checkedAttachments);
+  const unwrapedAttachments = checkedAttachments.value.map(function(attachment) {
+    console.log(toRaw(attachment));
+    return toRaw(attachment);
+  });
+  console.log(unwrapedAttachments);
+  emit('update:userInput', unwrapedAttachments);
+}
 </script>
 
 <style scoped>

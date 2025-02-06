@@ -9,6 +9,8 @@ export const analysisStore = reactive({
   },
   updatedContent: {},
 
+  newDiscussionPostAttachments: [],
+
   analysisName() {
     return this.analysis?.name;
   },
@@ -160,8 +162,12 @@ export const analysisStore = reactive({
    */
 
   async addDiscussionPost(newPostContent) {
-    const discussions = await Analyses.postNewDiscussionThread(this.analysis.name, newPostContent);
+    // if this.disucssionPostAttachment is just a new attachment, then attach as supporting evidence, and then
+    // use the return value of that to set the list of attachments
+    const discussions = await Analyses.postNewDiscussionThread(this.analysis.name, newPostContent, this.discussionPostAttachment);
     this.analysis.discussions = discussions;
+    this.discussionPostAttachment = []
+
   },
 
   async editDiscussionPost(postId, postContent) {
@@ -172,6 +178,22 @@ export const analysisStore = reactive({
   async deleteDiscussionPost(postId) {
     const discussions = await Analyses.deleteDiscussionThreadById(this.analysis.name, postId);
     this.analysis.discussions = discussions;
+  },
+
+  async addDiscussionAttachment(attachments) {
+    // we expect discussion attachments to be single or multiple
+    console.log(attachments)
+    console.log('inside the add discussions ttachmetn in store')
+
+    this.newDiscussionPostAttachments.push(attachments)
+    const discussionPostAttachment = await Analyses.attachDiscussionAttachments(
+      this.analysis.name,
+      attachments,
+    )
+    this.analysis.supporting_evidence_files.splice(0);
+    this.analysis.supporting_evidence_files.push(
+        ...discussionPostAttachment,
+    );
   },
 
   // -----------------------------------
