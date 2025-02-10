@@ -1,6 +1,7 @@
 import {expect, describe, it} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 
+import DatasetLabel from '@/components/AnnotationView/DatasetLabel.vue';
 import SetDataset from '@/components/AnnotationView/SetDataset.vue';
 
 /**
@@ -29,7 +30,8 @@ describe('SetDataset.vue', () => {
   it('renders a label with the value', () => {
     const wrapper = getMountedComponent();
 
-    expect(wrapper.html()).to.contain('PROVEAN');
+    const labelWrapper = wrapper.findComponent(DatasetLabel);
+    expect(labelWrapper.props('label')).to.equal('PROVEAN');
   });
 
   it('renders as unavailable if data does not exist', () => {
@@ -37,9 +39,10 @@ describe('SetDataset.vue', () => {
       value: '.',
     });
 
-    const setUnavailable = wrapper.find('[data-test=set-unavailable]');
+    console.log(wrapper);
 
-    expect(setUnavailable.attributes().class).to.contains('set-fill-unavailable');
+    const setUnavailable = wrapper.find('[data-test=set-unavailable]');
+    expect(setUnavailable.classes())('set-fill-unavailable');
   });
 
   it('renders each item in a set', () => {

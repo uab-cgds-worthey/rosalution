@@ -124,7 +124,7 @@ export default {
   },
   computed: {
     renderReady() {
-      return !( Object.keys(this.annotations).length === 0 || this.rendering.length === 0 )
+      return !( Object.keys(this.annotations).length === 0 || this.rendering.length === 0 );
     },
     sectionAnchors() {
       return this.rendering.map((section) => {

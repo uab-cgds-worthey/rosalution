@@ -1,4 +1,4 @@
-<template>           
+<template>
   <div class="dataset-container">
     <DatasetLabel :label="label" :datasetValue="value"></DatasetLabel>
     <span>
@@ -32,27 +32,27 @@
 
 import DatasetLabel from '@/components/AnnotationView/DatasetLabel.vue';
 
-import {isDatasetAvailable} from '@/components/AnnotationView/datasetRenderingUtility.js'
+import {isDatasetAvailable} from '@/components/AnnotationView/datasetRenderingUtility.js';
 
 const props = defineProps({
   label: {
-      type: String,
-    },
-    value: {
-      type: [Number, String],
-    },
-    minimum: {
-      type: Number,
-    },
-    maximum: {
-      type: Number,
-    },
-    bounds: {
-      type: Object,
-    },
-    cutoff: {
-      type: Number,
-    },
+    type: String,
+  },
+  value: {
+    type: [Number, String],
+  },
+  minimum: {
+    type: Number,
+  },
+  maximum: {
+    type: Number,
+  },
+  bounds: {
+    type: Object,
+  },
+  cutoff: {
+    type: Number,
+  },
 });
 
 const styles =  {
@@ -83,7 +83,7 @@ const styles =  {
 };
 
 const scoreFillValue = (parseFloat(Math.abs(props.minimum) + props.value) /
-                      (Math.abs(props.minimum) + Math.abs(props.maximum)))
+                      (Math.abs(props.minimum) + Math.abs(props.maximum)));
 
 const scoreFillWidthPercentage = Math.floor(Math.abs(scoreFillValue) * 100) + '%';
 

@@ -7,7 +7,8 @@
 </template>
 
 <script setup>
-import {isDatasetAvailable} from '@/components/AnnotationView/datasetRenderingUtility.js'
+import {isDatasetAvailable} from '@/components/AnnotationView/datasetRenderingUtility.js';
+
 const props = defineProps({
   label: {
     type: String,
@@ -20,6 +21,6 @@ const props = defineProps({
 });
 
 const isAvailable = isDatasetAvailable(props.datasetValue);
-const dataAvailabilityColour =  isAvailable ? "black" : ".dataset-label-unavailable"
+const dataAvailabilityColour =  isAvailable ? 'black' : 'var(--annotation-dataset-unavailable)';
 
 </script>

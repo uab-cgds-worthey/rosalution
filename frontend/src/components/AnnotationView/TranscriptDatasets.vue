@@ -2,7 +2,9 @@
 <div class="dataset-container">
   <div v-for="transcript in value" :key="transcript.transcript_id" class="transcript-container">
     <div class="transcript-header">
-      <span class="transcript-header-text"> {{transcript['transcript_id'] || 'RefSeq Transcript ID Unavailable'}} </span>
+      <span class="transcript-header-text">
+        {{transcript['transcript_id'] || 'RefSeq Transcript ID Unavailable'}}
+      </span>
       <TextHighlightDataset
         label="Impact"
         :value="transcript['Impact']"
@@ -38,11 +40,10 @@ import TextDataset from '@/components/AnnotationView/TextDataset.vue';
 import TextHighlightDataset from '@/components/AnnotationView/TextHighlightDataset.vue';
 
 defineProps({
-    value: {
-      type: [Array],
-    },
+  value: {
+    type: [Array],
+  },
 });
-
 
 const impactConfiguration = {
   'MODERATE': 'Yellow',

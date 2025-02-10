@@ -1,4 +1,7 @@
 /** transcript dataset-container padding: var(--p-0); **/
+html {
+  --annotation-dataset-unavailable: var(--rosalution-grey-100);
+}
 
 .dataset-container {
   /* display: flex; */

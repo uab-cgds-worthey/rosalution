@@ -1,3 +1,9 @@
 export function isDatasetAvailable(datasetValue) {
-  return datasetValue == '.' || datasetValue == 'null' || datasetValue == null;
+  return !(
+    datasetValue == undefined ||
+    datasetValue == '.' ||
+    datasetValue == 'null' ||
+    datasetValue == null ||
+    datasetValue == ""
+  );
 }

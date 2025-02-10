@@ -13,7 +13,7 @@ import DatasetLabel from '@/components/AnnotationView/DatasetLabel.vue';
 const props = defineProps({
   label: {
     type: String,
-    required: false
+    required: false,
   },
   linkout: {
     type: String,
@@ -21,7 +21,7 @@ const props = defineProps({
   },
   value: {
     type: [String, Array],
-    default: ""
+    default: '',
   },
   delimeter: {
     type: String,
@@ -29,7 +29,7 @@ const props = defineProps({
   },
 });
 
-const content = (typeof(props.value) == 'object') ?  props.value : props.value.join(props.delimeter)
+const content = (typeof(props.value) == 'object') ?  props.value : props.value.split(props.delimeter);
 </script>
 
 

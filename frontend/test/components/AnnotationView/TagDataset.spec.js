@@ -1,7 +1,11 @@
 import {expect, describe, it} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
+
+import DatasetLabel from '@/components/AnnotationView/DatasetLabel.vue';
 import TagDataset from '@/components/AnnotationView/TagDataset.vue';
+
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+
 
 /**
    * Creates a shallow mount for the vue component.
@@ -33,26 +37,26 @@ describe('TagDataset.vue', () => {
   it('renders the label as expected', () => {
     wrapper = getMountedComponent();
 
-    const labelWrapper = wrapper.find('.dataset-label');
+    const labelWrapper = wrapper.findComponent(DatasetLabel);
 
-    expect(labelWrapper.text()).to.contains('HPO');
+    expect(labelWrapper.props('label')).to.equal('HPO');
   });
 
   it('renders the label as link when linkout is provided', () => {
     const linkout = 'https://hpo.jax.org/app/';
     wrapper = getMountedComponent({linkout});
 
-    const labelLink = wrapper.find('.dataset-label');
+    const labelWrapper = wrapper.findComponent(DatasetLabel);
 
-    expect(labelLink.attributes('href')).to.equal(linkout);
+    expect(labelWrapper.props('linkout')).to.equal(linkout);
   });
 
   it('does not render a label when none is provided', () => {
     wrapper = getMountedComponent({label: undefined});
 
-    const labelWrapper = wrapper.find('.dataset-label');
+    const labelWrapper = wrapper.findComponent(DatasetLabel);
 
-    expect(labelWrapper.exists()).to.not.be.true;
+    expect(labelWrapper.props('label')).to.be.undefined;
   });
 
   it('renders tags correctly for array values', () => {
@@ -70,16 +74,12 @@ describe('TagDataset.vue', () => {
     });
   });
 
-  it('renders as unavailable if data not provided', () => {
-    const localThis = {isDataUnavailable: true};
-
-    expect(TagDataset.computed.dataAvailabilityColour.call(localThis)).to.equal('var(--rosalution-grey-300)');
-  });
-
   it('renders as a linkout if its provided', () => {
-    const localThis = {isDataUnavailable: false, linkout: 'http://hpo.jax.org/app/'};
+    wrapper = getMountedComponent({linkout: 'http://hpo.jax.org/app/', value: undefined});
+    const labelWrapper = wrapper.findComponent(DatasetLabel);
 
-    expect(TagDataset.computed.dataAvailabilityColour.call(localThis)).to.equal('var(--rosalution-purple-300)');
+    expect(wrapper.exists()).to.be.true;
+    expect(labelWrapper.props('linkout')).to.equal('http://hpo.jax.org/app/');
   });
 
   it('renders tags correctly for string values', () => {

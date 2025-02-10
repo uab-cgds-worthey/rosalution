@@ -14,14 +14,14 @@
             {{ classificationText(item) }}
           </span>
         </span>
-      </span>
+    </span>
   </div>
 </template>
 
 <script setup>
 import DatasetLabel from '@/components/AnnotationView/DatasetLabel.vue';
 
-import {isDatasetAvailable} from '@/components/AnnotationView/datasetRenderingUtility.js'
+import {isDatasetAvailable} from '@/components/AnnotationView/datasetRenderingUtility.js';
 
 const props = defineProps({
   label: {
@@ -40,7 +40,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-})
+});
 
 const availableData = isDatasetAvailable(props.value);
 

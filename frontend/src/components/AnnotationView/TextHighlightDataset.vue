@@ -11,15 +11,15 @@ import DatasetLabel from '@/components/AnnotationView/DatasetLabel.vue';
 
 const props = defineProps({
   label: {
-      type: String,
-    },
-    value: {
-      type: String,
-    },
-    highlight: {
-      type: Object,
-      required: true,
-    },
+    type: String,
+  },
+  value: {
+    type: String,
+  },
+  highlight: {
+    type: Object,
+    required: true,
+  },
 });
 
 function calculateHighlightStyle() {
@@ -43,6 +43,6 @@ function calculateHighlightStyle() {
   }
   return style;
 }
-const highlightStyle = calculateHighlightStyle()
+const highlightStyle = calculateHighlightStyle();
 
 </script>

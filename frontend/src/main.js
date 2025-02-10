@@ -92,7 +92,6 @@ router.beforeEach(async (to) => {
 });
 
 const app = createApp(App);
-app.config.performance = true
 
 app.use(router);
 app.component('font-awesome-icon', FontAwesomeIcon);

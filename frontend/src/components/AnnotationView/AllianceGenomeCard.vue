@@ -189,7 +189,7 @@ export default {
     },
     determineSectionTextColor(section) {
       // Added this check due to section being undefined at times even though it is expected to exist.
-      if(section === undefined || section=== null) {
+      if (section === undefined || section=== null) {
         return 'color: black';
       }
 
