@@ -1,7 +1,7 @@
 <template>
   <div class="dataset-container">
     <DatasetLabel :label="label" :datasetValue="value"></DatasetLabel>
-    <span>
+    <span class="score-visualize">
       <span
         class="score-background"
         :style="{

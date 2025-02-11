@@ -3,28 +3,41 @@ html {
   --annotation-dataset-unavailable: var(--rosalution-grey-100);
 }
 
-.section-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+.dataset-container {
+  /* display: flex; */
+  padding: var(--p-1);
+  line-height: 24px; /**  was rem in tag-dataset line-height: 1.5rem; **/
+  align-items: center; /** from score-dataset, set-dataset only **/
+  /* flex: 4 1 auto; * set-dataset only * */
+  padding-top: var(--p-10); /** from clinvar-dataset **/
+
+  gap: var(--p-5); /** text highlight dataset **/
+  /* flex-shrink: 0; */
 }
 
-.dataset-container {
-  line-height: 24px; /**  was rem in tag-dataset line-height: 1.5rem; **/
-}
+/* score-dataset label flex: 0 0 110px */
+/* text, tag-dataset  label flex: 0 0 130px */
+/* clinvar-dataset  label flex: 0 0 125px */
+/* text highlight datset label:   flex: 0 0 content; */
+/** clinvar-dataset font size 1.25rem **/
 
 .dataset-label {
+  flex: 0 0 130px;
   font-weight: 600;
 }
-
-.dataset-container > .dataset-label {
-  flex-basis: 8.125rem;
-}
+/* 
+a:hover {
+  color: var(--rosalution-purple-100);
+} */
+/* 
+.dataset-label-available {
+  color: var(--rosalution-purple-300)
+} */
 
 .dataset-label-unavailable {
-  color: var(--rosalution-grey-100);
+  color: var(--rosalution-grey-100)
 }
 
-  
 a:hover .dataset-label {
   color: var(--rosalution-purple-100);
 }
@@ -33,18 +46,15 @@ a:hover .dataset-label {
 
 .linkout {
   background-color: var(--rosalution-white);
-  /* overflow:hidden; */
+  overflow:hidden;
 }
 
 .linkout img {
   max-height: 1.5rem;
+  padding-right: var(--p-10)
 }
 
 /** score dataset **/
-/* 
-.dataset-container span.score-visualize {
-  display: inline;
-} */
 
 .score-fill {
   box-shadow: 0 0 #0000;
@@ -52,26 +62,30 @@ a:hover .dataset-label {
 }
 
 .score-text {
+  padding-left: var(--p-1);
   font-size: 1rem;
+  /* margin:auto; */
 }
 
 .score-background {
-  /* overflow: hidden; */
+  overflow: hidden;
   width: 10.75rem;
   height: 1rem;
   border-radius: 9999px;
+  /* display: flex; - changed to inline block, so that the dom element this is applies to. 
+  Keeps it inline but the block allows the width and height to be set*/
   display: inline-block;
 }
 
 /** set dataset **/
-/* 
+
 
 .set-section {
   flex: 1 0 content;
-} */
+}
 
 .set-background {
-  /* overflow: hidden; */
+  overflow: hidden;
   width: 12.5rem;
   border-radius: 9999px;
 }
@@ -81,15 +95,15 @@ a:hover .dataset-label {
   height: 1rem;
 }
 
-/* .set-fill { */
-  /* display:flex */
-/* } */
+.set-fill {
+  display:flex
+}
 
 .set-text {
   font-size: 0.75rem; /* 12px */
   line-height: 1rem; /* 16px */
   white-space: nowrap;
-  /* text-align: center; */
+  text-align: center;
   color: var(--rosalution-white);
 }
 
@@ -126,39 +140,39 @@ a:hover .dataset-label {
 
 /** transcript dataset **/
 
-/* 
+
 .transcript-container {
-  /* padding: var(--p-10) 0 var(--p-10) 0; */
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* gap: var(--p-8) */
-/*} */
+  padding: var(--p-10) 0 var(--p-10) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--p-8)
+}
 
 .transcript-container:hover {
   background-color: var(--rosalution-grey-50);
 }
-/* 
+
 .transcript-header {
   display: flex;
   align-items: baseline;
   gap: var(--p-8);
 
-} */
+}
 
 .transcript-header-text {
-  /* margin: 0px; */
+  margin: 0px;
 
     /** mimicing the h2 css **/
     font-size: 1.5rem;
     font-weight: 700;
-    /* margin-block: 0px;
-    margin-inline: 0px; */
+    margin-block: 0px;
+    margin-inline: 0px;
 }
-/* 
+
 .transcript-scores {
   display:flex;
 }
 
 .blank-transcript-score-spot {
   flex: 3 0 auto;
-} */
+}
