@@ -32,7 +32,7 @@
             />
         </template>
         <template #default>
-          <div v-for="(row, index) in section.rows" :key="`row-${index}`" :class="row.class">
+          <div v-for="(row, index) in section.rows" :key="`row-${index}`" :class="row.class" class="grid-row-span">
             <component
                 v-for="(datasetConfig, index) in row.datasets"
                 :key="`${datasetConfig.dataset}-${index}`"
@@ -53,8 +53,8 @@
           data-test="notification-dialog"
         />
     </div>
-    <AnnotationSidebar class="sidebar" :section-anchors="sectionAnchors"></AnnotationSidebar>
   </app-content>
+  <AnnotationSidebar class="sidebar" :section-anchors="sectionAnchors"></AnnotationSidebar>
 </template>
 
 <script>
@@ -287,18 +287,33 @@ export default {
 
 app-content {
   display: flex;
+
+  grid-row: 2 / -2;
+  grid-column: 1 / -2;
 }
 
 app-header {
   position: sticky;
   top:0px;
   z-index: 10;
+
+  border: 4px solid var(--primary-background-color);
+}
+
+.sidebar {
+  grid-row: 2 / -2;
+  grid-column: -2 / -1;
+  position: sticky;
+  height: 90vh;
+  top: 4rem;
+  /* flex: 0 0 12.5rem; */
 }
 
 .sections {
   display: flex;
   flex-direction: column;
-  flex: 1
+  flex: 1;
+  gap: var(--p-10);
 }
 
 .fill-horizontal {
@@ -308,11 +323,5 @@ app-header {
   flex-wrap: wrap;
 }
 
-.sidebar {
-  position: sticky;
-  height: 90vh;
-  top: 4rem;
-  flex: 0 0 12.5rem;
-}
 
 </style>

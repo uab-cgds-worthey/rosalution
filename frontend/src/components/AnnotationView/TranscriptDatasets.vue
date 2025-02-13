@@ -1,5 +1,5 @@
 <template>
-<div class="dataset-container">
+<div>
   <div v-for="transcript in value" :key="transcript.transcript_id" class="transcript-container">
     <div class="transcript-header">
       <span class="transcript-header-text">

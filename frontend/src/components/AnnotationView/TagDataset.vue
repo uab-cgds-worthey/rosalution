@@ -1,8 +1,10 @@
 <template>
-    <div class="tags-container dataset-container">
-      <DatasetLabel :label="label" :linkout="linkout" :datasetValue="value" style="flex: inherit"></DatasetLabel>
-      <div class="tag" v-for="(item, index) in content" :key="index">
+    <div class="dataset-container">
+      <DatasetLabel :label="label" :linkout="linkout" :datasetValue="value"></DatasetLabel>
+      <div class="tags-container">
+        <div class="tag" v-for="(item, index) in content" :key="index">
         {{ item }}
+      </div>
       </div>
     </div>
 </template>

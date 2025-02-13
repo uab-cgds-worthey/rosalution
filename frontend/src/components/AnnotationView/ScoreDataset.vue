@@ -1,30 +1,22 @@
 <template>
   <div class="dataset-container">
     <DatasetLabel :label="label" :datasetValue="value"></DatasetLabel>
-    <span class="score-visualize">
-      <span
-        class="score-background"
-        :style="{
-          'background-color': scoreStyling.backgroundColour,
-          'border-color': `2px solid ${scoreStyling.borderColour}`,
-        }"
-        data-test="score-background"
-      >
-        <span
-          v-if="value"
-          class="score-fill"
-          :style="{
-            'background-color': scoreStyling.fillColour,
-            width: scoreFillWidthPercentage,
-          }"
-          data-test="score-fill"
-        >
-        </span>
-      </span>
+    <div style="display:flex; flex-wrap: nowrap; gap: 5px;">
+      <div class="score-background dataset-bar" :style="{
+        'background-color': scoreStyling.backgroundColour,
+        'border-color': `2px solid ${scoreStyling.borderColour}`,
+      }" data-test="score-background">
+        <div v-if="value" class="score-fill dataset-bar" :style="{
+          'background-color': scoreStyling.fillColour,
+          width: scoreFillWidthPercentage,
+        }" data-test="score-fill">
+        </div>
+      </div>
       <span class="score-text" :style="{ color: scoreStyling.textColour }" data-test="score-text">
         {{ value }}
       </span>
-    </span >
+    </div>
+
   </div>
 </template>
 
@@ -32,7 +24,7 @@
 
 import DatasetLabel from '@/components/AnnotationView/DatasetLabel.vue';
 
-import {isDatasetAvailable} from '@/components/AnnotationView/datasetRenderingUtility.js';
+import { isDatasetAvailable } from '@/components/AnnotationView/datasetRenderingUtility.js';
 
 const props = defineProps({
   label: {
@@ -55,7 +47,7 @@ const props = defineProps({
   },
 });
 
-const styles =  {
+const styles = {
   unavailableColours: {
     fillColour: '',
     backgroundColour: 'var(--rosalution-grey-100)',
@@ -83,7 +75,7 @@ const styles =  {
 };
 
 const scoreFillValue = (parseFloat(Math.abs(props.minimum) + props.value) /
-                      (Math.abs(props.minimum) + Math.abs(props.maximum)));
+  (Math.abs(props.minimum) + Math.abs(props.maximum)));
 
 const scoreFillWidthPercentage = Math.floor(Math.abs(scoreFillValue) * 100) + '%';
 

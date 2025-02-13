@@ -127,24 +127,29 @@ textarea:focus {
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
   display: grid;
   grid-template-rows: auto 1fr auto;
+  grid-template-columns: auto 12.5rem;
   grid-auto-columns: 1fr;
+  gap: var(--p-10);
+
   padding: var(--p-10);
+  align-items: start;
 }
 
 app-header {
-  grid-column: 1;
+  grid-column: 1 / -1;
 }
 
 app-content {
   grid-column: 1;
-  grid-row: 2;
+  grid-row: -1;
 }
 
 app-footer {
-  grid-column: 1;
-  grid-row: 3;
+  grid-column: 1 / -1;
+  grid-row: -2 / -1;
   height: 3rem;
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="rosalution-section-container">
+  <div class="rosalution-section-container" style="margin:0px;">
     <input type="checkbox" v-bind:id="section_toggle" />
     <div class="rosalution-section-header" :data-test="this.header">
       <h2 class="rosalution-section-header-text">
