@@ -297,7 +297,7 @@ app-header {
   top:0px;
   z-index: 10;
 
-  border: 4px solid var(--primary-background-color);
+  border-bottom: 4px solid var(--primary-background-color);
 }
 
 .sidebar {
@@ -306,7 +306,6 @@ app-header {
   position: sticky;
   height: 90vh;
   top: 4rem;
-  /* flex: 0 0 12.5rem; */
 }
 
 .sections {

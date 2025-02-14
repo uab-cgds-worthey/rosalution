@@ -17,7 +17,6 @@ html {
 
 .grid-row-horizontal {
   display: contents;
-  grid-column: unset;
 }
 
 .dataset-container {
@@ -44,7 +43,7 @@ a:hover .dataset-label {
   flex: 0 0 12.5rem;
   height: 1rem;
   border-radius: 9999px;
-  background-color: salmon;
+  /* background-color: salmon; */
 }
 
 /** linkout dataset **/
@@ -58,12 +57,6 @@ a:hover .dataset-label {
   max-height: 1.5rem;
 }
 
-/** score dataset **/
-/* 
-.dataset-container span.score-visualize {
-  display: inline;
-} */
-
 .score-fill {
   box-shadow: 0 0 #0000;
   border-radius: 9999px;
@@ -75,38 +68,32 @@ a:hover .dataset-label {
 
 .score-background {
   overflow: hidden;
-  /* width: 10.75rem;
-  height: 1rem; */
   border-radius: 9999px;
 }
 
 /** set dataset **/
-/* 
+
 
 .set-section {
-  flex: 1 0 content;
-} */
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
 
 .set-background {
-  /* overflow: hidden; */
-  width: 12.5rem;
+  overflow: hidden;
   border-radius: 9999px;
 }
 
 .set-fill-unavailable {
   background-color: var(--rosalution-grey-100);
-  height: 1rem;
 }
-
-/* .set-fill { */
-  /* display:flex */
-/* } */
 
 .set-text {
   font-size: 0.75rem; /* 12px */
   line-height: 1rem; /* 16px */
   white-space: nowrap;
-  /* text-align: center; */
+  text-align: center;
   color: var(--rosalution-white);
 }
 

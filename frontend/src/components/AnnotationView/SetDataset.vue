@@ -1,19 +1,15 @@
 <template>
   <div class="dataset-container">
     <DatasetLabel :label="label" :datasetValue="value"></DatasetLabel>
-    <span class="set-section">
-      <span v-if="!value || availableData"
-        class="set-background set-fill-unavailable set-fill"
-        data-test="set-unavailable">
+    <span v-if="!availableData" class="set-section dataset-bar set-fill-unavailable"></span>
+    <span v-else class="set-section dataset-bar">
+      <span v-for="(item, index) in set"
+        :key="`${value}-${index}`"
+        :style="setItemStyle(item)"
+        class="set-text"
+      >
+        {{ classificationText(item) }}
       </span>
-        <span v-else class="set-background set-text set-fill" data-test="set-fill">
-          <span v-for="(item, index) in set"
-            :key="`${value}-${index}`"
-            :style="setItemStyle(item)"
-          >
-            {{ classificationText(item) }}
-          </span>
-        </span>
     </span>
   </div>
 </template>
@@ -72,7 +68,7 @@ function setItemStyle(item) {
 
   style['width'] = calculateWidth(item.value);
 
-  return (item.value == this.value) ? style : {...style, 'opacity': 0.5};
+  return (item.value == props.value) ? style : {...style, 'opacity': 0.5};
 };
 
 function classificationText(setItem) {
