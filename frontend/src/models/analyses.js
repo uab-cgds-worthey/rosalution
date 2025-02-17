@@ -268,7 +268,16 @@ export default {
     const url = `/rosalution/api/analysis/${analysisName}/attachment`;
 
     // Either a single object to attach, or a list of objects to attach
-    console.log(attachment)
+    console.log('In analyses.js - logging attachment type');
+    console.log(attachment.type);
+    console.log(attachment);
+
+    const unwrappedAttachments = attachment.value.map(function(attachment) {
+      return (attachment);
+    });
+    console.log('unwrapped attachment in analyses.js');
+    console.log(unwrappedAttachments);
+    //  This^ is not logging
 
     // if (!['file', 'link'].includes(attachment.type) ) {
     //   throw new Error(`Evidence attachment ${attachment} type is invalid.`);
@@ -289,13 +298,17 @@ export default {
     return await Requests.postForm(url, attachmentForm);
   },
 
-  async postNewDiscussionThread(analysisName, postContent) {
+  async postNewDiscussionThread(analysisName, postContent, postAttachments=[]) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions`;
 
     const attachmentForm = {
       'discussion_content': postContent,
-      'attachments': [],
+      'attachments': postAttachments,
     };
+
+    console.log('postNewDiscussionThread');
+    console.log(postAttachments);
+    // console.log()
 
     const success = await Requests.postForm(url, attachmentForm);
     return success;

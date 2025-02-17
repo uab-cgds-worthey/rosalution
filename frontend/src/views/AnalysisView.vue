@@ -44,6 +44,7 @@
         :existingAttachments="attachments"
         :userClientId="clientId"
         :actions="discussionContextActions"
+        :newAttachments="addDiscussionAttachment"
         @discussion:new-post="addDiscussionPost"
         @discussion:edit-post="editDiscussionPost"
         @discussion:delete-post="deleteDiscussionPost"
@@ -546,6 +547,7 @@ async function pushAnalysisEvent(eventType) {
  * @param {string} newPostContent - The content of the new discussion post.
  */
 async function addDiscussionPost(newPostContent) {
+  newAttachments = [];
   await analysisStore.addDiscussionPost(newPostContent);
 }
 
@@ -586,34 +588,35 @@ async function deleteDiscussionPost(postId) {
  *
  * @param {string} postId - The identifier of the post to delete
  */
-async function openDiscussionModal(newAttachments) {
-  console.log('Doing something here');
-  const includeComments = false;
-  const includeName = true;
+// async function openDiscussionModal(newAttachments) {
+//   const includeComments = false;
+//   const includeName = true;
 
-  // const defaultComments = 'This attachment is referenced in the Discussion attachment.';
-  const attachment = await inputDialog
-      .confirmText('Attach')
-      .cancelText('Cancel')
-      .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp, .png, .gb')
-      .url(includeComments, includeName)
-      .existing(attachments)
-      .prompt();
+//   // const defaultComments = 'This attachment is referenced in the Discussion attachment.';
+//   const attachment = await inputDialog
+//       .confirmText('Attach')
+//       .cancelText('Cancel')
+//       .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp, .png, .gb')
+//       .url(includeComments, includeName)
+//       .existing(attachments)
+//       .prompt();
 
-  console.log(attachment)
+//   console.log('AnalysisView openDiscussionModal');
+//   console.log(attachment);
 
-  if (!attachment) {
-    return;
-  }
+//   if (!attachment) {
+//     return;
+//   }
 
-  try {
-    await analysisStore.addDiscussionAttachment(attachment);
-    console.log('The attachment was received');
-    console.log(attachment);
-  } catch (error) {
-    await notificationDialog.title('Failure').confirmText('Ok').alert(error);
-  }
-}
+//   try {
+//     // trying addDiscussionPost
+//     await analysisStore.addDiscussionAttachment(attachment);
+//     console.log('The attachment was received');
+//     console.log(attachment);
+//   } catch (error) {
+//     await notificationDialog.title('Failure').confirmText('Ok').alert(error);
+//   }
+// }
 
 /**
  * Toast to indicate text to the clipboard.

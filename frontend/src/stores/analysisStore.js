@@ -161,13 +161,30 @@ export const analysisStore = reactive({
    * Discussions
    */
 
-  async addDiscussionPost(newPostContent) {
+  async addDiscussionPost(newPostContent, newPostAttachments=[]) {
     // if this.disucssionPostAttachment is just a new attachment, then attach as supporting evidence, and then
     // use the return value of that to set the list of attachments
-    const discussions = await Analyses.postNewDiscussionThread(this.analysis.name, newPostContent, this.discussionPostAttachment);
-    this.analysis.discussions = discussions;
-    this.discussionPostAttachment = []
 
+    // moving attachment handling here
+    // we expect discussion attachments to be single or multiple
+    console.log(newPostAttachments);
+    console.log('inside the add discussions attachment in analysis store');
+
+    this.newDiscussionPostAttachments.push(newPostAttachments);
+    const discussionPostAttachment = await Analyses.attachDiscussionAttachments(
+        this.analysis.name,
+        newPostAttachments,
+    );
+    this.analysis.supporting_evidence_files.splice(0);
+    this.analysis.supporting_evidence_files.push(
+        ...discussionPostAttachment,
+    );
+
+    // update to post content and attachments
+    const discussions = await Analyses.postNewDiscussionThread(this.analysis.name, newPostContent,
+        this.discussionPostAttachment);
+    this.analysis.discussions = discussions;
+    // this.discussionPostAttachment = []; no need will be embedded in newPostitem
   },
 
   async editDiscussionPost(postId, postContent) {
@@ -180,21 +197,22 @@ export const analysisStore = reactive({
     this.analysis.discussions = discussions;
   },
 
-  async addDiscussionAttachment(attachments) {
-    // we expect discussion attachments to be single or multiple
-    console.log(attachments)
-    console.log('inside the add discussions ttachmetn in store')
+  // Merging attachments with add discussion post above
+  // async addDiscussionAttachment(attachments) {
+  //   // we expect discussion attachments to be single or multiple
+  //   console.log(attachments);
+  //   console.log('inside the add discussions attachment in analysis store');
 
-    this.newDiscussionPostAttachments.push(attachments)
-    const discussionPostAttachment = await Analyses.attachDiscussionAttachments(
-      this.analysis.name,
-      attachments,
-    )
-    this.analysis.supporting_evidence_files.splice(0);
-    this.analysis.supporting_evidence_files.push(
-        ...discussionPostAttachment,
-    );
-  },
+  //   this.newDiscussionPostAttachments.push(attachments);
+  //   const discussionPostAttachment = await Analyses.attachDiscussionAttachments(
+  //       this.analysis.name,
+  //       attachments,
+  //   );
+  //   this.analysis.supporting_evidence_files.splice(0);
+  //   this.analysis.supporting_evidence_files.push(
+  //       ...discussionPostAttachment,
+  //   );
+  // },
 
   // -----------------------------------
   // Analysis Attachments

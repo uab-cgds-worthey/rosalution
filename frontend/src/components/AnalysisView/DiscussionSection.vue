@@ -33,13 +33,14 @@
                   Attach
                 </button>
                 <div class="new-attachments-list">
-                  <span class="new-attachment">
+                  <span class="new-attachment" v-for="newAttachment in newAttachments"
+                  v-bind:key="newAttachment.attachment_id">
                     <span class="new-attachment-logo">
-                      <font-awesome-icon :icon="['far', 'file']" size="lg"/>
-                      <!-- <font-awesome-icon icon="link" size="lg" v-else-if="attachment.type==='link'"/> -->
+                      <font-awesome-icon :icon="['far', 'file']" size="lg" v-if="newAttachment.type==='file'"/>
+                      <font-awesome-icon icon="link" size="lg" v-else-if="newAttachment.type==='link'"/>
                     </span>
                     <span class="new-attachment-name">
-                      New Attachment Name
+                      {{ newAttachment.name }}
                     </span>
                   </span>
                 </div>
@@ -83,6 +84,7 @@
 
 <script>
 import DiscussionPost from './DiscussionPost.vue';
+import inputDialog from '@/inputDialog.js';
 
 export default {
   name: 'discussion-section',
@@ -103,12 +105,15 @@ export default {
     actions: {
       type: Array,
     },
+    existingAttachments: {
+      type: Array,
+    },
   },
   data: function() {
     return {
       newPostContent: '',
-      newAttachments: '',
       showNewPost: false,
+      newAttachments: [],
     };
   },
   computed: {
@@ -121,7 +126,7 @@ export default {
       this.showNewPost = true;
     },
     newDiscussionPost() {
-      this.$emit('discussion:new-post', this.newPostContent);
+      this.$emit('discussion:new-post', this.newPostContent, this.newAttachments);
       this.clearNewDiscussionField();
     },
     cancelNewDiscussionPost() {
@@ -130,6 +135,7 @@ export default {
     clearNewDiscussionField() {
       this.newPostContent = '';
       this.showNewPost = false;
+      this.newAttachments = [];
     },
     editDiscussionPost(postId, postContent) {
       this.$emit('discussion:edit-post', postId, postContent);
@@ -137,8 +143,33 @@ export default {
     deleteDiscussionPost(postId) {
       this.$emit('discussion:delete-post', postId);
     },
-    addAttachmentToDiscussionPost(postId) {
-      this.$emit('discussion:open-modal', this.newAttachments);
+    async addAttachmentToDiscussionPost(postId) {
+      // console.log('new Attachments list');
+      // console.log(this.newAttachments);
+      // this.$emit('discussion:open-modal', this.newAttachments);
+      const includeComments = false;
+      const includeName = true;
+
+      // const defaultComments = 'This attachment is referenced in the Discussion attachment.';
+      const attachment = await inputDialog
+          .confirmText('Attach')
+          .cancelText('Cancel')
+          .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp, .png, .gb')
+          .url(includeComments, includeName)
+          .existing(this.existingAttachments)
+          .prompt();
+
+      // console.log('AnalysisView openDiscussionModal in DISCUSSION SECTION');
+      // console.log(attachment);
+
+      if (!attachment) {
+        return;
+      }
+      const newAttachment = attachment[0];
+
+      this.newAttachments.push(newAttachment);
+      console.log('New Attachment has been pushed');
+      console.log(this.newAttachments);
     },
   },
 };
