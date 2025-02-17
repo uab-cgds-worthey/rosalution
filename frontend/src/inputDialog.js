@@ -92,7 +92,7 @@ export default {
     return this;
   },
   existing(attachments=[]) {
-    console.log('Reaching the existing');
+    console.log('Reaching the existing in inputDialog.js');
     const existingAttachmentsSelected = {
       name: 'input-dialog-existing-attachments',
       icon: 'rosalution',

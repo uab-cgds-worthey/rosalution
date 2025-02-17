@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-console.log('SETUPPING THE Input Dialog Existing Attachments');
+// console.log('Setting up the Input Dialog Existing Attachments');
 import {onMounted, ref, toRaw} from 'vue';
 
 const emit = defineEmits(['update:userInput']);
@@ -51,18 +51,19 @@ const props = defineProps({
 // console.log(props.existingAttachments);
 
 onMounted(async () => {
-  console.log('Input Dialog Existing Attachments');
+  console.log('Input Dialog Existing Attachments Mounted');
 });
 
 function onChanged() {
   console.log('checked attachments');
   console.log(checkedAttachments);
-  const unwrapedAttachments = checkedAttachments.value.map(function(attachment) {
+  const unwrappedAttachments = checkedAttachments.value.map(function(attachment) {
     console.log(toRaw(attachment));
     return toRaw(attachment);
   });
-  console.log(unwrapedAttachments);
-  emit('update:userInput', unwrapedAttachments);
+  console.log('Unwrapped Attachments');
+  console.log(unwrappedAttachments);
+  emit('update:userInput', unwrappedAttachments);
 }
 </script>
 

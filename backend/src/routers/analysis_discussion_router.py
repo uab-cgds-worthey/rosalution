@@ -68,6 +68,7 @@ def update_analysis_discussion_post(
     analysis_name: str,
     discussion_post_id: str,
     discussion_content: str = Form(...),
+    discussion_attachment_content: str = Form(...),
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):
