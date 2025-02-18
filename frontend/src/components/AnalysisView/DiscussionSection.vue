@@ -144,8 +144,6 @@ export default {
       this.$emit('discussion:delete-post', postId);
     },
     async addAttachmentToDiscussionPost(postId) {
-      // console.log('new Attachments list');
-      // console.log(this.newAttachments);
       // this.$emit('discussion:open-modal', this.newAttachments);
       const includeComments = false;
       const includeName = true;
@@ -158,18 +156,12 @@ export default {
           .url(includeComments, includeName)
           .existing(this.existingAttachments)
           .prompt();
-
-      // console.log('AnalysisView openDiscussionModal in DISCUSSION SECTION');
-      // console.log(attachment);
-
       if (!attachment) {
         return;
       }
-      const newAttachment = attachment[0];
-
-      this.newAttachments.push(newAttachment);
-      console.log('New Attachment has been pushed');
-      console.log(this.newAttachments);
+      for (let i = 0; i < attachment.length; i++) {
+        this.newAttachments.push(attachment[i]);
+      }
     },
   },
 };
@@ -246,9 +238,13 @@ export default {
   color: var(--rosalution-black);
   border-radius: var(--input-border-radius);
   border: 2px solid var(--rosalution-black);
-  padding: var(--p-8);
-  margin-right: var(--p-16);
+  padding: var(--p-5);
+  margin-right: var(--p-5);
   align-content:flex-start;
+}
+
+.new-attachment-logo {
+  padding: var(--p-1);
 }
 
 .collapsable-icon {
