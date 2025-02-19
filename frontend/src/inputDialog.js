@@ -92,7 +92,6 @@ export default {
     return this;
   },
   existing(attachments=[]) {
-    console.log('Reaching the existing in inputDialog.js');
     const existingAttachmentsSelected = {
       name: 'input-dialog-existing-attachments',
       icon: 'rosalution',
@@ -104,9 +103,6 @@ export default {
     };
     state.tabs.push(existingAttachmentsSelected);
     state.activeTabName = existingAttachmentsSelected.name;
-    console.log(state.activeTabName);
-    // console.log(this)
-    // console.log('existing state is pushed')
     return this;
   },
   edit(attachmentInput) {
@@ -149,7 +145,6 @@ export default {
   updateActiveTabInput(updatedUserInput) {
     const tab = state.tabs.find((tab) => tab.name === state.activeTabName);
     tab.input = updatedUserInput;
-    console.log('reaching updateActiveTabInput');
   },
 };
 

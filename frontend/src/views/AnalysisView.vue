@@ -44,11 +44,9 @@
         :existingAttachments="attachments"
         :userClientId="clientId"
         :actions="discussionContextActions"
-        :newAttachments="addDiscussionAttachment"
         @discussion:new-post="addDiscussionPost"
         @discussion:edit-post="editDiscussionPost"
         @discussion:delete-post="deleteDiscussionPost"
-        @discussion:open-modal="openDiscussionModal"
       />
       <SupplementalFormList
         id="Supporting_Evidence"
@@ -547,7 +545,6 @@ async function pushAnalysisEvent(eventType) {
  * @param {string} newPostContent - The content of the new discussion post.
  */
 async function addDiscussionPost(newPostContent) {
-  newAttachments = [];
   await analysisStore.addDiscussionPost(newPostContent);
 }
 
@@ -581,42 +578,6 @@ async function deleteDiscussionPost(postId) {
     await notificationDialog.title('Failure').confirmText('Ok').alert(error);
   }
 }
-
-
-/**
- * Prompts to add an attachment to a discussion post in the analysis.
- *
- * @param {string} postId - The identifier of the post to delete
- */
-// async function openDiscussionModal(newAttachments) {
-//   const includeComments = false;
-//   const includeName = true;
-
-//   // const defaultComments = 'This attachment is referenced in the Discussion attachment.';
-//   const attachment = await inputDialog
-//       .confirmText('Attach')
-//       .cancelText('Cancel')
-//       .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp, .png, .gb')
-//       .url(includeComments, includeName)
-//       .existing(attachments)
-//       .prompt();
-
-//   console.log('AnalysisView openDiscussionModal');
-//   console.log(attachment);
-
-//   if (!attachment) {
-//     return;
-//   }
-
-//   try {
-//     // trying addDiscussionPost
-//     await analysisStore.addDiscussionAttachment(attachment);
-//     console.log('The attachment was received');
-//     console.log(attachment);
-//   } catch (error) {
-//     await notificationDialog.title('Failure').confirmText('Ok').alert(error);
-//   }
-// }
 
 /**
  * Toast to indicate text to the clipboard.
