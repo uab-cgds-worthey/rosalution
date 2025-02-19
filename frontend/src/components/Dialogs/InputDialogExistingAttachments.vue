@@ -1,6 +1,12 @@
 <template>
   <div class="existing-attachments-list">
     <div
+      v-if="existingAttachments.length == 0"
+      class="no-existing-attachments-content"
+    >
+      No existing attachments.
+    </div>
+    <div
       class="existing-attachments-list-row"
       v-for="existingAttachment in existingAttachments"
       v-bind:key="existingAttachment.attachment_id"
@@ -69,29 +75,30 @@ function onChanged() {
 
 <style scoped>
 
+.no-existing-attachments-content {
+  height: 12rem;
+  text-align: center;
+  align-content: center;
+}
+
 .existing-attachments-list {
   background-color: var(--rosalution-white);
-  margin: auto;
   border: 3px var(--rosalution-grey-100) solid;
   border-radius: var(--input-border-radius);
-  padding: var(--p-8);
-  max-width: 100%;
-  flex: content;
 }
 
 .existing-attachments-list-row {
   background-color: var(--rosalution-grey-50);
   padding: var(--p-8);
-  margin: auto;
   border: 5px var(--rosalution-white) solid;
   border-radius: var(--input-border-radius);
-  /* flex-wrap:wrap; */
-  /* position: relative; */
-  max-width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: var(--p-8)
 }
 
 .existing-attachment-logo {
-  padding: var(--p-8);
   color: var(--rosalution-black);
 }
 
@@ -99,20 +106,15 @@ function onChanged() {
   color: var(--rosalution-purple-300);
   font-weight: bold;
   cursor: pointer;
-  display:inline-block;
-  vertical-align: middle;
-  width: max-content;
-  flex-wrap:wrap;
-  position: relative;
-  padding-right: var(--p-28);
+
+  flex-grow: 1;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .existing-attachment-checkbox {
-  float: right;
-  right: 6%;
-  position: fixed;
-  align-content: center;
-  margin-right: 10px;
-  margin-left: 10px;
+  transform: unset;
 }
 </style>
