@@ -1,6 +1,7 @@
 """Tasks for annotating a genomic unit with datasets"""
 from abc import abstractmethod
 from datetime import date
+import csv
 import json
 from random import randint
 import time
@@ -8,6 +9,7 @@ import time
 import logging
 import jq
 import requests
+import subprocess
 
 from ..core.annotation_unit import AnnotationUnit
 
@@ -265,6 +267,34 @@ class VersionAnnotationTask(AnnotationTaskInterface):
         version = {"date": str(date.today())}
         return version
 
+class SubprocessAnnotationTask(AnnotationTaskInterface):
+    """ Initializes the use of a Linux subprocess programmatically to fetch an annotation """
+
+    def __init__(self, annotation_unit):
+        """ Initializes the task with the annotation unit """
+        AnnotationTaskInterface.__init__(self, annotation_unit)
+
+    def annotate(self):
+        """ Runs a subprocess programmatically to retireve an annotation result and return as a json """
+        result = subprocess.run(self.build_command(), stdout=subprocess.PIPE).stdout.decode('utf-8').split('\n')
+        logger.info(f"{result}")
+        reader = csv.DictReader(
+            result,
+            delimiter=self.annotation_unit.dataset['delimiter'],
+            fieldnames=self.annotation_unit.dataset['fieldnames']
+        )
+        json_result = []
+
+        for row in reader:
+            json_result.append(row)
+
+        return json_result
+
+    def build_command(self):
+        """
+        Builds the complete subprocess command by replacing variables with what is required for the command to run
+        """
+        return self.aggregate_string_replacements(self.annotation_unit.dataset['subprocess']).split(' ')
 
 class AnnotationTaskFactory:
     """
@@ -274,7 +304,7 @@ class AnnotationTaskFactory:
 
     tasks = {
         "http": HttpAnnotationTask, "csv": CsvAnnotationTask, "none": NoneAnnotationTask, "forge": ForgeAnnotationTask,
-        "version": VersionAnnotationTask
+        "subprocess": SubprocessAnnotationTask, "version": VersionAnnotationTask
     }
 
     @classmethod

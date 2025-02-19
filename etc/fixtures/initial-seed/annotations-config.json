@@ -758,5 +758,72 @@
     ],
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
     "version_attribute": ".releases[]"
+  },
+  {
+    "data_set":"chrom",
+    "data_source":"Rosalution",
+    "genomic_unit_type":"hgvs_variant",
+    "annotation_source_type":"forge",
+    "base_string":"{ensembl_vep_vcf_string}",
+    "dependencies": [
+       "ensembl_vep_vcf_string"
+    ],
+    "attribute":".chrom | split(\"-\") | { \"chrom\": .[0] }",
+    "versioning_type":"rosalution"
+ },
+ {
+    "data_set":"pos",
+    "data_source":"Rosalution",
+    "genomic_unit_type":"hgvs_variant",
+    "annotation_source_type":"forge",
+    "base_string":"{ensembl_vep_vcf_string}",
+    "dependencies": [
+       "ensembl_vep_vcf_string"
+    ],
+    "attribute":".pos | split(\"-\") | { \"pos\": .[1] }",
+    "versioning_type":"rosalution"
+  },
+  {
+    "data_set": "transcript_without_version",
+    "data_source": "Rosalution",
+    "annotation_source_type": "forge",
+    "genomic_unit_type": "hgvs_variant",
+    "base_string": "{hgvs_variant_without_transcript_version}",
+    "attribute": ".transcript_without_version | split(\":\") | { \"transcript_without_version\": .[0] }",
+    "dependencies": [
+      "hgvs_variant_without_transcript_version"
+    ],
+    "versioning_type": "rosalution"
+  },
+  {
+    "data_set": "Ensembl_Transcript_Id",
+    "data_source": "Ensembl",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "http",
+    "url": "https://rest.ensembl.org/xrefs/symbol/homo_sapiens/{transcript_without_version}?content-type=application/json;object_type=transcript",
+    "attribute": "{ \"Ensembl_Transcript_Id\": .[0].id }",
+    "dependencies": [
+      "transcript_without_version"
+    ],
+    "versioning_type": "rest",
+    "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
+    "version_attribute": ".releases[]"
+  },
+  {
+    "data_set": "DITTO",
+    "data_source": "cgds",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "subprocess",
+    "subprocess": "tabix https://s3.lts.rc.uab.edu/cgds-public/dittodb/DITTO_chr{chrom}.tsv.gz chr{chrom}:{pos}-{pos}",
+    "fieldnames": ["chrom", "pos", "ref", "alt", "transcript", "gene", "classification", "ditto"],
+    "delimiter": "\t",
+    "attribute": ".[] += (\"{ensembl_vep_vcf_string}\" | split(\"-\") | {\"vcf_string\": .}) | .[] | select( .chrom == (\"chr\" + .vcf_string[0]) and .vcf_string[1] == .pos and .vcf_string[2] == .ref and .vcf_string[3] == .alt and .transcript ==\"{Ensembl_Transcript_Id}\") | { \"ditto\": .ditto }",
+    "dependencies": [
+      "chrom",
+      "pos",
+      "Ensembl_Transcript_Id",
+      "ensembl_vep_vcf_string"
+    ],
+    "versioning_type": "rosalution"
   }
 ]
