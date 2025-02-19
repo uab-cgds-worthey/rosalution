@@ -8,7 +8,7 @@
     </div>
     <div
       class="existing-attachments-list-row"
-      v-for="existingAttachment in existingAttachments"
+      v-for="existingAttachment in props.existingAttachments"
       v-bind:key="existingAttachment.attachment_id"
       data-test="existing-attachments-list"
     >
@@ -54,21 +54,13 @@ const props = defineProps({
   },
 });
 
-// console.log(props.existingAttachments);
-
 onMounted(async () => {
-  console.log('Input Dialog Existing Attachments Mounted');
 });
 
 function onChanged() {
-  console.log('checked attachments');
-  console.log(checkedAttachments);
   const unwrappedAttachments = checkedAttachments.value.map(function(attachment) {
-    console.log(toRaw(attachment));
     return toRaw(attachment);
   });
-  console.log('Unwrapped Attachments');
-  console.log(unwrappedAttachments);
   emit('update:userInput', unwrappedAttachments);
 }
 </script>

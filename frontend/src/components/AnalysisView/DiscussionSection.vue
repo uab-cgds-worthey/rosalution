@@ -144,7 +144,6 @@ export default {
       this.$emit('discussion:delete-post', postId);
     },
     async addAttachmentToDiscussionPost(postId) {
-      // this.$emit('discussion:open-modal', this.newAttachments);
       const includeComments = false;
       const includeName = true;
 

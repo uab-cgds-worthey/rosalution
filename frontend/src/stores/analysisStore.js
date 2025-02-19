@@ -197,23 +197,6 @@ export const analysisStore = reactive({
     this.analysis.discussions = discussions;
   },
 
-  // Merging attachments with add discussion post above
-  // async addDiscussionAttachment(attachments) {
-  //   // we expect discussion attachments to be single or multiple
-  //   console.log(attachments);
-  //   console.log('inside the add discussions attachment in analysis store');
-
-  //   this.newDiscussionPostAttachments.push(attachments);
-  //   const discussionPostAttachment = await Analyses.attachDiscussionAttachments(
-  //       this.analysis.name,
-  //       attachments,
-  //   );
-  //   this.analysis.supporting_evidence_files.splice(0);
-  //   this.analysis.supporting_evidence_files.push(
-  //       ...discussionPostAttachment,
-  //   );
-  // },
-
   // -----------------------------------
   // Analysis Attachments
   // -----------------------------------
