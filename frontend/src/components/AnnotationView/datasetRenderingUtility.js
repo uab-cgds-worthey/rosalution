@@ -4,6 +4,6 @@ export function isDatasetAvailable(datasetValue) {
     datasetValue == '.' ||
     datasetValue == 'null' ||
     datasetValue == null ||
-    datasetValue == ""
+    datasetValue == ''
   );
 }

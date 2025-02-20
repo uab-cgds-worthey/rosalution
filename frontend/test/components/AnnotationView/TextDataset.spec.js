@@ -41,7 +41,7 @@ describe('TextDataset.vue', () => {
     wrapper = getMountedComponent();
 
     expect(wrapper.html()).to.contains(
-      'Lymphoedema-cholestasis syndrome, Hennekam lymphangiectasia-lymphedema syndrome 1, Lymph vessel dysplasia'
+        'Lymphoedema-cholestasis syndrome, Hennekam lymphangiectasia-lymphedema syndrome 1, Lymph vessel dysplasia',
     );
   });
 });

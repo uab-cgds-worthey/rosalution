@@ -98,4 +98,11 @@ describe('TagDataset.vue', () => {
       expect(tags[index].text()).to.contains(value);
     });
   });
+
+  it('renders no tags if there are none provided', () => {
+    wrapper = getMountedComponent({value: undefined});
+
+    const tags = wrapper.findAll('.tag');
+    expect(tags.length).is.equal(0);
+  });
 });

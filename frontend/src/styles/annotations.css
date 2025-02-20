@@ -1,11 +1,28 @@
-/** transcript dataset-container padding: var(--p-0); **/
+/** || Variables **/
+
 html {
   --annotation-dataset-unavailable: var(--rosalution-grey-100);
+  --annotation-line-height: 1.5rem;
+  --annotation-dataset-bar-height: 1.125rem;
+}
+
+/** || Layout **/
+
+.annotation-section-container {
+  margin: 0px;
+}
+
+.annotation-section-header {
+  gap: var(--p-8);
+}
+
+.annotation-section-seperator {
+  margin-bottom: var(--p-8);
 }
 
 .section-content {
   display: grid;
-  grid-template-rows: repeat(auto-fill, minmax(24px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(var(--p-28), 1fr));
   grid-template-columns: repeat(auto-fill, minmax(385px, 1fr));
 
   row-gap: var(--p-10);
@@ -19,10 +36,14 @@ html {
   display: contents;
 }
 
+/** || Datasets General **/
+
 .dataset-container {
   display: flex;
-  gap: 10px;
-  line-height: 24px; /**  was rem in tag-dataset line-height: 1.5rem; **/
+  align-items: flex-start;
+  gap: var(--p-1);
+
+  /* line-height: var(--annotation-line-height); */
 }
 
 .dataset-container > .dataset-label {
@@ -33,7 +54,6 @@ html {
 .dataset-label-unavailable {
   color: var(--rosalution-grey-100);
 }
-
   
 a:hover .dataset-label {
   color: var(--rosalution-purple-100);
@@ -41,24 +61,47 @@ a:hover .dataset-label {
 
 .dataset-bar {
   flex: 0 0 12.5rem;
-  height: 1rem;
+  height: var(--annotation-dataset-bar-height);
   border-radius: 9999px;
-  /* background-color: salmon; */
+  overflow: hidden;
 }
 
-/** linkout dataset **/
+.dataset-bar-fill-unavailable {
+  background-color: var(--annotation-dataset-unavailable);
+}
+
+/** || Linkout Dataset **/
 
 .linkout {
   background-color: var(--rosalution-white);
-  /* overflow:hidden; */
+}
+
+.linkout-available {
+  opacity: 1;
+}
+
+.linkout-unavailable {
+  opacity: .25;
 }
 
 .linkout img {
-  max-height: 1.5rem;
+  max-height: var(--annotation-line-height);
+}
+
+.linkout .svg {
+  width: 2rem;
+}
+
+/** || Score Dataset **/
+
+.score-content {
+  display:flex;
+  flex-wrap: nowrap; 
+  gap: 5px;
 }
 
 .score-fill {
-  box-shadow: 0 0 #0000;
+  height: var(--annotation-dataset-bar-height);
   border-radius: 9999px;
 }
 
@@ -69,10 +112,10 @@ a:hover .dataset-label {
 .score-background {
   overflow: hidden;
   border-radius: 9999px;
+  border-color: 2px solid var(--rosalution-red-100)
 }
 
-/** set dataset **/
-
+/** || Set Dataset **/
 
 .set-section {
   display: flex;
@@ -85,24 +128,22 @@ a:hover .dataset-label {
   border-radius: 9999px;
 }
 
-.set-fill-unavailable {
-  background-color: var(--rosalution-grey-100);
-}
-
 .set-text {
   font-size: 0.75rem; /* 12px */
   line-height: 1rem; /* 16px */
   white-space: nowrap;
   text-align: center;
+  align-content: center;
   color: var(--rosalution-white);
 }
 
-/** tag dataset **/
+/** || Tag Dataset **/
 
 .tags-container {
   display: flex;
   flex-wrap: wrap;
   gap: var(--p-8) var(--p-1);
+  line-height: var(--annotation-line-height);
 }
 
 .tag {
@@ -113,56 +154,46 @@ a:hover .dataset-label {
   color: var(--rosalution-black);
 }
 
-
-/** text dataset **/
+/** || Text Dataset **/
 
 .text-value {
   white-space: pre-wrap;
+  line-height: var(--annotation-line-height);
 }
 
-/** text highlight dataset **/
-
+/** || Text Highlight Dataset **/
 
 .highlight-text {
-  padding: 0 var(--p-8) 0 var(--p-8);
-  border-radius: 9999px;
+  font-size: 1rem;
+  padding: 0 var(--p-5) 0 var(--p-5);
+  border-radius: 8px;
 }
 
-/** transcript dataset **/
+/** || Transcript Dataset **/
 
-/* 
-.transcript-container {
-  /* padding: var(--p-10) 0 var(--p-10) 0; */
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* gap: var(--p-8) */
-/*} */
+.transcript-section {
+  display: grid;
+  gap: var(--p-10);
+}
 
-.transcript-container:hover {
+.transcript-item {
+  display: flex;
+  flex-direction: column;
+  gap:var(--p-5)
+}
+
+.transcript-item:hover {
   background-color: var(--rosalution-grey-50);
 }
-/* 
+
 .transcript-header {
   display: flex;
   align-items: baseline;
   gap: var(--p-8);
-
-} */
+}
 
 .transcript-header-text {
-  /* margin: 0px; */
-
     /** mimicing the h2 css **/
-    font-size: 1.5rem;
+    font-size: var(--annotation-line-height);
     font-weight: 700;
-    /* margin-block: 0px;
-    margin-inline: 0px; */
 }
-/* 
-.transcript-scores {
-  display:flex;
-}
-
-.blank-transcript-score-spot {
-  flex: 3 0 auto;
-} */

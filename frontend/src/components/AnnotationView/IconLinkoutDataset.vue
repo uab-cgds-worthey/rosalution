@@ -1,6 +1,6 @@
 <template>
-  <a :href="value" target="_blank" rel="noreferrer noopener" class="linkout">
-    <img :src="likoutImageSrc" :alt="altText" :style="linkoutStyle" />
+  <a :href="value" target="_blank" rel="noreferrer noopener" class="linkout" :class="linkoutStyle" >
+    <img :src="likoutImageSrc" :alt="altText" :class="imageStyle"/>
   </a>
 </template>
 
@@ -19,6 +19,9 @@ const props = defineProps({
   },
 });
 
-const linkoutStyle = (typeof(props.value) == 'undefined') ? {opacity: 0.25} : {opacity: 1};
+const linkoutStyle = (typeof(props.value) == 'undefined') ? 'linkout-unavailable' : 'linkout-available';
+const classIfSvg = props.imageFilename.includes('.svg') ? 'svg' : '';
+const imageStyle = [linkoutStyle, classIfSvg].join(' ');
+
 const likoutImageSrc = new URL(`/src/assets/${props.imageFilename}`, import.meta.url);
 </script>

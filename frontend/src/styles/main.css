@@ -51,6 +51,7 @@ html {
   --p-8: 0.5rem;
   --p-10: 0.625rem;
   --p-16: 1rem;
+  --p-24: 1.5rem;
   --p-28: 1.75rem;
 
   scroll-padding-top: 4rem;
@@ -143,8 +144,8 @@ app-header {
 }
 
 app-content {
-  grid-column: 1;
-  grid-row: -1;
+  grid-column: 1 / -1;
+  grid-row: 2 / -1;
 }
 
 app-footer {
@@ -154,6 +155,7 @@ app-footer {
 }
 
 /** Design System **/
+
 .modal-background {
   position: fixed;
   top: 0;
@@ -173,42 +175,6 @@ app-footer {
   background-color: var(--rosalution-white);
   border-radius: var(--content-border-radius);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-
-
-/** LIGHTBOX MARKUP **/
-
-.lightbox {
-  display: none;
-
-  /* Overlay entire screen */
-  position: fixed;
-  z-index: 999;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  padding: 1em;
-
-  background: rgba(0, 0, 0, 0.8);
-}
-
-.lightbox:target {
-  display: block;
-  outline: none;
-}
-
-.lightbox span {
-  /* Full width and height */
-  display: block;
-  width: 100%;
-  height: 100%;
-
-  /* Size and position background image */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
 }
 
 /** || Typography **/

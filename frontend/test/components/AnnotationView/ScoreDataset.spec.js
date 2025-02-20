@@ -127,7 +127,7 @@ describe('ScoreDataset.vue', () => {
     });
 
     const scoreBackground = wrapper.find('[data-test=score-background]');
-    expect(scoreBackground.attributes().style).to.contains('rosalution-grey-100');
+    expect(scoreBackground.classes()).to.contains('dataset-bar-fill-unavailable');
 
     const scoreText = wrapper.find('[data-test=score-text]');
     expect(scoreText.attributes().style).to.contains('rosalution-grey-300');

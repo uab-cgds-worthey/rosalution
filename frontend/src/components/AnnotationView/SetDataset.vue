@@ -1,8 +1,9 @@
 <template>
   <div class="dataset-container">
     <DatasetLabel :label="label" :datasetValue="value"></DatasetLabel>
-    <span v-if="!availableData" class="set-section dataset-bar set-fill-unavailable"></span>
-    <span v-else class="set-section dataset-bar">
+    <span v-if="!availableData" class="set-section dataset-bar dataset-bar-fill-unavailable" data-test="dataset-bar">
+    </span>
+    <span v-else class="set-section dataset-bar" data-test="dataset-bar">
       <span v-for="(item, index) in set"
         :key="`${value}-${index}`"
         :style="setItemStyle(item)"

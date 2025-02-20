@@ -47,6 +47,20 @@ describe('AllianceGenomeCard.vue', () => {
     expect(experimentalSection.attributes().style).to.include('color: black;');
   });
 
+  it('It renders component when there are no model conditions', () => {
+    const wrapper = getMountedComponent({model: missingConditionsAndPhenotypsModelProp});
+    const cardHeader = wrapper.find('[data-test=model-header]');
+
+    expect(cardHeader.text()).to.include('Numbtm1Zili/Numbtm1Zili Numbltm1Zili/Numbltm1Zili Tg(Mx1-cre)1Cgn/?');
+  });
+
+  it('It renders component when there are no phenotypes', () => {
+    const wrapper = getMountedComponent({model: missingConditionsAndPhenotypsModelProp});
+    const cardHeader = wrapper.find('[data-test=model-header]');
+
+    expect(cardHeader.text()).to.include('Numbtm1Zili/Numbtm1Zili Numbltm1Zili/Numbltm1Zili Tg(Mx1-cre)1Cgn/?');
+  });
+
   it('Shows a list of conditions under the experimental conditions section', () => {
     const wrapper = getMountedComponent();
     const experimentalSectionList = wrapper.findAll('[data-test=model-list-condition]');
@@ -172,6 +186,64 @@ const fakeModelProp = {
   'alleles': [],
   'sequenceTargetingReagents': [],
   'species': null,
+};
+
+const missingConditionsAndPhenotypsModelProp = {
+  'id': 'MGI:3783760',
+  'name': 'Numb<sup>tm1Zili</sup>/Numb<sup>tm1Zili</sup> Numbl<sup>tm1Zili</sup>/Numbl<sup>tm1Zili</sup> ' +
+          'Tg(Mx1-cre)1Cgn/?  [background:] involves: 129/Sv * C57BL/6 * CBA',
+  'displayName': 'Numb<tm1Zili>/Numb<tm1Zili> Numbl<tm1Zili>/Numbl<tm1Zili> Tg(Mx1-cre)1Cgn/?  [background:] ' +
+                 'involves: 129/Sv * C57BL/6 * CBA',
+  'url': 'http://www.informatics.jax.org/allele/genoview/MGI:3783760',
+  'type': 'genotype',
+  'source': {
+    'name': 'MGI',
+    'url': null,
+  },
+  'alleles': [
+    {
+      'id': 'MGI:3618286',
+      'symbol': 'Numbl<sup>tm1Zili</sup>',
+      'species': {
+        'name': 'Mus musculus',
+        'shortName': 'Mmu',
+        'dataProviderFullName': 'Mouse Genome Informatics',
+        'dataProviderShortName': 'MGI',
+        'commonNames': ['mouse', 'mmu'],
+        'taxonId': 'NCBITaxon:10090',
+      },
+      'symbolText': 'Numbl<tm1Zili>',
+      'hasDisease': false,
+      'hasPhenotype': false,
+      'category': 'allele',
+      'type': 'allele',
+    },
+    {
+      'id': 'MGI:2388022',
+      'symbol': 'Numb<sup>tm1Zili</sup>',
+      'species': {
+        'name': 'Mus musculus',
+        'shortName': 'Mmu',
+        'dataProviderFullName': 'Mouse Genome Informatics',
+        'dataProviderShortName': 'MGI',
+        'commonNames': ['mouse', 'mmu'],
+        'taxonId': 'NCBITaxon:10090',
+      },
+      'symbolText': 'Numb<tm1Zili>',
+      'hasDisease': false,
+      'hasPhenotype': false,
+      'category': 'allele',
+      'type': 'allele',
+    },
+  ],
+  'species': {
+    'name': 'Mus musculus',
+    'shortName': 'Mmu',
+    'dataProviderFullName': 'Mouse Genome Informatics',
+    'dataProviderShortName': 'MGI',
+    'commonNames': ['mouse', 'mmu'],
+    'taxonId': 'NCBITaxon:10090',
+  },
 };
 
 const fakeEmptyModelProp = {

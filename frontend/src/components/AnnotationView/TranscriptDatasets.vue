@@ -1,6 +1,6 @@
 <template>
-<div class="grid-row-horizontal">
-  <div v-for="transcript in value" :key="transcript.transcript_id" class="transcript-container">
+<div class="transcript-section">
+  <div v-for="transcript in value" :key="transcript.transcript_id" class="transcript-item">
     <div class="transcript-header">
       <span class="transcript-header-text">
         {{transcript['transcript_id'] || 'RefSeq Transcript ID Unavailable'}}
@@ -12,10 +12,8 @@
       >
       </TextHighlightDataset>
     </div>
-    <div>
-      <TextDataset label="Consequences" :value="transcript['Consequences']" :delimeter="`\n`"></TextDataset>
-    </div>
-    <div class="transcript-scores">
+    <TextDataset label="Consequences" :value="transcript['Consequences']" style="grid-row:1;" :delimeter="`\n`" />
+    <div class="section-content">
       <SetDataset
         label="SIFT"
         :value="transcript['SIFT Prediction']"
@@ -28,7 +26,6 @@
         :set="polyphenSetConfiguration"
       >
       </SetDataset>
-      <div class="blank-transcript-score-spot"></div>
     </div>
   </div>
 </div>

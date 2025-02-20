@@ -1,206 +1,204 @@
 <template>
-  <div class="card-base">
-    <div class="card-header" v-html="modelName" data-test="model-header"/>
-    <div class="card-sub-header" v-html="modelBackground" data-test="model-background"/>
-    <div class="card-content">
-      <div class="card-section" :style="experimentalConditionStyle" data-test="model-section-condition">
-          Experimental Condition
-      </div>
-      <ul>
-          <li class="card-list"
-              v-for="condition in this.experimentalConditions" :key="condition"
-              data-test="model-list-condition"
-          >
-              {{ condition.conditionStatement }}
-          </li>
-      </ul>
-
-        <div class="card-section" :style="associatedHumanDiseasesStyle" data-test="model-section-disease">
-            Associated Human Diseases
-        </div>
-        <li
-          class="card-list"
-          v-for="(diseaseModel) in this.model.diseaseModels" :key="diseaseModel"
-          data-test="model-list-disease"
-        >
-            {{ diseaseModel.diseaseModel }}
-        </li>
-        <div class="card-section" :style="associatedPhenotypesStyle" data-test="model-section-phenotype">
-            Associated Phenotypes
-        </div>
-        <div class="card-list"
-            v-for="(value, key) in this.associatedPhenotypesData" :key="key"
-            data-test="model-list-phenotype"
-        >
-        <div v-if="key != ''">
-            <font-awesome-icon v-if="value.icon" :icon="value.icon" :style="value.iconStyle"/>
-            <span class="card-section-term" :style="value.style">{{ key }}</span>
-        </div>
-            <ul>
-                <li v-for="item in value.phenotypes" :key="item">{{ item }}</li>
-            </ul>
-        </div>
-        <div class="card-source" data-test="model-source">
-            <b>Source:</b> {{ this.model.source.name }}
-        </div>
-      </div>
+<div class="card-base">
+  <div class="card-header" v-html="modelName" data-test="model-header"/>
+  <div class="card-sub-header" v-html="modelBackground" data-test="model-background"/>
+  <div class="card-content">
+    <div class="card-section" :style="experimentalConditionStyle" data-test="model-section-condition">
+        Experimental Condition
+    </div>
+    <ul>
+      <li
+        v-for="condition in experimentalConditions"
+        :key="condition"
+        class="card-list"
+        data-test="model-list-condition"
+      >
+          {{ condition.conditionStatement }}
+      </li>
+    </ul>
+    <div class="card-section" :style="associatedHumanDiseasesStyle" data-test="model-section-disease">
+      Associated Human Diseases
+    </div>
+    <li
+      class="card-list"
+      v-for="(diseaseModel) in model.diseaseModels" :key="diseaseModel"
+      data-test="model-list-disease"
+    >
+      {{ diseaseModel.diseaseModel }}
+    </li>
+    <div class="card-section" :style="associatedPhenotypesStyle" data-test="model-section-phenotype">
+          Associated Phenotypes
+    </div>
+    <div class="card-list"
+        v-for="(value, key) in associatedPhenotypesData" :key="key"
+        data-test="model-list-phenotype"
+    >
+    <div v-if="key != ''">
+        <font-awesome-icon v-if="value.icon" :icon="value.icon" :style="value.iconStyle"/>
+        <span class="card-section-term" :style="value.style">{{ key }}</span>
+    </div>
+        <ul>
+            <li v-for="item in value.phenotypes" :key="item">{{ item }}</li>
+        </ul>
+    </div>
+    <div class="card-source" data-test="model-source">
+        <b>Source:</b> {{ model.source.name }}
+    </div>
   </div>
+</div>
 </template>
 
-<script>
-export default {
-  name: 'alliance-genome-card',
-  props: {
-    model: {
-      type: Object,
-    },
+<script setup>
+import {computed} from 'vue';
+
+const props = defineProps({
+  model: {
+    type: Object,
   },
-  data() {
-    return {
-      // TODO: Consolidate these into a single object, there's no need to update two places for a frequent term.
-      frequentTerms: ['normal', 'abnormal', 'absent', 'increased', 'decreased'],
-      frequentTermsObject: [
-        {
-          term: 'normal',
-          style: {'color': 'var(--rosalution-purple-300)'},
-          icon: '',
-          iconStyle: {},
-        },
-        {
-          term: 'abnormal',
-          style: {'color': 'var(--rosalution-red-100)'},
-          icon: '',
-          iconStyle: {},
-        },
-        {
-          term: 'absent',
-          style: {'color': 'var(--rosalution-red-100)'},
-          icon: '',
-          iconStyle: {},
-        },
-        {
-          term: 'increased',
-          style: {'color': 'var(--rosalution-purple-300)'},
-          icon: 'arrow-up',
-          iconStyle: {'color': 'purple'},
-        },
-        {
-          term: 'decreased',
-          style: {'color': 'var(--rosalution-red-100)'},
-          icon: 'arrow-down',
-          iconStyle: {'color': 'var(--rosalution-red-100)'},
-        },
-      ],
-      associatedHumanDiseasesData: {},
-      associatedPhenotypesData: {},
-      experimentalConditions: {},
-    };
+});
+
+const frequentTermsObject = [
+  {
+    term: 'normal',
+    style: {'color': 'var(--rosalution-purple-300)'},
+    icon: '',
+    iconStyle: {},
   },
-  created() {
-    this.calculateExperimentalCondition();
-    this.calculateAssociatedPhenotypes();
-    this.calculateAssociatedHumanDiseases();
+  {
+    term: 'abnormal',
+    style: {'color': 'var(--rosalution-red-100)'},
+    icon: '',
+    iconStyle: {},
   },
-  computed: {
-    modelName() {
-      const regex = new RegExp('^(.*?)(?= \\[)', 'g');
-      const matchResult = this.model.name.match(regex);
-
-      if (matchResult) {
-        return matchResult[0];
-      }
-
-      return this.model.name;
-    },
-    modelBackground() {
-      // This escape character is very necessary, but eslint doesn't think so
-      const regex = new RegExp(`\\[background:\]?(.*)`, 'g'); // eslint-disable-line
-
-      const matchResult = this.model.name.match(regex);
-
-      if (matchResult) {
-        return matchResult[0];
-      }
-
-      return '';
-    },
-    associatedHumanDiseasesStyle() {
-      return this.determineSectionTextColor(this.associatedHumanDiseasesData);
-    },
-    associatedPhenotypesStyle() {
-      return this.determineSectionTextColor(this.associatedPhenotypesData);
-    },
-    experimentalConditionStyle() {
-      return this.determineSectionTextColor(this.experimentalConditions);
-    },
+  {
+    term: 'absent',
+    style: {'color': 'var(--rosalution-red-100)'},
+    icon: '',
+    iconStyle: {},
   },
-  methods: {
-    calculateAssociatedHumanDiseases() {
-      this.associatedHumanDiseasesData = this.model.diseaseModels;
-    },
-    calculateAssociatedPhenotypes() {
-      const phenotypesDict = {'':
+  {
+    term: 'increased',
+    style: {'color': 'var(--rosalution-purple-300)'},
+    icon: 'arrow-up',
+    iconStyle: {'color': 'purple'},
+  },
+  {
+    term: 'decreased',
+    style: {'color': 'var(--rosalution-red-100)'},
+    icon: 'arrow-down',
+    iconStyle: {'color': 'var(--rosalution-red-100)'},
+  },
+];
+
+
+function calculateAssociatedPhenotypes() {
+  const phenotypesDict = {'':
         {
           phenotypes: [],
           style: '',
           icon: '',
           iconStyle: {},
         },
-      };
+  };
 
-      this.model.phenotypes.forEach((phenotype) => {
-        phenotypesDict[''].phenotypes.push(phenotype);
-      });
+  if ( !('phenotypes' in props.model)) {
+    return phenotypesDict;
+  }
 
-      this.frequentTermsObject.forEach((term) => {
-        phenotypesDict[term.term] = {
-          phenotypes: [],
-          style: term.style,
-          icon: term.icon,
-          iconStyle: term.iconStyle,
-        };
-      });
+  props.model.phenotypes.forEach((phenotype) => {
+    phenotypesDict[''].phenotypes.push(phenotype);
+  });
 
-      this.model.phenotypes.forEach((phenotype) => {
-        this.frequentTermsObject.forEach((term) => {
-          const regex = new RegExp('\\b' + term.term + '\\b', 'i');
+  frequentTermsObject.forEach((term) => {
+    phenotypesDict[term.term] = {
+      phenotypes: [],
+      style: term.style,
+      icon: term.icon,
+      iconStyle: term.iconStyle,
+    };
+  });
 
-          if (phenotype.match(regex)) {
-            phenotypesDict[term.term].phenotypes.push(phenotype);
-            phenotypesDict[''].phenotypes.splice(phenotypesDict[''].phenotypes.indexOf(phenotype), 1);
-          }
-        });
-      });
+  props.model.phenotypes.forEach((phenotype) => {
+    frequentTermsObject.forEach((term) => {
+      const regex = new RegExp('\\b' + term.term + '\\b', 'i');
 
-      Object.keys(phenotypesDict).forEach((key) => {
-        if (!phenotypesDict[key].phenotypes.length) {
-          delete phenotypesDict[key];
-        }
-      });
-
-      this.associatedPhenotypesData = phenotypesDict;
-    },
-    calculateExperimentalCondition() {
-      if (Object.keys(this.model.conditions).length == 0) {
-        return;
+      if (phenotype.match(regex)) {
+        phenotypesDict[term.term].phenotypes.push(phenotype);
+        phenotypesDict[''].phenotypes.splice(phenotypesDict[''].phenotypes.indexOf(phenotype), 1);
       }
+    });
+  });
 
-      this.experimentalConditions = this.model.conditions.has_condition;
-    },
-    determineSectionTextColor(section) {
-      // Added this check due to section being undefined at times even though it is expected to exist.
-      if (section === undefined || section=== null) {
-        return 'color: black';
-      }
+  Object.keys(phenotypesDict).forEach((key) => {
+    if (!phenotypesDict[key].phenotypes.length) {
+      delete phenotypesDict[key];
+    }
+  });
 
-      if (Object.keys(section).length === 0) {
-        return {color: `var(--rosalution-grey-300)`};
-      }
-
-      return 'color: black';
-    },
-  },
+  return phenotypesDict;
 };
+
+function calculateExperimentalCondition() {
+  if ( !('conditions' in props.model ) || Object.keys(props.model.conditions).length == 0) {
+    return;
+  }
+
+  return props.model.conditions.has_condition;
+};
+
+function determineSectionTextColor(section) {
+  // Added this check due to section being undefined at times even though it is expected to exist.
+  if (section === undefined || section=== null) {
+    return 'color: black';
+  }
+
+  if (Object.keys(section).length === 0) {
+    return {color: `var(--rosalution-grey-300)`};
+  }
+
+  return 'color: black';
+};
+
+
+const modelName = computed(()=> {
+  const regex = new RegExp('^(.*?)(?= \\[)', 'g');
+  const matchResult = props.model.name.match(regex);
+
+  if (matchResult) {
+    return matchResult[0];
+  }
+
+  return props.model.name;
+});
+
+const modelBackground = computed(() => {
+  // This escape character is very necessary, but eslint doesn't think so
+  const regex = new RegExp(`\\[background:\]?(.*)`, 'g'); // eslint-disable-line
+
+  const matchResult = props.model.name.match(regex);
+
+  if (matchResult) {
+    return matchResult[0];
+  }
+
+  return '';
+});
+
+const associatedHumanDiseasesData = props.model.diseaseModels;
+const associatedPhenotypesData = calculateAssociatedPhenotypes();
+const experimentalConditions = calculateExperimentalCondition();
+
+const associatedHumanDiseasesStyle = computed(()=> {
+  return determineSectionTextColor(associatedHumanDiseasesData);
+});
+
+const associatedPhenotypesStyle = computed(()=> {
+  return determineSectionTextColor(associatedPhenotypesData);
+});
+
+const experimentalConditionStyle = computed(()=> {
+  return determineSectionTextColor(experimentalConditions);
+});
 
 </script>
 

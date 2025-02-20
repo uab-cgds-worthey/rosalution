@@ -1,22 +1,17 @@
 <template>
   <div class="dataset-container">
     <DatasetLabel :label="label" :datasetValue="value"></DatasetLabel>
-    <div style="display:flex; flex-wrap: nowrap; gap: 5px;">
-      <div class="score-background dataset-bar" :style="{
-        'background-color': scoreStyling.backgroundColour,
-        'border-color': `2px solid ${scoreStyling.borderColour}`,
-      }" data-test="score-background">
-        <div v-if="value" class="score-fill dataset-bar" :style="{
-          'background-color': scoreStyling.fillColour,
-          width: scoreFillWidthPercentage,
-        }" data-test="score-fill">
-        </div>
+    <div class="dataset-bar" v-bind="datasetBarAttributes" data-test="score-background">
+      <div v-if="isAvailable" class="score-fill"
+:style="{
+        'background-color': scoreStyling.fillColour,
+        width: scoreFillWidthPercentage,
+      }" data-test="score-fill">
       </div>
-      <span class="score-text" :style="{ color: scoreStyling.textColour }" data-test="score-text">
+    </div>
+    <span class="score-text" :style="{ color: scoreStyling.textColour }" data-test="score-text">
         {{ value }}
       </span>
-    </div>
-
   </div>
 </template>
 
@@ -24,7 +19,7 @@
 
 import DatasetLabel from '@/components/AnnotationView/DatasetLabel.vue';
 
-import { isDatasetAvailable } from '@/components/AnnotationView/datasetRenderingUtility.js';
+import {isDatasetAvailable} from '@/components/AnnotationView/datasetRenderingUtility.js';
 
 const props = defineProps({
   label: {
@@ -89,7 +84,10 @@ function belowBounds(score) {
   return score > props.bounds.upperBound;
 }
 
+const datasetBarAttributes = {};
+
 if (!isAvailable) {
+  datasetBarAttributes['class'] = 'dataset-bar-fill-unavailable';
   scoreStyling = styles.unavailableColours;
 } else if (props.cutoff) {
   let score = 0;
@@ -99,5 +97,9 @@ if (!isAvailable) {
   } else if (belowBounds(score)) {
     scoreStyling = styles.outOfThresholdColours;
   }
+
+  datasetBarAttributes['style'] = {
+    'background-color': scoreStyling.backgroundColour,
+  };
 };
 </script>

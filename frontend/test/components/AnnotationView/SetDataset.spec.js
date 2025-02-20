@@ -39,25 +39,23 @@ describe('SetDataset.vue', () => {
       value: '.',
     });
 
-    console.log(wrapper);
-
-    const setUnavailable = wrapper.find('[data-test=set-unavailable]');
-    expect(setUnavailable.classes())('set-fill-unavailable');
+    const setUnavailable = wrapper.find('[data-test=dataset-bar]');
+    expect(setUnavailable.classes()).to.contain('dataset-bar-fill-unavailable');
   });
 
   it('renders each item in a set', () => {
     const wrapper = getMountedComponent();
 
-    const setClassifications = wrapper.find('[data-test=set-fill]');
-    const setItems = setClassifications.findAll('span');
+    const datasetBar = wrapper.find('[data-test=dataset-bar]');
+    const setItems = datasetBar.findAll('span');
     expect(setItems.length).to.equal(4);
   });
 
   it('renders each item in a set with different background colours', () => {
     const wrapper = getMountedComponent();
 
-    const setClassifications = wrapper.find('[data-test=set-fill]');
-    const setItems = setClassifications.findAll('span');
+    const datasetBar = wrapper.find('[data-test=dataset-bar]');
+    const setItems = datasetBar.findAll('span');
 
     const backgroundColours = setItems
         .map((item)=> {
@@ -75,8 +73,8 @@ describe('SetDataset.vue', () => {
       value: 'R',
     });
 
-    const setClassifications = wrapper.find('[data-test=set-fill]');
-    const setItems = setClassifications.findAll('span');
+    const datasetBar = wrapper.find('[data-test=dataset-bar]');
+    const setItems = datasetBar.findAll('span');
 
     const fourthClassification = setItems.filter(function(item) {
       return !(item.text() === '');
@@ -89,8 +87,8 @@ describe('SetDataset.vue', () => {
       value: 'R',
     });
 
-    const setClassifications = wrapper.find('[data-test=set-fill]');
-    const setItems = setClassifications.findAll('span');
+    const datasetBar = wrapper.find('[data-test=dataset-bar]');
+    const setItems = datasetBar.findAll('span');
     setItems.forEach((item) => {
       if (item.text() != 'Really Damaging') {
         expect(item.attributes().style).to.include('opacity: 0.5');

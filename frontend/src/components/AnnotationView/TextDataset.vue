@@ -30,7 +30,6 @@ const props = defineProps({
 
 function calculateContent() {
   if (props.value == null || props.value == undefined) {
-    console.log(`Dataset ${props.label} not defined`);
     return '';
   }
 

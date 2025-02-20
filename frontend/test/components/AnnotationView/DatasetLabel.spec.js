@@ -2,7 +2,7 @@ import {expect, describe, it} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 
 import DatasetLabel from '@/components/AnnotationView/DatasetLabel.vue';
- 
+
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 /**
@@ -13,7 +13,8 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 function getMountedComponent(propsData) {
   const defaultPropsData = {
     label: 'Diseases',
-    datasetValue: 'Lymphoedema-cholestasis syndrome, Hennekam lymphangiectasia-lymphedema syndrome 1, Lymph vessel dysplasia',
+    datasetValue:
+      'Lymphoedema-cholestasis syndrome, Hennekam lymphangiectasia-lymphedema syndrome 1, Lymph vessel dysplasia',
   };
 
   return shallowMount(DatasetLabel, {
@@ -61,10 +62,10 @@ describe('DatasetLabel.vue', () => {
   });
 
   it('renders as unavailable if data not provided', () => {
-    [undefined, ""].forEach((undefinedValue) => {
+    [undefined, ''].forEach((undefinedValue) => {
       wrapper = getMountedComponent({datasetValue: undefinedValue});
       expect(wrapper.attributes('style')).to.contain('annotation-dataset-unavailable');
-    })
+    });
   });
 
   it('renders as a linkout if its provided', () => {

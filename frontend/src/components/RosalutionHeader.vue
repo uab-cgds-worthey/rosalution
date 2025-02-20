@@ -138,8 +138,9 @@ export default {
 <style scoped>
 header {
   display: flex;
-  flex-direction: row;
+  align-items: center;
   gap: var(--p-16);
+
   background-color: var(--primary-background-color);
 }
 
@@ -183,7 +184,6 @@ header .left-content {
   cursor: pointer;
   color: var(--rosalution-purple-300);
   font-weight: 600;
-  vertical-align: super;
   white-space: nowrap;
 }
 

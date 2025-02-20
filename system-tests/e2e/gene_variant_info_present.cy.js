@@ -9,7 +9,7 @@ describe('gene_variant_info_present.cy.js', () => {
     cy.get('[data-test="gnomAD_gene_url"]').should('have.attr', 'href', 'https://gnomad.'+
     'broadinstitute.org/gene/ENSG00000100241?dataset=gnomad_r2_1');
     cy.get('[data-test="gnomAD_gene_url"]').should('have.attr', 'target', '_blank');
-    cy.get('[data-test="gnomAD_gene_url"]').should('have.attr', 'class', 'linkout');
+    cy.get('[data-test="gnomAD_gene_url"]').should('have.attr', 'class', 'linkout linkout-available');
     cy.get('[data-test="gnomAD_gene_url"]').should('have.attr', 'rel', 'noreferrer noopener');
     cy.get('[data-test="gnomAD_gene_url"]').then((link) => {
       cy.request(link.prop('href')).its('status').should('eq', 200);
@@ -21,7 +21,7 @@ describe('gene_variant_info_present.cy.js', () => {
     cy.get('[data-test="ClinGen_gene_url"]').should('have.attr', 'href', 'https://search.'+
     'clinicalgenome.org/kb/genes/HGNC:10542');
     cy.get('[data-test="ClinGen_gene_url"]').should('have.attr', 'target', '_blank');
-    cy.get('[data-test="ClinGen_gene_url"]').should('have.attr', 'class', 'linkout');
+    cy.get('[data-test="ClinGen_gene_url"]').should('have.attr', 'class', 'linkout linkout-available');
     cy.get('[data-test="ClinGen_gene_url"]').should('have.attr', 'rel', 'noreferrer noopener');
     cy.get('[data-test="ClinGen_gene_url"]').then((link) => {
       cy.request(link.prop('href')).its('status').should('eq', 200);
@@ -33,7 +33,7 @@ describe('gene_variant_info_present.cy.js', () => {
     cy.get('[data-test="NCBI_gene_url"]').should('have.attr', 'href', 'https://www.ncbi.'+
     'nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=6305');
     cy.get('[data-test="NCBI_gene_url"]').should('have.attr', 'target', '_blank');
-    cy.get('[data-test="NCBI_gene_url"]').should('have.attr', 'class', 'linkout');
+    cy.get('[data-test="NCBI_gene_url"]').should('have.attr', 'class', 'linkout linkout-available');
     cy.get('[data-test="NCBI_gene_url"]').should('have.attr', 'rel', 'noreferrer noopener');
     cy.get('[data-test="NCBI_gene_url"]').then((link) => {
       cy.request(link.prop('href')).its('status').should('eq', 200);
