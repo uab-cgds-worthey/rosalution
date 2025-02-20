@@ -63,11 +63,13 @@ export default {
     onChanged() {
       const input = this.userInput;
       input.data = this.$refs.file.files[0];
+      input.name = input.data.name;
       this.$emit('update:userInput', input);
     },
     remove(i) {
       const input = this.userInput;
       input.data = '';
+      input.name = '';
       this.$emit('update:userInput', input);
     },
     dragover(event) {

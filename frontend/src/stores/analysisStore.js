@@ -9,7 +9,7 @@ export const analysisStore = reactive({
   },
   updatedContent: {},
 
-  newDiscussionPostAttachments: [],
+  // newDiscussionPostAttachments: [],
 
   analysisName() {
     return this.analysis?.name;
@@ -167,22 +167,27 @@ export const analysisStore = reactive({
 
     // moving attachment handling here
     // we expect discussion attachments to be single or multiple
+    console.log('analaysisStore.js - addDiscussionPost');
+    console.log('NewPostAttachments passed in');
     console.log(newPostAttachments);
-    console.log('inside the add discussions attachment in analysis store');
 
-    this.newDiscussionPostAttachments.push(newPostAttachments);
-    const discussionPostAttachment = await Analyses.attachDiscussionAttachments(
-        this.analysis.name,
-        newPostAttachments,
-    );
-    this.analysis.supporting_evidence_files.splice(0);
-    this.analysis.supporting_evidence_files.push(
-        ...discussionPostAttachment,
-    );
+    // this.newDiscussionPostAttachments.push(newPostAttachments);
+    // const discussionPostAttachments = await Analyses.attachDiscussionAttachments(
+    //     this.analysis.name,
+    //     newPostAttachments, // should we loop through newattachments and send for each attachment in array
+    // );
+    // is this for file types? are there analysis.supporting_evidence_links?
+    // what does files mean here???
+    // no seems to be for both files and links
+    // this.analysis.supporting_evidence_files.splice(0);
+    // this.analysis.supporting_evidence_files.push(
+    //     ...discussionPostAttachments,
+    // );
 
+    console.log('Updating to post content and new attachments');
     // update to post content and attachments
     const discussions = await Analyses.postNewDiscussionThread(this.analysis.name, newPostContent,
-        this.discussionPostAttachment);
+        newPostAttachments);
     this.analysis.discussions = discussions;
     // this.discussionPostAttachment = []; no need will be embedded in newPostitem
   },

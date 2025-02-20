@@ -33,8 +33,8 @@
                   Attach
                 </button>
                 <div class="new-attachments-list">
-                  <span class="new-attachment" v-for="newAttachment in newAttachments"
-                  v-bind:key="newAttachment.attachment_id">
+                  <span class="new-attachment" v-for="newAttachment, index in newAttachments"
+                  v-bind:key="index">
                     <span class="new-attachment-logo">
                       <font-awesome-icon :icon="['far', 'file']" size="lg" v-if="newAttachment.type==='file'"/>
                       <font-awesome-icon icon="link" size="lg" v-else-if="newAttachment.type==='link'"/>
@@ -148,6 +148,7 @@ export default {
       const includeName = true;
 
       // const defaultComments = 'This attachment is referenced in the Discussion attachment.';
+      console.log('on clicking attach addAttachmenttoDiscussionPost function is called');
       const attachment = await inputDialog
           .confirmText('Attach')
           .cancelText('Cancel')
@@ -156,10 +157,23 @@ export default {
           .existing(this.existingAttachments)
           .prompt();
       if (!attachment) {
+        console.log('nothing is being returned from the input dialog for a completely new attachment attempt');
         return;
       }
-      for (let i = 0; i < attachment.length; i++) {
-        this.newAttachments.push(attachment[i]);
+      console.log('HERE!!!!!!!!!');
+      console.log(attachment);
+
+      if (typeof attachment === 'object' && !Array.isArray(attachment)) {
+        console.log('object attachment');
+        console.log(attachment);
+        // here
+        this.newAttachments.push(attachment);
+      } else {
+        for (let i = 0; i < attachment.length; i++) {
+          console.log('NEW ATTACHMENT');
+          console.log(attachment[i]);
+          this.newAttachments.push(attachment[i]);
+        }
       }
     },
   },
