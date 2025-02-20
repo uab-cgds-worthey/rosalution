@@ -263,41 +263,45 @@ export default {
     return await Requests.putForm(url, attachmentForm);
   },
 
-  async attachDiscussionAttachments(analysisName, attachment) {
+  async attachDiscussionAttachments(analysisName, newAttachments) {
     const attachmentForm = {};
     const url = `/rosalution/api/analysis/${analysisName}/attachment`;
 
     // Either a single object to attach, or a list of objects to attach
-    console.log('In analyses.js - logging attachment type');
-    console.log(attachment.type);
-    console.log(attachment);
+    console.log('In analyses.js - getting new Attachments');
+    // console.log(attachment.type);
+    console.log(newAttachments);
 
-    const unwrappedAttachments = attachment.value.map(function(attachment) {
-      return (attachment);
-    });
-    console.log('unwrapped attachment in analyses.js');
-    console.log(unwrappedAttachments);
+    // const unwrappedAttachments = newAttachments.value.map(function(attachment) {
+    //   return (attachment);
+    // });
+    // console.log('unwrapped attachment in analyses.js');
+    // console.log(unwrappedAttachments);
     //  This^ is not logging
 
     // if (!['file', 'link'].includes(attachment.type) ) {
     //   throw new Error(`Evidence attachment ${attachment} type is invalid.`);
     // }
+    newAttachments.forEach(async (attachment) => {
+      const newAttachment = {
+      };
+      if (attachment.type == 'file') {
+        attachmentForm['upload_file'] = attachment.data;
+      } else if ( attachment.type == 'link') {
+        newAttachment['link_name'] = attachment.name;
+        newAttachment['link'] = attachment.data;
+      }
 
-    const newAttachment = {
-    };
+      attachmentForm['new_attachment'] = JSON.stringify(newAttachment);
 
-    if (attachment.type == 'file') {
-      attachmentForm['upload_file'] = attachment.data;
-    } else if ( attachment.type == 'link') {
-      newAttachment['link_name'] = attachment.name;
-      newAttachment['link'] = attachment.data;
-    }
+      console.log('Attachment Form');
+      console.log(attachmentForm);
 
-    attachmentForm['new_attachment'] = JSON.stringify(newAttachment);
-
-    return await Requests.postForm(url, attachmentForm);
+      return await Requests.postForm(url, attachmentForm);
+    });
   },
 
+  // postAttachment is expected in which format?
   async postNewDiscussionThread(analysisName, postContent, postAttachments=[]) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions`;
 
@@ -306,7 +310,7 @@ export default {
       'attachments': postAttachments,
     };
 
-    console.log('postNewDiscussionThread');
+    console.log('postNewDiscussionThread!!!!!!!!!!!!');
     console.log(postAttachments);
     // console.log()
 

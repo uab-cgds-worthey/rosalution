@@ -543,9 +543,10 @@ async function pushAnalysisEvent(eventType) {
  * Adds a new discussion post to the analysis.
  *
  * @param {string} newPostContent - The content of the new discussion post.
+ * @param {array} newAttachments - Array containing new attachments for the new discussion post.
  */
-async function addDiscussionPost(newPostContent) {
-  await analysisStore.addDiscussionPost(newPostContent);
+async function addDiscussionPost(newPostContent, newAttachments) {
+  await analysisStore.addDiscussionPost(newPostContent, newAttachments);
 }
 
 /**
