@@ -274,7 +274,7 @@ export default {
     console.log('In analyses.js - getting new Attachments');
     // console.log(attachment.type);
     console.log(newAttachments);
-
+    console.log('HERE!!!!!!!!');
     // const unwrappedAttachments = newAttachments.value.map(function(attachment) {
     //   return (attachment);
     // });
@@ -305,6 +305,7 @@ export default {
   },
 
   // postAttachment is expected in which format?
+  // Posting a Discussion Thread and corresponding attachments together
   async postNewDiscussionThread(analysisName, postContent, postAttachments=[]) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions`;
 
@@ -312,10 +313,9 @@ export default {
       'discussion_content': postContent,
       'attachments': postAttachments,
     };
-
-    console.log('postNewDiscussionThread!!!!!!!!!!!!');
-    console.log(postAttachments);
-    // console.log()
+    // attachmentForm['new_attachment'] = JSON.stringify(newAttachment);
+    console.log('Attachment Form');
+    console.log(attachmentForm);
 
     const success = await Requests.postForm(url, attachmentForm);
     return success;

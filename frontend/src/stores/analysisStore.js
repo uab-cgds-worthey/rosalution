@@ -162,26 +162,15 @@ export const analysisStore = reactive({
    */
 
   async addDiscussionPost(newPostContent, newPostAttachments=[]) {
-    // if this.disucssionPostAttachment is just a new attachment, then attach as supporting evidence, and then
-    // use the return value of that to set the list of attachments
-
     // moving attachment handling here
     // we expect discussion attachments to be single or multiple
     console.log('analaysisStore.js - addDiscussionPost');
-    console.log('NewPostAttachments passed in');
     console.log(newPostAttachments);
-
+    console.log('NewPostAttachments passed in');
     // this.newDiscussionPostAttachments.push(newPostAttachments);
     // const discussionPostAttachments = await Analyses.attachDiscussionAttachments(
     //     this.analysis.name,
     //     newPostAttachments, // should we loop through newattachments and send for each attachment in array
-    // );
-    // is this for file types? are there analysis.supporting_evidence_links?
-    // what does files mean here???
-    // no seems to be for both files and links
-    // this.analysis.supporting_evidence_files.splice(0);
-    // this.analysis.supporting_evidence_files.push(
-    //     ...discussionPostAttachments,
     // );
 
     console.log('Updating to post content and new attachments');
