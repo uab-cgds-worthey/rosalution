@@ -7,9 +7,9 @@ from random import randint
 import time
 
 import logging
+import subprocess
 import jq
 import requests
-import subprocess
 
 from ..core.annotation_unit import AnnotationUnit
 
@@ -267,6 +267,7 @@ class VersionAnnotationTask(AnnotationTaskInterface):
         version = {"date": str(date.today())}
         return version
 
+
 class SubprocessAnnotationTask(AnnotationTaskInterface):
     """ Initializes the use of a Linux subprocess programmatically to fetch an annotation """
 
@@ -276,25 +277,33 @@ class SubprocessAnnotationTask(AnnotationTaskInterface):
 
     def annotate(self):
         """ Runs a subprocess programmatically to retireve an annotation result and return as a json """
-        result = subprocess.run(self.build_command(), stdout=subprocess.PIPE).stdout.decode('utf-8').split('\n')
-        logger.info(f"{result}")
-        reader = csv.DictReader(
-            result,
-            delimiter=self.annotation_unit.dataset['delimiter'],
-            fieldnames=self.annotation_unit.dataset['fieldnames']
-        )
-        json_result = []
 
-        for row in reader:
-            json_result.append(row)
+        try:
+            result = subprocess.run(self.build_command(), stdout=subprocess.PIPE,
+                                    check=True).stdout.decode('utf-8').split('\n')
 
-        return json_result
+            reader = csv.DictReader(
+                result,
+                delimiter=self.annotation_unit.dataset['delimiter'],
+                fieldnames=self.annotation_unit.dataset['fieldnames']
+            )
+
+            json_result = []
+
+            for row in reader:
+                json_result.append(row)
+
+            return json_result
+        except subprocess.SubprocessError as error:
+            logger.info('Subprocess run error: %s', error)
+            return {}
 
     def build_command(self):
         """
         Builds the complete subprocess command by replacing variables with what is required for the command to run
         """
         return self.aggregate_string_replacements(self.annotation_unit.dataset['subprocess']).split(' ')
+
 
 class AnnotationTaskFactory:
     """
