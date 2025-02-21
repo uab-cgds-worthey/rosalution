@@ -42,6 +42,7 @@
                     <span class="new-attachment-name">
                       {{ newAttachment.name }}
                     </span>
+                    <font-awesome-icon icon="xmark" size="md" @click="removePostAttachment('new_post', newAttachment)"/>
                   </span>
                 </div>
               </span>
@@ -84,7 +85,10 @@
 
 <script>
 import DiscussionPost from './DiscussionPost.vue';
+import notificationDialog from '@/notificationDialog.js';
+
 import inputDialog from '@/inputDialog.js';
+import {toRaw} from 'vue';
 
 export default {
   name: 'discussion-section',
@@ -126,7 +130,7 @@ export default {
       this.showNewPost = true;
     },
     newDiscussionPost() {
-      this.$emit('discussion:new-post', this.newPostContent, this.newAttachments);
+      this.$emit('discussion:new-post', toRaw(this.newPostContent), toRaw(this.newAttachments));
       this.clearNewDiscussionField();
     },
     cancelNewDiscussionPost() {
@@ -148,7 +152,6 @@ export default {
       const includeName = true;
 
       // const defaultComments = 'This attachment is referenced in the Discussion attachment.';
-      console.log('on clicking attach addAttachmenttoDiscussionPost function is called');
       const attachment = await inputDialog
           .confirmText('Attach')
           .cancelText('Cancel')
@@ -157,23 +160,34 @@ export default {
           .existing(this.existingAttachments)
           .prompt();
       if (!attachment) {
-        console.log('nothing is being returned from the input dialog for a completely new attachment attempt');
         return;
       }
-      console.log('HERE!!!!!!!!!');
-      console.log(attachment);
 
       if (typeof attachment === 'object' && !Array.isArray(attachment)) {
-        console.log('object attachment');
-        console.log(attachment);
-        // here
         this.newAttachments.push(attachment);
       } else {
         for (let i = 0; i < attachment.length; i++) {
-          console.log('NEW ATTACHMENT');
-          console.log(attachment[i]);
           this.newAttachments.push(attachment[i]);
         }
+      }
+    },
+    async removePostAttachment(postId, postAttachment) {
+      const confirmedDelete = await notificationDialog
+          .title(`Remove ${postAttachment.name} attachment`)
+          .confirmText('Remove')
+          .cancelText('Cancel')
+          .confirm(
+              'This operation will  sure you want to remove?',
+          );
+
+      if (!confirmedDelete) {
+        return;
+      }
+
+      try {
+        console.log('temporarily logging that a thing will get deleted');
+      } catch (error) {
+        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
     },
   },
@@ -244,6 +258,7 @@ export default {
 .new-attachments-list {
   float: left;
   display: flex;
+  gap: var(--p-5);
 }
 
 .new-attachment {
@@ -252,8 +267,10 @@ export default {
   border-radius: var(--input-border-radius);
   border: 2px solid var(--rosalution-black);
   padding: var(--p-5);
-  margin-right: var(--p-5);
   align-content:flex-start;
+  display: flex;
+  gap: var(--p-5);
+  align-items: center;
 }
 
 .new-attachment-logo {

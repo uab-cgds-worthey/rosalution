@@ -2,14 +2,38 @@
 from datetime import datetime, timezone
 from uuid import uuid4
 
-from fastapi import (APIRouter, Depends, Form, Security, HTTPException, status)
+from fastapi import (APIRouter, Depends, Form, Security, HTTPException, status, File, UploadFile)
 
 from ..dependencies import database
 from ..models.user import VerifyUser
 from ..models.analysis import Analysis
 from ..security.security import get_current_user
 
+import json
+from typing import List, Optional
+from pydantic import BaseModel, model_validator
+
+
 router = APIRouter(tags=["analysis discussions"], dependencies=[Depends(database)])
+
+class DiscussionAttachment(BaseModel, frozen=True):
+    """The sections of case notes associated with an analysis"""
+
+    name: Optional[str] = None
+
+    attachment_id: Optional[str] = None
+    comments: Optional[str] = None
+    link_name: Optional[str] = None
+    link: Optional[str] = None
+    data: Optional[str] = None
+
+    @model_validator(mode='before')
+    @classmethod
+    def validate_to_json(cls, value):
+        """Allows FastAPI to valid and unpack the JSON of data into the model"""
+        if isinstance(value, str):
+            return cls(**json.loads(value))
+        return value
 
 
 @router.get("/{analysis_name}/discussions")
@@ -36,6 +60,8 @@ def get_analysis_discussions(
 def add_analysis_discussion(
     analysis_name: str,
     discussion_content: str = Form(...),
+    fileAttachments: List[UploadFile] = File(None),
+    new_attachment: List[DiscussionAttachment] = Form(...),
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):
@@ -56,10 +82,13 @@ def add_analysis_discussion(
         "author_fullname": current_user["full_name"],
         "publish_timestamp": datetime.now(timezone.utc),
         "content": discussion_content,
-        "attachments": [],
+        "attachments": attachments,
         "thread": [],
     }
-
+    # print("analysis router")
+    # print(new_discussion_post)
+    # for attachment in new_discussion_post["attachments"]:
+    #     print(attachment)
     return repositories['analysis'].add_discussion_post(analysis.name, new_discussion_post)
 
 
