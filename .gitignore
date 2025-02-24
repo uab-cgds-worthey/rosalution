@@ -9,6 +9,7 @@ data
 *.npmrc
 **/tmp/**
 *.archive
+DITTO_chr*.tsv.gz.tbi
 
 # Log files
 npm-debug.log*
