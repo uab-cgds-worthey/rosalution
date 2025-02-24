@@ -13,22 +13,22 @@ describe('drop_down_menu_genes_variants.cy.js', () => {
     cy.get('.variant-unit-select option:selected')
         .invoke('text').should('eq', 'NM_002972.2:c.5474_5475delTG(Val1825GlyfsX27)');
 
-    cy.get('#Gene > .rosalution-section-header > .rosalution-section-header-text')
+    cy.get('#Gene > .rosalution-section-header > .annotation-section-header-text')
         .should('contain', 'SBF1');
-    cy.get('#Variant > .rosalution-section-header > .rosalution-section-header-text')
+    cy.get('#Variant > .rosalution-section-header > .annotation-section-header-text')
         .should('contain', 'NM_002972.2:c.5474_5475delTG(Val1825GlyfsX27)');
 
     cy.get('.variant-unit-select').select('NM_002972.2:c.3493_3494dupTA(Pro1166ThrfsX5)');
 
-    cy.get('#Variant > .rosalution-section-header > .rosalution-section-header-text')
+    cy.get('#Variant > .rosalution-section-header > .annotation-section-header-text')
         .should('contain', 'NM_002972.2:c.3493_3494dupTA(Pro1166ThrfsX5)');
-    cy.get('#Variant > .rosalution-section-header > .rosalution-section-header-text')
+    cy.get('#Variant > .rosalution-section-header > .annotation-section-header-text')
         .should('not.contain', 'NM_002972.2:c.5474_5475delTG(Val1825GlyfsX27)');
 
     cy.get('.variant-unit-select').select('NM_002972.2:c.5474_5475delTG(Val1825GlyfsX27)');
-    cy.get('#Variant > .rosalution-section-header > .rosalution-section-header-text')
+    cy.get('#Variant > .rosalution-section-header > .annotation-section-header-text')
         .should('contain', 'NM_002972.2:c.5474_5475delTG(Val1825GlyfsX27)');
-    cy.get('#Variant > .rosalution-section-header > .rosalution-section-header-text')
+    cy.get('#Variant > .rosalution-section-header > .annotation-section-header-text')
         .should('not.contain', 'NM_002972.2:c.3493_3494dupTA(Pro1166ThrfsX5)');
   });
 });

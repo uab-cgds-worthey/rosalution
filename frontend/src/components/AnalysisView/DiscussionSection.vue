@@ -16,7 +16,7 @@
             </label>
         </div>
         <div class="rosalution-section-seperator"></div>
-        <div class="section-content">
+        <div class="discussion-section-content">
           <div v-if="this.showNewPost" class="discussion-new-post">
             <textarea
                 contenteditable="plaintext-only"
@@ -169,7 +169,7 @@ input[type="checkbox"] {
     display: none;
 }
 
-.rosalution-section-container input[type="checkbox"]:checked ~ .section-content {
+.rosalution-section-container input[type="checkbox"]:checked ~ .discussion-section-content {
     display: none;
 }
 

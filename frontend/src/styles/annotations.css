@@ -1,0 +1,203 @@
+/** || Variables **/
+
+html {
+  --annotation-dataset-unavailable: var(--rosalution-grey-100);
+  --annotation-line-height: 1.5rem;
+  --annotation-dataset-bar-height: 1.125rem;
+}
+
+/** || Layout **/
+
+.annotation-section-container {
+  margin: 0px;
+}
+
+.annotation-section-header {
+  gap: var(--p-8);
+}
+
+.annotation-section-seperator {
+  margin-bottom: var(--p-8);
+}
+
+.section-content {
+  display: grid;
+  grid-template-rows: repeat(auto-fill, minmax(var(--p-28), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(385px, 1fr));
+
+  row-gap: var(--p-10);
+}
+
+.grid-row-span {
+  grid-column: 1 / -1;
+}
+
+.grid-row-horizontal {
+  display: contents;
+}
+
+/** || Datasets General **/
+
+.dataset-container {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--p-1);
+}
+
+.dataset-container > .dataset-label {
+  flex: 0 0 8.125rem;
+  font-weight: 600;
+}
+
+.dataset-text-subheader  {
+  font-size: 1.25rem; /** 20 px **/
+}
+.dataset-label-flex-parent-style {
+  flex: inherit !important;
+}
+
+.dataset-label-unavailable {
+  color: var(--rosalution-grey-100);
+}
+  
+a:hover .dataset-label {
+  color: var(--rosalution-purple-100);
+}
+
+.dataset-bar {
+  flex: 0 0 12.5rem;
+  height: var(--annotation-dataset-bar-height);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.dataset-bar-fill-unavailable {
+  background-color: var(--annotation-dataset-unavailable);
+}
+
+/** || Linkout Dataset **/
+
+.linkout {
+  background-color: var(--rosalution-white);
+}
+
+.linkout-available {
+  opacity: 1;
+}
+
+.linkout-unavailable {
+  opacity: .25;
+}
+
+.linkout img {
+  max-height: var(--annotation-line-height);
+}
+
+.linkout .svg {
+  width: 2rem;
+}
+
+/** || Score Dataset **/
+
+.score-content {
+  display:flex;
+  flex-wrap: nowrap; 
+  gap: 5px;
+}
+
+.score-fill {
+  height: var(--annotation-dataset-bar-height);
+  border-radius: 9999px;
+}
+
+.score-text {
+  font-size: 1rem;
+}
+
+.score-background {
+  overflow: hidden;
+  border-radius: 9999px;
+}
+
+/** || Set Dataset **/
+
+.set-section {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.set-background {
+  overflow: hidden;
+  border-radius: 9999px;
+}
+
+.set-text {
+  font-size: 0.75rem; /* 12px */
+  line-height: 1rem; /* 16px */
+  white-space: nowrap;
+  text-align: center;
+  align-content: center;
+  color: var(--rosalution-white);
+}
+
+/** || Tag Dataset **/
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--p-8) var(--p-1);
+  line-height: var(--annotation-line-height);
+}
+
+.tag {
+  padding: var(--p-05) var(--p-5);
+  background-color: transparent;
+  border-radius: 8px;
+  border: 1px solid var(--rosalution-black);
+  color: var(--rosalution-black);
+}
+
+/** || Text Dataset **/
+
+.text-value {
+  white-space: pre-wrap;
+  line-height: var(--annotation-line-height);
+}
+
+/** || Text Highlight Dataset **/
+
+.highlight-text {
+  font-size: 1rem;
+  padding: 0 var(--p-5) 0 var(--p-5);
+  border-radius: 8px;
+}
+
+/** || Transcript Dataset **/
+
+.transcript-section {
+  display: grid;
+  gap: var(--p-10);
+}
+
+.transcript-item {
+  display: flex;
+  flex-direction: column;
+  gap:var(--p-5)
+}
+
+.transcript-item:hover {
+  background-color: var(--rosalution-grey-50);
+}
+
+.transcript-header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--p-8);
+}
+
+.transcript-header-text {
+    /** mimicing the h2 css **/
+    font-size: var(--annotation-line-height);
+    font-weight: 700;
+}

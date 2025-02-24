@@ -1,5 +1,4 @@
 <template>
-  <div>
     <app-header>
       <AnalysisViewHeader
         :actions="actionChoices"
@@ -66,7 +65,6 @@
         @save="saveAnalysisChanges"
       />
     </app-content>
-  </div>
 </template>
 
 <script setup>
@@ -607,12 +605,14 @@ app-content {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  gap: var(--p-10)
 }
 
 app-header {
   position: sticky;
   top: 0px;
   z-index: 10;
+  border-bottom: 4px solid var(--primary-background-color);
 }
 
 .save-modal {

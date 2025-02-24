@@ -1,8 +1,8 @@
 <template>
-  <div class="rosalution-section-container">
+  <div class="rosalution-section-container annotation-section-container">
     <input type="checkbox" v-bind:id="section_toggle" />
-    <div class="rosalution-section-header" :data-test="this.header">
-      <h2 class="rosalution-section-header-text">
+    <div class="rosalution-section-header annotation-section-header" :data-test="this.header">
+      <h2 class="annotation-section-header-text">
         {{header}}
       </h2>
       <span class="rosalution-section-center" data-test="header-datasets">
@@ -27,7 +27,7 @@
         <font-awesome-icon icon="chevron-down" size="lg"/>
       </label>
     </div>
-    <div class="rosalution-section-seperator"></div>
+    <div class="rosalution-section-seperator annotation-section-seperator"></div>
     <div class="section-content">
       <slot></slot>
   </div>

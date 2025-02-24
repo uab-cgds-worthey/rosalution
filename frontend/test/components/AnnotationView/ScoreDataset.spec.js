@@ -1,6 +1,7 @@
 import {expect, describe, it} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 
+import DatasetLabel from '@/components/AnnotationView/DatasetLabel.vue';
 import ScoreDataset from '@/components/AnnotationView/ScoreDataset.vue';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
@@ -37,7 +38,10 @@ describe('ScoreDataset.vue', () => {
   let wrapper;
   it('renders the dataset label', () => {
     wrapper = getMountedComponent();
-    expect(wrapper.html()).to.contain('CADD_phred');
+
+    const labelWrapper = wrapper.findComponent(DatasetLabel);
+
+    expect(labelWrapper.props('label')).to.equal('CADD_phred');
   });
 
   describe('when a score is set', () => {
@@ -123,7 +127,7 @@ describe('ScoreDataset.vue', () => {
     });
 
     const scoreBackground = wrapper.find('[data-test=score-background]');
-    expect(scoreBackground.attributes().style).to.contains('rosalution-grey-100');
+    expect(scoreBackground.classes()).to.contains('dataset-bar-fill-unavailable');
 
     const scoreText = wrapper.find('[data-test=score-text]');
     expect(scoreText.attributes().style).to.contains('rosalution-grey-300');

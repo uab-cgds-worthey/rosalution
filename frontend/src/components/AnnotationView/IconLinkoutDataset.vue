@@ -1,55 +1,27 @@
 <template>
-  <a :href="value" target="_blank" rel="noreferrer noopener" class="linkout">
-    <img :src="linkoutImageSrc(imageFilename)" :alt="altText" :style="linkoutStyle" />
+  <a :href="value" target="_blank" rel="noreferrer noopener" class="linkout" :class="linkoutStyle" >
+    <img :src="likoutImageSrc" :alt="altText" :class="imageStyle"/>
   </a>
 </template>
 
-<script>
-export default {
-  name: 'icon-linkout-dataset',
-  props: {
-    value: {
-      type: String,
-    },
-    altText: {
-      type: String,
-      required: true,
-    },
-    imageFilename: {
-      type: String,
-      required: true,
-    },
+<script setup>
+const props = defineProps({
+  value: {
+    type: String,
   },
-  computed: {
-    linkoutStyle: function() {
-      if (typeof(this.value) == 'undefined') {
-        return {
-          opacity: 0.25,
-        };
-      }
-      return {
-        opacity: 1,
-      };
-    },
+  altText: {
+    type: String,
+    required: true,
   },
-  methods: {
-    linkoutImageSrc(imageFilename) {
-      return new URL(`/src/assets/${imageFilename}`, import.meta.url);
-    },
+  imageFilename: {
+    type: String,
+    required: true,
   },
-};
+});
+
+const linkoutStyle = (typeof(props.value) == 'undefined') ? 'linkout-unavailable' : 'linkout-available';
+const classIfSvg = props.imageFilename.includes('.svg') ? 'svg' : '';
+const imageStyle = [linkoutStyle, classIfSvg].join(' ');
+
+const likoutImageSrc = new URL(`/src/assets/${props.imageFilename}`, import.meta.url);
 </script>
-
-<style scoped>
-
-.linkout {
-  background-color: var(--rosalution-white);
-  overflow:hidden;
-}
-
-.linkout img {
-  max-height: 1.5rem;
-  padding-right: var(--p-10)
-}
-
-</style>

@@ -440,7 +440,7 @@
     ],
     "annotations": [
       {
-        "ClinVar_Variantion_Id": [
+        "ClinVar_Variant_Id": [
           {
             "data_source": "Rosalution",
             "version": "rosalution-manifest-00",
@@ -852,7 +852,7 @@
     ],
     "annotations": [
       {
-        "ClinVar_Variantion_Id": [
+        "ClinVar_Variant_Id": [
           {
             "data_source": "Rosalution",
             "version": "rosalution-manifest-00",
@@ -1532,19 +1532,15 @@
     ],
     "annotations": [
       {
-        "ClinVar_Variantion_Id": [
+        "ClinVar_Variant_Id": [
           {
             "data_source": "Rosalution",
             "version": "rosalution-manifest-00",
             "value": "14524"
-          }
-        ]
-      },
-      {
-        "ClinVar_Variantion_Id": [
+          },
           {
             "data_source": "Rosalution",
-            "version": "rosalution-manifest-00",
+            "version": "rosalution-manifest-01",
             "value": "14524"
           }
         ]
@@ -2065,7 +2061,7 @@
     ],
     "annotations": [
       {
-        "ClinVar_Variantion_Id": [
+        "ClinVar_Variant_Id": [
           {
             "data_source": "Rosalution",
             "version": "rosalution-manifest-00",
@@ -6142,7 +6138,7 @@
     ],
     "annotations": [
       {
-        "ClinVar_Variantion_Id": [
+        "ClinVar_Variant_Id": [
           {
             "data_source": "Rosalution",
             "version": "rosalution-manifest-00",

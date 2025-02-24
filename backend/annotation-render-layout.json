@@ -94,7 +94,7 @@
     ],
     "rows": [
       {
-        "class": "fill-horizontal",
+        "class": "grid-row-horizontal",
         "datasets": [
           {
             "dataset": "CADD",
@@ -137,7 +137,18 @@
               },
               "cutoff": 1
             }
-          },
+          }
+        ]
+      },
+      {
+        "class": "",
+        "datasets": [
+
+        ]
+      },
+      {
+        "class": "grid-row-horizontal",
+        "datasets": [
           {
             "dataset": "alphamissense_pathogenicity",
             "type": "score-dataset",
@@ -174,6 +185,77 @@
                   "colour": "Red"
                 }
               ]
+            }
+          }
+        ]
+      },
+      {
+        "datasets": [
+          {
+            "dataset": "SpliceAI_variant_linkout",
+            "type": "clinvar-dataset",
+            "linkout_dataset": "SpliceAI_variant_linkout",
+            "props": {
+              "label": "SpliceAI"
+            }
+          }
+        ]
+      },
+      {
+        "class": "grid-row-horizontal",
+        "datasets": [
+          {
+            "dataset": "spliceai_acceptor_loss",
+            "type": "score-dataset",
+            "props": {
+              "label": "Acceptor Loss",
+              "minimum": 0,
+              "maximum": 1,
+              "bounds": {
+                "lowerBound": 0.5,
+                "upperBound": 0.8
+              },
+              "cutoff": 1
+            }
+          },          {
+            "dataset": "spliceai_donor_loss",
+            "type": "score-dataset",
+            "props": {
+              "label": "Donor Loss",
+              "minimum": 0,
+              "maximum": 1,
+              "bounds": {
+                "lowerBound": 0.5,
+                "upperBound": 0.8
+              },
+              "cutoff": 1
+            }
+          },
+          {
+            "dataset": "spliceai_acceptor_gain",
+            "type": "score-dataset",
+            "props": {
+              "label": "Acceptor Gain",
+              "minimum": 0,
+              "maximum": 1.0,
+              "bounds": {
+                "lowerBound": 0.5,
+                "upperBound": 0.8
+              },
+              "cutoff": 1
+            }
+          },          {
+            "dataset": "spliceai_donor_gain",
+            "type": "score-dataset",
+            "props": {
+              "label": "Donor Gain",
+              "minimum": 0,
+              "maximum": 1.0,
+              "bounds": {
+                "lowerBound": 0.5,
+                "upperBound": 0.8
+              },
+              "cutoff": 1
             }
           }
         ]
@@ -594,55 +676,6 @@
           },
           {
             "dataset": "Zebrafish_Alliance_Genome_Models",
-            "type": "card-dataset"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "section",
-    "class": "",
-    "header": "C. elegans (Roundworm) Model System",
-    "anchor": "C_elegans_Model_System",
-    "header_datasets": [
-      {
-        "dataset": "C-Elegens_Alliance_Genome_url",
-        "type": "icon-linkout-dataset",
-        "props": {
-          "imageFilename": "alliance-genome-logo.png",
-          "altText": "Alliance Genome Linkout"
-        }
-      },
-      {
-        "dataset": "C-Elegens_Worm_Base_url",
-        "type": "icon-linkout-dataset",
-        "props": {
-          "imageFilename": "c-elegens-dataset-logo.png",
-          "altText": "WormBase Linkout"
-        }
-      }
-    ],
-    "rows": [
-      {
-        "class": "",
-        "datasets": [
-          {
-            "dataset": "C-Elegens_Alliance_Genome_Automated_Summary",
-            "type": "text-dataset",
-            "props": {
-              "label": "AG Summary"
-            }
-          },
-          {
-            "dataset": "C-Elegens_Alliance_Genome_WB_Summary",
-            "type": "text-dataset",
-            "props": {
-              "label": "WB Summary"
-            }
-          },
-          {
-            "dataset": "C-Elegens_Alliance_Genome_Models",
             "type": "card-dataset"
           }
         ]

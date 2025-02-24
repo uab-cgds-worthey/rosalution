@@ -6,6 +6,8 @@
 ### Features - In Progress
 
 - Discussion Attachments
+- Application and VueJS Dataset Component's CSS maintenance and consolidation to resolve rendering layout challenges
+  to support upcoming new annotations to visualize.
 
 ## 0.8.3
 
