@@ -1,6 +1,6 @@
 <template>
   <div class="dataset-container">
-    <DatasetLabel :label="label" :datasetValue="value" style="flex: inherit"></DatasetLabel>
+    <DatasetLabel :label="label" :datasetValue="value" class="dataset-label-flex-parent-style"></DatasetLabel>
     <span class="highlight-text" :style="highlightStyle">{{ value }}</span>
   </div>
 </template>

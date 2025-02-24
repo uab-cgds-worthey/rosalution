@@ -3,10 +3,10 @@
     <DatasetLabel :label="label" :datasetValue="value"></DatasetLabel>
     <div class="dataset-bar" v-bind="datasetBarAttributes" data-test="score-background">
       <div v-if="isAvailable" class="score-fill"
-:style="{
-        'background-color': scoreStyling.fillColour,
-        width: scoreFillWidthPercentage,
-      }" data-test="score-fill">
+        :style="{
+                'background-color': scoreStyling.fillColour,
+                width: scoreFillWidthPercentage,
+              }" data-test="score-fill">
       </div>
     </div>
     <span class="score-text" :style="{ color: scoreStyling.textColour }" data-test="score-text">
@@ -19,7 +19,7 @@
 
 import DatasetLabel from '@/components/AnnotationView/DatasetLabel.vue';
 
-import {isDatasetAvailable} from '@/components/AnnotationView/datasetRenderingUtility.js';
+import {isDatasetAvailable, useScoreBarCalculations} from '@/components/AnnotationView/datasetRenderingUtility.js';
 
 const props = defineProps({
   label: {
@@ -69,37 +69,8 @@ const styles = {
   },
 };
 
-const scoreFillValue = (parseFloat(Math.abs(props.minimum) + props.value) /
-  (Math.abs(props.minimum) + Math.abs(props.maximum)));
-
-const scoreFillWidthPercentage = Math.floor(Math.abs(scoreFillValue) * 100) + '%';
-
 const isAvailable = isDatasetAvailable(props.value);
-let scoreStyling = styles.nominalColours;
+const {scoreFillWidthPercentage, datasetBarAttributes, scoreStyling} =
+  useScoreBarCalculations(props.value, props, styles);
 
-function withinBounds(score) {
-  return score > props.bounds.lowerBound && score < props.bounds.upperBound;
-}
-function belowBounds(score) {
-  return score > props.bounds.upperBound;
-}
-
-const datasetBarAttributes = {};
-
-if (!isAvailable) {
-  datasetBarAttributes['class'] = 'dataset-bar-fill-unavailable';
-  scoreStyling = styles.unavailableColours;
-} else if (props.cutoff) {
-  let score = 0;
-  score = props.value / props.cutoff;
-  if (withinBounds(score)) {
-    scoreStyling = styles.closeToThresholdColours;
-  } else if (belowBounds(score)) {
-    scoreStyling = styles.outOfThresholdColours;
-  }
-
-  datasetBarAttributes['style'] = {
-    'background-color': scoreStyling.backgroundColour,
-  };
-};
 </script>

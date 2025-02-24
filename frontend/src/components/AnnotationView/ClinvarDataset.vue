@@ -1,7 +1,7 @@
 <template>
-    <div class="dataset-container">
-      <DatasetLabel :label="label" :linkout="linkout" :datasetValue="value" style="font-size: 1.25rem;"></DatasetLabel>
-    </div>
+  <div class="dataset-container">
+    <DatasetLabel :label="label" :linkout="linkout" :datasetValue="value" class="dataset-text-subheader"></DatasetLabel>
+  </div>
 </template>
 
 <script setup>

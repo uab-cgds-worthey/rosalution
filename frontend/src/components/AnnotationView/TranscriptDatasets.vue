@@ -12,7 +12,7 @@
       >
       </TextHighlightDataset>
     </div>
-    <TextDataset label="Consequences" :value="transcript['Consequences']" style="grid-row:1;" :delimeter="`\n`" />
+    <TextDataset label="Consequences" :value="transcript['Consequences']" :delimeter="`\n`" />
     <div class="section-content">
       <SetDataset
         label="SIFT"

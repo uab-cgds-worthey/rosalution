@@ -42,13 +42,18 @@ html {
   display: flex;
   align-items: flex-start;
   gap: var(--p-1);
-
-  /* line-height: var(--annotation-line-height); */
 }
 
 .dataset-container > .dataset-label {
   flex: 0 0 8.125rem;
   font-weight: 600;
+}
+
+.dataset-text-subheader  {
+  font-size: 1.25rem; /** 20 px **/
+}
+.dataset-label-flex-parent-style {
+  flex: inherit !important;
 }
 
 .dataset-label-unavailable {
@@ -112,7 +117,6 @@ a:hover .dataset-label {
 .score-background {
   overflow: hidden;
   border-radius: 9999px;
-  border-color: 2px solid var(--rosalution-red-100)
 }
 
 /** || Set Dataset **/
