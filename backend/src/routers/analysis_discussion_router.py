@@ -10,13 +10,14 @@ from ..models.analysis import Analysis
 from ..security.security import get_current_user
 
 import json
-from typing import List, Optional
+from typing import List, Optional, Annotated
 from pydantic import BaseModel, model_validator
 
 
 router = APIRouter(tags=["analysis discussions"], dependencies=[Depends(database)])
 
-class DiscussionAttachment(BaseModel, frozen=True):
+
+class RosalutionAttachment(BaseModel, frozen=True):
     """The sections of case notes associated with an analysis"""
 
     name: Optional[str] = None
@@ -27,14 +28,19 @@ class DiscussionAttachment(BaseModel, frozen=True):
     link: Optional[str] = None
     data: Optional[str] = None
 
-    @model_validator(mode='before')
-    @classmethod
-    def validate_to_json(cls, value):
-        """Allows FastAPI to valid and unpack the JSON of data into the model"""
-        if isinstance(value, str):
-            return cls(**json.loads(value))
-        return value
+    # @model_validator(mode='before')
+    # @classmethod
+    # def validate_to_json(cls, value):
+    #     """Allows FastAPI to valid and unpack the JSON of data into the model"""
+    #     if isinstance(value, str):
+    #         return cls(**json.loads(value))
+    #     return value
 
+class IncomingDiscussionFormData(BaseModel):
+    discussion_content: str
+    # new_attachment_list: List[RosalutionAttachment]
+    # model_config = {"extra": "forbid"}
+    
 
 @router.get("/{analysis_name}/discussions")
 def get_analysis_discussions(
@@ -57,17 +63,19 @@ def get_analysis_discussions(
 
 
 @router.post("/{analysis_name}/discussions")
-def add_analysis_discussion(
+async def add_analysis_discussion(
     # analysis_name: str,
     # discussion_content: str = Form(...),
     # newfileData: List[UploadFile] = File(None),
     # existingAttachment: List[DiscussionAttachment] = Form(...),
-    new_attachment_list: List[DiscussionAttachment] = Form(...),
+    data: Annotated[IncomingDiscussionFormData, Form()]
+    # new_attachment_list: List[RosalutionAttachment] = Form(...),
     # repositories=Depends(database),
     # client_id: VerifyUser = Security(get_current_user)
 ):
     
-    print(new_attachment_list)
+    print(data)
+    # print(new_attachment_list)
     # """ Adds a new analysis topic """
     # found_analysis = repositories['analysis'].find_by_name(analysis_name)
 
