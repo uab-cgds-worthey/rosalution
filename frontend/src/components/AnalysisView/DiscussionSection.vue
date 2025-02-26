@@ -78,9 +78,9 @@
               :actions="actions"
               @post:edit="this.editDiscussionPost"
               @post:delete="this.deleteDiscussionPost"
-          />
-        </div>
-    </div>
+        />
+      </div>
+  </div>
 </template>
 
 <script>
@@ -173,7 +173,7 @@ export default {
     },
     async removePostAttachment(postId, postAttachment) {
       const confirmedDelete = await notificationDialog
-          .title(`Remove ${postAttachment.name} attachment`)
+          .title(`Remove '${postAttachment.name}' attachment from post?`)
           .confirmText('Remove')
           .cancelText('Cancel')
           .confirm(
@@ -185,7 +185,16 @@ export default {
       }
 
       try {
-        console.log('temporarily logging that a thing will get deleted');
+        const attachmentIndex = this.newAttachments.findIndex((attachment) => {
+          if ('attachment_id' in postAttachment && 'attachment_id' in attachment) {
+            return postAttachment.attachment_id == attachment.attachment_id;
+          }
+
+          return postAttachment.name == attachment.name;
+        });
+        console.log(`${attachmentIndex} - attachment to remove`);
+
+        this.newAttachments.splice(attachmentIndex, 1);
       } catch (error) {
         await notificationDialog.title('Failure').confirmText('Ok').alert(error);
       }
@@ -197,100 +206,113 @@ export default {
 
 <style scoped>
 .discussion-new-button {
-    margin-bottom: var(--p-8);
-    margin-right: var(--p-8);
+  margin-bottom: var(--p-8);
+  margin-right: var(--p-8);
 }
 
 .discussion-new-post {
-    background-color: var(--rosalution-grey-50);
-    border-radius: var(--content-border-radius);
-    margin-top: var(--p-8);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  background-color: var(--rosalution-grey-50);
+  border-radius: var(--content-border-radius);
+  margin-top: var(--p-8);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .discussion-new-post-text-area {
-    background-color: var(--rosalution-white);
-    border-radius: var(--content-border-radius);
-    border: solid;
-    border-color: var(--rosalution-grey-000);
-    padding: var(--p-16);
-    margin: var(--p-10);
-    position: relative;
-    width: 100%;
+  background-color: var(--rosalution-white);
+  border-radius: var(--content-border-radius);
+  border: solid;
+  border-color: var(--rosalution-grey-000);
+  padding: var(--p-16);
+  margin: var(--p-10);
+  position: relative;
+  width: 100%;
 }
 
 .discussion-actions {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-right: var(--p-16);
-    margin-bottom: var(--p-10);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-right: var(--p-16);
+  margin-bottom: var(--p-10);
 }
 
 .post-actions {
-  display: flex;
-  flex-wrap: wrap;
+display: flex;
+flex-wrap: wrap;
 }
 
 .publish-button {
-    margin-left: var(--p-8);
+  margin-left: var(--p-8);
 }
 
 .attachments-actions {
-  display: flex;
-  flex-wrap: wrap;
+display: flex;
+flex-wrap: wrap;
 }
 
 .attach-button {
-  background-color:   var(--rosalution-grey-300);
-  color: var(--rosalution-black);
-  margin-left: var(--p-16);
-  margin-right: var(--p-10);
-  left: var(--p-28);
-  float: left;
+background-color:   var(--rosalution-grey-300);
+color: var(--rosalution-black);
+margin-left: var(--p-16);
+margin-right: var(--p-10);
+left: var(--p-28);
+float: left;
 }
 
-.new-attachments-list {
-  float: left;
-  display: flex;
-  gap: var(--p-5);
+.attachments-list {
+display: flex;
+align-items: center;
+gap: var(--p-5);
 }
 
-.new-attachment {
-  background-color:   var(--rosalution-white);
-  color: var(--rosalution-black);
-  border-radius: var(--input-border-radius);
-  border: 2px solid var(--rosalution-black);
-  padding: var(--p-5);
-  align-content:flex-start;
-  display: flex;
-  gap: var(--p-5);
-  align-items: center;
+.attachment {
+background-color: var(--rosalution-white);
+color: var(--rosalution-black);
+border-radius: var(--content-border-radius);
+border: 1px solid var(--rosalution-black);
+
+display: flex;
+gap: var(--p-5);
+align-items: center;
 }
 
-.new-attachment-logo {
-  padding: var(--p-1);
+.attachment-icon {
+padding: var(--p-1);
+cursor: pointer;
+}
+
+.remove-attachment-icon {
+padding-left: var(--p-1);
+}
+
+.remove-attachment-icon:hover {
+color: var(--rosalution-grey-300)
 }
 
 .collapsable-icon {
-    color: var(--rosalution-grey-200);
-    cursor: pointer;
+  color: var(--rosalution-grey-200);
+  cursor: pointer;
 }
 
 input[type="checkbox"] {
-    display: none;
+  display: none;
 }
 
+<<<<<<< HEAD
 .rosalution-section-container input[type="checkbox"]:checked ~ .discussion-section-content {
     display: none;
+=======
+.rosalution-section-container input[type="checkbox"]:checked ~ .section-content {
+  display: none;
+>>>>>>> cbecc21 (Added Angelina's code for deleting Discussion attachments. Also, pushing up code for sending attachments to the backend. Will be cleaning that up completely, commiting for reference.)
 }
 
 input[type="checkbox"]:checked ~ .rosalution-section-header > span ~ label.collapsable-icon {
-    transform: scaleY(-1);
+  transform: scaleY(-1);
 }
 </style>

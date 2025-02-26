@@ -58,38 +58,41 @@ def get_analysis_discussions(
 
 @router.post("/{analysis_name}/discussions")
 def add_analysis_discussion(
-    analysis_name: str,
-    discussion_content: str = Form(...),
-    fileAttachments: List[UploadFile] = File(None),
-    new_attachment: List[DiscussionAttachment] = Form(...),
-    repositories=Depends(database),
-    client_id: VerifyUser = Security(get_current_user)
+    # analysis_name: str,
+    # discussion_content: str = Form(...),
+    # newfileData: List[UploadFile] = File(None),
+    # existingAttachment: List[DiscussionAttachment] = Form(...),
+    new_attachment_list: List[DiscussionAttachment] = Form(...),
+    # repositories=Depends(database),
+    # client_id: VerifyUser = Security(get_current_user)
 ):
-    """ Adds a new analysis topic """
-    found_analysis = repositories['analysis'].find_by_name(analysis_name)
+    
+    print(new_attachment_list)
+    # """ Adds a new analysis topic """
+    # found_analysis = repositories['analysis'].find_by_name(analysis_name)
 
-    if not found_analysis:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Analysis '{analysis_name}' does not exist.'"
-        )
+    # if not found_analysis:
+    #     raise HTTPException(
+    #         status_code=status.HTTP_404_NOT_FOUND, detail=f"Analysis '{analysis_name}' does not exist.'"
+    #     )
 
-    analysis = Analysis(**found_analysis)
-    current_user = repositories["user"].find_by_client_id(client_id)
+    # analysis = Analysis(**found_analysis)
+    # current_user = repositories["user"].find_by_client_id(client_id)
 
-    new_discussion_post = {
-        "post_id": str(uuid4()),
-        "author_id": client_id,
-        "author_fullname": current_user["full_name"],
-        "publish_timestamp": datetime.now(timezone.utc),
-        "content": discussion_content,
-        "attachments": attachments,
-        "thread": [],
-    }
-    # print("analysis router")
-    # print(new_discussion_post)
-    # for attachment in new_discussion_post["attachments"]:
-    #     print(attachment)
-    return repositories['analysis'].add_discussion_post(analysis.name, new_discussion_post)
+    # new_discussion_post = {
+    #     "post_id": str(uuid4()),
+    #     "author_id": client_id,
+    #     "author_fullname": current_user["full_name"],
+    #     "publish_timestamp": datetime.now(timezone.utc),
+    #     "content": discussion_content,
+    #     "attachments": [],
+    #     "thread": [],
+    # }
+    # # print("analysis router")
+    # # print(new_discussion_post)
+    # # for attachment in new_discussion_post["attachments"]:
+    # #     print(attachment)
+    # return repositories['analysis'].add_discussion_post(analysis.name, new_discussion_post)
 
 
 @router.put("/{analysis_name}/discussions/{discussion_post_id}")

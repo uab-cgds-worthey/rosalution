@@ -263,56 +263,48 @@ export default {
     return await Requests.putForm(url, attachmentForm);
   },
 
-  async attachDiscussionAttachments(analysisName, newAttachments) {
-    const attachmentForm = {};
-    const url = `/rosalution/api/analysis/${analysisName}/attachment`;
-
-    // Either a single object to attach, or a list of objects to attach
-    console.log('In analyses.js - getting new Attachments');
-    // console.log(attachment.type);
-    console.log(newAttachments);
-    console.log('HERE!!!!!!!!');
-    // const unwrappedAttachments = newAttachments.value.map(function(attachment) {
-    //   return (attachment);
-    // });
-    // console.log('unwrapped attachment in analyses.js');
-    // console.log(unwrappedAttachments);
-    //  This^ is not logging
-
-    // if (!['file', 'link'].includes(attachment.type) ) {
-    //   throw new Error(`Evidence attachment ${attachment} type is invalid.`);
-    // }
-    newAttachments.forEach(async (attachment) => {
-      const newAttachment = {
-      };
-      if (attachment.type == 'file') {
-        attachmentForm['upload_file'] = attachment.data;
-      } else if ( attachment.type == 'link') {
-        newAttachment['link_name'] = attachment.name;
-        newAttachment['link'] = attachment.data;
-      }
-
-      attachmentForm['new_attachment'] = JSON.stringify(newAttachment);
-
-      console.log('Attachment Form');
-      console.log(attachmentForm);
-
-      return await Requests.postForm(url, attachmentForm);
-    });
-  },
-
   // postAttachment is expected in which format?
   // Posting a Discussion Thread and corresponding attachments together
   async postNewDiscussionThread(analysisName, postContent, postAttachments=[]) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions`;
 
+    // const postAttachmentsForm = {}; // list of attachment forms
+    const attachments = {}; // existing attachments
+    let newAttachmentsList = [];
+    for (const attachment of postAttachments) {
+      // const newAttachmentForm = {};
+      console.log(attachment);
+      // attachment.hasOwnProperty('attachment_id')
+      // only existing attachments have 'attachment_id' whether they are 'file' or 'link' type
+      // if (!('attachment_id' in attachment)) {
+      //   if (attachment.type == 'file') {
+      //     newAttachmentForm['new_file'] = attachment.data;
+      //   } else if (attachment.type == 'link') {
+      //     newAttachmentForm['link_name'] = attachment.name;
+      //     newAttachmentForm['link'] = attachment.data;
+      //   }
+      // } else {
+      if (!('attachment_id' in attachment)) {
+        if (attachment.type == 'link') {
+          attachments['link_name'] = attachment.name;
+          attachments['link'] = attachment.data;
+        }
+      }
+      // newAttachmentForm['new_attachment_list'] = JSON.stringify(attachments);
+      // postAttachmentsForm.push(newAttachmentForm);
+      // newAttachmentForm['new_attachment_list'] = JSON.stringify(attachments);
+      // postAttachmentsForm.push(attachments);
+      newAttachmentsList = [JSON.stringify(attachments)];
+    }
     const attachmentForm = {
       'discussion_content': postContent,
-      'attachments': postAttachments,
+      'new_attachment_list': newAttachmentsList,
     };
     // attachmentForm['new_attachment'] = JSON.stringify(newAttachment);
-    console.log('Attachment Form');
     console.log(attachmentForm);
+
+    // Building attachment form to meet  GridFS standards
+    // following supporting evidence format
 
     const success = await Requests.postForm(url, attachmentForm);
     return success;
