@@ -263,48 +263,40 @@ export default {
     return await Requests.putForm(url, attachmentForm);
   },
 
-  // postAttachment is expected in which format?
+
   // Posting a Discussion Thread and corresponding attachments together
   async postNewDiscussionThread(analysisName, postContent, postAttachments=[]) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions`;
 
-    // const postAttachmentsForm = {}; // list of attachment forms
-    const attachments = {}; // existing attachments
-    let newAttachmentsList = [];
+    const newAttachmentsDict = {};
+    const newAttachmentsList = [];
     for (const attachment of postAttachments) {
-      // const newAttachmentForm = {};
+      const attachments = {};
       console.log(attachment);
-      // attachment.hasOwnProperty('attachment_id')
-      // only existing attachments have 'attachment_id' whether they are 'file' or 'link' type
-      // if (!('attachment_id' in attachment)) {
-      //   if (attachment.type == 'file') {
-      //     newAttachmentForm['new_file'] = attachment.data;
-      //   } else if (attachment.type == 'link') {
-      //     newAttachmentForm['link_name'] = attachment.name;
-      //     newAttachmentForm['link'] = attachment.data;
-      //   }
-      // } else {
       if (!('attachment_id' in attachment)) {
         if (attachment.type == 'link') {
           attachments['link_name'] = attachment.name;
           attachments['link'] = attachment.data;
         }
       }
-      // newAttachmentForm['new_attachment_list'] = JSON.stringify(attachments);
-      // postAttachmentsForm.push(newAttachmentForm);
-      // newAttachmentForm['new_attachment_list'] = JSON.stringify(attachments);
-      // postAttachmentsForm.push(attachments);
-      newAttachmentsList = [JSON.stringify(attachments)];
+      // newAttachmentsList = [JSON.stringify(attachments)];
+      newAttachmentsList.push(attachments);
     }
+
+    /*
+    attachmentForm = {
+      'discussion_content': string
+      'new_attachment_list': List[RosalutionAttachment] - i.e. new links but still match RosalutionAttachment class
+      'new_file_data': List[UploadFile] - i.e. new Files to be saved into GridFS
+      'existing_attachments': List[RosalutionAttachment] - all existing attachments both file and link type
+      '
+    }
+    */
     const attachmentForm = {
       'discussion_content': postContent,
-      'new_attachment_list': newAttachmentsList,
+      'new_attachment_list': JSON.stringify(newAttachmentsList),
     };
-    // attachmentForm['new_attachment'] = JSON.stringify(newAttachment);
     console.log(attachmentForm);
-
-    // Building attachment form to meet  GridFS standards
-    // following supporting evidence format
 
     const success = await Requests.postForm(url, attachmentForm);
     return success;
