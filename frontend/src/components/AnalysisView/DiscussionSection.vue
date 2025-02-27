@@ -1,85 +1,85 @@
 <template>
   <div class="rosalution-section-container">
-      <input type="checkbox" id="discussion_toggle" />
-      <div class="rosalution-section-header">
-          <h2 class="rosalution-section-header-text">Discussion</h2>
-          <span class="rosalution-section-center" data-test="header-datasets"/>
-          <button
-              class="primary-button discussion-new-button"
-              @click="this.newDiscussionPostForm"
-              data-test="new-discussion-button"
-          >
-                  New Discussion
-          </button>
-          <label class="collapsable-icon" for="discussion_toggle">
-              <font-awesome-icon icon="chevron-down" size="lg"/>
-          </label>
-      </div>
-      <div class="rosalution-section-seperator"></div>
-      <div class="discussion-section-content">
-        <div v-if="this.showNewPost" class="discussion-new-post">
-          <textarea
-              contenteditable="plaintext-only"
-              class="discussion-new-post-text-area"
-              v-model="newPostContent"
-              data-test="new-discussion-input"
-          />
-          <div class="discussion-actions">
-            <span class="attachments-actions">
-              <button
-                class="primary-button attach-button"
-                @click="addAttachmentToDiscussionPost"
-              >
-                Attach
-              </button>
-              <div class="attachments-list">
-                <DiscussionAttachment
-                  v-for="newAttachment, index in newAttachments"
-                  v-bind:key="index"
-                  postId="new-post"
-                  :name="newAttachment.name"
-                  :type="newAttachment.type"
-                  :attachment="newAttachment"
-                  :removeable="true"
-                  @remove="removePostAttachment('new_post', index)"
-                >
-                </DiscussionAttachment>
-              </div>
-            </span>
-            <span class="post-actions">
-              <button
-                class="secondary-button"
-                @click="cancelNewDiscussionPost"
-                data-test="new-discussion-cancel"
-              >
-                Cancel
-              </button>
-              <button
-                  class="primary-button publish-button"
-                  @click="newDiscussionPost"
-                  data-test="new-discussion-publish"
-                  :disabled="this.checkPostContent"
-              >
-                Publish
-              </button>
-            </span>
-          </div>
-          <DiscussionPost v-for="discussion in discussions"
-              :id="discussion.post_id"
-              :key="discussion.post_id"
-              :authorId="discussion.author_id"
-              :authorName="discussion.author_fullname"
-              :publishTimestamp="discussion.publish_timestamp"
-              :content="discussion.content"
-              :attachments="discussion.attachments"
-              :thread="discussion.thread"
-              :userClientId="userClientId"
-              :actions="actions"
-              @post:edit="this.editDiscussionPost"
-              @post:delete="this.deleteDiscussionPost"
+    <input type="checkbox" id="discussion_toggle" />
+    <div class="rosalution-section-header">
+        <h2 class="rosalution-section-header-text">Discussion</h2>
+        <span class="rosalution-section-center" data-test="header-datasets"/>
+        <button
+            class="primary-button discussion-new-button"
+            @click="this.newDiscussionPostForm"
+            data-test="new-discussion-button"
+        >
+                New Discussion
+        </button>
+        <label class="collapsable-icon" for="discussion_toggle">
+            <font-awesome-icon icon="chevron-down" size="lg"/>
+        </label>
+    </div>
+    <div class="rosalution-section-seperator"></div>
+    <div class="discussion-section-content">
+      <div v-if="this.showNewPost" class="discussion-new-post">
+        <textarea
+            contenteditable="plaintext-only"
+            class="discussion-new-post-text-area"
+            v-model="newPostContent"
+            data-test="new-discussion-input"
         />
+        <div class="discussion-actions">
+          <span class="attachments-actions">
+            <button
+              class="primary-button attach-button"
+              @click="addAttachmentToDiscussionPost"
+            >
+              Attach
+            </button>
+            <div class="attachments-list">
+              <DiscussionAttachment
+                v-for="newAttachment, index in newAttachments"
+                v-bind:key="index"
+                postId="new-post"
+                :name="newAttachment.name"
+                :type="newAttachment.type"
+                :attachment="newAttachment"
+                :removeable="true"
+                @remove="removePostAttachment('new_post', index)"
+              >
+              </DiscussionAttachment>
+            </div>
+          </span>
+          <span class="post-actions">
+            <button
+              class="secondary-button"
+              @click="cancelNewDiscussionPost"
+              data-test="new-discussion-cancel"
+            >
+              Cancel
+            </button>
+            <button
+                class="primary-button publish-button"
+                @click="newDiscussionPost"
+                data-test="new-discussion-publish"
+                :disabled="this.checkPostContent"
+            >
+              Publish
+            </button>
+          </span>
+        </div>
       </div>
-      </div>
+      <DiscussionPost v-for="discussion in discussions"
+          :id="discussion.post_id"
+          :key="discussion.post_id"
+          :authorId="discussion.author_id"
+          :authorName="discussion.author_fullname"
+          :publishTimestamp="discussion.publish_timestamp"
+          :content="discussion.content"
+          :attachments="discussion.attachments"
+          :thread="discussion.thread"
+          :userClientId="userClientId"
+          :actions="actions"
+          @post:edit="this.editDiscussionPost"
+          @post:delete="this.deleteDiscussionPost"
+      />
+    </div>
   </div>
 </template>
 
