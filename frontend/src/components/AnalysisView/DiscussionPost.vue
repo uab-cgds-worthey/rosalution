@@ -1,64 +1,73 @@
 <template>
-    <div class="discussion-post" data-test="discussion-post">
-        <div class="discussion-header" data-test="discussion-post-header">
-          <div>
-            <b>{{ authorName }}</b>
-            {{  timestamp  }}
-          </div>
-          <ul v-if="isUser" class="context-menu" data-test="discussion-post-context-menu">
-            <ContextMenu
-              :actions="actions"
-              :contextId="id"
-              @edit="this.editPost"
-              @delete="this.deletePost"
-              >
-              <font-awesome-icon class="header-icon" icon="ellipsis-vertical" size="xl" />
-            </ContextMenu>
-          </ul>
+  <div class="discussion-post" data-test="discussion-post">
+      <div class="discussion-header" data-test="discussion-post-header">
+        <div>
+          <b>{{ authorName }}</b>
+          {{  timestamp  }}
         </div>
-        <div v-if="!editingPostFlag" class="discussion-content" data-test="discussion-post-content">
-            {{ content }}
-            <div v-if="attachments.length" class="discussion-new-attachments">
-              <span v-for="attachment in attachments" :key="attachment.id" class="discussion-new-attachment">
-                {{ attachment.name }}
-              </span>
-            </div>
-        </div>
-        <div v-else class="discussion-edit-post">
-          <textarea
-            contenteditable="plaintext-only"
-            class="discussion-edit-post-text-area"
-            v-model="editPostContent"
-            data-test="edit-discussion-input"
-          />
-          <div class="discussion-actions">
-            <button
-              class="secondary-button"
-              @click="cancelEditPost"
-              data-test="edit-discussion-cancel"
+        <ul v-if="isUser" class="context-menu" data-test="discussion-post-context-menu">
+          <ContextMenu
+            :actions="actions"
+            :contextId="id"
+            @edit="this.editPost"
+            @delete="this.deletePost"
             >
-              Cancel
-            </button>
-            <button
-              class="primary-button save-button"
-              @click="confirmEditPost"
-              data-test="edit-discussion-save"
-            >
-            Save
-          </button>
-        </div>
+            <font-awesome-icon class="header-icon" icon="ellipsis-vertical" size="xl" />
+          </ContextMenu>
+        </ul>
       </div>
+      <div v-if="!editingPostFlag" class="discussion-content" data-test="discussion-post-content">
+          {{ content }}
+      </div>
+      <div v-else class="discussion-edit-post">
+        <textarea
+          contenteditable="plaintext-only"
+          class="discussion-edit-post-text-area"
+          v-model="editPostContent"
+          data-test="edit-discussion-input"
+        />
+        <div class="discussion-actions">
+          <button
+            class="secondary-button"
+            @click="cancelEditPost"
+            data-test="edit-discussion-cancel"
+          >
+            Cancel
+          </button>
+          <button
+            class="primary-button save-button"
+            @click="confirmEditPost"
+            data-test="edit-discussion-save"
+          >
+          Save
+        </button>
+      </div>
+
     </div>
+    <div v-if="attachments.length" class="attachments-list">
+        <DiscussionAttachment
+          v-for="attachment, index in attachments"
+          v-bind:key="index"
+          postId="new-post"
+          :name="attachment.name"
+          :type="attachment.type"
+          :attachment="attachment"
+        >
+        </DiscussionAttachment>
+      </div>
+  </div>
 </template>
 
 <script>
 import ContextMenu from '@/components/ContextMenu.vue';
+import DiscussionAttachment from './DiscussionAttachment.vue';
 
 export default {
   name: 'discussion-post',
-  emits: ['post:edit', 'post:delete'],
+  emits: ['post:edit', 'post:delete', 'attachment:download'],
   components: {
     ContextMenu,
+    DiscussionAttachment,
   },
   props: {
     id: {
@@ -204,6 +213,12 @@ export default {
     justify-content: right;
     margin-right: var(--p-16);
     margin-bottom: var(--p-10);
+}
+
+.attachments-list {
+  display: flex;
+  align-items: center;
+  gap: var(--p-5);
 }
 
 

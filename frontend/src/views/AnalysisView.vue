@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import {onMounted, ref, computed, watch, useTemplateRef} from 'vue';
+import {onMounted, ref, computed, provide, watch, useTemplateRef} from 'vue';
 
 import AnalysisViewHeader from '@/components/AnalysisView/AnalysisViewHeader.vue';
 import SectionBox from '@/components/AnalysisView/SectionBox.vue';
@@ -101,6 +101,8 @@ const props = defineProps({
 });
 
 const edit = ref(false);
+
+provide('downloadFile', analysisStore.downloadAttachment);
 
 const toastRef = useTemplateRef('rosalution-toast');
 let toast = {};

@@ -33,18 +33,17 @@
                 Attach
               </button>
               <div class="attachments-list">
-                <span class="attachment" v-for="newAttachment, index in newAttachments" v-bind:key="index">
-                  <font-awesome-icon :icon="['far', 'file']" size="lg"
-                  v-if="newAttachment.type==='file'" class="attachment-icon"/>
-                  <font-awesome-icon icon="link" size="lg"
-                  v-else-if="newAttachment.type==='link'" class="attachment-icon"/>
-                  <span class="attachment-text">
-                    {{ newAttachment.name }}
-                  </span>
-                  <font-awesome-icon icon="xmark" size="sm"
-                  @click="removePostAttachment('new_post', newAttachment)"
-                  class="attachment-icon remove-attachment-icon"/>
-                </span>
+                <DiscussionAttachment
+                  v-for="newAttachment, index in newAttachments"
+                  v-bind:key="index"
+                  postId="new-post"
+                  :name="newAttachment.name"
+                  :type="newAttachment.type"
+                  :attachment="newAttachment"
+                  :removeable="true"
+                  @remove="removePostAttachment('new_post', newAttachment)"
+                >
+                </DiscussionAttachment>
               </div>
             </span>
             <span class="post-actions">
@@ -86,6 +85,8 @@
 
 <script>
 import DiscussionPost from './DiscussionPost.vue';
+import DiscussionAttachment from './DiscussionAttachment.vue';
+
 import notificationDialog from '@/notificationDialog.js';
 
 import inputDialog from '@/inputDialog.js';
@@ -96,6 +97,7 @@ export default {
   emits: ['discussion:new-post', 'discussion:edit-post', 'discussion:delete-post', 'discussion:open-modal'],
   components: {
     DiscussionPost,
+    DiscussionAttachment,
   },
   props: {
     header: {
@@ -131,6 +133,7 @@ export default {
       this.showNewPost = true;
     },
     newDiscussionPost() {
+      console.log(this.newAttachments);
       this.$emit('discussion:new-post', toRaw(this.newPostContent), toRaw(this.newAttachments));
       this.clearNewDiscussionField();
     },
@@ -243,8 +246,8 @@ export default {
 }
 
 .post-actions {
-display: flex;
-flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .publish-button {
@@ -252,47 +255,23 @@ flex-wrap: wrap;
 }
 
 .attachments-actions {
-display: flex;
-flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .attach-button {
-background-color:   var(--rosalution-grey-300);
-color: var(--rosalution-black);
-margin-left: var(--p-16);
-margin-right: var(--p-10);
-left: var(--p-28);
-float: left;
+  background-color: var(--rosalution-grey-300);
+  color: var(--rosalution-black);
+  margin-left: var(--p-16);
+  margin-right: var(--p-10);
+  left: var(--p-28);
+  float: left;
 }
 
 .attachments-list {
-display: flex;
-align-items: center;
-gap: var(--p-5);
-}
-
-.attachment {
-background-color: var(--rosalution-white);
-color: var(--rosalution-black);
-border-radius: var(--content-border-radius);
-border: 1px solid var(--rosalution-black);
-
-display: flex;
-gap: var(--p-5);
-align-items: center;
-}
-
-.attachment-icon {
-padding: var(--p-1);
-cursor: pointer;
-}
-
-.remove-attachment-icon {
-padding-left: var(--p-1);
-}
-
-.remove-attachment-icon:hover {
-color: var(--rosalution-grey-300)
+  display: flex;
+  align-items: center;
+  gap: var(--p-5);
 }
 
 .collapsable-icon {
