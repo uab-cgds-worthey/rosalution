@@ -11,7 +11,7 @@ export default defineConfig({
     environment: 'happy-dom',
     coverage: {
       exclude: [
-        'test', 'src/requests.js', 'eslint.config.js', 'eslint-config-cgds.js', 'src/main.js', 'vite.config.js',
+        'test', 'src/requests.js', 'eslint.config.js', 'eslint-config-cgds.js', 'src/main.js', 'vite.config.js', 'dist',
       ],
       lines: 80,
       functions: 80,

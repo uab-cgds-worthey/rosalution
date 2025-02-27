@@ -1,69 +1,68 @@
 <template>
-    <div class="rosalution-section-container">
-        <input type="checkbox" id="discussion_toggle" />
-        <div class="rosalution-section-header">
-            <h2 class="rosalution-section-header-text">Discussion</h2>
-            <span class="rosalution-section-center" data-test="header-datasets"/>
-            <button
-                class="primary-button discussion-new-button"
-                @click="this.newDiscussionPostForm"
-                data-test="new-discussion-button"
-            >
-                    New Discussion
-            </button>
-            <label class="collapsable-icon" for="discussion_toggle">
-                <font-awesome-icon icon="chevron-down" size="lg"/>
-            </label>
-        </div>
-        <div class="rosalution-section-seperator"></div>
-        <div class="discussion-section-content">
-          <div v-if="this.showNewPost" class="discussion-new-post">
-            <textarea
-                contenteditable="plaintext-only"
-                class="discussion-new-post-text-area"
-                v-model="newPostContent"
-                data-test="new-discussion-input"
-            />
-            <div class="discussion-actions">
-              <span class="attachments-actions">
-                <button
-                  class="primary-button attach-button"
-                  @click="addAttachmentToDiscussionPost"
+  <div class="rosalution-section-container">
+      <input type="checkbox" id="discussion_toggle" />
+      <div class="rosalution-section-header">
+          <h2 class="rosalution-section-header-text">Discussion</h2>
+          <span class="rosalution-section-center" data-test="header-datasets"/>
+          <button
+              class="primary-button discussion-new-button"
+              @click="this.newDiscussionPostForm"
+              data-test="new-discussion-button"
+          >
+                  New Discussion
+          </button>
+          <label class="collapsable-icon" for="discussion_toggle">
+              <font-awesome-icon icon="chevron-down" size="lg"/>
+          </label>
+      </div>
+      <div class="rosalution-section-seperator"></div>
+      <div class="discussion-section-content">
+        <div v-if="this.showNewPost" class="discussion-new-post">
+          <textarea
+              contenteditable="plaintext-only"
+              class="discussion-new-post-text-area"
+              v-model="newPostContent"
+              data-test="new-discussion-input"
+          />
+          <div class="discussion-actions">
+            <span class="attachments-actions">
+              <button
+                class="primary-button attach-button"
+                @click="addAttachmentToDiscussionPost"
+              >
+                Attach
+              </button>
+              <div class="attachments-list">
+                <DiscussionAttachment
+                  v-for="newAttachment, index in newAttachments"
+                  v-bind:key="index"
+                  postId="new-post"
+                  :name="newAttachment.name"
+                  :type="newAttachment.type"
+                  :attachment="newAttachment"
+                  :removeable="true"
+                  @remove="removePostAttachment('new_post', newAttachment)"
                 >
-                  Attach
-                </button>
-                <div class="new-attachments-list">
-                  <span class="new-attachment" v-for="newAttachment, index in newAttachments"
-                  v-bind:key="index">
-                    <span class="new-attachment-logo">
-                      <font-awesome-icon :icon="['far', 'file']" size="lg" v-if="newAttachment.type==='file'"/>
-                      <font-awesome-icon icon="link" size="lg" v-else-if="newAttachment.type==='link'"/>
-                    </span>
-                    <span class="new-attachment-name">
-                      {{ newAttachment.name }}
-                    </span>
-                    <font-awesome-icon icon="xmark" size="md" @click="removePostAttachment('new_post', newAttachment)"/>
-                  </span>
-                </div>
-              </span>
-              <span class="post-actions">
-                <button
-                  class="secondary-button"
-                  @click="cancelNewDiscussionPost"
-                  data-test="new-discussion-cancel"
-                >
-                  Cancel
-                </button>
-                <button
-                    class="primary-button publish-button"
-                    @click="newDiscussionPost"
-                    data-test="new-discussion-publish"
-                    :disabled="this.checkPostContent"
-                >
-                  Publish
-                </button>
-              </span>
-            </div>
+                </DiscussionAttachment>
+              </div>
+            </span>
+            <span class="post-actions">
+              <button
+                class="secondary-button"
+                @click="cancelNewDiscussionPost"
+                data-test="new-discussion-cancel"
+              >
+                Cancel
+              </button>
+              <button
+                  class="primary-button publish-button"
+                  @click="newDiscussionPost"
+                  data-test="new-discussion-publish"
+                  :disabled="this.checkPostContent"
+              >
+                Publish
+              </button>
+            </span>
           </div>
           <DiscussionPost v-for="discussion in discussions"
               :id="discussion.post_id"
@@ -80,11 +79,14 @@
               @post:delete="this.deleteDiscussionPost"
         />
       </div>
+      </div>
   </div>
 </template>
 
 <script>
 import DiscussionPost from './DiscussionPost.vue';
+import DiscussionAttachment from './DiscussionAttachment.vue';
+
 import notificationDialog from '@/notificationDialog.js';
 
 import inputDialog from '@/inputDialog.js';
@@ -95,6 +97,7 @@ export default {
   emits: ['discussion:new-post', 'discussion:edit-post', 'discussion:delete-post', 'discussion:open-modal'],
   components: {
     DiscussionPost,
+    DiscussionAttachment,
   },
   props: {
     header: {
@@ -130,6 +133,7 @@ export default {
       this.showNewPost = true;
     },
     newDiscussionPost() {
+      console.log(this.newAttachments);
       this.$emit('discussion:new-post', toRaw(this.newPostContent), toRaw(this.newAttachments));
       this.clearNewDiscussionField();
     },
@@ -242,8 +246,8 @@ export default {
 }
 
 .post-actions {
-display: flex;
-flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .publish-button {
@@ -251,47 +255,23 @@ flex-wrap: wrap;
 }
 
 .attachments-actions {
-display: flex;
-flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .attach-button {
-background-color:   var(--rosalution-grey-300);
-color: var(--rosalution-black);
-margin-left: var(--p-16);
-margin-right: var(--p-10);
-left: var(--p-28);
-float: left;
+  background-color: var(--rosalution-grey-300);
+  color: var(--rosalution-black);
+  margin-left: var(--p-16);
+  margin-right: var(--p-10);
+  left: var(--p-28);
+  float: left;
 }
 
 .attachments-list {
-display: flex;
-align-items: center;
-gap: var(--p-5);
-}
-
-.attachment {
-background-color: var(--rosalution-white);
-color: var(--rosalution-black);
-border-radius: var(--content-border-radius);
-border: 1px solid var(--rosalution-black);
-
-display: flex;
-gap: var(--p-5);
-align-items: center;
-}
-
-.attachment-icon {
-padding: var(--p-1);
-cursor: pointer;
-}
-
-.remove-attachment-icon {
-padding-left: var(--p-1);
-}
-
-.remove-attachment-icon:hover {
-color: var(--rosalution-grey-300)
+  display: flex;
+  align-items: center;
+  gap: var(--p-5);
 }
 
 .collapsable-icon {
@@ -303,13 +283,8 @@ input[type="checkbox"] {
   display: none;
 }
 
-<<<<<<< HEAD
 .rosalution-section-container input[type="checkbox"]:checked ~ .discussion-section-content {
     display: none;
-=======
-.rosalution-section-container input[type="checkbox"]:checked ~ .section-content {
-  display: none;
->>>>>>> cbecc21 (Added Angelina's code for deleting Discussion attachments. Also, pushing up code for sending attachments to the backend. Will be cleaning that up completely, commiting for reference.)
 }
 
 input[type="checkbox"]:checked ~ .rosalution-section-header > span ~ label.collapsable-icon {

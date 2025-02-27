@@ -268,35 +268,33 @@ export default {
   async postNewDiscussionThread(analysisName, postContent, postAttachments=[]) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions`;
 
-    const newAttachmentsDict = {};
-    const newAttachmentsList = [];
+    const attachmentsList = [];
+    const fileList = [];
     for (const attachment of postAttachments) {
-      const attachments = {};
-      console.log(attachment);
-      if (!('attachment_id' in attachment)) {
-        if (attachment.type == 'link') {
-          attachments['link_name'] = attachment.name;
-          attachments['link'] = attachment.data;
-        }
+      const discussionAttachment = {
+        ...attachment,
+      };
+
+      if (attachment.type == 'file' && !('attachment_id' in attachment) ) {
+        fileList.push(attachment.data);
+        delete discussionAttachment.data;
+        discussionAttachment['name'] = attachment.data.name;
       }
-      // newAttachmentsList = [JSON.stringify(attachments)];
-      newAttachmentsList.push(attachments);
+
+      if ( 'comments' in attachment ) {
+        delete discussionAttachment.comments;
+      }
+
+      attachmentsList.push(discussionAttachment);
     }
 
-    /*
-    attachmentForm = {
-      'discussion_content': string
-      'new_attachment_list': List[RosalutionAttachment] - i.e. new links but still match RosalutionAttachment class
-      'new_file_data': List[UploadFile] - i.e. new Files to be saved into GridFS
-      'existing_attachments': List[RosalutionAttachment] - all existing attachments both file and link type
-      '
-    }
-    */
     const attachmentForm = {
       'discussion_content': postContent,
-      'new_attachment_list': JSON.stringify(newAttachmentsList),
+      'attachments': JSON.stringify({
+        'attachments': attachmentsList,
+      }),
+      'attachment_files': fileList,
     };
-    console.log(attachmentForm);
 
     const success = await Requests.postForm(url, attachmentForm);
     return success;

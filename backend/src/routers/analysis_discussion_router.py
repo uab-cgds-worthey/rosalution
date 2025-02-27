@@ -10,37 +10,43 @@ from ..models.analysis import Analysis
 from ..security.security import get_current_user
 
 import json
-from typing import List, Optional, Annotated
+from typing import Annotated
 from pydantic import BaseModel, model_validator
-
 
 router = APIRouter(tags=["analysis discussions"], dependencies=[Depends(database)])
 
 
-class RosalutionAttachment(BaseModel, frozen=True):
+class RosalutionAttachment(BaseModel):
     """The sections of case notes associated with an analysis"""
+    name: str | None = None
 
-    name: Optional[str] = None
+    attachment_id: str | None = None
+    comments: str | None = None
+    link_name: str | None = None
+    link: str | None = None
+    data: str | None = None
+    type: str | None = None
 
-    attachment_id: Optional[str] = None
-    comments: Optional[str] = None
-    link_name: Optional[str] = None
-    link: Optional[str] = None
-    data: Optional[str] = None
+    @model_validator(mode='before')
+    @classmethod
+    def validate_to_json(cls, value):
+        """Allows FastAPI to valid and unpack the JSON of data into the model"""
+        if isinstance(value, str):
+            return cls(**json.loads(value))
+        return value
 
-    # @model_validator(mode='before')
-    # @classmethod
-    # def validate_to_json(cls, value):
-    #     """Allows FastAPI to valid and unpack the JSON of data into the model"""
-    #     if isinstance(value, str):
-    #         return cls(**json.loads(value))
-    #     return value
 
 class IncomingDiscussionFormData(BaseModel):
-    discussion_content: str
-    # new_attachment_list: List[RosalutionAttachment]
-    # model_config = {"extra": "forbid"}
-    
+    attachments: list[RosalutionAttachment] = []
+
+    @model_validator(mode='before')
+    @classmethod
+    def validate_to_json(cls, value):
+        """Allows FastAPI to valid and unpack the JSON of data into the model"""
+        if isinstance(value, str):
+            return cls(**json.loads(value))
+        return value
+
 
 @router.get("/{analysis_name}/discussions")
 def get_analysis_discussions(
@@ -64,43 +70,51 @@ def get_analysis_discussions(
 
 @router.post("/{analysis_name}/discussions")
 async def add_analysis_discussion(
-    # analysis_name: str,
-    # discussion_content: str = Form(...),
-    # newfileData: List[UploadFile] = File(None),
-    # existingAttachment: List[DiscussionAttachment] = Form(...),
-    data: Annotated[IncomingDiscussionFormData, Form()]
-    # new_attachment_list: List[RosalutionAttachment] = Form(...),
-    # repositories=Depends(database),
-    # client_id: VerifyUser = Security(get_current_user)
+    analysis_name: str,
+    discussion_content: Annotated[str, Form()],
+    attachments: Annotated[IncomingDiscussionFormData, Form()],
+    attachment_files: Annotated[list[UploadFile] | None,
+                                File(description="Multiple files as File")] = [],
+    repositories=Depends(database),
+    client_id: VerifyUser = Security(get_current_user)
 ):
-    
-    print(data)
-    # print(new_attachment_list)
-    # """ Adds a new analysis topic """
-    # found_analysis = repositories['analysis'].find_by_name(analysis_name)
+    """ Adds a new analysis topic """
+    found_analysis = repositories['analysis'].find_by_name(analysis_name)
 
-    # if not found_analysis:
-    #     raise HTTPException(
-    #         status_code=status.HTTP_404_NOT_FOUND, detail=f"Analysis '{analysis_name}' does not exist.'"
-    #     )
+    if not found_analysis:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Analysis '{analysis_name}' does not exist.'"
+        )
 
-    # analysis = Analysis(**found_analysis)
-    # current_user = repositories["user"].find_by_client_id(client_id)
+    analysis = Analysis(**found_analysis)
+    current_user = repositories["user"].find_by_client_id(client_id)
 
-    # new_discussion_post = {
-    #     "post_id": str(uuid4()),
-    #     "author_id": client_id,
-    #     "author_fullname": current_user["full_name"],
-    #     "publish_timestamp": datetime.now(timezone.utc),
-    #     "content": discussion_content,
-    #     "attachments": [],
-    #     "thread": [],
-    # }
-    # # print("analysis router")
-    # # print(new_discussion_post)
-    # # for attachment in new_discussion_post["attachments"]:
-    # #     print(attachment)
-    # return repositories['analysis'].add_discussion_post(analysis.name, new_discussion_post)
+    attachments_as_json = []
+
+    for attachment in attachments.attachments:
+        if not attachment.attachment_id and attachment.type == 'link':
+            attachment.attachment_id = str(uuid4())
+        elif not attachment.attachment_id and attachment.type == 'file':
+            file = next((item for item in attachment_files if item.filename == attachment.name), None)
+            if not file:
+                attachment_error = f"'{attachment.name}' file failed to upload."
+                raise HTTPException(status_code=400, detail=attachment_error)
+            new_file_object_id = repositories['bucket'].save_file(file.file, file.filename, file.content_type)
+            attachment.attachment_id = str(new_file_object_id)
+
+        attachments_as_json.append(attachment.model_dump(exclude_none=True))
+
+    new_discussion_post = {
+        "post_id": str(uuid4()),
+        "author_id": client_id,
+        "author_fullname": current_user["full_name"],
+        "publish_timestamp": datetime.now(timezone.utc),
+        "content": discussion_content,
+        "attachments": attachments_as_json,
+        "thread": [],
+    }
+
+    return repositories['analysis'].add_discussion_post(analysis.name, new_discussion_post)
 
 
 @router.put("/{analysis_name}/discussions/{discussion_post_id}")
@@ -108,7 +122,6 @@ def update_analysis_discussion_post(
     analysis_name: str,
     discussion_post_id: str,
     discussion_content: str = Form(...),
-    discussion_attachment_content: str = Form(...),
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):
