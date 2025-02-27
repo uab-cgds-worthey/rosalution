@@ -53,8 +53,11 @@ html {
   --p-16: 1rem;
   --p-24: 1.5rem;
   --p-28: 1.75rem;
+  --p-180: 11.25rem;
 
   scroll-padding-top: 4rem;
+
+  --app-height: 100%;
 }
 
 /** || General Styles **/
@@ -185,7 +188,6 @@ app-content {
 app-footer {
   grid-column: 1 / -1;
   grid-row: -2 / -1;
-  height: 3rem;
 }
 
 /** Design System **/

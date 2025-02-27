@@ -66,6 +66,9 @@
         @save="saveAnalysisChanges"
       />
     </app-content>
+    <app-footer>
+      <AppFooter></AppFooter>
+    </app-footer>
 </template>
 
 <script setup>

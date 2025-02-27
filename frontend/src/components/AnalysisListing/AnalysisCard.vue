@@ -1,54 +1,50 @@
 <template>
-  <router-link :to="{ name: 'analysis', params: { analysis_name: this.name } }">
-    <div class="analysis-card">
-      <div class="analysis-base" :style="cardBorderColorStyle">
-        <div class="case-status-section">
-          <div class="status-icon">
-            <font-awesome-icon :icon="workflowIcon" :style="workflowColorStyle" size="2x"/>
-          </div>
-          <span>
-            <div class="case-name">{{ name }}</div>
-            <div class="subection-text">{{ nominated_by }}</div>
-          </span>
-        </div>
-        <div class="dates-section">
-            <span class="dates-subsection">
-              <div class="subection-text dates-subsection-label">Case Added:</div>
-              <div>{{ created_date }}</div>
-            </span>
-            <span class="middle-separator"></span>
-            <span class="dates-subsection">
-              <div class="subection-text dates-subsection-label">Last Modified:</div>
-              <div>{{ last_modified_date }}</div>
-            </span>
-        </div>
-        <div class="genomic-units-section">
+  <router-link :to="{ name: 'analysis', params: { analysis_name: this.name } }" class="analysis-base" :style="cardBorderColorStyle">
+    <div class="case-status-section">
+      <div class="status-icon">
+        <font-awesome-icon :icon="workflowIcon" :style="workflowColorStyle" size="2x"/>
+      </div>
+      <div class="status-header-content">
+        <div class="case-name">{{ name }}</div>
+        <div class="nominated-text subection-text">{{ nominated_by }}</div>
+      </div>
+    </div>
+    <div class="dates-section">
+        <span class="dates-subsection">
+          <div class="subection-text dates-subsection-label">Case Added:</div>
+          <div>{{ created_date }}</div>
+        </span>
+        <span class="middle-separator"></span>
+        <span class="dates-subsection">
+          <div class="subection-text dates-subsection-label">Last Modified:</div>
+          <div>{{ last_modified_date }}</div>
+        </span>
+    </div>
+    <div class="genomic-units-section">
+      <ul>
+        <li v-for="genomic_unit in genomic_units" :key="genomic_unit">
+          <span class="gene-genomic-unit-text">{{ genomic_unit.gene || ""}}</span>
           <ul>
-            <li v-for="genomic_unit in genomic_units" :key="genomic_unit">
-              <span class="gene-genomic-unit-text">{{ genomic_unit.gene || ""}}</span>
-              <ul>
-                <li v-for="variant in genomic_unit.variants" :key="variant" class="variant-genomic-unit-text">
-                  {{ variant }}
-                </li>
-              </ul>
+            <li v-for="variant in genomic_unit.variants" :key="variant" class="variant-genomic-unit-text">
+              {{ variant }}
             </li>
           </ul>
-        </div>
-        <div class="logo-links-section">
-          <a
-            v-for="link in third_party_links"
-            :key="link.type"
-            :href="link.link"
-            target="_blank"
-            class="logo-link"
-            data-test="third-party-link"
-            rel="noopener noreferrer"
-            @click.stop
-          >
-            <img :src="getLogoSrc(link.type)" class="logo-img" />
-          </a>
-        </div>
-      </div>
+        </li>
+      </ul>
+    </div>
+    <div class="logo-links-section">
+      <a
+        v-for="link in third_party_links"
+        :key="link.type"
+        :href="link.link"
+        target="_blank"
+        class="logo-link"
+        data-test="third-party-link"
+        rel="noopener noreferrer"
+        @click.stop
+      >
+        <img :src="getLogoSrc(link.type)" class="logo-img" />
+      </a>
     </div>
   </router-link>
 </template>
@@ -113,7 +109,7 @@ export default {
     },
     cardBorderColorStyle: function() {
       return {
-        'border-color': `var(${this.workflowColor}`,
+        'border-color': `var(${this.workflowColor})`,
         'color': `var(${this.workflowColor})`,
       };
     },
@@ -135,39 +131,9 @@ export default {
 
 <style scoped>
 
-div {
-  font-family: "Proxima Nova", sans-serif;
-  font-size: 0.75rem; /* 12 px */
-  color: var(--rosalution-black)
-}
-
-.analysis-card {
-  position: relative;
-  text-decoration: none;
-}
-
-.analysis-base:hover {
-  box-shadow: 0 0.5em 0.5em -0.4em;
-  transform: translateY(-0.4em);
-}
-
-.analysis-base {
-  max-width: 11.25rem;
-  height: 18.125rem;
-  padding: var(--p-8) var(--p-5) var(--p-8) var(--p-5);
-  border-radius: 1.25rem;
-  border: solid 0.625rem;
-  background-color: var(--rosalution-white);
-  display: block;
-  box-sizing: border-box;
-  color: inherit;
-  transition: all .2s ease-in-out;
-  position: relative;
-}
-
 .subection-text {
   font-size: 0.563rem; /* 9px */
-  max-width: 22ch;
+  max-width: 130px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -175,15 +141,23 @@ div {
 
 .case-status-section {
   display: flex;
-  padding: var(--p-1) 0;
+  align-items: center;
+  gap: var(--p-1);
 }
 
-.status-icon {
-  padding: var(--p-5);
+.status-header-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .case-name {
   font-weight: bold;
+}
+
+.case-name,
+.nominated-text {
+  height: 1rem;
 }
 
 .dates-section {

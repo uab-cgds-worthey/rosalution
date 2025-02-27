@@ -55,6 +55,9 @@
     </div>
   </app-content>
   <AnnotationSidebar class="sidebar" :section-anchors="sectionAnchors"></AnnotationSidebar>
+  <app-footer>
+    <AppFooter></AppFooter>
+  </app-footer>
 </template>
 
 <script>
@@ -304,7 +307,7 @@ app-header {
   grid-row: 2 / -2;
   grid-column: -2 / -1;
   position: sticky;
-  height: 90vh;
+  height: 91vh;
   top: 4rem;
 }
 
