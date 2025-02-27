@@ -41,7 +41,7 @@
                   :type="newAttachment.type"
                   :attachment="newAttachment"
                   :removeable="true"
-                  @remove="removePostAttachment('new_post', newAttachment)"
+                  @remove="removePostAttachment('new_post', index)"
                 >
                 </DiscussionAttachment>
               </div>
@@ -175,7 +175,8 @@ export default {
         }
       }
     },
-    async removePostAttachment(postId, postAttachment) {
+    async removePostAttachment(postId, attachmentIndex) {
+      const postAttachment = this.newAttachments[attachmentIndex];
       const confirmedDelete = await notificationDialog
           .title(`Remove '${postAttachment.name}' attachment from post?`)
           .confirmText('Remove')
@@ -187,21 +188,7 @@ export default {
       if (!confirmedDelete) {
         return;
       }
-
-      try {
-        const attachmentIndex = this.newAttachments.findIndex((attachment) => {
-          if ('attachment_id' in postAttachment && 'attachment_id' in attachment) {
-            return postAttachment.attachment_id == attachment.attachment_id;
-          }
-
-          return postAttachment.name == attachment.name;
-        });
-        console.log(`${attachmentIndex} - attachment to remove`);
-
-        this.newAttachments.splice(attachmentIndex, 1);
-      } catch (error) {
-        await notificationDialog.title('Failure').confirmText('Ok').alert(error);
-      }
+      this.newAttachments.splice(attachmentIndex, 1);
     },
   },
 };
