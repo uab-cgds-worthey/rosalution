@@ -38,8 +38,8 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
     cy.get('[data-test="copy-button"]').click();
 
     cy.window().its('navigator.clipboard')
-      .then((clip) => clip.readText())
-      .should('equal', 'NM_001017980.3:c.164G>T');
+        .then((clip) => clip.readText())
+        .should('equal', 'NM_001017980.3:c.164G>T');
   });
 
   // it('should allow the user to navigate to a third party link after adding one', () => {

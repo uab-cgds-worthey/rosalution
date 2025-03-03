@@ -25,6 +25,7 @@
       :created_date="analysis.created_date"
       :last_modified_date="analysis.last_modified_date"
       :third_party_links="analysis.third_party_links"
+      data-test="analysis-card"
     />
   </div>
 </app-content>

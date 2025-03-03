@@ -56,7 +56,7 @@ describe('discussions_analysis.cy.js', () => {
     cy.get('[data-test="discussion-post"]')
         .find('.grey-rounded-menu > :nth-child(2)')
         .contains('Delete')
-        .click({force:true});
+        .click({force: true});
 
     cy.get('[data-test="notification-dialog"]').find('[data-test="confirm-button"]').contains('Delete').click();
 
