@@ -7,13 +7,6 @@
   </button>
 </template>
 
-<script>
-
-export default {
-  name: 'analysis-create-card',
-};
-</script>
-
 <style scoped>
 
 .icon-section {

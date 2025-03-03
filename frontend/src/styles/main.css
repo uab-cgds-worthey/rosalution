@@ -49,6 +49,8 @@ html {
   --p-1: 0.25rem;
   --p-5: 0.313rem;
   --p-8: 0.5rem;
+  --p-12: 0.75rem;
+  --p-14: 0.875rem;
   --p-10: 0.625rem;
   --p-16: 1rem;
   --p-24: 1.5rem;
@@ -57,7 +59,7 @@ html {
 
   scroll-padding-top: 4rem;
 
-  --app-height: 100%;
+  /* --app-height: 100%; */
 }
 
 /** || General Styles **/
@@ -66,7 +68,6 @@ body {
   font-family: "Proxima Nova", sans-serif;
   font-size: 1.125rem; /* 18px */
   background-color: var(--primary-background-color);
-
 }
 
 ul {

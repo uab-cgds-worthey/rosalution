@@ -234,8 +234,6 @@ app-footer {
   transition: all .2s ease-in-out;
 
   text-decoration: none;
-
-  color: var(--rosalution-black);
 }
 
 </style>

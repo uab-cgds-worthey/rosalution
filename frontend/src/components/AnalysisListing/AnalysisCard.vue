@@ -4,37 +4,35 @@
     class="analysis-card"
     :style="cardBorderColorStyle"
   >
-    <div class="case-status-section ">
-      <div class="status-icon case-status-item">
+    <div class="case-status-section">
+      <div class="status-icon">
         <font-awesome-icon :icon="workflowIcon" :style="workflowColorStyle" size="2x" data-test="status-icon"/>
       </div>
-        <div class="case-name header-text">{{ name }}</div>
-        <div class="nominated-text content-text subsection-text">{{ nominated_by }}</div>
+      <div class="case-name card-header-text">{{ name }}</div>
+      <div class="nominated content-text hide-overflow-text">{{ nominated_by }}</div>
     </div>
     <div class="dates-section">
-        <span class="dates-subsection">
-          <div class="subsection-text small-text dates-subsection-label">Case Added:</div>
-          <div class="content-text">{{ created_date }}</div>
-        </span>
-        <span class="middle-separator"></span>
-        <span class="dates-subsection">
-          <div class="subsection-text small-text dates-subsection-label">Last Modified:</div>
-          <div class="content-text">{{ last_modified_date }}</div>
-        </span>
+      <span class="dates-item">
+        <div class="dates-label small-text">Case Added:</div>
+        <div class="content-text">{{ created_date }}</div>
+      </span>
+      <span class="middle-separator"></span>
+      <span class="dates-item">
+        <div class="dates-label small-text">Last Modified:</div>
+        <div class="content-text">{{ last_modified_date }}</div>
+      </span>
     </div>
     <div class="genomic-units-section">
-      <ul>
-        <li v-for="genomic_unit in genomic_units" :key="genomic_unit">
-          <span class="header-text gene-genomic-unit-text">{{ genomic_unit.gene || ""}}</span>
-          <ul>
-            <li v-for="variant in genomic_unit.variants" :key="variant" class="variant-genomic-unit-text content-text">
-              {{ variant }}
-            </li>
-          </ul>
-        </li>
-      </ul>
+      <dl class="genomic-units-list">
+        <template v-for="genomic_unit in genomic_units" :key="genomic_unit">
+          <dt class="card-header-text">{{ genomic_unit.gene || ""}}</dt>
+          <dd v-for="variant in genomic_unit.variants" :key="variant" class="variant content-text">
+            {{ variant }}
+          </dd>
+        </template>
+      </dl>
     </div>
-    <div class="logo-links-section">
+    <div class="linkout-section">
       <a
         v-for="link in third_party_links"
         :key="link.type"
@@ -45,7 +43,7 @@
         rel="noopener noreferrer"
         @click.stop
       >
-        <img :src="getLogoSrc(link.type)" class="logo-img" />
+        <img :src="getLogoSrc(link.type)"/>
       </a>
     </div>
   </router-link>
@@ -112,7 +110,7 @@ export default {
     cardBorderColorStyle: function() {
       return {
         'border-color': `var(${this.workflowColor})`,
-        // 'color': `var(${this.workflowColor})`,
+        'color': `var(${this.workflowColor})`,
       };
     },
   },
@@ -133,22 +131,26 @@ export default {
 
 <style scoped>
 
-.header-text {
-  font-size: .8125rem; /** 13px */
+.analysis-card div {
+  color: var(--rosalution-black);
+}
+
+.card-header-text {
+  font-size: var(--p-14);
   line-height: 1rem;
   font-weight: bold;
 }
 
 .content-text {
-  font-size: 0.75rem;
+  font-size: var(--p-12);
   line-height: 1rem;
 }
 
 .small-text {
-  font-size: 0.625rem;
+  font-size: var(--p-10);
 }
 
-.subsection-text {
+.hide-overflow-text {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -167,12 +169,11 @@ export default {
   grid-column: 1;
   grid-row: 1;
 
-  font-size: .75rem;
+  font-size: var(--p-12);
 
   display: flex;
   align-items: flex-start;
 }
-
 
 .case-name {
   display: flex;
@@ -180,7 +181,7 @@ export default {
   justify-content: space-between;
 }
 
-.nominated-text {
+.nominated {
   grid-row: -1;
   grid-column: 1 / -1;
 }
@@ -195,14 +196,14 @@ export default {
   border-bottom: 1px solid var(--rosalution-grey-300);
 }
 
-.dates-subsection {
+.dates-item {
   display:flex;
   flex-direction: column;
   padding: var(--p-05)
 }
 
-.dates-subsection-label {
-  color: var(--rosalution-grey-300)
+.dates-label {
+  color: var(--rosalution-grey-300) !important;
 }
 
 .middle-separator {
@@ -215,26 +216,31 @@ export default {
   padding: var(--p-1) 0;
   flex-grow: 1;
 
-  font-size: .875rem;
-
   overflow:auto;
 }
 
-.variant-genomic-unit-text {
+.genomic-units-list {
+  margin-block-end: 0px;
+  margin-block-start: 0px;
+}
+
+.variant {
   background-color: var(--rosalution-grey-50);
   border-radius: var(--input-border-radius);
   padding: var(--p-1) var(--p-1) var(--p-1) var(--p-1);
   word-wrap: break-word;
+
   margin-bottom: var(--p-1);
+  margin-inline-start: 0px;
 }
 
-.logo-links-section {
+.linkout-section {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.logo-link img {
+.linkout-section img {
   width: 24px;
   height: 24px;
 }

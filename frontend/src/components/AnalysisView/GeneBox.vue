@@ -32,15 +32,13 @@
                   gene: this.gene,
                   variant: getCompleteHgvsVariantName(variant),
                 },
-              }"
-:data-test="`variant-route-${index}`">
+              }" :data-test="`variant-route-${index}`">
               <font-awesome-icon icon="angles-right" size="sm" />
               <span class="variant-transcript">{{ variant.hgvs_variant.split(':')[0] }}:</span>
               <span>{{ variant.c_dot }}</span>
               <span v-if="variant.p_dot">({{ variant.p_dot }})</span>
             </router-link>
-            <font-awesome-icon :icon="['far', 'copy']" class="copy-icon"
-@click="copyToClipboard(variant.hgvs_variant)"
+            <font-awesome-icon :icon="['far', 'copy']" class="copy-icon" @click="copyToClipboard(variant.hgvs_variant)"
               data-test="copy-button" />
             <span class="genomic-build"> {{ getBuild(variant.build) }} </span>
           </div>
@@ -59,7 +57,7 @@
       </div>
     </div>
   </div>
-</template>>
+</template>
 
 <script>
 
