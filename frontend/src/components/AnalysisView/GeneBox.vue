@@ -90,7 +90,13 @@ export default {
       }
     },
     async copyToClipboard(textToCopy) {
-      await navigator.clipboard.writeText(textToCopy);
+      /** Needed to add a try/catch to can an error that occurs in Cypress, which causes the test to fail.  */
+      try {
+        await navigator.clipboard.writeText(textToCopy);
+      } catch (error) {
+        console.error(error.message);
+      }
+
       this.$emit('clipboard-copy', textToCopy);
     },
     getCompleteHgvsVariantName(variant) {

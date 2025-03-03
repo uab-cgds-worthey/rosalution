@@ -1,7 +1,7 @@
 <template>
   <router-link
     :to="{ name: 'analysis', params: { analysis_name: this.name } }"
-    class="analysis-base"
+    class="analysis-card"
     :style="cardBorderColorStyle"
   >
     <div class="case-status-section ">
@@ -112,7 +112,7 @@ export default {
     cardBorderColorStyle: function() {
       return {
         'border-color': `var(${this.workflowColor})`,
-        'color': `var(${this.workflowColor})`,
+        // 'color': `var(${this.workflowColor})`,
       };
     },
   },

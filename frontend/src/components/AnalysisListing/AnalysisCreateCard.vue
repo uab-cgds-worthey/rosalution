@@ -1,7 +1,7 @@
 <template>
-  <button class="analysis-base card-content"  data-test="create-analysis-button">
+  <button class="analysis-card card-content"  data-test="create-analysis-button">
     <span>Create New Analysis</span>
-    <div class="create-card-content">
+    <div class="icon-section">
       <font-awesome-icon icon="plus" size="8x"></font-awesome-icon>
     </div>
   </button>
@@ -16,7 +16,7 @@ export default {
 
 <style scoped>
 
-.create-card-content {
+.icon-section {
   flex-grow: 1;
 
   display: flex;
@@ -24,14 +24,14 @@ export default {
   justify-content: center;
 }
 
-.analysis-base.card-content {
+.analysis-card.card-content {
   display: flex;
   flex-direction: column;
 
   border-color: var(--rosalution-grey-300);
 }
 
-.analysis-base.card-content > * {
+.analysis-card.card-content > * {
   color: var(--rosalution-grey-300);
 }
 </style>

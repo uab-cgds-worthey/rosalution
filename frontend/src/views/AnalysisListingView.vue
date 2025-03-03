@@ -33,7 +33,7 @@
   <div class="center-legend"><AnalysisListingLegend @filtered-changed="filteredUpdated"/></div>
   <InputDialog data-test="phenotips-import-dialog"/>
   <NotificationDialog data-test="notification-dialog" />
-  <RosalutionFooter></RosalutionFooter>
+  <RosalutionFooter />
 </app-footer>
 </template>
 
@@ -206,17 +206,17 @@ app-footer {
   grid-column: 1 / 2;
 }
 
-:deep(.analysis-base:hover) {
+:deep(.analysis-card:hover) {
   box-shadow: 0 0.5em 0.5em -0.4em;
   transform: translateY(-0.4em);
 }
 
-:deep(.analysis-base:active) {
+:deep(.analysis-card:active) {
   transform: translateY(0em);
   transition: all .1s ease-in-out;
 }
 
-:deep(.analysis-base) {
+:deep(.analysis-card) {
   height: var(--card-height);
 
   display: flex;
@@ -234,10 +234,8 @@ app-footer {
   transition: all .2s ease-in-out;
 
   text-decoration: none;
-}
 
-:deep(.analysis-base div){
-  color: var(--rosalution-black)
+  color: var(--rosalution-black);
 }
 
 </style>
