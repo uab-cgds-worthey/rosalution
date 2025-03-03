@@ -12,42 +12,7 @@
       @click="this.importPhenotipsAnalysis"
       v-if="auth.hasWritePermissions()"
       class="first-card"
-    />
-    <AnalysisCard
-      v-for="analysis in searchedAnalysisListing"
-      :key="analysis.id"
-      :name="analysis.name"
-      :description="analysis.description"
-      :genomic_units="analysis.genomic_units"
-      :nominated_by="analysis.nominated_by"
-      :latest_status="analysis.latest_status"
-      :created_date="analysis.created_date"
-      :last_modified_date="analysis.last_modified_date"
-      :third_party_links="analysis.third_party_links"
-    />
-    <AnalysisCard
-      v-for="analysis in searchedAnalysisListing"
-      :key="analysis.id"
-      :name="analysis.name"
-      :description="analysis.description"
-      :genomic_units="analysis.genomic_units"
-      :nominated_by="analysis.nominated_by"
-      :latest_status="analysis.latest_status"
-      :created_date="analysis.created_date"
-      :last_modified_date="analysis.last_modified_date"
-      :third_party_links="analysis.third_party_links"
-    />
-    <AnalysisCard
-      v-for="analysis in searchedAnalysisListing"
-      :key="analysis.id"
-      :name="analysis.name"
-      :description="analysis.description"
-      :genomic_units="analysis.genomic_units"
-      :nominated_by="analysis.nominated_by"
-      :latest_status="analysis.latest_status"
-      :created_date="analysis.created_date"
-      :last_modified_date="analysis.last_modified_date"
-      :third_party_links="analysis.third_party_links"
+      data-test="create-card"
     />
     <AnalysisCard
       v-for="analysis in searchedAnalysisListing"
@@ -64,10 +29,10 @@
   </div>
 </app-content>
 <app-footer>
-  <div style="display:flex; align-items: center;"><AnalysisListingLegend @filtered-changed="filteredUpdated" class="legend-footer"/></div>
+  <div class="center-legend"><AnalysisListingLegend @filtered-changed="filteredUpdated"/></div>
   <InputDialog data-test="phenotips-import-dialog"/>
   <NotificationDialog data-test="notification-dialog" />
-  <AppFooter></AppFooter>
+  <RosalutionFooter></RosalutionFooter>
 </app-footer>
 </template>
 
@@ -75,6 +40,7 @@
 import Analyses from '@/models/analyses.js';
 import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
 import AnalysisCreateCard from '@/components/AnalysisListing/AnalysisCreateCard.vue';
+import RosalutionFooter from '@/components/RosalutionFooter.vue';
 import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
 import AnalysisListingLegend from '@/components/AnalysisListing/AnalysisListingLegend.vue';
 
@@ -95,6 +61,7 @@ export default {
     AnalysisListingLegend,
     InputDialog,
     NotificationDialog,
+    RosalutionFooter,
   },
   data: function() {
     return {
@@ -215,6 +182,12 @@ app-footer {
   flex-direction: column;
 }
 
+.center-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .card-feed {
   grid-row: 2 / -2;
   grid-column: 1 / -1;
@@ -222,7 +195,7 @@ app-footer {
   display: grid;
   grid-template-columns: repeat(auto-fill, var(--max-card-width));
   grid-template-rows: repeat(auto-fill, var(--card-height));
-  justify-content: space-around;
+  justify-content: center;
 
   gap: var(--p-8);
 }
@@ -247,6 +220,7 @@ app-footer {
 
   display: flex;
   flex-direction: column;
+  gap: var(--p-05);
 
   box-sizing: border-box;
 
@@ -262,8 +236,6 @@ app-footer {
 }
 
 :deep(.analysis-base div){
-  font-family: "Proxima Nova", sans-serif;
-  font-size: 0.75rem; 
   color: var(--rosalution-black)
 }
 

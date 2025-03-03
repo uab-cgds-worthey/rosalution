@@ -89,8 +89,8 @@ export default {
         return 'grch38';
       }
     },
-    copyToClipboard(textToCopy) {
-      navigator.clipboard.writeText(textToCopy);
+    async copyToClipboard(textToCopy) {
+      await navigator.clipboard.writeText(textToCopy);
       this.$emit('clipboard-copy', textToCopy);
     },
     getCompleteHgvsVariantName(variant) {

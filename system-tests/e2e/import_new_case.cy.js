@@ -5,7 +5,7 @@ describe('import_new_case.cy.js', () => {
   });
 
   it('imports a new case', () => {
-    cy.get('.analysis-create-card').click();
+    cy.get('[data-test="create-card"]').click();
     cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/phenotips-import.json', {
       action: 'drag-drop',
     });
@@ -19,7 +19,7 @@ describe('import_new_case.cy.js', () => {
   });
 
   it('imports a new case with a duplicate case ID', () => {
-    cy.get('.analysis-create-card').click();
+    cy.get('[data-test="create-card"]').click();
     cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/phenotips-import.json', {
       action: 'drag-drop',
     });
@@ -30,7 +30,7 @@ describe('import_new_case.cy.js', () => {
     cy.get('.modal-container').should('not.exist');
     cy.visit('/');
     cy.get('app-content').should('contain', 'CPAM0112');
-    cy.get('.analysis-create-card').click();
+    cy.get('[data-test="create-card"]').click();
     cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/phenotips-import.json', {
       action: 'drag-drop',
     });
@@ -43,7 +43,7 @@ describe('import_new_case.cy.js', () => {
   });
 
   it('tries to import a new case with a file that isn\'t a JSON file', () => {
-    cy.get('.analysis-create-card').click();
+    cy.get('[data-test="create-card"]').click();
     cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/example_file_to_upload.txt', {
       action: 'drag-drop',
     });

@@ -1,9 +1,7 @@
 describe('case_annotation_display_transcripts.cy.js', () => {
   beforeEach(() => {
     cy.resetDatabase();
-    cy.visit('/');
-    cy.get('.analysis-card').first().click();
-    cy.get('[data-test="gene-name"]').click();
+    cy.visit('analysis/CPAM0002/annotation/');
   });
 
   it('navigates to the annotation sections via anchor links', () => {

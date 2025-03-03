@@ -67,7 +67,7 @@
       />
     </app-content>
     <app-footer>
-      <AppFooter></AppFooter>
+      <RosalutionFooter></RosalutionFooter>
     </app-footer>
 </template>
 
@@ -80,6 +80,7 @@ import GeneBox from '@/components/AnalysisView/GeneBox.vue';
 import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import ToastDialog from '@/components/Dialogs/ToastDialog.vue';
+import RosalutionFooter from '@/components/RosalutionFooter.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
 import SaveModal from '@/components/AnalysisView/SaveModal.vue';
 import DiscussionSection from '@/components/AnalysisView/DiscussionSection.vue';

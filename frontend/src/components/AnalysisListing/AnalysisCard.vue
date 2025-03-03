@@ -1,31 +1,33 @@
 <template>
-  <router-link :to="{ name: 'analysis', params: { analysis_name: this.name } }" class="analysis-base" :style="cardBorderColorStyle">
-    <div class="case-status-section">
-      <div class="status-icon">
-        <font-awesome-icon :icon="workflowIcon" :style="workflowColorStyle" size="2x"/>
+  <router-link
+    :to="{ name: 'analysis', params: { analysis_name: this.name } }"
+    class="analysis-base"
+    :style="cardBorderColorStyle"
+  >
+    <div class="case-status-section ">
+      <div class="status-icon case-status-item">
+        <font-awesome-icon :icon="workflowIcon" :style="workflowColorStyle" size="2x" data-test="status-icon"/>
       </div>
-      <div class="status-header-content">
-        <div class="case-name">{{ name }}</div>
-        <div class="nominated-text subection-text">{{ nominated_by }}</div>
-      </div>
+        <div class="case-name header-text">{{ name }}</div>
+        <div class="nominated-text content-text subsection-text">{{ nominated_by }}</div>
     </div>
     <div class="dates-section">
         <span class="dates-subsection">
-          <div class="subection-text dates-subsection-label">Case Added:</div>
-          <div>{{ created_date }}</div>
+          <div class="subsection-text small-text dates-subsection-label">Case Added:</div>
+          <div class="content-text">{{ created_date }}</div>
         </span>
         <span class="middle-separator"></span>
         <span class="dates-subsection">
-          <div class="subection-text dates-subsection-label">Last Modified:</div>
-          <div>{{ last_modified_date }}</div>
+          <div class="subsection-text small-text dates-subsection-label">Last Modified:</div>
+          <div class="content-text">{{ last_modified_date }}</div>
         </span>
     </div>
     <div class="genomic-units-section">
       <ul>
         <li v-for="genomic_unit in genomic_units" :key="genomic_unit">
-          <span class="gene-genomic-unit-text">{{ genomic_unit.gene || ""}}</span>
+          <span class="header-text gene-genomic-unit-text">{{ genomic_unit.gene || ""}}</span>
           <ul>
-            <li v-for="variant in genomic_unit.variants" :key="variant" class="variant-genomic-unit-text">
+            <li v-for="variant in genomic_unit.variants" :key="variant" class="variant-genomic-unit-text content-text">
               {{ variant }}
             </li>
           </ul>
@@ -131,33 +133,56 @@ export default {
 
 <style scoped>
 
-.subection-text {
-  font-size: 0.563rem; /* 9px */
-  max-width: 130px;
+.header-text {
+  font-size: .8125rem; /** 13px */
+  line-height: 1rem;
+  font-weight: bold;
+}
+
+.content-text {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.small-text {
+  font-size: 0.625rem;
+}
+
+.subsection-text {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
 .case-status-section {
-  display: flex;
-  align-items: center;
-  gap: var(--p-1);
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  grid-template-rows: repeat(3,min-content);
+
+  column-gap: var(--p-5);
+  grid-auto-flow: dense;
 }
 
-.status-header-content {
+.status-icon {
+  grid-column: 1;
+  grid-row: 1;
+
+  font-size: .75rem;
+
   display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+  align-items: flex-start;
 }
+
 
 .case-name {
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.case-name,
 .nominated-text {
-  height: 1rem;
+  grid-row: -1;
+  grid-column: 1 / -1;
 }
 
 .dates-section {
@@ -173,7 +198,7 @@ export default {
 .dates-subsection {
   display:flex;
   flex-direction: column;
-  padding: var(--p-1)
+  padding: var(--p-05)
 }
 
 .dates-subsection-label {
@@ -188,10 +213,11 @@ export default {
 
 .genomic-units-section {
   padding: var(--p-1) 0;
-}
+  flex-grow: 1;
 
-.gene-genomic-unit-text {
-  font-weight: bold;
+  font-size: .875rem;
+
+  overflow:auto;
 }
 
 .variant-genomic-unit-text {
@@ -201,26 +227,15 @@ export default {
   word-wrap: break-word;
   margin-bottom: var(--p-1);
 }
+
 .logo-links-section {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: var(--p-1);
-  position: absolute;
-  bottom: var(--p-1);
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.logo-link {
-  display: inline-block;
-  padding: 0 var(--p-1);
-  transform: translate(0, 20%);
 }
 
 .logo-link img {
   width: 24px;
   height: 24px;
 }
-
 </style>

@@ -263,7 +263,6 @@ export default {
     return await Requests.putForm(url, attachmentForm);
   },
 
-
   // Posting a Discussion Thread and corresponding attachments together
   async postNewDiscussionThread(analysisName, postContent, postAttachments=[]) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions`;
@@ -293,7 +292,7 @@ export default {
       'attachments': JSON.stringify({
         'attachments': attachmentsList,
       }),
-      'attachment_files': fileList,
+      ...(fileList.length !== 0) && ({'attachment_files': fileList}),
     };
 
     const success = await Requests.postForm(url, attachmentForm);

@@ -11,8 +11,6 @@ import AccountView from './views/AccountView.vue';
 import AnalysisView from './views/AnalysisView.vue';
 import AnnotationView from './views/AnnotationView.vue';
 
-import footer from './components/AppFooter.vue';
-
 import './styles/main.css';
 import './styles/rosalution.css';
 import './styles/annotations.css';
@@ -96,5 +94,4 @@ const app = createApp(App);
 app.use(router);
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.component('font-awesome-layers', FontAwesomeLayers);
-app.component('AppFooter', footer);
 app.mount('#app');
