@@ -2,16 +2,16 @@
 from datetime import datetime, timezone
 from uuid import uuid4
 
+import json
+from typing import Annotated
+from pydantic import BaseModel, model_validator
+
 from fastapi import (APIRouter, Depends, Form, Security, HTTPException, status, File, UploadFile)
 
 from ..dependencies import database
 from ..models.user import VerifyUser
 from ..models.analysis import Analysis
 from ..security.security import get_current_user
-
-import json
-from typing import Annotated
-from pydantic import BaseModel, model_validator
 
 router = APIRouter(tags=["analysis discussions"], dependencies=[Depends(database)])
 
@@ -37,6 +37,7 @@ class RosalutionAttachment(BaseModel):
 
 
 class IncomingDiscussionFormData(BaseModel):
+    """Handles incoming Form Data to FastAPI from Discussions, and handles Rosalution Attachments"""
     attachments: list[RosalutionAttachment] = []
 
     @model_validator(mode='before')
@@ -74,7 +75,7 @@ async def add_analysis_discussion(
     discussion_content: Annotated[str, Form()],
     attachments: Annotated[IncomingDiscussionFormData, Form()],
     attachment_files: Annotated[list[UploadFile],
-                                File(description="Multiple files as File")] = [],
+                                File(description="Multiple files as File")],
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):
