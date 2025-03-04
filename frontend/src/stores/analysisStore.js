@@ -162,23 +162,9 @@ export const analysisStore = reactive({
    */
 
   async addDiscussionPost(newPostContent, newPostAttachments=[]) {
-    // moving attachment handling here
-    // we expect discussion attachments to be single or multiple
-    console.log('analaysisStore.js - addDiscussionPost');
-    console.log(newPostAttachments);
-    console.log('NewPostAttachments passed in');
-    // this.newDiscussionPostAttachments.push(newPostAttachments);
-    // const discussionPostAttachments = await Analyses.attachDiscussionAttachments(
-    //     this.analysis.name,
-    //     newPostAttachments, // should we loop through newattachments and send for each attachment in array
-    // );
-
-    console.log('Updating to post content and new attachments');
-    // update to post content and attachments
     const discussions = await Analyses.postNewDiscussionThread(this.analysis.name, newPostContent,
         newPostAttachments);
     this.analysis.discussions = discussions;
-    // this.discussionPostAttachment = []; no need will be embedded in newPostitem
   },
 
   async editDiscussionPost(postId, postContent) {

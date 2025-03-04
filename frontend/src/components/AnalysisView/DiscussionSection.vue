@@ -133,7 +133,6 @@ export default {
       this.showNewPost = true;
     },
     newDiscussionPost() {
-      console.log(this.newAttachments);
       this.$emit('discussion:new-post', toRaw(this.newPostContent), toRaw(this.newAttachments));
       this.clearNewDiscussionField();
     },
