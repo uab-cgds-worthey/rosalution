@@ -90,7 +90,7 @@ export default {
       }
     },
     async copyToClipboard(textToCopy) {
-      /** Needed to add a try/catch to can an error that occurs in Cypress, which causes the test to fail.  */
+      /* Needed to add a try/catch to can an error that occurs in Cypress, which causes the test to fail. */
       try {
         await navigator.clipboard.writeText(textToCopy);
       } catch (error) {
