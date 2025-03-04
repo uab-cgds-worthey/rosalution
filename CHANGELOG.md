@@ -9,6 +9,11 @@
 - Application and VueJS Dataset Component's CSS maintenance and consolidation to resolve rendering layout challenges
   to support upcoming new annotations to visualize.
 
+### Bugs
+
+- Analyses landing page feed adheres to the CSS grid that structures the application visually. Including the footer,
+and card feed representing each analysis.  CSS and HTML DOM streamlined.
+
 ## 0.8.3
 
 ### Features
