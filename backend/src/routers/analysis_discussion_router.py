@@ -74,8 +74,8 @@ async def add_analysis_discussion(
     analysis_name: str,
     discussion_content: Annotated[str, Form()],
     attachments: Annotated[IncomingDiscussionFormData, Form()],
-    attachment_files: Annotated[list[UploadFile],
-                                File(description="Multiple files as File")],
+    attachment_files: Annotated[list[UploadFile] | None,
+                                File(description="Multiple files as File")] = None,
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):

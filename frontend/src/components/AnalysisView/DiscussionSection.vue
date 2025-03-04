@@ -29,6 +29,7 @@
             <button
               class="primary-button attach-button"
               @click="addAttachmentToDiscussionPost"
+              data-test="discussion-attachment-button"
             >
               Attach
             </button>
