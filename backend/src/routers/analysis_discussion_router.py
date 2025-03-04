@@ -15,11 +15,12 @@ from ..security.security import get_current_user
 
 router = APIRouter(tags=["analysis discussions"], dependencies=[Depends(database)])
 
+
 # Disabling duplicate warning, two incomming FormData is similar right now
 # but only in shorterm. We will come back and either revise the API schema
 # or abstract to the models module.
 class RosalutionAttachment(BaseModel):
-    """The sections of case notes associated with an analysis""" #pylint disable=R0801
+    """The sections of case notes associated with an analysis"""  #pylint disable=R0801
     name: str | None = None
 
     attachment_id: str | None = None
