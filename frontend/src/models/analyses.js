@@ -236,11 +236,7 @@ export default {
       comments: evidence.comments,
     };
 
-    const attachmentForm = {
-      'updated_attachment': JSON.stringify(updatedAttachment),
-    };
-
-    return await Requests.putForm(url, attachmentForm);
+    return await Requests.putForm(url, updatedAttachment);
   },
 
   async removeSupportingEvidence(analysisName, attachmentId) {
