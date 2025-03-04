@@ -16,8 +16,11 @@ from ..security.security import get_current_user
 router = APIRouter(tags=["analysis discussions"], dependencies=[Depends(database)])
 
 
+# Disabling duplicate warning, two incomming FormData is similar right now
+# but only in shorterm. We will come back and either revise the API schema
+# or abstract to the models module.
 class RosalutionAttachment(BaseModel):
-    """The sections of case notes associated with an analysis"""
+    """The sections of case notes associated with an analysis"""  #pylint disable=R0801
     name: str | None = None
 
     attachment_id: str | None = None
@@ -74,8 +77,8 @@ async def add_analysis_discussion(
     analysis_name: str,
     discussion_content: Annotated[str, Form()],
     attachments: Annotated[IncomingDiscussionFormData, Form()],
-    attachment_files: Annotated[list[UploadFile],
-                                File(description="Multiple files as File")],
+    attachment_files: Annotated[list[UploadFile] | None,
+                                File(description="Multiple files as File")] = None,
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):

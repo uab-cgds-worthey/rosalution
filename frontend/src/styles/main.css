@@ -49,12 +49,16 @@ html {
   --p-1: 0.25rem;
   --p-5: 0.313rem;
   --p-8: 0.5rem;
+  --p-12: 0.75rem;
+  --p-14: 0.875rem;
   --p-10: 0.625rem;
   --p-16: 1rem;
   --p-24: 1.5rem;
   --p-28: 1.75rem;
+  --p-180: 11.25rem;
 
   scroll-padding-top: 4rem;
+
 }
 
 /** || General Styles **/
@@ -63,7 +67,6 @@ body {
   font-family: "Proxima Nova", sans-serif;
   font-size: 1.125rem; /* 18px */
   background-color: var(--primary-background-color);
-
 }
 
 ul {
@@ -185,7 +188,6 @@ app-content {
 app-footer {
   grid-column: 1 / -1;
   grid-row: -2 / -1;
-  height: 3rem;
 }
 
 /** Design System **/

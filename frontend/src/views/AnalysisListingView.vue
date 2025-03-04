@@ -1,16 +1,18 @@
 <template>
-<div>
-  <app-header>
-    <AnalysisListingHeader
-      :username="auth.getUsername()"
-      v-model:searchText="searchText"
-      @logout="this.onLogout"
-    />
-  </app-header>
-  <app-content>
+<app-header>
+  <AnalysisListingHeader
+    :username="auth.getUsername()"
+    v-model:searchText="searchText"
+    @logout="this.onLogout"
+  />
+</app-header>
+<app-content>
+  <div class="card-feed">
     <AnalysisCreateCard
       @click="this.importPhenotipsAnalysis"
       v-if="auth.hasWritePermissions()"
+      class="first-card"
+      data-test="create-card"
     />
     <AnalysisCard
       v-for="analysis in searchedAnalysisListing"
@@ -23,20 +25,23 @@
       :created_date="analysis.created_date"
       :last_modified_date="analysis.last_modified_date"
       :third_party_links="analysis.third_party_links"
+      data-test="analysis-card"
     />
-  </app-content>
-  <app-footer>
-    <InputDialog data-test="phenotips-import-dialog"/>
-    <NotificationDialog data-test="notification-dialog" />
-    <AnalysisListingLegend @filtered-changed="filteredUpdated"/>
-  </app-footer>
-</div>
+  </div>
+</app-content>
+<app-footer>
+  <div class="center-legend"><AnalysisListingLegend @filtered-changed="filteredUpdated"/></div>
+  <InputDialog data-test="phenotips-import-dialog"/>
+  <NotificationDialog data-test="notification-dialog" />
+  <RosalutionFooter />
+</app-footer>
 </template>
 
 <script>
 import Analyses from '@/models/analyses.js';
 import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
 import AnalysisCreateCard from '@/components/AnalysisListing/AnalysisCreateCard.vue';
+import RosalutionFooter from '@/components/RosalutionFooter.vue';
 import AnalysisListingHeader from '@/components/AnalysisListing/AnalysisListingHeader.vue';
 import AnalysisListingLegend from '@/components/AnalysisListing/AnalysisListingLegend.vue';
 
@@ -57,6 +62,7 @@ export default {
     AnalysisListingLegend,
     InputDialog,
     NotificationDialog,
+    RosalutionFooter,
   },
   data: function() {
     return {
@@ -152,30 +158,82 @@ export default {
 <style scoped>
 
 app-content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  padding: 1rem;
-  height: 100%;
+  display: contents;
+
+  --max-card-width: 11.25rem;
+  --card-height: 18.125rem;
+  --card-border-radius: 1.25rem;
 }
+
 
 app-header {
   position: sticky;
+
   top:0px;
   z-index: 10;
 }
 
 app-footer {
   position: sticky;
-  bottom:0px;
+  bottom:1.25rem;
   z-index: 10;
-  justify-content: center;
-  align-items: center;
-  align-self: stretch;
-  flex-grow: 0;
+
   display: flex;
-  height:44px;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.center-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-feed {
+  grid-row: 2 / -2;
+  grid-column: 1 / -1;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, var(--max-card-width));
+  grid-template-rows: repeat(auto-fill, var(--card-height));
+  justify-content: center;
+
+  gap: var(--p-8);
+}
+
+.first-card {
+  grid-row: 1 / 2;
+  grid-column: 1 / 2;
+}
+
+:deep(.analysis-card:hover) {
+  box-shadow: 0 0.5em 0.5em -0.4em;
+  transform: translateY(-0.4em);
+}
+
+:deep(.analysis-card:active) {
+  transform: translateY(0em);
+  transition: all .1s ease-in-out;
+}
+
+:deep(.analysis-card) {
+  height: var(--card-height);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--p-05);
+
+  box-sizing: border-box;
+
+  padding: var(--p-8) var(--p-5) var(--p-8) var(--p-5);
+
+  border-radius: var(--card-border-radius);
+  border: solid 0.625rem;
+  background-color: var(--rosalution-white);
+
+  transition: all .2s ease-in-out;
+
+  text-decoration: none;
 }
 
 </style>

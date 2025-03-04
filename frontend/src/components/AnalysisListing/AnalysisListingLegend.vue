@@ -66,8 +66,6 @@ export default {
 <style scoped>
 .legend {
   display: flex;
-  flex-grow: 0;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: var(--p-10);

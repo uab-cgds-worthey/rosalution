@@ -236,11 +236,7 @@ export default {
       comments: evidence.comments,
     };
 
-    const attachmentForm = {
-      'updated_attachment': JSON.stringify(updatedAttachment),
-    };
-
-    return await Requests.putForm(url, attachmentForm);
+    return await Requests.putForm(url, updatedAttachment);
   },
 
   async removeSupportingEvidence(analysisName, attachmentId) {
@@ -262,7 +258,6 @@ export default {
     };
     return await Requests.putForm(url, attachmentForm);
   },
-
 
   // Posting a Discussion Thread and corresponding attachments together
   async postNewDiscussionThread(analysisName, postContent, postAttachments=[]) {
@@ -293,7 +288,7 @@ export default {
       'attachments': JSON.stringify({
         'attachments': attachmentsList,
       }),
-      'attachment_files': fileList,
+      ...(fileList.length !== 0) && ({'attachment_files': fileList}),
     };
 
     const success = await Requests.postForm(url, attachmentForm);

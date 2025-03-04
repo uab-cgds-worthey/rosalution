@@ -15,6 +15,58 @@ describe('discussions_analysis.cy.js', () => {
     cy.get('[data-test="new-discussion-publish"]').click();
 
     cy.get('[data-test="discussion-post"]').should('have.length', 4);
+  
+    //! Attach a single file to a new post
+    cy.get('[data-test="new-discussion-button"]').click();
+    cy.get('[data-test="new-discussion-input"]').type('System Test Text with single file');
+    cy.get('[data-test="discussion-attachment-button"]').click();
+    cy.get('.modal-container')
+        .find('[data-test="button-input-dialog-upload-file"]')
+        .click();
+    cy.get('.drop-file-box-content').selectFile('fixtures/section-evidence-1.pdf', {action: 'drag-drop'});
+    cy.get('.modal-container').find('[data-test="confirm"]').click();
+    cy.get('[data-test="new-discussion-publish"]').click();
+
+    //! Attach multiple new files
+    cy.get('[data-test="new-discussion-button"]').click();
+    cy.get('[data-test="new-discussion-input"]').type('System Test Text with single file');
+    cy.get('[data-test="discussion-attachment-button"]').click();
+    cy.get('.modal-container')
+        .find('[data-test="button-input-dialog-upload-file"]')
+        .click();
+    cy.get('.drop-file-box-content').selectFile('fixtures/section-evidence-1.pdf', {action: 'drag-drop'});
+    cy.get('.modal-container').find('[data-test="confirm"]').click();
+    cy.get('[data-test="discussion-attachment-button"]').click();
+    cy.get('.modal-container')
+        .find('[data-test="button-input-dialog-upload-file"]')
+        .click();
+    cy.get('.drop-file-box-content').selectFile('fixtures/section-image-1.jpg', {action: 'drag-drop'});
+    cy.get('.modal-container').find('[data-test="confirm"]').click();
+    cy.get('[data-test="new-discussion-publish"]').click();
+
+    //! Attach new link attachment
+    cy.get('[data-test="new-discussion-button"]').click();
+    cy.get('[data-test="new-discussion-input"]').type('System Test Text with single link');
+    cy.get('[data-test="discussion-attachment-button"]').click();
+    cy.get('.modal-container')
+        .find('[data-test="button-input-dialog-attach-url"]')
+        .click();
+    cy.get('[data-test="name-input"]').type('Best research team ever');
+    cy.get('[data-test="link-input"]').type('https://sites.uab.edu/cgds');
+    cy.get('.modal-container').find('[data-test="confirm"]').click();
+    cy.get('[data-test="new-discussion-publish"]').click();
+
+    //! Attach new link attachment
+    cy.get('[data-test="new-discussion-button"]').click();
+    cy.get('[data-test="new-discussion-input"]').type('System Test Text with single link');
+    cy.get('[data-test="discussion-attachment-button"]').click();
+    cy.get('.modal-container')
+        .find('[data-test="button-input-dialog-attach-url"]')
+        .click();
+    cy.get('[data-test="name-input"]').type('Best research team ever');
+    cy.get('[data-test="link-input"]').type('https://sites.uab.edu/cgds');
+    cy.get('.modal-container').find('[data-test="confirm"]').click();
+    cy.get('[data-test="new-discussion-publish"]').click();
   });
 
   it('should not be able to publish a post with no text in the new discussion field', () => {
@@ -56,7 +108,7 @@ describe('discussions_analysis.cy.js', () => {
     cy.get('[data-test="discussion-post"]')
         .find('.grey-rounded-menu > :nth-child(2)')
         .contains('Delete')
-        .click({force:true});
+        .click({force: true});
 
     cy.get('[data-test="notification-dialog"]').find('[data-test="confirm-button"]').contains('Delete').click();
 
