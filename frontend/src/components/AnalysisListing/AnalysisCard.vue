@@ -50,7 +50,6 @@
 </template>
 
 <script>
-
 import {StatusType} from '@/config.js';
 
 export default {
