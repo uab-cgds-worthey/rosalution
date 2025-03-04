@@ -32,7 +32,7 @@
         </template>
       </dl>
     </div>
-    <div class="linkout-section">
+    <div class="linkout-section" data-test="linkout-section">
       <a
         v-for="link in third_party_links"
         :key="link.type"

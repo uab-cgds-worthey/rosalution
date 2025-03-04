@@ -22,7 +22,7 @@ describe('Rosalution home', () => {
     cy.get('[data-test="confirm"]').click();
 
     cy.get('.rosalution-logo').click();
-    cy.get('[href="/rosalution/analysis/CPAM0002"]').find('.logo-links-section').should('exist');
+    cy.get('[href="/rosalution/analysis/CPAM0002"]').find('[data-test="linkout-section"]').should('exist');
     cy.get('[data-test="third-party-link"]').should('exist');
     cy.get('[data-test="third-party-link"]').should('have.attr', 'href', 'https://www.monday.com');
     cy.get('[data-test="third-party-link"]').should('have.attr', 'target', '_blank');
