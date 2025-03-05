@@ -114,20 +114,24 @@ describe('case_supporting_evidence.cy.js', () => {
     cy.get('#Supporting_Evidence').should('exist');
     cy.get('.attachment-list').should('have.length', 0);
     cy.get('[data-test="add-button"]').click();
+
     cy.get('[data-test="button-input-dialog-upload-file"]').click();
     cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/pedigree-fake.jpg', {
       action: 'drag-drop',
     });
     cy.get('.comments').type('this is a test comment for a test file');
     cy.get('[data-test="confirm"]').click();
+
     cy.get('[href="#Supporting_Evidence"]').click();
     cy.get('.attachment-list').should('have.length', 1);
-    cy.get('.attachment-name > div').should('have.attr', 'target', '_blank');
-    cy.get('.attachment-name > div').should('have.attr', 'rel', 'noreferrer noopener');
+    cy.get('.attachment-name > div')
+      .should('have.attr', 'target', '_blank')
+      .should('have.attr', 'rel', 'noreferrer noopener');
     cy.get('.edit-button').click();
     cy.get('.comments').clear();
     cy.get('.comments').type('this is a test comment for a test file edited');
     cy.get('[data-test="confirm"]').click();
+
     cy.get('[href="#Supporting_Evidence"]').click();
     cy.get('.attachment-list').should('have.length', 1);
     cy.get('.attachment-name > div').should('have.attr', 'target', '_blank');
@@ -196,9 +200,7 @@ describe('case_supporting_evidence.cy.js', () => {
     cy.get('.attachment-comments').should('have.text', 'this is a test comment for a test file');
     cy.get('.attachment-name > div').should('have.text', 'pedigree-fake.jpg');
 
-    cy.get('.rosalution-logo').click();
-    cy.get('[href="/rosalution/analysis/CPAM0046"] > .analysis-card > .analysis-base').click();
-    cy.get('[href="#Supporting_Evidence"]').click();
+    cy.visit('analysis/CPAM0046#Supporting_Evidence');
     cy.get('.attachment-list').should('have.length', 0);
     cy.get('[data-test="add-button"]').click();
     cy.get('[data-test="button-input-dialog-upload-file"]').click();

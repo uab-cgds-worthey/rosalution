@@ -1,8 +1,7 @@
 describe('view_collapsible_case_information.cy.js', () => {
   beforeEach(() => {
     cy.resetDatabase();
-    cy.visit('/');
-    cy.get('.analysis-card').first().click();
+    cy.visit('analysis/CPAM0002');
   });
 
   it('can view the case information when expanded and not when its collapsed', () => {

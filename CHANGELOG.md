@@ -8,6 +8,13 @@
 - Discussion Attachments
 - Application and VueJS Dataset Component's CSS maintenance and consolidation to resolve rendering layout challenges
   to support upcoming new annotations to visualize.
+- Upgraded to FastAPI from 0.110.1 to 0.115.11 to resolve issue that existed until 0.113.0 in FastAPI.
+  [Optional Multiple File Uploads Broken When Using Pydantic v2.3.0 #10280](https://github.com/fastapi/fastapi/discussions/10280)
+
+### Bugs
+
+- Analyses landing page feed adheres to the CSS grid that structures the application visually. Including the footer,
+and card feed representing each analysis.  CSS and HTML DOM streamlined.
 
 ## 0.8.3
 

@@ -9,6 +9,7 @@ export const analysisStore = reactive({
   },
   updatedContent: {},
 
+
   analysisName() {
     return this.analysis?.name;
   },
@@ -159,8 +160,9 @@ export const analysisStore = reactive({
    * Discussions
    */
 
-  async addDiscussionPost(newPostContent) {
-    const discussions = await Analyses.postNewDiscussionThread(this.analysis.name, newPostContent);
+  async addDiscussionPost(newPostContent, newPostAttachments=[]) {
+    const discussions = await Analyses.postNewDiscussionThread(this.analysis.name, newPostContent,
+        newPostAttachments);
     this.analysis.discussions = discussions;
   },
 

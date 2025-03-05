@@ -5,5 +5,4 @@
 
 <template>
   <router-view></router-view>
-  <AppFooter></AppFooter>
 </template>

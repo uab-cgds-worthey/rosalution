@@ -236,11 +236,7 @@ export default {
       comments: evidence.comments,
     };
 
-    const attachmentForm = {
-      'updated_attachment': JSON.stringify(updatedAttachment),
-    };
-
-    return await Requests.putForm(url, attachmentForm);
+    return await Requests.putForm(url, updatedAttachment);
   },
 
   async removeSupportingEvidence(analysisName, attachmentId) {
@@ -263,11 +259,36 @@ export default {
     return await Requests.putForm(url, attachmentForm);
   },
 
-  async postNewDiscussionThread(analysisName, postContent) {
+  // Posting a Discussion Thread and corresponding attachments together
+  async postNewDiscussionThread(analysisName, postContent, postAttachments=[]) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions`;
+
+    const attachmentsList = [];
+    const fileList = [];
+    for (const attachment of postAttachments) {
+      const discussionAttachment = {
+        ...attachment,
+      };
+
+      if (attachment.type == 'file' && !('attachment_id' in attachment) ) {
+        fileList.push(attachment.data);
+        delete discussionAttachment.data;
+        discussionAttachment['name'] = attachment.data.name;
+      }
+
+      if ( 'comments' in attachment ) {
+        delete discussionAttachment.comments;
+      }
+
+      attachmentsList.push(discussionAttachment);
+    }
 
     const attachmentForm = {
       'discussion_content': postContent,
+      'attachments': JSON.stringify({
+        'attachments': attachmentsList,
+      }),
+      ...(fileList.length !== 0) && ({'attachment_files': fileList}),
     };
 
     const success = await Requests.postForm(url, attachmentForm);

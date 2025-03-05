@@ -35,7 +35,7 @@ html {
   --primary-background-color: #F3F5F9;
   --secondary-background-color: var(--rosalution-white);
 
-  
+  --checkbox-border-radius: 5px;
   --content-border-radius: 10px;
   --input-border-radius: 15px;
   --button-border-radius: 25px;
@@ -49,12 +49,16 @@ html {
   --p-1: 0.25rem;
   --p-5: 0.313rem;
   --p-8: 0.5rem;
+  --p-12: 0.75rem;
+  --p-14: 0.875rem;
   --p-10: 0.625rem;
   --p-16: 1rem;
   --p-24: 1.5rem;
   --p-28: 1.75rem;
+  --p-180: 11.25rem;
 
   scroll-padding-top: 4rem;
+
 }
 
 /** || General Styles **/
@@ -63,7 +67,6 @@ body {
   font-family: "Proxima Nova", sans-serif;
   font-size: 1.125rem; /* 18px */
   background-color: var(--primary-background-color);
-
 }
 
 ul {
@@ -108,6 +111,7 @@ textarea {
   border: 2px solid var(--rosalution-grey-100);
   background-color: var(--secondary-background-color);
   outline: none;
+  appearance: none;
 }
 
 input:placeholder,
@@ -122,6 +126,30 @@ textarea:focus {
   border: 2px solid var(--rosalution-purple-300);
   box-shadow:  0px 0 0 4px rgba(69, 28, 137, 0.10);
 }
+
+input[type=checkbox]{
+  background-color: var(--rosalution-grey-100);
+  border-radius: var(--checkbox-border-radius);
+  border-color: var(--rosalution-purple-300);
+  border-width: 0.15rem;
+  transform: translateY(-0.25rem);
+}
+
+input[type=checkbox]:hover {
+  background-color: var(--rosalution-purple-100);
+  outline: max(2px, 0.15rem) solid var(--rosalution-purple-300);
+  outline-offset: max(2px, 0.15rem);
+}
+
+input[type=checkbox]:checked {
+  background-color: var(--rosalution-purple-200);
+}
+
+
+
+
+
+
 
 /** || Primary Grid Site Layout **/
 
@@ -151,7 +179,6 @@ app-content {
 app-footer {
   grid-column: 1 / -1;
   grid-row: -2 / -1;
-  height: 3rem;
 }
 
 /** Design System **/

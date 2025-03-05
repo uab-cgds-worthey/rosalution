@@ -14,6 +14,12 @@
             v-if="tab.icon == 'phenotips'"
             src="@/assets/phenotips-favicon-96x96.png"
           />
+          <img
+            v-else-if="tab.icon == 'rosalution'"
+            src="@/assets/rosalution-logo.svg"
+            class="rosalution-tab"
+            data-test="button-input-dialog-existing-attachments"
+          />
           <font-awesome-icon v-else
             :icon="'file' == tab.icon ? ['far', 'file'] : tab.icon"
             size="2xl">
@@ -48,6 +54,7 @@
 <script>
 import InputDialogAttachUrl from '@/components/Dialogs/InputDialogAttachUrl.vue';
 import InputDialogUploadFile from '@/components/Dialogs/InputDialogUploadFile.vue';
+import InputDialogExistingAttachments from '@/components/Dialogs/InputDialogExistingAttachments.vue';
 
 import dialog from '@/inputDialog.js';
 
@@ -56,6 +63,7 @@ export default {
   components: {
     InputDialogAttachUrl,
     InputDialogUploadFile,
+    InputDialogExistingAttachments,
   },
   data: function() {
     return {
@@ -88,7 +96,7 @@ export default {
 }
 
 .tab-button {
-  width: 2.5rem;
+  width: 3rem;
   background-color: var(--rosalution-white);
   border: none;
   padding-top: var(--p-10);
@@ -98,10 +106,12 @@ export default {
 .tab-header .tab-button:not(:first-child) {
   border-left: 2px var(--rosalution-grey-100) solid;
   padding-left: var(--p-8);
+  padding-right: var(--p-8);
 }
 
 .tab-button-active {
   color: var(--rosalution-blue-200) !important;
+  /* background-color: var(--rosalution-purple-200); */
 }
 
 .button-row {
@@ -121,5 +131,10 @@ export default {
 .limit-width {
   max-width: 25rem;
 }
+
+.rosalution-tab {
+  width: 2.65rem;
+}
+
 
 </style>

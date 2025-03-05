@@ -55,6 +55,9 @@
     </div>
   </app-content>
   <AnnotationSidebar class="sidebar" :section-anchors="sectionAnchors"></AnnotationSidebar>
+  <app-footer>
+    <RosalutionFooter></RosalutionFooter>
+  </app-footer>
 </template>
 
 <script>
@@ -69,6 +72,7 @@ import CardDataset from '@/components/AnnotationView/CardDataset.vue';
 import ClinvarDataset from '@/components/AnnotationView/ClinvarDataset.vue';
 import IconLinkoutDataset from '@/components/AnnotationView/IconLinkoutDataset.vue';
 import ImagesDataset from '@/components/AnnotationView/ImagesDataset.vue';
+import RosalutionFooter from '@/components/RosalutionFooter.vue';
 import ScoreDataset from '@/components/AnnotationView/ScoreDataset.vue';
 import SetDataset from '@/components/AnnotationView/SetDataset.vue';
 import TextDataset from '@/components/AnnotationView/TextDataset.vue';
@@ -94,6 +98,7 @@ export default {
     ImagesDataset,
     InputDialog,
     NotificationDialog,
+    RosalutionFooter,
     ScoreDataset,
     SetDataset,
     TextDataset,
@@ -304,7 +309,7 @@ app-header {
   grid-row: 2 / -2;
   grid-column: -2 / -1;
   position: sticky;
-  height: 90vh;
+  height: 91vh;
   top: 4rem;
 }
 

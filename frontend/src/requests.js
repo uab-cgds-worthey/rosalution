@@ -13,7 +13,13 @@ async function sendFormData(method, url, data) {
   const formData = new FormData();
   const fieldEntries = Object.entries(data);
   for (const [field, fieldContent] of fieldEntries) {
-    formData.append(field, fieldContent);
+    if (Array.isArray(fieldContent) && fieldContent.some((element) => element instanceof File)) {
+      for (const file of fieldContent) {
+        formData.append(`${field}`, file, file.name);
+      }
+    } else {
+      formData.append(field, fieldContent);
+    }
   }
   const response = await fetch(url, {
     method: method,

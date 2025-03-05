@@ -2,7 +2,11 @@
 from datetime import datetime, timezone
 from uuid import uuid4
 
-from fastapi import (APIRouter, Depends, Form, Security, HTTPException, status)
+import json
+from typing import Annotated
+from pydantic import BaseModel, model_validator
+
+from fastapi import (APIRouter, Depends, Form, Security, HTTPException, status, File, UploadFile)
 
 from ..dependencies import database
 from ..models.user import VerifyUser
@@ -10,6 +14,42 @@ from ..models.analysis import Analysis
 from ..security.security import get_current_user
 
 router = APIRouter(tags=["analysis discussions"], dependencies=[Depends(database)])
+
+
+# Disabling duplicate warning, two incomming FormData is similar right now
+# but only in shorterm. We will come back and either revise the API schema
+# or abstract to the models module.
+class RosalutionAttachment(BaseModel):
+    """The sections of case notes associated with an analysis"""  #pylint disable=R0801
+    name: str | None = None
+
+    attachment_id: str | None = None
+    comments: str | None = None
+    link_name: str | None = None
+    link: str | None = None
+    data: str | None = None
+    type: str | None = None
+
+    @model_validator(mode='before')
+    @classmethod
+    def validate_to_json(cls, value):
+        """Allows FastAPI to valid and unpack the JSON of data into the model"""
+        if isinstance(value, str):
+            return cls(**json.loads(value))
+        return value
+
+
+class IncomingDiscussionFormData(BaseModel):
+    """Handles incoming Form Data to FastAPI from Discussions, and handles Rosalution Attachments"""
+    attachments: list[RosalutionAttachment] = []
+
+    @model_validator(mode='before')
+    @classmethod
+    def validate_to_json(cls, value):
+        """Allows FastAPI to valid and unpack the JSON of data into the model"""
+        if isinstance(value, str):
+            return cls(**json.loads(value))
+        return value
 
 
 @router.get("/{analysis_name}/discussions")
@@ -33,9 +73,12 @@ def get_analysis_discussions(
 
 
 @router.post("/{analysis_name}/discussions")
-def add_analysis_discussion(
+async def add_analysis_discussion(
     analysis_name: str,
-    discussion_content: str = Form(...),
+    discussion_content: Annotated[str, Form()],
+    attachments: Annotated[IncomingDiscussionFormData, Form()],
+    attachment_files: Annotated[list[UploadFile] | None,
+                                File(description="Multiple files as File")] = None,
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):
@@ -50,13 +93,28 @@ def add_analysis_discussion(
     analysis = Analysis(**found_analysis)
     current_user = repositories["user"].find_by_client_id(client_id)
 
+    attachments_as_json = []
+
+    for attachment in attachments.attachments:
+        if not attachment.attachment_id and attachment.type == 'link':
+            attachment.attachment_id = str(uuid4())
+        elif not attachment.attachment_id and attachment.type == 'file':
+            file = next((item for item in attachment_files if item.filename == attachment.name), None)
+            if not file:
+                attachment_error = f"'{attachment.name}' file failed to upload."
+                raise HTTPException(status_code=400, detail=attachment_error)
+            new_file_object_id = repositories['bucket'].save_file(file.file, file.filename, file.content_type)
+            attachment.attachment_id = str(new_file_object_id)
+
+        attachments_as_json.append(attachment.model_dump(exclude_none=True))
+
     new_discussion_post = {
         "post_id": str(uuid4()),
         "author_id": client_id,
         "author_fullname": current_user["full_name"],
         "publish_timestamp": datetime.now(timezone.utc),
         "content": discussion_content,
-        "attachments": [],
+        "attachments": attachments_as_json,
         "thread": [],
     }
 

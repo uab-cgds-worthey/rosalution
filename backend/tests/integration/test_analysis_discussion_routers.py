@@ -1,5 +1,7 @@
 """Testing endpoints for adding/updating/removing discussion messages to an analysis."""
 
+import json
+
 
 def test_add_new_discussion_to_analysis(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """ Testing that a discussion was added and returned properly """
@@ -21,7 +23,16 @@ def test_add_new_discussion_to_analysis(client, mock_access_token, mock_reposito
     response = client.post(
         "/analysis/" + cpam_analysis + "/discussions",
         headers={"Authorization": "Bearer " + mock_access_token},
-        data={"discussion_content": new_post_content}
+        data={
+            "discussion_content": new_post_content,
+            "attachments":
+                json.dumps({
+                    "attachments": [{
+                        "attachment_id": "existing-id-0123", "name": "best website", "data": "http://a03.org"
+                    }]
+                }),
+            "file_attachments": [],
+        }
     )
 
     assert response.status_code == 200
@@ -46,7 +57,8 @@ def test_update_discussion_post_in_analysis(client, mock_access_token, mock_repo
 
         new_discussion_post = {
             "post_id": "fake-post-id", "author_id": "johndoe-client-id", "author_fullname": 'johndoe',
-            "content": "Hello, I am a discussion post."
+            "content": "Hello, I am a discussion post.",
+            "attachments": [{"attachment_id": "existing-id-0123", "name": "best website", "data": "http://a03.org"}]
         }
 
         analysis['discussions'].append(new_discussion_post)
@@ -75,7 +87,16 @@ def test_update_discussion_post_in_analysis(client, mock_access_token, mock_repo
     response = client.put(
         "/analysis/" + cpam_analysis + "/discussions/" + discussion_post_id,
         headers={"Authorization": "Bearer " + mock_access_token},
-        data={"discussion_content": discussion_content}
+        data={
+            "discussion_content": discussion_content,
+            "attachments":
+                json.dumps({
+                    "attachments": [{
+                        "attachment_id": "existing-id-0123", "name": "best website", "data": "http://a03.org"
+                    }]
+                }),
+            "file_attachments": [],
+        }
     )
 
     actual_post = None

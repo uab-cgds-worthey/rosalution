@@ -1,22 +1,11 @@
 <template>
   <footer>
-    <a class="footer-link" href="https://github.com/uab-cgds-worthey/rosalution">
+    <a class="footer-text" href="https://github.com/uab-cgds-worthey/rosalution">
       Center for Computational Genomics and Data Science, University of Alabama at Birmingham, Heersink School of
        Medicine
     </a>
   </footer>
 </template>
-
-
-<script>
-export default {
-  computed: {
-    currentYear() {
-      return new Date().getFullYear();
-    },
-  },
-};
-</script>
 
 <style>
 footer {
@@ -32,8 +21,8 @@ footer {
   padding-bottom: var(--p-1);
 }
 
-.footer-link {
-  font-size: 0.75em;
+.footer-text {
+  font-size: var(--p-14);
 }
 
 </style>

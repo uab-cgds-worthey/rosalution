@@ -2,10 +2,7 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
   beforeEach(() => {
     cy.resetDatabase();
     cy.intercept('/rosalution/api/analysis/CPAM0002').as('analysisLoad');
-    cy.visit('/');
-    cy.get('.analysis-card')
-        .find(':contains(CPAM0002)')
-        .find('.case-name').click();
+    cy.visit('analysis/CPAM0002');
   });
 
   // It is known that this test is broken and skipped in main. Reverting it back to skipping and will come back to fix.

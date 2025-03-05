@@ -59,7 +59,7 @@
       </div>
     </div>
   </div>
-</template>>
+</template>
 
 <script>
 
@@ -89,8 +89,14 @@ export default {
         return 'grch38';
       }
     },
-    copyToClipboard(textToCopy) {
-      navigator.clipboard.writeText(textToCopy);
+    async copyToClipboard(textToCopy) {
+      /* Needed to add a try/catch to can an error that occurs in Cypress, which causes the test to fail. */
+      try {
+        await navigator.clipboard.writeText(textToCopy);
+      } catch (error) {
+        console.error(error.message);
+      }
+
       this.$emit('clipboard-copy', textToCopy);
     },
     getCompleteHgvsVariantName(variant) {

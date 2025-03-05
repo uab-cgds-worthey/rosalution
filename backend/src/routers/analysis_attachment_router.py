@@ -1,7 +1,7 @@
 """Analysis endpoints for adding/updating/removing document and link attachments to an analysis."""
 
 import json
-from typing import List, Optional
+from typing import Annotated, List
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Security, UploadFile
 from pydantic import BaseModel, model_validator
 
@@ -11,16 +11,19 @@ from ..security.security import get_authorization
 router = APIRouter(tags=["analysis attachments"], dependencies=[Depends(database)])
 
 
-class IncomingAttachment(BaseModel, frozen=True):
+class IncomingNewAttachment(BaseModel, frozen=True):
     """The sections of case notes associated with an analysis"""
+    # Disabling duplicate warning, two incomming FormData is similar right now
+    # but only in shorterm. We will come back and either revise the API schema
+    # or abstract to the models module.
+    #pylint disable=R0801
+    name: str | None = None
 
-    name: Optional[str] = None
-
-    attachment_id: Optional[str] = None
-    comments: Optional[str] = None
-    link_name: Optional[str] = None
-    link: Optional[str] = None
-    data: Optional[str] = None
+    attachment_id: str | None = None
+    comments: str | None = None
+    link_name: str | None = None
+    link: str | None = None
+    data: str | None = None
 
     @model_validator(mode='before')
     @classmethod
@@ -31,16 +34,27 @@ class IncomingAttachment(BaseModel, frozen=True):
         return value
 
 
+class IncommingUpdatedAttachment(BaseModel, frozen=True):
+    """The sections of case notes associated with an analysis"""
+
+    name: str | None = None
+
+    attachment_id: str | None = None
+    comments: str | None = None
+    link_name: str | None = None
+    link: str | None = None
+    data: str | None = None
+
+
 @router.post("/{analysis_name}/attachment", response_model=List)
 def attach_supporting_evidence_file(
     analysis_name: str,
+    new_attachment: Annotated[IncomingNewAttachment, Form()],
     upload_file: UploadFile = File(None),
-    new_attachment: IncomingAttachment = Form(...),
     repositories=Depends(database),
     authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """Uploads a file to GridFS and adds it to the analysis"""
-
     updated_analysis_json = None
 
     if new_attachment.link:
@@ -63,7 +77,7 @@ def attach_supporting_evidence_file(
 def update_supporting_evidence(
     analysis_name: str,
     attachment_id: str,
-    updated_attachment: IncomingAttachment = Form(...),
+    updated_attachment: Annotated[IncommingUpdatedAttachment, Form()],
     repositories=Depends(database),
     authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
@@ -73,6 +87,7 @@ def update_supporting_evidence(
         'data': updated_attachment.data,
         'comments': updated_attachment.comments,
     }
+
     try:
         updated_analysis_json = repositories["analysis"].update_supporting_evidence(
             analysis_name, attachment_id, content

@@ -41,6 +41,7 @@
       <DiscussionSection
         id="Discussion"
         :discussions="discussions"
+        :existingAttachments="attachments"
         :userClientId="clientId"
         :actions="discussionContextActions"
         @discussion:new-post="addDiscussionPost"
@@ -65,10 +66,13 @@
         @save="saveAnalysisChanges"
       />
     </app-content>
+    <app-footer>
+      <RosalutionFooter></RosalutionFooter>
+    </app-footer>
 </template>
 
 <script setup>
-import {onMounted, ref, computed, watch, useTemplateRef} from 'vue';
+import {onMounted, ref, computed, provide, watch, useTemplateRef} from 'vue';
 
 import AnalysisViewHeader from '@/components/AnalysisView/AnalysisViewHeader.vue';
 import SectionBox from '@/components/AnalysisView/SectionBox.vue';
@@ -76,6 +80,7 @@ import GeneBox from '@/components/AnalysisView/GeneBox.vue';
 import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import ToastDialog from '@/components/Dialogs/ToastDialog.vue';
+import RosalutionFooter from '@/components/RosalutionFooter.vue';
 import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
 import SaveModal from '@/components/AnalysisView/SaveModal.vue';
 import DiscussionSection from '@/components/AnalysisView/DiscussionSection.vue';
@@ -98,6 +103,8 @@ const props = defineProps({
 });
 
 const edit = ref(false);
+
+provide('downloadFile', analysisStore.downloadAttachment);
 
 const toastRef = useTemplateRef('rosalution-toast');
 let toast = {};
@@ -542,9 +549,10 @@ async function pushAnalysisEvent(eventType) {
  * Adds a new discussion post to the analysis.
  *
  * @param {string} newPostContent - The content of the new discussion post.
+ * @param {array} newAttachments - Array containing new attachments for the new discussion post.
  */
-async function addDiscussionPost(newPostContent) {
-  await analysisStore.addDiscussionPost(newPostContent);
+async function addDiscussionPost(newPostContent, newAttachments) {
+  await analysisStore.addDiscussionPost(newPostContent, newAttachments);
 }
 
 /**

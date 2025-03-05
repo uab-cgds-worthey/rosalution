@@ -91,6 +91,20 @@ export default {
     state.activeTabName = attachUrlInput.name;
     return this;
   },
+  existing(attachments=[]) {
+    const existingAttachmentsSelected = {
+      name: 'input-dialog-existing-attachments',
+      icon: 'rosalution',
+      input: {
+      },
+      props: {
+        existingAttachments: attachments,
+      },
+    };
+    state.tabs.push(existingAttachmentsSelected);
+    state.activeTabName = existingAttachmentsSelected.name;
+    return this;
+  },
   edit(attachmentInput) {
     const attachUrlInput = {
       name: attachmentInput.type == 'link' ? 'input-dialog-attach-url' : 'input-dialog-upload-file',
