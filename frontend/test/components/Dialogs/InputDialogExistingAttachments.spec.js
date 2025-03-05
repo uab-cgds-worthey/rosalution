@@ -5,11 +5,6 @@ import InputDialogExistingAttachments from '@/components/Dialogs/InputDialogExis
 
 describe('InputDialogExistingAttachments.vue', () => {
   let wrapper;
-  // const defaultExistingAttachment = {
-  //   data: 'fakeFiledData',
-  //   name: '/path/to/fakeFile.ext',
-  //   type: 'file',
-  // };
 
   beforeEach(() => {
     const defaultProps = {
