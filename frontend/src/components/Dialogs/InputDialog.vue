@@ -136,8 +136,5 @@ export default {
   width: 2.65rem;
 }
 
-/* .tab-button-active  .rosalution-tab {
-  box-shadow: 0px 12px 22px 1px red;
-} */
 
 </style>
