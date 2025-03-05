@@ -9,7 +9,6 @@ export const analysisStore = reactive({
   },
   updatedContent: {},
 
-  // newDiscussionPostAttachments: [],
 
   analysisName() {
     return this.analysis?.name;
