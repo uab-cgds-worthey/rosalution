@@ -145,15 +145,6 @@ input[type=checkbox]:checked {
   background-color: var(--rosalution-purple-200);
 }
 
-/* input[type="checkbox"]:checked::before {
-  transform: scale(1);
-}
-
-input[type=checkbox]:checked {
-  background-color: var(--rosalution-purple-300);
-  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-}
-*/
 
 
 
