@@ -35,7 +35,6 @@ def test_add_new_discussion_to_analysis(client, mock_access_token, mock_reposito
         }
     )
 
-
     assert response.status_code == 200
 
     assert len(response.json()) == 4
