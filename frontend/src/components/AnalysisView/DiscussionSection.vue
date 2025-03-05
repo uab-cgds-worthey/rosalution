@@ -155,7 +155,6 @@ export default {
       const includeComments = false;
       const includeName = true;
 
-      // const defaultComments = 'This attachment is referenced in the Discussion attachment.';
       const attachment = await inputDialog
           .confirmText('Attach')
           .cancelText('Cancel')
