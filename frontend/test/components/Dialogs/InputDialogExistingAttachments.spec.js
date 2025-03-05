@@ -38,7 +38,6 @@ describe('InputDialogExistingAttachments.vue', () => {
   it('is displaying list of existing evidences', async () => {
     const evidenceList = wrapper.find('[data-test=existing-attachments-list]');
     console.log(evidenceList.html());
-    console.log('HELLOO');
     expect(evidenceList.exists()).to.be.true;
   });
 });
