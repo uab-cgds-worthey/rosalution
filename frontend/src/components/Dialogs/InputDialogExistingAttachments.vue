@@ -31,7 +31,6 @@
 </template>
 
 <script setup>
-// console.log('Setting up the Input Dialog Existing Attachments');
 import {onMounted, ref, toRaw} from 'vue';
 
 const emit = defineEmits(['update:userInput']);
