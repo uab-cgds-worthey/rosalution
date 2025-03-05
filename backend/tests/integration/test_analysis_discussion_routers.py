@@ -125,7 +125,6 @@ def test_update_post_in_analysis_author_mismatch(client, mock_access_token, mock
     )
 
     expected_failure_detail = {'detail': 'User cannot update post they did not author.'}
-    print(response.json())
 
     assert response.status_code == 401
     assert response.json() == expected_failure_detail
