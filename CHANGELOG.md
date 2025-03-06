@@ -5,11 +5,20 @@
 
 ### Features - In Progress
 
+## 0.8.4
+
+### Features
+
 - Discussion Attachments
 - Application and VueJS Dataset Component's CSS maintenance and consolidation to resolve rendering layout challenges
   to support upcoming new annotations to visualize.
 - Upgraded to FastAPI from 0.110.1 to 0.115.11 to resolve issue that existed until 0.113.0 in FastAPI.
   [Optional Multiple File Uploads Broken When Using Pydantic v2.3.0 #10280](https://github.com/fastapi/fastapi/discussions/10280)
+- Upgraded `python-multipart` package in backend dependencies from version 0.0.18 to version 0.0.20 to take
+  advantage of FastAPI's type annotations for improved `python-multipart`.
+- New Annotation Task Type, SubprocessAnnotationTask which executes a CLI process to access annotations. Applied
+  to running `tabix` cli tool to fetch DITTO scores from CGDS's public LTS, UAB's long term storage available
+  via an S3 interface.
 
 ### Bugs
 
