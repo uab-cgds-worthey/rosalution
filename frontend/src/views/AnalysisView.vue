@@ -48,8 +48,8 @@
         @discussion:edit-post="editDiscussionPost"
         @discussion:delete-post="deleteDiscussionPost"
       />
-      <SupplementalFormList
-        id="Supporting_Evidence"
+      <AttachmentsSection
+        id="Attachments"
         :attachments="attachments"
         :writePermissions="hasWritePermissions"
         @open-modal="addSupportingEvidence"
@@ -81,7 +81,7 @@ import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import ToastDialog from '@/components/Dialogs/ToastDialog.vue';
 import RosalutionFooter from '@/components/RosalutionFooter.vue';
-import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
+import AttachmentsSection from '@/components/AnalysisView/AttachmentsSection.vue';
 import SaveModal from '@/components/AnalysisView/SaveModal.vue';
 import DiscussionSection from '@/components/AnalysisView/DiscussionSection.vue';
 

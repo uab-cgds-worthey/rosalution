@@ -8,7 +8,7 @@ import GeneBox from '@/components/AnalysisView/GeneBox.vue';
 import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import DiscussionSection from '@/components/AnalysisView/DiscussionSection.vue';
-import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
+import AttachmentsSection from '@/components/AnalysisView/AttachmentsSection.vue';
 import ToastDialog from '@/components/Dialogs/ToastDialog.vue';
 import SaveModal from '@/components/AnalysisView/SaveModal.vue';
 
@@ -434,8 +434,7 @@ describe('AnalysisView', () => {
   describe('supporting evidence', () => {
     describe('when adding supporting evidence as an attachment', () => {
       it('displays the attachment modal when the supplemental form list requests dialog', async () => {
-        const supplementalComponent =
-          wrapper.getComponent(SupplementalFormList);
+        const supplementalComponent = wrapper.getComponent(AttachmentsSection);
         supplementalComponent.vm.$emit('open-modal');
 
         const attachmentDialog = wrapper.findComponent(InputDialog);
@@ -454,7 +453,7 @@ describe('AnalysisView', () => {
         analysisWithNewEvidence.supporting_evidence_files.push(newAttachmentData);
         attachAttachmentMock.returns(analysisWithNewEvidence.supporting_evidence_files);
 
-        const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+        const supplementalComponent = wrapper.getComponent(AttachmentsSection);
         expect(supplementalComponent.props('attachments').length).to.equal(1);
 
         supplementalComponent.vm.$emit('open-modal');
@@ -474,7 +473,7 @@ describe('AnalysisView', () => {
         analysisStore.forceUpdate(fixtureData());
       });
       it('prompts a confirmation when an attachment is to be deleted', async () => {
-        const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+        const supplementalComponent = wrapper.getComponent(AttachmentsSection);
         expect(supplementalComponent.props('attachments').length).to.equal(1);
 
         const fakeAttachment = {name: 'fake.txt'};
@@ -486,7 +485,7 @@ describe('AnalysisView', () => {
 
       it('can cancel deleting the attachment via the confirmation and not delete the attachment', async () => {
         const fakeAttachment = {name: 'fake.txt'};
-        const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+        const supplementalComponent = wrapper.getComponent(AttachmentsSection);
         expect(supplementalComponent.props('attachments').length).to.equal(1);
 
         supplementalComponent.vm.$emit('delete', fakeAttachment);
@@ -497,7 +496,7 @@ describe('AnalysisView', () => {
 
       it('should confirmation to remove the supporting evidence from the analysis', async () => {
         const fakeAttachment = {name: 'fake.txt'};
-        const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+        const supplementalComponent = wrapper.getComponent(AttachmentsSection);
 
         expect(supplementalComponent.props('attachments').length).to.equal(1);
 
@@ -515,7 +514,7 @@ describe('AnalysisView', () => {
         removeAttachmentMock.throws('Failed to delete');
 
         const fakeAttachment = {name: 'fake.txt'};
-        const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+        const supplementalComponent = wrapper.getComponent(AttachmentsSection);
 
         expect(supplementalComponent.props('attachments').length).to.equal(1);
 
