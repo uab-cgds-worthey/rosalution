@@ -127,7 +127,7 @@ const sectionsHeaders = computed(() => {
     return section.header;
   });
   sections.push('Discussion');
-  sections.push('Supporting Evidence');
+  sections.push('Attachments');
   return sections;
 });
 

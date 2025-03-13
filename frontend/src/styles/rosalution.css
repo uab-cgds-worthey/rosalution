@@ -137,3 +137,16 @@ html {
 .rosalution-section-header-text {
   margin: var(--p-05) var(--p-05) var(--p-0) var(--p-05);
 }
+
+.collapsable-icon {
+  color: var(--rosalution-grey-200);
+  cursor: pointer;
+}
+
+.rosalution-section-container input[type="checkbox"]:checked ~ .rosalution-section-seperator ~ * {
+  display: none;
+}
+
+input[type="checkbox"]:checked ~ .rosalution-section-header label.collapsable-icon {
+  transform: scaleY(-1);
+}

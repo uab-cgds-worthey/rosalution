@@ -8,25 +8,25 @@
         </h2>
         <span class="rosalution-section-center"></span>
         <span class="rosalution-header-right-icons">
-        <label v-if="this.allowAttach" class="attach-logo"
-          @click="$emit('attach-image', this.header, this.attachmentField)"
-          :data-test="`attach-logo-${header}`"
-        >
-          <font-awesome-layers class="fa-md">
-            <font-awesome-icon :icon="['fa', 'file-circle-plus']" />
-            <font-awesome-icon
-              transform="shrink-9.5 left-4.5 down-3"
-              inverse
-              :icon="['fa', 'mountain-sun']"
-            />
-          </font-awesome-layers>
-        </label>
-        <label v-if="this.edit" class="edit-logo" id="edit-logo">
-          <font-awesome-icon icon="pencil" size="lg" />
-        </label>
-        <label v-else class="collapsable-icon" v-bind:for="section_toggle">
-          <font-awesome-icon icon="chevron-down" size="lg" :data-test="`collapsable-icon-${header}`" />
-        </label>
+          <label v-if="this.allowAttach" class="attach-logo"
+            @click="$emit('attach-image', this.header, this.attachmentField)"
+            :data-test="`attach-logo-${header}`"
+          >
+            <font-awesome-layers class="fa-md">
+              <font-awesome-icon :icon="['fa', 'file-circle-plus']" />
+              <font-awesome-icon
+                transform="shrink-9.5 left-4.5 down-3"
+                inverse
+                :icon="['fa', 'mountain-sun']"
+              />
+            </font-awesome-layers>
+          </label>
+          <label v-if="this.edit" class="edit-logo" id="edit-logo">
+            <font-awesome-icon icon="pencil" size="lg" />
+          </label>
+          <label v-else class="collapsable-icon" v-bind:for="section_toggle">
+            <font-awesome-icon icon="chevron-down" size="lg" :data-test="`collapsable-icon-${header}`" />
+          </label>
         </span>
       </div>
       <div class="rosalution-section-seperator"></div>
@@ -134,11 +134,6 @@ export default {
   cursor: pointer;
 }
 
-.collapsable-icon {
-  color: var(--rosalution-grey-200);
-  cursor: pointer;
-}
-
 .edit-logo {
   color: var(--rosalution-purple-100);
 }
@@ -153,11 +148,4 @@ input[type="checkbox"] {
   display: none;
 }
 
-.rosalution-section-container input[type="checkbox"]:checked ~ .rosalution-section-seperator ~ * {
-  display: none;
-}
-
-input[type="checkbox"]:checked ~ .rosalution-section-header > span > label.collapsable-icon {
-  transform: scaleY(-1);
-}
 </style>
