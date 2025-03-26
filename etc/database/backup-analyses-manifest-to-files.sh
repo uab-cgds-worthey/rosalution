@@ -6,7 +6,7 @@ usage() {
   echo " "
   echo "Creates a JSON file for each Rosalution Analysis from the Rosalution MongoDB database named"
   echo " 'rosalution-analysis-manifset-<analysis name>-<current-date>.json'"
-  echo "to the designated output path. By default, the output path is '${pwd}/manifests-backup/'"
+  echo "to the designated output path. By default, the output path is '<pwd>/manifests-backup/'"
   echo "Include a second paramater to overwrite the <output-path>.  If the <output-path> does not exist, the script"
   echo "will try to create it."
 }
@@ -42,7 +42,7 @@ then
 fi
 
 date_stamp="$(date +"%Y-%m-%d")"
-result=$(docker exec $DOCKER_CONTAINER mongosh rosalution_db --quiet --eval 'JSON.stringify(db.analyses.find({}, {_id: 0, name:1}).toArray());' )
+result=$(docker exec "$DOCKER_CONTAINER" mongosh rosalution_db --quiet --eval 'JSON.stringify(db.analyses.find({}, {_id: 0, name:1}).toArray());' )
 ANALYSES=()
 while IFS='' read -r line; do ANALYSES+=("$line"); done < <(echo "$result" | jq -c '[.[].name]')
 
@@ -51,6 +51,6 @@ echo "------------------------------------"
 echo "${ANALYSES[@]}" | jq -r '.[]' | while read -r ANALYSIS; do
   eval_string="JSON.stringify(db.analyses.findOne({name: \"$ANALYSIS\"}, {_id: 0, manifest: 1}));"
   manifest_result=$(docker exec rosalution-rosalution-db-1 mongosh rosalution_db --quiet --eval "'${eval_string}'")
-  echo $manifest_result | jq . > "$TARGET_PATH/rosalution-analysis-manifset-$ANALYSIS-$date_stamp.json"
+  echo "$manifest_result" | jq . > "$TARGET_PATH/rosalution-analysis-manifset-$ANALYSIS-$date_stamp.json"
 done
   
