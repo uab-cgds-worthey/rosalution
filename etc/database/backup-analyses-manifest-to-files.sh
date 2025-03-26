@@ -53,3 +53,4 @@ echo "${ANALYSES[@]}" | jq -r '.[]' | while read -r ANALYSIS; do
   manifest_result=$(docker exec rosalution-rosalution-db-1 mongosh rosalution_db --quiet --eval "'${eval_string}'")
   echo $manifest_result | jq . > "$TARGET_PATH/rosalution-analysis-manifset-$ANALYSIS-$date_stamp.json"
 done
+  
