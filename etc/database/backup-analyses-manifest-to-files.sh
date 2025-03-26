@@ -20,8 +20,10 @@ then
     exit 1
 fi
 
+current_directory=$(pwd)
+
 DOCKER_CONTAINER=$1
-TARGET_PATH="$(pwd)/manifests-backup"
+TARGET_PATH="$current_directory/manifests-backup"
 
 if [[ $# -eq 2 ]]
 then
@@ -39,17 +41,15 @@ then
     exit 1
 fi
 
-date_stamp=$(date +"%Y-%m-%ds")
-result=$(docker exec rosalution-rosalution-db-1 mongosh rosalution_db --quiet --eval 'JSON.stringify(db.analyses.find({}, {_id: 0, name:1}).toArray());' )
-echo $result
+date_stamp="$(date +"%Y-%m-%d")"
+result=$(docker exec $DOCKER_CONTAINER mongosh rosalution_db --quiet --eval 'JSON.stringify(db.analyses.find({}, {_id: 0, name:1}).toArray());' )
 ANALYSES=()
 while IFS='' read -r line; do ANALYSES+=("$line"); done < <(echo "$result" | jq -c '[.[].name]')
 
 echo "Creating analysis manifest backup..."
 echo "------------------------------------"
 echo "${ANALYSES[@]}" | jq -r '.[]' | while read -r ANALYSIS; do
-  echo "$ANALYSIS"
-  eval_string="JSON.stringify(db.analyses.findOne({\"name\": \"$ANALYSIS\"}, {_id: 0, manifest:1}));"
+  eval_string="JSON.stringify(db.analyses.findOne({name: \"$ANALYSIS\"}, {_id: 0, manifest: 1}));"
   manifest_result=$(docker exec rosalution-rosalution-db-1 mongosh rosalution_db --quiet --eval "'${eval_string}'")
   echo $manifest_result | jq . > "$TARGET_PATH/rosalution-analysis-manifset-$ANALYSIS-$date_stamp.json"
 done
