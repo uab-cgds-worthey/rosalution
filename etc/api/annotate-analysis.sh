@@ -111,7 +111,7 @@ for ANALYSIS in "$@"; do
     -H "Authorization: Bearer $AUTH_TOKEN" \
     > /dev/null
   
-  if [  $number_of_analyses -gt 1  ]; then
+  if [  "$number_of_analyses" -gt 1  ]; then
     echo "Waiting 1 minute before queueing next Analysis..."
     sleep 1m
   fi
