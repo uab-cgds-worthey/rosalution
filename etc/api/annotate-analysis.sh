@@ -1,19 +1,20 @@
 #! /bin/bash
-# ./annotate-all-existing-analyses.sh
+# ./annotate-analysis.sh
 
 usage() {
   echo " "
-  echo "usage: $0"
+  echo "usage: $0 <options> <analysis-name-1> <analysis-name-2> ... <analysis-name-n>"
   echo " "
   echo " -u Base Rosalution URL"
   echo "    (default) http://local.rosalution.cgds/rosalution"
   echo " -h Prints usage"
   echo " "
-  echo "Runs annotation for a specified analysis. "
+  echo "Runs annotation for specified analyses. For each analysis after the first, those analyses"
+  echo "are queued to annotate after 1 minute."
   echo " "
-  echo "To run the annotations, please log in to Rosalution to retrieve the"
-  echo "Client ID and Client Secret credentials. These can be found by"
-  echo "clicking on your username or going to: <rosalution url>/rosalution/account"
+  echo "To run the annotations, please log in to the target Rosalution installation to retrieve the"
+  echo "Client ID and Client Secret credentials. These are found by clicking on your username"
+  echo "or visiting: <rosalution url>/rosalution/account"
   echo " "
   echo "Note: This script may need to be run multiple times due to the Rosalution"
   echo "annotation system not being built for large sets of annotations queued."
@@ -45,6 +46,7 @@ fi
 
 # to get remaining arguments not from getopts
 shift "$((OPTIND - 1))"
+number_of_analyses=${#@}
 
 echo "  _____                 _       _   _                   "
 echo " |  __ \               | |     | | (_)                  "
@@ -94,9 +96,10 @@ if [[ $AUTH_TOKEN == "null" ]]; then
   exit 1
 fi
 
+
 for ANALYSIS in "$@"; do
-# Hardcoding to encode the special characters that are commonly
-# known in cases being uploaded to Rosalution at this time
+  # Hardcoding to encode the special characters that are commonly
+  # known in cases being uploaded to Rosalution at this time
   echo "Queueing annotations for analysis '$ANALYSIS'..."
   ANALYSIS=${ANALYSIS/\ /\%20}
   ANALYSIS=${ANALYSIS/\(/\%28}
@@ -107,4 +110,9 @@ for ANALYSIS in "$@"; do
     -H "accept: application/json" \
     -H "Authorization: Bearer $AUTH_TOKEN" \
     > /dev/null
+  
+  if [  $number_of_analyses -gt 1  ]; then
+    echo "Waiting 1 minute before queueing next Analysis..."
+    sleep 1m
+  fi
 done
