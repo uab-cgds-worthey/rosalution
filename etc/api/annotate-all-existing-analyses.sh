@@ -9,7 +9,7 @@ usage() {
   echo "    (default) http://local.rosalution.cgds/rosalution"
   echo " -h Prints usage"
   echo " "
-  echo "Kicks off annotation jobs for all the existing analyses in Rosalution"
+  echo "Runs annotation for a specified analysis. "
   echo " "
   echo "To run the annotations, please log in to Rosalution to retrieve the"
   echo "Client ID and Client Secret credentials. These can be found by"
@@ -25,6 +25,10 @@ usage() {
 
 BASE_URL="http://local.rosalution.cgds/rosalution"
 
+if [[ -v ROSALUTION_BASE_URL ]]; then
+  BASE_URL=$ROSALUTION_BASE_URL
+fi
+
 while getopts ":u:h" opt; do
   case $opt in
     u) BASE_URL="$OPTARG";;
@@ -38,6 +42,9 @@ then
     echo "Error: jq could not be found. Exiting."
     usage
 fi
+
+# to get remaining arguments not from getopts
+shift "$((OPTIND - 1))"
 
 echo "  _____                 _       _   _                   "
 echo " |  __ \               | |     | | (_)                  "
@@ -53,13 +60,20 @@ echo "  / ____ \| | | | | | | (_) | || (_| | |_| | (_) | | | |"
 echo " /_/    \_\_| |_|_| |_|\___/ \__\__,_|\__|_|\___/|_| |_|"
 
 echo "Rosalution URL: $BASE_URL..."
-echo ""
 
-echo "Please enter your Client Id";
-read -r CLIENT_ID;
+if [[ ! -v ROSALUTION_CLIENT_ID ]]; then
+  echo "Please enter your Client Id";
+  read -r CLIENT_ID;
+else
+  CLIENT_ID=$ROSALUTION_CLIENT_ID
+fi
 
-echo "Please enter your Client Secret";
-read -r -s CLIENT_SECRET;
+if [[ ! -v ROSALUTION_CLIENT_SECRET ]]; then
+  echo "Please enter your Client Secret";
+  read -r -s CLIENT_SECRET;
+else
+  CLIENT_SECRET=$ROSALUTION_CLIENT_SECRET
+fi
 
 if [ -z "${CLIENT_ID}" ] || [ -z "${CLIENT_SECRET}" ]; then
   echo " "
@@ -73,31 +87,24 @@ AUTH_TOKEN=$(curl -s -X 'POST' \
   "$BASE_URL/api/auth/token" \
   -H "accept: application/json" \
   -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "grant_type=&scope=&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET" | jq -r '.access_token')
+  -d "client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET" | jq -r '.access_token')
 
-echo "Fetching existing analyses in Rosalution..."
+if [[ $AUTH_TOKEN == "null" ]]; then
+  echo "Authentication failure; please check credentials"
+  exit 1
+fi
 
-RESPONSE=$(curl -s -X "GET" \
-  "$BASE_URL/api/analysis/" \
-  -H "accept: application/json" \
-  -H "Authorization: Bearer $AUTH_TOKEN")
-
-ANALYSES=()
-while IFS='' read -r line; do ANALYSES+=("$line"); done < <(echo "$RESPONSE" | jq -c '[.[].name]')
-
+for ANALYSIS in "$@"; do
 # Hardcoding to encode the special characters that are commonly
 # known in cases being uploaded to Rosalution at this time
-echo "${ANALYSES[@]}" | jq -r '.[]' | while read -r ANALYSIS; do
-  echo "Starting annotations for analysis $ANALYSIS..."
+  echo "Queueing annotations for analysis '$ANALYSIS'..."
   ANALYSIS=${ANALYSIS/\ /\%20}
   ANALYSIS=${ANALYSIS/\(/\%28}
   ANALYSIS=${ANALYSIS/\)/\%29}
+  echo "$BASE_URL/api/annotation/$ANALYSIS"
   curl -s -X "POST" \
-      "$BASE_URL/api/annotate/$ANALYSIS" \
-      -H "accept: application/json" \
-      -H "Authorization: Bearer $AUTH_TOKEN" \
-      > /dev/null
-  sleep 5
+    "$BASE_URL/api/annotation/$ANALYSIS" \
+    -H "accept: application/json" \
+    -H "Authorization: Bearer $AUTH_TOKEN" \
+    > /dev/null
 done
-
-echo "Done. Exiting."

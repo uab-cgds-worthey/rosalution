@@ -1,5 +1,5 @@
 #! /bin/bash
-# ./annotate-all-existing-analyses.sh
+# ./annotate-analysis.sh
 
 usage() {
   echo " "
@@ -60,9 +60,6 @@ echo "  / ____ \| | | | | | | (_) | || (_| | |_| | (_) | | | |"
 echo " /_/    \_\_| |_|_| |_|\___/ \__\__,_|\__|_|\___/|_| |_|"
 
 echo "Rosalution URL: $BASE_URL..."
-echo "  $@"
-echo ""
-
 
 if [[ ! -v ROSALUTION_CLIENT_ID ]]; then
   echo "Please enter your Client Id";
@@ -104,6 +101,7 @@ for ANALYSIS in "$@"; do
   ANALYSIS=${ANALYSIS/\ /\%20}
   ANALYSIS=${ANALYSIS/\(/\%28}
   ANALYSIS=${ANALYSIS/\)/\%29}
+  echo "$BASE_URL/api/annotation/$ANALYSIS"
   curl -s -X "POST" \
     "$BASE_URL/api/annotation/$ANALYSIS" \
     -H "accept: application/json" \
