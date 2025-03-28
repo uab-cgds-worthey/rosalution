@@ -6,7 +6,7 @@ usage() {
   echo "usage: $0 <options> <analysis-name-1> <analysis-name-2> ... <analysis-name-n>"
   echo " "
   echo " -u Base Rosalution URL"
-  echo "    (default) http://local.rosalution.cgds/rosalution"
+  echo "    (default) https://local.rosalution.cgds/rosalution"
   echo " -h Prints usage"
   echo " "
   echo "Runs annotation for specified analyses. For each analysis after the first, those analyses"
@@ -24,7 +24,7 @@ usage() {
   exit
 }
 
-BASE_URL="http://local.rosalution.cgds/rosalution"
+BASE_URL="https://local.rosalution.cgds/rosalution"
 
 if [[ -v ROSALUTION_BASE_URL ]]; then
   BASE_URL=$ROSALUTION_BASE_URL

@@ -6,7 +6,7 @@ usage() {
   echo "usage: $0"
   echo " "
   echo " -u Base Rosalution URL"
-  echo "    (default) http://local.rosalution.cgds/rosalution"
+  echo "    (default) https://local.rosalution.cgds/rosalution"
   echo " -h Prints usage"
   echo " "
   echo "Sources your terminal session to use Rosalution's REST API."
