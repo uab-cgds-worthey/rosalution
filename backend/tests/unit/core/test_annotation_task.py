@@ -56,12 +56,13 @@ def test_extraction_forge_hgvs_variant_without_transcript_version(hgvs_without_t
     actual_extractions = hgvs_without_transcript_version_annotation_task.extract(forge_annotation)
     assert actual_extractions[0]['value'] == "NM_170707:c.745C>T"
 
-def test_extraction_forge_hgvs_variant_without_transcript_version(forge_annotation_task_hgvs_variant):
+## !! THIS IS THE TEST ANGELINA WROTE FOR TESTING THE ENSEMBL CACHE !! ##
+def test_extraction_forge_hgvs_variant_CADD(forge_annotation_task_hgvs_variant_cadd):
     """Verifies the jq query used to forge create the transcript without a version dataset for a variant"""
-    forge_annotation = forge_annotation_task_hgvs_variant.annotate()
-    actual_extractions = forge_annotation_task_hgvs_variant.extract(forge_annotation)
-    print("----_ CALLLIN GTHE TO STRING FROM TEST-----")
-    print(forge_annotation_task_hgvs_variant.toString())
+    forge_annotation = forge_annotation_task_hgvs_variant_cadd.annotate()
+    actual_extractions = forge_annotation_task_hgvs_variant_cadd.extract(forge_annotation)
+    print("----- CALLLING THE TO STRING FROM TEST -----")
+    print(forge_annotation_task_hgvs_variant_cadd.toString())
     assert actual_extractions[0]['value'] == "NM_001017980:c.745C>T"
 
 
@@ -297,16 +298,17 @@ def fixture_forge_annotation_task_gene_ncbi_linkout(gene_genomic_unit, gene_ncbi
     task = ForgeAnnotationTask(annotation_unit)
     return task
 
-
-@pytest.fixture(name="cadd_linkout_dataset")
+## !! THIS IS THE CADD DATASET FIXTURE ANGELINA WROTE FOR TESTING THE ENSEMBL CACHE !! ##
+@pytest.fixture(name="cadd_dataset_config")
 def fixture_cadd_please():
     return {
         "data_set": "CADD",
         "data_source": "Ensembl",
         "genomic_unit_type": "hgvs_variant",
         "annotation_source_type": "forge",
+        "cache": True,
         "base_string": "{ENSEMBL_VARIANT_CALL_CACHE}",
-        "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { CADD: .cadd_phred }",
+        "attribute": ".CADD | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { CADD: .cadd_phred }",
         "dependencies": [
             "transcript",
             "ENSEMBL_VARIANT_CALL_CACHE"
@@ -317,13 +319,12 @@ def fixture_cadd_please():
     }
 
 
-@pytest.fixture(name="forge_annotation_task_hgvs_variant")
-def fixture_forge_annotation_task_ensembl_cache(hgvs_variant_genomic_unit, cadd_linkout_dataset):
+@pytest.fixture(name="forge_annotation_task_hgvs_variant_cadd")
+def fixture_forge_annotation_task_ensembl_cache(hgvs_variant_genomic_unit, cadd_dataset_config): 
     """Returns a Forge annotation task for the NCBI linkout for the VMA21 Gene genomic unit"""
-    annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit, cadd_linkout_dataset)
+    annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit, cadd_dataset_config)
     task = ForgeAnnotationTask(annotation_unit)
     return task
-
 
 
 
@@ -526,9 +527,11 @@ def fixture_subprocess_annotation_ditto_score(hgvs_variant_ditto_annotation_unit
 
     return task
 
+## !! THIS IS THE TEST ANGELINA WROTE FOR TESTING THE ENSEMBL CACHE !! ##
 @pytest.fixture(name="ENSEMBL_CACHE_DUMP")
 def fixture_please_work():
-    return  [{
+    return  [
+        {
               "input": "NM_001017980:c.164G>T",
               "id": "NM_001017980:c.164G>T",
               "vcf_string": "X-151404916-G-T",
@@ -625,4 +628,4 @@ def fixture_please_work():
               "strand": 1,
               "end": 151404916
             }
-      ]
+        ]

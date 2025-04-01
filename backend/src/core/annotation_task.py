@@ -170,10 +170,14 @@ class ForgeAnnotationTask(AnnotationTaskInterface):
         logger.info("LOGGING THE FORGE TASK")
         logger.info('--------------------------------')
         logger.info('')
-        return {
-            self.annotation_unit.dataset['data_set']:
-                self.aggregate_string_replacements(self.annotation_unit.dataset['base_string'])
-        }
+
+        value = self.aggregate_string_replacements(self.annotation_unit.dataset['base_string'])
+
+        if( 'base_string_cache' in self.annotation_unit.dataset and self.annotation_unit.dataset['base_string_cache'] ):
+            logger.info(f"{self.annotation_unit.dataset} is a cache dataset, turning into json dict for parsing")
+            value = json.loads( value.replace("'","\"") )
+        
+        return { self.annotation_unit.dataset['data_set']: value }
     
     def toString(self):
         print('----- TO STRING ------')
