@@ -145,6 +145,113 @@
           "value": "https://www.ncbi.nlm.nih.gov/clinvar/variation/581244"
         }
       ]
+    },
+    {
+      "ENSEMBL_VARIANT_CALL_CACHE": [
+        {
+          "data_source": "Ensembl",
+          "version": 112,
+          "value": [
+            {
+              "input": "NM_001017980:c.164G>T",
+              "id": "NM_001017980:c.164G>T",
+              "vcf_string": "X-151404916-G-T",
+              "most_severe_consequence": "missense_variant",
+              "start": 151404916,
+              "assembly_name": "GRCh38",
+              "seq_region_name": "X",
+              "colocated_variants": [
+                {
+                  "clin_sig": [
+                    "uncertain_significance"
+                  ],
+                  "start": 151404916,
+                  "allele_string": "G/A/T",
+                  "id": "rs1306425454",
+                  "strand": 1,
+                  "seq_region_name": "X",
+                  "phenotype_or_disease": 1,
+                  "var_synonyms": {
+                    "ClinVar": [
+                      "RCV003741639",
+                      "VCV002805126",
+                      "RCV000705011",
+                      "VCV000581244"
+                    ]
+                  },
+                  "end": 151404916,
+                  "clin_sig_allele": "A:uncertain_significance;T:uncertain_significance"
+                }
+              ],
+              "allele_string": "G/T",
+              "transcript_consequences": [
+                {
+                  "codons": "gGc/gTc",
+                  "cadd_raw": 3.96743,
+                  "amino_acids": "G/V",
+                  "gene_id": "203547",
+                  "polyphen_score": 0.607,
+                  "cdna_end": 267,
+                  "gene_symbol": "VMA21",
+                  "sift_score": 0,
+                  "variant_allele": "T",
+                  "cds_start": 164,
+                  "transcript_id": "NM_001017980.4",
+                  "cds_end": 164,
+                  "protein_start": 55,
+                  "strand": 1,
+                  "protein_end": 55,
+                  "used_ref": "G",
+                  "polyphen_prediction": "possibly_damaging",
+                  "impact": "MODERATE",
+                  "cdna_start": 267,
+                  "cadd_phred": 24,
+                  "biotype": "protein_coding",
+                  "consequence_terms": [
+                    "missense_variant",
+                    "splice_region_variant"
+                  ],
+                  "given_ref": "G",
+                  "gene_symbol_source": "EntrezGene",
+                  "sift_prediction": "deleterious"
+                },
+                {
+                  "biotype": "protein_coding",
+                  "cadd_phred": 24,
+                  "given_ref": "G",
+                  "consequence_terms": [
+                    "missense_variant",
+                    "splice_region_variant"
+                  ],
+                  "impact": "MODERATE",
+                  "cdna_start": 574,
+                  "sift_prediction": "deleterious",
+                  "gene_symbol_source": "EntrezGene",
+                  "variant_allele": "T",
+                  "sift_score": 0.01,
+                  "gene_symbol": "VMA21",
+                  "cds_start": 329,
+                  "cadd_raw": 3.96743,
+                  "codons": "gGc/gTc",
+                  "gene_id": "203547",
+                  "amino_acids": "G/V",
+                  "polyphen_score": 0.998,
+                  "cdna_end": 574,
+                  "strand": 1,
+                  "protein_end": 110,
+                  "used_ref": "G",
+                  "polyphen_prediction": "probably_damaging",
+                  "transcript_id": "NM_001363810.1",
+                  "protein_start": 110,
+                  "cds_end": 329
+                }
+              ],
+              "strand": 1,
+              "end": 151404916
+            }
+          ]
+        }
+      ]
     }
   ]
 }
