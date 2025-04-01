@@ -61,8 +61,8 @@ def test_extraction_forge_hgvs_variant_CADD(forge_annotation_task_hgvs_variant_c
     """Verifies the jq query used to forge create the transcript without a version dataset for a variant"""
     forge_annotation = forge_annotation_task_hgvs_variant_cadd.annotate()
     actual_extractions = forge_annotation_task_hgvs_variant_cadd.extract(forge_annotation)
-    print("----- CALLLING THE TO STRING FROM TEST -----")
-    print(forge_annotation_task_hgvs_variant_cadd.toString())
+    # print("----- CALLLING THE TO STRING FROM TEST -----")
+    # print(forge_annotation_task_hgvs_variant_cadd.toString())
     assert actual_extractions[0]['value'] == "NM_001017980:c.745C>T"
 
 

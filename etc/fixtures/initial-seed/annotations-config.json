@@ -767,12 +767,13 @@
     "data_set": "spliceai_acceptor_loss",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;SpliceAI=2;",
-    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_acceptor_loss: .spliceai.DS_AL }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".spliceai_acceptor_loss | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_acceptor_loss: .spliceai.DS_AL }",
     "dependencies": [
       "transcript",
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -782,12 +783,13 @@
     "data_set": "spliceai_donor_loss",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;SpliceAI=2;",
-    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_donor_loss: .spliceai.DS_DL }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".spliceai_donor_loss | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_donor_loss: .spliceai.DS_DL }",
     "dependencies": [
       "transcript",
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -797,12 +799,13 @@
     "data_set": "spliceai_acceptor_gain",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;SpliceAI=2;",
-    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_acceptor_gain: .spliceai.DS_AG }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".spliceai_acceptor_gain | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_acceptor_gain: .spliceai.DS_AG }",
     "dependencies": [
       "transcript",
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -812,12 +815,13 @@
     "data_set": "spliceai_donor_gain",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;SpliceAI=2;",
-    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_donor_gain: .spliceai.DS_DG }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".spliceai_donor_gain | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_donor_gain: .spliceai.DS_DG }",
     "dependencies": [
       "transcript",
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",

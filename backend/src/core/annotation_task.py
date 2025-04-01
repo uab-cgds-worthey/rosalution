@@ -67,9 +67,9 @@ class AnnotationTaskInterface:
                     dependency_string, str(self.annotation_unit.genomic_unit[dependency])
                 )
 
-        print('FINAL RESPLACE STRING')
-        print(replace_string)
-        print('/FINAL REPLACE STIRNG')
+        # print('FINAL RESPLACE STRING')
+        # print(replace_string)
+        # print('/FINAL REPLACE STIRNG')
         return replace_string
 
     @abstractmethod
@@ -166,10 +166,10 @@ class ForgeAnnotationTask(AnnotationTaskInterface):
         of the genomic unit and its dataset depedencies to generate the new dataset.  Will be returned within
         an object that has the name of the dataset as the attribute.
         """
-        logger.info("-------------------------------")
-        logger.info("LOGGING THE FORGE TASK")
-        logger.info('--------------------------------')
-        logger.info('')
+        # logger.info("-------------------------------")
+        # logger.info("LOGGING THE FORGE TASK")
+        # logger.info('--------------------------------')
+        # logger.info('')
 
         value = self.aggregate_string_replacements(self.annotation_unit.dataset['base_string'])
 
@@ -179,14 +179,14 @@ class ForgeAnnotationTask(AnnotationTaskInterface):
         
         return { self.annotation_unit.dataset['data_set']: value }
     
-    def toString(self):
-        print('----- TO STRING ------')
-        print(self.annotation_unit)
-        print("thebasestirng yo")
-        print(self.annotation_unit.dataset['base_string'])
-        print("thebasestring oy")
-        print(self.aggregate_string_replacements(self.annotation_unit.dataset['base_string']))
-        print("------")
+    # def toString(self):
+    #     print('----- TO STRING ------')
+    #     print(self.annotation_unit)
+    #     print("thebasestirng yo")
+    #     print(self.annotation_unit.dataset['base_string'])
+    #     print("thebasestring oy")
+    #     print(self.aggregate_string_replacements(self.annotation_unit.dataset['base_string']))
+    #     print("------")
 
 
 class NoneAnnotationTask(AnnotationTaskInterface):
@@ -286,6 +286,13 @@ class VersionAnnotationTask(AnnotationTaskInterface):
 
         version = {"date": str(date.today())}
         return version
+
+    def get_version_cache_id(self):
+        version_type = self.annotation_unit.dataset['versioning_type']
+        if 'rest' == version_type:
+            return self.annotation_unit.dataset['version_url']
+        
+        return self.annotation_unit.dataset['versioning_type']
 
 
 class SubprocessAnnotationTask(AnnotationTaskInterface):

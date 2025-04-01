@@ -95,13 +95,30 @@ class AnnotationService:
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
             annotation_task_futures = {}
+            version_cache = {}
+
             while not annotation_queue.empty():
                 annotation_unit = annotation_queue.get()
 
                 if not annotation_unit.version_exists():
                     version_task = AnnotationTaskFactory.create_version_task(annotation_unit)
-                    logger.info('%s Creating Task To Version...', format_annotation_logging(annotation_unit))
-                    annotation_task_futures[executor.submit(version_task.annotate)] = version_task
+                    version_cache_id = version_task.get_version_cache_id()
+                    logger.info(f"Creating Version Cache Id...{version_cache_id}")
+                    if version_cache_id not in version_cache:
+                        logger.info('%s Creating Task To Version...', format_annotation_logging(annotation_unit))
+                        version_cache[version_cache_id] = ""
+                        annotation_task_futures[executor.submit(version_task.annotate)] = version_task
+                    else:
+                        if version_cache[version_cache_id] is not "":
+                            logger.info(f"Version Cache... {version_cache}")
+                            logger.info(f"Version Cache Exists for {version_cache_id}... {version_cache[version_cache_id]}")
+                            annotation_unit.set_latest_version(version_cache[version_cache_id])
+                            logger.info(
+                                '%s Version Gathered from Cache %s...', format_annotation_logging(annotation_unit), version
+                            )
+                            analysis_collection.add_dataset_to_manifest(analysis_name, annotation_unit)
+                        annotation_queue.put(annotation_unit)
+
                 else:
                     if genomic_unit_collection.annotation_exist(annotation_unit):
                         logger.info('%s Annotation Exists...', format_annotation_logging(annotation_unit))
@@ -154,7 +171,9 @@ class AnnotationService:
                         task_process_result = future.result()
                         if isinstance(task, VersionAnnotationTask):
                             annotation_unit = task.annotation_unit
+                            version_cache_id = task.get_version_cache_id()
                             version = task.extract_version(task_process_result)
+                            version_cache[version_cache_id] = version
                             annotation_unit.set_latest_version(version)
                             logger.info(
                                 '%s Version Calculated %s...', format_annotation_logging(annotation_unit), version
