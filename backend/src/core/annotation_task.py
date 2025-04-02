@@ -166,11 +166,6 @@ class ForgeAnnotationTask(AnnotationTaskInterface):
         of the genomic unit and its dataset depedencies to generate the new dataset.  Will be returned within
         an object that has the name of the dataset as the attribute.
         """
-        # logger.info("-------------------------------")
-        # logger.info("LOGGING THE FORGE TASK")
-        # logger.info('--------------------------------')
-        # logger.info('')
-
         value = self.aggregate_string_replacements(self.annotation_unit.dataset['base_string'])
 
         if( 'base_string_cache' in self.annotation_unit.dataset and self.annotation_unit.dataset['base_string_cache'] ):
@@ -178,15 +173,6 @@ class ForgeAnnotationTask(AnnotationTaskInterface):
             value = json.loads( value.replace("'","\"") )
         
         return { self.annotation_unit.dataset['data_set']: value }
-    
-    # def toString(self):
-    #     print('----- TO STRING ------')
-    #     print(self.annotation_unit)
-    #     print("thebasestirng yo")
-    #     print(self.annotation_unit.dataset['base_string'])
-    #     print("thebasestring oy")
-    #     print(self.aggregate_string_replacements(self.annotation_unit.dataset['base_string']))
-    #     print("------")
 
 
 class NoneAnnotationTask(AnnotationTaskInterface):

@@ -2,15 +2,10 @@
 from datetime import date
 from unittest.mock import Mock, patch
 
-import copy
-import subprocess
 import pytest
 import requests
 
-from src.core.annotation_task import AnnotationTaskFactory, ForgeAnnotationTask, SubprocessAnnotationTask, \
-    HttpAnnotationTask, VersionAnnotationTask
-from src.enums import GenomicUnitType
-from src.core.annotation_unit import AnnotationUnit
+from src.core.annotation_task import AnnotationTaskFactory, VersionAnnotationTask
 
 
 @pytest.mark.parametrize(

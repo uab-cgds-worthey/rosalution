@@ -1,14 +1,11 @@
 """Tests Annotation Tasks and the creation of them"""
-from datetime import date
 from unittest.mock import Mock, patch
 
 import copy
 import subprocess
 import pytest
-import requests
 
-from src.core.annotation_task import AnnotationTaskFactory, ForgeAnnotationTask, SubprocessAnnotationTask, \
-    HttpAnnotationTask, VersionAnnotationTask
+from src.core.annotation_task import AnnotationTaskFactory,SubprocessAnnotationTask
 from src.enums import GenomicUnitType
 from src.core.annotation_unit import AnnotationUnit
 
@@ -71,6 +68,14 @@ def test_ditto_subprocess_annotate_failure(subprocess_annotation_ditto_score_tas
 
 ## Fixtures ##
 
+@pytest.fixture(name="hgvs_variant_genomic_unit")
+def fixture_genomic_unit():
+    """Returns the genomic unit 'NM_170707.3:c.745C>T' to be annotated"""
+    return {
+        "unit": "NM_170707.3:c.745C>T",
+        "genomic_unit_type": GenomicUnitType.HGVS_VARIANT,
+        "transcript": "NM_170707",
+    }
 
 @pytest.fixture(name="ditto_score_dataset")
 def fixture_ditto_score_dataset():
