@@ -5,8 +5,7 @@ import copy
 import subprocess
 import pytest
 
-from src.core.annotation_task import AnnotationTaskFactory,SubprocessAnnotationTask
-from src.enums import GenomicUnitType
+from src.core.annotation_task import AnnotationTaskFactory, SubprocessAnnotationTask
 from src.core.annotation_unit import AnnotationUnit
 
 
@@ -68,14 +67,6 @@ def test_ditto_subprocess_annotate_failure(subprocess_annotation_ditto_score_tas
 
 ## Fixtures ##
 
-@pytest.fixture(name="hgvs_variant_genomic_unit")
-def fixture_genomic_unit():
-    """Returns the genomic unit 'NM_170707.3:c.745C>T' to be annotated"""
-    return {
-        "unit": "NM_170707.3:c.745C>T",
-        "genomic_unit_type": GenomicUnitType.HGVS_VARIANT,
-        "transcript": "NM_170707",
-    }
 
 @pytest.fixture(name="ditto_score_dataset")
 def fixture_ditto_score_dataset():
@@ -104,11 +95,11 @@ def fixture_ditto_score_dataset():
 
 
 @pytest.fixture(name="hgvs_variant_ditto_annotation_unit")
-def fixture_hgvs_variant_ditto_annotation_unit(hgvs_variant_genomic_unit, ditto_score_dataset):
+def fixture_hgvs_variant_ditto_annotation_unit(hgvs_variant_genomic_unit_for_annotation_tasks, ditto_score_dataset):
     """ Creates and returns a ditto annotation unit with the required dependencies to run """
 
     # Creating a copy of the variant fixture
-    ditto_hgvs_variant_genomic_unit = copy.deepcopy(hgvs_variant_genomic_unit)
+    ditto_hgvs_variant_genomic_unit = copy.deepcopy(hgvs_variant_genomic_unit_for_annotation_tasks)
 
     # Adding dependencies to the genomic unit for ditto
     ditto_hgvs_variant_genomic_unit["chrom"] = "X"

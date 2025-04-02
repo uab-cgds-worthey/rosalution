@@ -34,7 +34,7 @@ def test_transcripts_annotations_exists(transcript_annotation_unit, genomic_unit
 
 @pytest.mark.parametrize(
     "genomic_unit,dataset_name,expected", [('VMA21', 'Entrez Gene Id', True), ('VMA21', 'Entrez Gene Id', False),
-                                           ('NM_001017980.3:c.164G>T', 'ClinVar_Variantion_Id', True)]
+                                           ('NM_001017980.3:c.164G>T', 'ClinVar_Variation_Id', True)]
 )
 def test_genomic_units_annotations_exists(
     genomic_unit, dataset_name, expected, genomic_unit_collection, get_annotation_unit
@@ -82,7 +82,7 @@ def test_find_genomic_unit_with_transcript_id(genomic_unit_collection):
 
 @pytest.mark.parametrize(
     "genomic_unit,dataset_name,expected", [('VMA21', 'Entrez Gene Id', 'wup'), ('VMA21', 'Entrez Gene Id', None),
-                                           ('NM_001017980.3:c.164G>T', 'ClinVar_Variantion_Id', 'wup2')]
+                                           ('NM_001017980.3:c.164G>T', 'ClinVar_Variation_Id', 'wup2')]
 )
 def test_find_genomic_unit_annotation_values(
     genomic_unit, dataset_name, expected, genomic_unit_collection, get_annotation_unit
@@ -157,7 +157,7 @@ def test_annotate_transcript_genomic_unit(genomic_unit_collection):
 @pytest.mark.parametrize(
     "prepare_test_annotate", [('VMA21', 'Entrez Gene Id', "rosalution-manifest-01", 203547, False),
                               ('VMA21', 'Entrez Gene Id', "rosalution-manifest-00", 203550, True),
-                              ('NM_001017980.3:c.164G>T', 'ClinVar_Variantion_Id', "2024-09-06", "581270", False)],
+                              ('NM_001017980.3:c.164G>T', 'ClinVar_Variation_Id', "2024-09-06", "581270", False)],
     indirect=True,
     ids=["new_VMA21_annotation_for_dataset", "new_VMA21_dataset", "new_variant_annotation"]
 )

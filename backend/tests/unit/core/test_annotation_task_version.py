@@ -21,7 +21,7 @@ def test_annotation_versioning_task_created(genomic_unit, dataset_name, get_anno
 @pytest.mark.parametrize(
     "genomic_unit,dataset_name,expected", [
         ('VMA21', 'Entrez Gene Id', {"rosalution": "rosalution-manifest-00"}),
-        ('NM_001017980.3:c.164G>T', 'ClinVar_Variantion_Id', {"rosalution": "rosalution-manifest-00"}),
+        ('NM_001017980.3:c.164G>T', 'ClinVar_Variation_Id', {"rosalution": "rosalution-manifest-00"}),
         ('VMA21', 'Ensembl Gene Id', {"releases": [112]}),
         ('NM_001017980.3:c.164G>T', 'Polyphen Prediction', {"releases": [112]}),
         ('VMA21', 'HPO_NCBI_GENE_ID', {"date": "2024-09-16"}),
@@ -70,4 +70,3 @@ def get_version_annotation_task(get_annotation_unit):
         return VersionAnnotationTask(annotation_unit)
 
     return _create_version_task
-

@@ -1,5 +1,4 @@
 """Tests Annotation Tasks and the creation of them"""
-import copy
 import pytest
 
 from src.core.annotation_task import AnnotationTaskFactory, HttpAnnotationTask
@@ -88,21 +87,6 @@ def test_annotation_extraction_value_error_exception(http_annotation_task_gene, 
 
 ## Fixtures ##
 
-@pytest.fixture(name="gene_ncbi_linkout_dataset")
-def fixture_ncbi_linkout_dataset():
-    """
-    Retrusn the the 'forged' dataset configuration that builds the dataset from a genomic unit and its dependencies
-    """
-    return {
-        "data_set": "NCBI_linkout",
-        "data_source": "Rosalution",
-        "genomic_unit_type": "gene",
-        "annotation_source_type": "forge",
-        "base_string": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term={Entrez Gene Id}",
-        "attribute": "{ \"NCBI_linkout\": .NCBI_linkout }",
-        "dependencies": ["Entrez Gene Id"],
-    }
-
 
 @pytest.fixture(name="gene_hpo_dataset")
 def fixture_gene_hpo_dataset():
@@ -138,16 +122,6 @@ def fixture_http_annotation_empty(gene_genomic_unit, gene_hpo_dataset):
     return task
 
 
-@pytest.fixture(name="hgvs_variant_genomic_unit")
-def fixture_genomic_unit():
-    """Returns the genomic unit 'NM_170707.3:c.745C>T' to be annotated"""
-    return {
-        "unit": "NM_170707.3:c.745C>T",
-        "genomic_unit_type": GenomicUnitType.HGVS_VARIANT,
-        "transcript": "NM_170707",
-    }
-
-
 @pytest.fixture(name="transcript_id_dataset")
 def fixture_transcript_id_dataset():
     """
@@ -165,18 +139,18 @@ def fixture_transcript_id_dataset():
 
 
 @pytest.fixture(name="hgvs_variant_annotation_unit")
-def fixture_hgvs_variant_annotation_unit(hgvs_variant_genomic_unit, transcript_id_dataset):
+def fixture_hgvs_variant_annotation_unit(hgvs_variant_genomic_unit_for_annotation_tasks, transcript_id_dataset):
     """
     Returns the annotation unit with hgvs_variant genomic unit and transcript_id dataset
     """
-    annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit, transcript_id_dataset)
+    annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit_for_annotation_tasks, transcript_id_dataset)
     return annotation_unit
 
 
 @pytest.fixture(name="http_annotation_transcript_id")
-def fixture_http_annotation_transcript_id(hgvs_variant_genomic_unit, transcript_id_dataset):
+def fixture_http_annotation_transcript_id(hgvs_variant_genomic_unit_for_annotation_tasks, transcript_id_dataset):
     """An HTTP annotation task with a single dataset"""
-    annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit, transcript_id_dataset)
+    annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit_for_annotation_tasks, transcript_id_dataset)
     task = HttpAnnotationTask(annotation_unit)
     return task
 
@@ -199,36 +173,12 @@ def fixture_polyphen_prediction_dataset():
     }
 
 
-@pytest.fixture(name="ditto_score_dataset")
-def fixture_ditto_score_dataset():
-    """ Returns a subprocess dataset specifically for ditto """
-
-    return {
-        "data_set": "DITTO",
-        "data_source": "cgds",
-        "genomic_unit_type": "hgvs_variant",
-        "annotation_source_type": "subprocess",
-        "subprocess":
-            "tabix https://s3.lts.rc.uab.edu/cgds-public/dittodb/DITTO_chr{chrom}.tsv.gz chr{chrom}:{pos}-{pos}",
-        "fieldnames": ["chrom", "pos", "ref", "alt", "transcript", "gene", "classification", "ditto"],
-        "delimiter": "\t",
-        "attribute": ".[] += (\"{ensembl_vep_vcf_string}\" | split(\"-\") | {\"vcf_string\": .}) | .[] | " \
-            "select( .chrom == (\"chr\" + .vcf_string[0]) and .vcf_string[1] == .pos and .vcf_string[2] == " \
-            ".ref and .vcf_string[3] == .alt and .transcript ==\"{Ensembl_Transcript_Id}\") | { \"ditto\": .ditto }",
-        "dependencies": [
-            "chrom",
-            "pos",
-            "Ensembl_Transcript_Id",
-            "ensembl_vep_vcf_string"
-        ],
-        "versioning_type": "rosalution"
-    }
-
-
 @pytest.fixture(name="http_annotation_polyphen_prediction")
-def fixture_http_annotation_polyphen_prediction(hgvs_variant_genomic_unit, polyphen_prediction_dataset):
+def fixture_http_annotation_polyphen_prediction(
+    hgvs_variant_genomic_unit_for_annotation_tasks, polyphen_prediction_dataset
+):
     """An HTTP annotation task with a single dataset"""
-    annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit, polyphen_prediction_dataset)
+    annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit_for_annotation_tasks, polyphen_prediction_dataset)
     task = HttpAnnotationTask(annotation_unit)
     return task
 
@@ -265,21 +215,3 @@ def fixture_hpo_annotation_response():
             "db": "OMIM"
         }],
     }
-
-
-@pytest.fixture(name="hgvs_variant_ditto_annotation_unit")
-def fixture_hgvs_variant_ditto_annotation_unit(hgvs_variant_genomic_unit, ditto_score_dataset):
-    """ Creates and returns a ditto annotation unit with the required dependencies to run """
-
-    # Creating a copy of the variant fixture
-    ditto_hgvs_variant_genomic_unit = copy.deepcopy(hgvs_variant_genomic_unit)
-
-    # Adding dependencies to the genomic unit for ditto
-    ditto_hgvs_variant_genomic_unit["chrom"] = "X"
-    ditto_hgvs_variant_genomic_unit["pos"] = "156134910"
-    ditto_hgvs_variant_genomic_unit["Ensembl_Transcript_Id"] = "ENST00000368297"
-    ditto_hgvs_variant_genomic_unit["ensembl_vep_vcf_string"] = "1-156134910-C-T"
-
-    annotation_unit = AnnotationUnit(ditto_hgvs_variant_genomic_unit, ditto_score_dataset)
-
-    return annotation_unit

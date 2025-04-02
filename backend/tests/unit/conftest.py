@@ -6,6 +6,7 @@ import pytest
 from src.core.annotation_unit import AnnotationUnit
 from src.config import Settings
 from src.core.annotation import AnnotationService
+from src.enums import GenomicUnitType
 from src.models.analysis import Analysis
 from src.repository.analysis_collection import AnalysisCollection
 from src.repository.annotation_config_collection import AnnotationConfigCollection
@@ -43,6 +44,12 @@ def fixture_analysis(cpam0002_analysis_json):
 def fixture_cpam0046_analysis(cpam0046_analysis_json):
     """Returns the Analysis for CPAM0046 to verify creating annotation tasks"""
     return Analysis(**cpam0046_analysis_json)
+
+
+@pytest.fixture(name="cpam0112_analysis")
+def fixture_cpam0112_analysis(cpam0112_analysis_json):
+    """Returns the Analysis for CPAM0112 to verify creating annotation tasks that has forge with cached dependency"""
+    return Analysis(**cpam0112_analysis_json)
 
 
 @pytest.fixture(name="analysis_collection_json")
@@ -112,6 +119,17 @@ def fixture_annotation_config_collection(annotation_config_collection_json):
     """Returns the annotation collection for the datasets to be mocked"""
     mock_collection = mock_mongo_collection()
     mock_collection.find = Mock(return_value=annotation_config_collection_json)
+    mock_collection.find_one = Mock(return_value=read_test_fixture("annotations-config.json"))
+    return AnnotationConfigCollection(mock_collection)
+
+
+@pytest.fixture(name="annotation_config_collection_with_forge_using_cached_dataset")
+def fixture_annotation_config_collection_with_cached_dataset():
+    """Returns the annotation collection for the datasets to be mocked"""
+
+    json_from_fixture = read_test_fixture("annotations-config-with-forge-using-cached-dependnecy.json")
+    mock_collection = mock_mongo_collection()
+    mock_collection.find = Mock(return_value=json_from_fixture)
     mock_collection.find_one = Mock(return_value=read_test_fixture("annotations-config.json"))
     return AnnotationConfigCollection(mock_collection)
 
@@ -211,6 +229,17 @@ def fixture_cpam0002_annotation_queue(annotation_config_collection, cpam0002_ana
     return test_queue
 
 
+@pytest.fixture(name="cpam0112_annotation_queue")
+def fixture_cpam0112_annotation_queue(annotation_config_collection_with_forge_using_cached_dataset, cpam0112_analysis):
+    """
+    Returns an thread-safe annotation queue with tasks
+    """
+    annotation_service = AnnotationService(annotation_config_collection_with_forge_using_cached_dataset)
+    test_queue = queue.Queue()
+    annotation_service.queue_annotation_tasks(cpam0112_analysis, test_queue)
+    return test_queue
+
+
 @pytest.fixture(name="transcript_annotation_response")
 def fixture_annotation_response_for_transcript():
     """Returns a mocked response from a web page, particularly ensembl"""
@@ -257,3 +286,13 @@ def fixture_rosalution_settings(settings_json):
 def fixture_users_json():
     """Returns the JSON for the users collection used to seed the MongoDB database"""
     return read_test_fixture("users-test-fixture.json")
+
+
+@pytest.fixture(name="hgvs_variant_genomic_unit_for_annotation_tasks")
+def fixture_genomic_unit():
+    """Returns the genomic unit 'NM_170707.3:c.745C>T' to be annotated"""
+    return {
+        "unit": "NM_170707.3:c.745C>T",
+        "genomic_unit_type": GenomicUnitType.HGVS_VARIANT,
+        "transcript": "NM_170707",
+    }

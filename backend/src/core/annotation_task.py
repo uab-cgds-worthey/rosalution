@@ -168,11 +168,11 @@ class ForgeAnnotationTask(AnnotationTaskInterface):
         """
         value = self.aggregate_string_replacements(self.annotation_unit.dataset['base_string'])
 
-        if( 'base_string_cache' in self.annotation_unit.dataset and self.annotation_unit.dataset['base_string_cache'] ):
-            logger.info(f"{self.annotation_unit.dataset} is a cache dataset, turning into json dict for parsing")
-            value = json.loads( value.replace("'","\"") )
-        
-        return { self.annotation_unit.dataset['data_set']: value }
+        if ('base_string_cache' in self.annotation_unit.dataset and self.annotation_unit.dataset['base_string_cache']):
+            logger.info("%s is a cache dataset, turning into json dict for parsing", self.annotation_unit.dataset)
+            value = json.loads(value.replace("'", "\""))
+
+        return {self.annotation_unit.dataset['data_set']: value}
 
 
 class NoneAnnotationTask(AnnotationTaskInterface):
@@ -274,10 +274,11 @@ class VersionAnnotationTask(AnnotationTaskInterface):
         return version
 
     def get_version_cache_id(self):
+        """Generates the Version's Cache ID used to cache the datasource's version that is calculated for tasks."""
         version_type = self.annotation_unit.dataset['versioning_type']
         if 'rest' == version_type:
             return self.annotation_unit.dataset['version_url']
-        
+
         return self.annotation_unit.dataset['versioning_type']
 
 

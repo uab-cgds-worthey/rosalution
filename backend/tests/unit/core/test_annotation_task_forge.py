@@ -27,18 +27,18 @@ def test_extraction_forge_hgvs_variant_without_transcript_version(hgvs_without_t
     assert actual_extractions[0]['value'] == "NM_001017980:c.745C>T"
 
 
-def test_annotation_forge_from_cache_dataset_dependeny_CADD(forge_annotation_task_hgvs_variant_cadd):
-    """Verifies the jq query used to forge create the transcript without a version dataset for a variant"""
+def test_annotation_forge_from_cache_dataset_dependeny_cadd(forge_annotation_task_hgvs_variant_cadd):
+    """Verifies the forge task annotates a dataset using a cached dataset dependency like the mocked one included"""
     forge_annotation = forge_annotation_task_hgvs_variant_cadd.annotate()
 
     assert 'CADD' in forge_annotation
-    assert type(forge_annotation['CADD']) == list
+    assert isinstance(forge_annotation['CADD'], list)
     assert len(forge_annotation['CADD']) == 1
     assert forge_annotation['CADD'][0]['input'] == "NM_001017980:c.164G>T"
 
 
-def test_extraction_forge_from_cache_dataset_dependeny_CADD(forge_annotation_task_hgvs_variant_cadd):
-    """Verifies the jq query used to forge create the transcript without a version dataset for a variant"""
+def test_extraction_forge_from_cache_dataset_dependeny_cadd(forge_annotation_task_hgvs_variant_cadd):
+    """Verifies the forge task extracts a dataset annotation from a cached dataset dependency like the one included"""
     forge_annotation = forge_annotation_task_hgvs_variant_cadd.annotate()
     actual_extractions = forge_annotation_task_hgvs_variant_cadd.extract(forge_annotation)
     assert actual_extractions[0]['value'] == 24
@@ -57,9 +57,7 @@ def fixture_forge_annotation_task_gene_ncbi_linkout(gene_genomic_unit, gene_ncbi
 
 @pytest.fixture(name="gene_ncbi_linkout_dataset")
 def fixture_ncbi_linkout_dataset():
-    """
-    Retrusn the the 'forged' dataset configuration that builds the dataset from a genomic unit and its dependencies
-    """
+    """Returns 'forged' dataset configuration that builds the dataset from a genomic unit and its dependencies"""
     return {
         "data_set": "NCBI_linkout",
         "data_source": "Rosalution",
@@ -72,7 +70,8 @@ def fixture_ncbi_linkout_dataset():
 
 
 @pytest.fixture(name="cadd_dataset_config")
-def fixture_cadd_please():
+def fixture_cadd_from_cached_dataset_as_dependency():
+    """An annotation configuration for a dataset that uses a cached dataset like the Ensembl HGVS variant call result"""
     return {
         "data_set": "CADD",
         "data_source": "Ensembl",
@@ -80,11 +79,9 @@ def fixture_cadd_please():
         "annotation_source_type": "forge",
         "base_string_cache": True,
         "base_string": "{ENSEMBL_VARIANT_CALL_CACHE}",
-        "attribute": ".CADD | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { CADD: .cadd_phred }",
-        "dependencies": [
-            "transcript",
-            "ENSEMBL_VARIANT_CALL_CACHE"
-        ],
+        "attribute":
+            ".CADD | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { CADD: .cadd_phred }",  # pylint: disable=line-too-long 
+        "dependencies": ["transcript", "ENSEMBL_VARIANT_CALL_CACHE"],
         "versioning_type": "rest",
         "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
         "version_attribute": ".releases[]"
@@ -92,7 +89,7 @@ def fixture_cadd_please():
 
 
 @pytest.fixture(name="forge_annotation_task_hgvs_variant_cadd")
-def fixture_forge_annotation_task_ensembl_cache(hgvs_variant_genomic_unit, cadd_dataset_config): 
+def fixture_forge_annotation_task_ensembl_cache(hgvs_variant_genomic_unit, cadd_dataset_config):
     """Returns a Forge annotation task for the NCBI linkout for the VMA21 Gene genomic unit"""
     annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit, cadd_dataset_config)
     task = ForgeAnnotationTask(annotation_unit)
@@ -108,14 +105,13 @@ def fixture_gene_genomic_unit():
         "genomic_unit_type": GenomicUnitType.GENE,
     }
 
+
 @pytest.fixture(name="hgvs_variant_genomic_unit")
 def fixture_genomic_unit(ensembl_hgvs_variant_call_cache_dataset_value):
     """Returns the genomic unit 'NM_001017980.3:c.745C>T' to be annotated"""
     return {
-        "unit": "NM_001017980.3:c.745C>T",
-        "genomic_unit_type": GenomicUnitType.HGVS_VARIANT,
-        "transcript": "NM_001017980",
-        "ENSEMBL_VARIANT_CALL_CACHE": ensembl_hgvs_variant_call_cache_dataset_value
+        "unit": "NM_001017980.3:c.745C>T", "genomic_unit_type": GenomicUnitType.HGVS_VARIANT,
+        "transcript": "NM_001017980", "ENSEMBL_VARIANT_CALL_CACHE": ensembl_hgvs_variant_call_cache_dataset_value
     }
 
 
@@ -139,132 +135,32 @@ def fixture_hgvs_without_transcript_version(hgvs_variant_genomic_unit):
     return task
 
 
-# @pytest.fixture(name="hgvs_variant_annotation_unit")
-# def fixture_hgvs_variant_annotation_unit(hgvs_variant_genomic_unit, transcript_id_dataset):
-#     """
-#     Returns the annotation unit with hgvs_variant genomic unit and transcript_id dataset
-#     """
-#     annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit, transcript_id_dataset)
-#     return annotation_unit
-
-
-@pytest.fixture(name="hgvs_variant_ditto_annotation_unit")
-def fixture_hgvs_variant_ditto_annotation_unit(hgvs_variant_genomic_unit, ditto_score_dataset):
-    """ Creates and returns a ditto annotation unit with the required dependencies to run """
-
-    # Creating a copy of the variant fixture
-    ditto_hgvs_variant_genomic_unit = copy.deepcopy(hgvs_variant_genomic_unit)
-
-    # Adding dependencies to the genomic unit for ditto
-    ditto_hgvs_variant_genomic_unit["chrom"] = "X"
-    ditto_hgvs_variant_genomic_unit["pos"] = "156134910"
-    ditto_hgvs_variant_genomic_unit["Ensembl_Transcript_Id"] = "ENST00000368297"
-    ditto_hgvs_variant_genomic_unit["ensembl_vep_vcf_string"] = "1-156134910-C-T"
-
-    annotation_unit = AnnotationUnit(ditto_hgvs_variant_genomic_unit, ditto_score_dataset)
-
-    return annotation_unit
-
-
-## !! THIS IS THE TEST ANGELINA WROTE FOR TESTING THE ENSEMBL CACHE !! ##
 @pytest.fixture(name="ensembl_hgvs_variant_call_cache_dataset_value")
-def fixture_please_work():
-    return  [
-        {
-              "input": "NM_001017980:c.164G>T",
-              "id": "NM_001017980:c.164G>T",
-              "vcf_string": "X-151404916-G-T",
-              "most_severe_consequence": "missense_variant",
-              "start": 151404916,
-              "assembly_name": "GRCh38",
-              "seq_region_name": "X",
-              "colocated_variants": [
-                {
-                  "clin_sig": [
-                    "uncertain_significance"
-                  ],
-                  "start": 151404916,
-                  "allele_string": "G/A/T",
-                  "id": "rs1306425454",
-                  "strand": 1,
-                  "seq_region_name": "X",
-                  "phenotype_or_disease": 1,
-                  "var_synonyms": {
-                    "ClinVar": [
-                      "RCV003741639",
-                      "VCV002805126",
-                      "RCV000705011",
-                      "VCV000581244"
-                    ]
-                  },
-                  "end": 151404916,
-                  "clin_sig_allele": "A:uncertain_significance;T:uncertain_significance"
-                }
-              ],
-              "allele_string": "G/T",
-              "transcript_consequences": [
-                {
-                  "codons": "gGc/gTc",
-                  "cadd_raw": 3.96743,
-                  "amino_acids": "G/V",
-                  "gene_id": "203547",
-                  "polyphen_score": 0.607,
-                  "cdna_end": 267,
-                  "gene_symbol": "VMA21",
-                  "sift_score": 0,
-                  "variant_allele": "T",
-                  "cds_start": 164,
-                  "transcript_id": "NM_001017980.4",
-                  "cds_end": 164,
-                  "protein_start": 55,
-                  "strand": 1,
-                  "protein_end": 55,
-                  "used_ref": "G",
-                  "polyphen_prediction": "possibly_damaging",
-                  "impact": "MODERATE",
-                  "cdna_start": 267,
-                  "cadd_phred": 24,
-                  "biotype": "protein_coding",
-                  "consequence_terms": [
-                    "missense_variant",
-                    "splice_region_variant"
-                  ],
-                  "given_ref": "G",
-                  "gene_symbol_source": "EntrezGene",
-                  "sift_prediction": "deleterious"
-                },
-                {
-                  "biotype": "protein_coding",
-                  "cadd_phred": 24,
-                  "given_ref": "G",
-                  "consequence_terms": [
-                    "missense_variant",
-                    "splice_region_variant"
-                  ],
-                  "impact": "MODERATE",
-                  "cdna_start": 574,
-                  "sift_prediction": "deleterious",
-                  "gene_symbol_source": "EntrezGene",
-                  "variant_allele": "T",
-                  "sift_score": 0.01,
-                  "gene_symbol": "VMA21",
-                  "cds_start": 329,
-                  "cadd_raw": 3.96743,
-                  "codons": "gGc/gTc",
-                  "gene_id": "203547",
-                  "amino_acids": "G/V",
-                  "polyphen_score": 0.998,
-                  "cdna_end": 574,
-                  "strand": 1,
-                  "protein_end": 110,
-                  "used_ref": "G",
-                  "polyphen_prediction": "probably_damaging",
-                  "transcript_id": "NM_001363810.1",
-                  "protein_start": 110,
-                  "cds_end": 329
-                }
-              ],
-              "strand": 1,
-              "end": 151404916
-            }
-        ]
+def fixture_ensembl_hgvs_variant_call_cache_dataset_value():
+    """Mocks the dataset value that is returned from the mongodb database for the cached hgvs variant call dataset."""
+    return [{
+        "input": "NM_001017980:c.164G>T", "id": "NM_001017980:c.164G>T", "vcf_string": "X-151404916-G-T",
+        "most_severe_consequence": "missense_variant", "start": 151404916, "assembly_name": "GRCh38",
+        "seq_region_name": "X", "colocated_variants": [{
+            "clin_sig": ["uncertain_significance"], "start": 151404916, "allele_string": "G/A/T", "id": "rs1306425454",
+            "strand": 1, "seq_region_name": "X", "phenotype_or_disease": 1,
+            "var_synonyms": {"ClinVar": ["RCV003741639", "VCV002805126", "RCV000705011", "VCV000581244"]},
+            "end": 151404916, "clin_sig_allele": "A:uncertain_significance;T:uncertain_significance"
+        }], "allele_string": "G/T", "transcript_consequences": [{
+            "codons": "gGc/gTc", "cadd_raw": 3.96743, "amino_acids": "G/V", "gene_id": "203547",
+            "polyphen_score": 0.607, "cdna_end": 267, "gene_symbol": "VMA21", "sift_score": 0, "variant_allele": "T",
+            "cds_start": 164, "transcript_id": "NM_001017980.4", "cds_end": 164, "protein_start": 55, "strand": 1,
+            "protein_end": 55, "used_ref": "G", "polyphen_prediction": "possibly_damaging", "impact": "MODERATE",
+            "cdna_start": 267, "cadd_phred": 24, "biotype": "protein_coding",
+            "consequence_terms": ["missense_variant", "splice_region_variant"], "given_ref": "G",
+            "gene_symbol_source": "EntrezGene", "sift_prediction": "deleterious"
+        }, {
+            "biotype": "protein_coding", "cadd_phred": 24, "given_ref": "G",
+            "consequence_terms": ["missense_variant", "splice_region_variant"], "impact": "MODERATE", "cdna_start": 574,
+            "sift_prediction": "deleterious", "gene_symbol_source": "EntrezGene", "variant_allele": "T",
+            "sift_score": 0.01, "gene_symbol": "VMA21", "cds_start": 329, "cadd_raw": 3.96743, "codons": "gGc/gTc",
+            "gene_id": "203547", "amino_acids": "G/V", "polyphen_score": 0.998, "cdna_end": 574, "strand": 1,
+            "protein_end": 110, "used_ref": "G", "polyphen_prediction": "probably_damaging",
+            "transcript_id": "NM_001363810.1", "protein_start": 110, "cds_end": 329
+        }], "strand": 1, "end": 151404916
+    }]

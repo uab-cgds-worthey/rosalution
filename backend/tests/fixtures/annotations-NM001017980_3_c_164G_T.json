@@ -129,7 +129,7 @@
   ],
   "annotations": [
     {
-      "ClinVar_Variantion_Id": [
+      "ClinVar_Variation_Id": [
         {
           "data_source": "Rosalution",
           "version": "rosalution-manifest-00",

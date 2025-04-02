@@ -1,4 +1,5 @@
 """Tests to verify annotation tasks"""
+
 from unittest.mock import Mock, patch
 import pytest
 
@@ -6,6 +7,8 @@ from src.core.annotation import AnnotationService
 from src.enums import GenomicUnitType
 from src.repository.analysis_collection import AnalysisCollection
 from src.repository.genomic_unit_collection import GenomicUnitCollection
+
+from ...test_utils import SkipDependencies
 
 
 def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_config_collection):
@@ -65,8 +68,13 @@ def test_processing_cpam0002_datasets_with_dependencies(cpam0002_annotation_queu
 
 
 def test_processing_cpam0002_version_annotation_tasks(process_cpam0002_tasks):
-    """ Asserts that each dataset configured to annotate for analysis CPAM0002 calculates the datasets version. """
-    assert process_cpam0002_tasks['version'].call_count == 9
+    """
+    Asserts that each dataset configured to annotate for analysis CPAM0002 calculates the datasets version.
+    This includes the datasets' versions are cached after being calculated the first time. There is one unique
+    version URL for 4 tasks, rosalution version for 3 tasks, and 2 date tasks, resulting in 3 times the version
+    needs to be calculated.
+    """
+    assert process_cpam0002_tasks['version'].call_count == 3
 
 
 @pytest.fixture(name="cpam0046_hgvs_variant_json")
@@ -102,7 +110,7 @@ def fixture_extract_and_annotate_cpam0002(cpam0002_annotation_queue, get_dataset
         patch("src.core.annotation_task.HttpAnnotationTask.annotate") as http_task_annotate,
         patch("src.core.annotation_task.NoneAnnotationTask.annotate") as none_task_annotate
     ):
-        skip_depends = SkipDepedencies()
+        skip_depends = SkipDependencies()
         mock_genomic_unit_collection = Mock(spec=GenomicUnitCollection)
         mock_analysis_collection = Mock(spec=AnalysisCollection)
         mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = (
@@ -116,30 +124,12 @@ def fixture_extract_and_annotate_cpam0002(cpam0002_annotation_queue, get_dataset
         AnnotationService.process_tasks(
             cpam0002_annotation_queue, "CPAM0002", mock_genomic_unit_collection, mock_analysis_collection
         )
+
         yield {
             'extract': extract_task_annotate, 'version': version_task_annotate, 'http': http_task_annotate,
             'none': none_task_annotate, 'forge': forge_task_annotate,
             'genomic_unit_collection': mock_genomic_unit_collection, 'extract_version': extract_task_version_annotate
         }
-
-
-# Disabling PyLint due to this being a simple Mock adapter as a simple test harness for emulating mising a dependency
-class SkipDepedencies:  # pylint: disable=too-few-public-methods
-    """ A skip annotation dependencies helper class that allows tester to dictate which datasets to skip once to
-    emulate a depedency not existing the first time when preparing an Annotation Task for annotation."""
-
-    def __init__(self, dependencies_to_skip=None):
-        """ Dictating the list of  of dataset names to emulate that dataset annotation not existing."""
-        self.skip_tracker = {}
-        self.to_skip = dependencies_to_skip if dependencies_to_skip else ["HGNC_ID"]
-
-    def skip_hgncid_get_value_first_time_mock(self, *args):
-        """ Mock method that tracks if the provided dependencies are one of the ones indicated to skip"""
-        annotation_unit = args[0]
-        name = annotation_unit.get_dataset_name()
-        genomic_unit = annotation_unit.get_genomic_unit()
-        should_skip = (name in self.to_skip and name not in self.skip_tracker)
-        return self.skip_tracker.setdefault(name, None) if should_skip else f"{genomic_unit}-{name}-value"
 
 
 @pytest.fixture(name="process_cpam0046_tasks")
@@ -163,7 +153,7 @@ def fixture_extract_and_annotate_cpam0046(cpam0046_annotation_queue, get_dataset
         patch("src.core.annotation_task.HttpAnnotationTask.annotate") as http_task_annotate,
         patch("src.core.annotation_task.NoneAnnotationTask.annotate") as none_task_annotate
     ):
-        skip_depends = SkipDepedencies()
+        skip_depends = SkipDependencies()
         mock_genomic_unit_collection = Mock(spec=GenomicUnitCollection)
         mock_analysis_collection = Mock(spec=AnalysisCollection)
         mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = (
