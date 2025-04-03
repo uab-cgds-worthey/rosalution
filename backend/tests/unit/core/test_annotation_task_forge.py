@@ -44,6 +44,24 @@ def test_extraction_forge_from_cache_dataset_dependeny_cadd(forge_annotation_tas
     assert actual_extractions[0]['value'] == 24
 
 
+def test_annotation_forge_from_cache_dataset_dependeny_polyphen(forge_annotation_task_hgvs_variant_polyphen):
+    """Verifies the forge task annotates a dataset using a cached dataset dependency like the mocked one included"""
+    forge_annotation = forge_annotation_task_hgvs_variant_polyphen.annotate()
+
+    assert 'Polyphen Prediction' in forge_annotation
+    assert isinstance(forge_annotation['Polyphen Prediction'], list)
+    assert len(forge_annotation['Polyphen Prediction']) == 1
+    assert forge_annotation['Polyphen Prediction'][0]['input'] == "NM_001017980:c.164G>T"
+
+
+def test_extraction_forge_from_cache_dataset_dependeny_polyphen(forge_annotation_task_hgvs_variant_polyphen):
+    """Verifies the forge task annotates a dataset using a cached dataset dependency like the mocked one included"""
+    forge_annotation = forge_annotation_task_hgvs_variant_polyphen.annotate()
+
+    actual_extractions = forge_annotation_task_hgvs_variant_polyphen.extract(forge_annotation)
+    assert actual_extractions[0]['value'] == 'possibly_damaging'
+
+
 ## Fixtures ##
 
 
@@ -88,10 +106,32 @@ def fixture_cadd_from_cached_dataset_as_dependency():
     }
 
 
+@pytest.fixture(name="polyphen_dataset_config")
+def fixture_polyphen_from_cached_dataset_as_dependency():
+    """r.i.p. sanity"""
+    return {
+        "data_set": "Polyphen Prediction", "data_source": "Ensembl", "genomic_unit_type": "hgvs_variant",
+        "transcript": True, "annotation_source_type": "forge", "base_string_cache": True,
+        "base_string": "{ENSEMBL_VARIANT_CALL_CACHE}", "attribute":
+            ".\"Polyphen Prediction\" | .[].transcript_consequences[] | { polyphen_prediction: .polyphen_prediction, transcript_id: .transcript_id }",  # pylint: disable=line-too-long
+        "versioning_type": "rest", "dependencies": ["ENSEMBL_VARIANT_CALL_CACHE"],
+        "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
+        "version_attribute": ".releases[]"
+    }
+
+
 @pytest.fixture(name="forge_annotation_task_hgvs_variant_cadd")
 def fixture_forge_annotation_task_ensembl_cache(hgvs_variant_genomic_unit, cadd_dataset_config):
     """Returns a Forge annotation task for the NCBI linkout for the VMA21 Gene genomic unit"""
     annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit, cadd_dataset_config)
+    task = ForgeAnnotationTask(annotation_unit)
+    return task
+
+
+@pytest.fixture(name="forge_annotation_task_hgvs_variant_polyphen")
+def fixture_forge_annotation_task_ensembl_cache_polyphen(hgvs_variant_genomic_unit, polyphen_dataset_config):
+    """Returns a Forge annotation task for the NCBI linkout for the VMA21 Gene genomic unit"""
+    annotation_unit = AnnotationUnit(hgvs_variant_genomic_unit, polyphen_dataset_config)
     task = ForgeAnnotationTask(annotation_unit)
     return task
 

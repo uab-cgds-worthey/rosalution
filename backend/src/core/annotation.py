@@ -100,6 +100,7 @@ class AnnotationService:
 
             while not processor.annotation_unit_queue_empty() or processor.are_tasks_processing():
                 annotation_unit = processor.queue.get()
+
                 processor.process_annotation_unit(annotation_unit)
                 for task_future in concurrent.futures.as_completed(processor.annotation_task_futures):
                     processor.on_task_complete(task_future)
@@ -117,12 +118,14 @@ class AnnotationProcess():
         """
         Initializes the annotation process to take a queue of AnnotationUnits and run the tasks to annotate them.
         """
-        self.annotation_task_futures = {}
-        self.version_cache = {}
         self.queue = annotation_queue
         self.analysis_name = analysis_name
         self.genomic_unit_collection = genomic_unit_collection
         self.analysis_collection = analysis_collection
+
+        self.annotation_task_futures = {}
+        self.version_cache = {}
+
         self.task_executor = None
 
     def set_tasks_executor(self, task_executor):

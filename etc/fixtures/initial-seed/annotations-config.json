@@ -430,16 +430,17 @@
     "version_attribute": ".releaseVersion"
   },
   {
-    "data_set": "Polyphen Prediction",
+    "data_set":  "Polyphen Prediction",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
     "transcript": true,
-    "annotation_source_type": "http",
-    "url": "http://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | { polyphen_prediction: .polyphen_prediction, transcript_id: .transcript_id }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".\"Polyphen Prediction\" | .[].transcript_consequences[] | { polyphen_prediction: .polyphen_prediction, transcript_id: .transcript_id }",
     "versioning_type": "rest",
     "dependencies": [
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
     "version_attribute": ".releases[]"

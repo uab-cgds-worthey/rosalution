@@ -8,7 +8,7 @@ const fixturePath = '/tmp/fixtures';
 const db = connect(uri); // eslint-disable-line no-undef
 
 const collections = {
-  // 'analyses': require(`${fixturePath}/initial-seed/analyses.json`),
+  'analyses': require(`${fixturePath}/initial-seed/analyses.json`),
   'annotations_config': require(`${fixturePath}/initial-seed/annotations-config.json`),
   // 'users': require(`${fixturePath}/initial-seed/users.json`),
   'genomic_units': require(`${fixturePath}/initial-seed/genomic-units.json`),
