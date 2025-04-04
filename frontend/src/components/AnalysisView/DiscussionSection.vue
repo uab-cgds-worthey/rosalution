@@ -79,6 +79,9 @@
           :actions="actions"
           @post:edit="this.editDiscussionPost"
           @post:delete="this.deleteDiscussionPost"
+          @discussion:new-reply="this.addDiscussionReply"
+          @discussion:edit-reply="this.editDiscussionReply"
+          @discussion:delete-reply="this.deleteDiscussionReply"
       />
     </div>
   </div>
@@ -187,6 +190,33 @@ export default {
         return;
       }
       this.newAttachments.splice(attachmentIndex, 1);
+    },
+    /**
+     * Adds a new discussion reply to the discussion post.
+     *
+     * @param {string} newReplyContent - The content of the new discussion reply.
+    */
+    async addDiscussionReply(newReplyContent) {
+      // await analysisStore.addDiscussionPost(newReplyContent);
+      console.log('adding new Discussion Reply with Content' + newReplyContent);
+    },
+    /**
+     * Adds a new discussion reply to the discussion post.
+     *
+     * @param {string} newReplyContent - The content of the new discussion reply.
+    */
+    async editDiscussionReply(ReplyContent) {
+      // await analysisStore.addDiscussionPost(newReplyContent);
+      console.log('editing Discussion Reply with Content' + ReplyContent);
+    },
+    /**
+     * Adds a new discussion reply to the discussion post.
+     *
+     * @param {string} newReplyContent - The content of the new discussion reply.
+    */
+    async deleteDiscussionReply(replyId) {
+      // await analysisStore.addDiscussionPost(newReplyContent);
+      console.log('deleted Discussion Reply');
     },
   },
 };

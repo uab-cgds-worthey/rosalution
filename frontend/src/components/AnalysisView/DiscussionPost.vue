@@ -1,4 +1,5 @@
 <template>
+<div class="discussion-post-container">
   <div class="discussion-post" data-test="discussion-post">
       <div class="discussion-header" data-test="discussion-post-header">
         <div>
@@ -54,20 +55,60 @@
           :attachment="attachment"
         >
         </DiscussionAttachment>
+    </div>
+    <button class="discussion-reply-button" @click="newDiscussionReplyForm">
+      <font-awesome-icon icon="reply" size="lg"/>
+    </button>
+  </div>
+  <div class="discussion-new-reply" v-if="this.showNewReply">
+      <textarea
+        contenteditable="plaintext-only"
+        class="discussion-new-reply-text-area"
+      />
+      <div class="discussion-reply-actions">
+        <button
+          class="secondary-button discussion-cancel-new-reply"
+          @click="cancelNewDiscussionReply"
+        >
+          Cancel
+        </button>
+        <button
+            class="primary-button discussion-reply-publish-button"
+            @click="newDiscussionReply"
+        >
+          Publish
+        </button>
       </div>
   </div>
+  <DiscussionReply v-for="reply in repliesThread"
+    :replyId="reply.id"
+    :key="reply.id"
+    :authorId="reply.author_id"
+    :authorName="reply.author_fullname"
+    :publishTimestamp="reply.publish_timestamp"
+    :content="reply.content"
+    :userClientId="userClientId"
+    :actions="actions"
+    @reply:edit="this.editDiscussionReply"
+    @reply:delete="this.deleteDiscussionReply"
+  />
+</div>
 </template>
 
 <script>
 import ContextMenu from '@/components/ContextMenu.vue';
 import DiscussionAttachment from './DiscussionAttachment.vue';
+import DiscussionReply from './DiscussionReply.vue';
+
+import {toRaw} from 'vue';
 
 export default {
   name: 'discussion-post',
-  emits: ['post:edit', 'post:delete', 'attachment:download'],
+  emits: ['post:edit', 'post:delete', 'discussion:new-reply', 'discussion:edit-reply', 'discussion:delete-reply'],
   components: {
     ContextMenu,
     DiscussionAttachment,
+    DiscussionReply,
   },
   props: {
     id: {
@@ -88,10 +129,7 @@ export default {
     attachments: {
       type: Array,
     },
-    existingAttachment: {
-      type: Array,
-    },
-    thread: {
+    repliesThread: {
       type: Array,
     },
     userClientId: {
@@ -105,6 +143,7 @@ export default {
     return {
       editingPostFlag: false,
       editPostContent: this.content,
+      showNewReply: false,
     };
   },
   computed: {
@@ -113,6 +152,9 @@ export default {
     },
     isUser: function() {
       return this.userClientId == this.authorId;
+    },
+    isReply: function() {
+      return this.repliesThread == 0;
     },
   },
   methods: {
@@ -129,6 +171,23 @@ export default {
     },
     deletePost(postId) {
       this.$emit('post:delete', postId);
+    },
+    newDiscussionReplyForm() {
+      console.log('New Discussion Reply Opened');
+      this.showNewReply = true;
+    },
+    newDiscussionReply() {
+      console.log('New Discussion Reply Posted');
+      this.$emit('discussion:new-reply', toRaw(this.newReplyContent));
+      this.clearNewDiscussionReplyField();
+    },
+    cancelNewDiscussionReply() {
+      this.clearNewDiscussionReplyField();
+    },
+    clearNewDiscussionReplyField() {
+      this.newReplyContent = '';
+      this.showNewReply = false;
+      console.log('New Discussion Reply Cancelled and Cleared');
     },
   },
 };
@@ -222,5 +281,47 @@ export default {
   gap: var(--p-5);
 }
 
+.discussion-reply-button {
+  display: flex;
+  justify-self: flex-end;
+  border: none;
+  background: none;
+  size: 2rem;
+}
+
+.discussion-new-reply {
+  background-color: var(--rosalution-grey-50);
+  border-radius: var(--content-border-radius);
+  margin-top: var(--p-8);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.discussion-new-reply-text-area {
+  background-color: var(--rosalution-white);
+  border-radius: var(--content-border-radius);
+  border: solid;
+  border-color: var(--rosalution-grey-000);
+  padding: var(--p-16);
+  margin: var(--p-10);
+  position: relative;
+  width: 100%;
+}
+
+.discussion-reply-actions {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-right: var(--p-16);
+  margin-bottom: var(--p-10);
+}
+
+.discussion-reply-publish-button {
+  margin-left: var(--p-8);
+}
 
 </style>
