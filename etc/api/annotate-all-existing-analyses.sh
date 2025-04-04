@@ -55,14 +55,14 @@ echo " /_/    \_\_| |_|_| |_|\___/ \__\__,_|\__|_|\___/|_| |_|"
 echo "Rosalution URL: $BASE_URL..."
 echo ""
 
-if [[ ! -v ROSALUTION_CLIENT_ID ]]; then
+if [ ! -n "${ROSALUTION_CLIENT_ID+set}" ]; then
   echo "Please enter your Client Id";
   read -r CLIENT_ID;
 else
   CLIENT_ID=$ROSALUTION_CLIENT_ID
 fi
 
-if [[ ! -v ROSALUTION_CLIENT_SECRET ]]; then
+if [ ! -n "${ROSALUTION_CLIENT_SECRET+set}" ]; then
   echo "Please enter your Client Secret";
   read -r -s CLIENT_SECRET;
 else
