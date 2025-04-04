@@ -110,11 +110,17 @@ def fixture_cadd_from_cached_dataset_as_dependency():
 def fixture_polyphen_from_cached_dataset_as_dependency():
     """r.i.p. sanity"""
     return {
-        "data_set": "Polyphen Prediction", "data_source": "Ensembl", "genomic_unit_type": "hgvs_variant",
-        "transcript": True, "annotation_source_type": "forge", "base_string_cache": True,
-        "base_string": "{ENSEMBL_VARIANT_CALL_CACHE}", "attribute":
+        "data_set": "Polyphen Prediction",
+        "data_source": "Ensembl",
+        "genomic_unit_type": "hgvs_variant",
+        "transcript": True,
+        "annotation_source_type": "forge",
+        "base_string_cache": True,
+        "base_string": "{ENSEMBL_VARIANT_CALL_CACHE}",
+        "attribute":
             ".\"Polyphen Prediction\" | .[].transcript_consequences[] | { polyphen_prediction: .polyphen_prediction, transcript_id: .transcript_id }",  # pylint: disable=line-too-long
-        "versioning_type": "rest", "dependencies": ["ENSEMBL_VARIANT_CALL_CACHE"],
+        "versioning_type": "rest",
+        "dependencies": ["ENSEMBL_VARIANT_CALL_CACHE"],
         "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
         "version_attribute": ".releases[]"
     }

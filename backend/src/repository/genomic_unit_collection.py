@@ -2,6 +2,7 @@
 Manages the annotation configuration of various genomic units according to the
 type of Genomic Unit.
 """
+import json
 import logging
 
 from bson import ObjectId
@@ -193,6 +194,7 @@ class GenomicUnitCollection:
             self.add_transcript_to_genomic_unit(genomic_unit, transcript_id)
             genomic_unit_document = self.find_genomic_unit_with_transcript_id(genomic_unit, transcript_id)
 
+        logger.warning(genomic_unit_document)
         for transcript in genomic_unit_document['transcripts']:
             if transcript["transcript_id"] == transcript_id:
                 self.__add_to_annotations_from_document(transcript['annotations'], dataset_name, genomic_annotation)

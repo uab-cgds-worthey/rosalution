@@ -122,7 +122,7 @@ def fixture_extract_and_annotate_cpam0002(cpam0002_annotation_queue, get_dataset
         mock_genomic_unit_collection.annotation_exist.return_value = False
 
         AnnotationService.process_tasks(
-            cpam0002_annotation_queue, "CPAM0002", mock_genomic_unit_collection, mock_analysis_collection
+            cpam0002_annotation_queue, mock_genomic_unit_collection, mock_analysis_collection
         )
 
         yield {
@@ -164,7 +164,7 @@ def fixture_extract_and_annotate_cpam0046(cpam0046_annotation_queue, get_dataset
         mock_genomic_unit_collection.annotation_exist.return_value = False
 
         AnnotationService.process_tasks(
-            cpam0046_annotation_queue, "CPAM0046", mock_genomic_unit_collection, mock_analysis_collection
+            cpam0046_annotation_queue, mock_genomic_unit_collection, mock_analysis_collection
         )
         yield {
             'extract': extract_task_annotate, 'version': version_task_annotate, 'http': http_task_annotate,

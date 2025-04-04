@@ -99,10 +99,9 @@ class AnnotationTaskInterface:
                 replaced_attributes = self.aggregate_string_replacements(self.annotation_unit.dataset['attribute'])
                 jq_results = self.__json_extract__(replaced_attributes, incomming_json)
             except ValueError as value_error:
-                logger.info((
-                    'Failed to annotate "%s" from "%s" on %s with error "%s"', annotation_unit_json['data_set'],
-                    annotation_unit_json['data_source'], json.dumps(incomming_json), value_error
-                ))
+                raise RuntimeError(
+                    f"Failed to annotate \"{annotation_unit_json['data_set']}\" from \"{annotation_unit_json['data_source']}\" on \"{json.dumps(incomming_json)}\" within task extract: \"{value_error}\""
+                )
             jq_result = next(jq_results, None)
             while jq_result is not None:
                 result_keys = list(jq_result.keys())
@@ -143,7 +142,7 @@ class AnnotationTaskInterface:
             try:
                 jq_result = self.__json_extract__(jq_query, incoming_version_json)
             except ValueError as value_error:
-                logger.info(('Failed to extract version', value_error))
+                raise RuntimeError('Failed to extract version from: %s', incoming_version_json) from value_error
             jq_result = next(jq_result, None)
             version = jq_result
 
@@ -169,7 +168,6 @@ class ForgeAnnotationTask(AnnotationTaskInterface):
         value = self.aggregate_string_replacements(self.annotation_unit.dataset['base_string'])
 
         if ('base_string_cache' in self.annotation_unit.dataset and self.annotation_unit.dataset['base_string_cache']):
-            logger.info("%s is a cache dataset, turning into json dict for parsing", self.annotation_unit.dataset)
             value = json.loads(value.replace("'", "\""))
 
         return {self.annotation_unit.dataset['data_set']: value}
@@ -215,8 +213,16 @@ class HttpAnnotationTask(AnnotationTaskInterface):
     def annotate(self):
         """builds the complete url and fetches the annotation with an http request"""
         url_to_query = self.build_url()
-        result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"}, timeout=30)
-        json_result = result.json()
+
+        json_result = {}
+        try:
+            result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"}, timeout=30)
+            json_result = result.json()
+        except requests.exceptions.JSONDecodeError as error:
+            raise RuntimeError(
+                f"Failed to annotate \"{self.annotation_unit.get_dataset_name()}\" from \"{self.annotation_unit.get_dataset_source()}\" on \"{result.text}\" within annotate: \"{error}\""
+            )
+
         return json_result
 
     def build_url(self):

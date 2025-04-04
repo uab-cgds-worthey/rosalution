@@ -337,7 +337,7 @@
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}/models?limit=100",
-    "attribute": "{ \"Rat_Alliance_Genome_Models\": [.results[]] }",
+    "attribute": "{ \"Rat_Alliance_Genome_Models\": (if .total != 0 then [.results[]] else empty end) }",
     "dependencies": [
       "Rat Gene Identifier"
     ],
@@ -379,7 +379,7 @@
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/gene/{Mouse Gene Identifier}/models?limit=100",
-    "attribute": "{ \"Mouse_Alliance_Genome_Models\": [.results[]] }",
+    "attribute": "{ \"Mouse_Alliance_Genome_Models\": (if .total != 0 then [.results[]] else empty end) }",
     "dependencies": [
       "Mouse Gene Identifier"
     ],
@@ -421,7 +421,7 @@
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/gene/{Zebrafish Gene Identifier}/models?limit=100",
-    "attribute": "{ \"Zebrafish_Alliance_Genome_Models\": [.results[]] }",
+    "attribute": "{ \"Zebrafish_Alliance_Genome_Models\": (if .total != 0 then [.results[]] else empty end) }",
     "dependencies": [
       "Zebrafish Gene Identifier"
     ],

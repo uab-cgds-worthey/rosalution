@@ -6,10 +6,14 @@ import copy
 class AnnotationUnit:
     """ Annotation Unit Class that houses the Genomic Unit and its corresponding dataset """
 
-    def __init__(self, genomic_unit, dataset):
+    def __init__(self, genomic_unit, dataset, analysis_name: str = ""):
         self.genomic_unit = copy.deepcopy(genomic_unit)
         self.dataset = dataset
         self.version = ""
+        self.analysis_name = analysis_name
+
+    def toString(self):
+        return f"{self.genomic_unit['unit']}     {self.dataset['data_set']}     {self.dataset['data_source']}     {self.dataset['version']}"
 
     def get_genomic_unit(self):
         """Returns 'unit' from genomic_unit"""

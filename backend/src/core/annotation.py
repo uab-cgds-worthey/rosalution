@@ -3,6 +3,8 @@ import concurrent
 import logging
 import queue
 
+from requests.exceptions import JSONDecodeError
+
 from ..repository.analysis_collection import AnalysisCollection
 from ..repository.genomic_unit_collection import GenomicUnitCollection
 
@@ -82,18 +84,18 @@ class AnnotationService:
         for genomic_unit in units_to_annotate:
             genomic_unit_type = genomic_unit["type"].value
             for dataset in annotation_configuration[genomic_unit_type]:
-                annotation_unit_queued = AnnotationUnit(genomic_unit, dataset)
+                annotation_unit_queued = AnnotationUnit(genomic_unit, dataset, analysis_name=analysis.name)
                 annotation_task_queue.put(annotation_unit_queued)
 
     @staticmethod
     def process_tasks(
-        annotation_queue: AnnotationQueue, analysis_name: str, genomic_unit_collection: GenomicUnitCollection,
+        annotation_queue: AnnotationQueue, genomic_unit_collection: GenomicUnitCollection,
         analysis_collection: AnalysisCollection
     ):  # pylint: disable=too-many-branches,too-many-locals
         """Processes items that have been added to the queue"""
         logger.info("%s Processing annotation tasks queue ...", annotation_log_label())
 
-        processor = AnnotationProcess(annotation_queue, analysis_name, genomic_unit_collection, analysis_collection)
+        processor = AnnotationProcess(annotation_queue, genomic_unit_collection, analysis_collection)
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=5) as task_executor:
             processor.set_tasks_executor(task_executor)
@@ -112,14 +114,13 @@ class AnnotationProcess():
     """Processes the annotation queue for annotations"""
 
     def __init__(
-        self, annotation_queue: AnnotationQueue, analysis_name: str, genomic_unit_collection: GenomicUnitCollection,
+        self, annotation_queue: AnnotationQueue, genomic_unit_collection: GenomicUnitCollection,
         analysis_collection: AnalysisCollection
     ):
         """
         Initializes the annotation process to take a queue of AnnotationUnits and run the tasks to annotate them.
         """
         self.queue = annotation_queue
-        self.analysis_name = analysis_name
         self.genomic_unit_collection = genomic_unit_collection
         self.analysis_collection = analysis_collection
 
@@ -201,7 +202,7 @@ class AnnotationProcess():
 
                 logger.info('%s Version Calculated %s...', format_annotation_logging(annotation_unit), version)
 
-                self.analysis_collection.add_dataset_to_manifest(self.analysis_name, annotation_unit)
+                self.analysis_collection.add_dataset_to_manifest(annotation_unit.analysis_name, annotation_unit)
                 self.queue.put(annotation_unit)
             else:
                 for annotation in task.extract(task_process_result):
@@ -214,10 +215,18 @@ class AnnotationProcess():
                     self.genomic_unit_collection.annotate_genomic_unit(annotation_unit.genomic_unit, annotation)
 
         except FileNotFoundError as error:
-            logger.info(
-                '%s exception happened %s with %s and %s', annotation_log_label(), error, annotation_unit.genomic_unit,
-                task
+            logger.error(
+                '%s Exception [%s] with Not Found [%s]', format_annotation_logging(annotation_unit), error, task
             )
+            logger.exception(error)
+        except TypeError as typeError:
+            logger.error(
+                '%s Exception [%s] with Type [%s]', format_annotation_logging(annotation_unit), typeError, task
+            )
+            logger.exception(typeError)
+        except RuntimeError as runtimeError:
+            logger.error('%s Exception [%s] with [%s]', format_annotation_logging(annotation_unit), runtimeError, task)
+            logger.exception(runtimeError)
 
         del self.annotation_task_futures[future]
 
@@ -260,7 +269,7 @@ class AnnotationProcess():
             logger.info(
                 '%s Version Gathered from Cache %s...', format_annotation_logging(annotation_unit), cached_version
             )
-            self.analysis_collection.add_dataset_to_manifest(self.analysis_name, annotation_unit)
+            self.analysis_collection.add_dataset_to_manifest(annotation_unit.analysis_name, annotation_unit)
 
         self.queue.put(annotation_unit)
 
@@ -269,12 +278,13 @@ class AnnotationProcess():
         missing_dependencies = annotation_unit.get_missing_dependencies()
         for missing_dataset_name in missing_dependencies:
             analysis_manifest_dataset = self.analysis_collection.get_manifest_dataset_config(
-                self.analysis_name, missing_dataset_name
+                annotation_unit.analysis_name, missing_dataset_name
             )
             if analysis_manifest_dataset is None:
                 continue
 
-            dependency_annotation_unit = AnnotationUnit(annotation_unit.genomic_unit, analysis_manifest_dataset)
+            dependency_annotation_unit = \
+                AnnotationUnit(annotation_unit.genomic_unit, analysis_manifest_dataset, annotation_unit.analysis_name)
             dependency_annotation_unit.set_latest_version(analysis_manifest_dataset['version'])
 
             annotation_value = self.genomic_unit_collection.find_genomic_unit_annotation_value(
