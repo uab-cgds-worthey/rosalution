@@ -145,7 +145,7 @@ class GenomicUnitCollection:
         logger.warning("WHY DIS FAIL!!!!!")
         error_string = f"find_genomic_unit_with_transcripts_id(): {query}"
         logger.warning(error_string)
-        logger.warning(result)
+        # logger.warning(result)
         logger.warning("---------end-------find_genomic_unit_with")
 
 

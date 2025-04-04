@@ -261,7 +261,7 @@ class AnnotationProcess():
         if self.is_version_cached(version_cache_id):
             logger.debug("Version Cache... %s", self.version_cache)
             cached_version = self.version_cache[version_cache_id]
-            logger.info("Version Cache Exists for %s... %s", version_cache_id, cached_version)
+            logger.info("%s Version Cache Exists for %s... %s", format_annotation_logging(annotation_unit), version_cache_id, cached_version)
             annotation_unit.set_latest_version(cached_version)
             logger.info(
                 '%s Version Gathered from Cache %s...', format_annotation_logging(annotation_unit), cached_version
