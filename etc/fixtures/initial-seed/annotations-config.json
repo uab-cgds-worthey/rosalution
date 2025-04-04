@@ -439,8 +439,7 @@
     "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
     "attribute": ".\"Polyphen Prediction\" | .[].transcript_consequences[] | { polyphen_prediction: .polyphen_prediction, transcript_id: .transcript_id }",
     "versioning_type": "rest",
-    "dependencies": [
-      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
+    "dependencies": ["ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
     "version_attribute": ".releases[]"
@@ -450,13 +449,14 @@
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
     "transcript": true,
-    "annotation_source_type": "http",
-    "url": "http://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | { polyphen_score: .polyphen_score, transcript_id: .transcript_id }",
-    "versioning_type": "rest",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".\"Polyphen Score\" | .[].transcript_consequences[] | { polyphen_score: .polyphen_score, transcript_id: .transcript_id }",
     "dependencies": [
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
+    "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
     "version_attribute": ".releases[]"
   },
@@ -465,13 +465,14 @@
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
     "transcript": true,
-    "annotation_source_type": "http",
-    "url": "http://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | { sift_prediction: .sift_prediction, transcript_id: .transcript_id }",
-    "versioning_type": "rest",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".\"SIFT Prediction\" | .[].transcript_consequences[] | { sift_prediction: .sift_prediction, transcript_id: .transcript_id }",
     "dependencies": [
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
+    "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
     "version_attribute": ".releases[]"
   },
@@ -480,13 +481,14 @@
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
     "transcript": true,
-    "annotation_source_type": "http",
-    "url": "http://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | { sift_score: .sift_score, transcript_id: .transcript_id }",
-    "versioning_type": "rest",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".\"SIFT Score\" | .[].transcript_consequences[] | { sift_score: .sift_score, transcript_id: .transcript_id }",
     "dependencies": [
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
+    "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
     "version_attribute": ".releases[]"
   },
@@ -495,11 +497,12 @@
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
     "transcript": true,
-    "annotation_source_type": "http",
-    "url": "http://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | { consequence_terms: .consequence_terms, transcript_id: .transcript_id }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".Consequences | .[].transcript_consequences[] | { consequence_terms: .consequence_terms, transcript_id: .transcript_id }",
     "dependencies": [
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -514,7 +517,6 @@
     "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
     "attribute": ".CADD | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { CADD: .cadd_phred }",
     "dependencies": [
-      "transcript",
       "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
@@ -525,12 +527,13 @@
     "data_set": "alphamissense_pathogenicity",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;AlphaMissense=1;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { alphamissense: .alphamissense.am_pathogenicity }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".alphamissense_pathogenicity | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { alphamissense: .alphamissense.am_pathogenicity }",
     "dependencies": [
       "transcript",
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -540,12 +543,13 @@
     "data_set": "alphamissense_classification",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;AlphaMissense=1;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { alphamissense: .alphamissense.am_class }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".alphamissense_classification | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { alphamissense: .alphamissense.am_class }",
     "dependencies": [
       "transcript",
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -555,12 +559,13 @@
     "data_set": "revel",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;AlphaMissense=1;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { revel: .revel }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".revel | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { revel: .revel }",
     "dependencies": [
       "transcript",
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -571,12 +576,13 @@
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
     "transcript": true,
-    "annotation_source_type": "http",
-    "url": "http://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | { impact: .impact, transcript_id: .transcript_id }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".Impact | .[].transcript_consequences[] | { impact: .impact, transcript_id: .transcript_id }",
     "versioning_type": "rest",
     "dependencies": [
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
     "version_attribute": ".releases[]"
@@ -678,8 +684,7 @@
     "annotation_source_type": "forge",
     "base_string": "https://spliceailookup.broadinstitute.org/#variant={hgvs_variant_without_transcript_version}&hg=38&bc=basic&distance=500&mask=0&ra=0",
     "attribute": "{ \"SpliceAI_variant_linkout\": .SpliceAI_variant_linkout }",
-    "dependencies": [
-      "hgvs_variant_without_transcript_version"
+    "dependencies": ["hgvs_variant_without_transcript_version"
     ],
     "versioning_type": "rosalution"
   },
@@ -687,12 +692,13 @@
     "data_set": "opencravat_search_variant_vcf_string",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;CADD=1;refseq=1;vcf_string=1;",
-    "attribute": ".[] | .vcf_string | split(\"-\") | \"chrom=chr\" + .[0] + \"&pos=\" + .[1] + \"&ref_base=\" + .[2] + \"&alt_base=\" + .[3] | {\"opencravat_search_variant_vcf_string\": . }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".opencravat_search_variant_vcf_string | .[] | .vcf_string | split(\"-\") | \"chrom=chr\" + .[0] + \"&pos=\" + .[1] + \"&ref_base=\" + .[2] + \"&alt_base=\" + .[3] | {\"opencravat_search_variant_vcf_string\": . }",
     "versioning_type": "rest",
     "dependencies": [
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
     "version_attribute": ".releases[]"
@@ -728,8 +734,7 @@
     "genomic_unit_type": "hgvs_variant",
     "base_string": "{hgvs_variant_without_transcript_version}",
     "attribute": ".transcript_without_version | split(\":\") | { \"transcript_without_version\": .[0] }",
-    "dependencies": [
-      "hgvs_variant_without_transcript_version"
+    "dependencies": ["hgvs_variant_without_transcript_version"
     ],
     "versioning_type": "rosalution"
   },
@@ -740,8 +745,7 @@
     "annotation_source_type": "http",
     "url": "https://rest.ensembl.org/xrefs/symbol/homo_sapiens/{transcript_without_version}?content-type=application/json;object_type=transcript",
     "attribute": "{ \"Ensembl_Transcript_Id\": .[0].id }",
-    "dependencies": [
-      "transcript_without_version"
+    "dependencies": ["transcript_without_version"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -772,9 +776,7 @@
     "base_string_cache": true,
     "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
     "attribute": ".spliceai_acceptor_loss | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_acceptor_loss: .spliceai.DS_AL }",
-    "dependencies": [
-      "transcript",
-      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
+    "dependencies": ["ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -788,8 +790,7 @@
     "base_string_cache": true,
     "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
     "attribute": ".spliceai_donor_loss | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_donor_loss: .spliceai.DS_DL }",
-    "dependencies": [
-      "transcript",
+    "dependencies": ["transcript",
       "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
@@ -804,8 +805,7 @@
     "base_string_cache": true,
     "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
     "attribute": ".spliceai_acceptor_gain | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_acceptor_gain: .spliceai.DS_AG }",
-    "dependencies": [
-      "transcript",
+    "dependencies": ["transcript",
       "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",

@@ -4,6 +4,7 @@ type of Genomic Unit.
 """
 import json
 import logging
+from types import NoneType
 
 from bson import ObjectId
 from pymongo import ReturnDocument
@@ -135,17 +136,36 @@ class GenomicUnitCollection:
 
     def find_genomic_unit_with_transcript_id(self, genomic_unit, transcript_id):
         """ Returns the genomic unit with the corresponding transcript if it exists """
-        return self.collection.find_one({
+        query = {
             genomic_unit['type'].value: genomic_unit['unit'],
             'transcripts.transcript_id': transcript_id,
-        })
+        }
+        result = self.collection.find_one(query)
+
+        logger.warning("WHY DIS FAIL!!!!!")
+        error_string = f"find_genomic_unit_with_transcripts_id(): {query}"
+        logger.warning(error_string)
+        logger.warning(result)
+        logger.warning("---------end-------find_genomic_unit_with")
+
+
+        return result
 
     def add_transcript_to_genomic_unit(self, genomic_unit, transcript_id):
         """ Takes a genomic unit and transcript id and updates the document with a new transcript """
-        return self.collection.update_one(
-            {genomic_unit['type'].value: genomic_unit['unit']},
-            {'$addToSet': {'transcripts': {'transcript_id': transcript_id, 'annotations': []}}},
+        logger.warning('add_transcript_to_genomic_unit----start-----')
+        query = {genomic_unit['type'].value: genomic_unit['unit']}
+        operation = {'$addToSet': {'transcripts': {'transcript_id': transcript_id, 'annotations': []}}}
+        result = self.collection.find_one_and_update(
+            query,
+            operation,
+            return_document=ReturnDocument.AFTER
         )
+        if( result ):
+            logger.warning("Number of transcripts updated with %s for %s: ", len(result['transcripts']), query)
+
+        logger.warning('add_transcript_to_genomic_unit----end-----')
+        return result
 
     def update_genomic_unit_by_mongo_id(self, genomic_unit_document):
         """ Takes a genomic unit and overwrites the existing object based on the object's id """
@@ -191,10 +211,15 @@ class GenomicUnitCollection:
         genomic_unit_document = self.find_genomic_unit_with_transcript_id(genomic_unit, transcript_id)
 
         if not genomic_unit_document:
-            self.add_transcript_to_genomic_unit(genomic_unit, transcript_id)
-            genomic_unit_document = self.find_genomic_unit_with_transcript_id(genomic_unit, transcript_id)
+            logger.warning('------- DID IT NOT EXIST?! thats ok, lets make it')
+            # logger.warning(genomic_unit_document)
+            genomic_unit_document = self.add_transcript_to_genomic_unit(genomic_unit, transcript_id)
+            # genomic_unit_document = self.find_genomic_unit_with_transcript_id(genomic_unit, transcript_id)
+            if( not genomic_unit_document or isinstance(genomic_unit_document, NoneType) ):
+                logger.warning('transcript did not work - fail whale')
+            logger.warning("ABOVE RESULT IS AFTER THE RE_QUERYING OF IT")
 
-        logger.warning(genomic_unit_document)
+        # logger.warning(genomic_unit_document)
         for transcript in genomic_unit_document['transcripts']:
             if transcript["transcript_id"] == transcript_id:
                 self.__add_to_annotations_from_document(transcript['annotations'], dataset_name, genomic_annotation)

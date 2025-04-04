@@ -12,6 +12,8 @@ class AnnotationUnit:
         self.version = ""
         self.analysis_name = analysis_name
 
+        self.transcript_provisioned = False
+
     def toString(self):
         return f"{self.genomic_unit['unit']}     {self.dataset['data_set']}     {self.dataset['data_source']}     {self.dataset['version']}"
 
@@ -35,6 +37,21 @@ class AnnotationUnit:
         """Returns true if the dataset is for a transcript"""
         return 'transcript' in self.dataset
 
+    def if_transcript_needs_provisioning(self):
+        """
+        Returns true if the dataset is a transcript, and will need
+        'transcript_id' to already exist as an annotation
+        """
+        return self.is_transcript_dataset() and self.get_dataset_name() != "transcript_id"
+
+    def set_transcript_provisioned(self, flag: bool):
+        """Update the transcript dataset indicating whether it is ready for annotation"""
+        self.transcript_provisioned = flag
+    
+    def is_transcript_provisioned(self):
+        """Returns True when a Transcript dataset is transcript is provisioned to annotate."""
+        return self.transcript_provisioned
+
     def get_genomic_unit_type(self):
         """Return's 'genomic_unit_type' from dataset"""
         return self.dataset['genomic_unit_type']
@@ -44,8 +61,8 @@ class AnnotationUnit:
         return self.genomic_unit['type'].value
 
     def has_dependencies(self):
-        """Checks if the annotation unit's dataset has dependencies"""
-        return "dependencies" in self.dataset
+        """Checks if the dataset is configured with dependencies"""
+        return "dependencies" in self.dataset or self.is_transcript_dataset()
 
     def get_dependencies(self):
         """Returns dependencies of the dataset of the annotation unit"""
@@ -75,7 +92,19 @@ class AnnotationUnit:
         and calls the assign_annotation_value_to_dependency() function if ready
         """
         missing_dependencies = self.get_missing_dependencies()
-        return len(missing_dependencies) == 0
+        conditions_list = [len(missing_dependencies) == 0]
+
+        if self.if_transcript_needs_provisioning():
+            conditions_list.append(self.is_transcript_provisioned())
+
+        return all(conditions_list)
+    
+    def get_missing_conditions(self):
+        missing_conditions = [*self.get_missing_dependencies()]
+
+        if self.if_transcript_needs_provisioning() and not self.is_transcript_provisioned():
+            missing_conditions.append("transcript_id")
+        return missing_conditions
 
     def set_annotation_for_dependency(self, missing_dependency_name, dependency_annotation_value):
         """

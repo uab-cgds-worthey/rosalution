@@ -3,8 +3,6 @@ import concurrent
 import logging
 import queue
 
-from requests.exceptions import JSONDecodeError
-
 from ..repository.analysis_collection import AnalysisCollection
 from ..repository.genomic_unit_collection import GenomicUnitCollection
 
@@ -166,14 +164,14 @@ class AnnotationProcess():
             if annotation_unit.should_continue_annotation():
                 logger.info(
                     '%s Delaying Annotation, Missing %s Dependencies %s/10 times...',
-                    format_annotation_logging(annotation_unit), annotation_unit.get_missing_dependencies(),
+                    format_annotation_logging(annotation_unit), annotation_unit.get_missing_conditions(),
                     annotation_unit.get_delay_count() + 1
                 )
                 self.queue.put(annotation_unit)
             else:
                 logger.info(
                     '%s Canceling Annotation, Missing %s Dependencies...', format_annotation_logging(annotation_unit),
-                    annotation_unit.get_missing_dependencies()
+                    annotation_unit.get_missing_conditions()
                 )
             return
 
@@ -201,8 +199,6 @@ class AnnotationProcess():
                 annotation_unit.set_latest_version(version)
 
                 logger.info('%s Version Calculated %s...', format_annotation_logging(annotation_unit), version)
-
-                self.analysis_collection.add_dataset_to_manifest(annotation_unit.analysis_name, annotation_unit)
                 self.queue.put(annotation_unit)
             else:
                 for annotation in task.extract(task_process_result):
@@ -213,6 +209,7 @@ class AnnotationProcess():
                     )
 
                     self.genomic_unit_collection.annotate_genomic_unit(annotation_unit.genomic_unit, annotation)
+                    self.analysis_collection.add_dataset_to_manifest(annotation_unit.analysis_name, annotation_unit)
 
         except FileNotFoundError as error:
             logger.error(
@@ -253,7 +250,7 @@ class AnnotationProcess():
         """
         version_task = AnnotationTaskFactory.create_version_task(annotation_unit)
         version_cache_id = version_task.get_version_cache_id()
-        logger.info("Creating Version Cache Id...%s", version_cache_id)
+        logger.info("%s Creating Version Cache Id...%s", format_annotation_logging(annotation_unit), version_cache_id)
 
         if not self.is_version_cache_setup(version_cache_id):
             logger.info('%s Creating Task To Version...', format_annotation_logging(annotation_unit))
@@ -269,8 +266,6 @@ class AnnotationProcess():
             logger.info(
                 '%s Version Gathered from Cache %s...', format_annotation_logging(annotation_unit), cached_version
             )
-            self.analysis_collection.add_dataset_to_manifest(annotation_unit.analysis_name, annotation_unit)
-
         self.queue.put(annotation_unit)
 
     def handle_annotation_unit_dependencies(self, annotation_unit):
@@ -283,9 +278,9 @@ class AnnotationProcess():
             if analysis_manifest_dataset is None:
                 continue
 
-            dependency_annotation_unit = \
-                AnnotationUnit(annotation_unit.genomic_unit, analysis_manifest_dataset, annotation_unit.analysis_name)
-            dependency_annotation_unit.set_latest_version(analysis_manifest_dataset['version'])
+            dependency_annotation_unit = self._create_temporary_annotation_unit(
+                annotation_unit.genomic_unit, analysis_manifest_dataset, annotation_unit.analysis_name
+            )
 
             annotation_value = self.genomic_unit_collection.find_genomic_unit_annotation_value(
                 dependency_annotation_unit
@@ -293,3 +288,27 @@ class AnnotationProcess():
 
             if annotation_value:
                 annotation_unit.set_annotation_for_dependency(missing_dataset_name, annotation_value)
+
+        if annotation_unit.if_transcript_needs_provisioning() :
+            transcript_id_manifest_dataset = self.analysis_collection.get_manifest_dataset_config(
+                annotation_unit.analysis_name, "transcript_id"
+            )
+
+            if transcript_id_manifest_dataset is not None:
+                transcript_id_annotation_unit = self._create_temporary_annotation_unit(
+                    annotation_unit.genomic_unit, transcript_id_manifest_dataset, annotation_unit.analysis_name
+                )
+
+                transcript_id_value = self.genomic_unit_collection.find_genomic_unit_annotation_value(
+                    transcript_id_annotation_unit
+                )
+
+                if transcript_id_value:
+                    annotation_unit.set_transcript_provisioned(True)
+
+    def _create_temporary_annotation_unit(self, genomic_unit, manifest_dataset, analysis_name ):
+        """private helper method to create a temporary annotation unit for finding within repository"""
+        temporary = AnnotationUnit(genomic_unit, manifest_dataset, analysis_name)
+        temporary.set_latest_version(manifest_dataset['version'])
+
+        return temporary
