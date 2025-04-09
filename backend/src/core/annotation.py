@@ -1,5 +1,7 @@
 """Supports the queueing and processing of genomic unit annotation"""
 import concurrent
+import time
+from requests.exceptions import JSONDecodeError
 import logging
 import queue
 
@@ -168,6 +170,8 @@ class AnnotationProcess():
                     annotation_unit.get_delay_count() + 1
                 )
                 self.queue.put(annotation_unit)
+                time.sleep(0)
+                # time.sleep(1)
             else:
                 logger.info(
                     '%s Canceling Annotation, Missing %s Dependencies...', format_annotation_logging(annotation_unit),
@@ -202,6 +206,12 @@ class AnnotationProcess():
                 self.queue.put(annotation_unit)
             else:
                 for annotation in task.extract(task_process_result):
+                    # if(annotation_unit.get_dataset_name() == 'ClinVar_Variant_Id' and "NM_001360016.2:c.563C>T" in annotation_unit.to_name_string()):
+                    #     logger.warning(
+                    #         '%s ProcessTaskResult for ClinVar_Variant_id %s...',
+                    #         format_annotation_logging(annotation_unit,
+                    #                                 annotation_unit.get_dataset_name()), task_process_result
+                    #     )
                     logger.info(
                         '%s Saving %s...',
                         format_annotation_logging(annotation_unit,
@@ -216,11 +226,11 @@ class AnnotationProcess():
                 '%s Exception [%s] with Not Found [%s]', format_annotation_logging(annotation_unit), error, task
             )
             logger.exception(error)
-        except TypeError as typeError:
+        except (JSONDecodeError, TypeError) as exceptionError:
             logger.error(
-                '%s Exception [%s] with Type [%s]', format_annotation_logging(annotation_unit), typeError, task
+                '%s Exception [%s] with note: %s', format_annotation_logging(annotation_unit), exceptionError
             )
-            logger.exception(typeError)
+            logger.exception(exceptionError)
         except RuntimeError as runtimeError:
             logger.error('%s Exception [%s] with [%s]', format_annotation_logging(annotation_unit), runtimeError, task)
             logger.exception(runtimeError)
@@ -275,6 +285,11 @@ class AnnotationProcess():
             analysis_manifest_dataset = self.analysis_collection.get_manifest_dataset_config(
                 annotation_unit.analysis_name, missing_dataset_name
             )
+
+            if(missing_dataset_name == 'pos'):
+                logger.warning('whats going on with psoition: handle_annotation_dependencies_missing_dataset_name')
+                logger.warning(analysis_manifest_dataset)
+
             if analysis_manifest_dataset is None:
                 continue
 
@@ -282,11 +297,23 @@ class AnnotationProcess():
                 annotation_unit.genomic_unit, analysis_manifest_dataset, annotation_unit.analysis_name
             )
 
+            if(missing_dataset_name == 'pos'):
+                logger.warning('whats going on with psoition: handle_annotation_dependencies_missing_dataset_name')
+                logger.warning(dependency_annotation_unit.to_name_string())
+                logger.warning('------ got from manifest')        
+
             annotation_value = self.genomic_unit_collection.find_genomic_unit_annotation_value(
                 dependency_annotation_unit
             )
 
+            if(missing_dataset_name == 'pos'):
+                logger.warning('whats going on with psoition: handle_annotation_dependencies_missing_dataset_name')
+                logger.warning(annotation_value)
+                logger.warning('------ got the value')      
+
             if annotation_value:
+                if(missing_dataset_name == 'pos'):
+                    logger.warning('setting the missing value')
                 annotation_unit.set_annotation_for_dependency(missing_dataset_name, annotation_value)
 
         if annotation_unit.if_transcript_needs_provisioning() :
@@ -295,16 +322,25 @@ class AnnotationProcess():
             )
 
             if transcript_id_manifest_dataset is not None:
+                transcript_id_manifest_dataset['transcript'] = True
+                if( "NM_001365.4:c.1039del" in annotation_unit.to_name_string() ):
+                    logger.warning("%s handle_annotation_unit_dependencies(): transcript_id in Manifest", format_annotation_logging(annotation_unit))
+                    logger.warning(transcript_id_manifest_dataset)
+                    logger.warning('looking for the transcript_id in manifest for annotation_unit')
                 transcript_id_annotation_unit = self._create_temporary_annotation_unit(
                     annotation_unit.genomic_unit, transcript_id_manifest_dataset, annotation_unit.analysis_name
                 )
 
-                transcript_id_value = self.genomic_unit_collection.find_genomic_unit_annotation_value(
-                    transcript_id_annotation_unit
-                )
+                transcript_id_dataset_saved = self.genomic_unit_collection.annotation_exist(transcript_id_annotation_unit)
 
-                if transcript_id_value:
+                if( "NM_001365.4:c.1039del" in annotation_unit.to_name_string() ):
+                    logger.warning("%s handle_annotation_unit_dependencies(): transcript_id saved in database %s", format_annotation_logging(annotation_unit), transcript_id_dataset_saved)
+                if transcript_id_dataset_saved:
                     annotation_unit.set_transcript_provisioned(True)
+            else:
+                # if( "NM_001360016.2:c.563C>T" in annotation_unit.to_name_string() ):
+                # logger.warning("%s handle_annotation_unit_dependencies(): transcript_id is not in manifest. rip.s", format_annotation_logging(annotation_unit))
+                pass
 
     def _create_temporary_annotation_unit(self, genomic_unit, manifest_dataset, analysis_name ):
         """private helper method to create a temporary annotation unit for finding within repository"""

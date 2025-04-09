@@ -218,10 +218,9 @@ class HttpAnnotationTask(AnnotationTaskInterface):
         try:
             result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"}, timeout=30)
             json_result = result.json()
-        except requests.exceptions.JSONDecodeError as error:
-            raise RuntimeError(
-                f"Failed to annotate \"{self.annotation_unit.get_dataset_name()}\" from \"{self.annotation_unit.get_dataset_source()}\" on \"{result.text}\" within annotate: \"{error}\""
-            )
+        except (requests.exceptions.JSONDecodeError, TypeError) as error:
+            error.add_note(f"Failed to annotate \"{self.annotation_unit.get_dataset_name()}\" from \"{self.annotation_unit.get_dataset_source()}\" at \"{url_to_query}\" on \"{result.text}\" within annotate: \"{error}\"")
+            raise error
 
         return json_result
 

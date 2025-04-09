@@ -1,6 +1,9 @@
 """ Class to instantiate Annotation Units and support its functions"""
 
 import copy
+import datetime
+import time
+import math
 
 
 class AnnotationUnit:
@@ -13,6 +16,7 @@ class AnnotationUnit:
         self.analysis_name = analysis_name
 
         self.transcript_provisioned = False
+        # self.start_delay_timestamp = 0
 
     def toString(self):
         return f"{self.genomic_unit['unit']}     {self.dataset['data_set']}     {self.dataset['data_source']}     {self.dataset['version']}"
@@ -82,7 +86,7 @@ class AnnotationUnit:
 
         for dependency in self.dataset['dependencies']:
             if dependency not in self.genomic_unit:
-                missing_dependencies = [dependency]
+                missing_dependencies.append(dependency)
 
         return missing_dependencies
 
@@ -117,6 +121,13 @@ class AnnotationUnit:
         If annotation unit is not ready, checks if it should continue annotation or
         calls increment_delay_count and get_missing_dependencies before continuing
         """
+        # self.increment_delay_count()
+
+        # if not self.start_delay_timestamp:
+        #     self.start_delay_timestamp = time.perf_counter_ns()
+        #     return True
+
+        # return not self.delay_count_exceeds()
         self.increment_delay_count()
 
         return not self.delay_count_exceeds()
@@ -124,6 +135,7 @@ class AnnotationUnit:
     def get_delay_count(self):
         """Returns the current annotation delay count"""
         return self.dataset['delay_count'] if 'delay_count' in self.dataset else 0
+        # return math.trunc((time.perf_counter_ns() - self.start_delay_timestamp) / 1e9)
 
     def increment_delay_count(self):
         """Sets the delay count of the annotation unit"""
@@ -139,6 +151,7 @@ class AnnotationUnit:
         if self.dataset['delay_count'] < 15:
             return False
         return True
+        # return (time.perf_counter_ns() - self.start_delay_timestamp) > 4e9
 
     def to_name_string(self):
         """
