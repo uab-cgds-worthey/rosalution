@@ -37,6 +37,9 @@ class AnnotationUnit:
         """Returns the dataset's versioning type"""
         return self.dataset['versioning_type']
 
+    def does_source_and_version_match(self, data_source, version):
+        return self.get_dataset_source() == data_source and self.get_version() == version
+
     def is_transcript_dataset(self):
         """Returns true if the dataset is for a transcript"""
         return 'transcript' in self.dataset
