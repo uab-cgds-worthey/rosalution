@@ -64,6 +64,7 @@
       <textarea
         contenteditable="plaintext-only"
         class="discussion-new-reply-text-area"
+        v-model="newReplyContent"
       />
       <div class="discussion-reply-actions">
         <button
@@ -80,9 +81,9 @@
         </button>
       </div>
   </div>
-  <DiscussionReply v-for="reply in repliesThread"
-    :replyId="reply.id"
-    :key="reply.id"
+  <DiscussionReply v-for="reply in thread"
+    :replyId="reply.reply_id"
+    :key="reply.reply_id"
     :authorId="reply.author_id"
     :authorName="reply.author_fullname"
     :publishTimestamp="reply.publish_timestamp"
@@ -129,7 +130,7 @@ export default {
     attachments: {
       type: Array,
     },
-    repliesThread: {
+    thread: {
       type: Array,
     },
     userClientId: {
@@ -144,6 +145,7 @@ export default {
       editingPostFlag: false,
       editPostContent: this.content,
       showNewReply: false,
+      newReplyContent: '',
     };
   },
   computed: {
@@ -154,7 +156,7 @@ export default {
       return this.userClientId == this.authorId;
     },
     isReply: function() {
-      return this.repliesThread == 0;
+      return this.thread == 0;
     },
   },
   methods: {
@@ -177,8 +179,8 @@ export default {
       this.showNewReply = true;
     },
     newDiscussionReply() {
-      console.log('New Discussion Reply Posted');
-      this.$emit('discussion:new-reply', toRaw(this.newReplyContent));
+      console.log('New Discussion Reply Posted' + this.newReplyContent);
+      this.$emit('discussion:new-reply', this.id, toRaw(this.newReplyContent));
       this.clearNewDiscussionReplyField();
     },
     cancelNewDiscussionReply() {
@@ -187,7 +189,15 @@ export default {
     clearNewDiscussionReplyField() {
       this.newReplyContent = '';
       this.showNewReply = false;
-      console.log('New Discussion Reply Cancelled and Cleared');
+      console.log('New Discussion Reply Text Area Cancelled and Cleared');
+    },
+    editDiscussionReply(replyId, replyContent) {
+      console.log('editing Discussion Reply with Content' + replyContent);
+      this.$emit('discussion:edit-reply', this.id, replyId, replyContent);
+    },
+    deleteDiscussionReply(replyId) {
+      console.log('Deleting Discussion Reply' + replyId);
+      this.$emit('discussion:delete-reply', this.id, replyId);
     },
   },
 };
