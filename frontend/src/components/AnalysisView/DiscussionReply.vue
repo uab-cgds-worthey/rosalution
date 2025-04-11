@@ -1,11 +1,17 @@
 <template>
-  <div class="discussion-reply">
-    Discussion Reply here {{ content }}
+  <div class="discussion-reply-container">
+    <div class="discussion-reply">
+      <div class="discussion-reply-header">
+        <b>{{ authorName }}</b>
+          {{  timestamp }}
+      </div>
+      {{content}}
+    </div>
   </div>
 </template>
 
 <script setup>
-import {ref} from 'vue';
+import {computed, ref} from 'vue';
 
 const props = defineProps({
   replyId: {
@@ -33,10 +39,18 @@ const props = defineProps({
 
 const emit = defineEmits(['reply:edit', 'reply:delete']);
 
-const editReplyContent = this.content;
+const editReplyContent = props.content;
 const editingReplyFlag = ref(false);
 
+// computed
+
+const timestamp = computed(() => {
+  return new Date(props.publishTimestamp + 'Z').toLocaleString();
+});
+
 // functions
+
+
 
 function editDiscussionReply() {
   console.log('Reply is being edited');
@@ -45,7 +59,7 @@ function editDiscussionReply() {
 
 function confirmEditReply() {
   console.log('Confirming Reply has been edited');
-  this.$emit('reply:edit', this.id, editReplyContent);
+  emit('reply:edit', props.id, editReplyContent);
 }
 
 function cancelEditReply() {
@@ -54,7 +68,7 @@ function cancelEditReply() {
 
 function deleteDiscussionReply(replyId) {
   console.log('Confirm Reply has been Deleted');
-  this.$emit('reply:delete', replyId);
+  emit('reply:delete', replyId);
 }
 
 </script>

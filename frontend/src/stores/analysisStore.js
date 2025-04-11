@@ -176,6 +176,17 @@ export const analysisStore = reactive({
     this.analysis.discussions = discussions;
   },
 
+  async addDiscussionReply(postId, newReplyContent) {
+    console.log('analysisStore - addDiscussionReply');
+  },
+
+  async editDiscussionReply(postId, replyId, replyContent) {
+    console.log('analysisStore - editDiscussionReply');
+  },
+
+  async deleteDiscussionReply(postId, replyId) {
+    console.log('analysisStore - deleteDiscussionReply');
+  },
   // -----------------------------------
   // Analysis Attachments
   // -----------------------------------

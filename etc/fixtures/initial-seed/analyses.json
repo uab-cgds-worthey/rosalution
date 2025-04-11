@@ -304,8 +304,36 @@
         "author_fullname": "Developer Person",
         "publish_timestamp": "2023-10-09T21:13:22.687000",
         "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum.",
-        "attachments": [],
-        "thread": []
+        "attachments": [
+          {
+            "name": "Identification of a muscle-specific isoform...",
+            "attachment_id": "cb82fe13-4190-4faa-9108-905b62f97820",
+            "data": "https://academic.oup.com/hmg/advance-article/doi/10.1093/hmg/ddad164/7282668",
+            "type": "link"
+          },
+          {
+            "name": "Novel Intronic Mutation in VMA21...",
+            "attachment_id": "55f22661-a24e-4ef0-9152-df79b386b09a",
+            "data": "https://pubmed.ncbi.nlm.nih.gov/36553512/",
+            "type": "link"
+          }
+        ],
+        "thread": [
+          {
+            "reply_id": "6905754b-554e-44f7-9553-8d622710e303",
+            "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
+            "author_fullname": "Developer Person",
+            "publish_timestamp": "2024-10-09T21:13:22.687000",
+            "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+          },
+          {
+            "reply_id": "4b7525bc-a882-4f7a-8a96-38b8bc1bf5fc",
+            "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
+            "author_fullname": "Developer Person",
+            "publish_timestamp": "2024-10-09T21:13:22.687000",
+            "content": "Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere."
+          }
+        ]
       },
       {
         "post_id": "a677bb36-acf8-4ff9-a406-b113a7952f7e",
@@ -326,7 +354,22 @@
         "thread": []
       }
     ],
-    "attachments": [],
+    "attachments": [
+      {
+        "name": "VMA21 deficiency prevents vacuolar ATPase assembly and causes autophagic vacuolar myopathy",
+        "data": "https://link.springer.com/article/10.1007/s00401-012-1073-6",
+        "attachment_id": "19684b36-6e06-4659-93bb-6c420601d1da",
+        "type": "link",
+        "comments": ""
+      },
+      {
+        "name": "Sugary Logistics Gone Wrong: Membrane Trafficking and Congenital Disorders of Glycosylation",
+        "data": "https://www.researchgate.net/figure/Schematic-overview-of-the-mammalian-V-ATPase-and-the-putative-model-of-its-assembly_fig2_342577209",
+        "attachment_id": "cdb5d193-228b-47a2-8bc9-9163dd3c43b8",
+        "type": "link",
+        "comments": ""
+      }
+    ],
     "timeline": [
       {
         "event": "create",

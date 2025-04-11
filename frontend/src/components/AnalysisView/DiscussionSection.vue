@@ -98,7 +98,8 @@ import {toRaw} from 'vue';
 
 export default {
   name: 'discussion-section',
-  emits: ['discussion:new-post', 'discussion:edit-post', 'discussion:delete-post', 'discussion:open-modal'],
+  emits: ['discussion:new-post', 'discussion:edit-post', 'discussion:delete-post', 'discussion:open-modal',
+    'discussion:new-reply', 'discussion:edit-reply', 'discussion:delete-reply'],
   components: {
     DiscussionPost,
     DiscussionAttachment,
@@ -191,32 +192,17 @@ export default {
       }
       this.newAttachments.splice(attachmentIndex, 1);
     },
-    /**
-     * Adds a new discussion reply to the discussion post.
-     *
-     * @param {string} newReplyContent - The content of the new discussion reply.
-    */
-    async addDiscussionReply(newReplyContent) {
-      // await analysisStore.addDiscussionPost(newReplyContent);
-      console.log('adding new Discussion Reply with Content' + newReplyContent);
+    addDiscussionReply(postId, newReplyContent) {
+      console.log('New Discussion Reply Posted' + newReplyContent);
+      this.$emit('discussion:new-reply', postId, toRaw(newReplyContent));
     },
-    /**
-     * Adds a new discussion reply to the discussion post.
-     *
-     * @param {string} newReplyContent - The content of the new discussion reply.
-    */
-    async editDiscussionReply(ReplyContent) {
-      // await analysisStore.addDiscussionPost(newReplyContent);
-      console.log('editing Discussion Reply with Content' + ReplyContent);
+    editDiscussionReply(postId, replyId, replyContent) {
+      console.log('editing Discussion Reply with Content' + replyContent);
+      this.$emit('discussion:edit-reply', postId, replyId, replyContent);
     },
-    /**
-     * Adds a new discussion reply to the discussion post.
-     *
-     * @param {string} newReplyContent - The content of the new discussion reply.
-    */
-    async deleteDiscussionReply(replyId) {
-      // await analysisStore.addDiscussionPost(newReplyContent);
-      console.log('deleted Discussion Reply');
+    deleteDiscussionReply(postId, replyId) {
+      console.log('Deleting Discussion Reply' + replyId);
+      this.$emit('discussion:delete-reply', postId, replyId);
     },
   },
 };
