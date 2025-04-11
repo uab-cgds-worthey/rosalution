@@ -142,7 +142,7 @@ class AnalysisCollection:
         }
 
         updated_document = self.collection.find_one_and_update({"name": analysis_name},
-                                                               {"$push": {"manifest": dataset}},
+                                                               {"$addToSet": {"manifest": dataset}},
                                                                return_document=ReturnDocument.AFTER)
 
         return updated_document['manifest']

@@ -108,7 +108,7 @@ queue_count=0
 # known in cases being uploaded to Rosalution at this time
 echo "${ANALYSES[@]}" | jq -r '.[]' | while read -r ANALYSIS; do
   queue_count=$((queue_count+1))
-  if (( queue_count > 2 )); then
+  if (( queue_count > 7 )); then
     exit
   fi
   echo "Starting annotations for analysis $ANALYSIS..."

@@ -107,7 +107,9 @@ class GenomicUnitQuery():
         }
 
         update_operation = { 
-            self._annotations_add_dataset_field_name(): annotation_entry
+            '$addToSet': {
+                self._annotations_add_dataset_field_name(): annotation_entry
+            }
         }
 
         arrays_filter = [
@@ -177,14 +179,14 @@ class GenomicUnitCollection:
             collection_for_transcripts = GenomicUnitCollectionForTranscripts(self)
             return collection_for_transcripts.annotation_exist(annotation_unit)
 
-        data_set_name = annotation_unit.get_dataset_name()
 
         annotation_query_adapter = AnnotationUnitQuery(annotation_unit)
         find_query = annotation_query_adapter.find_annotation_query()
         
-        if( data_set_name == 'pos'):
+        data_set_name = annotation_unit.get_dataset_name()
+        if( data_set_name == 'CADD'):
             logger.warning(find_query)
-            logger.warning('why did it fail to find the annotation for this')
+            logger.warning('Why is it queue cadd to annotate for this genomic unit')
 
         return bool(self.collection.count_documents(find_query, limit=1))
 
@@ -205,8 +207,6 @@ class GenomicUnitCollection:
 
         if not dataset_annotations:
             return None
-        
-        print(dataset_annotations)
         
         return next((
             annotation['value'] 
@@ -257,7 +257,15 @@ class GenomicUnitCollection:
         genomic_unit = self.collection.update_one(provision_dataset, update_operation)
 
         add_annotation_query, add_annotation_update_operation, add_annotation_array_filters = genomic_unit_query.annotate_dataset_query_and_update()
-        self.collection.update_one(add_annotation_query, add_annotation_update_operation, array_filters=add_annotation_array_filters)
+        try:
+            self.collection.update_one(add_annotation_query, add_annotation_update_operation, array_filters=add_annotation_array_filters)
+        except ValueError as error:
+            logger.warning(error)
+            logger.exception(error)
+            logger.warning(add_annotation_query)
+            logger.warning(add_annotation_update_operation)
+            logger.warning(add_annotation_array_filters)
+
 
 
     def annotate_genomic_unit_with_file(self, genomic_unit, genomic_annotation):
@@ -340,18 +348,21 @@ class GenomicUnitCollectionForFiles():
         return self.update_genomic_unit_by_mongo_id(genomic_unit_document)
 
 
-
 class AnnotationUnitTranscriptQuery():
     def __init__(self, annotation_unit):
         self.annotation_unit = annotation_unit
     
+    @property
+    def dataset_name(self):
+        return self.annotation_unit.get_dataset_name()
+
     @property
     def genomic_unit_type_string(self):
         return self.annotation_unit.get_genomic_unit_type_string()
 
     @property
     def genomic_unit_name(self):
-        return self.self.annotation_unit.get_genomic_unit()
+        return self.annotation_unit.get_genomic_unit()
 
     @property
     def annotation_dataset_field_name(self):
@@ -361,13 +372,13 @@ class AnnotationUnitTranscriptQuery():
     def annotations_add_dataset_field_name(self):
         return f"transcripts.$[transcript].annotations.$[dataset].{self.dataset_name}"
 
-    # def find_genomic_unit_query(self):
-    #     """
-    #         # find_query = {
-    #         #   'gene': 'VMA21',
-    #         #}
-    #     """
-    #     return {genomic_unit_type_string: genomic_unit_name}
+    def find_genomic_unit_query(self):
+        """
+            # find_query = {
+            #   'gene': 'VMA21',
+            #}
+        """
+        return {self.genomic_unit_type_string: self.genomic_unit_name }
 
     def find_dataset_query(self):
         genomic_unit_query = self.find_genomic_unit_query()
@@ -484,12 +495,13 @@ class GenomicUnitCollectionForTranscripts():
 
 
         for transcript in hgvs_genomic_unit_json['transcripts']:
-            # if( "NM_001365.4:c.1039del" in annotation_unit.to_name_string() ):
+            find_transcript_query = annotation_query_adapter.find_annotation_query(transcript['transcript_id'])
+            # if( "NM_001017980.3:c.164G>T" in annotation_unit.to_name_string() ):
             #     logger.warning("LOOKING AT THE FOLLOWING TRANSCRIPT TO FIND: %s", transcript)
             #     logger.warning(transcript['annotations'])
             #     logger.warning(annotation_unit.to_name_string())
-            #     logger.warning(data_set_name)
-            find_transcript_query = annotation_query_adapter.find_annotation_query(transcript)
+            #     logger.warning(find_transcript_query)
+            
             if  not bool(self.collection.count_documents(find_transcript_query, limit=1)):
                 return False
 
@@ -528,8 +540,8 @@ class GenomicUnitCollectionForTranscripts():
     def annotate_transcript_dataset(self, genomic_unit, genomic_annotation):
         transcript_query = GenomicUnitTranscriptQuery(genomic_unit, genomic_annotation)
 
-        provision_dataset, update_operation = transcript_query.provision_dataset_query_and_update()
-        genomic_unit = self.collection.update_one(provision_dataset, update_operation)
+        provision_dataset, update_operation, array_filters = transcript_query.provision_dataset_query_and_update()
+        genomic_unit = self.collection.update_one(provision_dataset, update_operation, array_filters=array_filters)
 
         add_annotation_query, add_annotation_update_operation, add_annotation_array_filters = transcript_query.annotate_dataset_query_and_update()
         result = self.collection.update_one(add_annotation_query, add_annotation_update_operation, array_filters=add_annotation_array_filters)

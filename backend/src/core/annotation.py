@@ -154,6 +154,23 @@ class AnnotationProcess():
         if not annotation_unit.version_exists():
             self.handle_annotation_unit_version_calcuation(annotation_unit)
             return
+        
+        dataset_in_manifest = self.analysis_collection.get_manifest_dataset_config(annotation_unit.analysis_name, annotation_unit.get_dataset_name())
+        if dataset_in_manifest:
+            if annotation_unit.get_dataset_name() == "CADD":
+                logger.warning("NOT IN MANIFEST?")
+            checing_annotation_unit = AnnotationUnit(annotation_unit.genomic_unit, annotation_unit.dataset, annotation_unit.analysis_name)
+            try:
+
+                checing_annotation_unit.set_latest_version(dataset_in_manifest[annotation_unit.get_dataset_name()].version)
+                if annotation_unit.get_dataset_name() == "CADD":
+                    logger.warning("WHY IS CADD DOING THE THING")
+                    logger.warning(checing_annotation_unit.get_version())
+                if not self.genomic_unit_collection.annotation_exist(checing_annotation_unit):
+                    logger.warning("%s Annotation Exists in Manifest but does not have annotation saved", format_annotation_logging(annotation_unit))
+            except KeyError as error:
+                logger.warning(error)
+                logger.warning(dataset_in_manifest)
 
         if self.genomic_unit_collection.annotation_exist(annotation_unit):
             logger.info('%s Annotation Exists...', format_annotation_logging(annotation_unit))
@@ -172,7 +189,7 @@ class AnnotationProcess():
                 self.queue.put(annotation_unit)
                 time.sleep(0)
                 # time.sleep(1)
-            else:
+            else: 
                 logger.info(
                     '%s Canceling Annotation, Missing %s Dependencies...', format_annotation_logging(annotation_unit),
                     annotation_unit.get_missing_conditions()
@@ -286,9 +303,9 @@ class AnnotationProcess():
                 annotation_unit.analysis_name, missing_dataset_name
             )
 
-            if(missing_dataset_name == 'pos'):
-                logger.warning('whats going on with psoition: handle_annotation_dependencies_missing_dataset_name')
-                logger.warning(analysis_manifest_dataset)
+            # if(missing_dataset_name == 'pos'):
+            #     logger.warning('whats going on with psoition: handle_annotation_dependencies_missing_dataset_name')
+            #     logger.warning(analysis_manifest_dataset)
 
             if analysis_manifest_dataset is None:
                 continue
@@ -297,23 +314,23 @@ class AnnotationProcess():
                 annotation_unit.genomic_unit, analysis_manifest_dataset, annotation_unit.analysis_name
             )
 
-            if(missing_dataset_name == 'pos'):
-                logger.warning('whats going on with psoition: handle_annotation_dependencies_missing_dataset_name')
-                logger.warning(dependency_annotation_unit.to_name_string())
-                logger.warning('------ got from manifest')        
+            # if(missing_dataset_name == 'pos'):
+            #     logger.warning('whats going on with psoition: handle_annotation_dependencies_missing_dataset_name')
+            #     logger.warning(dependency_annotation_unit.to_name_string())
+            #     logger.warning('------ got from manifest')        
 
             annotation_value = self.genomic_unit_collection.find_genomic_unit_annotation_value(
                 dependency_annotation_unit
             )
 
-            if(missing_dataset_name == 'pos'):
-                logger.warning('whats going on with psoition: handle_annotation_dependencies_missing_dataset_name')
-                logger.warning(annotation_value)
-                logger.warning('------ got the value')      
+            # if(missing_dataset_name == 'pos'):
+            #     logger.warning('whats going on with psoition: handle_annotation_dependencies_missing_dataset_name')
+            #     logger.warning(annotation_value)
+            #     logger.warning('------ got the value')      
 
             if annotation_value:
-                if(missing_dataset_name == 'pos'):
-                    logger.warning('setting the missing value')
+                # if(missing_dataset_name == 'pos'):
+                #     logger.warning('setting the missing value')
                 annotation_unit.set_annotation_for_dependency(missing_dataset_name, annotation_value)
 
         if annotation_unit.if_transcript_needs_provisioning() :
@@ -323,18 +340,18 @@ class AnnotationProcess():
 
             if transcript_id_manifest_dataset is not None:
                 transcript_id_manifest_dataset['transcript'] = True
-                if( "NM_001365.4:c.1039del" in annotation_unit.to_name_string() ):
-                    logger.warning("%s handle_annotation_unit_dependencies(): transcript_id in Manifest", format_annotation_logging(annotation_unit))
-                    logger.warning(transcript_id_manifest_dataset)
-                    logger.warning('looking for the transcript_id in manifest for annotation_unit')
+                # if( "NM_001017980.3:c.164G>T" in annotation_unit.to_name_string() ):
+                #     logger.warning("%s handle_annotation_unit_dependencies(): transcript_id in Manifest", format_annotation_logging(annotation_unit))
+                #     logger.warning(transcript_id_manifest_dataset)
+                #     logger.warning('looking for the transcript_id in manifest for annotation_unit')
                 transcript_id_annotation_unit = self._create_temporary_annotation_unit(
                     annotation_unit.genomic_unit, transcript_id_manifest_dataset, annotation_unit.analysis_name
                 )
 
                 transcript_id_dataset_saved = self.genomic_unit_collection.annotation_exist(transcript_id_annotation_unit)
 
-                if( "NM_001365.4:c.1039del" in annotation_unit.to_name_string() ):
-                    logger.warning("%s handle_annotation_unit_dependencies(): transcript_id saved in database %s", format_annotation_logging(annotation_unit), transcript_id_dataset_saved)
+                # if( "NM_001017980.3:c.164G>T" in annotation_unit.to_name_string() ):
+                #     logger.warning("%s handle_annotation_unit_dependencies(): transcript_id saved in database %s", format_annotation_logging(annotation_unit), transcript_id_dataset_saved)
                 if transcript_id_dataset_saved:
                     annotation_unit.set_transcript_provisioned(True)
             else:
