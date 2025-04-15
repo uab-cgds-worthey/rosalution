@@ -102,15 +102,12 @@ while IFS='' read -r line; do ANALYSES+=("$line"); done < <(echo "$RESPONSE" | j
 
 echo $ANALYSES
 
-queue_count=0
 
 # Hardcoding to encode the special characters that are commonly
 # known in cases being uploaded to Rosalution at this time
 echo "${ANALYSES[@]}" | jq -r '.[]' | while read -r ANALYSIS; do
   queue_count=$((queue_count+1))
-  if (( queue_count > 7 )); then
-    exit
-  fi
+
   echo "Starting annotations for analysis $ANALYSIS..."
   ANALYSIS=${ANALYSIS/\ /\%20}
   ANALYSIS=${ANALYSIS/\(/\%28}
@@ -120,7 +117,8 @@ echo "${ANALYSES[@]}" | jq -r '.[]' | while read -r ANALYSIS; do
       -H "accept: application/json" \
       -H "Authorization: Bearer $AUTH_TOKEN" \
       > /dev/null
-  # sleep 5
+  
+  sleep 2
 done
 
 echo "Done. Exiting."

@@ -40,7 +40,7 @@ class AnnotationTaskInterface:
                 if dependency_string in base:
                     # logger.warning(json.dumps(self.annotation_unit.genomic_unit[dependency]))
                     return self.annotation_unit.genomic_unit[dependency]
-        
+
         return {}
 
     def aggregate_string_replacements(self, base_string) -> str:
@@ -111,12 +111,13 @@ class AnnotationTaskInterface:
                 replaced_attributes = self.aggregate_string_replacements(self.annotation_unit.dataset['attribute'])
                 jq_results = self.__json_extract__(replaced_attributes, incomming_json)
             except (ValueError, json.JSONDecodeError) as value_error:
-                runtimeException = RuntimeError(
-                    f"Failed to annotate \"{annotation_unit_json['data_set']}\" from \"{annotation_unit_json['data_source']}\" on \"{json.dumps(incomming_json)}\" within task extract: \"{value_error}\""
-                )
-                runtimeException.add_note(replaced_attributes)
-                runtimeException.add_note(json.dumps(incomming_json))
-                raise runtimeException
+                value_error.add_note(replaced_attributes)
+                value_error.add_note(json.dumps(incomming_json))
+                raise RuntimeError(
+                    f"Failed to annotate \"{annotation_unit_json['data_set']}\" from \
+                    \"{annotation_unit_json['data_source']}\" on \"{json.dumps(incomming_json)}\" \
+                    within task extract: \"{value_error}\""
+                ) from value_error
             jq_result = next(jq_results, None)
             while jq_result is not None:
                 result_keys = list(jq_result.keys())
@@ -157,7 +158,7 @@ class AnnotationTaskInterface:
             try:
                 jq_result = self.__json_extract__(jq_query, incoming_version_json)
             except ValueError as value_error:
-                raise RuntimeError('Failed to extract version from: %s', incoming_version_json) from value_error
+                raise RuntimeError(f"Failed to extract version from: {incoming_version_json}") from value_error
             jq_result = next(jq_result, None)
             version = jq_result
 
@@ -180,9 +181,11 @@ class ForgeAnnotationTask(AnnotationTaskInterface):
         of the genomic unit and its dataset depedencies to generate the new dataset.  Will be returned within
         an object that has the name of the dataset as the attribute.
         """
-        from_cache = 'base_string_cache' in self.annotation_unit.dataset and self.annotation_unit.dataset['base_string_cache']
-        
-        aggregation_operation = self.aggregate_string_replacements if not from_cache else self.aggregate_raw_cache_replacement
+        from_cache = 'base_string_cache' in self.annotation_unit.dataset and self.annotation_unit.dataset[
+            'base_string_cache']
+
+        aggregation_operation = \
+            self.aggregate_string_replacements if not from_cache else self.aggregate_raw_cache_replacement
         value = aggregation_operation(self.annotation_unit.dataset['base_string'])
 
         return {self.annotation_unit.dataset['data_set']: value}
@@ -234,7 +237,11 @@ class HttpAnnotationTask(AnnotationTaskInterface):
             result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"}, timeout=30)
             json_result = result.json()
         except (requests.exceptions.JSONDecodeError, TypeError) as error:
-            error.add_note(f"Failed to annotate \"{self.annotation_unit.get_dataset_name()}\" from \"{self.annotation_unit.get_dataset_source()}\" at \"{url_to_query}\" on \"{result.text}\" within annotate: \"{error}\"")
+            error.add_note(
+                f"Failed to annotate \"{self.annotation_unit.get_dataset_name()}\" from \
+                    \"{self.annotation_unit.get_dataset_source()}\" at \"{url_to_query}\" \
+                    on \"{result.text}\" within annotate: \"{error}\""
+            )
             raise error
 
         return json_result
@@ -277,8 +284,17 @@ class VersionAnnotationTask(AnnotationTaskInterface):
         version = {"rest": "rosalution-manifest-00"}
 
         url_to_query = self.annotation_unit.dataset['version_url']
-        result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"}, timeout=30)
-        version = result.json()
+        try:
+            result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"}, timeout=30)
+            version = result.json()
+        except (requests.exceptions.JSONDecodeError, TypeError) as error:
+            error.add_note(
+                f"Failed to annotate \"{self.annotation_unit.get_dataset_name()}\" from \
+                    \"{self.annotation_unit.get_dataset_source()}\" at \"{url_to_query}\"\
+                    on \"{result.text}\" within annotate: \"{error}\""
+            )
+            raise error
+
         return version
 
     def get_annotation_version_from_rosalution(self):

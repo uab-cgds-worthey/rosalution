@@ -1,9 +1,6 @@
 """ Class to instantiate Annotation Units and support its functions"""
 
 import copy
-import datetime
-import time
-import math
 
 
 class AnnotationUnit:
@@ -16,10 +13,6 @@ class AnnotationUnit:
         self.analysis_name = analysis_name
 
         self.transcript_provisioned = False
-        # self.start_delay_timestamp = 0
-
-    def toString(self):
-        return f"{self.genomic_unit['unit']}     {self.dataset['data_set']}     {self.dataset['data_source']}     {self.dataset['version']}"
 
     def get_genomic_unit(self):
         """Returns 'unit' from genomic_unit"""
@@ -54,7 +47,7 @@ class AnnotationUnit:
     def set_transcript_provisioned(self, flag: bool):
         """Update the transcript dataset indicating whether it is ready for annotation"""
         self.transcript_provisioned = flag
-    
+
     def is_transcript_provisioned(self):
         """Returns True when a Transcript dataset is transcript is provisioned to annotate."""
         return self.transcript_provisioned
@@ -105,7 +98,7 @@ class AnnotationUnit:
             conditions_list.append(self.is_transcript_provisioned())
 
         return all(conditions_list)
-    
+
     def get_missing_conditions(self):
         missing_conditions = [*self.get_missing_dependencies()]
 
@@ -124,13 +117,6 @@ class AnnotationUnit:
         If annotation unit is not ready, checks if it should continue annotation or
         calls increment_delay_count and get_missing_dependencies before continuing
         """
-        # self.increment_delay_count()
-
-        # if not self.start_delay_timestamp:
-        #     self.start_delay_timestamp = time.perf_counter_ns()
-        #     return True
-
-        # return not self.delay_count_exceeds()
         self.increment_delay_count()
 
         return not self.delay_count_exceeds()
@@ -138,7 +124,6 @@ class AnnotationUnit:
     def get_delay_count(self):
         """Returns the current annotation delay count"""
         return self.dataset['delay_count'] if 'delay_count' in self.dataset else 0
-        # return math.trunc((time.perf_counter_ns() - self.start_delay_timestamp) / 1e9)
 
     def increment_delay_count(self):
         """Sets the delay count of the annotation unit"""
@@ -151,16 +136,15 @@ class AnnotationUnit:
         Checks if the annotation unit has exceeded the delay count within the queue
         Delay count is set as a magic number (10).
         """
-        if self.dataset['delay_count'] < 15:
+        if self.dataset['delay_count'] < 10:
             return False
         return True
-        # return (time.perf_counter_ns() - self.start_delay_timestamp) > 4e9
 
     def to_name_string(self):
         """
         Returns the annotation unit's genomic_unit and corresponding dataset.
         """
-        return f"{self.get_genomic_unit()} for {self.get_dataset_name()}"
+        return f"{self.get_genomic_unit().ljust(30)}{self.get_dataset_name().ljust(60)}"
 
     def get_version(self):
         """
@@ -169,11 +153,9 @@ class AnnotationUnit:
         return self.version
 
     def set_latest_version(self, version_details):
-        """Sets the Annotation Unit with the version details"""
-        # This has not been implemented yet
+        """Sets the Annotation Unit with the version"""
         self.version = version_details
 
     def version_exists(self):
         """Checks if the Annotation Unit is versioned or not"""
-        # This is currently a placeholder, and just returning True for now
         return self.version != ""

@@ -25,11 +25,11 @@ def test_queuing_annotations_for_genomic_units(cpam0046_analysis, annotation_con
 
 def test_processing_cpam0046_annotation_tasks(process_cpam0046_tasks):
     """Verifies that each item on the annotation queue is read and executed"""
-    assert process_cpam0046_tasks['http'].call_count == 7
+    assert process_cpam0046_tasks['http'].call_count == 6
     assert process_cpam0046_tasks['none'].call_count == 0
     assert process_cpam0046_tasks['forge'].call_count == 2
 
-    assert process_cpam0046_tasks['extract'].call_count == 9
+    assert process_cpam0046_tasks['extract'].call_count == 8
 
 
 def test_processing_cpam0002_annotations_tasks(process_cpam0002_tasks):
@@ -38,11 +38,11 @@ def test_processing_cpam0002_annotations_tasks(process_cpam0002_tasks):
         CPAM analysis 0002
     """
 
-    assert process_cpam0002_tasks['http'].call_count == 7
+    assert process_cpam0002_tasks['http'].call_count == 6
     assert process_cpam0002_tasks['none'].call_count == 0
     assert process_cpam0002_tasks['forge'].call_count == 2
 
-    assert process_cpam0002_tasks['extract'].call_count == 9
+    assert process_cpam0002_tasks['extract'].call_count == 8
 
     process_cpam0002_tasks['genomic_unit_collection'].annotate_genomic_unit.assert_called()
 
@@ -60,11 +60,11 @@ def test_processing_cpam0002_datasets_with_dependencies(cpam0002_annotation_queu
     """ Confirms that the datasets with dependencies configured to annotate for analysis CPAM0002 are processed """
     assert cpam0002_annotation_queue.empty()
 
-    assert process_cpam0002_tasks['http'].call_count == 7
+    assert process_cpam0002_tasks['http'].call_count == 6
     assert process_cpam0002_tasks['none'].call_count == 0
     assert process_cpam0002_tasks['forge'].call_count == 2
 
-    assert process_cpam0002_tasks['extract'].call_count == 9
+    assert process_cpam0002_tasks['extract'].call_count == 8
 
 
 def test_processing_cpam0002_version_annotation_tasks(process_cpam0002_tasks):

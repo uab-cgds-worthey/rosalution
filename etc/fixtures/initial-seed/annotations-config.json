@@ -241,7 +241,7 @@
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/search?q={gene}",
-    "attribute": "[.results[] | select ( .species | contains(\"Xenopus laevis\")) | .modCrossRefCompleteUrl][0] | { \"Frog_General_Xenbase_Database_url\": .}",
+    "attribute": "[.results[] |  select(.species != null) | select ( .species | contains(\"Xenopus laevis\")) | .modCrossRefCompleteUrl][0] | { Frog_General_Xenbase_Database_url: .}",
     "versioning_type": "rest",
     "version_url": "https://www.alliancegenome.org/api/releaseInfo",
     "version_attribute": ".releaseVersion"

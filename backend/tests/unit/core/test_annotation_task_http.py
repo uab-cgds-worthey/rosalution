@@ -76,7 +76,7 @@ def test_annotation_extraction_for_genomic_unit(http_annotation_task_gene, hpo_a
 def test_annotation_extraction_value_error_exception(http_annotation_task_gene, hpo_annotation_response):
     """
     Verifying annotation failure does not cause crash in application during extraction. Removes the expected value
-    in the json to force jq parse error to more closelyemulate the failure instead of mocking the jq response to fail.
+    in the json to force jq parse error to more closely simulate the failure instead of mocking the jq response to fail.
     """
 
     del hpo_annotation_response['diseaseAssoc']
