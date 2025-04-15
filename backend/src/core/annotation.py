@@ -27,7 +27,7 @@ def annotation_log_label():
     return 'Annotation:'
 
 
-def format_annotation_logging(annotation_unit, dataset=""):
+def format_annotation_logging(annotation_unit, dataset=""): 
     """
     Provides a formatted string for logging that is consistent with
     annotation unit's genomic_unit and corresponding dataset to the console
@@ -37,6 +37,10 @@ def format_annotation_logging(annotation_unit, dataset=""):
         annotation_unit_string = f"{annotation_unit.get_genomic_unit()} for {dataset}"
     else:
         annotation_unit_string = annotation_unit.to_name_string()
+    
+    if "" != annotation_unit.analysis_name:
+        annotation_unit_string += f" in '{annotation_unit.analysis_name}'"
+
     return f"{annotation_log_label()} {annotation_unit_string}".ljust(ANNOTATION_UNIT_PADDING)
 
 
@@ -108,6 +112,9 @@ class AnnotationService:
                     processor.on_task_complete(task_future)
 
             logger.info("%s Processing annotation tasks queue complete", annotation_log_label())
+        
+        processor.log_dataset_failures()
+        logger.info("FINISHED FINISHED FOR QUEING THINGS THIS TIME")
 
 
 class AnnotationProcess():
@@ -128,6 +135,9 @@ class AnnotationProcess():
         self.version_cache = {}
 
         self.task_executor = None
+
+        self.datasetAnnotationFailures = {
+        }
 
     def set_tasks_executor(self, task_executor):
         """Sets the task executor for handling the annotate tasks."""
@@ -154,23 +164,6 @@ class AnnotationProcess():
         if not annotation_unit.version_exists():
             self.handle_annotation_unit_version_calcuation(annotation_unit)
             return
-        
-        dataset_in_manifest = self.analysis_collection.get_manifest_dataset_config(annotation_unit.analysis_name, annotation_unit.get_dataset_name())
-        if dataset_in_manifest:
-            if annotation_unit.get_dataset_name() == "CADD":
-                logger.warning("NOT IN MANIFEST?")
-            checing_annotation_unit = AnnotationUnit(annotation_unit.genomic_unit, annotation_unit.dataset, annotation_unit.analysis_name)
-            try:
-
-                checing_annotation_unit.set_latest_version(dataset_in_manifest[annotation_unit.get_dataset_name()].version)
-                if annotation_unit.get_dataset_name() == "CADD":
-                    logger.warning("WHY IS CADD DOING THE THING")
-                    logger.warning(checing_annotation_unit.get_version())
-                if not self.genomic_unit_collection.annotation_exist(checing_annotation_unit):
-                    logger.warning("%s Annotation Exists in Manifest but does not have annotation saved", format_annotation_logging(annotation_unit))
-            except KeyError as error:
-                logger.warning(error)
-                logger.warning(dataset_in_manifest)
 
         if self.genomic_unit_collection.annotation_exist(annotation_unit):
             logger.info('%s Annotation Exists...', format_annotation_logging(annotation_unit))
@@ -188,7 +181,6 @@ class AnnotationProcess():
                 )
                 self.queue.put(annotation_unit)
                 time.sleep(0)
-                # time.sleep(1)
             else: 
                 logger.info(
                     '%s Canceling Annotation, Missing %s Dependencies...', format_annotation_logging(annotation_unit),
@@ -223,12 +215,6 @@ class AnnotationProcess():
                 self.queue.put(annotation_unit)
             else:
                 for annotation in task.extract(task_process_result):
-                    # if(annotation_unit.get_dataset_name() == 'ClinVar_Variant_Id' and "NM_001360016.2:c.563C>T" in annotation_unit.to_name_string()):
-                    #     logger.warning(
-                    #         '%s ProcessTaskResult for ClinVar_Variant_id %s...',
-                    #         format_annotation_logging(annotation_unit,
-                    #                                 annotation_unit.get_dataset_name()), task_process_result
-                    #     )
                     logger.info(
                         '%s Saving %s...',
                         format_annotation_logging(annotation_unit,
@@ -243,16 +229,37 @@ class AnnotationProcess():
                 '%s Exception [%s] with Not Found [%s]', format_annotation_logging(annotation_unit), error, task
             )
             logger.exception(error)
-        except (JSONDecodeError, TypeError) as exceptionError:
+            self.track_dataset_exception(annotation_unit, error)
+        except (JSONDecodeError, TypeError, ValueError) as exceptionError:
             logger.error(
-                '%s Exception [%s] with note: %s', format_annotation_logging(annotation_unit), exceptionError
+                '%s Exception [%s]', format_annotation_logging(annotation_unit), exceptionError
             )
             logger.exception(exceptionError)
+            self.track_dataset_exception(annotation_unit, exceptionError)
         except RuntimeError as runtimeError:
             logger.error('%s Exception [%s] with [%s]', format_annotation_logging(annotation_unit), runtimeError, task)
             logger.exception(runtimeError)
+            self.track_dataset_exception(annotation_unit, runtimeError)
 
         del self.annotation_task_futures[future]
+    
+    def track_dataset_exception(self, annotation_unit: AnnotationUnit, exception: Exception):
+        if annotation_unit not in self.datasetAnnotationFailures:
+            self.datasetAnnotationFailures[annotation_unit] = []
+        
+        self.datasetAnnotationFailures[annotation_unit].append(exception)
+    
+    def log_dataset_failures(self):
+        if( len(self.datasetAnnotationFailures) != 0 ):
+            logger.error("SEARCHABLE STRING FOR NOW Datasets that failed to annotate: ")
+            logger.error("-------------------------------------------")
+        for (annotation_unit, exception) in self.datasetAnnotationFailures.items():
+            logger.error(
+                '%s for analysis "%s" Exception [%s]', format_annotation_logging(annotation_unit), annotation_unit.analysis_name, exception
+            )
+            logger.exception(exception)
+        if( len(self.datasetAnnotationFailures) != 0 ):
+            logger.error("-------------------------------------------")
 
     def is_version_cache_setup(self, version_cache_id: str) -> bool:
         """Returns True if the Version with its version_cache_id is setup within the cache"""

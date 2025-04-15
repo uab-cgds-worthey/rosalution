@@ -31,6 +31,18 @@ class AnnotationTaskInterface:
     def __init__(self, annotation_unit: AnnotationUnit):
         self.annotation_unit = annotation_unit
 
+    def aggregate_raw_cache_replacement(self, base: str) -> dict:
+
+        if self.annotation_unit.has_dependencies():
+            for dependency in self.annotation_unit.get_dependencies():
+                dependency_string = f"{{{dependency}}}"
+                # logger.warning("seraching for dependency: %s", dependency_string)
+                if dependency_string in base:
+                    # logger.warning(json.dumps(self.annotation_unit.genomic_unit[dependency]))
+                    return self.annotation_unit.genomic_unit[dependency]
+        
+        return {}
+
     def aggregate_string_replacements(self, base_string) -> str:
         """
         Replaces the content 'base_string' where strings within the pattern
@@ -98,10 +110,13 @@ class AnnotationTaskInterface:
             try:
                 replaced_attributes = self.aggregate_string_replacements(self.annotation_unit.dataset['attribute'])
                 jq_results = self.__json_extract__(replaced_attributes, incomming_json)
-            except ValueError as value_error:
-                raise RuntimeError(
+            except (ValueError, json.JSONDecodeError) as value_error:
+                runtimeException = RuntimeError(
                     f"Failed to annotate \"{annotation_unit_json['data_set']}\" from \"{annotation_unit_json['data_source']}\" on \"{json.dumps(incomming_json)}\" within task extract: \"{value_error}\""
                 )
+                runtimeException.add_note(replaced_attributes)
+                runtimeException.add_note(json.dumps(incomming_json))
+                raise runtimeException
             jq_result = next(jq_results, None)
             while jq_result is not None:
                 result_keys = list(jq_result.keys())
@@ -150,7 +165,7 @@ class AnnotationTaskInterface:
 
 
 class ForgeAnnotationTask(AnnotationTaskInterface):
-    """
+    """1
     An annotation task that will construct a dataset string from a series of
     annotation depedencies and its genomic unit
     """
@@ -165,10 +180,10 @@ class ForgeAnnotationTask(AnnotationTaskInterface):
         of the genomic unit and its dataset depedencies to generate the new dataset.  Will be returned within
         an object that has the name of the dataset as the attribute.
         """
-        value = self.aggregate_string_replacements(self.annotation_unit.dataset['base_string'])
-
-        if ('base_string_cache' in self.annotation_unit.dataset and self.annotation_unit.dataset['base_string_cache']):
-            value = json.loads(value.replace("'", "\""))
+        from_cache = 'base_string_cache' in self.annotation_unit.dataset and self.annotation_unit.dataset['base_string_cache']
+        
+        aggregation_operation = self.aggregate_string_replacements if not from_cache else self.aggregate_raw_cache_replacement
+        value = aggregation_operation(self.annotation_unit.dataset['base_string'])
 
         return {self.annotation_unit.dataset['data_set']: value}
 

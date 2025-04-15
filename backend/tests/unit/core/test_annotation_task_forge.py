@@ -61,14 +61,26 @@ def test_extraction_forge_from_cache_dataset_dependeny_polyphen(forge_annotation
     actual_extractions = forge_annotation_task_hgvs_variant_polyphen.extract(forge_annotation)
     assert actual_extractions[0]['value'] == 'possibly_damaging'
 
+def test_annotation_forge_from_cache_dataset_dependency_hpo_ncbi_id(forge_annotation_task_hpo_ncbi_gene_id_polyphen):
+    forge_annotation = forge_annotation_task_hpo_ncbi_gene_id_polyphen.annotate()
+
+    assert 'HPO_NCBI_GENE_ID' in forge_annotation
+    assert isinstance(forge_annotation['HPO_NCBI_GENE_ID'], dict)
+    assert forge_annotation['HPO_NCBI_GENE_ID']['entrez_id'] == "6305"
+
+def test_extractioN_forge_from_cache_dataset_dependency_hpo_ncbi_id(forge_annotation_task_hpo_ncbi_gene_id_polyphen):
+    forge_annotation = forge_annotation_task_hpo_ncbi_gene_id_polyphen.annotate()
+
+    actual_extractions = forge_annotation_task_hpo_ncbi_gene_id_polyphen.extract(forge_annotation)
+    assert actual_extractions[0]['value'] == 'NCBIGene:6305'
 
 ## Fixtures ##
 
 
 @pytest.fixture(name="forge_annotation_task_gene")
-def fixture_forge_annotation_task_gene_ncbi_linkout(gene_genomic_unit, gene_ncbi_linkout_dataset):
+def fixture_forge_annotation_task_gene_ncbi_linkout(gene_vma21_genomic_unit, gene_ncbi_linkout_dataset):
     """Returns a Forge annotation task for the NCBI linkout for the VMA21 Gene genomic unit"""
-    annotation_unit = AnnotationUnit(gene_genomic_unit, gene_ncbi_linkout_dataset)
+    annotation_unit = AnnotationUnit(gene_vma21_genomic_unit, gene_ncbi_linkout_dataset)
     task = ForgeAnnotationTask(annotation_unit)
     return task
 
@@ -106,6 +118,27 @@ def fixture_cadd_from_cached_dataset_as_dependency():
     }
 
 
+@pytest.fixture(name="hpo_ncbi_gene_id_dataset_config")
+def fixture_hpo_ncbi_gene_id_from_cached_dataset_as_dependency():
+    """An annotation configuration for a dataset that uses a cached dataset like the Ensembl HGVS variant call result"""
+    return {
+        "data_set": "HPO_NCBI_GENE_ID",
+        "data_source": "HGNC_GeneNames",
+        "genomic_unit_type": "gene",
+        "annotation_source_type": "forge",
+        "base_string_cache": True,
+        "base_string": "{HGNC_GENE_NAMES_CALL_CACHE}",
+        "attribute": ".HPO_NCBI_GENE_ID | { HPO_NCBI_GENE_ID: \"NCBIGene:\\(.entrez_id)\" }",
+        "dependencies": [
+            "HGNC_GENE_NAMES_CALL_CACHE"
+        ],
+        "versioning_type": "rest",
+        "version_url": "https://rest.genenames.org/info",
+        "version_attribute": ".lastModified | split(\"T\")[0]"
+    }
+
+
+
 @pytest.fixture(name="polyphen_dataset_config")
 def fixture_polyphen_from_cached_dataset_as_dependency():
     """r.i.p. sanity"""
@@ -141,15 +174,33 @@ def fixture_forge_annotation_task_ensembl_cache_polyphen(hgvs_variant_genomic_un
     task = ForgeAnnotationTask(annotation_unit)
     return task
 
+@pytest.fixture(name="forge_annotation_task_hpo_ncbi_gene_id_polyphen")
+def fixture_forge_annotation_task_ensembl_cache_hpo_ncbi_gene_id(gene_sbf1_genomic_unit, hpo_ncbi_gene_id_dataset_config):
+    """Returns a Forge annotation task for HPO's NCBI Gene Id for the SBF1 Gene genomic unit"""
+    annotation_unit = AnnotationUnit(gene_sbf1_genomic_unit, hpo_ncbi_gene_id_dataset_config)
+    task = ForgeAnnotationTask(annotation_unit)
+    return task
 
-@pytest.fixture(name="gene_genomic_unit")
-def fixture_gene_genomic_unit():
+
+
+@pytest.fixture(name="gene_vma21_genomic_unit")
+def fixture_gene_vma21_genomic_unit():
     """Returns the genomic unit 'VMA21' to be annotated"""
     return {
         "unit": "VMA21",
         "Entrez Gene Id": "45614",
         "genomic_unit_type": GenomicUnitType.GENE,
     }
+
+@pytest.fixture(name="gene_sbf1_genomic_unit")
+def fixture_gene_sbf1_genomic_unit(hgnc_gene_names_gene_call_cache_dataset_value):
+    """Returns the genomic unit 'VMA21' to be annotated"""
+    return {
+        "unit": "SBF1",
+        "genomic_unit_type": GenomicUnitType.GENE,
+        "HGNC_GENE_NAMES_CALL_CACHE": hgnc_gene_names_gene_call_cache_dataset_value,
+    }
+
 
 
 @pytest.fixture(name="hgvs_variant_genomic_unit")
@@ -210,3 +261,7 @@ def fixture_ensembl_hgvs_variant_call_cache_dataset_value():
             "transcript_id": "NM_001363810.1", "protein_start": 110, "cds_end": 329
         }], "strand": 1, "end": 151404916
     }]
+
+@pytest.fixture(name="hgnc_gene_names_gene_call_cache_dataset_value")
+def fixture_hgnc_gene_names_gene_call_cache_dataset_value():
+    return {"entrez_id": "6305", "agr": "HGNC:10542", "location_sortable": "22q13.33", "name": "SET binding factor 1", "gencc": "HGNC:10542", "date_approved_reserved": "1998-07-28T00:00:00Z", "mane_select": ["ENST00000380817.8", "NM_002972.4"], "alias_name": ["myotubularin related 5", "DENN/MADD domain containing 7A"], "locus_group": "protein-coding gene", "hgnc_id": "HGNC:10542", "omim_id": ["603560"], "ensembl_gene_id": "ENSG00000100241", "symbol": "SBF1", "locus_type": "gene with protein product", "refseq_accession": ["NM_001365819"], "uniprot_ids": ["O95248"], "alias_symbol": ["MTMR5", "DENND7A"], "gene_group_id": [504, 682, 903], "pubmed_id": [9537414, 9736772], "ena": ["U93181"], "rgd_id": ["RGD:1307090"], "orphanet": 364562, "date_modified": "2023-01-20T00:00:00Z", "status": "Approved", "ucsc_id": "uc003blh.5", "uuid": "258c3742-2e59-4ed0-b1dc-605cc474227f", "mgd_id": ["MGI:1925230"], "vega_id": "OTTHUMG00000150204", "gene_group": ["DENN domain containing", "Pleckstrin homology domain containing", "Myotubularins"], "location": "22q13.33"}

@@ -184,9 +184,9 @@ class GenomicUnitCollection:
         find_query = annotation_query_adapter.find_annotation_query()
         
         data_set_name = annotation_unit.get_dataset_name()
-        if( data_set_name == 'CADD'):
-            logger.warning(find_query)
-            logger.warning('Why is it queue cadd to annotate for this genomic unit')
+        # if( data_set_name == 'CADD'):
+        #     logger.warning(find_query)
+        #     logger.warning('Why is it queue cadd to annotate for this genomic unit')
 
         return bool(self.collection.count_documents(find_query, limit=1))
 
@@ -260,11 +260,13 @@ class GenomicUnitCollection:
         try:
             self.collection.update_one(add_annotation_query, add_annotation_update_operation, array_filters=add_annotation_array_filters)
         except ValueError as error:
+            logger.warning("VALUE ERROR IN GENOMIC UNIT COLLECTION FROM SAVING ANNOTATION WHAT")
             logger.warning(error)
             logger.exception(error)
             logger.warning(add_annotation_query)
             logger.warning(add_annotation_update_operation)
             logger.warning(add_annotation_array_filters)
+            raise error
 
 
 
