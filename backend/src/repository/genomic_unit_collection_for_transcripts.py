@@ -71,7 +71,6 @@ class GenomicUnitTranscriptQuery():
         self.genomic_annotation = genomic_annotation
         self.dataset_name = self.genomic_annotation['data_set']
 
-
     def provision_transcript_id(self):
         """Constructs a query and update operation to provision a transcript ID in a unit's transcripts list'"""
         query_filter = {
@@ -157,8 +156,6 @@ class GenomicUnitCollectionForTranscripts():
 
         return True
 
-    
-    
     def annotate_transcript_dataset(self, genomic_unit, genomic_annotation):
         """
         Annotates a dataset in a transcript for a genomic unit. It will provision a transcript and dataset for a
