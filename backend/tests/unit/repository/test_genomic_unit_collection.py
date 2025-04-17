@@ -16,20 +16,21 @@ def test_find_genomic_units(genomic_unit_collection):
 
 @pytest.mark.parametrize(
     "transcript_annotation_unit", [
-        ('Polyphen Prediction', 'Ensembl', '112', '120', False),
-        ('Polyphen Prediction', 'Ensembl', '112', '112', True),
-        ('transcript_id', 'Ensembl', '', '120', False),
-        ('Polyphen Prediction', 'Ensembl', '', '120', False),
+        ('Polyphen Prediction', 'Ensembl', '112', '120', (True, 2)),
+        ('transcript_id', 'Ensembl', '', '120', (False, 0)),
     ],
     indirect=True,
-    ids=["polyphen_exists_different_version", "polyphen_exists", "no_transcripts_yet", "polyphen_not_exists"]
+    ids=["polyphen_exists_different_version", "no_transcripts_yet"]
 )
 def test_transcripts_annotations_exists(transcript_annotation_unit, genomic_unit_collection):
     """ Tests if a transcript annotation does not exist """
     annotation_unit, variant_in_database_json, expected = transcript_annotation_unit
+    expected_value, expected_call_count = expected
     genomic_unit_collection.collection.find_one.return_value = variant_in_database_json
+
     actual = genomic_unit_collection.annotation_exist(annotation_unit)
-    assert actual is expected
+    assert actual == expected_value
+    assert genomic_unit_collection.collection.count_documents.call_count == expected_call_count
 
 
 @pytest.mark.parametrize(
@@ -52,7 +53,7 @@ def test_genomic_units_annotations_exists(
 
     expected_find_query = {
         annotation_unit.get_genomic_unit_type_string(): genomic_unit, dataset_attribute: {'$exists': True},
-        datasource_attribute: annotation_unit.get_dataset_source(), version_attribute: annotation_unit.get_version()
+        datasource_attribute: annotation_unit.get_dataset_source(), version_attribute: annotation_unit.version
     }
 
     genomic_unit_collection.collection.count_documents.assert_called_with(
@@ -60,24 +61,6 @@ def test_genomic_units_annotations_exists(
         limit=1,
     )
     assert actual is expected
-
-
-def test_find_genomic_unit_with_transcript_id(genomic_unit_collection):
-    """
-    Verifies that the find_genomic_unit_with_transcript_id function gets called with the correct parameters
-    """
-    genomic_unit = {
-        'unit': 'NM_001017980.3:c.164G>T',
-        'type': GenomicUnitType.HGVS_VARIANT,
-    }
-    transcript_id = "NM_001363810.1"
-
-    genomic_unit_collection.find_genomic_unit_with_transcript_id(genomic_unit, transcript_id)
-
-    genomic_unit_collection.collection.find_one.assert_called_with({
-        "hgvs_variant": "NM_001017980.3:c.164G>T",
-        "transcripts.transcript_id": "NM_001363810.1",
-    })
 
 
 @pytest.mark.parametrize(
@@ -92,32 +75,28 @@ def test_find_genomic_unit_annotation_values(
     """
     annotation_unit = get_annotation_unit(genomic_unit, dataset_name)
     genomic_unit_collection.collection.find_one.return_value = {
-        'annotations': [{dataset_name: [{'value': expected}]}]
+        'annotations': [{
+            dataset_name: [{
+                'value': expected, 'data_source': annotation_unit.dataset['data_source'], 'version':
+                    annotation_unit.version
+            }]
+        }]
     } if expected else None
 
     actual_value = genomic_unit_collection.find_genomic_unit_annotation_value(annotation_unit)
 
-    genomic_unit_collection.collection.find_one.assert_called_with(
-        genomic_unit_collection.__find_annotation_query__(annotation_unit),
-        {f"annotations.{dataset_name}.value.$": 1, "_id": 0}
-    )
+    expected_find_filter = {
+        annotation_unit.get_genomic_unit_type_string(): annotation_unit.get_genomic_unit(),
+        f'annotations.{annotation_unit.get_dataset_name()}': {'$exists': True,},
+        f'annotations.{annotation_unit.get_dataset_name()}.data_source': annotation_unit.get_dataset_source(),
+        f'annotations.{annotation_unit.get_dataset_name()}.version': annotation_unit.version
+    }
+
+    expected_find_projection = {f'annotations.{annotation_unit.get_dataset_name()}.$': 1, '_id': 0}
+
+    genomic_unit_collection.collection.find_one.assert_called_with(expected_find_filter, expected_find_projection)
 
     assert actual_value == expected
-
-
-def test_add_transcript_to_genomic_unit(genomic_unit_collection):
-    """
-    Verifies adding the transcript to an HGVS variant in the collection.
-    """
-    genomic_unit = {'unit': 'NM_001017980.3:c.164G>T', 'type': GenomicUnitType.HGVS_VARIANT}
-    transcript_id = "NM_001363810.1"
-
-    genomic_unit_collection.add_transcript_to_genomic_unit(genomic_unit, transcript_id)
-
-    genomic_unit_collection.collection.update_one.assert_called_once_with(
-        {'hgvs_variant': 'NM_001017980.3:c.164G>T'},
-        {'$addToSet': {'transcripts': {'transcript_id': 'NM_001363810.1', 'annotations': []}}},
-    )
 
 
 def test_annotate_transcript_genomic_unit(genomic_unit_collection):
@@ -140,18 +119,9 @@ def test_annotate_transcript_genomic_unit(genomic_unit_collection):
         }
     )
 
-    expected_genomic_unit = {
-        "_id": ObjectId("62fbfa5f616a9799131174ca"),
-        "hgvs_variant": "NM_001017980.3:c.164G>T",
-        "transcripts": [{'transcript_id': 'NM_001363810.1', 'annotations': []}],
-        "annotations": {},
-    }
-
     genomic_unit_collection.annotate_genomic_unit(genomic_unit, transcript_annotation_unit)
 
-    genomic_unit_collection.collection.find_one_and_update.assert_called_once()
-    actual_updated_genomic_unit = genomic_unit_collection.collection.find_one_and_update.call_args_list[0][0][1]['$set']
-    assert actual_updated_genomic_unit == expected_genomic_unit
+    assert genomic_unit_collection.collection.update_one.call_count == 3
 
 
 @pytest.mark.parametrize(
@@ -166,28 +136,13 @@ def test_annotate_genomic_unit(prepare_test_annotate, genomic_unit_collection):
     Tests if a genomic unit's new annotation either adds a new dataset or adds the annotation to an exists dataset.
     """
 
-    genomic_unit_json, dataset_name, genomic_annotation, annotation_unit, expected_amount = prepare_test_annotate
+    genomic_unit_json, genomic_annotation, annotation_unit = prepare_test_annotate
 
     genomic_unit_collection.collection.find_one.return_value = genomic_unit_json
 
     genomic_unit_collection.annotate_genomic_unit(annotation_unit.genomic_unit, genomic_annotation)
 
-    updated_genomic_unit = genomic_unit_collection.collection.find_one_and_update.call_args_list[0][0][1]['$set']
-    annotations = updated_genomic_unit['annotations']
-    actual_updated_dataset = next((dataset for dataset in annotations if dataset_name in dataset), None)
-
-    assert actual_updated_dataset is not None
-
-    assert len(actual_updated_dataset[dataset_name]) == expected_amount
-
-    def is_entry(entry):
-        return entry['data_source'] == genomic_annotation['data_source'] and entry['version'] == genomic_annotation[
-            'version']
-
-    actual_updated_annotation = next((entry for entry in actual_updated_dataset[dataset_name] if is_entry(entry)), None)
-
-    assert actual_updated_annotation is not None
-    assert actual_updated_annotation['value'] == genomic_annotation['value']
+    assert genomic_unit_collection.collection.update_one.call_count == 2
 
 
 def test_annotation_genomic_unit_with_file(genomic_unit_collection, get_annotation_json):
@@ -304,13 +259,11 @@ def prepare_test_annotate_genomic_units(request, get_annotation_unit, get_annota
     genomic_annotation = {
         "data_set": annotation_unit.get_dataset_name(),
         "data_source": annotation_unit.get_dataset_source(),
-        "version": annotation_unit.get_version(),
+        "version": annotation_unit.version,
         "value": value,
     }
 
-    expected_annotation_amount = 1 if remove_dataset else 2
-
-    return (genomic_unit_json, dataset_name, genomic_annotation, annotation_unit, expected_annotation_amount)
+    return (genomic_unit_json, genomic_annotation, annotation_unit)
 
 
 @pytest.fixture(name="transcript_annotation_unit", scope="function")

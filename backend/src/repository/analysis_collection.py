@@ -137,7 +137,7 @@ class AnalysisCollection:
 
         dataset = {
             annotation_unit.get_dataset_name(): {
-                'data_source': annotation_unit.get_dataset_source(), 'version': annotation_unit.get_version()
+                'data_source': annotation_unit.get_dataset_source(), 'version': annotation_unit.version
             }
         }
 

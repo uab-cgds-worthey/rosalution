@@ -19,6 +19,13 @@ logger = logging.getLogger(__name__)
 ANNOTATION_UNIT_PADDING = 75
 
 
+def to_name_string(annotation_unit: AnnotationUnit):
+    """
+    Returns the annotation unit's genomic_unit and corresponding dataset.
+    """
+    return f"{annotation_unit.get_genomic_unit().ljust(30)}{annotation_unit.get_dataset_name().ljust(60)}"
+
+
 def annotation_log_label():
     """
     Provides a label for logging in the annotation section to make it easier to search on.
@@ -27,7 +34,7 @@ def annotation_log_label():
     return 'Annotation'.ljust(15)
 
 
-def format_annotation_logging(annotation_unit, dataset=""):
+def format_annotation_logging(annotation_unit: AnnotationUnit, dataset=""):
     """
     Provides a formatted string for logging that is consistent with
     annotation unit's genomic_unit and corresponding dataset to the console
@@ -36,7 +43,7 @@ def format_annotation_logging(annotation_unit, dataset=""):
     if dataset != "":
         annotation_unit_string = f"{annotation_unit.get_genomic_unit().ljust(30)}{dataset.ljust(60)}"
     else:
-        annotation_unit_string = annotation_unit.to_name_string()
+        annotation_unit_string = to_name_string(annotation_unit)
 
     if "" != annotation_unit.analysis_name:
         annotation_unit_string += f"'{annotation_unit.analysis_name}'".ljust(20)
@@ -153,7 +160,7 @@ class AnnotationProcess():
         """Submits an Annotation task to run within the task executor pool."""
         self.annotation_task_futures[self.task_executor.submit(task.annotate)] = task
 
-    def process_annotation_unit(self, annotation_unit):
+    def process_annotation_unit(self, annotation_unit: AnnotationUnit):
         """
         Processes an individual annotation unit by handling versions and its dependencies needed before an
         annotation task can be created. If the annotation unit is ready to annotate, it will be submitted to run
@@ -235,12 +242,18 @@ class AnnotationProcess():
         del self.annotation_task_futures[future]
 
     def track_dataset_exception(self, annotation_unit: AnnotationUnit, exception: Exception):
+        """
+        Helper method that consolidates the caught exceptions for each AnnotationUnit being annotated.
+        """
         if annotation_unit not in self.dataset_annotation_failures:
             self.dataset_annotation_failures[annotation_unit] = []
 
         self.dataset_annotation_failures[annotation_unit].append(exception)
 
     def log_dataset_failures(self):
+        """
+        Helper method that logs failures that occured while processining annotate tasks.
+        """
         if len(self.dataset_annotation_failures) != 0:
             logger.error("SEARCHABLE STRING FOR NOW Datasets that failed to annotate: ")
             logger.error("-------------------------------------------")
@@ -291,7 +304,7 @@ class AnnotationProcess():
             )
         self.queue.put(annotation_unit)
 
-    def handle_annotation_unit_dependencies(self, annotation_unit):
+    def handle_annotation_unit_dependencies(self, annotation_unit: AnnotationUnit):
         """Retrieves the an annotation unit's dependencies if they exist."""
         missing_dependencies = annotation_unit.get_missing_dependencies()
         for missing_dataset_name in missing_dependencies:
@@ -332,7 +345,7 @@ class AnnotationProcess():
                     annotation_unit.set_transcript_provisioned(True)
 
     def _create_temporary_annotation_unit(self, genomic_unit, manifest_dataset, analysis_name):
-        """private helper method to create a temporary annotation unit for finding within repository"""
+        """Private helper method to create a temporary annotation unit for finding within repository"""
         temporary = AnnotationUnit(genomic_unit, manifest_dataset, analysis_name)
         temporary.set_latest_version(manifest_dataset['version'])
 

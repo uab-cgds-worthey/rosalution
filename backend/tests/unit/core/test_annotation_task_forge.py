@@ -63,6 +63,7 @@ def test_extraction_forge_from_cache_dataset_dependeny_polyphen(forge_annotation
 
 
 def test_annotation_forge_from_cache_dataset_dependency_hpo_ncbi_id(forge_annotation_task_hpo_ncbi_gene_id_polyphen):
+    """Tests annotation forge from a cached dataset for the HPO NCBI ID"""
     forge_annotation = forge_annotation_task_hpo_ncbi_gene_id_polyphen.annotate()
 
     assert 'HPO_NCBI_GENE_ID' in forge_annotation
@@ -71,6 +72,7 @@ def test_annotation_forge_from_cache_dataset_dependency_hpo_ncbi_id(forge_annota
 
 
 def test_extraction_forge_from_cache_dataset_dependency_hpo_ncbi_id(forge_annotation_task_hpo_ncbi_gene_id_polyphen):
+    """Tests extracting from a forge task from a cached dataset for the HPO NCBI ID"""
     forge_annotation = forge_annotation_task_hpo_ncbi_gene_id_polyphen.annotate()
 
     actual_extractions = forge_annotation_task_hpo_ncbi_gene_id_polyphen.extract(forge_annotation)
@@ -261,6 +263,7 @@ def fixture_ensembl_hgvs_variant_call_cache_dataset_value():
 
 @pytest.fixture(name="hgnc_gene_names_gene_call_cache_dataset_value")
 def fixture_hgnc_gene_names_gene_call_cache_dataset_value():
+    """An example CACHED dataset call from Gene Names"""
     return {
         "entrez_id": "6305", "agr": "HGNC:10542", "location_sortable": "22q13.33", "name": "SET binding factor 1",
         "gencc": "HGNC:10542", "date_approved_reserved": "1998-07-28T00:00:00Z",

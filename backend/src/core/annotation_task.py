@@ -32,13 +32,11 @@ class AnnotationTaskInterface:
         self.annotation_unit = annotation_unit
 
     def aggregate_raw_cache_replacement(self, base: str) -> dict:
-
+        """Returns the cached dataset dependency if it is a cached dataset call"""
         if self.annotation_unit.has_dependencies():
             for dependency in self.annotation_unit.get_dependencies():
                 dependency_string = f"{{{dependency}}}"
-                # logger.warning("seraching for dependency: %s", dependency_string)
                 if dependency_string in base:
-                    # logger.warning(json.dumps(self.annotation_unit.genomic_unit[dependency]))
                     return self.annotation_unit.genomic_unit[dependency]
 
         return {}
@@ -79,9 +77,6 @@ class AnnotationTaskInterface:
                     dependency_string, str(self.annotation_unit.genomic_unit[dependency])
                 )
 
-        # print('FINAL RESPLACE STRING')
-        # print(replace_string)
-        # print('/FINAL REPLACE STIRNG')
         return replace_string
 
     @abstractmethod
@@ -166,7 +161,7 @@ class AnnotationTaskInterface:
 
 
 class ForgeAnnotationTask(AnnotationTaskInterface):
-    """1
+    """
     An annotation task that will construct a dataset string from a series of
     annotation depedencies and its genomic unit
     """
@@ -235,8 +230,9 @@ class HttpAnnotationTask(AnnotationTaskInterface):
         json_result = {}
         try:
             result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"}, timeout=30)
+            result.raise_for_status()
             json_result = result.json()
-        except (requests.exceptions.JSONDecodeError, TypeError) as error:
+        except (requests.exceptions.JSONDecodeError, TypeError, requests.HTTPError) as error:
             error.add_note(
                 f"Failed to annotate \"{self.annotation_unit.get_dataset_name()}\" from \
                     \"{self.annotation_unit.get_dataset_source()}\" at \"{url_to_query}\" \

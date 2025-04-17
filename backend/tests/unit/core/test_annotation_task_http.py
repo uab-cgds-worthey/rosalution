@@ -81,8 +81,9 @@ def test_annotation_extraction_value_error_exception(http_annotation_task_gene, 
 
     del hpo_annotation_response['diseaseAssoc']
 
-    actual_extractions = http_annotation_task_gene.extract(hpo_annotation_response)
-    assert len(actual_extractions) == 0
+    with pytest.raises(RuntimeError) as runtime_error:
+        http_annotation_task_gene.extract(hpo_annotation_response)
+        assert 'Failed to annotate "HPO"' in runtime_error
 
 
 ## Fixtures ##
