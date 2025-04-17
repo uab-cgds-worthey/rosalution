@@ -108,11 +108,12 @@ class AnnotationTaskInterface:
             except (ValueError, json.JSONDecodeError) as value_error:
                 value_error.add_note(replaced_attributes)
                 value_error.add_note(json.dumps(incomming_json))
-                raise RuntimeError(
-                    f"Failed to annotate \"{annotation_unit_json['data_set']}\" from \
-                    \"{annotation_unit_json['data_source']}\" on \"{json.dumps(incomming_json)}\" \
-                    within task extract: \"{value_error}\""
-                ) from value_error
+                failure_message = f"Failed to annotate '{annotation_unit_json['data_set']}' from \
+                    '{annotation_unit_json['data_source']}' extracting from '{json.dumps(incomming_json)}' with error: \
+                    '{value_error}'"
+
+                raise RuntimeError(failure_message) from value_error
+
             jq_result = next(jq_results, None)
             while jq_result is not None:
                 result_keys = list(jq_result.keys())

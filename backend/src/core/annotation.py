@@ -102,7 +102,7 @@ class AnnotationService:
     def process_tasks(
         annotation_queue: AnnotationQueue, genomic_unit_collection: GenomicUnitCollection,
         analysis_collection: AnalysisCollection
-    ):  # pylint: disable=too-many-branches,too-many-locals
+    ):
         """Processes items that have been added to the queue"""
         logger.info("%s Processing annotation tasks queue ...", annotation_log_label())
 
@@ -120,7 +120,8 @@ class AnnotationService:
 
             logger.info("%s Processing annotation tasks queue complete", annotation_log_label())
 
-        logger.info("Process thread ending")
+        processor.log_dataset_failures()
+        logger.info("%s Annotation BackgroundTask thread ending", annotation_log_label())
 
 
 class AnnotationProcess():
@@ -225,9 +226,7 @@ class AnnotationProcess():
                     self.analysis_collection.add_dataset_to_manifest(annotation_unit.analysis_name, annotation_unit)
 
         except FileNotFoundError as error:
-            logger.error(
-                '%s Exception [%s] with Not Found [%s]', format_annotation_logging(annotation_unit), error, task
-            )
+            logger.error('%s Exception [%s] Not Found [%s]', format_annotation_logging(annotation_unit), error, task)
             logger.exception(error)
             self.track_dataset_exception(annotation_unit, error)
         except (JSONDecodeError, TypeError, ValueError) as exception_error:
@@ -254,17 +253,11 @@ class AnnotationProcess():
         """
         Helper method that logs failures that occured while processining annotate tasks.
         """
-        if len(self.dataset_annotation_failures) != 0:
-            logger.error("SEARCHABLE STRING FOR NOW Datasets that failed to annotate: ")
-            logger.error("-------------------------------------------")
+        if len(self.dataset_annotation_failures) > 0:
+            logger.error("%s Failed %s annotations", annotation_log_label(), len(self.dataset_annotation_failures))
+
         for (annotation_unit, exception) in self.dataset_annotation_failures.items():
-            logger.error(
-                '%s for analysis "%s" Exception [%s]', format_annotation_logging(annotation_unit),
-                annotation_unit.analysis_name, exception
-            )
-            logger.exception(exception)
-        if len(self.dataset_annotation_failures) != 0:
-            logger.error("-------------------------------------------")
+            logger.error('%sException [%s]', format_annotation_logging(annotation_unit), exception)
 
     def is_version_cache_setup(self, version_cache_id: str) -> bool:
         """Returns True if the Version with its version_cache_id is setup within the cache"""
