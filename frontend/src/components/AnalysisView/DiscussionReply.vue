@@ -1,12 +1,18 @@
 <template>
   <div class="discussion-reply-container">
-    <div class="discussion-reply">
-      <div class="discussion-reply-header">
-        <b>{{ authorName }}</b>
-          {{  timestamp }}
+    <blockquote class="discussion-reply-quote">
+      <div class="discussion-reply">
+        <div class="discussion-reply-header">
+          <div>
+            <b>{{ authorName }}</b>
+            {{  timestamp }}
+          </div>
+        </div>
+        <div class="discussion-reply-content">
+          {{content}}
+        </div>
       </div>
-      {{content}}
-    </div>
+    </blockquote>
   </div>
 </template>
 
@@ -50,8 +56,6 @@ const timestamp = computed(() => {
 
 // functions
 
-
-
 function editDiscussionReply() {
   console.log('Reply is being edited');
   editingReplyFlag.value = !editingReplyFlag.value;
@@ -74,5 +78,29 @@ function deleteDiscussionReply(replyId) {
 </script>
 
 <style scoped>
+
+.discussion-reply {
+  border-radius: var(--content-border-radius);
+  padding: var(--p-8);
+  margin-top: var(--p-10);
+  background-color: var(--rosalution-grey-50);
+  margin-left: var(--p-8);
+}
+
+.discussion-reply-header {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--p-5);
+  margin-bottom: var(--p-5);
+}
+
+.discussion-reply-content {
+  margin-bottom: var(--p-10);
+}
+
+.discussion-reply-quote {
+  border-left: var(--p-5) solid var(--rosalution-grey-50);
+  /* padding-right: var(--p-8); */
+}
 
 </style>
