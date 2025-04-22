@@ -26,7 +26,7 @@ usage() {
 
 BASE_URL="https://local.rosalution.cgds/rosalution"
 
-if [[ -v ROSALUTION_BASE_URL ]]; then
+if [ -n "${ROSALUTION_BASE_URL+set}" ]; then
   BASE_URL=$ROSALUTION_BASE_URL
 fi
 
@@ -63,14 +63,14 @@ echo " /_/    \_\_| |_|_| |_|\___/ \__\__,_|\__|_|\___/|_| |_|"
 
 echo "Rosalution URL: $BASE_URL..."
 
-if [[ ! -v ROSALUTION_CLIENT_ID ]]; then
+if [ ! -n "${ROSALUTION_CLIENT_ID+set}" ]; then
   echo "Please enter your Client Id";
   read -r CLIENT_ID;
 else
   CLIENT_ID=$ROSALUTION_CLIENT_ID
 fi
 
-if [[ ! -v ROSALUTION_CLIENT_SECRET ]]; then
+if [ ! -n "${ROSALUTION_CLIENT_SECRET+set}" ]; then
   echo "Please enter your Client Secret";
   read -r -s CLIENT_SECRET;
 else
@@ -84,13 +84,12 @@ if [ -z "${CLIENT_ID}" ] || [ -z "${CLIENT_SECRET}" ]; then
 fi
 
 echo "Fetching valid authentication token..."
-
-AUTH_TOKEN=$(curl -s -X 'POST' \
+AUTH_RESPONSE=$(curl -s -k -X 'POST' \
   "$BASE_URL/api/auth/token" \
   -H "accept: application/json" \
   -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET" | jq -r '.access_token')
-
+  -d "client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET")
+AUTH_TOKEN=$(echo $AUTH_RESPONSE |  jq -r '.access_token')
 if [[ $AUTH_TOKEN == "null" ]]; then
   echo "Authentication failure; please check credentials"
   exit 1
@@ -105,7 +104,7 @@ for ANALYSIS in "$@"; do
   ANALYSIS=${ANALYSIS/\(/\%28}
   ANALYSIS=${ANALYSIS/\)/\%29}
   echo "$BASE_URL/api/annotation/$ANALYSIS"
-  curl -s -X "POST" \
+  curl -s -k -X "POST" \
     "$BASE_URL/api/annotation/$ANALYSIS" \
     -H "accept: application/json" \
     -H "Authorization: Bearer $AUTH_TOKEN" \

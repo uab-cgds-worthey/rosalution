@@ -20,7 +20,7 @@ BASE_URL="https://local.rosalution.cgds/rosalution"
 DOCKER_CONTAINER=$1
 ANALYSIS=$2
 
-if [[ -v ROSALUTION_BASE_URL ]]; then
+if [ -n "${ROSALUTION_BASE_URL+set}" ]; then
   BASE_URL=$ROSALUTION_BASE_URL
 fi
 
@@ -36,7 +36,7 @@ if [[ $# -lt 2 ]]; then
   fail=true
 fi
 
-if [[ ! -v ROSALUTION_CLIENT_ID || ! -v ROSALUTION_CLIENT_SECRET ]]; then
+if [ ! -n "${ROSALUTION_CLIENT_ID+1}" ] || ! [ -n "${ROSALUTION_CLIENT_SECRET+1}" ]; then
   echo "❌ Rosalution API environment credentials 'ROSALUTION_CLIENT_ID' and/or 'ROSALUTION_CLIENT_SECRET' are not set."
   echo "   Source this shell session by sourcing the following script <rosalution-install>/etc/api/rosalutionrc.sh."
   echo ""
@@ -45,8 +45,8 @@ if [[ ! -v ROSALUTION_CLIENT_ID || ! -v ROSALUTION_CLIENT_SECRET ]]; then
   fail=true
 fi
 
-target_rosalution_check=$(curl --fail -s -X 'GET' "$BASE_URL/api/heart-beat" -H 'accept: application/json' 2>&1)
-if [[ $target_rosalution_check == *"Failed"* ]]; then
+target_rosalution_check=$(curl --fail -s -k -X 'GET' "$BASE_URL/api/heart-beat" -H 'accept: application/json' 2>&1)
+if [[ $target_rosalution_check != *"thump"* ]]; then
   echo "🌐❌ Unable to to connect to target Rosalution API at $BASE_URL"
   fail=true
 fi
