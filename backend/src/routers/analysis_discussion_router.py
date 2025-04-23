@@ -82,7 +82,7 @@ async def add_analysis_discussion(
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):
-    """ Adds a new analysis topic """
+    """ Adds a new analysis discussion post """
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
 
     if not found_analysis:
@@ -182,3 +182,105 @@ def delete_analysis_discussion(
         )
 
     return repositories['analysis'].delete_discussion_post(valid_post['post_id'], analysis.name)
+
+
+@router.post("/{analysis_name}/discussions/{discussion_post_id}/thread/")
+async def add_analysis_discussion_reply(
+    analysis_name: str,
+    discussion_post_id: str,
+    discussion_reply_content: str = Form(...),
+    repositories=Depends(database),
+    client_id: VerifyUser = Security(get_current_user)
+):
+    """Adds a new reply post to a discussion post"""
+    print("analysis discussion router - add_analysis_discussion_reply")
+    found_analysis = repositories['analysis'].find_by_name(analysis_name)
+
+    if not found_analysis:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Analysis '{analysis_name}' does not exist. Unable to update discussion post.'"
+        )
+
+    analysis = Analysis(**found_analysis)
+    current_user = repositories["user"].find_by_client_id(client_id)
+
+    new_discussion_reply = {
+        "reply_id": str(uuid4()),
+        "author_id": client_id,
+        "author_fullname": current_user["full_name"],
+        "publish_timestamp": datetime.now(timezone.utc),
+        "content": discussion_reply_content,
+    }
+
+    return repositories['analysis'].add_discussion_reply(analysis.name, new_discussion_reply)
+
+
+@router.post("/{analysis_name}/discussions/{discussion_post_id}/thread/{discussion_reply_id}")
+async def edit_analysis_discussion_reply(
+    analysis_name: str,
+    discussion_post_id: str,
+    discussion_reply_id: str,
+    discussion_reply_content: str = Form(...),
+    repositories=Depends(database),
+    client_id: VerifyUser = Security(get_current_user)
+):
+    """Edit a reply post in a discussion post"""
+    print("analysis discussion router - edit_analysis_discussion_reply")
+
+    found_analysis = repositories['analysis'].find_by_name(analysis_name)
+
+    if not found_analysis:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Analysis '{analysis_name}' does not exist. Unable to update discussion post.'"
+        )
+
+    analysis = Analysis(**found_analysis)
+
+    try:
+        valid_reply = analysis.find_authored_discussion_reply(discussion_post_id, discussion_reply_id, client_id)
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e)) from e
+
+    if not valid_reply:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot update post they did not author."
+        )
+
+    return repositories['analysis'].updated_discussion_reply(valid_reply['reply_id'], discussion_reply_content, analysis.name)
+
+@router.post("/{analysis_name}/discussions/{discussion_post_id}/thread/{discussion_reply_id}")
+async def delete_analysis_discussion_reply(
+    analysis_name: str,
+    discussion_post_id: str,
+    discussion_reply_id: str,
+    discussion_reply_content: str = Form(...),
+    repositories=Depends(database),
+    client_id: VerifyUser = Security(get_current_user)
+):
+    """Deletes reply from a discussion post's thread"""
+    print("analysis discussion router - delete_analysis_discussion_reply")
+
+    found_analysis = repositories['analysis'].find_by_name(analysis_name)
+
+    if not found_analysis:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Analysis '{analysis_name}' does not exist. Unable to delete discussion reply.'"
+        )
+
+    analysis = Analysis(**found_analysis)
+
+    try:
+        valid_reply = analysis.find_authored_discussion_post(discussion_post_id, discussion_reply_id, client_id)
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e)) from e
+
+    if not valid_reply:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot delete reply they did not author."
+        )
+
+    return repositories['analysis'].delete_discussion_reply(valid_reply['reply_id'], analysis.name)
+

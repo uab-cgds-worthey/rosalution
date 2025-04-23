@@ -448,6 +448,37 @@ class AnalysisCollection:
         updated_document.pop("_id", None)
 
         return updated_document['discussions']
+    
+    def add_discussion_reply(self, discussion_post_id: str, analysis_name: str, discussion_reply: object):
+        """ Appends a new discussion reply to an existing discussion post to an analysis """
+
+        updated_document = self.collection.find_one_and_update({"name": analysis_name},
+                                                               {"$push": {"thread": discussion_reply}},
+                                                               array_filters=[{"item.post_id": discussion_post_id}],
+                                                               return_document=ReturnDocument.AFTER)
+
+        updated_document.pop("_id", None)
+
+        return updated_document['discussions']
+    
+    def update_discussion_reply(self, discussion_post_id: str, analysis_name: str, discussion_reply_id: str, discussion_reply_content: str):
+        """ Edits an existing Discussion Reply post """
+        """ Edits a discussion post from an analysis to update the discussion post's content """
+
+        updated_document = self.collection.find_one_and_update({"name": analysis_name}, {
+            "$set": {"discussions.$[item].thread.content": discussion_reply_content}
+        },
+                                                               array_filters=[{"item.post_id": discussion_post_id}, {"item.thread.reply_id": discussion_reply_id}],
+                                                               return_document=ReturnDocument.AFTER)
+
+        updated_document.pop("_id", None)
+
+        return updated_document['discussions']
+    
+    def delete_discussion_reply(self, discussion_post_id: str, analysis_name: str, discussion_reply_id: str):
+        """ Removes a Discussion Reply from a Discussion Post's Thread"""
+
+        return ''
 
     def attach_file(self, analysis_name: str, file_id: str, filename: str, comments: str):
         """Adds documents and comments to an analysis"""
