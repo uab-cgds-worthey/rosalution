@@ -251,37 +251,37 @@ export default {
 }
 
 .save-button {
-    margin-left: var(--p-8);
+  margin-left: var(--p-8);
 }
 
 .discussion-edit-post {
-    background-color: var(--rosalution-grey-50);
-    border-radius: var(--content-border-radius);
-    margin-top: var(--p-8);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  background-color: var(--rosalution-grey-50);
+  border-radius: var(--content-border-radius);
+  margin-top: var(--p-8);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .discussion-edit-post-text-area {
-    background-color: var(--rosalution-white);
-    border-radius: var(--content-border-radius);
-    border: solid;
-    border-color: var(--rosalution-grey-000);
-    padding: var(--p-16);
-    margin: var(--p-10);
-    position: relative;
-    width: 100%;
+  background-color: var(--rosalution-white);
+  border-radius: var(--content-border-radius);
+  border: solid;
+  border-color: var(--rosalution-grey-000);
+  padding: var(--p-16);
+  margin: var(--p-10);
+  position: relative;
+  width: 100%;
 }
 
 .discussion-actions {
-    width: 100%;
-    display: flex;
-    justify-content: right;
-    margin-right: var(--p-16);
-    margin-bottom: var(--p-10);
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  margin-right: var(--p-16);
+  margin-bottom: var(--p-10);
 }
 
 .attachments-list {

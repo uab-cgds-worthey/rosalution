@@ -177,16 +177,24 @@ export const analysisStore = reactive({
   },
 
   async addDiscussionReply(postId, newReplyContent) {
-    console.log('analysisStore - addDiscussionReply');
+    console.log('analysisStore receives NEW REPLY content - ' + newReplyContent);
+    const reply = await Analyses.postNewDiscussionReply(this.analysis.name, postId, newReplyContent);
+    // find post in this.analysis.discussions
+    // this.analysis.discussions.find("post_id" == postId)
+    // .thread.push(reply)
   },
 
   async editDiscussionReply(postId, replyId, replyContent) {
-    console.log('analysisStore - editDiscussionReply');
+    console.log('analysisStore receives EDIT content - ' + replyContent);
   },
 
   async deleteDiscussionReply(postId, replyId) {
     console.log('analysisStore - deleteDiscussionReply');
+    // find post in this.analysis.discussions
+    // this.analysis.discussions.find("post_id" == postId)
+    // .thread.pop("reply_id" == replyId)
   },
+
   // -----------------------------------
   // Analysis Attachments
   // -----------------------------------
