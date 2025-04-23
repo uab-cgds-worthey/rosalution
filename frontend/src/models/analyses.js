@@ -312,4 +312,29 @@ export default {
 
     return success;
   },
+
+  async postNewDiscussionReply(analysisName, discussionPostId, newReplyContent) {
+    console.log('analyses.js receiving new reply content: '+ newReplyContent);
+    const url = `/rosalution/api/analysis/${analysisName}/discussions/${discussionPostId}/thread/`;
+
+    const discussionThread = {
+      'post_id': discussionPostId,
+      'discussion_reply_content': newReplyContent,
+    };
+
+    const success = await Requests.postForm(url, discussionThread);
+
+    return success;
+  },
+
+  async editDiscussionReply(analysisName, postId, replyId, replyContent) {
+    console.log('analyses.js receiving new reply content: '+ replyContent);
+
+    return '';
+  },
+
+  async deleteDiscussionReply(analysisName, postId, replyId) {
+    console.log('analyses.js receiving reply to delete');
+    return '';
+  },
 };

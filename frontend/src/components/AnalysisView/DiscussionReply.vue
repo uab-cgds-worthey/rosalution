@@ -7,9 +7,40 @@
             <b>{{ authorName }}</b>
             {{  timestamp }}
           </div>
+          <ul v-if="isUser" class="context-menu">
+            <ContextMenu
+              :actions="actions"
+              :contextId="replyId"
+              @edit="editDiscussionReply"
+              @delete="deleteDiscussionReply"
+              >
+              <font-awesome-icon class="header-icon" icon="ellipsis-vertical" size="xl" />
+            </ContextMenu>
+          </ul>
         </div>
-        <div class="discussion-reply-content">
+        <div v-if="!editingReplyFlag.value" class="discussion-reply-content">
           {{content}}
+        </div>
+        <div v-else class="discussion-edit-reply">
+          <textarea
+            contenteditable="plaintext-only"
+            class="discussion-edit-reply-text-area"
+            v-model="editReplyContent"
+          />
+          <div class="discussion-reply-actions">
+            <button
+              class="secondary-button"
+              @click="cancelEditReply"
+            >
+              Cancel
+            </button>
+            <button
+              class="primary-button save-button"
+              @click="confirmEditReply"
+            >
+              Save
+            </button>
+          </div>
         </div>
       </div>
     </blockquote>
@@ -18,6 +49,7 @@
 
 <script setup>
 import {computed, ref} from 'vue';
+import ContextMenu from '@/components/ContextMenu.vue';
 
 const props = defineProps({
   replyId: {
@@ -54,19 +86,26 @@ const timestamp = computed(() => {
   return new Date(props.publishTimestamp + 'Z').toLocaleString();
 });
 
+const isUser = computed(() => {
+  return props.userClientId == props.authorId;
+});
+
 // functions
 
 function editDiscussionReply() {
+  editingReplyFlag.value = ref(true);
   console.log('Reply is being edited');
-  editingReplyFlag.value = !editingReplyFlag.value;
 }
 
 function confirmEditReply() {
+  editingReplyFlag.value = ref(false);
   console.log('Confirming Reply has been edited');
-  emit('reply:edit', props.id, editReplyContent);
+  emit('reply:edit', props.replyId, editReplyContent);
 }
 
 function cancelEditReply() {
+  editingReplyFlag.value = ref(false);
+  editReplyContent.valueOf = props.content;
   console.log('Cancel Editing Reply');
 }
 
@@ -101,6 +140,54 @@ function deleteDiscussionReply(replyId) {
 .discussion-reply-quote {
   border-left: var(--p-5) solid var(--rosalution-grey-50);
   /* padding-right: var(--p-8); */
+}
+
+.context-menu {
+ display:flex;
+ flex-wrap: nowrap;
+ justify-content: right;
+ margin-right: var(--p-10);
+}
+
+.header-icon {
+  color: var(--rosalution-purple-300);
+  cursor: pointer;
+  padding: var(--p-5)
+}
+
+.save-button {
+  margin-left: var(--p-8);
+}
+
+.discussion-edit-reply {
+  background-color: var(--rosalution-grey-000);
+  border-radius: var(--content-border-radius);
+  margin-top: var(--p-8);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.discussion-edit-reply-text-area {
+  background-color: var(--rosalution-white);
+  border-radius: var(--content-border-radius);
+  margin-top: var(--p-8);
+  margin-bottom: var(--p-8);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.discussion-reply-actions {
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  margin-right: var(--p-16);
+  margin-bottom: var(--p-10);
 }
 
 </style>

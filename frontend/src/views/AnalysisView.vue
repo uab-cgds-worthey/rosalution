@@ -597,7 +597,7 @@ async function deleteDiscussionPost(postId) {
  * @param {string} newReplyContent - The content of the new discussion reply.
 */
 async function addDiscussionReply(postId, newReplyContent) {
-  // await analysisStore.addDiscussionReply(newReplyContent);
+  await analysisStore.addDiscussionReply(postId, newReplyContent);
   console.log('In Analysis: adding new Discussion Reply with Content' + newReplyContent);
 }
 /**
@@ -607,7 +607,7 @@ async function addDiscussionReply(postId, newReplyContent) {
  * @param {string} replyContent - The content of the new discussion reply.
 */
 async function editDiscussionReply(postId, replyId, replyContent) {
-  // await analysisStore.editDiscussionReply(newReplyContent);
+  await analysisStore.editDiscussionReply(postId, replyId, replyContent);
   console.log('In Analysis: editing Discussion Reply with Content ' + replyContent);
 }
 /**
@@ -616,7 +616,7 @@ async function editDiscussionReply(postId, replyId, replyContent) {
  * @param {string} replyId - The identifier of the reply to delete
 */
 async function deleteDiscussionReply(postId, replyId) {
-  // await analysisStore.deleteDiscussionReply(newReplyContent);
+  await analysisStore.deleteDiscussionReply(postId, replyId);
   console.log('In Analysis: deleted Discussion Reply');
 }
 
