@@ -15,7 +15,6 @@ usage() {
   echo " "
   echo "Please install jq for this script to work. https://stedolan.github.io/jq/"
   echo " "
-  exit
 }
 
 BASE_URL="https://local.rosalution.cgds/rosalution"
