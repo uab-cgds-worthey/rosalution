@@ -36,7 +36,7 @@ export ROSALUTION_BASE_URL=$BASE_URL
 
 echo "Visit '$BASE_URL/account' for API account credentials: "
 
-if [[ ! -v INPUT_CLIENT_ID ]]
+if [ -z "${INPUT_CLIENT_ID+1}" ]
 then
   echo "Please enter your Rosalution API Client ID for Rosalution at '$BASE_URL': "
   read -r INPUT_CLIENT_ID
