@@ -250,12 +250,11 @@ async def edit_analysis_discussion_reply(
 
     return repositories['analysis'].updated_discussion_reply(valid_reply['reply_id'], discussion_reply_content, analysis.name)
 
-@router.post("/{analysis_name}/discussions/{discussion_post_id}/thread/{discussion_reply_id}")
+@router.delete("/{analysis_name}/discussions/{discussion_post_id}/thread/{discussion_reply_id}")
 async def delete_analysis_discussion_reply(
     analysis_name: str,
     discussion_post_id: str,
     discussion_reply_id: str,
-    discussion_reply_content: str = Form(...),
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):
