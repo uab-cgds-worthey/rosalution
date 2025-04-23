@@ -55,14 +55,14 @@ echo " /_/    \_\_| |_|_| |_|\___/ \__\__,_|\__|_|\___/|_| |_|"
 echo "Rosalution URL: $BASE_URL..."
 echo ""
 
-if [ ! -n "${ROSALUTION_CLIENT_ID+set}" ]; then
+if [ -z "${ROSALUTION_CLIENT_ID+1}" ]; then
   echo "Please enter your Client Id";
   read -r CLIENT_ID;
 else
   CLIENT_ID=$ROSALUTION_CLIENT_ID
 fi
 
-if [ ! -n "${ROSALUTION_CLIENT_SECRET+set}" ]; then
+if [ -z "${ROSALUTION_CLIENT_SECRET+1}" ]; then
   echo "Please enter your Client Secret";
   read -r -s CLIENT_SECRET;
 else
@@ -95,13 +95,8 @@ RESPONSE=$(curl -s -X "GET" \
   -H "accept: application/json" \
   -H "Authorization: Bearer $AUTH_TOKEN")
 
-echo $RESPONSE
-
 ANALYSES=()
 while IFS='' read -r line; do ANALYSES+=("$line"); done < <(echo "$RESPONSE" | jq -c '[.[].name]')
-
-echo $ANALYSES
-
 
 # Hardcoding to encode the special characters that are commonly
 # known in cases being uploaded to Rosalution at this time
