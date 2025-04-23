@@ -63,22 +63,14 @@ echo " /_/    \_\_| |_|_| |_|\___/ \__\__,_|\__|_|\___/|_| |_|"
 
 echo "Rosalution URL: $BASE_URL..."
 
-<<<<<<< HEAD
 if [ -z "${ROSALUTION_CLIENT_ID+1}" ]; then
-=======
-if [[ ! -v ROSALUTION_CLIENT_ID ]]; then
->>>>>>> eac88a5 (wip to cleaning all the things up)
   echo "Please enter your Client Id";
   read -r CLIENT_ID;
 else
   CLIENT_ID=$ROSALUTION_CLIENT_ID
 fi
 
-<<<<<<< HEAD
 if [ -z "${ROSALUTION_CLIENT_SECRET+1}" ]; then
-=======
-if [[ ! -v ROSALUTION_CLIENT_SECRET ]]; then
->>>>>>> eac88a5 (wip to cleaning all the things up)
   echo "Please enter your Client Secret";
   read -r -s CLIENT_SECRET;
 else
@@ -92,22 +84,13 @@ if [ -z "${CLIENT_ID}" ] || [ -z "${CLIENT_SECRET}" ]; then
 fi
 
 echo "Fetching valid authentication token..."
-<<<<<<< HEAD
 AUTH_RESPONSE=$(curl -s -k -X 'POST' \
   "$BASE_URL/api/auth/token" \
   -H "accept: application/json" \
   -H "Content-Type: application/x-www-form-urlencoded" \
   -d "client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET")
 AUTH_TOKEN=$(echo "$AUTH_RESPONSE" |  jq -r '.access_token')
-=======
 
-AUTH_TOKEN=$(curl -s -X 'POST' \
-  "$BASE_URL/api/auth/token" \
-  -H "accept: application/json" \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET" | jq -r '.access_token')
-
->>>>>>> eac88a5 (wip to cleaning all the things up)
 if [[ $AUTH_TOKEN == "null" ]]; then
   echo "Authentication failure; please check credentials"
   exit 1
@@ -122,22 +105,14 @@ for ANALYSIS in "$@"; do
   ANALYSIS=${ANALYSIS/\(/\%28}
   ANALYSIS=${ANALYSIS/\)/\%29}
   echo "$BASE_URL/api/annotation/$ANALYSIS"
-<<<<<<< HEAD
   curl -s -k -X "POST" \
-=======
-  curl -s -X "POST" \
->>>>>>> eac88a5 (wip to cleaning all the things up)
     "$BASE_URL/api/annotation/$ANALYSIS" \
     -H "accept: application/json" \
     -H "Authorization: Bearer $AUTH_TOKEN" \
     > /dev/null
   
   if [  "$number_of_analyses" -gt 1  ]; then
-    echo "Waiting 1 minute before queueing next Analysis..."
-    sleep 1m
+    echo "Waiting 1 second before queueing next Analysis..."
+    sleep 1s
   fi
-<<<<<<< HEAD
 done
-=======
-done
->>>>>>> eac88a5 (wip to cleaning all the things up)
