@@ -11,7 +11,7 @@
 
 - Caching calls to HTTP datasources configured as a dataset, and forge annotation tasks can be enabled to read value
   from the cached call dataset.
-- Caching versions in-memory temporarily when processing annotations.  A version is cached used its datasource & 
+- Caching versions in-memory temporarily when processing annotations.  A version is cached used its datasource &
   versioning type.
 
 ## 0.8.4
