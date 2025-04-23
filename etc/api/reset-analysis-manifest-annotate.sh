@@ -20,7 +20,7 @@ BASE_URL="https://local.rosalution.cgds/rosalution"
 DOCKER_CONTAINER=$1
 ANALYSIS=$2
 
-if [ -n "${ROSALUTION_BASE_URL+set}" ]; then
+if [ -n "${ROSALUTION_BASE_URL+1}" ]; then
   BASE_URL=$ROSALUTION_BASE_URL
 fi
 
@@ -36,7 +36,7 @@ if [[ $# -lt 2 ]]; then
   fail=true
 fi
 
-if [ ! -n "${ROSALUTION_CLIENT_ID+1}" ] || ! [ -n "${ROSALUTION_CLIENT_SECRET+1}" ]; then
+if [ -z "${ROSALUTION_CLIENT_ID+1}" ] || [ -z "${ROSALUTION_CLIENT_SECRET+1}" ]; then
   echo "❌ Rosalution API environment credentials 'ROSALUTION_CLIENT_ID' and/or 'ROSALUTION_CLIENT_SECRET' are not set."
   echo "   Source this shell session by sourcing the following script <rosalution-install>/etc/api/rosalutionrc.sh."
   echo ""

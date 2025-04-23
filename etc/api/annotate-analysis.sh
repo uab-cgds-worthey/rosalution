@@ -26,7 +26,7 @@ usage() {
 
 BASE_URL="https://local.rosalution.cgds/rosalution"
 
-if [ -n "${ROSALUTION_BASE_URL+set}" ]; then
+if [ -n "${ROSALUTION_BASE_URL+1}" ]; then
   BASE_URL=$ROSALUTION_BASE_URL
 fi
 
@@ -63,14 +63,14 @@ echo " /_/    \_\_| |_|_| |_|\___/ \__\__,_|\__|_|\___/|_| |_|"
 
 echo "Rosalution URL: $BASE_URL..."
 
-if [ ! -n "${ROSALUTION_CLIENT_ID+set}" ]; then
+if [ -z "${ROSALUTION_CLIENT_ID+1}" ]; then
   echo "Please enter your Client Id";
   read -r CLIENT_ID;
 else
   CLIENT_ID=$ROSALUTION_CLIENT_ID
 fi
 
-if [ ! -n "${ROSALUTION_CLIENT_SECRET+set}" ]; then
+if [ -z "${ROSALUTION_CLIENT_SECRET+1}" ]; then
   echo "Please enter your Client Secret";
   read -r -s CLIENT_SECRET;
 else
@@ -89,7 +89,7 @@ AUTH_RESPONSE=$(curl -s -k -X 'POST' \
   -H "accept: application/json" \
   -H "Content-Type: application/x-www-form-urlencoded" \
   -d "client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET")
-AUTH_TOKEN=$(echo $AUTH_RESPONSE |  jq -r '.access_token')
+AUTH_TOKEN=$(echo "$AUTH_RESPONSE" |  jq -r '.access_token')
 if [[ $AUTH_TOKEN == "null" ]]; then
   echo "Authentication failure; please check credentials"
   exit 1
