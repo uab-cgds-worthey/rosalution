@@ -213,7 +213,7 @@ async def add_analysis_discussion_reply(
         "content": discussion_reply_content,
     }
 
-    return repositories['analysis'].add_discussion_reply(analysis.name, new_discussion_reply)
+    return repositories['analysis'].add_discussion_reply(discussion_post_id, analysis.name, new_discussion_reply)
 
 
 @router.post("/{analysis_name}/discussions/{discussion_post_id}/thread/{discussion_reply_id}")
@@ -248,7 +248,7 @@ async def edit_analysis_discussion_reply(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot update post they did not author."
         )
 
-    return repositories['analysis'].updated_discussion_reply(valid_reply['reply_id'], discussion_reply_content, analysis.name)
+    return repositories['analysis'].updated_discussion_reply(discussion_post_id, analysis.name, valid_reply['reply_id'], discussion_reply_content)
 
 @router.delete("/{analysis_name}/discussions/{discussion_post_id}/thread/{discussion_reply_id}")
 async def delete_analysis_discussion_reply(
@@ -272,7 +272,7 @@ async def delete_analysis_discussion_reply(
     analysis = Analysis(**found_analysis)
 
     try:
-        valid_reply = analysis.find_authored_discussion_post(discussion_post_id, discussion_reply_id, client_id)
+        valid_reply = analysis.find_authored_discussion_reply(discussion_post_id, discussion_reply_id, client_id)
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e)) from e
 
