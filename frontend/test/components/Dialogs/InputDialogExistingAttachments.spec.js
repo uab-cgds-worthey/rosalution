@@ -1,6 +1,8 @@
 import {describe, it, beforeEach, expect} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+
 import InputDialogExistingAttachments from '@/components/Dialogs/InputDialogExistingAttachments.vue';
 
 describe('InputDialogExistingAttachments.vue', () => {
@@ -27,6 +29,11 @@ describe('InputDialogExistingAttachments.vue', () => {
     wrapper = shallowMount(InputDialogExistingAttachments, {
       props: {
         ...defaultProps,
+      },
+      global: {
+        components: {
+          'font-awesome-icon': FontAwesomeIcon,
+        },
       },
     });
   });

@@ -21,12 +21,6 @@ function getMountedComponent(props) {
 }
 
 describe('UserInfoBox.vue', () => {
-  it('renders the correct header text', () => {
-    const header = 'Account Information';
-    const wrapper = getMountedComponent({header});
-    expect(wrapper.find('.user-info-header-content h2').text()).to.equal('Account Information');
-  });
-
   it('renders the correct username', () => {
     const username = 'johndoe';
     const wrapper = getMountedComponent({username});

@@ -1,4 +1,4 @@
-import {expect, afterEach, beforeEach, describe, it} from 'vitest';
+import {expect, afterEach, beforeEach, describe, it, vi} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 import sinon from 'sinon';
 
@@ -7,6 +7,8 @@ import AccountView from '@/views/AccountView.vue';
 import {authStore} from '@/stores/authStore.js';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {RouterLink} from 'vue-router';
+import {useRouter} from 'vue-router';
+
 
 /**
  * Helper that mounts and returns the rendered component
@@ -33,18 +35,39 @@ function getMountedComponent(props) {
   });
 }
 
+vi.mock(import('vue-router'), async (importOriginal) => {
+  const mod = await importOriginal();
+  return {
+    ...mod,
+    useRoute: vi.fn(),
+    useRouter: vi.fn(() => ({
+      push: () => { },
+    })),
+  };
+});
+
 describe('AccountView.vue', () => {
   let sandbox;
   let mockUser;
   let getUserStub;
   let generateSecretStub;
   let getAPICredentialsStub;
+  let mockVueRouterPush;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     mockUser = {
       clientSecret: 'testsecret',
     };
+
+    mockVueRouterPush = sandbox.fake.returns(true);
+    useRouter.mockImplementation(() => {
+      return {
+        push: () => {
+          mockVueRouterPush();
+        },
+      };
+    });
 
     getUserStub = sandbox.stub(authStore, 'getUser');
     getUserStub.returns(mockUser);
@@ -81,7 +104,7 @@ describe('AccountView.vue', () => {
       headerComponent.vm.$emit('logout');
       await headerComponent.vm.$nextTick();
 
-      expect(wrapper.vm.$router.push.called).to.be.true;
+      expect(mockVueRouterPush.called).to.be.true;
     });
   });
 
@@ -101,7 +124,6 @@ describe('AccountView.vue', () => {
     const wrapper = getMountedComponent();
 
     let credentialsBox = wrapper.findComponent('[data-test=credentials]');
-
     await credentialsBox.vm.$emit('display-secret');
     await wrapper.vm.$nextTick();
 

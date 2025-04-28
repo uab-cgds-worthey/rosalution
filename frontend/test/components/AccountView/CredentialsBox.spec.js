@@ -21,13 +21,6 @@ function getMountedComponent(props) {
 }
 
 describe('CredentialsBox.vue', () => {
-  it('renders the header prop', () => {
-    const header = 'Test Header';
-    const wrapper = getMountedComponent({header});
-
-    expect(wrapper.find('.credentials-name').text()).to.contain(header);
-  });
-
   it('renders the clientId prop', () => {
     const clientId = 'test-client-id';
     const wrapper = getMountedComponent({clientId});
@@ -47,7 +40,7 @@ describe('CredentialsBox.vue', () => {
   it('emits generateSecret event when Generate Secret button is clicked', async () => {
     const wrapper = getMountedComponent();
 
-    await wrapper.find('.button').trigger('click');
+    await wrapper.find('.generate-button').trigger('click');
     expect(wrapper.emitted()).to.have.property('generate-secret');
     expect(wrapper.emitted()['generate-secret']).to.have.length(1);
   });

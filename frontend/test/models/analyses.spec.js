@@ -62,7 +62,7 @@ describe('analyses.js', () => {
     expect(mockPutRequest.called).to.be.true;
   });
 
-  describe('supporting evidence', () => {
+  describe('attachments', () => {
     it('attaches as a file', async () => {
       mockPostFormResponse.returns({sucess: 'yay'});
       await Analyses.attachSupportingEvidence('CPAM0002', {
@@ -103,7 +103,7 @@ describe('analyses.js', () => {
       expect(mockPostFormResponse.called).to.be.true;
     });
 
-    it('removes supporting evidence', async () => {
+    it('removes attachment', async () => {
       await Analyses.removeSupportingEvidence('CPAM0002', 'remove-attach-it-now');
       expect(mockDeleteRequest.called).to.be.true;
     });
