@@ -151,7 +151,7 @@ class Analysis(BaseAnalysis):
 
         disccussion_post = self.find_discussion_post(discussion_post_id)
 
-        for reply in disccussion_post.thread:
+        for reply in disccussion_post['thread']:
             if reply['reply_id'] == discussion_reply_id:
                 return reply
             
