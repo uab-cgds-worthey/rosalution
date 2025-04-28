@@ -204,6 +204,7 @@ export const analysisStore = reactive({
     // console.log(discussions);
 
     this.analysis.discussions = discussions;
+    console.log(discussions);
   },
 
   async editDiscussionReply(postId, replyId, replyContent) {
