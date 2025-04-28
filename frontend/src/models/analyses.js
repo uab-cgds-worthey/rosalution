@@ -313,12 +313,12 @@ export default {
     return success;
   },
 
-  async postNewDiscussionReply(analysisName, discussionPostId, newReplyContent) {
-    console.log('analyses.js receiving new reply content: '+ newReplyContent);
-    const url = `/rosalution/api/analysis/${analysisName}/discussions/${discussionPostId}/thread/`;
+  async postNewDiscussionReply(analysisName, postId, newReplyContent) {
+    // console.log('analyses.js receiving new reply content: '+ newReplyContent);
+    const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}/thread/`;
 
     const discussionThread = {
-      'post_id': discussionPostId,
+      'post_id': postId,
       'discussion_reply_content': newReplyContent,
     };
 
@@ -330,11 +330,22 @@ export default {
   async editDiscussionReply(analysisName, postId, replyId, replyContent) {
     console.log('analyses.js receiving new reply content: '+ replyContent);
 
-    return '';
+    const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}/thread/${replyId}`;
+
+    const attachmentForm = {'discussion_reply_content': replyContent};
+
+    const success = await Requests.postForm(url, attachmentForm);
+
+    return success;
   },
 
   async deleteDiscussionReply(analysisName, postId, replyId) {
     console.log('analyses.js receiving reply to delete');
-    return '';
+
+    const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}/thread/${replyId}`;
+
+    const success = await Requests.delete(url);
+
+    return success;
   },
 };

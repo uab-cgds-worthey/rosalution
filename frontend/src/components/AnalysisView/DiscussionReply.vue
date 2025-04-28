@@ -76,8 +76,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['reply:edit', 'reply:delete']);
+console.log('IS THIS RUNNING');
 
-const editReplyContent = props.content;
+const editReplyContent = ref(props.content);
 const editingReplyFlag = ref(false);
 
 // computed
@@ -99,13 +100,14 @@ function editDiscussionReply() {
 
 function confirmEditReply() {
   editingReplyFlag.value = ref(false);
-  console.log('Confirming Reply has been edited');
-  emit('reply:edit', props.replyId, editReplyContent);
+  console.log('Confirming Reply has been edited ');
+  console.log(editReplyContent.value);
+  emit('reply:edit', props.replyId, editReplyContent.value);
 }
 
 function cancelEditReply() {
   editingReplyFlag.value = ref(false);
-  editReplyContent.valueOf = props.content;
+  editReplyContent.value = props.content;
   console.log('Cancel Editing Reply');
 }
 

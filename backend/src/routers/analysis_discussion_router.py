@@ -193,7 +193,7 @@ async def add_analysis_discussion_reply(
     client_id: VerifyUser = Security(get_current_user)
 ):
     """Adds a new reply post to a discussion post"""
-    print("analysis discussion router - add_analysis_discussion_reply")
+    # print("analysis discussion router - add_analysis_discussion_reply")
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
 
     if not found_analysis:
@@ -281,5 +281,5 @@ async def delete_analysis_discussion_reply(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot delete reply they did not author."
         )
 
-    return repositories['analysis'].delete_discussion_reply(valid_reply['reply_id'], analysis.name)
+    return repositories['analysis'].delete_discussion_reply(discussion_post_id, analysis.name, valid_reply['reply_id'])
 

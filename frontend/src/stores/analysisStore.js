@@ -176,16 +176,44 @@ export const analysisStore = reactive({
     this.analysis.discussions = discussions;
   },
 
+  findDiscussionPost(postId) {
+    const discussion = this.analysis.discussions.find((post) => {
+      return post.post_id === postId;
+    });
+
+    return discussion;
+  },
+
+  async setAnalysisDiscussions(discussions) {
+    this.analysis.discussions = discussions;
+  },
+
   async addDiscussionReply(postId, newReplyContent) {
-    console.log('analysisStore receives NEW REPLY content - ' + newReplyContent);
-    const reply = await Analyses.postNewDiscussionReply(this.analysis.name, postId, newReplyContent);
+    const discussions = await Analyses.postNewDiscussionReply(this.analysis.name, postId, newReplyContent);
     // find post in this.analysis.discussions
     // this.analysis.discussions.find("post_id" == postId)
     // .thread.push(reply)
+
+    // this.analysis.discussions.find((post) => {
+    //   if (post.post_id === postId) {
+    //     post.thread.push(reply);
+    //   }
+    // });
+
+    // console.log('add discussion reply returned discussions - ');
+    // console.log(discussions);
+
+    this.analysis.discussions = discussions;
   },
 
   async editDiscussionReply(postId, replyId, replyContent) {
     console.log('analysisStore receives EDIT content - ' + replyContent);
+    const discussions = await Analyses.editDiscussionReply(this.analysis.name, postId, replyId, replyContent);
+
+    console.log('edit discussion reply returned discussions - ');
+    console.log(discussions);
+
+    this.analysis.discussions = discussions;
   },
 
   async deleteDiscussionReply(postId, replyId) {
@@ -193,6 +221,13 @@ export const analysisStore = reactive({
     // find post in this.analysis.discussions
     // this.analysis.discussions.find("post_id" == postId)
     // .thread.pop("reply_id" == replyId)
+
+    const discussions = await Analyses.deleteDiscussionReply(this.analysis.name, postId, replyId);
+
+    console.log('delete discussion reply returned discussions - ');
+    console.log(discussions);
+
+    this.analysis.discussions = discussions;
   },
 
   // -----------------------------------
