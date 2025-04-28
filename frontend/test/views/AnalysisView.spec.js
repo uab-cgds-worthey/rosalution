@@ -191,7 +191,7 @@ describe('AnalysisView', () => {
       const headerComponent = wrapper.get('[data-test="analysis-view-header"]');
       expect(headerComponent.attributes('sectionanchors')).to.equal(
           'Brief,Medical Summary,Mus musculus (Mouse) Model System,Pedigree,' +
-        'Case Information,Discussion,Supporting Evidence',
+        'Case Information,Discussion,Attachments',
       );
     });
 
@@ -431,8 +431,8 @@ describe('AnalysisView', () => {
     });
   });
 
-  describe('supporting evidence', () => {
-    describe('when adding supporting evidence as an attachment', () => {
+  describe('attachments', () => {
+    describe('when adding attachments', () => {
       it('displays the attachment modal when the supplemental form list requests dialog', async () => {
         const supplementalComponent = wrapper.getComponent(AttachmentsSection);
         supplementalComponent.vm.$emit('open-modal');
@@ -468,7 +468,7 @@ describe('AnalysisView', () => {
       });
     });
 
-    describe('when removing supporting evidence', async () => {
+    describe('when removing attachment', async () => {
       beforeEach(() => {
         analysisStore.forceUpdate(fixtureData());
       });
@@ -494,7 +494,7 @@ describe('AnalysisView', () => {
         expect(supplementalComponent.props('attachments').length).to.equal(1);
       });
 
-      it('should confirmation to remove the supporting evidence from the analysis', async () => {
+      it('should confirmation to remove the attachment from the analysis', async () => {
         const fakeAttachment = {name: 'fake.txt'};
         const supplementalComponent = wrapper.getComponent(AttachmentsSection);
 
@@ -684,7 +684,7 @@ describe('AnalysisView', () => {
         expect(mouseFieldUpdated.value.length).to.equal(1);
       });
 
-      it('removes the supporting evidence from field', async () => {
+      it('removes the attachment from field', async () => {
         const sectionId = 'Mus_musculus (Mouse) Model System';
         const sectionName = 'Mus musculus (Mouse) Model System';
         const fieldName = 'Veterinary Histology Report';

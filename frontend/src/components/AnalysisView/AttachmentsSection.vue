@@ -35,7 +35,11 @@
         <button @click="$emit('edit', attachment)" class="icon-button attachment-action" data-test="edit-button">
           <font-awesome-icon icon="pencil" size="xl"/>
         </button>
-        <button v-if="writePermissions" @click="$emit('delete', attachment)" class="icon-button attachment-action" data-test="delete-button">
+        <button v-if="writePermissions"
+          @click="$emit('delete', attachment)"
+          class="icon-button attachment-action"
+          data-test="delete-button"
+        >
           <font-awesome-icon icon="xmark" size="xl"/>
         </button>
       </div>

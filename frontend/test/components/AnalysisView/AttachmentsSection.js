@@ -1,5 +1,5 @@
 import {describe, it, beforeEach, expect} from 'vitest';
-import {shallowMount} from '@vue/test-utils'
+import {shallowMount} from '@vue/test-utils';
 import AttachmentsSection from '@/components/AnalysisView/AttachmentsSection.vue';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 

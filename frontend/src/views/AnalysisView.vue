@@ -456,7 +456,7 @@ async function removeSupportingEvidence(attachmentToDelete) {
       .title('Delete Supporting Information?')
       .confirmText('Delete')
       .cancelText('Cancel')
-      .confirm('Deleting this item will remove it from the supporting evidence list.');
+      .confirm('Deleting this item will remove it from the attachments.');
 
   if (!confirmedDelete) {
     return;
