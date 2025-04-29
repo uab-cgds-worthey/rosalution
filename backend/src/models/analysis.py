@@ -142,7 +142,7 @@ class Analysis(BaseAnalysis):
                 return discussion
 
         return None
-    
+
     def find_discussion_reply(self, discussion_post_id, discussion_reply_id):
         """
         Finds a specific discussion reply to a discussion post in an analysis by the discussion post id 
@@ -154,7 +154,7 @@ class Analysis(BaseAnalysis):
         for reply in discussion_post['thread']:
             if reply['reply_id'] == discussion_reply_id:
                 return reply
-            
+
         return None
 
     def find_authored_discussion_post(self, discussion_post_id, client_id):
@@ -171,7 +171,7 @@ class Analysis(BaseAnalysis):
             return discussion_post
 
         return None
-    
+
     def find_authored_discussion_reply(self, discussion_post_id, discussion_reply_id, client_id):
         """
         Finds a discussion reply from a user that authored the reply to a post in an analysis otherwise returns none 
@@ -182,8 +182,8 @@ class Analysis(BaseAnalysis):
 
         if discussion_reply is None:
             raise ValueError(f"Post '{discussion_reply_id}' does not exist.")
-        
+
         if discussion_reply['author_id'] == client_id:
             return discussion_reply
-        
+
         return None
