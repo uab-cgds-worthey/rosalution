@@ -192,8 +192,7 @@ async def add_analysis_discussion_reply(
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):
-    """Adds a new reply post to a discussion post"""
-    # print("analysis discussion router - add_analysis_discussion_reply")
+    """Adds a new reply to a discussion post"""
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
 
     if not found_analysis:
@@ -225,8 +224,7 @@ async def edit_analysis_discussion_reply(
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):
-    """Edit a reply post in a discussion post"""
-    print("analysis discussion router - edit_analysis_discussion_reply")
+    """Edits a reply in a discussion post"""
 
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
 
@@ -262,7 +260,6 @@ async def delete_analysis_discussion_reply(
     client_id: VerifyUser = Security(get_current_user)
 ):
     """Deletes reply from a discussion post's thread"""
-    print("analysis discussion router - delete_analysis_discussion_reply")
 
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
 

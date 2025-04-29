@@ -467,15 +467,6 @@ class AnalysisCollection:
     ):
         """ Edits a discussion reply from an analysis to update the discussion reply's content """
 
-        update_obj = {
-            "name": analysis_name,
-            "$set": {"discussions.$[discussion].thread.$[reply].content": discussion_reply_content},
-            "array_filters": [{"discussion.post_id": discussion_post_id}, {"reply.reply_id": discussion_reply_id}],
-        }
-
-        print("UPDATE QUERY!!!!!!!!!!!!")
-        print(update_obj)
-
         updated_document = self.collection.find_one_and_update({"name": analysis_name}, {
             "$set": {"discussions.$[post].thread.$[reply].content": discussion_reply_content}
         },
@@ -484,9 +475,6 @@ class AnalysisCollection:
                                                                return_document=ReturnDocument.AFTER)
 
         updated_document.pop("_id", None)
-
-        print("updating discussion reply")
-        print(updated_document)
 
         return updated_document['discussions']
 
@@ -500,8 +488,6 @@ class AnalysisCollection:
                                                                return_document=ReturnDocument.AFTER)
 
         updated_document.pop("_id", None)
-        # print("deleting discussion reply")
-        # print(updated_document)
 
         return updated_document['discussions']
 
