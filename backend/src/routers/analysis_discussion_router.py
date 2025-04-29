@@ -248,7 +248,10 @@ async def edit_analysis_discussion_reply(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot update post they did not author."
         )
 
-    return repositories['analysis'].updated_discussion_reply(discussion_post_id, analysis.name, valid_reply['reply_id'], discussion_reply_content)
+    return repositories['analysis'].updated_discussion_reply(
+        discussion_post_id, analysis.name, valid_reply['reply_id'], discussion_reply_content
+    )
+
 
 @router.delete("/{analysis_name}/discussions/{discussion_post_id}/thread/{discussion_reply_id}")
 async def delete_analysis_discussion_reply(
@@ -282,4 +285,3 @@ async def delete_analysis_discussion_reply(
         )
 
     return repositories['analysis'].delete_discussion_reply(discussion_post_id, analysis.name, valid_reply['reply_id'])
-
