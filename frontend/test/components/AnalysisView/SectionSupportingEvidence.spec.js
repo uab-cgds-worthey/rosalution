@@ -1,7 +1,7 @@
 import {describe, it, expect} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 
-import SectionSupportingEvidence from '@/components/AnalysisView/SectionSupportingEvidence.vue';
+import SectionAttachment from '@/components/AnalysisView/SectionAttachment.vue';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 /**
@@ -22,7 +22,7 @@ function getMountedComponent(props) {
     writePermissions: true,
   };
 
-  return shallowMount(SectionSupportingEvidence, {
+  return shallowMount(SectionAttachment, {
     props: {...defaultPropsData, ...props},
     global: {
       components: {
@@ -32,15 +32,15 @@ function getMountedComponent(props) {
   });
 }
 
-describe('SectionSupportingEvidence.vue', () => {
+describe('SectionAttachment.vue', () => {
   let wrapper;
 
-  it('renders the supporting evidence when the value exists', async () => {
+  it('renders the attachment when the value exists', async () => {
     wrapper = getMountedComponent();
     expect(wrapper.html()).to.include('CPAM0046');
   });
 
-  it('renders an attach button when there is not content to render', () => {
+  it('renders  attach button when there is no attachment content', () => {
     wrapper = getMountedComponent({
       value: [],
     });

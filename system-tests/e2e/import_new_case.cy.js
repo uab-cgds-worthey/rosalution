@@ -4,42 +4,46 @@ describe('import_new_case.cy.js', () => {
     cy.visit('/');
   });
 
-  it('imports a new case', () => {
+  it('imports a new analysis', () => {
     cy.get('[data-test="create-card"]').click();
-    cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/phenotips-import.json', {
+    cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/new-analysis-import.json', {
       action: 'drag-drop',
     });
     cy.get('[data-test="confirm"]').click();
-    cy.get('h2').should('contain', 'Successful import');
-    cy.get('.modal-container').should('exist');
+    cy.get('[data-test="notification-dialog-header"]')
+      .should('be.visible')
+      .and('contain', 'Successful import');
     cy.get('[data-test="confirm-button"]').click();
-    cy.get('.modal-container').should('not.exist');
+    cy.get('[data-test="notification-dialog-header"]').should('not.exist');
     cy.visit('/');
     cy.get('app-content').should('contain', 'CPAM0112');
   });
 
-  it('imports a new case with a duplicate case ID', () => {
+  it('imports a new analysis with a duplicate case ID', () => {
     cy.get('[data-test="create-card"]').click();
-    cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/phenotips-import.json', {
+    cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/new-analysis-import.json', {
       action: 'drag-drop',
     });
     cy.get('[data-test="confirm"]').click();
-    cy.get('h2').should('contain', 'Successful import');
-    cy.get('.modal-container').should('exist');
+    cy.get('[data-test="notification-dialog-header"]')
+      .should('be.visible')
+      .and('contain', 'Successful import');
     cy.get('[data-test="confirm-button"]').click();
-    cy.get('.modal-container').should('not.exist');
+    cy.get('[data-test="notification-dialog"]').should('not.exist');
+
     cy.visit('/');
     cy.get('app-content').should('contain', 'CPAM0112');
     cy.get('[data-test="create-card"]').click();
-    cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/phenotips-import.json', {
+    cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/new-analysis-import.json', {
       action: 'drag-drop',
     });
     cy.get('[data-test="confirm"]').click();
-    cy.get('h2').should('contain', 'Failed to import phenotips analysis');
-    cy.get('.modal-container > span').should('contain', 'Error: Status Code: 409 Conflict');
-    cy.get('.modal-container').should('exist');
+    cy.get('[data-test="notification-dialog"]')
+      .should('be.visible')
+      .and('contain', 'Failed to import analysis')
+      .and('contain', 'Error: Status Code: 409 Conflict');
     cy.get('[data-test="confirm-button"]').click();
-    cy.get('.modal-container').should('not.exist');
+    cy.get('[data-test="notification-dialog"]').should('not.exist');
   });
 
   it('tries to import a new case with a file that isn\'t a JSON file', () => {
@@ -48,10 +52,11 @@ describe('import_new_case.cy.js', () => {
       action: 'drag-drop',
     });
     cy.get('[data-test="confirm"]').click();
-    cy.get('h2').should('contain', 'Failed to import phenotips analysis');
-    cy.get('.modal-container > span').should('contain', 'Error: Status Code: 500 Internal Server Error');
-    cy.get('.modal-container').should('exist');
+    cy.get('[data-test="notification-dialog"]')
+      .should('be.visible')
+      .and('contain', 'Failed to import analysis')
+      .and('contain', 'Error: Status Code: 500 Internal Server Error');
     cy.get('[data-test="confirm-button"]').click();
-    cy.get('.modal-container').should('not.exist');
+    cy.get('[data-test="notification-dialog"]').should('not.exist');
   });
 });

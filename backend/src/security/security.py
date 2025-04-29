@@ -3,7 +3,7 @@
 import secrets
 import string
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, UTC
 from typing import Optional
 
 import jwt
@@ -43,9 +43,9 @@ def create_access_token(
 
     to_encode = data.copy()
     if access_token_expires:
-        expire = datetime.utcnow() + access_token_expires
+        expire = datetime.now(UTC) + access_token_expires
     else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
+        expire = datetime.now(UTC) + timedelta(minutes=15)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, secret_token, algorithm)
     return encoded_jwt

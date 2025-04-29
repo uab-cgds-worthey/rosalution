@@ -28,7 +28,7 @@ describe('analysis_attahments.cy.js', () => {
     cy.get('.attachment-name > a').then((link) => {
       cy.request(link.prop('href')).its('status').should('eq', 200);
     });
-    cy.get('.edit-button').click();
+    cy.get('[data-test="edit-button"]').click();
     cy.get('[data-test="name-input"]').clear();
     cy.get('[data-test="name-input"]').type('test link to uab.edu');
     cy.get('[data-test="link-input"]').clear();
@@ -45,7 +45,7 @@ describe('analysis_attahments.cy.js', () => {
       cy.request(link.prop('href')).its('status').should('eq', 200);
     });
     cy.get('.attachment-comments').should('have.text', 'this is a test comment for a test link to uab.edu');
-    cy.get('.delete-button').click();
+    cy.get('[data-test="delete-button"]').click();
     cy.get('.modal-container').should('exist');
     cy.get('[data-test="confirm-button"]').click();
     cy.get('.attachment-list').should('have.length', 0);
@@ -68,7 +68,7 @@ describe('analysis_attahments.cy.js', () => {
     cy.get('.attachment-name > div').click();
     cy.readFile(path.join(downloadsFolder, 'pedigree-fake.jpg'));
  
-    cy.get('.edit-button').click();
+    cy.get('[data-test="edit-button"]').click();
     cy.get('.comments').clear();
     cy.get('.comments').type('this is a test comment for a test file edited');
     cy.get('[data-test="confirm"]').click();
@@ -79,7 +79,7 @@ describe('analysis_attahments.cy.js', () => {
     cy.get('.attachment-name > div').should('have.attr', 'rel', 'noreferrer noopener');
     cy.get('.attachment-comments').should('have.text', 'this is a test comment for a test file edited');
   
-    cy.get('.delete-button').click();
+    cy.get('[data-test="delete-button"]').click();
     cy.get('.modal-container').should('exist');
     cy.get('[data-test="confirm-button"]').click();
     cy.get('.attachment-list').should('have.length', 0);

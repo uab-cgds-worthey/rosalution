@@ -1,7 +1,7 @@
 <template>
   <div v-if="dialog.state.active" class="modal-background">
       <div class="modal-container modal-remove-file-container">
-          <h2 v-if="dialog.state.title"> {{ dialog.state.title }}</h2>
+          <h2 v-if="dialog.state.title" data-test="notification-dialog-header"> {{ dialog.state.title }}</h2>
           <span>{{ dialog.state.message }}</span>
 
           <div class="cancel-button-column">

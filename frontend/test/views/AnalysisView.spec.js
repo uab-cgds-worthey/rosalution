@@ -129,10 +129,10 @@ describe('AnalysisView', () => {
     attachSectionImageMock = sandbox.stub(Analyses, 'attachSectionImage');
     updateSectionImageMock = sandbox.stub(Analyses, 'updateSectionImage');
     removeSectionAttachmentMock = sandbox.stub(Analyses, 'removeSectionAttachment');
-    attachSectionAttachmentMock = sandbox.stub(Analyses, 'attachSectionSupportingEvidence');
+    attachSectionAttachmentMock = sandbox.stub(Analyses, 'attachSectionAttachment');
 
-    attachAttachmentMock = sandbox.stub(Analyses, 'attachSupportingEvidence');
-    removeAttachmentMock = sandbox.stub(Analyses, 'removeSupportingEvidence');
+    attachAttachmentMock = sandbox.stub(Analyses, 'attachAnalysisAttachment');
+    removeAttachmentMock = sandbox.stub(Analyses, 'removeAnalysisAttachment');
 
     mockedAttachThirdPartyLink = sandbox.stub(Analyses, 'attachThirdPartyLink');
 

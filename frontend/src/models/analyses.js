@@ -46,7 +46,7 @@ export default {
    * @param {File} file The JSON for creating the new Analysis
    * @return {Object} Returns the new complete analysis created within Rosalution
    */
-  async importPhenotipsAnalysis(file) {
+  async importNewAnalysis(file) {
     const url = '/rosalution/api/analysis';
 
     const fileUploadFormData = {
@@ -123,7 +123,7 @@ export default {
     });
   },
 
-  async attachSectionSupportingEvidence(analysisName, sectionName, field, evidence) {
+  async attachSectionAttachment(analysisName, sectionName, field, evidence) {
     let attachmentForm = null;
     let url = `/rosalution/api/analysis/${analysisName}/sections?row_type=`;
 
@@ -203,7 +203,7 @@ export default {
     });
   },
 
-  async attachSupportingEvidence(analysisName, evidence) {
+  async attachAnalysisAttachment(analysisName, evidence) {
     const attachmentForm = {};
     const url = `/rosalution/api/analysis/${analysisName}/attachment`;
 
@@ -227,7 +227,7 @@ export default {
     return await Requests.postForm(url, attachmentForm);
   },
 
-  async updateSupportingEvidence(analysisName, evidence) {
+  async updateAnalysisAttachment(analysisName, evidence) {
     const url = `/rosalution/api/analysis/${analysisName}/attachment/${evidence.attachment_id}`;
 
     const updatedAttachment = {
@@ -239,13 +239,13 @@ export default {
     return await Requests.putForm(url, updatedAttachment);
   },
 
-  async removeSupportingEvidence(analysisName, attachmentId) {
+  async removeAnalysisAttachment(analysisName, attachmentId) {
     const url = `/rosalution/api/analysis/${analysisName}/attachment/${attachmentId}`;
     const success = await Requests.delete(url);
     return success;
   },
 
-  async downloadSupportingEvidence(attachmentId, attachmentFile) {
+  async downloadAnalysisAttachment(attachmentId, attachmentFile) {
     const url = `/rosalution/api/analysis/download/${attachmentId}`;
     const fileData = {'filename': attachmentFile};
     return Requests.getDownload(url, fileData);

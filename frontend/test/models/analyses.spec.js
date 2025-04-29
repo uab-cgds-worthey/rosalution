@@ -53,7 +53,7 @@ describe('analyses.js', () => {
 
   it('Imports a browser file to the Analysis API succesfully', async () => {
     mockPostFormResponse.returns({sucess: 'yay'});
-    await Analyses.importPhenotipsAnalysis(incomingCreateAnalysisFormFixture);
+    await Analyses.importNewAnalysis(incomingCreateAnalysisFormFixture);
     expect(mockPostFormResponse.called).to.be.true;
   });
 
@@ -63,9 +63,9 @@ describe('analyses.js', () => {
   });
 
   describe('attachments', () => {
-    it('attaches as a file', async () => {
+    it('attaches file', async () => {
       mockPostFormResponse.returns({sucess: 'yay'});
-      await Analyses.attachSupportingEvidence('CPAM0002', {
+      await Analyses.attachAnalysisAttachment('CPAM0002', {
         data: 'jfkldjafkdjafda',
         comment: 'Serious Things',
         type: 'file',
@@ -73,18 +73,18 @@ describe('analyses.js', () => {
       expect(mockPostFormResponse.called).to.be.true;
     });
 
-    it('attaches as a file with empty comments', async () => {
+    it('attaches file with empty comments', async () => {
       mockPostFormResponse.returns({sucess: 'yay'});
-      await Analyses.attachSupportingEvidence('CPAM0002', {
+      await Analyses.attachAnalysisAttachment('CPAM0002', {
         data: 'jfkldjafkdjafda',
         type: 'file',
       });
       expect(mockPostFormResponse.called).to.be.true;
     });
 
-    it('attaches as a link', async () => {
+    it('attaches a link', async () => {
       mockPostFormResponse.returns({sucess: 'yay'});
-      await Analyses.attachSupportingEvidence('CPAM0002', {
+      await Analyses.attachAnalysisAttachment('CPAM0002', {
         name: 'Best Website Ever',
         type: 'link',
         data: 'http://sites.uab.edu/cgds',
@@ -95,7 +95,7 @@ describe('analyses.js', () => {
 
     it('attaches as link substitutes with empty comments', async () => {
       mockPostFormResponse.returns({sucess: 'yay'});
-      await Analyses.attachSupportingEvidence('CPAM0002', {
+      await Analyses.attachAnalysisAttachment('CPAM0002', {
         name: 'Best Website Ever',
         type: 'link',
         data: 'http://sites.uab.edu/cgds',
@@ -104,7 +104,7 @@ describe('analyses.js', () => {
     });
 
     it('removes attachment', async () => {
-      await Analyses.removeSupportingEvidence('CPAM0002', 'remove-attach-it-now');
+      await Analyses.removeAnalysisAttachment('CPAM0002', 'remove-attach-it-now');
       expect(mockDeleteRequest.called).to.be.true;
     });
   });

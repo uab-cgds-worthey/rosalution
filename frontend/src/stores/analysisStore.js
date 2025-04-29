@@ -23,7 +23,7 @@ export const analysisStore = reactive({
   },
 
   downloadAttachment(attachmentToDownload) {
-    Analyses.downloadSupportingEvidence(attachmentToDownload.attachment_id, attachmentToDownload.name);
+    Analyses.downloadAnalysisAttachment(attachmentToDownload.attachment_id, attachmentToDownload.name);
   },
 
   clear() {
@@ -118,7 +118,7 @@ export const analysisStore = reactive({
 
   async attachSectionAttachment(section, field, attachment) {
     const updatedSectionField =
-      await Analyses.attachSectionSupportingEvidence(this.analysis.name, section, field, attachment);
+      await Analyses.attachSectionAttachment(this.analysis.name, section, field, attachment);
     const sectionWithReplacedField = this.replaceFieldInSection(section, updatedSectionField);
     this.replaceAnalysisSection(sectionWithReplacedField);
   },
@@ -180,8 +180,8 @@ export const analysisStore = reactive({
   // Analysis Attachments
   // -----------------------------------
 
-  async addAttachment(attachment) {
-    const updatedAnalysisAttachments = await Analyses.attachSupportingEvidence(
+  async addAnalysisAttachment(attachment) {
+    const updatedAnalysisAttachments = await Analyses.attachAnalysisAttachment(
         this.analysis.name,
         attachment,
     );
@@ -191,8 +191,8 @@ export const analysisStore = reactive({
     );
   },
 
-  async updateAttachment(updatedAttachment) {
-    const updatedAnalysisAttachments = await Analyses.updateSupportingEvidence(
+  async updateAnalysisAttachment(updatedAttachment) {
+    const updatedAnalysisAttachments = await Analyses.updateAnalysisAttachment(
         this.analysis.name,
         updatedAttachment,
     );
@@ -202,8 +202,8 @@ export const analysisStore = reactive({
     );
   },
 
-  async removeAttachment(attachmentToDelete) {
-    await Analyses.removeSupportingEvidence(
+  async removeAnalysisAttachment(attachmentToDelete) {
+    await Analyses.removeAnalysisAttachment(
         this.analysis.name,
         attachmentToDelete.attachment_id,
     );

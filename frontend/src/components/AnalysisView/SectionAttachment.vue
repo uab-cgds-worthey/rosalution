@@ -7,9 +7,9 @@
     ]">
       {{ field }}
     </label>
-    <div class="section-content" :data-test="`supporting-evidence-${field}`">
-      <div class="supporting-evidence-content">
-        <button v-if="isDataUnavailable && this.editable && writePermissions"
+    <div class="section-content" :data-test="`section-attachment-${field}`">
+      <div class="attachment-content">
+        <button v-if="canAttach"
           @click="onContentChanged('attach', content)"
           class="primary-button" :data-test="`attach-button-${field}`">
           Attach
@@ -40,7 +40,7 @@
 
 <script>
 export default {
-  name: 'section-supporting-evidence',
+  name: 'section-attachment',
   emits: ['update:sectionContent', 'download'],
   props: {
     field: {
@@ -60,6 +60,9 @@ export default {
     },
   },
   computed: {
+    canAttach: function() {
+      return this.isDataUnavailable && this.editable && this.writePermissions;
+    },
     isDataUnavailable: function() {
       return this.value == '.' || this.value == 'null' || this.value == null || this.value.length == 0;
     },
@@ -127,7 +130,7 @@ export default {
   cursor: pointer;
 }
 
-.supporting-evidence-content {
+.attachment-content {
   display: flex;
   align-items: center;
   gap: var(--p-10);
