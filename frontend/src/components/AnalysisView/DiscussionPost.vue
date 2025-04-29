@@ -175,11 +175,9 @@ export default {
       this.$emit('post:delete', postId);
     },
     newDiscussionReplyForm() {
-      console.log('New Discussion Reply Opened');
       this.showNewReply = true;
     },
     newDiscussionReply() {
-      console.log('New Discussion Reply Posted' + this.newReplyContent);
       this.$emit('discussion:new-reply', this.id, toRaw(this.newReplyContent));
       this.clearNewDiscussionReplyField();
     },
@@ -189,14 +187,11 @@ export default {
     clearNewDiscussionReplyField() {
       this.newReplyContent = '';
       this.showNewReply = false;
-      console.log('New Discussion Reply Text Area Cancelled and Cleared');
     },
     editDiscussionReply(replyId, replyContent) {
-      console.log('editing Discussion Reply with Content' + replyContent);
       this.$emit('discussion:edit-reply', this.id, replyId, replyContent);
     },
     deleteDiscussionReply(replyId) {
-      console.log('Deleting Discussion Reply' + replyId);
       this.$emit('discussion:delete-reply', this.id, replyId);
     },
   },
