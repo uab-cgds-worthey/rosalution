@@ -193,15 +193,12 @@ export default {
       this.newAttachments.splice(attachmentIndex, 1);
     },
     addDiscussionReply(postId, newReplyContent) {
-      console.log('New Discussion Reply Posted' + newReplyContent);
       this.$emit('discussion:new-reply', postId, toRaw(newReplyContent));
     },
     editDiscussionReply(postId, replyId, replyContent) {
-      console.log('editing Discussion Reply with Content' + replyContent);
       this.$emit('discussion:edit-reply', postId, replyId, replyContent);
     },
     deleteDiscussionReply(postId, replyId) {
-      console.log('Deleting Discussion Reply' + replyId);
       this.$emit('discussion:delete-reply', postId, replyId);
     },
   },

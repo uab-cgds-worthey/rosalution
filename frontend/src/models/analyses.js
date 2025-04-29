@@ -314,7 +314,6 @@ export default {
   },
 
   async postNewDiscussionReply(analysisName, postId, newReplyContent) {
-    // console.log('analyses.js receiving new reply content: '+ newReplyContent);
     const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}/thread/`;
 
     const discussionThread = {
@@ -328,8 +327,6 @@ export default {
   },
 
   async editDiscussionReply(analysisName, postId, replyId, replyContent) {
-    console.log('analyses.js receiving new reply content: '+ replyContent);
-
     const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}/thread/${replyId}`;
 
     const attachmentForm = {'discussion_reply_content': replyContent};
@@ -340,8 +337,6 @@ export default {
   },
 
   async deleteDiscussionReply(analysisName, postId, replyId) {
-    console.log('analyses.js receiving reply to delete');
-
     const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}/thread/${replyId}`;
 
     const success = await Requests.delete(url);

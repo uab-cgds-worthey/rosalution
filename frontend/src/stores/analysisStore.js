@@ -190,44 +190,16 @@ export const analysisStore = reactive({
 
   async addDiscussionReply(postId, newReplyContent) {
     const discussions = await Analyses.postNewDiscussionReply(this.analysis.name, postId, newReplyContent);
-    // find post in this.analysis.discussions
-    // this.analysis.discussions.find("post_id" == postId)
-    // .thread.push(reply)
-
-    // this.analysis.discussions.find((post) => {
-    //   if (post.post_id === postId) {
-    //     post.thread.push(reply);
-    //   }
-    // });
-
-    // console.log('add discussion reply returned discussions - ');
-    // console.log(discussions);
-
     this.analysis.discussions = discussions;
-    console.log(discussions);
   },
 
   async editDiscussionReply(postId, replyId, replyContent) {
-    console.log('analysisStore receives EDIT content - ' + replyContent);
     const discussions = await Analyses.editDiscussionReply(this.analysis.name, postId, replyId, replyContent);
-
-    console.log('edit discussion reply returned discussions - ');
-    console.log(discussions);
-
     this.analysis.discussions = discussions;
   },
 
   async deleteDiscussionReply(postId, replyId) {
-    console.log('analysisStore - deleteDiscussionReply');
-    // find post in this.analysis.discussions
-    // this.analysis.discussions.find("post_id" == postId)
-    // .thread.pop("reply_id" == replyId)
-
     const discussions = await Analyses.deleteDiscussionReply(this.analysis.name, postId, replyId);
-
-    console.log('delete discussion reply returned discussions - ');
-    console.log(discussions);
-
     this.analysis.discussions = discussions;
   },
 

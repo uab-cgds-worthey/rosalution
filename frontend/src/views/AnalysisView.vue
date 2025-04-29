@@ -598,7 +598,6 @@ async function deleteDiscussionPost(postId) {
 */
 async function addDiscussionReply(postId, newReplyContent) {
   await analysisStore.addDiscussionReply(postId, newReplyContent);
-  console.log('In Analysis: adding new Discussion Reply with Content' + newReplyContent);
 }
 /**
  * Adds a new discussion reply to the discussion post.
@@ -608,7 +607,6 @@ async function addDiscussionReply(postId, newReplyContent) {
 */
 async function editDiscussionReply(postId, replyId, replyContent) {
   await analysisStore.editDiscussionReply(postId, replyId, replyContent);
-  console.log('In Analysis: editing Discussion Reply with Content ' + replyContent);
 }
 /**
  * Adds a new discussion reply to the discussion post.
@@ -617,7 +615,6 @@ async function editDiscussionReply(postId, replyId, replyContent) {
 */
 async function deleteDiscussionReply(postId, replyId) {
   await analysisStore.deleteDiscussionReply(postId, replyId);
-  console.log('In Analysis: deleted Discussion Reply');
 }
 
 /**
