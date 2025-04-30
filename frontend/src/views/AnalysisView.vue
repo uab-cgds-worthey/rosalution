@@ -328,11 +328,8 @@ async function updateSectionImage(fileId, sectionName, field) {
  *
  * @param {string} section - The section to which the attachment is added.
  * @param {string} field - The field within the section for the attachment.
- * @param {Object} attachment - The attachment
  */
-async function addSectionAttachment(section, field, attachment) {
-  // ANGELINA - Come back to this? Attachment being used for something?
-  console.log("__AnalysisView::addSectionAttachment - attachment param " + attachment)
+async function addSectionAttachment(section, field) {
   const includeComments = true;
   const includeName = true;
   const incommingAttachment = await inputDialog
