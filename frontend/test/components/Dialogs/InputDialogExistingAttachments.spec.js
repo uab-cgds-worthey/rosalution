@@ -42,8 +42,8 @@ describe('InputDialogExistingAttachments.vue', () => {
     expect(wrapper.exists()).to.be.true;
   });
 
-  it('is displaying list of existing evidences', async () => {
-    const evidenceList = wrapper.find('[data-test=existing-attachments-list]');
-    expect(evidenceList.exists()).to.be.true;
+  it('is displaying list of existing attachments', async () => {
+    const attachmentList = wrapper.find('[data-test=existing-attachments-list]');
+    expect(attachmentList.exists()).to.be.true;
   });
 });

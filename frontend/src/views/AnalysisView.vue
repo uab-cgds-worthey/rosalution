@@ -181,7 +181,7 @@ const sectionsList = computed(() => {
 });
 
 const attachments = computed(() => {
-  return analysisStore.analysis.supporting_evidence_files;
+  return analysisStore.analysis.attachments;
 });
 
 const discussions = computed(() => {
@@ -193,7 +193,7 @@ const genomicUnitsList = computed(() => {
 });
 
 /**
- * Enables the view to support in-line editing of the analysis.
+ * Enables the view for in-line editing of the analysis.
  */
 function enableEditing() {
   if (!edit.value) {
@@ -205,13 +205,13 @@ function enableEditing() {
 }
 
 /**
- * Handles updates to analysis content when a content row is modified. If the content type is 'supporting-evidence'
+ * Handles updates to analysis content when a content row is modified. If the content type is 'attachment'
  * triggers an attachment change instead.
  *
  * @param {Object} contentRow - The row of content being updated.
  */
 function onAnalysisContentUpdated(contentRow) {
-  if (typeof(contentRow.type) !== 'undefined' && 'supporting-evidence' === contentRow.type ) {
+  if (typeof(contentRow.type) !== 'undefined' && 'attachment' === contentRow.type ) {
     fieldSectionAttachmentChanged(contentRow);
     return;
   }
@@ -324,28 +324,30 @@ async function updateSectionImage(fileId, sectionName, field) {
 }
 
 /**
- * Adds an attachment to a specified section and field.
+ * Adds an attachment to the specified section and field.
  *
  * @param {string} section - The section to which the attachment is added.
  * @param {string} field - The field within the section for the attachment.
- * @param {Object} evidence - The evidence to be attached.
+ * @param {Object} attachment - The attachment
  */
-async function addSectionAttachment(section, field, evidence) {
+async function addSectionAttachment(section, field, attachment) {
+  // ANGELINA - Come back to this? Attachment being used for something?
+  console.log("__AnalysisView::addSectionAttachment - attachment param " + attachment)
   const includeComments = true;
   const includeName = true;
-  const attachment = await inputDialog
+  const incommingAttachment = await inputDialog
       .confirmText('Add')
       .cancelText('Cancel')
       .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png, .gb')
       .url(includeComments, includeName)
       .prompt();
 
-  if (!attachment) {
+  if (!incommingAttachment) {
     return;
   }
 
   try {
-    await analysisStore.attachSectionAttachment(section, field, attachment);
+    await analysisStore.attachSectionAttachment(section, field, incommingAttachment);
   } catch (error) {
     console.error(`Updating the analysis did not work. Error: ${error}`);
   }

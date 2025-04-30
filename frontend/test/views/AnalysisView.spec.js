@@ -443,15 +443,15 @@ describe('AnalysisView', () => {
 
       it('attachment dialog adds a new attachment to the analysis', async () => {
         const newAttachmentData = {
-          name: 'fake-attachment-evidence-name',
+          name: 'fake-attachment-name',
           data: 'http://sites.uab.edu/cgds',
           attachment_id: 'new-failure-id',
           type: 'link',
           comments: '',
         };
-        const analysisWithNewEvidence = fixtureData();
-        analysisWithNewEvidence.supporting_evidence_files.push(newAttachmentData);
-        attachAttachmentMock.returns(analysisWithNewEvidence.supporting_evidence_files);
+        const analysisWithNewAttachment = fixtureData();
+        analysisWithNewAttachment.attachments.push(newAttachmentData);
+        attachAttachmentMock.returns(analysisWithNewAttachment.attachments);
 
         const supplementalComponent = wrapper.getComponent(AttachmentsSection);
         expect(supplementalComponent.props('attachments').length).to.equal(1);
@@ -554,9 +554,9 @@ describe('AnalysisView', () => {
     describe('when an image section has an image in it', () => {
       beforeEach(() => {
         const imageFieldValue = {file_id: '635a89aea7b2f21802b74539'};
-        const analysisWithNewEvidence = fixtureData();
-        analysisWithNewEvidence.sections = addSectionFieldValue('Pedigree', 'Pedigree', imageFieldValue);
-        analysisStore.forceUpdate(analysisWithNewEvidence);
+        const analysisWithNewAttachment = fixtureData();
+        analysisWithNewAttachment.sections = addSectionFieldValue('Pedigree', 'Pedigree', imageFieldValue);
+        analysisStore.forceUpdate(analysisWithNewAttachment);
       });
 
       it('updates section image content with input dialog', async () => {
@@ -646,7 +646,7 @@ describe('AnalysisView', () => {
         const sectionId = 'Mus_musculus (Mouse) Model System';
         const fieldName = 'Veterinary Pathology Imaging';
         const newAttachmentData = {
-          name: 'fake-attachment-evidence-name',
+          name: 'fake-attachment-name',
           data: 'http://sites.uab.edu/cgds',
           attachment_id: 'new-failure-id',
           type: 'link',
@@ -663,7 +663,7 @@ describe('AnalysisView', () => {
         expect(mouseFieldToUpdate.value.length).to.equal(0);
 
         mouseSection.vm.$emit('update:content-row', {
-          type: 'supporting-evidence',
+          type: 'attachment',
           operation: 'attach',
           header: sectionName,
           field: fieldName,
@@ -698,7 +698,7 @@ describe('AnalysisView', () => {
         expect(mouseFieldToUpdate.value.length).to.equal(1);
 
         mouseSection.vm.$emit('update:content-row', {
-          type: 'supporting-evidence',
+          type: 'attachment',
           operation: 'delete',
           header: sectionName,
           field: fieldName,
@@ -930,7 +930,7 @@ function fixtureData(attributes) {
             ],
           },
           {
-            'type': 'section-supporting-evidence',
+            'type': 'section-attachment',
             'field': 'Veterinary Histology Report',
             'value': [{
               'name': 'CPAM0046-NM_170707.3 (LMNA)_ c.745C_T (p.R249W) other 2.PDF',
@@ -940,7 +940,7 @@ function fixtureData(attributes) {
             }],
           },
           {
-            'type': 'section-supporting-evidence',
+            'type': 'section-attachment',
             'field': 'Veterinary Pathology Imaging',
             'value': [],
           },
@@ -1024,7 +1024,7 @@ function fixtureData(attributes) {
         'thread': [],
       },
     ],
-    supporting_evidence_files: [
+    attachments: [
       {
         name: 'fake.txt',
         attachment_id: 'fake-attachment-id',

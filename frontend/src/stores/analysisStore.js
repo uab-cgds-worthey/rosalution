@@ -185,8 +185,8 @@ export const analysisStore = reactive({
         this.analysis.name,
         attachment,
     );
-    this.analysis.supporting_evidence_files.splice(0);
-    this.analysis.supporting_evidence_files.push(
+    this.analysis.attachments.splice(0);
+    this.analysis.attachments.push(
         ...updatedAnalysisAttachments,
     );
   },
@@ -196,8 +196,8 @@ export const analysisStore = reactive({
         this.analysis.name,
         updatedAttachment,
     );
-    this.analysis.supporting_evidence_files.splice(0);
-    this.analysis.supporting_evidence_files.push(
+    this.analysis.attachments.splice(0);
+    this.analysis.attachments.push(
         ...updatedAnalysisAttachments,
     );
   },
@@ -207,11 +207,11 @@ export const analysisStore = reactive({
         this.analysis.name,
         attachmentToDelete.attachment_id,
     );
-    const attachmentIndex = this.analysis.supporting_evidence_files.findIndex((attachment) => {
+    const attachmentIndex = this.analysis.attachments.findIndex((attachment) => {
       return attachment.name == attachmentToDelete.name;
     });
 
-    this.analysis.supporting_evidence_files.splice(attachmentIndex, 1);
+    this.analysis.attachments.splice(attachmentIndex, 1);
   },
 
   // -----------------------------------

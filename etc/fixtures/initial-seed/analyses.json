@@ -326,7 +326,7 @@
         "thread": []
       }
     ],
-    "supporting_evidence_files": [],
+    "attachments": [],
     "timeline": [
       {
         "event": "create",
@@ -912,7 +912,7 @@
         "thread": []
       }
     ],
-    "supporting_evidence_files": [],
+    "attachments": [],
     "timeline": [
       {
         "event": "create",
@@ -1463,7 +1463,7 @@
         "thread": []
       }
     ],
-    "supporting_evidence_files": [],
+    "attachments": [],
     "timeline": [
       {
         "event": "create",
@@ -2073,7 +2073,7 @@
         "thread": []
       }
     ],
-    "supporting_evidence_files": [],
+    "attachments": [],
     "timeline": [
       {
         "event": "create",
@@ -2588,7 +2588,7 @@
       }
     ],
     "discussions": [],
-    "supporting_evidence_files": [],
+    "attachments": [],
     "timeline": [
       {
         "event": "create",
@@ -3203,7 +3203,7 @@
       }
     ],
     "discussions": [],
-    "supporting_evidence_files": [],
+    "attachments": [],
     "manifest": [
       {
         "Entrez Gene Id": {

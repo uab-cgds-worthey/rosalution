@@ -90,7 +90,7 @@ export default {
     onContentChanged(action, content) {
       const contentRow = {
         field: this.field,
-        type: 'supporting-evidence',
+        type: 'attachment',
         operation: action,
         value: content,
       };

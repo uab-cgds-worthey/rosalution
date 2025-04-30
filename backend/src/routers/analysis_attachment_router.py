@@ -47,7 +47,7 @@ class IncommingUpdatedAttachment(BaseModel, frozen=True):
 
 
 @router.post("/{analysis_name}/attachment", response_model=List)
-def attach_supporting_evidence_file(
+def attach_file(
     analysis_name: str,
     new_attachment: Annotated[IncomingNewAttachment, Form()],
     upload_file: UploadFile = File(None),
@@ -58,7 +58,7 @@ def attach_supporting_evidence_file(
     updated_analysis_json = None
 
     if new_attachment.link:
-        updated_analysis_json = repositories["analysis"].attach_supporting_evidence_link(
+        updated_analysis_json = repositories["analysis"].attach_link(
             analysis_name, new_attachment.link_name, new_attachment.link, new_attachment.comments
         )
     else:
@@ -66,22 +66,22 @@ def attach_supporting_evidence_file(
             upload_file.file, upload_file.filename, upload_file.content_type
         )
 
-        updated_analysis_json = repositories["analysis"].attach_supporting_evidence_file(
+        updated_analysis_json = repositories["analysis"].attach_file(
             analysis_name, new_file_object_id, upload_file.filename, new_attachment.comments
         )
 
-    return updated_analysis_json["supporting_evidence_files"]
+    return updated_analysis_json["attachments"]
 
 
 @router.put("/{analysis_name}/attachment/{attachment_id}", response_model=List)
-def update_supporting_evidence(
+def update_attachment(
     analysis_name: str,
     attachment_id: str,
     updated_attachment: Annotated[IncommingUpdatedAttachment, Form()],
     repositories=Depends(database),
     authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
-    """ Updates a supporting evidence file in an analysis """
+    """ Updates the attachment in the analysis """
     content = {
         'name': updated_attachment.name,
         'data': updated_attachment.data,
@@ -89,23 +89,21 @@ def update_supporting_evidence(
     }
 
     try:
-        updated_analysis_json = repositories["analysis"].update_supporting_evidence(
-            analysis_name, attachment_id, content
-        )
-        return updated_analysis_json["supporting_evidence_files"]
+        updated_analysis_json = repositories["analysis"].update_attachment(analysis_name, attachment_id, content)
+        return updated_analysis_json["attachments"]
     except ValueError as exception:
         raise HTTPException(status_code=404, detail=str(exception)) from exception
 
 
 @router.delete("/{analysis_name}/attachment/{attachment_id}", response_model=List)
-def remove_supporting_evidence(
+def remove_attachment(
     analysis_name: str,
     attachment_id: str,
     repositories=Depends(database),
     authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
-    """ Removes a supporting evidence file from an analysis """
+    """ Removes attachment from the analysis """
     if repositories["bucket"].id_exists(attachment_id):
         repositories["bucket"].delete_file(attachment_id)
-    updated_analysis_json = repositories["analysis"].remove_supporting_evidence(analysis_name, attachment_id)
-    return updated_analysis_json["supporting_evidence_files"]
+    updated_analysis_json = repositories["analysis"].remove_attachment(analysis_name, attachment_id)
+    return updated_analysis_json["attachments"]

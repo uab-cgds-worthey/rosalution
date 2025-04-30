@@ -36,7 +36,7 @@ function keyCheck(analyses) {
         // console.log(analyses[analysis])
         const analysisName = analyses[analysis]['name']
         const discussionsKeyExist = "discussions" in analyses[analysis]
-        const supportingKeyExist = "supporting_evidence_files" in analyses[analysis]
+        const supportingKeyExist = "attachments" in analyses[analysis]
         console.log(`${analysisName}: 
           'supporting' - ${supportingKeyExist}, 'discussions' - ${discussionsKeyExist}`);
     }
@@ -49,8 +49,8 @@ try {
     keyCheck(analyses)
 
     for(i in analyses) {
-        if(!("supporting_evidence_files" in analyses[i]))
-            analyses[i]['supporting_evidence_files'] = []
+        if(!("attachments" in analyses[i]))
+            analyses[i]['attachments'] = []
         if(!("discussions" in analyses[i]))
             analyses[i]['discussions'] = []
 

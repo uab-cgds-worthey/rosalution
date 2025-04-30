@@ -67,7 +67,7 @@ def update_analysis_section( #pylint: disable=too-many-arguments
             raise HTTPException(status_code=500, detail=str(exception)) from exception
 
         if row_type == SectionRowType.DOCUMENT:
-            repositories["analysis"].attach_section_supporting_evidence_file(
+            repositories["analysis"].attach_section_attachment_file(
                 analysis_name, updated_section.header, updated_field["fieldName"], {
                     "name": upload_file.filename, "attachment_id": str(new_file_object_id), "type": "file", "comments":
                         ""
@@ -80,7 +80,7 @@ def update_analysis_section( #pylint: disable=too-many-arguments
             )
 
     if row_type in (SectionRowType.LINK):
-        repositories["analysis"].attach_section_supporting_evidence_link(
+        repositories["analysis"].attach_section_attachment_link(
             analysis_name, updated_section.header, updated_field["fieldName"],
             {"name": updated_field["linkName"], "data": updated_field["link"], "type": "link", "comments": ""}
         )
@@ -99,7 +99,7 @@ def remove_section_attachment_from_field(
     repositories=Depends(database),
     authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
-    """ Removes a supporting evidence file from an analysis section """
+    """ Removes the attachment from the analysis section """
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
 
     if not found_analysis:
