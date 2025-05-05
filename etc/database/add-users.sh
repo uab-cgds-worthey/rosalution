@@ -1,69 +1,62 @@
-// docker exec -it rosalution-rosalution-db-1 mongosh /tmp/fixtures/add-cpam-users.js
+#! /bin/bash
+# ./add-users.sh
 
-const fs = require('fs');
-
-// this file has been removed for security reasons
-// To add users in the future create a csv file in the below path in the following format
-// Name,blazerid,email,clientid,scope
-// John Doe,jdoe,jdoe@site.com,<generated client id>,scope
-
-const inputPath = `/tmp/fixtures/usersToImport.csv`
-var newUsersList = [];
-
-var csvData = fs.readFileSync(inputPath)
-    .toString() // convert Buffer to string
-    .split('\n') // split string to lines
-    .map(e => e.trim()) // remove white spaces for each line
-    .map(e => e.split(',').map(e => e.trim())); // split each line to array
-
-
-for(let i = 0; i < csvData.length; i++) {
-    if(csvData[i][0] == 'Name')
-        continue;
-
-    user = {
-      username: '',
-      full_name: '',
-      email: '',
-      scope: '',
-      hashed_password: '$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm',
-      disabled: 'false',
-      client_id: '',
-      client_secret: ''
-    }
-
-    user.username = csvData[i][1]
-    user.full_name = csvData[i][0]
-    user.email = csvData[i][2]
-    user.scope = csvData[i][4]
-    user.client_id = csvData[i][3]
-
-    newUsersList.push(user);
+usage() {
+  echo "usage: $0 <docker-container> <new-users.csv>"
+  echo "  To add users in the future create a csv file in the below path in the following format"
+  echo "  Name,blazerid,email,clientid,scope"
+  echo "  John Doe,jdoe,jdoe@site.com,scope"
+  echo ""
+  echo " "
+  echo "Please install jq for this script to work. https://stedolan.github.io/jq/"
+  echo " "
 }
 
-db = db.getSiblingDB('rosalution_db');
+DOCKER_CONTAINER=$1
+CSV_FILE=$2
 
-try {
-    let usersToAdd = []
-    for(newUser in newUsersList) {      
-      const dbUser = db.users.findOne({'username': newUsersList[newUser].username})
+if [[ $# -lt 2 ]]; then
+  echo "❌ Error: required docker container argument and Rosalution Analysis Name"
+fi
 
-      if (dbUser == null) {
-        usersToAdd.push(newUsersList[newUser])
-      }
-    }
+while IFS=',' read -r name userid email clientid scope; do
+  if [[ "$name" == "Name" ]]; then
+    continue 1
+  fi
 
+  EXISTS_STRING="db.users.countDocuments({username: \"${userid}\"});"
+  exists_result=$(docker exec "$DOCKER_CONTAINER" mongosh rosalution_db --quiet --eval "'${EXISTS_STRING}'" )
 
-    if(usersToAdd.length == 0) {
-      console.log("No new users to add, they all exist already.")
-    }
-    else {
-      usersToAdd.forEach(user => {db.users.insertOne(user)});
-      console.log(`CPAM users updated!`);
-    }
-    
-} catch (err) {
-    console.log(err.stack);
-    console.log(usage);
-    quit(1);
+  if [ "$exists_result" -gt 0 ]; then
+    echo "'$userid' exists within Rosalution. Skipping 'add' operation."
+    continue
+  fi
+
+  echo "Are you sure you want to add '$name' as user '$userid' to Rosalution? (yes/no): "
+  read confirmation < /dev/tty
+
+  if [ "$confirmation" != "yes" ]; then
+    echo "'$name' as user '$userid' not added to Rosalution."
+    continue
+  fi
+
+  hashed_password='$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm'
+  client_id=$(openssl rand -hex 16)
+  multiline_json_print=$(cat <<EOF
+{
+  "username": "${userid}",
+  "full_name":"${name}",
+  "email":"${email}",
+  "scope":"${scope}",
+  "hashed_password":"${hashed_password}",
+  "disabled":false,
+  "client_id": "${client_id}",
+  "client_secret": ""
 }
+EOF
+)
+  INSERT_STRING="db.users.insertOne(${multiline_json_print})"
+  add_result=$(docker exec "$DOCKER_CONTAINER" mongosh rosalution_db --quiet --eval "'${INSERT_STRING}'" )
+  echo "'$name' as user '$userid' successfully added to Rosalution."
+
+done < "$CSV_FILE"
