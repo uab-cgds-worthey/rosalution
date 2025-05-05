@@ -71,7 +71,7 @@ const accessAttachment = !props.removeable ? 'available' : '';
   border: 1px solid var(--rosalution-black);
   box-sizing: border-box;
 
-  display: flex;
+display: flex;
   gap: var(--p-1);
   align-items: center;
   cursor: pointer;
