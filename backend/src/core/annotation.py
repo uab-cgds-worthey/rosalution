@@ -1,7 +1,9 @@
 """Supports the queueing and processing of genomic unit annotation"""
 import concurrent
 import logging
+import time
 import queue
+from requests.exceptions import JSONDecodeError
 
 from ..repository.analysis_collection import AnalysisCollection
 from ..repository.genomic_unit_collection import GenomicUnitCollection
@@ -17,25 +19,36 @@ logger = logging.getLogger(__name__)
 ANNOTATION_UNIT_PADDING = 75
 
 
+def to_name_string(annotation_unit: AnnotationUnit):
+    """
+    Returns the annotation unit's genomic_unit and corresponding dataset.
+    """
+    return f"{annotation_unit.get_genomic_unit().ljust(30)}{annotation_unit.get_dataset_name().ljust(60)}"
+
+
 def annotation_log_label():
     """
     Provides a label for logging in the annotation section to make it easier to search on.
     Changing this label will be uniform throughout the annotation section.
     """
-    return 'Annotation:'
+    return 'Annotation'.ljust(15)
 
 
-def format_annotation_logging(annotation_unit, dataset=""):
+def format_annotation_logging(annotation_unit: AnnotationUnit, dataset=""):
     """
     Provides a formatted string for logging that is consistent with
     annotation unit's genomic_unit and corresponding dataset to the console
     The string is padded to make the logs uniform and easier to read.
     """
     if dataset != "":
-        annotation_unit_string = f"{annotation_unit.get_genomic_unit()} for {dataset}"
+        annotation_unit_string = f"{annotation_unit.get_genomic_unit().ljust(30)}{dataset.ljust(60)}"
     else:
-        annotation_unit_string = annotation_unit.to_name_string()
-    return f"{annotation_log_label()} {annotation_unit_string}".ljust(ANNOTATION_UNIT_PADDING)
+        annotation_unit_string = to_name_string(annotation_unit)
+
+    if "" != annotation_unit.analysis_name:
+        annotation_unit_string += f"'{annotation_unit.analysis_name}'".ljust(20)
+
+    return f"{annotation_log_label()}{annotation_unit_string}"
 
 
 class AnnotationQueue:
@@ -82,103 +95,251 @@ class AnnotationService:
         for genomic_unit in units_to_annotate:
             genomic_unit_type = genomic_unit["type"].value
             for dataset in annotation_configuration[genomic_unit_type]:
-                annotation_unit_queued = AnnotationUnit(genomic_unit, dataset)
+                annotation_unit_queued = AnnotationUnit(genomic_unit, dataset, analysis_name=analysis.name)
                 annotation_task_queue.put(annotation_unit_queued)
 
     @staticmethod
     def process_tasks(
-        annotation_queue: AnnotationQueue, analysis_name: str, genomic_unit_collection: GenomicUnitCollection,
+        annotation_queue: AnnotationQueue, genomic_unit_collection: GenomicUnitCollection,
         analysis_collection: AnalysisCollection
-    ):  # pylint: disable=too-many-branches,too-many-locals
+    ):
         """Processes items that have been added to the queue"""
         logger.info("%s Processing annotation tasks queue ...", annotation_log_label())
 
-        with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
-            annotation_task_futures = {}
-            while not annotation_queue.empty():
-                annotation_unit = annotation_queue.get()
+        processor = AnnotationProcess(annotation_queue, genomic_unit_collection, analysis_collection)
 
-                if not annotation_unit.version_exists():
-                    version_task = AnnotationTaskFactory.create_version_task(annotation_unit)
-                    logger.info('%s Creating Task To Version...', format_annotation_logging(annotation_unit))
-                    annotation_task_futures[executor.submit(version_task.annotate)] = version_task
-                else:
-                    if genomic_unit_collection.annotation_exist(annotation_unit):
-                        logger.info('%s Annotation Exists...', format_annotation_logging(annotation_unit))
-                        continue
+        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as task_executor:
+            processor.set_tasks_executor(task_executor)
 
-                    if annotation_unit.has_dependencies():
-                        missing_dependencies = annotation_unit.get_missing_dependencies()
-                        for missing_dataset_name in missing_dependencies:
-                            analysis_manifest_dataset = analysis_collection.get_manifest_dataset_config(
-                                analysis_name, missing_dataset_name
-                            )
-                            if analysis_manifest_dataset is None:
-                                continue
+            while not processor.annotation_unit_queue_empty() or processor.are_tasks_processing():
+                annotation_unit = processor.queue.get()
 
-                            dependency_annotation_unit = AnnotationUnit(
-                                annotation_unit.genomic_unit, analysis_manifest_dataset
-                            )
-                            dependency_annotation_unit.set_latest_version(analysis_manifest_dataset['version'])
-
-                            annotation_value = genomic_unit_collection.find_genomic_unit_annotation_value(
-                                dependency_annotation_unit
-                            )
-                            if annotation_value:
-                                annotation_unit.set_annotation_for_dependency(missing_dataset_name, annotation_value)
-
-                    if not annotation_unit.conditions_met_to_gather_annotation():
-                        if annotation_unit.should_continue_annotation():
-                            logger.info(
-                                '%s Delaying Annotation, Missing %s Dependencies %s/10 times...',
-                                format_annotation_logging(annotation_unit), annotation_unit.get_missing_dependencies(),
-                                annotation_unit.get_delay_count() + 1
-                            )
-                            annotation_queue.put(annotation_unit)
-                        else:
-                            logger.info(
-                                '%s Canceling Annotation, Missing %s Dependencies...',
-                                format_annotation_logging(annotation_unit), annotation_unit.get_missing_dependencies()
-                            )
-                        continue
-
-                    annotation_task = AnnotationTaskFactory.create_annotation_task(annotation_unit)
-                    logger.info('%s Creating Task To Annotate...', format_annotation_logging(annotation_unit))
-
-                    annotation_task_futures[executor.submit(annotation_task.annotate)] = annotation_task
-
-                for future in concurrent.futures.as_completed(annotation_task_futures):
-                    task = annotation_task_futures[future]
-
-                    try:
-                        task_process_result = future.result()
-                        if isinstance(task, VersionAnnotationTask):
-                            annotation_unit = task.annotation_unit
-                            version = task.extract_version(task_process_result)
-                            annotation_unit.set_latest_version(version)
-                            logger.info(
-                                '%s Version Calculated %s...', format_annotation_logging(annotation_unit), version
-                            )
-                            analysis_collection.add_dataset_to_manifest(analysis_name, annotation_unit)
-                            annotation_queue.put(annotation_unit)
-                        else:
-                            for annotation in task.extract(task_process_result):
-                                logger.info(
-                                    '%s Saving %s...',
-                                    format_annotation_logging(annotation_unit, task.annotation_unit.get_dataset_name()),
-                                    annotation['value']
-                                )
-
-                                genomic_unit_collection.annotate_genomic_unit(
-                                    task.annotation_unit.genomic_unit, annotation
-                                )
-
-                    except FileNotFoundError as error:
-                        logger.info(
-                            '%s exception happened %s with %s and %s', annotation_log_label(), error,
-                            annotation_unit.genomic_unit, task
-                        )
-
-                    del annotation_task_futures[future]
+                processor.process_annotation_unit(annotation_unit)
+                for task_future in concurrent.futures.as_completed(processor.annotation_task_futures):
+                    processor.on_task_complete(task_future)
 
             logger.info("%s Processing annotation tasks queue complete", annotation_log_label())
+
+        processor.log_dataset_failures()
+        logger.info("%s Annotation BackgroundTask thread ending", annotation_log_label())
+
+
+class AnnotationProcess():
+    """Processes the annotation queue for annotations"""
+
+    def __init__(
+        self, annotation_queue: AnnotationQueue, genomic_unit_collection: GenomicUnitCollection,
+        analysis_collection: AnalysisCollection
+    ):
+        """
+        Initializes the annotation process to take a queue of AnnotationUnits and run the tasks to annotate them.
+        """
+        self.queue = annotation_queue
+        self.genomic_unit_collection = genomic_unit_collection
+        self.analysis_collection = analysis_collection
+
+        self.annotation_task_futures = {}
+        self.version_cache = {}
+
+        self.task_executor = None
+
+        self.dataset_annotation_failures = {}
+
+    def set_tasks_executor(self, task_executor):
+        """Sets the task executor for handling the annotate tasks."""
+        self.task_executor = task_executor
+
+    def annotation_unit_queue_empty(self) -> bool:
+        """Checks if the annotations queue is empty."""
+        return self.queue.empty()
+
+    def are_tasks_processing(self) -> bool:
+        """"Returns True if there are annotation tasks processing, otherwise returns False."""
+        return len(self.annotation_task_futures) > 0
+
+    def queue_task_in_tasks_worker(self, task):
+        """Submits an Annotation task to run within the task executor pool."""
+        self.annotation_task_futures[self.task_executor.submit(task.annotate)] = task
+
+    def process_annotation_unit(self, annotation_unit: AnnotationUnit):
+        """
+        Processes an individual annotation unit by handling versions and its dependencies needed before an
+        annotation task can be created. If the annotation unit is ready to annotate, it will be submitted to run
+        on the task execeutor thread pool.
+        """
+        if not annotation_unit.version_exists():
+            self.handle_annotation_unit_version_calcuation(annotation_unit)
+            return
+
+        if self.genomic_unit_collection.annotation_exist(annotation_unit):
+            logger.info('%s Annotation Exists...', format_annotation_logging(annotation_unit))
+            return
+
+        if annotation_unit.has_dependencies():
+            self.handle_annotation_unit_dependencies(annotation_unit)
+
+        if not annotation_unit.conditions_met_to_gather_annotation():
+            if annotation_unit.should_continue_annotation():
+                self.queue.put(annotation_unit)
+                time.sleep(0)
+            else:
+                logger.info(
+                    '%s Canceling Annotation, Missing %s Dependencies...', format_annotation_logging(annotation_unit),
+                    annotation_unit.get_missing_conditions()
+                )
+            return
+
+        annotation_task = AnnotationTaskFactory.create_annotation_task(annotation_unit)
+        logger.info('%s Creating Task To Annotate...', format_annotation_logging(annotation_unit))
+
+        self.queue_task_in_tasks_worker(annotation_task)
+
+    def on_task_complete(self, future):
+        """
+        Runs on a completed future that contains the annotation unit that was executed. Will extract the
+        annotation or version. Save it to the database or put the annotation unit back on the queue with its version.
+        """
+        task = self.annotation_task_futures[future]
+        annotation_unit = task.annotation_unit
+
+        try:
+            task_process_result = future.result()
+
+            if isinstance(task, VersionAnnotationTask):
+                version_cache_id = task.get_version_cache_id()
+                version = task.extract_version(task_process_result)
+
+                self.set_version_in_cache(version_cache_id, version)
+                annotation_unit.set_latest_version(version)
+
+                logger.info('%s Version Calculated %s...', format_annotation_logging(annotation_unit), version)
+                self.queue.put(annotation_unit)
+            else:
+                for annotation in task.extract(task_process_result):
+                    logger.info(
+                        '%s Saving %s...',
+                        format_annotation_logging(annotation_unit,
+                                                  annotation_unit.get_dataset_name()), annotation['value']
+                    )
+
+                    self.genomic_unit_collection.annotate_genomic_unit(annotation_unit.genomic_unit, annotation)
+                    self.analysis_collection.add_dataset_to_manifest(annotation_unit.analysis_name, annotation_unit)
+
+        except FileNotFoundError as error:
+            logger.error('%s Exception [%s] Not Found [%s]', format_annotation_logging(annotation_unit), error, task)
+            logger.exception(error)
+            self.track_dataset_exception(annotation_unit, error)
+        except (JSONDecodeError, TypeError, ValueError) as exception_error:
+            logger.error('%s Exception [%s]', format_annotation_logging(annotation_unit), exception_error)
+            logger.exception(exception_error)
+            self.track_dataset_exception(annotation_unit, exception_error)
+        except RuntimeError as runtime_error:
+            logger.error('%s Exception [%s] with [%s]', format_annotation_logging(annotation_unit), runtime_error, task)
+            logger.exception(runtime_error)
+            self.track_dataset_exception(annotation_unit, runtime_error)
+
+        del self.annotation_task_futures[future]
+
+    def track_dataset_exception(self, annotation_unit: AnnotationUnit, exception: Exception):
+        """
+        Helper method that consolidates the caught exceptions for each AnnotationUnit being annotated.
+        """
+        if annotation_unit not in self.dataset_annotation_failures:
+            self.dataset_annotation_failures[annotation_unit] = []
+
+        self.dataset_annotation_failures[annotation_unit].append(exception)
+
+    def log_dataset_failures(self):
+        """
+        Helper method that logs failures that occured while processining annotate tasks.
+        """
+        if len(self.dataset_annotation_failures) > 0:
+            logger.error("%s Failed %s annotations", annotation_log_label(), len(self.dataset_annotation_failures))
+
+        for (annotation_unit, exception) in self.dataset_annotation_failures.items():
+            logger.error('%sException [%s]', format_annotation_logging(annotation_unit), exception)
+
+    def is_version_cache_setup(self, version_cache_id: str) -> bool:
+        """Returns True if the Version with its version_cache_id is setup within the cache"""
+        return version_cache_id in self.version_cache
+
+    def setup_version_cache(self, version_cache_id: str):
+        """Setups up the version cache for the version cache id. """
+        self.version_cache[version_cache_id] = ""
+
+    def is_version_cached(self, version_cache_id: str) -> bool:
+        """ Returns True if the version cache id has a version cached, otherwise returns False."""
+        return self.version_cache[version_cache_id] != ""
+
+    def set_version_in_cache(self, version_cache_id: str, version):
+        """Sets the version to be cached in the version cache"""
+        self.version_cache[version_cache_id] = version
+
+    def handle_annotation_unit_version_calcuation(self, annotation_unit):
+        """
+        Processes the annotation unit to derive the annotation unit's calculated version according to the configuration.
+        If the version of that annotation source exists in the version cache.  
+        """
+        version_task = AnnotationTaskFactory.create_version_task(annotation_unit)
+        version_cache_id = version_task.get_version_cache_id()
+
+        if not self.is_version_cache_setup(version_cache_id):
+            logger.info('%s Creating Task To Version...', format_annotation_logging(annotation_unit))
+            self.setup_version_cache(version_cache_id)
+            self.queue_task_in_tasks_worker(version_task)
+            return
+
+        if self.is_version_cached(version_cache_id):
+            cached_version = self.version_cache[version_cache_id]
+            annotation_unit.set_latest_version(cached_version)
+            logger.info(
+                '%s Version Gathered from Cache %s...', format_annotation_logging(annotation_unit), cached_version
+            )
+        self.queue.put(annotation_unit)
+
+    def handle_annotation_unit_dependencies(self, annotation_unit: AnnotationUnit):
+        """Retrieves the an annotation unit's dependencies if they exist."""
+        missing_dependencies = annotation_unit.get_missing_dependencies()
+        for missing_dataset_name in missing_dependencies:
+            analysis_manifest_dataset = self.analysis_collection.get_manifest_dataset_config(
+                annotation_unit.analysis_name, missing_dataset_name
+            )
+
+            if analysis_manifest_dataset is None:
+                continue
+
+            dependency_annotation_unit = self._create_temporary_annotation_unit(
+                annotation_unit.genomic_unit, analysis_manifest_dataset, annotation_unit.analysis_name
+            )
+
+            annotation_value = self.genomic_unit_collection.find_genomic_unit_annotation_value(
+                dependency_annotation_unit
+            )
+
+            if annotation_value:
+                annotation_unit.set_annotation_for_dependency(missing_dataset_name, annotation_value)
+
+        if annotation_unit.if_transcript_needs_provisioning():
+            transcript_id_manifest_dataset = self.analysis_collection.get_manifest_dataset_config(
+                annotation_unit.analysis_name, "transcript_id"
+            )
+
+            if transcript_id_manifest_dataset is not None:
+                transcript_id_manifest_dataset['transcript'] = True
+                transcript_id_annotation_unit = self._create_temporary_annotation_unit(
+                    annotation_unit.genomic_unit, transcript_id_manifest_dataset, annotation_unit.analysis_name
+                )
+
+                transcript_id_dataset_saved = self.genomic_unit_collection.annotation_exist(
+                    transcript_id_annotation_unit
+                )
+
+                if transcript_id_dataset_saved:
+                    annotation_unit.set_transcript_provisioned(True)
+
+    def _create_temporary_annotation_unit(self, genomic_unit, manifest_dataset, analysis_name):
+        """Private helper method to create a temporary annotation unit for finding within repository"""
+        temporary = AnnotationUnit(genomic_unit, manifest_dataset, analysis_name)
+        temporary.set_latest_version(manifest_dataset['version'])
+
+        return temporary

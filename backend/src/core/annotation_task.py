@@ -31,6 +31,16 @@ class AnnotationTaskInterface:
     def __init__(self, annotation_unit: AnnotationUnit):
         self.annotation_unit = annotation_unit
 
+    def aggregate_raw_cache_replacement(self, base: str) -> dict:
+        """Returns the cached dataset dependency if it is a cached dataset call"""
+        if self.annotation_unit.has_dependencies():
+            for dependency in self.annotation_unit.get_dependencies():
+                dependency_string = f"{{{dependency}}}"
+                if dependency_string in base:
+                    return self.annotation_unit.genomic_unit[dependency]
+
+        return {}
+
     def aggregate_string_replacements(self, base_string) -> str:
         """
         Replaces the content 'base_string' where strings within the pattern
@@ -95,11 +105,15 @@ class AnnotationTaskInterface:
             try:
                 replaced_attributes = self.aggregate_string_replacements(self.annotation_unit.dataset['attribute'])
                 jq_results = self.__json_extract__(replaced_attributes, incomming_json)
-            except ValueError as value_error:
-                logger.info((
-                    'Failed to annotate "%s" from "%s" on %s with error "%s"', annotation_unit_json['data_set'],
-                    annotation_unit_json['data_source'], json.dumps(incomming_json), value_error
-                ))
+            except (ValueError, json.JSONDecodeError) as value_error:
+                value_error.add_note(replaced_attributes)
+                value_error.add_note(json.dumps(incomming_json))
+                failure_message = f"Failed to annotate '{annotation_unit_json['data_set']}' from \
+                    '{annotation_unit_json['data_source']}' extracting from '{json.dumps(incomming_json)}' with error: \
+                    '{value_error}'"
+
+                raise RuntimeError(failure_message) from value_error
+
             jq_result = next(jq_results, None)
             while jq_result is not None:
                 result_keys = list(jq_result.keys())
@@ -140,7 +154,7 @@ class AnnotationTaskInterface:
             try:
                 jq_result = self.__json_extract__(jq_query, incoming_version_json)
             except ValueError as value_error:
-                logger.info(('Failed to extract version', value_error))
+                raise RuntimeError(f"Failed to extract version from: {incoming_version_json}") from value_error
             jq_result = next(jq_result, None)
             version = jq_result
 
@@ -163,10 +177,14 @@ class ForgeAnnotationTask(AnnotationTaskInterface):
         of the genomic unit and its dataset depedencies to generate the new dataset.  Will be returned within
         an object that has the name of the dataset as the attribute.
         """
-        return {
-            self.annotation_unit.dataset['data_set']:
-                self.aggregate_string_replacements(self.annotation_unit.dataset['base_string'])
-        }
+        from_cache = 'base_string_cache' in self.annotation_unit.dataset and self.annotation_unit.dataset[
+            'base_string_cache']
+
+        aggregation_operation = \
+            self.aggregate_string_replacements if not from_cache else self.aggregate_raw_cache_replacement
+        value = aggregation_operation(self.annotation_unit.dataset['base_string'])
+
+        return {self.annotation_unit.dataset['data_set']: value}
 
 
 class NoneAnnotationTask(AnnotationTaskInterface):
@@ -209,8 +227,20 @@ class HttpAnnotationTask(AnnotationTaskInterface):
     def annotate(self):
         """builds the complete url and fetches the annotation with an http request"""
         url_to_query = self.build_url()
-        result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"}, timeout=30)
-        json_result = result.json()
+
+        json_result = {}
+        try:
+            result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"}, timeout=30)
+            result.raise_for_status()
+            json_result = result.json()
+        except (requests.exceptions.JSONDecodeError, TypeError, requests.HTTPError) as error:
+            error.add_note(
+                f"Failed to annotate \"{self.annotation_unit.get_dataset_name()}\" from \
+                    \"{self.annotation_unit.get_dataset_source()}\" at \"{url_to_query}\" \
+                    on \"{result.text}\" within annotate: \"{error}\""
+            )
+            raise error
+
         return json_result
 
     def build_url(self):
@@ -251,8 +281,17 @@ class VersionAnnotationTask(AnnotationTaskInterface):
         version = {"rest": "rosalution-manifest-00"}
 
         url_to_query = self.annotation_unit.dataset['version_url']
-        result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"}, timeout=30)
-        version = result.json()
+        try:
+            result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"}, timeout=30)
+            version = result.json()
+        except (requests.exceptions.JSONDecodeError, TypeError) as error:
+            error.add_note(
+                f"Failed to annotate \"{self.annotation_unit.get_dataset_name()}\" from \
+                    \"{self.annotation_unit.get_dataset_source()}\" at \"{url_to_query}\"\
+                    on \"{result.text}\" within annotate: \"{error}\""
+            )
+            raise error
+
         return version
 
     def get_annotation_version_from_rosalution(self):
@@ -266,6 +305,14 @@ class VersionAnnotationTask(AnnotationTaskInterface):
 
         version = {"date": str(date.today())}
         return version
+
+    def get_version_cache_id(self):
+        """Generates the Version's Cache ID used to cache the datasource's version that is calculated for tasks."""
+        version_type = self.annotation_unit.dataset['versioning_type']
+        if 'rest' == version_type:
+            return self.annotation_unit.dataset['version_url']
+
+        return self.annotation_unit.dataset['versioning_type']
 
 
 class SubprocessAnnotationTask(AnnotationTaskInterface):

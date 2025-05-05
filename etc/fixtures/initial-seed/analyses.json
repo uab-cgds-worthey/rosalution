@@ -357,12 +357,6 @@
         }
       },
       {
-        "HPO_NCBI_GENE_ID": {
-          "data_source": "HPO",
-          "version": "2024-09-25"
-        }
-      },
-      {
         "Ensembl Gene Id": {
           "data_source": "Ensembl",
           "version": 112
@@ -949,12 +943,6 @@
         }
       },
       {
-        "HPO_NCBI_GENE_ID": {
-          "data_source": "HPO",
-          "version": "2024-09-25"
-        }
-      },
-      {
         "Ensembl Gene Id": {
           "data_source": "Ensembl",
           "version": 112
@@ -1503,12 +1491,6 @@
         "Entrez Gene Id": {
           "data_source": "Rosalution",
           "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "HPO_NCBI_GENE_ID": {
-          "data_source": "HPO",
-          "version": "2024-09-25"
         }
       },
       {
@@ -2112,12 +2094,6 @@
         }
       },
       {
-        "HPO_NCBI_GENE_ID": {
-          "data_source": "HPO",
-          "version": "2024-09-25"
-        }
-      },
-      {
         "Ensembl Gene Id": {
           "data_source": "Ensembl",
           "version": 112
@@ -2640,12 +2616,6 @@
         "Entrez Gene Id": {
           "data_source": "Rosalution",
           "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "HPO_NCBI_GENE_ID": {
-          "data_source": "HPO",
-          "version": "2024-09-25"
         }
       },
       {
@@ -3239,12 +3209,6 @@
         "Entrez Gene Id": {
           "data_source": "Rosalution",
           "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "HPO_NCBI_GENE_ID": {
-          "data_source": "HPO",
-          "version": "2024-09-25"
         }
       },
       {

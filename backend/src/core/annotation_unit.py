@@ -6,10 +6,13 @@ import copy
 class AnnotationUnit:
     """ Annotation Unit Class that houses the Genomic Unit and its corresponding dataset """
 
-    def __init__(self, genomic_unit, dataset):
+    def __init__(self, genomic_unit, dataset, analysis_name: str = ""):
         self.genomic_unit = copy.deepcopy(genomic_unit)
         self.dataset = dataset
         self.version = ""
+        self.analysis_name = analysis_name
+
+        self.transcript_provisioned = False
 
     def get_genomic_unit(self):
         """Returns 'unit' from genomic_unit"""
@@ -27,9 +30,28 @@ class AnnotationUnit:
         """Returns the dataset's versioning type"""
         return self.dataset['versioning_type']
 
+    def does_source_and_version_match(self, data_source, version):
+        """Compares if an AnnotationUnit's """
+        return self.get_dataset_source() == data_source and self.version == version
+
     def is_transcript_dataset(self):
         """Returns true if the dataset is for a transcript"""
         return 'transcript' in self.dataset
+
+    def if_transcript_needs_provisioning(self):
+        """
+        Returns true if the dataset is a transcript, and will need
+        'transcript_id' to already exist as an annotation
+        """
+        return self.is_transcript_dataset() and self.get_dataset_name() != "transcript_id"
+
+    def set_transcript_provisioned(self, flag: bool):
+        """Update the transcript dataset indicating whether it is ready for annotation"""
+        self.transcript_provisioned = flag
+
+    def is_transcript_provisioned(self):
+        """Returns True when a Transcript dataset is transcript is provisioned to annotate."""
+        return self.transcript_provisioned
 
     def get_genomic_unit_type(self):
         """Return's 'genomic_unit_type' from dataset"""
@@ -40,14 +62,12 @@ class AnnotationUnit:
         return self.genomic_unit['type'].value
 
     def has_dependencies(self):
-        """Checks if the annotation unit's dataset has dependencies"""
-        return "dependencies" in self.dataset
+        """Checks if the dataset is configured with dependencies"""
+        return "dependencies" in self.dataset or self.is_transcript_dataset()
 
     def get_dependencies(self):
         """Returns dependencies of the dataset of the annotation unit"""
-        if self.has_dependencies():
-            return self.dataset['dependencies']
-        return []
+        return self.dataset['dependencies'] if 'dependencies' in self.dataset else []
 
     def get_missing_dependencies(self):
         """
@@ -61,7 +81,7 @@ class AnnotationUnit:
 
         for dependency in self.dataset['dependencies']:
             if dependency not in self.genomic_unit:
-                missing_dependencies = [dependency]
+                missing_dependencies.append(dependency)
 
         return missing_dependencies
 
@@ -71,7 +91,23 @@ class AnnotationUnit:
         and calls the assign_annotation_value_to_dependency() function if ready
         """
         missing_dependencies = self.get_missing_dependencies()
-        return len(missing_dependencies) == 0
+        conditions_list = [len(missing_dependencies) == 0]
+
+        if self.if_transcript_needs_provisioning():
+            conditions_list.append(self.is_transcript_provisioned())
+
+        return all(conditions_list)
+
+    def get_missing_conditions(self):
+        """
+        Queries the list of missing conditions that the AnnotationUnit needs meet in order to be ready for
+        annotation. 
+        """
+        missing_conditions = [*self.get_missing_dependencies()]
+
+        if self.if_transcript_needs_provisioning() and not self.is_transcript_provisioned():
+            missing_conditions.append("transcript_id")
+        return missing_conditions
 
     def set_annotation_for_dependency(self, missing_dependency_name, dependency_annotation_value):
         """
@@ -81,50 +117,21 @@ class AnnotationUnit:
 
     def should_continue_annotation(self):
         """
-        If annotation unit is not ready, checks if it should continue annotation or
-        calls increment_delay_count and get_missing_dependencies before continuing
+        Checks if the annotation unit should continue to try and prepare for annotation. Each time the
+        annotation unit checks if it should continue annotation, the delay count increases.  Once it has hit the
+        magic number 10 for times checked to delay, it will return False.
         """
-        self.increment_delay_count()
-
-        return not self.delay_count_exceeds()
-
-    def get_delay_count(self):
-        """Returns the current annotation delay count"""
-        return self.dataset['delay_count'] if 'delay_count' in self.dataset else 0
-
-    def increment_delay_count(self):
-        """Sets the delay count of the annotation unit"""
         delay_count = self.dataset['delay_count'] + 1 if 'delay_count' in self.dataset else 0
         self.dataset['delay_count'] = delay_count
-        return
 
-    def delay_count_exceeds(self):
-        """
-        Checks if the annotation unit has exceeded the delay count within the queue
-        Delay count is set as a magic number (10).
-        """
-        if self.dataset['delay_count'] < 15:
-            return False
-        return True
+        is_delay_count_exceeding = self.dataset['delay_count'] > 10
 
-    def to_name_string(self):
-        """
-        Returns the annotation unit's genomic_unit and corresponding dataset.
-        """
-        return f"{self.get_genomic_unit()} for {self.get_dataset_name()}"
-
-    def get_version(self):
-        """
-        Returns the version of this annotation unit, if none set, returns an empty string.
-        """
-        return self.version
+        return not is_delay_count_exceeding
 
     def set_latest_version(self, version_details):
-        """Sets the Annotation Unit with the version details"""
-        # This has not been implemented yet
+        """Sets the Annotation Unit with the version"""
         self.version = version_details
 
     def version_exists(self):
         """Checks if the Annotation Unit is versioned or not"""
-        # This is currently a placeholder, and just returning True for now
         return self.version != ""

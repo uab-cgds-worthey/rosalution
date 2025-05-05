@@ -13,11 +13,12 @@
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
     "transcript": true,
-    "annotation_source_type": "http",
-    "url": "http://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | { transcript_id: .transcript_id }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".transcript_id | .[].transcript_consequences[] | { transcript_id: .transcript_id }",
     "dependencies": [
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -27,49 +28,59 @@
     "data_set": "ensembl_vep_vcf_string",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;vcf_string=1;",
-    "attribute": ".[] | {\"ensembl_vep_vcf_string\": .vcf_string} ",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".ensembl_vep_vcf_string | .[] | {\"ensembl_vep_vcf_string\": .vcf_string} ",
     "versioning_type": "rest",
-    "dependencies": [
-      "hgvs_variant_without_transcript_version"
-    ],
+    "dependencies": [ "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE" ],
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
     "version_attribute": ".releases[]"
   },
   {
     "data_set": "Ensembl Gene Id",
-    "data_source": "Ensembl",
+    "data_source": "HGNC_GeneNames",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "http",
-    "url": "http://rest.ensembl.org/lookup/symbol/homo_sapiens/{gene}?content-type=application/json",
-    "attribute": "{ \"Ensemble Gene Id\": .id }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{HGNC_GENE_NAMES_CALL_CACHE}",
+    "attribute": ".\"Ensembl Gene Id\" | { \"Ensembl Gene Id\": .ensembl_gene_id }",
+    "dependencies": [
+      "HGNC_GENE_NAMES_CALL_CACHE"
+    ],
     "versioning_type": "rest",
-    "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
-    "version_attribute": ".releases[]"
+    "version_url": "https://rest.genenames.org/info",
+    "version_attribute": ".lastModified | split(\"T\")[0]"
   },
   {
     "data_set": "HGNC_ID",
-    "data_source": "Ensembl",
+    "data_source": "HGNC_GeneNames",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "http",
-    "url": "http://rest.genenames.org/fetch/symbol/{gene}",
-    "attribute": ".response | .docs[] | select( .symbol | contains(\"{gene}\")) | { HGNC_ID : .\"hgnc_id\"}",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{HGNC_GENE_NAMES_CALL_CACHE}",
+    "attribute": ".HGNC_ID | { \"HGNC_ID\" : .hgnc_id}",
+    "dependencies": [
+      "HGNC_GENE_NAMES_CALL_CACHE"
+    ],
     "versioning_type": "rest",
-    "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
-    "version_attribute": ".releases[]"
+    "version_url": "https://rest.genenames.org/info",
+    "version_attribute": ".lastModified | split(\"T\")[0]"
   },
   {
     "data_set": "ClinVar_Variant_Id",
-    "data_source": "Rosalution",
+    "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "attribute": ".[] | select(.colocated_variants != null) | .colocated_variants[] | select(.var_synonyms != null) | .var_synonyms | select( .ClinVar != null ) | select(.ClinVar != []) | .ClinVar[] | select(contains(\"VCV\")) | sub(\"VCV0+\"; \"\") | {\"ClinVar_Variant_Id\": . } ",
-    "url": "http://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;clinvar=1;",
-    "versioning_type": "rosalution",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".ClinVar_Variant_Id | .[] | select(.colocated_variants != null) | .colocated_variants[] | select(.var_synonyms != null) | .var_synonyms | select( .ClinVar != null ) | select(.ClinVar != []) | .ClinVar[] | select(contains(\"VCV\")) | sub(\"VCV0+\"; \"\") | {\"ClinVar_Variant_Id\": . } ",
     "dependencies": [
-      "hgvs_variant_without_transcript_version"
-    ]
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
+    ],
+    "versioning_type": "rest",
+    "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
+    "version_attribute": ".releases[]"
   },
   {
     "data_set": "OMIM_gene_search_url",
@@ -93,9 +104,13 @@
     "data_set": "Rat Gene Identifier",
     "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "http",
-    "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
-    "attribute": ".results[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Rno)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"Rat Gene Identifier\": .primaryKey }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ANIMAL_MODEL_IDS_VIA_AUTOCOMPLETE_ALLIANCE_GENOME_CACHE}",
+    "attribute": ".\"Rat Gene Identifier\"[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Rno)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"Rat Gene Identifier\": .primaryKey }",
+    "dependencies": [
+      "ANIMAL_MODEL_IDS_VIA_AUTOCOMPLETE_ALLIANCE_GENOME_CACHE"
+    ],
     "versioning_type": "rest",
     "version_url": "https://www.alliancegenome.org/api/releaseInfo",
     "version_attribute": ".releaseVersion"
@@ -104,9 +119,13 @@
     "data_set": "Mouse Gene Identifier",
     "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "http",
-    "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
-    "attribute": ".results[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Mmu)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"Mouse Gene Identifier\": .primaryKey }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ANIMAL_MODEL_IDS_VIA_AUTOCOMPLETE_ALLIANCE_GENOME_CACHE}",
+    "attribute": ".\"Mouse Gene Identifier\"[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Mmu)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"Mouse Gene Identifier\": .primaryKey }",
+    "dependencies": [
+      "ANIMAL_MODEL_IDS_VIA_AUTOCOMPLETE_ALLIANCE_GENOME_CACHE"
+    ],
     "versioning_type": "rest",
     "version_url": "https://www.alliancegenome.org/api/releaseInfo",
     "version_attribute": ".releaseVersion"
@@ -115,9 +134,13 @@
     "data_set": "Zebrafish Gene Identifier",
     "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "http",
-    "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
-    "attribute": ".results[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Dre)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"Zebrafish Gene Identifier\": .primaryKey }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ANIMAL_MODEL_IDS_VIA_AUTOCOMPLETE_ALLIANCE_GENOME_CACHE}",
+    "attribute": ".\"Zebrafish Gene Identifier\"[] | { \"name_key\": .name_key, \"name\": .name, \"primaryKey\": .primaryKey, \"searchKey\": \"{gene} (Dre)\" } | . + { \"searchKey\": .searchKey | ascii_downcase, \"name_key\": .name_key | ascii_downcase } |  select( .name_key == .searchKey) | { \"Zebrafish Gene Identifier\": .primaryKey }",
+    "dependencies": [
+      "ANIMAL_MODEL_IDS_VIA_AUTOCOMPLETE_ALLIANCE_GENOME_CACHE"
+    ],
     "versioning_type": "rest",
     "version_url": "https://www.alliancegenome.org/api/releaseInfo",
     "version_attribute": ".releaseVersion"
@@ -125,10 +148,10 @@
   {
     "data_set": "Frog_General_Xenbase_Database_url",
     "data_source": "Alliance Genome",
-    "annotation_source_type": "http",
     "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/search?q={gene}",
-    "attribute": "[.results[] | select ( .species | contains(\"Xenopus laevis\")) | .modCrossRefCompleteUrl][0] | { \"Frog_General_Xenbase_Database_url\": .}",
+    "attribute": "[.results[] |  select(.species != null) | select ( .species | contains(\"Xenopus laevis\")) | .modCrossRefCompleteUrl][0] | { Frog_General_Xenbase_Database_url: .}",
     "versioning_type": "rest",
     "version_url": "https://www.alliancegenome.org/api/releaseInfo",
     "version_attribute": ".releaseVersion"
@@ -162,15 +185,18 @@
   },
   {
     "data_set": "Entrez Gene Id",
-    "data_source": "Rosalution",
+    "data_source": "HGNC_GeneNames",
     "genomic_unit_type": "gene",
     "annotation_source_type": "forge",
-    "base_string": "{HPO_NCBI_GENE_ID}",
-    "attribute": "{ \"Entrez Gene Id\": .\"Entrez Gene Id\"| sub( \".*:\"; \"\") }",
+    "base_string_cache": true,
+    "base_string": "{HGNC_GENE_NAMES_CALL_CACHE}",
+    "attribute": ".\"Entrez Gene Id\" | { \"Entrez Gene Id\" : .entrez_id}",
     "dependencies": [
-      "HPO_NCBI_GENE_ID"
+      "HGNC_GENE_NAMES_CALL_CACHE"
     ],
-    "versioning_type": "rosalution"
+    "versioning_type": "rest",
+    "version_url": "https://rest.genenames.org/info",
+    "version_attribute": ".lastModified | split(\"T\")[0]"
   },
   {
     "data_set": "Gene Summary",
@@ -269,22 +295,29 @@
   },
   {
     "data_set": "HPO_NCBI_GENE_ID",
-    "data_source": "HPO",
+    "data_source": "HGNC_GeneNames",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "http",
-    "url": "https://ontology.jax.org/api/network/search/GENE?q={gene}&page=0&limit=10",
-    "attribute": "{ \"HPO_NCBI_GENE_ID\": .results[] | select( .name == \"{gene}\") | .id }",
-    "versioning_type": "date"
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{HGNC_GENE_NAMES_CALL_CACHE}",
+    "attribute": ".HPO_NCBI_GENE_ID | { HPO_NCBI_GENE_ID: \"NCBIGene:\\(.entrez_id)\" }",
+    "dependencies": [
+      "HGNC_GENE_NAMES_CALL_CACHE"
+    ],
+    "versioning_type": "rest",
+    "version_url": "https://rest.genenames.org/info",
+    "version_attribute": ".lastModified | split(\"T\")[0]"
   },
   {
     "data_set": "OMIM",
     "data_source": "HPO",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "http",
-    "url": "https://ontology.jax.org/api/network/annotation/{HPO_NCBI_GENE_ID}",
-    "attribute": "{ \"diseaseAssoc\": [.diseases[] | select( .id | contains(\"OMIM\") ) | .name ]}",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{HPO_GENE_CALL_CACHE}",
+    "attribute": ".OMIM | { \"diseaseAssoc\": [.diseases[] | select( .id | contains(\"OMIM\") ) | .name ]}",
     "dependencies": [
-      "HPO_NCBI_GENE_ID"
+      "HPO_GENE_CALL_CACHE"
     ],
     "versioning_type": "date"
   },
@@ -292,11 +325,12 @@
     "data_set": "HPO",
     "data_source": "HPO",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "http",
-    "url": "https://ontology.jax.org/api/network/annotation/{HPO_NCBI_GENE_ID}",
-    "attribute": "{ \"termAssoc\": [.phenotypes[] | .id + \": \" + .name]}",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{HPO_GENE_CALL_CACHE}",
+    "attribute": ".HPO | { \"termAssoc\": [.phenotypes[] | .id + \": \" + .name]}",
     "dependencies": [
-      "HPO_NCBI_GENE_ID"
+      "HPO_GENE_CALL_CACHE"
     ],
     "versioning_type": "date"
   },
@@ -304,11 +338,12 @@
     "data_set": "Rat_Alliance_Genome_Automated_Summary",
     "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "http",
-    "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}",
-    "attribute": "{ \"Rat_Alliance_Genome_Automated_Summary\": .automatedGeneSynopsis }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{RAT_SUMMARY_ALLIANCE_GENOME_CACHE}",
+    "attribute": ".Rat_Alliance_Genome_Automated_Summary | { Rat_Alliance_Genome_Automated_Summary: .automatedGeneSynopsis }",
     "dependencies": [
-      "Rat Gene Identifier"
+      "RAT_SUMMARY_ALLIANCE_GENOME_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://www.alliancegenome.org/api/releaseInfo",
@@ -318,11 +353,12 @@
     "data_set": "Rat_Alliance_Genome_RGD_Summary",
     "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "http",
-    "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}",
-    "attribute": "{ \"Rat_Alliance_Genome_RGD_Summary\": .geneSynopsis}",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{RAT_SUMMARY_ALLIANCE_GENOME_CACHE}",
+    "attribute": ".Rat_Alliance_Genome_Automated_Summary | { Rat_Alliance_Genome_RGD_Summary: .geneSynopsis}",
     "dependencies": [
-      "Rat Gene Identifier"
+      "RAT_SUMMARY_ALLIANCE_GENOME_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://www.alliancegenome.org/api/releaseInfo",
@@ -334,7 +370,7 @@
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}/models?limit=100",
-    "attribute": "{ \"Rat_Alliance_Genome_Models\": [.results[]] }",
+    "attribute": "{ \"Rat_Alliance_Genome_Models\": (if .total != 0 then [.results[]] else empty end) }",
     "dependencies": [
       "Rat Gene Identifier"
     ],
@@ -346,11 +382,12 @@
     "data_set": "Mouse_Alliance_Genome_Automated_Summary",
     "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "http",
-    "url": "https://www.alliancegenome.org/api/gene/{Mouse Gene Identifier}",
-    "attribute": "{ \"Mouse_Alliance_Genome_Automated_Summary\": .automatedGeneSynopsis }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{MOUSE_SUMMARY_ALLIANCE_GENOME_CACHE}",
+    "attribute": ".Mouse_Alliance_Genome_Automated_Summary | { Mouse_Alliance_Genome_Automated_Summary: .automatedGeneSynopsis }",
     "dependencies": [
-      "Mouse Gene Identifier"
+      "MOUSE_SUMMARY_ALLIANCE_GENOME_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://www.alliancegenome.org/api/releaseInfo",
@@ -360,11 +397,12 @@
     "data_set": "Mouse_Alliance_Genome_MGI_Summary",
     "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "http",
-    "url": "https://www.alliancegenome.org/api/gene/{Mouse Gene Identifier}",
-    "attribute": "{ \"Mouse_Alliance_Genome_MGI_Summary\": .geneSynopsis }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{MOUSE_SUMMARY_ALLIANCE_GENOME_CACHE}",
+    "attribute": ".Mouse_Alliance_Genome_MGI_Summary | { Mouse_Alliance_Genome_MGI_Summary: .geneSynopsis }",
     "dependencies": [
-      "Mouse Gene Identifier"
+      "MOUSE_SUMMARY_ALLIANCE_GENOME_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://www.alliancegenome.org/api/releaseInfo",
@@ -376,7 +414,7 @@
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/gene/{Mouse Gene Identifier}/models?limit=100",
-    "attribute": "{ \"Mouse_Alliance_Genome_Models\": [.results[]] }",
+    "attribute": "{ \"Mouse_Alliance_Genome_Models\": (if .total != 0 then [.results[]] else empty end) }",
     "dependencies": [
       "Mouse Gene Identifier"
     ],
@@ -388,11 +426,12 @@
     "data_set": "Zebrafish_Alliance_Genome_Automated_Summary",
     "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "http",
-    "url": "https://www.alliancegenome.org/api/gene/{Zebrafish Gene Identifier}",
-    "attribute": "{ \"Zebrafish_Alliance_Genome_Automated_Summary\": .automatedGeneSynopsis }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ZEBRAFISH_SUMMARY_ALLIANCE_GENOME_CACHE}",
+    "attribute": ".Zebrafish_Zebrafish_Information_Network_url | { Zebrafish_Alliance_Genome_Automated_Summary: .automatedGeneSynopsis }",
     "dependencies": [
-      "Zebrafish Gene Identifier"
+      "ZEBRAFISH_SUMMARY_ALLIANCE_GENOME_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://www.alliancegenome.org/api/releaseInfo",
@@ -402,11 +441,12 @@
     "data_set": "Zebrafish_Alliance_Genome_ZFIN_Summary",
     "data_source": "Alliance Genome",
     "genomic_unit_type": "gene",
-    "annotation_source_type": "http",
-    "url": "https://www.alliancegenome.org/api/gene/{Zebrafish Gene Identifier}",
-    "attribute": "{ \"Zebrafish_Alliance_Genome_ZFIN_Summary\": .geneSynopsis }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ZEBRAFISH_SUMMARY_ALLIANCE_GENOME_CACHE}",
+    "attribute": ".Zebrafish_Zebrafish_Information_Network_url | { Zebrafish_Alliance_Genome_ZFIN_Summary: .geneSynopsis }",
     "dependencies": [
-      "Zebrafish Gene Identifier"
+      "ZEBRAFISH_SUMMARY_ALLIANCE_GENOME_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://www.alliancegenome.org/api/releaseInfo",
@@ -418,7 +458,7 @@
     "genomic_unit_type": "gene",
     "annotation_source_type": "http",
     "url": "https://www.alliancegenome.org/api/gene/{Zebrafish Gene Identifier}/models?limit=100",
-    "attribute": "{ \"Zebrafish_Alliance_Genome_Models\": [.results[]] }",
+    "attribute": "{ \"Zebrafish_Alliance_Genome_Models\": (if .total != 0 then [.results[]] else empty end) }",
     "dependencies": [
       "Zebrafish Gene Identifier"
     ],
@@ -427,16 +467,17 @@
     "version_attribute": ".releaseVersion"
   },
   {
-    "data_set": "Polyphen Prediction",
+    "data_set":  "Polyphen Prediction",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
     "transcript": true,
-    "annotation_source_type": "http",
-    "url": "http://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | { polyphen_prediction: .polyphen_prediction, transcript_id: .transcript_id }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".\"Polyphen Prediction\" | .[].transcript_consequences[] | { polyphen_prediction: .polyphen_prediction, transcript_id: .transcript_id }",
     "versioning_type": "rest",
     "dependencies": [
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
     "version_attribute": ".releases[]"
@@ -446,13 +487,14 @@
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
     "transcript": true,
-    "annotation_source_type": "http",
-    "url": "http://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | { polyphen_score: .polyphen_score, transcript_id: .transcript_id }",
-    "versioning_type": "rest",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".\"Polyphen Score\" | .[].transcript_consequences[] | { polyphen_score: .polyphen_score, transcript_id: .transcript_id }",
     "dependencies": [
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
+    "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
     "version_attribute": ".releases[]"
   },
@@ -461,13 +503,14 @@
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
     "transcript": true,
-    "annotation_source_type": "http",
-    "url": "http://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | { sift_prediction: .sift_prediction, transcript_id: .transcript_id }",
-    "versioning_type": "rest",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".\"SIFT Prediction\" | .[].transcript_consequences[] | { sift_prediction: .sift_prediction, transcript_id: .transcript_id }",
     "dependencies": [
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
+    "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
     "version_attribute": ".releases[]"
   },
@@ -476,13 +519,14 @@
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
     "transcript": true,
-    "annotation_source_type": "http",
-    "url": "http://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | { sift_score: .sift_score, transcript_id: .transcript_id }",
-    "versioning_type": "rest",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".\"SIFT Score\" | .[].transcript_consequences[] | { sift_score: .sift_score, transcript_id: .transcript_id }",
     "dependencies": [
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
+    "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
     "version_attribute": ".releases[]"
   },
@@ -491,11 +535,12 @@
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
     "transcript": true,
-    "annotation_source_type": "http",
-    "url": "http://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | { consequence_terms: .consequence_terms, transcript_id: .transcript_id }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".Consequences | .[].transcript_consequences[] | { consequence_terms: .consequence_terms, transcript_id: .transcript_id }",
     "dependencies": [
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -505,12 +550,13 @@
     "data_set": "CADD",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;CADD=1;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { CADD: .cadd_phred }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".CADD | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { CADD: .cadd_phred }",
     "dependencies": [
       "transcript",
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -520,12 +566,13 @@
     "data_set": "alphamissense_pathogenicity",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;AlphaMissense=1;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { alphamissense: .alphamissense.am_pathogenicity }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".alphamissense_pathogenicity | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { alphamissense: .alphamissense.am_pathogenicity }",
     "dependencies": [
       "transcript",
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -535,12 +582,13 @@
     "data_set": "alphamissense_classification",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;AlphaMissense=1;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { alphamissense: .alphamissense.am_class }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".alphamissense_classification | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { alphamissense: .alphamissense.am_class }",
     "dependencies": [
       "transcript",
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -550,12 +598,13 @@
     "data_set": "revel",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;AlphaMissense=1;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { revel: .revel }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".revel | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { revel: .revel }",
     "dependencies": [
       "transcript",
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -566,12 +615,13 @@
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
     "transcript": true,
-    "annotation_source_type": "http",
-    "url": "http://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;",
-    "attribute": ".[].transcript_consequences[] | { impact: .impact, transcript_id: .transcript_id }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".Impact | .[].transcript_consequences[] | { impact: .impact, transcript_id: .transcript_id }",
     "versioning_type": "rest",
     "dependencies": [
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
     "version_attribute": ".releases[]"
@@ -603,12 +653,13 @@
   {
     "data_set": "Rat_Rat_Genome_Database_url",
     "data_source": "Alliance Genome",
-    "annotation_source_type": "http",
     "genomic_unit_type": "gene",
-    "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}",
-    "attribute": "{ \"Rat_Rat_Genome_Database_url\": .modCrossRefCompleteUrl }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{RAT_SUMMARY_ALLIANCE_GENOME_CACHE}",
+    "attribute": ".Rat_Rat_Genome_Database_url | { Rat_Rat_Genome_Database_url: .modCrossRefCompleteUrl }",
     "dependencies": [
-      "Rat Gene Identifier"
+      "RAT_SUMMARY_ALLIANCE_GENOME_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://www.alliancegenome.org/api/releaseInfo",
@@ -629,12 +680,13 @@
   {
     "data_set": "Mouse_Mouse_Genome_Database_url",
     "data_source": "Alliance Genome",
-    "annotation_source_type": "http",
     "genomic_unit_type": "gene",
-    "url": "https://www.alliancegenome.org/api/gene/{Mouse Gene Identifier}",
-    "attribute": "{ \"Mouse_Mouse_Genome_Database_url\": .modCrossRefCompleteUrl }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{MOUSE_SUMMARY_ALLIANCE_GENOME_CACHE}",
+    "attribute": ".Mouse_Mouse_Genome_Database_url | { Mouse_Mouse_Genome_Database_url: .modCrossRefCompleteUrl }",
     "dependencies": [
-      "Mouse Gene Identifier"
+      "MOUSE_SUMMARY_ALLIANCE_GENOME_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://www.alliancegenome.org/api/releaseInfo",
@@ -655,12 +707,13 @@
   {
     "data_set": "Zebrafish_Zebrafish_Information_Network_url",
     "data_source": "Alliance Genome",
-    "annotation_source_type": "http",
     "genomic_unit_type": "gene",
-    "url": "https://www.alliancegenome.org/api/gene/{Zebrafish Gene Identifier}",
-    "attribute": "{ \"Zebrafish_Zebrafish_Information_Network_url\": .modCrossRefCompleteUrl }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ZEBRAFISH_SUMMARY_ALLIANCE_GENOME_CACHE}",
+    "attribute": ".Zebrafish_Zebrafish_Information_Network_url | { Zebrafish_Zebrafish_Information_Network_url: .modCrossRefCompleteUrl }",
     "dependencies": [
-      "Zebrafish Gene Identifier"
+      "ZEBRAFISH_SUMMARY_ALLIANCE_GENOME_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://www.alliancegenome.org/api/releaseInfo",
@@ -673,8 +726,7 @@
     "annotation_source_type": "forge",
     "base_string": "https://spliceailookup.broadinstitute.org/#variant={hgvs_variant_without_transcript_version}&hg=38&bc=basic&distance=500&mask=0&ra=0",
     "attribute": "{ \"SpliceAI_variant_linkout\": .SpliceAI_variant_linkout }",
-    "dependencies": [
-      "hgvs_variant_without_transcript_version"
+    "dependencies": ["hgvs_variant_without_transcript_version"
     ],
     "versioning_type": "rosalution"
   },
@@ -682,12 +734,13 @@
     "data_set": "opencravat_search_variant_vcf_string",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;CADD=1;refseq=1;vcf_string=1;",
-    "attribute": ".[] | .vcf_string | split(\"-\") | \"chrom=chr\" + .[0] + \"&pos=\" + .[1] + \"&ref_base=\" + .[2] + \"&alt_base=\" + .[3] | {\"opencravat_search_variant_vcf_string\": . }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".opencravat_search_variant_vcf_string | .[] | .vcf_string | split(\"-\") | \"chrom=chr\" + .[0] + \"&pos=\" + .[1] + \"&ref_base=\" + .[2] + \"&alt_base=\" + .[3] | {\"opencravat_search_variant_vcf_string\": . }",
     "versioning_type": "rest",
     "dependencies": [
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
     "version_attribute": ".releases[]"
@@ -723,8 +776,7 @@
     "genomic_unit_type": "hgvs_variant",
     "base_string": "{hgvs_variant_without_transcript_version}",
     "attribute": ".transcript_without_version | split(\":\") | { \"transcript_without_version\": .[0] }",
-    "dependencies": [
-      "hgvs_variant_without_transcript_version"
+    "dependencies": ["hgvs_variant_without_transcript_version"
     ],
     "versioning_type": "rosalution"
   },
@@ -735,8 +787,7 @@
     "annotation_source_type": "http",
     "url": "https://rest.ensembl.org/xrefs/symbol/homo_sapiens/{transcript_without_version}?content-type=application/json;object_type=transcript",
     "attribute": "{ \"Ensembl_Transcript_Id\": .[0].id }",
-    "dependencies": [
-      "transcript_without_version"
+    "dependencies": ["transcript_without_version"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -763,12 +814,13 @@
     "data_set": "spliceai_acceptor_loss",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;SpliceAI=2;",
-    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_acceptor_loss: .spliceai.DS_AL }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".spliceai_acceptor_loss | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_acceptor_loss: .spliceai.DS_AL }",
     "dependencies": [
       "transcript",
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -778,12 +830,13 @@
     "data_set": "spliceai_donor_loss",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;SpliceAI=2;",
-    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_donor_loss: .spliceai.DS_DL }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".spliceai_donor_loss | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_donor_loss: .spliceai.DS_DL }",
     "dependencies": [
       "transcript",
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -793,12 +846,13 @@
     "data_set": "spliceai_acceptor_gain",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;SpliceAI=2;",
-    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_acceptor_gain: .spliceai.DS_AG }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".spliceai_acceptor_gain | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_acceptor_gain: .spliceai.DS_AG }",
     "dependencies": [
       "transcript",
-      "hgvs_variant_without_transcript_version"
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
@@ -808,15 +862,106 @@
     "data_set": "spliceai_donor_gain",
     "data_source": "Ensembl",
     "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;refseq=1;SpliceAI=2;",
-    "attribute": ".[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_donor_gain: .spliceai.DS_DG }",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE}",
+    "attribute": ".spliceai_donor_gain | .[].transcript_consequences[] | select( .transcript_id | contains(\"{transcript}\") ) | { spliceai_donor_gain: .spliceai.DS_DG }",
     "dependencies": [
       "transcript",
+      "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE"
+    ],
+    "versioning_type": "rest",
+    "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
+    "version_attribute": ".releases[]"
+  },
+  {
+    "data_set": "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE",
+    "data_source": "Ensembl",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "http",
+    "url": "https://rest.ensembl.org/vep/human/hgvs/{hgvs_variant_without_transcript_version}?content-type=application/json;AlphaMissense=1;CADD=1;refseq=1;vcf_string=1;SpliceAI=2;",
+    "attribute": "{ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE: .}",
+    "dependencies": [
       "hgvs_variant_without_transcript_version"
     ],
     "versioning_type": "rest",
     "version_url": "https://rest.ensembl.org/info/data/?content-type=application/json",
     "version_attribute": ".releases[]"
+  },
+  {
+    "data_set": "HGNC_GENE_NAMES_CALL_CACHE",
+    "data_source": "HGNC_GeneNames",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://rest.genenames.org/fetch/symbol/{gene}",
+    "attribute": ".response | .docs[] | select( .symbol | contains(\"{gene}\")) | { \"HGNC_GENE_NAMES_CALL_CACHE\": .}",
+    "versioning_type": "rest",
+    "version_url": "https://rest.genenames.org/info",
+    "version_attribute": ".lastModified | split(\"T\")[0]"
+  },
+  {
+    "data_set": "HPO_GENE_CALL_CACHE",
+    "data_source": "HPO",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://ontology.jax.org/api/network/annotation/{HPO_NCBI_GENE_ID}",
+    "attribute": "{ HPO_GENE_CALL_CACHE: .}",
+    "dependencies": [
+      "HPO_NCBI_GENE_ID"
+    ],
+    "versioning_type": "date"
+  },
+  {
+    "data_set": "ANIMAL_MODEL_IDS_VIA_AUTOCOMPLETE_ALLIANCE_GENOME_CACHE",
+    "data_source": "Alliance Genome",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/search_autocomplete?q={gene}",
+    "attribute": "{ ANIMAL_MODEL_IDS_VIA_AUTOCOMPLETE_ALLIANCE_GENOME_CACHE: .results}",
+    "versioning_type": "rest",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": ".releaseVersion"
+  },
+  {
+    "data_set": "MOUSE_SUMMARY_ALLIANCE_GENOME_CACHE",
+    "data_source": "Alliance Genome",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/gene/{Mouse Gene Identifier}",
+    "attribute": "{ MOUSE_SUMMARY_ALLIANCE_GENOME_CACHE: .}",
+    "dependencies": [
+      "Mouse Gene Identifier"
+    ],
+    "versioning_type": "rest",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": ".releaseVersion"
+  },
+  {
+    "data_set": "ZEBRAFISH_SUMMARY_ALLIANCE_GENOME_CACHE",
+    "data_source": "Alliance Genome",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/gene/{Zebrafish Gene Identifier}",
+    "attribute": "{ ZEBRAFISH_SUMMARY_ALLIANCE_GENOME_CACHE: .}",
+    "dependencies": [
+      "Zebrafish Gene Identifier"
+    ],
+    "versioning_type": "rest",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": ".releaseVersion"
+  },
+  {
+    "data_set": "RAT_SUMMARY_ALLIANCE_GENOME_CACHE",
+    "data_source": "Alliance Genome",
+    "genomic_unit_type": "gene",
+    "annotation_source_type": "http",
+    "url": "https://www.alliancegenome.org/api/gene/{Rat Gene Identifier}",
+    "attribute": "{ RAT_SUMMARY_ALLIANCE_GENOME_CACHE: .}",
+    "dependencies": [
+      "Rat Gene Identifier"
+    ],
+    "versioning_type": "rest",
+    "version_url": "https://www.alliancegenome.org/api/releaseInfo",
+    "version_attribute": ".releaseVersion"
   }
 ]

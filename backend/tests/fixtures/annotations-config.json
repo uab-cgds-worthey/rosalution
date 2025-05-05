@@ -67,7 +67,7 @@
     "versioning_type": "date"
   },
   {
-    "data_set": "ClinVar_Variantion_Id",
+    "data_set": "ClinVar_Variation_Id",
     "data_source": "Rosalution",
     "genomic_unit_type": "hgvs_variant",
     "annotation_source_type": "http",

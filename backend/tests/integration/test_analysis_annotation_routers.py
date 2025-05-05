@@ -33,5 +33,5 @@ def test_get_annotations_by_hgvs_varian_in_analysis(
     response_annotations = response.json()
     assert response.status_code == 200
     assert len(response_annotations['transcripts']) == 2
-    assert response_annotations['ClinVar_Variantion_Id'] == "581244"
+    assert response_annotations['ClinVar_Variation_Id'] == "581244"
     assert response_annotations['ClinVar_variant_url'] == "https://www.ncbi.nlm.nih.gov/clinvar/variation/581244"

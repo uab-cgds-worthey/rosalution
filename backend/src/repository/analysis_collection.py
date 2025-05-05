@@ -137,12 +137,12 @@ class AnalysisCollection:
 
         dataset = {
             annotation_unit.get_dataset_name(): {
-                'data_source': annotation_unit.get_dataset_source(), 'version': annotation_unit.get_version()
+                'data_source': annotation_unit.get_dataset_source(), 'version': annotation_unit.version
             }
         }
 
         updated_document = self.collection.find_one_and_update({"name": analysis_name},
-                                                               {"$push": {"manifest": dataset}},
+                                                               {"$addToSet": {"manifest": dataset}},
                                                                return_document=ReturnDocument.AFTER)
 
         return updated_document['manifest']

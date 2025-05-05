@@ -48,6 +48,7 @@ def mock_mongo_collection():
     mock_collection.update_one = Mock()
     mock_collection.insert_one = Mock()
     mock_collection.find_one_and_update = Mock()
+    mock_collection.count_documents = Mock()
     return mock_collection
 
 
@@ -62,6 +63,7 @@ def magic_mock_mongo_collection():
     mock_collection.update_one = MagicMock()
     mock_collection.insert_one = MagicMock()
     mock_collection.find_one_and_update = MagicMock()
+    mock_collection.count_documents = MagicMock()
     return mock_collection
 
 
@@ -89,3 +91,22 @@ def magic_mock_gridfs_bucket():
     mock_bucket.exists = MagicMock()
     mock_bucket.delete = MagicMock()
     return mock_bucket
+
+
+# Disabling PyLint due to this being a simple Mock adapter as a simple test harness for emulating mising a dependency
+class SkipDependencies:  # pylint: disable=too-few-public-methods
+    """ A skip annotation dependencies helper class that allows tester to dictate which datasets to skip once to
+    emulate a depedency not existing the first time when preparing an Annotation Task for annotation."""
+
+    def __init__(self, dependencies_to_skip=None):
+        """ Dictating the list of  of dataset names to emulate that dataset annotation not existing."""
+        self.skip_tracker = {}
+        self.to_skip = dependencies_to_skip if dependencies_to_skip else ["HGNC_ID"]
+
+    def skip_hgncid_get_value_first_time_mock(self, *args):
+        """ Mock method that tracks if the provided dependencies are one of the ones indicated to skip"""
+        annotation_unit = args[0]
+        name = annotation_unit.get_dataset_name()
+        genomic_unit = annotation_unit.get_genomic_unit()
+        should_skip = (name in self.to_skip and name not in self.skip_tracker)
+        return self.skip_tracker.setdefault(name, None) if should_skip else f"{genomic_unit}-{name}-value"

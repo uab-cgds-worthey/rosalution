@@ -1,6 +1,5 @@
 """
-Manages the annotation configuration of various genomic units according to the
-type of Genomic Unit.
+Manages the genomic units and their subsequent annotations within MongoDB.
 """
 import logging
 
@@ -10,120 +9,160 @@ from pymongo import ReturnDocument
 from src.enums import GenomicUnitType
 from src.core.annotation_unit import AnnotationUnit
 
+from .genomic_unit_collection_for_transcripts import GenomicUnitCollectionForTranscripts
+
 logger = logging.getLogger(__name__)
 
 
-def transcript_unit_exist(dataset, data_source, version, annotation):
-    """Helper method to evaluate if transcript annotations have existing annotation"""
-    if dataset not in annotation:
-        return False
+class GenomicUnitQuery():
+    """
+    Represents the MongoDB query's filter and update arguments of an AnnotationUnit.
+    """
 
-    annotation_unit_match = next(
-        (unit for unit in annotation[dataset] if unit['data_source'] == data_source and unit['version'] == version),
-        None
-    )
+    def __init__(self, genomic_unit, genomic_annotation):
+        """Initializes this query builder with the genomic unit and the gathered annotation."""
+        self.genomic_unit = genomic_unit
+        self.genomic_annotation = genomic_annotation
 
-    return annotation_unit_match is not None
+    @property
+    def dataset_name(self):
+        """Returns the name of the dataset for the genomic unit's annotation"""
+        return self.genomic_annotation['data_set']
+
+    def provision_dataset_query_and_update(self):
+        """Constructs a query's filter and update MongoDB arguments to provision a dataset for a genomic unit."""
+
+        query_filter = {
+            self.genomic_unit['type'].value: self.genomic_unit['unit'],
+            f"annotations.{self.dataset_name}": {'$exists': False}
+        }
+
+        update_operation = {'$addToSet': {"annotations": {self.dataset_name: []}}}
+
+        return query_filter, update_operation
+
+    def annotate_dataset_query_and_update(self):
+        """
+        Constructs a query's filter, update, and arraysFilter MongoDB arguments to annotate a dataset
+        for a genomic unit.
+        """
+
+        query_filter = {
+            self.genomic_unit['type'].value: self.genomic_unit['unit'],
+            f"annotations.{self.dataset_name}": {'$exists': True}
+        }
+
+        annotation_entry = {
+            'data_source': self.genomic_annotation['data_source'],
+            'version': self.genomic_annotation['version'],
+            'value': self.genomic_annotation['value'],
+        }
+
+        update_operation = {'$addToSet': {f"annotations.$[dataset].{self.dataset_name}": annotation_entry}}
+
+        arrays_filter = [{f"dataset.{self.dataset_name}": {'$exists': True}}]
+
+        return query_filter, update_operation, arrays_filter
 
 
-def create_annotation_entry(dataset_name, processed_annotation):
-    """ Helper method that restructures a dataset and the queried annotation into an entry for MongoDBc"""
-    annotation_entry = {
-        'data_source': processed_annotation['data_source'],
-        'version': processed_annotation['version'],
-        'value': processed_annotation['value'],
-    }
-    new_dataset_entry = {dataset_name: [annotation_entry]}
+class AnnotationUnitQuery():
+    """
+    Represents the MongoDB query's filter and update arguments for an AnnotationUnit.
+    """
 
-    return new_dataset_entry, annotation_entry
+    def __init__(self, annotation_unit: AnnotationUnit):
+        """Initializes this query builder with an AnnotationUnit"""
+        self.annotation_unit = annotation_unit
+
+    def find_annotation_query(self):
+        """
+        Constructs the find filter to query MongoDB for the annotation unit for by its genomic unit name,
+        dataset, data source, and calculated version.
+
+        find_query = {
+            'gene': 'VMA21',
+            'annotations.CADD': {'$exists': True },
+            'annotations.CADD.data_source': 'Ensembl',
+            'annotations.CADD.version': '112'
+        }
+        """
+        genomic_unit_type_string = self.annotation_unit.get_genomic_unit_type_string()
+        genomic_unit_name = self.annotation_unit.get_genomic_unit()
+        data_set_name = self.annotation_unit.get_dataset_name()
+
+        find_query = {
+            genomic_unit_type_string: genomic_unit_name, f"annotations.{data_set_name}": {'$exists': True},
+            f"annotations.{data_set_name}.data_source": self.annotation_unit.get_dataset_source(),
+            f"annotations.{data_set_name}.version": self.annotation_unit.version
+        }
+
+        return find_query
+
+    def find_annotation_value_projection(self):
+        """
+        Constructs the find projection MongoDB argument for an annotation unit's value by its genomic unit name,
+        dataset, data source, and calculated version.
+
+        find_query = {
+            'gene': 'VMA21',
+            'annotations.CADD': {'$exists': True },
+            'annotations.CADD.data_source': 'Ensembl',
+            'annotations.CADD.version': '112'
+        }
+        """
+        return {f"annotations.{self.annotation_unit.get_dataset_name()}.$": 1, "_id": 0}
 
 
 class GenomicUnitCollection:
     """ Repository for managing genomic units and their annotations """
 
     def __init__(self, genomic_units_collection):
-        """Initializes with the 'PyMongo' Collection object for the Genomic Units collection"""
+        """Initializes with the 'PyMongo' Collection object for the 'genomic_units' collection"""
         self.collection = genomic_units_collection
 
-    def __find_genomic_unit_query__(self, annotation_unit: AnnotationUnit):
-        """
-            # find_query = {
-            #   'gene': 'VMA21',
-            #}
-        """
-        genomic_unit_type_string = annotation_unit.get_genomic_unit_type_string()
-        genomic_unit_name = annotation_unit.get_genomic_unit()
-        return {genomic_unit_type_string: genomic_unit_name}
-
-    def __find_annotation_query__(self, annotation_unit: AnnotationUnit):
-        """
-            find_query = {
-              'gene': 'VMA21',
-              'annotations.CADD': {'$exists': True },
-              'annotations.CADD.data_source': 'Ensembl',
-              'annotations.CADD.version': '112'
-            }
-        """
-        find_query = self.__find_genomic_unit_query__(annotation_unit)
-        data_set_name = annotation_unit.get_dataset_name()
-        dataset_attribute_base = f"annotations.{data_set_name}"
-        datasource_attribute = f"{dataset_attribute_base}.data_source"
-        version_attribute = f"{dataset_attribute_base}.version"
-
-        find_query[dataset_attribute_base] = {'$exists': True}
-        find_query[datasource_attribute] = annotation_unit.get_dataset_source()
-        find_query[version_attribute] = annotation_unit.get_version()
-        return find_query
-
     def all(self):
-        """ Returns all genomic units that are currently stored """
+        """ Returns all genomic units that are stored """
         return self.collection.find()
 
     def annotation_exist(self, annotation_unit: AnnotationUnit):
-        """ Returns true if the genomic_unit already has that dataset annotated """
-        data_set_name = annotation_unit.get_dataset_name()
-        dataset_version = annotation_unit.get_version()
-        dataset_source = annotation_unit.get_dataset_source()
-
-        find_query = self.__find_genomic_unit_query__(annotation_unit)
-
+        """ 
+        Returns True if the the genomic unit is annotated by a genomic unit's name, dataset, data source, and
+        calculated version, otherwise returns False.
+        """
         if annotation_unit.is_transcript_dataset():
-            hgvs_genomic_unit = self.collection.find_one(find_query)
+            collection_for_transcripts = GenomicUnitCollectionForTranscripts(self)
+            return collection_for_transcripts.annotation_exist(annotation_unit)
 
-            if 'transcripts' not in hgvs_genomic_unit or len(hgvs_genomic_unit['transcripts']) == 0:
-                return False
-
-            for transcript in hgvs_genomic_unit['transcripts']:
-                dataset_in_transcript_annotation = next((
-                    annotation for annotation in transcript['annotations']
-                    if transcript_unit_exist(data_set_name, dataset_source, dataset_version, annotation)
-                ), None)
-                if not dataset_in_transcript_annotation:
-                    return False
-
-            return True
-
-        find_query = self.__find_annotation_query__(annotation_unit)
+        annotation_query_adapter = AnnotationUnitQuery(annotation_unit)
+        find_query = annotation_query_adapter.find_annotation_query()
 
         return bool(self.collection.count_documents(find_query, limit=1))
 
     def find_genomic_unit_annotation_value(self, annotation_unit: AnnotationUnit):
-        """ Returns the annotation value for a genomic unit according the the dataset"""
+        """
+        Returns the annotation value for a genomic unit according the the dataset, datasource, and calculated version.
+        Returns None if the annotation does not exist for the genomic unit.
+        """
 
-        dataset_name = annotation_unit.get_dataset_name()
+        annotation_query_adapter = AnnotationUnitQuery(annotation_unit)
 
-        find_query = self.__find_annotation_query__(annotation_unit)
-        projection = {f"annotations.{dataset_name}.value.$": 1, "_id": 0}
-
+        find_query = annotation_query_adapter.find_annotation_query()
+        projection = annotation_query_adapter.find_annotation_value_projection()
         result = self.collection.find_one(find_query, projection)
 
         if result is None:
             return None
 
+        dataset_name = annotation_unit.get_dataset_name()
+        dataset_annotations = next((dataset for dataset in result['annotations'] if dataset_name in dataset), None)
+
+        if not dataset_annotations:
+            return None
+
         return next((
-            annotation[dataset_name][0].get('value')
-            for annotation in result['annotations']
-            if dataset_name in annotation
+            annotation['value']
+            for annotation in dataset_annotations[dataset_name]
+            if annotation_unit.does_source_and_version_match(annotation['data_source'], annotation['version'])
         ), None)
 
     def find_genomic_unit(self, genomic_unit):
@@ -131,20 +170,6 @@ class GenomicUnitCollection:
         return self.collection.find_one({
             genomic_unit['type'].value: genomic_unit['unit'],
         })
-
-    def find_genomic_unit_with_transcript_id(self, genomic_unit, transcript_id):
-        """ Returns the genomic unit with the corresponding transcript if it exists """
-        return self.collection.find_one({
-            genomic_unit['type'].value: genomic_unit['unit'],
-            'transcripts.transcript_id': transcript_id,
-        })
-
-    def add_transcript_to_genomic_unit(self, genomic_unit, transcript_id):
-        """ Takes a genomic unit and transcript id and updates the document with a new transcript """
-        return self.collection.update_one(
-            {genomic_unit['type'].value: genomic_unit['unit']},
-            {'$addToSet': {'transcripts': {'transcript_id': transcript_id, 'annotations': []}}},
-        )
 
     def update_genomic_unit_by_mongo_id(self, genomic_unit_document):
         """ Takes a genomic unit and overwrites the existing object based on the object's id """
@@ -156,11 +181,10 @@ class GenomicUnitCollection:
 
     def annotate_genomic_unit(self, genomic_unit, genomic_annotation):
         """
-        Takes a genomic_unit from an annotation task as well as a genomic_annotation and arranges them in a pattern
-        that can be sent to mongo to update the genomic unit's document in the collection.  Saves annotation as the
-        following example
+        Annotates a genomic unit with the dataset value from an annotation task. Saves annotation as the
+        following example.
 
-        example:
+        Example:
         {
             'Entrez Gene Id': [{
                 'data_source': 'Rosalution',
@@ -171,48 +195,28 @@ class GenomicUnitCollection:
         """
 
         if 'transcript_id' in genomic_annotation:
-            transcript_id = genomic_annotation['transcript_id']
-            updated_document = self.__annotate_transcript_dataset(genomic_unit, transcript_id, genomic_annotation)
-            return updated_document
+            collection_for_transcripts = GenomicUnitCollectionForTranscripts(self)
+            return collection_for_transcripts.annotate_transcript_dataset(genomic_unit, genomic_annotation)
 
-        dataset_name = genomic_annotation['data_set']
+        genomic_unit_query = GenomicUnitQuery(genomic_unit, genomic_annotation)
 
-        genomic_unit_json = self.find_genomic_unit(genomic_unit)
-        self.__add_to_annotations_from_document(genomic_unit_json['annotations'], dataset_name, genomic_annotation)
+        provision_dataset, update_operation = genomic_unit_query.provision_dataset_query_and_update()
+        genomic_unit = self.collection.update_one(provision_dataset, update_operation)
 
-        updated_document = self.update_genomic_unit_by_mongo_id(genomic_unit_json)
+        add_annotation_query, add_annotation_update_operation, add_annotation_array_filters = \
+            genomic_unit_query.annotate_dataset_query_and_update()
 
-        return updated_document
+        try:
+            self.collection.update_one(
+                add_annotation_query, add_annotation_update_operation, array_filters=add_annotation_array_filters
+            )
+        except ValueError as error:
+            raise error
 
-    def __annotate_transcript_dataset(self, genomic_unit, transcript_id: str, genomic_annotation):
-        dataset_name = genomic_annotation['data_set']
-
-        genomic_unit_document = self.find_genomic_unit_with_transcript_id(genomic_unit, transcript_id)
-
-        if not genomic_unit_document:
-            self.add_transcript_to_genomic_unit(genomic_unit, transcript_id)
-            genomic_unit_document = self.find_genomic_unit_with_transcript_id(genomic_unit, transcript_id)
-
-        for transcript in genomic_unit_document['transcripts']:
-            if transcript["transcript_id"] == transcript_id:
-                self.__add_to_annotations_from_document(transcript['annotations'], dataset_name, genomic_annotation)
-
-        return self.update_genomic_unit_by_mongo_id(genomic_unit_document)
-
-    def __add_to_annotations_from_document(self, list_of_annotations, dataset_name, genomic_annotation):
-        new_dataset_entry, annotation_entry = create_annotation_entry(dataset_name, genomic_annotation)
-
-        existing_dataset = next((dataset for dataset in list_of_annotations if dataset_name in dataset), None)
-        if existing_dataset:
-            existing_dataset[dataset_name].append(annotation_entry)
-        else:
-            list_of_annotations.append(new_dataset_entry)
-
-        return list_of_annotations
+        return True
 
     def annotate_genomic_unit_with_file(self, genomic_unit, genomic_annotation):
         """ Ensures that an annotation is created for the annotation image upload and only one image is allowed """
-
         genomic_unit_document = self.find_genomic_unit(genomic_unit)
         data_set = genomic_annotation['data_set']
 
@@ -234,7 +238,6 @@ class GenomicUnitCollection:
 
     def update_genomic_unit_file_annotation(self, genomic_unit, data_set, annotation_value, file_id_old):
         """ Replaces existing annotation image with new image """
-
         genomic_unit_document = self.find_genomic_unit(genomic_unit)
 
         for annotation in genomic_unit_document['annotations']:
@@ -246,8 +249,6 @@ class GenomicUnitCollection:
                         break
 
         self.update_genomic_unit_by_mongo_id(genomic_unit_document)
-
-        return
 
     def remove_genomic_unit_file_annotation(self, genomic_unit, data_set, file_id):
         """ Removes a file that has been added as an annotation to a genomic unit """
@@ -283,4 +284,3 @@ class GenomicUnitCollection:
             return
 
         self.collection.insert_one(genomic_unit)
-        return
