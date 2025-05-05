@@ -160,7 +160,7 @@ watch([hasWritePermissions, latestStatus], () => {
   builder.addMenuAction('Attach Monday.com', null, addMondayLink);
   builder.addMenuAction('Connect PhenoTips', null, addPhenotipsLink);
 },
-{ immediate: true }
+{immediate: true},
 );
 
 const discussionContextActions = [

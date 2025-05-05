@@ -1,14 +1,18 @@
 <template>
-<span :class="accessAttachment" class="attachment">
+<span :class="accessAttachment" class="attachment" :title="name">
   <font-awesome-icon :icon="attachmentIcon" size="lg" class="attachment-icon"/>
-  <a v-if="type=='file'" @click="downloadAttachment(attachment)" :class="accessAttachment" class="attachment-text">
+  <a v-if="type=='file'"
+     @click="downloadAttachment(attachment)"
+     :class="accessAttachment"
+     class="attachment-text content"
+  >
     {{ name }}
   </a>
   <a v-if="type=='link'"
     :href="attachment.data"
     target="_blank"
     rel="noreferrer noopener"
-    class="attachment-text"
+    class="attachment-text content"
     :class="accessAttachment"
   >
     {{ name }}
@@ -65,9 +69,10 @@ const accessAttachment = !props.removeable ? 'available' : '';
   color: var(--rosalution-black);
   border-radius: var(--content-border-radius);
   border: 1px solid var(--rosalution-black);
+  box-sizing: border-box;
 
   display: flex;
-  gap: var(--p-5);
+  gap: var(--p-1);
   align-items: center;
   cursor: pointer;
   padding: var(--p-05);
@@ -88,6 +93,14 @@ const accessAttachment = !props.removeable ? 'available' : '';
 .attachment-text {
   cursor: pointer;
   font-size: 1rem;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.content {
+  flex-grow: 1;
 }
 
 .available.attachment:hover {
