@@ -7,7 +7,7 @@
             <b>{{ authorName }}</b>
             {{  timestamp }}
           </div>
-          <ul v-if="isUser" class="context-menu">
+          <ul v-if="isUser" class="context-menu" data-test="discussion-reply-context-menu">
             <ContextMenu
               :actions="actions"
               :contextId="replyId"
@@ -26,17 +26,20 @@
             contenteditable="plaintext-only"
             class="discussion-edit-reply-text-area"
             v-model="editReplyContent"
+            data-test="discussion-reply-edit-text-area"
           />
           <div class="discussion-reply-actions">
             <button
               class="secondary-button"
               @click="cancelEditReply"
+              data-test="edit-discussion-reply-cancel"
             >
               Cancel
             </button>
             <button
               class="primary-button save-button"
               @click="confirmEditReply"
+              data-test="edit-discussion-reply-save"
             >
               Save
             </button>
