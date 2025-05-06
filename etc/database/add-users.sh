@@ -43,7 +43,7 @@ while getopts "tc:pf:h" opt; do
   esac
 done
 
-if ! openssl --version &> /dev/null
+if ! openssl &> /dev/null
 then
     echo "❌ Error: openssl could not be found."
     fail=true
