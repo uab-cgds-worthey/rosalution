@@ -47,7 +47,7 @@ describe('DiscussionPost.vue', () => {
     expect(contextMenu.exists()).toBe(true);
   });
 
-  it('Should not display a context menu for a user that authored a discussion post', () => {
+  it('Should not display a context menu for a user that did not author the discussion post', () => {
     const wrapper = getMountedComponent({userClientId: 'different-fake-user-id'});
 
     const contextMenu = wrapper.find('[data-test=discussion-post-context-menu]');
