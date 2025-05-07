@@ -10,7 +10,7 @@
         <span class="rosalution-header-right-icons">
         <label v-if="this.allowAttach" class="attach-logo"
           @click="$emit('attach-image', this.header, this.attachmentField)"
-          :data-ßtest="`attach-logo-${header}`"
+          :data-test="`attach-logo-${header}`"
         >
           <font-awesome-layers class="fa-md">
             <font-awesome-icon :icon="['fa', 'file-circle-plus']" />
