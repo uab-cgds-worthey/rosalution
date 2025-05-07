@@ -180,7 +180,7 @@ export default {
           .confirmText('Remove')
           .cancelText('Cancel')
           .confirm(
-            `Remove attachment from new post. Are you want to remove?`
+              `Remove attachment from new post. Are you want to remove?`,
           );
 
       if (!confirmedDelete) {
