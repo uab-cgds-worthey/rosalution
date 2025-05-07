@@ -175,13 +175,12 @@ export default {
       }
     },
     async removePostAttachment(postId, attachmentIndex) {
-      const postAttachment = this.newAttachments[attachmentIndex];
       const confirmedDelete = await notificationDialog
-          .title(`Remove '${postAttachment.name}' attachment from post?`)
+          .title(`Remove post attachment?`)
           .confirmText('Remove')
           .cancelText('Cancel')
           .confirm(
-              'This operation will  sure you want to remove?',
+            `Remove attachment from new post. Are you want to remove?`
           );
 
       if (!confirmedDelete) {

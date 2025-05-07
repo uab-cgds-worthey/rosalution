@@ -1,29 +1,24 @@
 <template>
   <div v-if="dialog.state.active" class="modal-background">
-      <div class="modal-container modal-remove-file-container">
-          <h2 v-if="dialog.state.title" data-test="notification-dialog-header"> {{ dialog.state.title }}</h2>
-          <span>{{ dialog.state.message }}</span>
-
-          <div class="cancel-button-column">
-            <a
-                v-if="dialog.state.type !== 'alert'"
-                title="Cancel"
-                class="cancel-button-item"
-                @click="dialog.cancel()"
-                data-test="cancel-button">
-                    {{ dialog.state.cancelText }}
-            </a>
-          </div>
-          <div class="confirm-button-column">
-            <a
-                title="Confirm"
-                class="confirm-button-item"
-                @click="dialog.confirmation(userInput)"
-                data-test="confirm-button">
-                {{ dialog.state.confirmText }}
-            </a>
-          </div>
-      </div>
+    <div class="modal-container modal-notification-content">
+      <h2 class="header" v-if="dialog.state.title"> {{ dialog.state.title }}</h2>
+      <span class="message-content message">{{ dialog.state.message }}</span>
+      <a
+        v-if="dialog.state.type !== 'alert'"
+        title="Cancel"
+        class="actions cancel-content secondary-button cancel-button-sizing"
+        @click="dialog.cancel()"
+        data-test="cancel-button">
+            {{ dialog.state.cancelText }}
+      </a>
+      <a
+        title="Confirm"
+        class="actions confirm-content primary-button confirm-button-sizing"
+        @click="dialog.confirmation(userInput)"
+        data-test="confirm-button">
+        {{ dialog.state.confirmText }}
+      </a>
+    </div>
   </div>
 </template>
 
@@ -42,82 +37,67 @@ export default {
 </script>
 
 <style scoped>
-  .modal-remove-file-container {
+  .modal-container {
+    padding: var(--p-16);
+    min-width: 25rem;
+    max-width: 35rem;
+    min-height: auto;
+  }
+
+  .modal-notification-content {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    width: 400px;
-    height: 170px;
-    padding: 20px 35px 15px 35px;
-    word-break:break-all;
+    grid-template-rows: repeat(3, auto);
+    justify-items: start;
+    gap: var(--p-16);
     white-space: pre-wrap;
   }
 
-  h2 {
-    display: flex;
+  .header {
     grid-column: 1 / 3;
-    grid-row: 1;
-    margin: 0px;
-    align-items: center;
+    grid-row: 1 / 2;
   }
 
-  span {
-    font-family: "Proxima Nova", sans-serif;
-    font-size: 14px;
-    grid-column: span 2 / 3;
-    grid-row: 2;
+  .message-content {
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
+    min-height: 3rem;
   }
 
-  .cancel-button-item {
-    display: flex;
-    grid-row: 3;
-    text-decoration: none;
-    font-size: 100%;
-    font-weight: bold;
-    line-height: 1.625rem;
-    text-align: center;
-    border-radius: 2rem;
-    border-color: black;
+  .message {
+    font-size: var(--p-16);
+  }
+
+  .actions {
+    grid-row: 3 / 4;
+    height: var(--p-28);
+  }
+
+  .cancel-content {
+    grid-column: 1 / 2;
+  }
+
+  .confirm-content {
+    grid-column: 2 / 3;
+    justify-self: end;
+    align-self: center;
+  }
+
+  .cancel-button-sizing {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  /* TODO - Return to this when buttons in design system are revised */
+  .confirm-button-sizing {
+    border-color: var(--rosalution-black);
+    box-sizing: border-box;
+    border-radius: var(--button-border-radius);
     border-style: solid;
-    justify-content: center;
-    align-items: center;
-    height: 25px;
-    width: 100px;
-    cursor: pointer;
+    border-color: var(--rosalution-purple-100);
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
-  .cancel-button-column {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-  }
-
-  .confirm-button-column {
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    cursor: pointer;
-  }
-
-  .confirm-button-column {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-  }
-
-  .confirm-button-item {
-    display: flex;
-    grid-row: 3;
-    background-color: var(--rosalution-purple-100);
-    border-radius: 2rem;
-    text-decoration: none;
-    font-size: 100%;
-    font-weight: bold;
-    line-height: 1.625rem;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    height: 30px;
-    width: 100px;
-  }
 
 </style>
