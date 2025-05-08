@@ -122,4 +122,59 @@ describe('DiscussionPost.vue', () => {
 
     expect(discussionPost.vm.editingPostFlag).toBe(false);
   });
+
+  it('Should emit a discussion:new-reply event when the publish reply button is pressed', async () => {
+    const wrapper = getMountedComponent({userClientId: 'fake-user-id'});
+    // await wrapper.setData({newReplyContent: 'Test post content'});
+    const newReplyContent = 'Test reply content.';
+
+    const discussionPost = wrapper.getComponent(DiscussionPost);
+
+    const newDiscussionReplyButton = wrapper.find('[data-test=discussion-new-reply-button]');
+    await newDiscussionReplyButton.trigger('click');
+
+    const newReplyTextArea = discussionPost.find('[data-test=discussion-new-reply-text-area]');
+    await newReplyTextArea.setValue(newReplyContent);
+
+    const publishNewDiscussionReplyButton = wrapper.find('[data-test=discussion-new-reply-publish]');
+    await publishNewDiscussionReplyButton.trigger('click');
+
+    await wrapper.vm.$nextTick();
+
+    const emittedObjects = wrapper.emitted()['discussion:new-reply'][0];
+
+    expect(emittedObjects[1]).to.include('Test reply content');
+  });
+
+  it('Should not be able to publish a reply if the new reply content field is empty', async () => {
+    const wrapper = getMountedComponent({userClientId: 'fake-user-id'});
+
+    const newDiscussionReplyButton = wrapper.find('[data-test=discussion-new-reply-button]');
+    await newDiscussionReplyButton.trigger('click');
+
+    const publishNewDiscussionReplyButton = wrapper.find('[data-test=discussion-new-reply-publish]');
+    expect(publishNewDiscussionReplyButton.attributes().disabled).to.not.be.undefined;
+  });
+
+  it('Should close the new discussion reply field when the cancel button is pressed', async () => {
+    const wrapper = getMountedComponent({userClientId: 'fake-user-id'});
+
+    const newDiscussionReplyButton = wrapper.find('[data-test=discussion-new-reply-button]');
+    await newDiscussionReplyButton.trigger('click');
+
+    const discussionPost = wrapper.getComponent(DiscussionPost);
+
+    const newReplyTextArea = discussionPost.find('[data-test=discussion-new-reply-text-area]');
+
+    const newDiscussionReplyCancelButton = wrapper.find('[data-test=new-discussion-reply-cancel-button]');
+
+    await newDiscussionReplyCancelButton.trigger('click');
+
+    await wrapper.vm.$nextTick();
+
+    console.log('BLAH');
+    console.log((discussionPost.find('[data-test=discussion-new-reply-text-area]')).isVisible());
+
+    expect((discussionPost.find('[data-test=discussion-new-reply-text-area]')).exists()).to.be.false;
+  });
 });
