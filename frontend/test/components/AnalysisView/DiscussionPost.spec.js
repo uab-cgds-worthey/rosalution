@@ -164,16 +164,11 @@ describe('DiscussionPost.vue', () => {
 
     const discussionPost = wrapper.getComponent(DiscussionPost);
 
-    const newReplyTextArea = discussionPost.find('[data-test=discussion-new-reply-text-area]');
-
     const newDiscussionReplyCancelButton = wrapper.find('[data-test=new-discussion-reply-cancel-button]');
 
     await newDiscussionReplyCancelButton.trigger('click');
 
     await wrapper.vm.$nextTick();
-
-    console.log('BLAH');
-    console.log((discussionPost.find('[data-test=discussion-new-reply-text-area]')).isVisible());
 
     expect((discussionPost.find('[data-test=discussion-new-reply-text-area]')).exists()).to.be.false;
   });
