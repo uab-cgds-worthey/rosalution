@@ -56,7 +56,7 @@
         >
         </DiscussionAttachment>
     </div>
-    <button class="discussion-reply-button" @click="newDiscussionReplyForm">
+    <button class="discussion-reply-button" @click="newDiscussionReplyForm" data-test="discussion-new-reply-button">
       <font-awesome-icon icon="reply" size="lg"/>
     </button>
   </div>
@@ -65,17 +65,21 @@
         contenteditable="plaintext-only"
         class="discussion-new-reply-text-area"
         v-model="newReplyContent"
+        data-test="discussion-new-reply-text-area"
       />
       <div class="discussion-reply-actions">
         <button
           class="secondary-button discussion-cancel-new-reply"
           @click="cancelNewDiscussionReply"
+          data-test="new-discussion-reply-cancel-button"
         >
           Cancel
         </button>
         <button
             class="primary-button discussion-reply-publish-button"
             @click="newDiscussionReply"
+            data-test="discussion-new-reply-publish"
+            :disabled="this.checkReplyContent"
         >
           Publish
         </button>
@@ -157,6 +161,9 @@ export default {
     },
     isReply: function() {
       return this.thread == 0;
+    },
+    checkReplyContent() {
+      return this.newReplyContent == '';
     },
   },
   methods: {
