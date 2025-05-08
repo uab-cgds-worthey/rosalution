@@ -18,7 +18,7 @@
         <font-awesome-icon icon="link" size="lg" v-else-if="attachment.type==='link'"/>
       </div>
       <div class="attachment-content">
-        <div class="attachment-name">
+        <div class="attachment-name attachment-text">
           <div v-if="attachment.type=='file'" @click="$emit('download', attachment)"
             target="_blank" rel="noreferrer noopener">
             {{ attachment.name }}
@@ -31,7 +31,7 @@
           {{ attachment.comments }}
         </div>
       </div>
-      <div>
+      <div class="actions-section">
         <button @click="$emit('edit', attachment)" class="icon-button attachment-action" data-test="edit-button">
           <font-awesome-icon icon="pencil" size="xl"/>
         </button>
@@ -75,9 +75,11 @@ input[type="checkbox"] {
 .attachment-list {
   display: flex;
   align-items: center;
-  gap: var(--p-5);
-  padding: var(--p-5);
+  gap: var(--p-8);
+  padding: var(--p-8);
+  min-height: 2.5rem;
 }
+
 
 .attachment-list:nth-child(even) {
   background-color: var(--rosalution-grey-50);
@@ -88,23 +90,40 @@ input[type="checkbox"] {
 }
 
 .attachment-icon {
-  width: 3rem;
+  width: 2rem;
+  flex-shrink: 0;
 }
 
 .attachment-content {
   flex-grow: 1;
+  min-width: 0rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--p-5)
 }
 
 .attachment-name {
+  color: var(--rosalution-purple-300);
+  text-decoration: none;
   font-weight: bold;
+  cursor: pointer;
+}
+
+.attachment-name:hover {
+  color: var(--rosalution-purple-200);
 }
 
 .attachment-comments {
   font-size: var(--p-14);
-  max-width: 120ch;
+  min-width: 0rem;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.actions-section {
+  flex-shrink: 0;
 }
 
 .attachment-action{
