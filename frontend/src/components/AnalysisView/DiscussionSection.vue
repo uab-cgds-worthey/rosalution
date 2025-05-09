@@ -3,13 +3,13 @@
     <input type="checkbox" id="discussion_toggle" />
     <div class="rosalution-section-header">
         <h2 class="rosalution-section-header-text">Discussion</h2>
-        <span class="rosalution-section-center" data-test="header-datasets"/>
+        <span class="rosalution-section-center"></span>
         <button
             class="primary-button discussion-new-button"
             @click="this.newDiscussionPostForm"
             data-test="new-discussion-button"
         >
-                New Discussion
+          New Discussion
         </button>
         <label class="collapsable-icon" for="discussion_toggle">
             <font-awesome-icon icon="chevron-down" size="lg"/>

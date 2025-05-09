@@ -1,6 +1,8 @@
 import {describe, it, beforeEach, expect} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+
 import InputDialogExistingAttachments from '@/components/Dialogs/InputDialogExistingAttachments.vue';
 
 describe('InputDialogExistingAttachments.vue', () => {
@@ -28,6 +30,11 @@ describe('InputDialogExistingAttachments.vue', () => {
       props: {
         ...defaultProps,
       },
+      global: {
+        components: {
+          'font-awesome-icon': FontAwesomeIcon,
+        },
+      },
     });
   });
 
@@ -35,8 +42,8 @@ describe('InputDialogExistingAttachments.vue', () => {
     expect(wrapper.exists()).to.be.true;
   });
 
-  it('is displaying list of existing evidences', async () => {
-    const evidenceList = wrapper.find('[data-test=existing-attachments-list]');
-    expect(evidenceList.exists()).to.be.true;
+  it('is displaying list of existing attachments', async () => {
+    const attachmentList = wrapper.find('[data-test=existing-attachments-list]');
+    expect(attachmentList.exists()).to.be.true;
   });
 });

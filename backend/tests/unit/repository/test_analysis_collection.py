@@ -44,9 +44,9 @@ def test_find_file_by_name_analysis_none(analysis_collection):
     assert actual is None
 
 
-def test_find_file_by_name_no_supporting_evidence(analysis_collection, cpam0002_analysis_json):
+def test_find_file_by_name_no_attachment(analysis_collection, cpam0002_analysis_json):
     """Tests the find_file_by_name function"""
-    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json.pop('supporting_evidence_files')
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json.pop('attachments')
     actual = analysis_collection.find_file_by_name("CPAM0002", "notfound.txt")
     assert actual is None
 
@@ -262,8 +262,8 @@ def test_update_existing_image_in_pedigree_section(analysis_collection, cpam0002
     assert actual_updated_field['value'] == [{'file_id': 'new-fake-file-id'}]
 
 
-def test_attach_section_supporting_evidence_file(analysis_collection, cpam0002_analysis_json):
-    """ Tests adding a file as supporting evidence to an analysis section field"""
+def test_attach_section_attachment_file(analysis_collection, cpam0002_analysis_json):
+    """ Tests attaching a file within an analysis section """
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
 
     field_value_file = {
@@ -271,7 +271,7 @@ def test_attach_section_supporting_evidence_file(analysis_collection, cpam0002_a
         "comments": "These are comments"
     }
 
-    analysis_collection.attach_section_supporting_evidence_file(
+    analysis_collection.attach_section_attachment_file(
         "CPAM0002", "Mus musculus (Mouse) Model System", "Veterinary Histology Report", field_value_file
     )
 
@@ -289,23 +289,24 @@ def test_attach_section_supporting_evidence_file(analysis_collection, cpam0002_a
     }]
 
 
-def test_attach_section_supporting_evidence_link(analysis_collection, cpam0002_analysis_json):
-    """ Tests adding a link as supporting evidence to an analysis section field """
+def test_attach_section_attachment_link(analysis_collection, cpam0002_analysis_json):
+    """ Tests adding a link as an attachment to an analysis section """
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
 
     field_value_link = {
         "name": "Google Link", "data": "https://www.google.com", "type": "link", "comments": "nothing to do with google"
     }
 
-    actual = analysis_collection.attach_section_supporting_evidence_link(
+    actual = analysis_collection.attach_section_attachment_link(
         "CPAM0002", "Mus musculus (Mouse) Model System", "Veterinary Pathology Imaging", field_value_link
     )
 
-    new_evidence = next((evidence for evidence in actual['updated_row']['value'] if evidence['name'] == "Google Link"),
-                        None)
-    assert new_evidence['type'] == 'link'
-    assert 'attachment_id' in new_evidence
-    assert new_evidence['data'] == 'https://www.google.com'
+    new_attachment = next(
+        (attachment for attachment in actual['updated_row']['value'] if attachment['name'] == "Google Link"), None
+    )
+    assert new_attachment['type'] == 'link'
+    assert 'attachment_id' in new_attachment
+    assert new_attachment['data'] == 'https://www.google.com'
 
 
 def test_remove_section_image_attachment_from_section(analysis_collection, cpam0002_analysis_json):
@@ -328,7 +329,7 @@ def test_remove_section_image_attachment_from_section(analysis_collection, cpam0
 
 
 def test_remove_section_attachment_(analysis_collection, cpam0002_analysis_json):
-    """ Tests removing supporting evidence from an analysis section field """
+    """ Tests removing attachment from an analysis section """
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
     save_call_args = analysis_collection.collection.find_one_and_update.return_value = cpam0002_analysis_json
 
@@ -421,60 +422,60 @@ def test_delete_discussion_post_in_analysis(analysis_collection):
     )
 
 
-def test_attach_link_supporting_evidence(analysis_collection, cpam0002_analysis_json):
-    """Tests adding supporting evidence link to an analysis and return an updated analysis"""
+def test_attach_link(analysis_collection, cpam0002_analysis_json):
+    """Tests adding attachment to an analysis and return an updated analysis"""
 
     def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
         find, query = args  # pylint: disable=unused-variable
         updated_analysis = cpam0002_analysis_json
-        updated_analysis['supporting_evidence_files'].append(query['$push']['supporting_evidence_files'])
+        updated_analysis['attachments'].append(query['$push']['attachments'])
         updated_analysis['_id'] = 'fake-mongo-object-id'
         return updated_analysis
 
     analysis_collection.collection.find_one_and_update.side_effect = valid_query_side_effect
 
-    actual_analysis = analysis_collection.attach_supporting_evidence_link(
+    actual_analysis = analysis_collection.attach_link(
         "CPAM0002", "Interesting Article", "http://sites.uab.edu/cgds/", "Serious Things in here"
     )
 
-    new_evidence = next((
-        evidence for evidence in actual_analysis['supporting_evidence_files']
-        if evidence['name'] == "Interesting Article"
-    ), None)
-    assert new_evidence['type'] == 'link'
-    assert new_evidence['data'] == 'http://sites.uab.edu/cgds/'
+    new_attachment = next(
+        (attachment for attachment in actual_analysis['attachments'] if attachment['name'] == "Interesting Article"),
+        None
+    )
+    assert new_attachment['type'] == 'link'
+    assert new_attachment['data'] == 'http://sites.uab.edu/cgds/'
 
 
-def test_attach_file_supporting_evidence(analysis_collection, cpam0002_analysis_json):
-    """Tests adding supporting evidence link to an analysis and return an updated analysis"""
+def test_attach_file(analysis_collection, cpam0002_analysis_json):
+    """Tests adding link attachment to an analysis and returns updated analysis"""
 
     def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
         find, query = args  # pylint: disable=unused-variable
         updated_analysis = cpam0002_analysis_json
-        updated_analysis['supporting_evidence_files'].append(query['$push']['supporting_evidence_files'])
+        updated_analysis['attachments'].append(query['$push']['attachments'])
         updated_analysis['_id'] = 'fake-mongo-object-id'
         return updated_analysis
 
     analysis_collection.collection.find_one_and_update.side_effect = valid_query_side_effect
 
-    actual_analysis = analysis_collection.attach_supporting_evidence_file(
+    actual_analysis = analysis_collection.attach_file(
         "CPAM0002", "Fake-Mongo-Object-ID-2", "SeriousFileName.pdf", "Serious Things said in here"
     )
 
-    new_evidence = next((
-        evidence for evidence in actual_analysis['supporting_evidence_files']
-        if evidence['name'] == "SeriousFileName.pdf"
-    ), None)
-    assert new_evidence['type'] == 'file'
+    new_attachment = next(
+        (attachment for attachment in actual_analysis['attachments'] if attachment['name'] == "SeriousFileName.pdf"),
+        None
+    )
+    assert new_attachment['type'] == 'file'
 
 
-def test_remove_supporting_evidence(analysis_collection, cpam0002_analysis_json):
-    """Tests the remove_supporting_evidence function"""
+def test_remove_attachment(analysis_collection, cpam0002_analysis_json):
+    """Tests removing an attachment from an analysis"""
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
     expected = read_test_fixture("analysis-CPAM0002.json")
-    expected["supporting_evidence_files"] = []
+    expected["attachments"] = []
     analysis_collection.collection.find_one_and_update.return_value = expected
-    actual = analysis_collection.remove_supporting_evidence("CPAM0002", "633afb87fb250a6ea1569555")
+    actual = analysis_collection.remove_attachment("CPAM0002", "633afb87fb250a6ea1569555")
     assert actual == expected
 
 

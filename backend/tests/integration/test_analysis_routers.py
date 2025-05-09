@@ -40,7 +40,7 @@ def test_get_summary_by_name(client, mock_access_token, mock_repositories, cpam0
     assert response.json()["name"] == "CPAM0002"
 
 
-def test_import_analysis_with_phenotips_json( # pylint: disable=too-many-arguments
+def test_import_with_new_analysis_json( # pylint: disable=too-many-arguments
     client,
     mock_access_token,
     mock_repositories,
@@ -57,15 +57,15 @@ def test_import_analysis_with_phenotips_json( # pylint: disable=too-many-argumen
     mock_repositories['genomic_unit'].collection.find.return_value = genomic_units_collection_json
 
     with patch.object(BackgroundTasks, "add_task", return_value=None) as mock_background_add_task:
-        analysis_import_json_filepath = fixture_filepath('phenotips-import.json')
-        with open(analysis_import_json_filepath, "rb") as phenotips_file:
+        analysis_import_json_filepath = fixture_filepath('new-analysis-import.json')
+        with open(analysis_import_json_filepath, "rb") as import_file:
             response = client.post(
                 "/analysis",
                 headers={"Authorization": "Bearer " + mock_access_token},
-                files={"phenotips_file": ("phenotips-import.json", phenotips_file.read())}
+                files={"phenotips_file": ("new-analysis-import.json", import_file.read())}
             )
 
-            phenotips_file.close()
+            import_file.close()
 
             assert mock_annotation_queue.put.call_count == 9
 
@@ -201,7 +201,7 @@ def test_mark_ready_analysis_does_not_exist(client, mock_access_token, mock_repo
     assert response.json() == {'detail': 'Analysis with name CPAM2222 does not exist.'}
 
 
-@pytest.fixture(name="exported_phenotips_to_import_json")
-def fixture_phenotips_import():
-    """Returns a phenotips json fixture"""
-    return read_test_fixture("phenotips-import.json")
+@pytest.fixture(name="exported_new_analysis_to_import_json")
+def fixture_new_analysis_import():
+    """Returns a new analysis json fixture"""
+    return read_test_fixture("new-analysis-import.json")

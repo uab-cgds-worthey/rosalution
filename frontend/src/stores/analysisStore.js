@@ -23,7 +23,7 @@ export const analysisStore = reactive({
   },
 
   downloadAttachment(attachmentToDownload) {
-    Analyses.downloadSupportingEvidence(attachmentToDownload.attachment_id, attachmentToDownload.name);
+    Analyses.downloadAnalysisAttachment(attachmentToDownload.attachment_id, attachmentToDownload.name);
   },
 
   clear() {
@@ -118,7 +118,7 @@ export const analysisStore = reactive({
 
   async attachSectionAttachment(section, field, attachment) {
     const updatedSectionField =
-      await Analyses.attachSectionSupportingEvidence(this.analysis.name, section, field, attachment);
+      await Analyses.attachSectionAttachment(this.analysis.name, section, field, attachment);
     const sectionWithReplacedField = this.replaceFieldInSection(section, updatedSectionField);
     this.replaceAnalysisSection(sectionWithReplacedField);
   },
@@ -180,38 +180,38 @@ export const analysisStore = reactive({
   // Analysis Attachments
   // -----------------------------------
 
-  async addAttachment(attachment) {
-    const updatedAnalysisAttachments = await Analyses.attachSupportingEvidence(
+  async addAnalysisAttachment(attachment) {
+    const updatedAnalysisAttachments = await Analyses.attachAnalysisAttachment(
         this.analysis.name,
         attachment,
     );
-    this.analysis.supporting_evidence_files.splice(0);
-    this.analysis.supporting_evidence_files.push(
+    this.analysis.attachments.splice(0);
+    this.analysis.attachments.push(
         ...updatedAnalysisAttachments,
     );
   },
 
-  async updateAttachment(updatedAttachment) {
-    const updatedAnalysisAttachments = await Analyses.updateSupportingEvidence(
+  async updateAnalysisAttachment(updatedAttachment) {
+    const updatedAnalysisAttachments = await Analyses.updateAnalysisAttachment(
         this.analysis.name,
         updatedAttachment,
     );
-    this.analysis.supporting_evidence_files.splice(0);
-    this.analysis.supporting_evidence_files.push(
+    this.analysis.attachments.splice(0);
+    this.analysis.attachments.push(
         ...updatedAnalysisAttachments,
     );
   },
 
-  async removeAttachment(attachmentToDelete) {
-    await Analyses.removeSupportingEvidence(
+  async removeAnalysisAttachment(attachmentToDelete) {
+    await Analyses.removeAnalysisAttachment(
         this.analysis.name,
         attachmentToDelete.attachment_id,
     );
-    const attachmentIndex = this.analysis.supporting_evidence_files.findIndex((attachment) => {
+    const attachmentIndex = this.analysis.attachments.findIndex((attachment) => {
       return attachment.name == attachmentToDelete.name;
     });
 
-    this.analysis.supporting_evidence_files.splice(attachmentIndex, 1);
+    this.analysis.attachments.splice(attachmentIndex, 1);
   },
 
   // -----------------------------------

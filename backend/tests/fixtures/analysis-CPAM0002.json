@@ -210,7 +210,7 @@
           ]
         },
         {
-          "type": "section-supporting-evidence",
+          "type": "section-attachment",
           "field": "Veterinary Histology Report",
           "value": [
             {
@@ -223,7 +223,7 @@
           ]
         },
         {
-          "type": "section-supporting-evidence",
+          "type": "section-attachment",
           "field": "Veterinary Pathology Imaging",
           "value": [
             {
@@ -346,7 +346,7 @@
       "thread": []
     }
   ],
-  "supporting_evidence_files": [
+  "attachments": [
     {
       "name": "test.txt",
       "attachment_id": "633afb87fb250a6ea1569555",

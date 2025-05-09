@@ -45,7 +45,7 @@ const databaseTextField = {
 }
 
 const patientRelatedVariantEvidenceField = {
-    "type": "section-supporting-evidence",
+    "type": "section-attachment",
     "field": "Patient Related Variants",
     "value": []
 }
@@ -70,7 +70,7 @@ const reportingSection = {
     "header": "Reporting",
     "content": [
         {
-            "type": "section-supporting-evidence",
+            "type": "section-attachment",
             "field": "Benchling",
             "value": []
         }

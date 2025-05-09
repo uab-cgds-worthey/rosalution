@@ -9,7 +9,7 @@
 <app-content>
   <div class="card-feed">
     <AnalysisCreateCard
-      @click="this.importPhenotipsAnalysis"
+      @click="this.importNewAnalysis"
       v-if="auth.hasWritePermissions()"
       class="first-card"
       data-test="create-card"
@@ -119,7 +119,7 @@ export default {
 
       this.analysisList.push(...analyses);
     },
-    async importPhenotipsAnalysis() {
+    async importNewAnalysis() {
       const includeComments = false;
       const includeIcon = 'phenotips';
 
@@ -137,14 +137,14 @@ export default {
       }
 
       try {
-        await Analyses.importPhenotipsAnalysis(importFile.data);
+        await Analyses.importNewAnalysis(importFile.data);
         await notificationDialog
             .title('Successful import')
             .alert('');
         await this.getListing();
       } catch (error) {
         await notificationDialog
-            .title('Failed to import phenotips analysis')
+            .title('Failed to import analysis')
             .alert(error);
       }
     },

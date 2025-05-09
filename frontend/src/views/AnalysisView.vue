@@ -36,7 +36,7 @@
         @attach-image="attachSectionImage"
         @update-image="updateSectionImage"
         @update:content-row="onAnalysisContentUpdated"
-        @download="downloadSupportingEvidence"
+        @download="downloadSectionAttachment"
       />
       <DiscussionSection
         id="Discussion"
@@ -48,14 +48,14 @@
         @discussion:edit-post="editDiscussionPost"
         @discussion:delete-post="deleteDiscussionPost"
       />
-      <SupplementalFormList
-        id="Supporting_Evidence"
+      <AttachmentsSection
+        id="Attachments"
         :attachments="attachments"
         :writePermissions="hasWritePermissions"
-        @open-modal="addSupportingEvidence"
-        @delete="removeSupportingEvidence"
-        @edit="editSupportingEvidence"
-        @download="downloadSupportingEvidence"
+        @open-modal="addAnalysisAttachment"
+        @delete="removeAnalysisAttachment"
+        @edit="editAnalysisAttachment"
+        @download="downloadSectionAttachment"
       />
       <InputDialog />
       <NotificationDialog data-test="notification-dialog" />
@@ -81,7 +81,7 @@ import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import ToastDialog from '@/components/Dialogs/ToastDialog.vue';
 import RosalutionFooter from '@/components/RosalutionFooter.vue';
-import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
+import AttachmentsSection from '@/components/AnalysisView/AttachmentsSection.vue';
 import SaveModal from '@/components/AnalysisView/SaveModal.vue';
 import DiscussionSection from '@/components/AnalysisView/DiscussionSection.vue';
 
@@ -127,7 +127,7 @@ const sectionsHeaders = computed(() => {
     return section.header;
   });
   sections.push('Discussion');
-  sections.push('Supporting Evidence');
+  sections.push('Attachments');
   return sections;
 });
 
@@ -148,7 +148,7 @@ const {actionChoices, builder} = useActionMenu();
 watch([hasWritePermissions, latestStatus], () => {
   builder.clear();
   if ( !authStore.hasWritePermissions() ) {
-    builder.addMenuAction('Attach', 'paperclip', addSupportingEvidence);
+    builder.addMenuAction('Attach', 'paperclip', addAnalysisAttachment);
     return;
   }
 
@@ -156,7 +156,7 @@ watch([hasWritePermissions, latestStatus], () => {
   builder.addWorkflowActions(latestStatus.value, pushAnalysisEvent);
   builder.addDivider();
 
-  builder.addMenuAction('Attach', 'paperclip', addSupportingEvidence);
+  builder.addMenuAction('Attach', 'paperclip', addAnalysisAttachment);
   builder.addMenuAction('Attach Monday.com', null, addMondayLink);
   builder.addMenuAction('Connect PhenoTips', null, addPhenotipsLink);
 });
@@ -181,7 +181,7 @@ const sectionsList = computed(() => {
 });
 
 const attachments = computed(() => {
-  return analysisStore.analysis.supporting_evidence_files;
+  return analysisStore.analysis.attachments;
 });
 
 const discussions = computed(() => {
@@ -193,7 +193,7 @@ const genomicUnitsList = computed(() => {
 });
 
 /**
- * Enables the view to support in-line editing of the analysis.
+ * Enables the view for in-line editing of the analysis.
  */
 function enableEditing() {
   if (!edit.value) {
@@ -205,13 +205,13 @@ function enableEditing() {
 }
 
 /**
- * Handles updates to analysis content when a content row is modified. If the content type is 'supporting-evidence'
+ * Handles updates to analysis content when a content row is modified. If the content type is 'attachment'
  * triggers an attachment change instead.
  *
  * @param {Object} contentRow - The row of content being updated.
  */
 function onAnalysisContentUpdated(contentRow) {
-  if (typeof(contentRow.type) !== 'undefined' && 'supporting-evidence' === contentRow.type ) {
+  if (typeof(contentRow.type) !== 'undefined' && 'attachment' === contentRow.type ) {
     fieldSectionAttachmentChanged(contentRow);
     return;
   }
@@ -324,28 +324,27 @@ async function updateSectionImage(fileId, sectionName, field) {
 }
 
 /**
- * Adds an attachment to a specified section and field.
+ * Adds an attachment to the specified section and field.
  *
  * @param {string} section - The section to which the attachment is added.
  * @param {string} field - The field within the section for the attachment.
- * @param {Object} evidence - The evidence to be attached.
  */
-async function addSectionAttachment(section, field, evidence) {
+async function addSectionAttachment(section, field) {
   const includeComments = true;
   const includeName = true;
-  const attachment = await inputDialog
+  const incommingAttachment = await inputDialog
       .confirmText('Add')
       .cancelText('Cancel')
       .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png, .gb')
       .url(includeComments, includeName)
       .prompt();
 
-  if (!attachment) {
+  if (!incommingAttachment) {
     return;
   }
 
   try {
-    await analysisStore.attachSectionAttachment(section, field, attachment);
+    await analysisStore.attachSectionAttachment(section, field, incommingAttachment);
   } catch (error) {
     console.error(`Updating the analysis did not work. Error: ${error}`);
   }
@@ -402,7 +401,7 @@ async function fieldSectionAttachmentChanged(contentRow) {
 /**
  * Prompts input dialog to add new attachment to the Analysis.
  */
-async function addSupportingEvidence() {
+async function addAnalysisAttachment() {
   const includeComments = true;
   const includeName = true;
   const attachment = await inputDialog
@@ -417,7 +416,7 @@ async function addSupportingEvidence() {
   }
 
   try {
-    await analysisStore.addAttachment(attachment);
+    await analysisStore.addAnalysisAttachment(attachment);
   } catch (error) {
     await notificationDialog.title('Failure').confirmText('Ok').alert(error);
   }
@@ -428,7 +427,7 @@ async function addSupportingEvidence() {
  *
  * @param {Object} attachment Attachment to edit
  */
-async function editSupportingEvidence(attachment) {
+async function editAnalysisAttachment(attachment) {
   const updatedAttachment = await inputDialog
       .confirmText('Update')
       .cancelText('Cancel')
@@ -440,7 +439,7 @@ async function editSupportingEvidence(attachment) {
   }
 
   try {
-    analysisStore.updateAttachment(updatedAttachment);
+    analysisStore.updateAnalysisAttachment(updatedAttachment);
   } catch (error) {
     await notificationDialog.title('Failure').confirmText('Ok').alert(error);
   }
@@ -451,19 +450,19 @@ async function editSupportingEvidence(attachment) {
  *
  * @param {Object} attachmentToDelete to remove
  */
-async function removeSupportingEvidence(attachmentToDelete) {
+async function removeAnalysisAttachment(attachmentToDelete) {
   const confirmedDelete = await notificationDialog
-      .title('Delete Supporting Information?')
+      .title('Delete Attachment?')
       .confirmText('Delete')
       .cancelText('Cancel')
-      .confirm('Deleting this item will remove it from the supporting evidence list.');
+      .confirm('Deleting this item will remove it from the attachments.');
 
   if (!confirmedDelete) {
     return;
   }
 
   try {
-    await analysisStore.removeAttachment(attachmentToDelete);
+    await analysisStore.removeAnalysisAttachment(attachmentToDelete);
   } catch (error) {
     await notificationDialog.title('Failure').confirmText('Ok').alert(error);
   }
@@ -474,7 +473,7 @@ async function removeSupportingEvidence(attachmentToDelete) {
  *
  * @param {Object} attachmentToDownload to download
  */
-function downloadSupportingEvidence(attachmentToDownload) {
+function downloadSectionAttachment(attachmentToDownload) {
   analysisStore.downloadAttachment(attachmentToDownload);
 }
 

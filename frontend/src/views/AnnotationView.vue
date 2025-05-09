@@ -293,7 +293,6 @@ export default {
 app-content {
   display: flex;
 
-  grid-row: 2 / -2;
   grid-column: 1 / -2;
 }
 
@@ -326,6 +325,5 @@ app-header {
   justify-content: space-between;
   flex-wrap: wrap;
 }
-
 
 </style>

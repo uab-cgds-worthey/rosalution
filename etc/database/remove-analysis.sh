@@ -68,8 +68,8 @@ if [ -n "$pedigree_id" ]; then
   ${docker_prefix} mongofiles --host "$connection_string" -d="$database" delete_id "{\"\$oid\": $pedigree_id}"
 fi
 
-echo "Removing Supporting Evidence files..."
-file_ids=$(${docker_prefix} mongo --quiet --host "$connection_string" --eval "db.analyses.find({'name': '$analysisName'}, {'supporting_evidence_files': 1, '_id': 0})" "$database" | jq '.supporting_evidence_files[]?.attachment_id')
+echo "Removing Attachments files..."
+file_ids=$(${docker_prefix} mongo --quiet --host "$connection_string" --eval "db.analyses.find({'name': '$analysisName'}, {'attachments': 1, '_id': 0})" "$database" | jq '.attachments[]?.attachment_id')
 
 file_id_arr=()
 

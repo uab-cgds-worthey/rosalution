@@ -30,7 +30,7 @@ describe('AnalysisListingView', () => {
     mockedData = sandbox.stub(Analyses, 'all');
     mockedData.returns(fixtureData());
 
-    mockedImport = sandbox.stub(Analyses, 'importPhenotipsAnalysis');
+    mockedImport = sandbox.stub(Analyses, 'importNewAnalysis');
     mockAuthWritePermissions = sandbox.stub(authStore, 'hasWritePermissions');
     mockAuthWritePermissions.returns(true);
 
@@ -69,13 +69,13 @@ describe('AnalysisListingView', () => {
       expect(createCard.exists()).to.be.true;
     });
 
-    it('should allow file upload to import a phenotips json on prompt', async ()=> {
+    it('should allow file upload to import a new analysis json on prompt', async ()=> {
       const createCard = wrapper.findComponent(AnalysisCreateCard);
       await createCard.trigger('click');
 
       const attachmentData = {
         data: {
-          name: 'fake-import-phenotips.json',
+          name: 'fake-analysis-import.json',
         },
       };
       inputDialog.confirmation(attachmentData);
@@ -90,7 +90,7 @@ describe('AnalysisListingView', () => {
 
       const attachmentData = {
         data: {
-          name: 'fake-import-phenotips.json',
+          name: 'fake-analysis-import.json',
         },
       };
       inputDialog.confirmation(attachmentData);
@@ -107,7 +107,7 @@ describe('AnalysisListingView', () => {
 
       const attachmentData = {
         data: {
-          name: 'fake-import-phenotips.json',
+          name: 'fake-analysis-import.json',
         },
       };
 
@@ -116,7 +116,7 @@ describe('AnalysisListingView', () => {
 
       const dialogComponent = wrapper.findComponent(NotificationDialog);
       expect(dialogComponent.exists()).to.be.true;
-      expect(notificationDialog.state.title).to.equal('Failed to import phenotips analysis');
+      expect(notificationDialog.state.title).to.equal('Failed to import analysis');
       expect(notificationDialog.state.message.toString())
           .to.equal('broken import sad face: Sinon-provided broken import sad face');
     });

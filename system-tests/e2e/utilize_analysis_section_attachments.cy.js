@@ -10,7 +10,7 @@ describe('Case Model System', () => {
     cy.visit('analysis/CPAM0002');
   });
 
-  it('Should attach file evidence to the Mouse Model Systems Veterinary Histology Report', () => {
+  it('Should attach file to the Mouse Model Systems Veterinary Histology Report', () => {
     cy.get('[data-test="user-menu"]')
         .find('.grey-rounded-menu')
         .as('userActionMenu')
@@ -31,7 +31,7 @@ describe('Case Model System', () => {
     cy.get('.modal-container').find('[data-test="confirm"]').click();
 
     cy.get('[data-test="Veterinary Histology Report"]')
-        .find('[data-test="supporting-evidence-Veterinary Histology Report"]')
+        .find('[data-test="section-attachment-Veterinary Histology Report"]')
         .find('.attachment-name')
         .should('have.text', 'section-evidence-1.pdf')
         .click();
@@ -39,7 +39,7 @@ describe('Case Model System', () => {
     cy.readFile(path.join(downloadsFolder, 'section-evidence-1.pdf'));
   });
 
-  it('Should attach an evidence file to Veterinary Histology Report, delete it, add different file, downloads', () => {
+  it('Should attach a Veterinary Histology Report, delete it, add different file, downloads', () => {
     // Make the user menu visible, click the edit button in the menu to make the analysis editable, then close the menu
     cy.get('[data-test="user-menu"]')
         .find('.grey-rounded-menu')
@@ -93,7 +93,7 @@ describe('Case Model System', () => {
 
     // Ensure that the second report is the report that was uploaded
     cy.get('[data-test="Veterinary Histology Report"]')
-        .find('[data-test="supporting-evidence-Veterinary Histology Report"]')
+        .find('[data-test="section-attachment-Veterinary Histology Report"]')
         .find('.attachment-name')
         .should('have.text', 'section-evidence-2.pdf')
         .click();
@@ -101,7 +101,7 @@ describe('Case Model System', () => {
     cy.readFile(path.join(downloadsFolder, 'section-evidence-2.pdf'));
   });
 
-  it('Should attach link evidence to the Mouse Model Systems Veterinary Pathology Imaging and clicks to verify', () => {
+  it('Should attach URL for Mouse Model Systems Veterinary Pathology Imaging and click to verify', () => {
     cy.get('[data-test="user-menu"]')
         .find('.grey-rounded-menu')
         .invoke('attr', 'style', 'display: block; visibility: visible; opacity: 1;');
@@ -111,7 +111,7 @@ describe('Case Model System', () => {
         .invoke('attr', 'style', 'display: block; visibility: hidden; opacity: 0;');
     cy.get('[href="#Mus_musculus (Mouse) Model System"]').click();
 
-    cy.get('[data-test="supporting-evidence-Veterinary Pathology Imaging"]')
+    cy.get('[data-test="section-attachment-Veterinary Pathology Imaging"]')
         .find('[data-test="attach-button-Veterinary Pathology Imaging"]')
         .click();
     cy.get('.modal-container').find('[data-test="name-input"]').type('VMA21 Histology Slides');
@@ -119,16 +119,16 @@ describe('Case Model System', () => {
 
     cy.get('.modal-container').find('[data-test="confirm"]').click();
 
-    cy.get('[data-test="supporting-evidence-Veterinary Pathology Imaging"]')
+    cy.get('[data-test="section-attachment-Veterinary Pathology Imaging"]')
         .find('.attachment-name')
         .should('have.text', 'VMA21 Histology Slides');
 
-    cy.get('[data-test="supporting-evidence-Veterinary Pathology Imaging"]').find('.attachment-name').then((link) => {
+    cy.get('[data-test="section-attachment-Veterinary Pathology Imaging"]').find('.attachment-name').then((link) => {
       cy.request(link.prop('href')).its('status').should('eq', 200);
     });
   });
 
-  it('Should attach link evidence to the Veterinary Pathology Imaging, deletes the link, adds another, verfies', () => {
+  it('Should attach URL to the Veterinary Pathology Imaging,then deletes URL, adds another, verifies', () => {
     // Make the menu visible, click edit button to make the menu analysis editable, then close the menu
     cy.get('[data-test="user-menu"]')
         .find('.grey-rounded-menu')
@@ -141,7 +141,7 @@ describe('Case Model System', () => {
 
     // Find the Mouse Model System section and add a Pathology Imaging Slide link
     cy.get('[href="#Mus_musculus (Mouse) Model System"]').click();
-    cy.get('[data-test="supporting-evidence-Veterinary Pathology Imaging"]')
+    cy.get('[data-test="section-attachment-Veterinary Pathology Imaging"]')
         .find('[data-test="attach-button-Veterinary Pathology Imaging"]')
         .click();
     cy.get('.modal-container').find('[data-test="name-input"]').type('VMA21 Pathology Slides');
@@ -184,11 +184,11 @@ describe('Case Model System', () => {
     cy.wait('@analysisLoad');
     cy.get('[href="#Mus_musculus (Mouse) Model System"]').click();
 
-    cy.get('[data-test="supporting-evidence-Veterinary Pathology Imaging"]')
+    cy.get('[data-test="section-attachment-Veterinary Pathology Imaging"]')
         .find('.attachment-name')
         .should('have.text', 'VMA21 Pathology Slides - Mouse Model');
 
-    cy.get('[data-test="supporting-evidence-Veterinary Pathology Imaging"]').find('.attachment-name').then((link) => {
+    cy.get('[data-test="section-attachment-Veterinary Pathology Imaging"]').find('.attachment-name').then((link) => {
       cy.request(link.prop('href')).its('status').should('eq', 200);
     });
   });

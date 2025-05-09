@@ -1,7 +1,6 @@
 import {describe, it, beforeEach, expect} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
-
-import SupplementalFormList from '../../../src/components/AnalysisView/SupplementalFormList.vue';
+import AttachmentsSection from '@/components/AnalysisView/AttachmentsSection.vue';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 /**
@@ -10,7 +9,7 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
  * @return {VueWrapper} returns a shallow mounted using props
  */
 function getMountedComponent(props) {
-  return shallowMount(SupplementalFormList, {
+  return shallowMount(AttachmentsSection, {
     props: {...props},
     attachTo: document.body,
     global: {
@@ -21,7 +20,7 @@ function getMountedComponent(props) {
   });
 }
 
-describe('SupplementalFormList.vue', () => {
+describe('AttachmentsSection.vue', () => {
   let wrapper;
   const defaultAttachment = {
     data: 'fakeFiledData',

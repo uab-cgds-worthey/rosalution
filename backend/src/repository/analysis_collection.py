@@ -98,10 +98,10 @@ class AnalysisCollection:
         if not analysis:
             return None
 
-        if 'supporting_evidence_files' not in analysis:
+        if 'attachments' not in analysis:
             return None
 
-        for file in analysis['supporting_evidence_files']:
+        for file in analysis['attachments']:
             if file['name'] == file_name:
                 return file
 
@@ -257,7 +257,7 @@ class AnalysisCollection:
                     self.update_analysis_nominator(analysis_name, '; '.join(field_value))
                 self.update_analysis_section(analysis_name, section.header, field_name, {"value": field_value})
 
-    def attach_section_supporting_evidence_file(
+    def attach_section_attachment_file(
         self, analysis_name: str, section_name: str, field_name: str, field_value_file: object
     ):
         """
@@ -282,7 +282,7 @@ class AnalysisCollection:
 
         self.collection.update_one({"name": analysis_name}, {'$set': updated_document})
 
-    def attach_section_supporting_evidence_link(
+    def attach_section_attachment_link(
         self, analysis_name: str, section_name: str, field_name: str, field_value_link: object
     ):
         """
@@ -449,10 +449,10 @@ class AnalysisCollection:
 
         return updated_document['discussions']
 
-    def attach_supporting_evidence_file(self, analysis_name: str, file_id: str, filename: str, comments: str):
-        """Attaches supporting evidence documents and comments for an analysis"""
+    def attach_file(self, analysis_name: str, file_id: str, filename: str, comments: str):
+        """Adds documents and comments to an analysis"""
         new_uuid = str(file_id)
-        new_evidence = {
+        new_attachment = {
             "name": filename,
             "attachment_id": new_uuid,
             "type": "file",
@@ -460,58 +460,58 @@ class AnalysisCollection:
         }
         updated_document = self.collection.find_one_and_update(
             {"name": analysis_name},
-            {"$push": {"supporting_evidence_files": new_evidence}},
+            {"$push": {"attachments": new_attachment}},
             return_document=ReturnDocument.AFTER,
         )
         return updated_document
 
-    def attach_supporting_evidence_link(self, analysis_name: str, link_name: str, link: str, comments: str):
-        """Attaches supporting evidence URL and comments to an analysis"""
+    def attach_link(self, analysis_name: str, link_name: str, link: str, comments: str):
+        """Adds a URL and comments to an analysis"""
         new_uuid = str(uuid4())
-        new_evidence = {
+        new_attachment = {
             "name": link_name, "data": link, "attachment_id": new_uuid, "type": "link", "comments": comments
         }
         updated_document = self.collection.find_one_and_update(
             {"name": analysis_name},
-            {"$push": {"supporting_evidence_files": new_evidence}},
+            {"$push": {"attachments": new_attachment}},
             return_document=ReturnDocument.AFTER,
         )
 
         return updated_document
 
-    def update_supporting_evidence(self, analysis_name: str, attachment_id: str, updated_content: dict):
-        """Updates Supporting Evidence content with by analysis and the attachment id"""
-        supporting_evidence_files = self.collection.find_one({"name": analysis_name})["supporting_evidence_files"]
-        index_to_update = supporting_evidence_files.index(
-            next(filter(lambda x: x["attachment_id"] == attachment_id, supporting_evidence_files), None)
+    def update_attachment(self, analysis_name: str, attachment_id: str, updated_content: dict):
+        """Updates attachment content for an analysis using the attachment id"""
+        analysis_attachments = self.collection.find_one({"name": analysis_name})["attachments"]
+        index_to_update = analysis_attachments.index(
+            next(filter(lambda x: x["attachment_id"] == attachment_id, analysis_attachments), None)
         )
 
         if None is index_to_update:
-            raise ValueError(f"Supporting Evidence identifier {attachment_id} does not exist for {analysis_name}")
+            raise ValueError(f"Attachment identifier {attachment_id} does not exist for {analysis_name}")
 
-        supporting_evidence_files[index_to_update]['name'] = updated_content['name']
+        analysis_attachments[index_to_update]['name'] = updated_content['name']
         if updated_content['data'] not in [None, '']:
-            supporting_evidence_files[index_to_update]['data'] = updated_content['data']
-        supporting_evidence_files[index_to_update]['comments'] = updated_content['comments']
+            analysis_attachments[index_to_update]['data'] = updated_content['data']
+        analysis_attachments[index_to_update]['comments'] = updated_content['comments']
 
         updated_document = self.collection.find_one_and_update(
             {"name": analysis_name},
-            {"$set": {"supporting_evidence_files": supporting_evidence_files}},
+            {"$set": {"attachments": analysis_attachments}},
             return_document=ReturnDocument.AFTER,
         )
 
         return updated_document
 
-    def remove_supporting_evidence(self, analysis_name: str, attachment_id: str):
-        """ Removes a supporting evidence file from an analysis """
-        supporting_evidence_files = self.collection.find_one({"name": analysis_name})["supporting_evidence_files"]
-        index_to_remove = supporting_evidence_files.index(
-            next(filter(lambda x: x["attachment_id"] == attachment_id, supporting_evidence_files), None)
+    def remove_attachment(self, analysis_name: str, attachment_id: str):
+        """ Removes an attachment from the analysis """
+        analysis_attachments = self.collection.find_one({"name": analysis_name})["attachments"]
+        index_to_remove = analysis_attachments.index(
+            next(filter(lambda x: x["attachment_id"] == attachment_id, analysis_attachments), None)
         )
-        del supporting_evidence_files[index_to_remove]
+        del analysis_attachments[index_to_remove]
         updated_document = self.collection.find_one_and_update(
             {"name": analysis_name},
-            {"$set": {"supporting_evidence_files": supporting_evidence_files}},
+            {"$set": {"attachments": analysis_attachments}},
             return_document=ReturnDocument.AFTER,
         )
 

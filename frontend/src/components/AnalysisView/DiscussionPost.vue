@@ -88,7 +88,7 @@ export default {
     attachments: {
       type: Array,
     },
-    existingEvidence: {
+    existingAttachment: {
       type: Array,
     },
     thread: {

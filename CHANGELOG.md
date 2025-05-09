@@ -13,6 +13,12 @@
   from the cached call dataset.
 - Caching versions in-memory temporarily when processing annotations.  A version is cached used its datasource &
   versioning type.
+- Consolidating user experience for Attachments by renaming "Supporting Evidence" to "Attachments" application wide.
+
+### Chores
+
+- Updated Python Backend to not use `datetime.utcnow()` which is being deprecated.
+- Revised invalid HTML DOM that mixed `<table>` HTML DOM elements within `<div>`s and `<span>`s.
 
 ## 0.8.4
 

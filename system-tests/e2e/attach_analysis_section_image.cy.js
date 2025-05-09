@@ -4,12 +4,10 @@ describe('attach analysis section images', () => {
     cy.fixture('section-image-1.jpg', {encoding: null}).as('sectionImage1');
     cy.fixture('section-image-2.png', {encoding: null}).as('sectionImage2');
     cy.login('vrr-prep');
-    cy.visit('/');
-    cy.get('[href="/rosalution/analysis/CPAM0002"]').click();
+    cy.visit('/analysis/CPAM0002#Pedigree');
   });
 
   it('should attach a jpg pedigree image', () => {
-    cy.get('[href="#Pedigree"]').click();
     cy.get('[data-test="attach-logo-Pedigree"]').click({force: true});
     cy.get('.drop-file-box-content').selectFile('fixtures/section-image-1.jpg', {
       action: 'drag-drop',
@@ -20,7 +18,6 @@ describe('attach analysis section images', () => {
   });
 
   it('should attach a png pedigree image', () => {
-    cy.get('[href="#Pedigree"]').click();
     cy.get('[data-test="attach-logo-Pedigree"]').click({force: true});
     cy.get('.drop-file-box-content').selectFile('fixtures/section-image-2.png', {
       action: 'drag-drop',
@@ -32,7 +29,6 @@ describe('attach analysis section images', () => {
 
   it('should attach two images to the pedigree section', () => {
     // First image - jpg
-    cy.get('[href="#Pedigree"]').click();
     cy.get('[data-test="attach-logo-Pedigree"]').click({force: true});
     cy.get('.drop-file-box-content').selectFile('fixtures/section-image-1.jpg', {
       action: 'drag-drop',
@@ -51,7 +47,6 @@ describe('attach analysis section images', () => {
   });
 
   it('should attach an image and then updates the image to another image ', () => {
-    cy.get('[href="#Pedigree"]').click();
     cy.get('[data-test="attach-logo-Pedigree"]').click({force: true});
     cy.get('.drop-file-box-content').selectFile('fixtures/section-image-1.jpg', {
       action: 'drag-drop',
@@ -70,7 +65,6 @@ describe('attach analysis section images', () => {
   });
 
   it('should upload an image to Pedigree and then remove the image', () => {
-    cy.get('[href="#Pedigree"]').click();
     cy.get('[data-test="attach-logo-Pedigree"]').click({force: true});
     cy.get('.drop-file-box-content').selectFile('fixtures/section-image-1.jpg', {
       action: 'drag-drop',

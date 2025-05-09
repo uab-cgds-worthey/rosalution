@@ -8,7 +8,7 @@ import GeneBox from '@/components/AnalysisView/GeneBox.vue';
 import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import DiscussionSection from '@/components/AnalysisView/DiscussionSection.vue';
-import SupplementalFormList from '@/components/AnalysisView/SupplementalFormList.vue';
+import AttachmentsSection from '@/components/AnalysisView/AttachmentsSection.vue';
 import ToastDialog from '@/components/Dialogs/ToastDialog.vue';
 import SaveModal from '@/components/AnalysisView/SaveModal.vue';
 
@@ -129,10 +129,10 @@ describe('AnalysisView', () => {
     attachSectionImageMock = sandbox.stub(Analyses, 'attachSectionImage');
     updateSectionImageMock = sandbox.stub(Analyses, 'updateSectionImage');
     removeSectionAttachmentMock = sandbox.stub(Analyses, 'removeSectionAttachment');
-    attachSectionAttachmentMock = sandbox.stub(Analyses, 'attachSectionSupportingEvidence');
+    attachSectionAttachmentMock = sandbox.stub(Analyses, 'attachSectionAttachment');
 
-    attachAttachmentMock = sandbox.stub(Analyses, 'attachSupportingEvidence');
-    removeAttachmentMock = sandbox.stub(Analyses, 'removeSupportingEvidence');
+    attachAttachmentMock = sandbox.stub(Analyses, 'attachAnalysisAttachment');
+    removeAttachmentMock = sandbox.stub(Analyses, 'removeAnalysisAttachment');
 
     mockedAttachThirdPartyLink = sandbox.stub(Analyses, 'attachThirdPartyLink');
 
@@ -191,7 +191,7 @@ describe('AnalysisView', () => {
       const headerComponent = wrapper.get('[data-test="analysis-view-header"]');
       expect(headerComponent.attributes('sectionanchors')).to.equal(
           'Brief,Medical Summary,Mus musculus (Mouse) Model System,Pedigree,' +
-        'Case Information,Discussion,Supporting Evidence',
+        'Case Information,Discussion,Attachments',
       );
     });
 
@@ -431,11 +431,10 @@ describe('AnalysisView', () => {
     });
   });
 
-  describe('supporting evidence', () => {
-    describe('when adding supporting evidence as an attachment', () => {
+  describe('attachments', () => {
+    describe('when adding attachments', () => {
       it('displays the attachment modal when the supplemental form list requests dialog', async () => {
-        const supplementalComponent =
-          wrapper.getComponent(SupplementalFormList);
+        const supplementalComponent = wrapper.getComponent(AttachmentsSection);
         supplementalComponent.vm.$emit('open-modal');
 
         const attachmentDialog = wrapper.findComponent(InputDialog);
@@ -444,17 +443,17 @@ describe('AnalysisView', () => {
 
       it('attachment dialog adds a new attachment to the analysis', async () => {
         const newAttachmentData = {
-          name: 'fake-attachment-evidence-name',
+          name: 'fake-attachment-name',
           data: 'http://sites.uab.edu/cgds',
           attachment_id: 'new-failure-id',
           type: 'link',
           comments: '',
         };
-        const analysisWithNewEvidence = fixtureData();
-        analysisWithNewEvidence.supporting_evidence_files.push(newAttachmentData);
-        attachAttachmentMock.returns(analysisWithNewEvidence.supporting_evidence_files);
+        const analysisWithNewAttachment = fixtureData();
+        analysisWithNewAttachment.attachments.push(newAttachmentData);
+        attachAttachmentMock.returns(analysisWithNewAttachment.attachments);
 
-        const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+        const supplementalComponent = wrapper.getComponent(AttachmentsSection);
         expect(supplementalComponent.props('attachments').length).to.equal(1);
 
         supplementalComponent.vm.$emit('open-modal');
@@ -469,12 +468,12 @@ describe('AnalysisView', () => {
       });
     });
 
-    describe('when removing supporting evidence', async () => {
+    describe('when removing attachment', async () => {
       beforeEach(() => {
         analysisStore.forceUpdate(fixtureData());
       });
       it('prompts a confirmation when an attachment is to be deleted', async () => {
-        const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+        const supplementalComponent = wrapper.getComponent(AttachmentsSection);
         expect(supplementalComponent.props('attachments').length).to.equal(1);
 
         const fakeAttachment = {name: 'fake.txt'};
@@ -486,7 +485,7 @@ describe('AnalysisView', () => {
 
       it('can cancel deleting the attachment via the confirmation and not delete the attachment', async () => {
         const fakeAttachment = {name: 'fake.txt'};
-        const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+        const supplementalComponent = wrapper.getComponent(AttachmentsSection);
         expect(supplementalComponent.props('attachments').length).to.equal(1);
 
         supplementalComponent.vm.$emit('delete', fakeAttachment);
@@ -495,9 +494,9 @@ describe('AnalysisView', () => {
         expect(supplementalComponent.props('attachments').length).to.equal(1);
       });
 
-      it('should confirmation to remove the supporting evidence from the analysis', async () => {
+      it('should confirmation to remove the attachment from the analysis', async () => {
         const fakeAttachment = {name: 'fake.txt'};
-        const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+        const supplementalComponent = wrapper.getComponent(AttachmentsSection);
 
         expect(supplementalComponent.props('attachments').length).to.equal(1);
 
@@ -515,7 +514,7 @@ describe('AnalysisView', () => {
         removeAttachmentMock.throws('Failed to delete');
 
         const fakeAttachment = {name: 'fake.txt'};
-        const supplementalComponent = wrapper.getComponent(SupplementalFormList);
+        const supplementalComponent = wrapper.getComponent(AttachmentsSection);
 
         expect(supplementalComponent.props('attachments').length).to.equal(1);
 
@@ -555,9 +554,9 @@ describe('AnalysisView', () => {
     describe('when an image section has an image in it', () => {
       beforeEach(() => {
         const imageFieldValue = {file_id: '635a89aea7b2f21802b74539'};
-        const analysisWithNewEvidence = fixtureData();
-        analysisWithNewEvidence.sections = addSectionFieldValue('Pedigree', 'Pedigree', imageFieldValue);
-        analysisStore.forceUpdate(analysisWithNewEvidence);
+        const analysisWithNewAttachment = fixtureData();
+        analysisWithNewAttachment.sections = addSectionFieldValue('Pedigree', 'Pedigree', imageFieldValue);
+        analysisStore.forceUpdate(analysisWithNewAttachment);
       });
 
       it('updates section image content with input dialog', async () => {
@@ -647,7 +646,7 @@ describe('AnalysisView', () => {
         const sectionId = 'Mus_musculus (Mouse) Model System';
         const fieldName = 'Veterinary Pathology Imaging';
         const newAttachmentData = {
-          name: 'fake-attachment-evidence-name',
+          name: 'fake-attachment-name',
           data: 'http://sites.uab.edu/cgds',
           attachment_id: 'new-failure-id',
           type: 'link',
@@ -664,7 +663,7 @@ describe('AnalysisView', () => {
         expect(mouseFieldToUpdate.value.length).to.equal(0);
 
         mouseSection.vm.$emit('update:content-row', {
-          type: 'supporting-evidence',
+          type: 'attachment',
           operation: 'attach',
           header: sectionName,
           field: fieldName,
@@ -685,7 +684,7 @@ describe('AnalysisView', () => {
         expect(mouseFieldUpdated.value.length).to.equal(1);
       });
 
-      it('removes the supporting evidence from field', async () => {
+      it('removes the attachment from field', async () => {
         const sectionId = 'Mus_musculus (Mouse) Model System';
         const sectionName = 'Mus musculus (Mouse) Model System';
         const fieldName = 'Veterinary Histology Report';
@@ -699,7 +698,7 @@ describe('AnalysisView', () => {
         expect(mouseFieldToUpdate.value.length).to.equal(1);
 
         mouseSection.vm.$emit('update:content-row', {
-          type: 'supporting-evidence',
+          type: 'attachment',
           operation: 'delete',
           header: sectionName,
           field: fieldName,
@@ -931,7 +930,7 @@ function fixtureData(attributes) {
             ],
           },
           {
-            'type': 'section-supporting-evidence',
+            'type': 'section-attachment',
             'field': 'Veterinary Histology Report',
             'value': [{
               'name': 'CPAM0046-NM_170707.3 (LMNA)_ c.745C_T (p.R249W) other 2.PDF',
@@ -941,7 +940,7 @@ function fixtureData(attributes) {
             }],
           },
           {
-            'type': 'section-supporting-evidence',
+            'type': 'section-attachment',
             'field': 'Veterinary Pathology Imaging',
             'value': [],
           },
@@ -1025,7 +1024,7 @@ function fixtureData(attributes) {
         'thread': [],
       },
     ],
-    supporting_evidence_files: [
+    attachments: [
       {
         name: 'fake.txt',
         attachment_id: 'fake-attachment-id',

@@ -31,7 +31,7 @@ def test_import_genomic_unit_data_incorrect_format(phenotips_importer):
         assert actual is None
 
 
-def test_import_analysis_data(phenotips_importer, exported_phenotips_to_import_json):
+def test_import_analysis_data(phenotips_importer, new_analysis_import_json):
     """Tests the import_analyses_data function"""
 
     variant_data = [{
@@ -46,7 +46,7 @@ def test_import_analysis_data(phenotips_importer, exported_phenotips_to_import_j
     }]
 
     actual = phenotips_importer.import_analysis_data(
-        exported_phenotips_to_import_json, variant_data, exported_phenotips_to_import_json["genes"]
+        new_analysis_import_json, variant_data, new_analysis_import_json["genes"]
     )
     assert actual["name"] == "CPAM0112"
     assert actual["genomic_units"] == [{
@@ -85,9 +85,9 @@ def test_format_case_data(phenotips_importer):
     ]
 
 
-def test_extracting_hpo_terms(exported_phenotips_to_import_json):
+def test_extracting_hpo_terms(new_analysis_import_json):
     """Tests if the importer extracts the Phenotips HPO terms into the expected string format"""
-    actual_extraction_string = PhenotipsImporter.extract_hpo_terms(exported_phenotips_to_import_json["features"])
+    actual_extraction_string = PhenotipsImporter.extract_hpo_terms(new_analysis_import_json["features"])
     expected_extraction_string = (
         "HP:0000175: Cleft palate; HP:0000252: Microcephaly; "
         "HP:0000708: Behavioral abnormality; HP:0000750: Delayed speech and language development; "
@@ -98,10 +98,10 @@ def test_extracting_hpo_terms(exported_phenotips_to_import_json):
     assert actual_extraction_string == expected_extraction_string
 
 
-def test_import_phenotips_json(phenotips_importer, analysis_collection, exported_phenotips_to_import_json):
+def test_import_phenotips_json(phenotips_importer, analysis_collection, new_analysis_import_json):
     """Tests the import_phenotips_json function"""
     analysis_collection.collection.find_one.return_value = None
-    incoming_phenotips_json = exported_phenotips_to_import_json
+    incoming_phenotips_json = new_analysis_import_json
     incoming_phenotips_json["external_id"] = "C-PAM12345"
     actual = phenotips_importer.import_phenotips_json(incoming_phenotips_json)
     assert actual["name"] == "CPAM12345"
@@ -113,7 +113,7 @@ def fixture_phenotips_importer(analysis_collection, genomic_unit_collection):
     return PhenotipsImporter(analysis_collection, genomic_unit_collection)
 
 
-@pytest.fixture(name="exported_phenotips_to_import_json")
+@pytest.fixture(name="new_analysis_import_json")
 def fixture_phenotips_import():
     """Returns a phenotips json fixture"""
-    return read_test_fixture("phenotips-import.json")
+    return read_test_fixture("new-analysis-import.json")

@@ -51,7 +51,7 @@
 <script>
 import ImagesDataset from '@/components/AnnotationView/ImagesDataset.vue';
 import SectionText from '@/components/AnalysisView/SectionText.vue';
-import SectionSupportingEvidence from '@/components/AnalysisView/SectionSupportingEvidence.vue';
+import SectionAttachment from '@/components/AnalysisView/SectionAttachment.vue';
 
 export default {
   name: 'section-box',
@@ -59,7 +59,7 @@ export default {
   components: {
     SectionText,
     ImagesDataset,
-    SectionSupportingEvidence,
+    SectionAttachment,
   },
   props: {
     analysis_name: {
@@ -134,11 +134,6 @@ export default {
   cursor: pointer;
 }
 
-.collapsable-icon {
-  color: var(--rosalution-grey-200);
-  cursor: pointer;
-}
-
 .edit-logo {
   color: var(--rosalution-purple-100);
 }
@@ -153,11 +148,4 @@ input[type="checkbox"] {
   display: none;
 }
 
-.rosalution-section-container input[type="checkbox"]:checked ~ .rosalution-section-seperator ~ * {
-  display: none;
-}
-
-input[type="checkbox"]:checked ~ .rosalution-section-header > span > label.collapsable-icon {
-  transform: scaleY(-1);
-}
 </style>

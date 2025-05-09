@@ -46,7 +46,7 @@ export default {
    * @param {File} file The JSON for creating the new Analysis
    * @return {Object} Returns the new complete analysis created within Rosalution
    */
-  async importPhenotipsAnalysis(file) {
+  async importNewAnalysis(file) {
     const url = '/rosalution/api/analysis';
 
     const fileUploadFormData = {
@@ -123,7 +123,7 @@ export default {
     });
   },
 
-  async attachSectionSupportingEvidence(analysisName, sectionName, field, evidence) {
+  async attachSectionAttachment(analysisName, sectionName, field, attachment) {
     let attachmentForm = null;
     let url = `/rosalution/api/analysis/${analysisName}/sections?row_type=`;
 
@@ -132,22 +132,22 @@ export default {
       'content': [],
     };
 
-    if (evidence.type == 'file') {
+    if (attachment.type == 'file') {
       section.content.push({
         'fieldName': field,
       });
 
       attachmentForm = {
-        'upload_file': evidence.data,
+        'upload_file': attachment.data,
         'updated_section': JSON.stringify(section),
       };
 
       url += 'document';
-    } else if ( evidence.type == 'link') {
+    } else if ( attachment.type == 'link') {
       section.content.push({
         'fieldName': field,
-        'linkName': evidence.name,
-        'link': evidence.data,
+        'linkName': attachment.name,
+        'link': attachment.data,
       });
 
       attachmentForm = {
@@ -158,7 +158,7 @@ export default {
     }
 
     if (null == attachmentForm) {
-      throw new Error(`Evidence attachment ${evidence} type is invalid.`);
+      throw new Error(`Attachment ${attachment} type is invalid.`);
     }
 
     const updatedSections = await Requests.postForm(url, attachmentForm);
@@ -203,23 +203,23 @@ export default {
     });
   },
 
-  async attachSupportingEvidence(analysisName, evidence) {
+  async attachAnalysisAttachment(analysisName, attachment) {
     const attachmentForm = {};
     const url = `/rosalution/api/analysis/${analysisName}/attachment`;
 
-    if (!['file', 'link'].includes(evidence.type)) {
-      throw new Error(`Evidence attachment ${evidence} type is invalid.`);
+    if (!['file', 'link'].includes(attachment.type)) {
+      throw new Error(`Attachment ${attachment} type is invalid.`);
     }
 
     const newAttachment = {
-      'comments': evidence.comments ? evidence.comments : '  ', /** Required for now, inserting empty string */
+      'comments': attachment.comments ? attachment.comments : '  ', /** Required for now, inserting empty string */
     };
 
-    if (evidence.type == 'file') {
-      attachmentForm['upload_file'] = evidence.data;
-    } else if ( evidence.type == 'link') {
-      newAttachment['link_name'] = evidence.name;
-      newAttachment['link'] = evidence.data;
+    if (attachment.type == 'file') {
+      attachmentForm['upload_file'] = attachment.data;
+    } else if ( attachment.type == 'link') {
+      newAttachment['link_name'] = attachment.name;
+      newAttachment['link'] = attachment.data;
     }
 
     attachmentForm['new_attachment'] = JSON.stringify(newAttachment);
@@ -227,25 +227,25 @@ export default {
     return await Requests.postForm(url, attachmentForm);
   },
 
-  async updateSupportingEvidence(analysisName, evidence) {
-    const url = `/rosalution/api/analysis/${analysisName}/attachment/${evidence.attachment_id}`;
+  async updateAnalysisAttachment(analysisName, attachment) {
+    const url = `/rosalution/api/analysis/${analysisName}/attachment/${attachment.attachment_id}`;
 
     const updatedAttachment = {
-      name: evidence.name,
-      ...('link' == evidence.type) && {data: evidence.data},
-      comments: evidence.comments,
+      name: attachment.name,
+      ...('link' == attachment.type) && {data: attachment.data},
+      comments: attachment.comments,
     };
 
     return await Requests.putForm(url, updatedAttachment);
   },
 
-  async removeSupportingEvidence(analysisName, attachmentId) {
+  async removeAnalysisAttachment(analysisName, attachmentId) {
     const url = `/rosalution/api/analysis/${analysisName}/attachment/${attachmentId}`;
     const success = await Requests.delete(url);
     return success;
   },
 
-  async downloadSupportingEvidence(attachmentId, attachmentFile) {
+  async downloadAnalysisAttachment(attachmentId, attachmentFile) {
     const url = `/rosalution/api/analysis/download/${attachmentId}`;
     const fileData = {'filename': attachmentFile};
     return Requests.getDownload(url, fileData);

@@ -94,12 +94,12 @@ const animalModelSystemSection = {
             "value": []
         },
         {
-            "type": "section-supporting-evidence",
+            "type": "section-attachment",
             "field": "Veterinary Histology Report",
             "value": []
         },          
         {
-            "type": "section-supporting-evidence",
+            "type": "section-attachment",
             "field": "Veterinary Pathology Imaging",
             "value": []
         }

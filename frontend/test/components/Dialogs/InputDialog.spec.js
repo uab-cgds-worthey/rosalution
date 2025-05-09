@@ -78,7 +78,7 @@ describe('InputDialog.vue', () => {
       expect(uploadFileComponent.exists()).to.be.true;
     });
 
-    it('Should show the rosalution existing evidence tab when clicking the Rosalution tab', async () => {
+    it('Should show the rosalution existing attachment tab when clicking the Rosalution tab', async () => {
       const inputDialogRosalutionTab = wrapper.find('[data-test=button-input-dialog-existing-attachments]');
       await inputDialogRosalutionTab.trigger('click');
       const existingAttachmentsComponent = wrapper.findComponent(InputDialogExistingAttachments);
