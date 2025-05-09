@@ -22,6 +22,7 @@ html {
   border: none;
   border-radius: var(--content-border-radius);
   cursor: pointer;
+  max-height: 2.5rem;
 }
 
 .rosalution-button:hover{
@@ -41,6 +42,7 @@ html {
   border-radius: var(--button-border-radius);
   cursor: pointer;
   box-sizing: border-box;
+  max-height: 2.5rem
 }
 
 .primary-button:disabled {
@@ -68,6 +70,7 @@ html {
   border-style: solid;
   cursor: pointer;
   box-sizing: border-box;
+  max-height: 2.5rem
 }
 
 .menu-button {

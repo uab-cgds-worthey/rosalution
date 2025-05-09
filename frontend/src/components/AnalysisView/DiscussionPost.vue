@@ -216,8 +216,9 @@ export default {
 }
 
 .attachments-list {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: auto;
   gap: var(--p-5);
 }
 

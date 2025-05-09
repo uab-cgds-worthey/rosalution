@@ -10,11 +10,11 @@ describe('import_new_case.cy.js', () => {
       action: 'drag-drop',
     });
     cy.get('[data-test="confirm"]').click();
-    cy.get('[data-test="notification-dialog-header"]')
+    cy.get('[data-test="notification-dialog"]')
       .should('be.visible')
       .and('contain', 'Successful import');
     cy.get('[data-test="confirm-button"]').click();
-    cy.get('[data-test="notification-dialog-header"]').should('not.exist');
+    cy.get('[data-test="notification-dialog"]').should('not.exist');
     cy.visit('/');
     cy.get('app-content').should('contain', 'CPAM0112');
   });
@@ -25,7 +25,7 @@ describe('import_new_case.cy.js', () => {
       action: 'drag-drop',
     });
     cy.get('[data-test="confirm"]').click();
-    cy.get('[data-test="notification-dialog-header"]')
+    cy.get('[data-test="notification-dialog"]')
       .should('be.visible')
       .and('contain', 'Successful import');
     cy.get('[data-test="confirm-button"]').click();

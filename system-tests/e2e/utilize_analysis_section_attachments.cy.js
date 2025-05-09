@@ -8,6 +8,7 @@ describe('Case Model System', () => {
     cy.login('vrr-prep');
     cy.intercept('/rosalution/api/analysis/CPAM0002').as('analysisLoad');
     cy.visit('analysis/CPAM0002');
+    cy.wait('@analysisLoad');
   });
 
   it('Should attach file to the Mouse Model Systems Veterinary Histology Report', () => {
@@ -17,7 +18,6 @@ describe('Case Model System', () => {
         .invoke('attr', 'style', 'display: block; visibility: visible; opacity: 1;');
     cy.get('@userActionMenu').contains('Edit').click();
     cy.get('@userActionMenu').invoke('attr', 'style', 'display: block; visibility: hidden; opacity: 0;');
-    cy.wait('@analysisLoad');
     cy.get('[href="#Mus_musculus (Mouse) Model System"]').click();
 
     cy.get('[data-test="Veterinary Histology Report"]')
@@ -137,7 +137,6 @@ describe('Case Model System', () => {
     cy.get('[data-test="user-menu"]')
         .find('.grey-rounded-menu')
         .invoke('attr', 'style', 'display: block; visibility: hidden; opacity: 0;');
-    cy.wait('@analysisLoad');
 
     // Find the Mouse Model System section and add a Pathology Imaging Slide link
     cy.get('[href="#Mus_musculus (Mouse) Model System"]').click();

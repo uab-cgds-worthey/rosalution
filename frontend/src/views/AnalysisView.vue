@@ -159,7 +159,9 @@ watch([hasWritePermissions, latestStatus], () => {
   builder.addMenuAction('Attach', 'paperclip', addAnalysisAttachment);
   builder.addMenuAction('Attach Monday.com', null, addMondayLink);
   builder.addMenuAction('Connect PhenoTips', null, addPhenotipsLink);
-});
+},
+{immediate: true},
+);
 
 const discussionContextActions = [
   {

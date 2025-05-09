@@ -175,13 +175,12 @@ export default {
       }
     },
     async removePostAttachment(postId, attachmentIndex) {
-      const postAttachment = this.newAttachments[attachmentIndex];
       const confirmedDelete = await notificationDialog
-          .title(`Remove '${postAttachment.name}' attachment from post?`)
+          .title(`Remove post attachment?`)
           .confirmText('Remove')
           .cancelText('Cancel')
           .confirm(
-              'This operation will  sure you want to remove?',
+              `Remove attachment from new post. Are you want to remove?`,
           );
 
       if (!confirmedDelete) {
@@ -195,20 +194,17 @@ export default {
 </script>
 
 <style scoped>
-.discussion-new-button {
-  margin-bottom: var(--p-8);
-  margin-right: var(--p-8);
+.rosalution-section-seperator {
+  margin: var(--p-5) 0
 }
 
 .discussion-new-post {
   background-color: var(--rosalution-grey-50);
   border-radius: var(--content-border-radius);
-  margin-top: var(--p-8);
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+  flex-direction: column;
+  gap: var(--p-8);
+  padding: var(--p-8);
 }
 
 .discussion-new-post-text-area {
@@ -217,46 +213,28 @@ export default {
   border: solid;
   border-color: var(--rosalution-grey-000);
   padding: var(--p-16);
-  margin: var(--p-10);
-  position: relative;
-  width: 100%;
 }
 
 .discussion-actions {
-  width: 100%;
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
-  margin-right: var(--p-16);
-  margin-bottom: var(--p-10);
+  gap:var(--p-8);
 }
 
 .post-actions {
   display: flex;
-  flex-wrap: wrap;
-}
-
-.publish-button {
-  margin-left: var(--p-8);
+  gap: var(--p-5);
 }
 
 .attachments-actions {
   display: flex;
-  flex-wrap: wrap;
-}
-
-.attach-button {
-  background-color: var(--rosalution-grey-300);
-  color: var(--rosalution-black);
-  margin-left: var(--p-16);
-  margin-right: var(--p-10);
-  left: var(--p-28);
-  float: left;
+  gap: var(--p-10);
 }
 
 .attachments-list {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: auto;
   gap: var(--p-5);
 }
 
