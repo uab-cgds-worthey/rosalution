@@ -45,7 +45,7 @@
       </div>
 
     </div>
-    <div v-if="attachments.length" class="attachments-list">
+    <div v-if="attachments.length" class="attachments-list" data-test="discussion-attachment">
         <DiscussionAttachment
           v-for="attachment, index in attachments"
           v-bind:key="index"

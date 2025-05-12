@@ -24,6 +24,7 @@
         :value="existingAttachment"
         v-model="checkedAttachments"
         @change="onChanged($event)"
+        data-test="existing-attachment-checkbox"
         />
       </label>
     </div>

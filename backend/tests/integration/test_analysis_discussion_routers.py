@@ -188,3 +188,45 @@ def test_handle_delete_post_not_existing_in_analysis(
 
     assert response.status_code == 404
     assert response.json() == expected_failure_detail
+
+def test_add_new_discussion_reply_to_analysis(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
+    """ Testing that a discussion reply was added and returned properly """
+    cpam_analysis = "CPAM0002"
+    new_reply_user = "John Doe"
+    discussion_post_id = "fake-post-id"
+    new_reply_content = "Integration Test Text"
+
+    def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
+        find, query = args  # pylint: disable=unused-variable
+        analysis = cpam0002_analysis_json
+        # need to find reply by post id then push into threads
+        analysis['discussions'].append(query['$push']['discussions'])
+        analysis['_id'] = 'fake-mongo-object-id'
+        return analysis
+
+    mock_repositories["user"].collection.find_one.return_value = {"full_name": new_reply_user}
+    mock_repositories['analysis'].collection.find_one.return_value = cpam0002_analysis_json
+    mock_repositories["analysis"].collection.find_one_and_update.side_effect = valid_query_side_effect
+
+    response = client.post(
+        "/analysis/" + cpam_analysis + "/discussions/" + discussion_post_id + "/thread/",
+        headers={"Authorization": "Bearer " + mock_access_token},
+        data={
+            "discussion_reply_content": new_reply_content,
+        }
+    )
+
+    assert response.status_code == 200
+
+    assert len(response.json()) == 4
+
+    actual_most_recent_post = response.json().pop()
+
+    assert actual_most_recent_post['author_fullname'] == new_reply_user
+    assert actual_most_recent_post['content'] == new_reply_content
+
+def test_update_discussion_reply_in_analysis():
+    """ Testing that a discussion reply was edited, updated and returned properly """
+
+def test_delete_discussion_reply_from_analysis():
+    """ Tests successfully deleting an existing reply in the discussions with the user being the author """
