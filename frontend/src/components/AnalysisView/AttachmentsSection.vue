@@ -68,6 +68,10 @@ export default {
 
 <style scoped>
 
+.rosalution-section-seperator {
+  margin: var(--p-8) 0;
+}
+
 input[type="checkbox"] {
   display: none;
 }

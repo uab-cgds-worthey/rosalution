@@ -120,8 +120,7 @@ function deleteDiscussionReply(replyId) {
 
 .discussion-reply {
   border-radius: var(--content-border-radius);
-  padding: var(--p-8);
-  margin-top: var(--p-10);
+  padding: var(--p-10);
   background-color: var(--rosalution-grey-50);
   margin-left: var(--p-8);
 }
@@ -129,13 +128,12 @@ function deleteDiscussionReply(replyId) {
 .discussion-reply-header {
   display: flex;
   justify-content: space-between;
-  margin-top: var(--p-5);
-  margin-bottom: var(--p-5);
+  min-height: 2.5rem;
 }
 
-.discussion-reply-content {
+/* .discussion-reply-content {
   margin-bottom: var(--p-10);
-}
+} */
 
 .discussion-reply-quote {
   border-left: var(--p-5) solid var(--rosalution-grey-50);
@@ -146,7 +144,7 @@ function deleteDiscussionReply(replyId) {
  display:flex;
  flex-wrap: nowrap;
  justify-content: right;
- margin-right: var(--p-10);
+ /* margin-right: var(--p-10); */
 }
 
 .header-icon {

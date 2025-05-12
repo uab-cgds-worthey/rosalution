@@ -208,7 +208,13 @@ export default {
 
 <style scoped>
 .rosalution-section-seperator {
-  margin: var(--p-5) 0
+  margin: var(--p-8) 0
+}
+
+.discussion-section-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--p-10);
 }
 
 .discussion-new-post {

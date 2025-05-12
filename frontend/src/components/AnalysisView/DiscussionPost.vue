@@ -17,48 +17,52 @@
           </ContextMenu>
         </ul>
       </div>
-      <div v-if="!editingPostFlag" class="discussion-content" data-test="discussion-post-content">
+      <div class="discussion-body">
+        <div v-if="!editingPostFlag" class="discussion-content" data-test="discussion-post-content">
           {{ content }}
-      </div>
-      <div v-else class="discussion-edit-post">
-        <textarea
-          contenteditable="plaintext-only"
-          class="discussion-edit-post-text-area"
-          v-model="editPostContent"
-          data-test="edit-discussion-input"
-        />
-        <div class="discussion-actions">
-          <button
-            class="secondary-button"
-            @click="cancelEditPost"
-            data-test="edit-discussion-cancel"
-          >
-            Cancel
+          </div>
+          <div v-else class="discussion-edit-post">
+            <textarea
+              contenteditable="plaintext-only"
+              class="discussion-edit-post-text-area"
+              v-model="editPostContent"
+              data-test="edit-discussion-input"
+            />
+            <div class="discussion-actions">
+              <button
+                class="secondary-button"
+                @click="cancelEditPost"
+                data-test="edit-discussion-cancel"
+              >
+                Cancel
+              </button>
+              <button
+                class="primary-button save-button"
+                @click="confirmEditPost"
+                data-test="edit-discussion-save"
+              >
+              Save
+            </button>
+          </div>
+        </div>
+        <div class="discussion-attachment-reply-button-row">
+          <button class="discussion-reply-button" @click="newDiscussionReplyForm"
+          data-test="discussion-new-reply-button">
+            <font-awesome-icon icon="reply" size="lg"/>
           </button>
-          <button
-            class="primary-button save-button"
-            @click="confirmEditPost"
-            data-test="edit-discussion-save"
-          >
-          Save
-        </button>
+          <div v-if="attachments.length" class="attachments-list" data-test="discussion-attachment">
+            <DiscussionAttachment
+              v-for="attachment, index in attachments"
+              v-bind:key="index"
+              postId="new-post"
+              :name="attachment.name"
+              :type="attachment.type"
+              :attachment="attachment"
+            >
+            </DiscussionAttachment>
+          </div>
+        </div>
       </div>
-
-    </div>
-    <div v-if="attachments.length" class="attachments-list" data-test="discussion-attachment">
-        <DiscussionAttachment
-          v-for="attachment, index in attachments"
-          v-bind:key="index"
-          postId="new-post"
-          :name="attachment.name"
-          :type="attachment.type"
-          :attachment="attachment"
-        >
-        </DiscussionAttachment>
-    </div>
-    <button class="discussion-reply-button" @click="newDiscussionReplyForm" data-test="discussion-new-reply-button">
-      <font-awesome-icon icon="reply" size="lg"/>
-    </button>
   </div>
   <div class="discussion-new-reply" v-if="this.showNewReply">
       <textarea
@@ -209,7 +213,6 @@ export default {
 .discussion-post {
   border-radius: var(--content-border-radius);
   padding: var(--p-8);
-  margin-top: var(--p-10);
 }
 
 .discussion-post:nth-child(even) {
@@ -223,8 +226,13 @@ export default {
 .discussion-header {
   display: flex;
   justify-content: space-between;
-  margin-top: var(--p-5);
-  margin-bottom: var(--p-5);
+  min-height: 2.5rem;
+}
+
+.discussion-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--p-5);
 }
 
 .discussion-content {
@@ -286,6 +294,11 @@ export default {
   margin-bottom: var(--p-10);
 }
 
+.discussion-attachment-reply-button-row {
+  display: flex;
+  justify-content: space-between;
+}
+
 .attachments-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -294,11 +307,8 @@ export default {
 }
 
 .discussion-reply-button {
-  display: flex;
-  justify-self: flex-end;
   border: none;
   background: none;
-  size: 2rem;
 }
 
 .discussion-new-reply {
