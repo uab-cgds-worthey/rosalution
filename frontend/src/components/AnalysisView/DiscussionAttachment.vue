@@ -1,5 +1,5 @@
 <template>
-<span :class="accessAttachment" class="attachment" :title="name">
+<span :class="accessAttachment" class="attachment" :title="name" data-test="discussion-attachment">
   <font-awesome-icon :icon="attachmentIcon" size="lg" class="attachment-icon"/>
   <a v-if="type=='file'"
      @click="downloadAttachment(attachment)"

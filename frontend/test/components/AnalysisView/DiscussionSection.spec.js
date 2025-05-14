@@ -5,6 +5,8 @@ import DiscussionSection from '../../../src/components/AnalysisView/DiscussionSe
 import DiscussionPost from '../../../src/components/AnalysisView/DiscussionPost.vue';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import InputDialogAttachUrl from '../../../src/components/Dialogs/InputDialogAttachUrl.vue';
+import InputDialog from '../../../src/components/Dialogs/InputDialog.vue';
 
 describe('DiscussionSection.vue', () => {
   let wrapper;
@@ -148,9 +150,33 @@ describe('DiscussionSection.vue', () => {
     const discussionAttachButton = wrapper.find('[data-test=discussion-attachment-button]');
     await discussionAttachButton.trigger('click');
 
-    const attachmentCheckbox = wrapper.find('[data-test=existing-attachment-checkbox]');
-    // await attachmentCheckbox.trigger('click');
-    expect(attachmentCheckbox.exists()).toBe(true);
+    await wrapper.vm.$nextTick();
+
+
+    // const modalsBackgroundElement = wrapper.find('.modal-background');
+    // expect(modalsBackgroundElement.exists()).to.be.true;
+
+    const inputCheckbox = wrapper.find('[data-test=existing-attachment-name]');
+    console.log(inputCheckbox);
+    expect(inputCheckbox.exists()).to.be.true;
+
+    // console.log(inputDialogUrl);
+    // await inputDialogUrl.trigger('click');
+    // const attachUrlComponent = wrapper.findComponent(InputDialog);
+    // expect(attachUrlComponent.exists()).to.be.true;
+
+    // const attachmentText = wrapper.find('[data-test=name-input]');
+    // await attachmentText.setValue('Testing Discussion Attachments');
+
+    // const attachmentLink = wrapper.find('[data-test=link-input]');
+    // await attachmentLink.setValue('www.google.com');
+
+    // const confirmButton = wrapper.find('[data-test=confirm]');
+    // await confirmButton.trigger('click');
+
+    // const discussionAttachment = wrapper.find('[data-test=discussion-attachment');
+    // expect(discussionAttachment.exists()).to.be.true;
+
 
     // const publishNewDiscussionButton = wrapper.find('[data-test=new-discussion-publish]');
     // await publishNewDiscussionButton.trigger('click');
