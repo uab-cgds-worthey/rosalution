@@ -3,12 +3,11 @@ import {shallowMount} from '@vue/test-utils';
 
 import DiscussionSection from '../../../src/components/AnalysisView/DiscussionSection.vue';
 import DiscussionPost from '../../../src/components/AnalysisView/DiscussionPost.vue';
+import inputDialog from '@/inputDialog.js';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
-import InputDialogAttachUrl from '../../../src/components/Dialogs/InputDialogAttachUrl.vue';
-import InputDialog from '../../../src/components/Dialogs/InputDialog.vue';
-import InputDialogExistingAttachments from '../../../src/components/Dialogs/InputDialogExistingAttachments.vue';
 import DiscussionAttachment from '../../../src/components/AnalysisView/DiscussionAttachment.vue';
+import notificationDialog from '../../../src/notificationDialog';
 
 describe('DiscussionSection.vue', () => {
   let wrapper;
@@ -143,45 +142,48 @@ describe('DiscussionSection.vue', () => {
     expect(emittedObject[1]).toBe(replyId);
   });
 
-  it('Should add a new attachment to a post when a new post is being created', async () => {
-    await wrapper.setData({newPostContent: 'Test post content'});
-
-
+  it('Should add a new attachment to a new post being created', async () => {
     const newDiscussionButton = wrapper.find('[data-test=new-discussion-button]');
     await newDiscussionButton.trigger('click');
 
     const discussionAttachButton = wrapper.find('[data-test=discussion-attachment-button]');
-    // console.log(discussionAttachButton.html());
     await discussionAttachButton.trigger('click');
 
-    await wrapper.vm.$nextTick();
-    await wrapper.vm.$nextTick();
-    await wrapper.vm.$nextTick();
-    await wrapper.vm.$nextTick();
-    await wrapper.vm.$nextTick();
-    await wrapper.vm.$nextTick();
-    await wrapper.vm.$nextTick();
-    await wrapper.vm.$nextTick();
+    const fakeImage = {data: 'path/to/fake/fakeImage.png'};
+
+    inputDialog.confirmation(fakeImage);
+
     await wrapper.vm.$nextTick();
     await wrapper.vm.$nextTick();
 
 
-    console.log(wrapper.html());
+    const discussionAttachment = wrapper.findAllComponents(DiscussionAttachment);
+    expect(discussionAttachment.length).toBe(1);
+  });
 
-    // await wrapper.find('[data-test=button-input-dialog-attach-url]').trigger('click');
-    // const attachUrlComponent = wrapper.findComponent(InputDialogAttachUrl);
-    // expect(attachUrlComponent.exists()).to.be.true;
+  it('Should not add a new attachment when it is removed from a new post being created', async () => {
+    const newDiscussionButton = wrapper.find('[data-test=new-discussion-button]');
+    await newDiscussionButton.trigger('click');
 
-    // const attachment = {
-    //   data: 'www.google.com',
-    //   name: 'Test Link',
-    //   type: 'link',
-    // };
+    const discussionAttachButton = wrapper.find('[data-test=discussion-attachment-button]');
+    await discussionAttachButton.trigger('click');
 
-    // await wrapper.setData({newAttachments: [attachment]});
+    const fakeImage = {data: 'path/to/fake/fakeImage.png'};
 
-    // const discussionAttachment = wrapper.findAllComponents(DiscussionAttachment);
-    // expect(discussionAttachment.length).toBe(1);
+    inputDialog.confirmation(fakeImage);
+
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+
+    const discussionAttachment = wrapper.findAllComponents(DiscussionAttachment);
+    discussionAttachment[0].vm.$emit('remove');
+
+    notificationDialog.confirmation(true);
+
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.findAllComponents(DiscussionAttachment).length).toBe(0);
   });
 });
 
