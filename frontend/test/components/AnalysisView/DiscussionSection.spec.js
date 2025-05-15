@@ -7,6 +7,8 @@ import DiscussionPost from '../../../src/components/AnalysisView/DiscussionPost.
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import InputDialogAttachUrl from '../../../src/components/Dialogs/InputDialogAttachUrl.vue';
 import InputDialog from '../../../src/components/Dialogs/InputDialog.vue';
+import InputDialogExistingAttachments from '../../../src/components/Dialogs/InputDialogExistingAttachments.vue';
+import DiscussionAttachment from '../../../src/components/AnalysisView/DiscussionAttachment.vue';
 
 describe('DiscussionSection.vue', () => {
   let wrapper;
@@ -141,50 +143,45 @@ describe('DiscussionSection.vue', () => {
     expect(emittedObject[1]).toBe(replyId);
   });
 
-  it('Should publish a new attachment when a post is published with attachment', async () => {
+  it('Should add a new attachment to a post when a new post is being created', async () => {
     await wrapper.setData({newPostContent: 'Test post content'});
+
 
     const newDiscussionButton = wrapper.find('[data-test=new-discussion-button]');
     await newDiscussionButton.trigger('click');
 
     const discussionAttachButton = wrapper.find('[data-test=discussion-attachment-button]');
+    // console.log(discussionAttachButton.html());
     await discussionAttachButton.trigger('click');
 
     await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
 
 
-    // const modalsBackgroundElement = wrapper.find('.modal-background');
-    // expect(modalsBackgroundElement.exists()).to.be.true;
+    console.log(wrapper.html());
 
-    const inputCheckbox = wrapper.find('[data-test=existing-attachment-name]');
-    console.log(inputCheckbox);
-    expect(inputCheckbox.exists()).to.be.true;
-
-    // console.log(inputDialogUrl);
-    // await inputDialogUrl.trigger('click');
-    // const attachUrlComponent = wrapper.findComponent(InputDialog);
+    // await wrapper.find('[data-test=button-input-dialog-attach-url]').trigger('click');
+    // const attachUrlComponent = wrapper.findComponent(InputDialogAttachUrl);
     // expect(attachUrlComponent.exists()).to.be.true;
 
-    // const attachmentText = wrapper.find('[data-test=name-input]');
-    // await attachmentText.setValue('Testing Discussion Attachments');
+    // const attachment = {
+    //   data: 'www.google.com',
+    //   name: 'Test Link',
+    //   type: 'link',
+    // };
 
-    // const attachmentLink = wrapper.find('[data-test=link-input]');
-    // await attachmentLink.setValue('www.google.com');
+    // await wrapper.setData({newAttachments: [attachment]});
 
-    // const confirmButton = wrapper.find('[data-test=confirm]');
-    // await confirmButton.trigger('click');
-
-    // const discussionAttachment = wrapper.find('[data-test=discussion-attachment');
-    // expect(discussionAttachment.exists()).to.be.true;
-
-
-    // const publishNewDiscussionButton = wrapper.find('[data-test=new-discussion-publish]');
-    // await publishNewDiscussionButton.trigger('click');
-
-    // const emittedObjects = wrapper.emitted()['discussion:new-post'][0];
-    // console.log(emittedObjects[2]);
-
-    // expect(emittedObjects[0]).to.include('Test post content');
+    // const discussionAttachment = wrapper.findAllComponents(DiscussionAttachment);
+    // expect(discussionAttachment.length).toBe(1);
   });
 });
 

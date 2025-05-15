@@ -169,6 +169,7 @@ export default {
       if (!attachment) {
         return;
       }
+      console.log(attachment);
 
       if (typeof attachment === 'object' && !Array.isArray(attachment)) {
         this.newAttachments.push(attachment);
