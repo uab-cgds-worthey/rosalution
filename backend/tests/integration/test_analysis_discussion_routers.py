@@ -338,7 +338,7 @@ def test_delete_discussion_reply_from_analysis(client, mock_access_token, mock_r
         analysis['_id'] = 'fake-mongo-object-id'
         return analysis
 
-    def valid_query_side_effect_two(*args, **kwargs): # pylint: disable=unused-argument
+    def valid_query_side_effect_two(*args, **kwargs):  # pylint: disable=unused-argument
         find, query = args  # pylint: disable=unused-variable
 
         analysis = cpam0002_analysis_json
