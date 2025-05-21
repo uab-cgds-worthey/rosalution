@@ -46,10 +46,6 @@
           </div>
         </div>
         <div class="discussion-attachment-reply-button-row">
-          <button class="discussion-reply-button" @click="newDiscussionReplyForm"
-          data-test="discussion-new-reply-button">
-            <font-awesome-icon icon="reply" size="lg"/>
-          </button>
           <div v-if="attachments.length" class="attachments-list" data-test="discussion-attachment">
             <DiscussionAttachment
               v-for="attachment, index in attachments"
@@ -61,6 +57,10 @@
             >
             </DiscussionAttachment>
           </div>
+          <button class="discussion-reply-button" @click="newDiscussionReplyForm"
+          data-test="discussion-new-reply-button">
+            <font-awesome-icon icon="reply" size="lg"/>
+          </button>
         </div>
       </div>
   </div>
@@ -296,7 +296,7 @@ export default {
 
 .discussion-attachment-reply-button-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .attachments-list {
