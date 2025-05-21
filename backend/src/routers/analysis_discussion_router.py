@@ -243,7 +243,7 @@ async def edit_analysis_discussion_reply(
 
     if not valid_reply:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot update post they did not author."
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot update reply they did not author."
         )
 
     return repositories['analysis'].updated_discussion_reply(

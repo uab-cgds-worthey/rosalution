@@ -334,7 +334,15 @@
       "publish_timestamp": "2023-10-10T21:13:22.687000",
       "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum.",
       "attachments": [],
-      "thread": []
+      "thread": [
+        {
+          "reply_id": "6905754b-554e-44f7-9553-8d622710e303",
+          "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
+          "author_fullname": "Developer Person",
+          "publish_timestamp": "2024-10-09T21:13:22.687000",
+          "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+        }
+      ]
     },
     {
       "post_id": "e6023fa7-b598-416a-9f42-862c826255ef",
