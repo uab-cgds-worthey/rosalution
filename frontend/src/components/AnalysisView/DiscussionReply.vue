@@ -131,20 +131,14 @@ function deleteDiscussionReply(replyId) {
   min-height: 2.5rem;
 }
 
-/* .discussion-reply-content {
-  margin-bottom: var(--p-10);
-} */
-
 .discussion-reply-quote {
   border-left: var(--p-5) solid var(--rosalution-grey-50);
-  /* padding-right: var(--p-8); */
 }
 
 .context-menu {
  display:flex;
  flex-wrap: nowrap;
  justify-content: right;
- /* margin-right: var(--p-10); */
 }
 
 .header-icon {
