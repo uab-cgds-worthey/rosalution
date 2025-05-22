@@ -1,4 +1,5 @@
 <template>
+<div class="discussion-post-container">
   <div class="discussion-post" data-test="discussion-post">
       <div class="discussion-header" data-test="discussion-post-header">
         <div>
@@ -16,58 +17,107 @@
           </ContextMenu>
         </ul>
       </div>
-      <div v-if="!editingPostFlag" class="discussion-content" data-test="discussion-post-content">
+      <div class="discussion-body">
+        <div v-if="!editingPostFlag" class="discussion-content" data-test="discussion-post-content">
           {{ content }}
-      </div>
-      <div v-else class="discussion-edit-post">
-        <textarea
-          contenteditable="plaintext-only"
-          class="discussion-edit-post-text-area"
-          v-model="editPostContent"
-          data-test="edit-discussion-input"
-        />
-        <div class="discussion-actions">
-          <button
-            class="secondary-button"
-            @click="cancelEditPost"
-            data-test="edit-discussion-cancel"
-          >
-            Cancel
+          </div>
+          <div v-else class="discussion-edit-post">
+            <textarea
+              contenteditable="plaintext-only"
+              class="discussion-edit-post-text-area"
+              v-model="editPostContent"
+              data-test="edit-discussion-input"
+            />
+            <div class="discussion-actions">
+              <button
+                class="secondary-button"
+                @click="cancelEditPost"
+                data-test="edit-discussion-cancel"
+              >
+                Cancel
+              </button>
+              <button
+                class="primary-button save-button"
+                @click="confirmEditPost"
+                data-test="edit-discussion-save"
+              >
+              Save
+            </button>
+          </div>
+        </div>
+        <div class="discussion-attachment-reply-button-row">
+          <div v-if="attachments.length" class="attachments-list" data-test="discussion-attachment">
+            <DiscussionAttachment
+              v-for="attachment, index in attachments"
+              v-bind:key="index"
+              postId="new-post"
+              :name="attachment.name"
+              :type="attachment.type"
+              :attachment="attachment"
+            >
+            </DiscussionAttachment>
+          </div>
+          <button class="discussion-reply-button" @click="newDiscussionReplyForm"
+          data-test="discussion-new-reply-button">
+            <font-awesome-icon icon="reply" size="lg"/>
           </button>
-          <button
-            class="primary-button save-button"
-            @click="confirmEditPost"
-            data-test="edit-discussion-save"
-          >
-          Save
-        </button>
-      </div>
-
-    </div>
-    <div v-if="attachments.length" class="attachments-list">
-        <DiscussionAttachment
-          v-for="attachment, index in attachments"
-          v-bind:key="index"
-          postId="new-post"
-          :name="attachment.name"
-          :type="attachment.type"
-          :attachment="attachment"
-        >
-        </DiscussionAttachment>
+        </div>
       </div>
   </div>
+  <div class="discussion-new-reply" v-if="this.showNewReply">
+      <textarea
+        contenteditable="plaintext-only"
+        class="discussion-new-reply-text-area"
+        v-model="newReplyContent"
+        data-test="discussion-new-reply-text-area"
+      />
+      <div class="discussion-reply-actions">
+        <button
+          class="secondary-button discussion-cancel-new-reply"
+          @click="cancelNewDiscussionReply"
+          data-test="new-discussion-reply-cancel-button"
+        >
+          Cancel
+        </button>
+        <button
+            class="primary-button discussion-reply-publish-button"
+            @click="newDiscussionReply"
+            data-test="discussion-new-reply-publish"
+            :disabled="this.checkReplyContent"
+        >
+          Publish
+        </button>
+      </div>
+  </div>
+  <DiscussionReply v-for="reply in thread"
+    :replyId="reply.reply_id"
+    :key="reply.reply_id"
+    :authorId="reply.author_id"
+    :authorName="reply.author_fullname"
+    :publishTimestamp="reply.publish_timestamp"
+    :content="reply.content"
+    :userClientId="userClientId"
+    :actions="actions"
+    @reply:edit="this.editDiscussionReply"
+    @reply:delete="this.deleteDiscussionReply"
+  />
+</div>
 </template>
 
 <script>
 import ContextMenu from '@/components/ContextMenu.vue';
 import DiscussionAttachment from './DiscussionAttachment.vue';
+import DiscussionReply from './DiscussionReply.vue';
+
+import {toRaw} from 'vue';
 
 export default {
   name: 'discussion-post',
-  emits: ['post:edit', 'post:delete', 'attachment:download'],
+  emits: ['post:edit', 'post:delete', 'discussion:new-reply', 'discussion:edit-reply', 'discussion:delete-reply'],
   components: {
     ContextMenu,
     DiscussionAttachment,
+    DiscussionReply,
   },
   props: {
     id: {
@@ -88,9 +138,6 @@ export default {
     attachments: {
       type: Array,
     },
-    existingAttachment: {
-      type: Array,
-    },
     thread: {
       type: Array,
     },
@@ -105,6 +152,8 @@ export default {
     return {
       editingPostFlag: false,
       editPostContent: this.content,
+      showNewReply: false,
+      newReplyContent: '',
     };
   },
   computed: {
@@ -113,6 +162,12 @@ export default {
     },
     isUser: function() {
       return this.userClientId == this.authorId;
+    },
+    isReply: function() {
+      return this.thread == 0;
+    },
+    checkReplyContent() {
+      return this.newReplyContent == '';
     },
   },
   methods: {
@@ -130,6 +185,26 @@ export default {
     deletePost(postId) {
       this.$emit('post:delete', postId);
     },
+    newDiscussionReplyForm() {
+      this.showNewReply = true;
+    },
+    newDiscussionReply() {
+      this.$emit('discussion:new-reply', this.id, toRaw(this.newReplyContent));
+      this.clearNewDiscussionReplyField();
+    },
+    cancelNewDiscussionReply() {
+      this.clearNewDiscussionReplyField();
+    },
+    clearNewDiscussionReplyField() {
+      this.newReplyContent = '';
+      this.showNewReply = false;
+    },
+    editDiscussionReply(replyId, replyContent) {
+      this.$emit('discussion:edit-reply', this.id, replyId, replyContent);
+    },
+    deleteDiscussionReply(replyId) {
+      this.$emit('discussion:delete-reply', this.id, replyId);
+    },
   },
 };
 </script>
@@ -138,7 +213,6 @@ export default {
 .discussion-post {
   border-radius: var(--content-border-radius);
   padding: var(--p-8);
-  margin-top: var(--p-10);
 }
 
 .discussion-post:nth-child(even) {
@@ -152,8 +226,13 @@ export default {
 .discussion-header {
   display: flex;
   justify-content: space-between;
-  margin-top: var(--p-5);
-  margin-bottom: var(--p-5);
+  min-height: 2.5rem;
+}
+
+.discussion-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--p-5);
 }
 
 .discussion-content {
@@ -182,37 +261,42 @@ export default {
 }
 
 .save-button {
-    margin-left: var(--p-8);
+  margin-left: var(--p-8);
 }
 
 .discussion-edit-post {
-    background-color: var(--rosalution-grey-50);
-    border-radius: var(--content-border-radius);
-    margin-top: var(--p-8);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  background-color: var(--rosalution-grey-50);
+  border-radius: var(--content-border-radius);
+  margin-top: var(--p-8);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .discussion-edit-post-text-area {
-    background-color: var(--rosalution-white);
-    border-radius: var(--content-border-radius);
-    border: solid;
-    border-color: var(--rosalution-grey-000);
-    padding: var(--p-16);
-    margin: var(--p-10);
-    position: relative;
-    width: 100%;
+  background-color: var(--rosalution-white);
+  border-radius: var(--content-border-radius);
+  border: solid;
+  border-color: var(--rosalution-grey-000);
+  padding: var(--p-16);
+  margin: var(--p-10);
+  position: relative;
+  width: 100%;
 }
 
 .discussion-actions {
-    width: 100%;
-    display: flex;
-    justify-content: right;
-    margin-right: var(--p-16);
-    margin-bottom: var(--p-10);
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  margin-right: var(--p-16);
+  margin-bottom: var(--p-10);
+}
+
+.discussion-attachment-reply-button-row {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .attachments-list {
@@ -222,5 +306,44 @@ export default {
   gap: var(--p-5);
 }
 
+.discussion-reply-button {
+  border: none;
+  background: none;
+}
+
+.discussion-new-reply {
+  background-color: var(--rosalution-grey-50);
+  border-radius: var(--content-border-radius);
+  margin-top: var(--p-8);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.discussion-new-reply-text-area {
+  background-color: var(--rosalution-white);
+  border-radius: var(--content-border-radius);
+  border: solid;
+  border-color: var(--rosalution-grey-000);
+  padding: var(--p-16);
+  margin: var(--p-10);
+  position: relative;
+  width: 100%;
+}
+
+.discussion-reply-actions {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-right: var(--p-16);
+  margin-bottom: var(--p-10);
+}
+
+.discussion-reply-publish-button {
+  margin-left: var(--p-8);
+}
 
 </style>

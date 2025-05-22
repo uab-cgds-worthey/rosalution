@@ -29,3 +29,9 @@ Once you have rosalution running, you can run the system tests by running the fo
 ```bash
 yarn test:e2e
 ```
+
+To watch the system tests run in your Google Chrome browser, run the following command:
+
+```bash
+yarn test:e2e:open
+```

@@ -176,6 +176,33 @@ export const analysisStore = reactive({
     this.analysis.discussions = discussions;
   },
 
+  findDiscussionPost(postId) {
+    const discussion = this.analysis.discussions.find((post) => {
+      return post.post_id === postId;
+    });
+
+    return discussion;
+  },
+
+  async setAnalysisDiscussions(discussions) {
+    this.analysis.discussions = discussions;
+  },
+
+  async addDiscussionReply(postId, newReplyContent) {
+    const discussions = await Analyses.postNewDiscussionReply(this.analysis.name, postId, newReplyContent);
+    this.analysis.discussions = discussions;
+  },
+
+  async editDiscussionReply(postId, replyId, replyContent) {
+    const discussions = await Analyses.editDiscussionReply(this.analysis.name, postId, replyId, replyContent);
+    this.analysis.discussions = discussions;
+  },
+
+  async deleteDiscussionReply(postId, replyId) {
+    const discussions = await Analyses.deleteDiscussionReply(this.analysis.name, postId, replyId);
+    this.analysis.discussions = discussions;
+  },
+
   // -----------------------------------
   // Analysis Attachments
   // -----------------------------------

@@ -47,6 +47,9 @@
         @discussion:new-post="addDiscussionPost"
         @discussion:edit-post="editDiscussionPost"
         @discussion:delete-post="deleteDiscussionPost"
+        @discussion:new-reply="addDiscussionReply"
+        @discussion:edit-reply="editDiscussionReply"
+        @discussion:delete-reply="deleteDiscussionReply"
       />
       <AttachmentsSection
         id="Attachments"
@@ -585,6 +588,33 @@ async function deleteDiscussionPost(postId) {
   } catch (error) {
     await notificationDialog.title('Failure').confirmText('Ok').alert(error);
   }
+}
+
+
+/**
+ * Adds a new discussion reply to the discussion post.
+ *
+ * @param {string} newReplyContent - The content of the new discussion reply.
+*/
+async function addDiscussionReply(postId, newReplyContent) {
+  await analysisStore.addDiscussionReply(postId, newReplyContent);
+}
+/**
+ * Adds a new discussion reply to the discussion post.
+ *
+ * @param {string} replyId - The identifier of the reply to delete
+ * @param {string} replyContent - The content of the new discussion reply.
+*/
+async function editDiscussionReply(postId, replyId, replyContent) {
+  await analysisStore.editDiscussionReply(postId, replyId, replyContent);
+}
+/**
+ * Adds a new discussion reply to the discussion post.
+ *
+ * @param {string} replyId - The identifier of the reply to delete
+*/
+async function deleteDiscussionReply(postId, replyId) {
+  await analysisStore.deleteDiscussionReply(postId, replyId);
 }
 
 /**

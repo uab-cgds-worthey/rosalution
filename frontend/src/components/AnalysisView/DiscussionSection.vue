@@ -79,6 +79,9 @@
           :actions="actions"
           @post:edit="this.editDiscussionPost"
           @post:delete="this.deleteDiscussionPost"
+          @discussion:new-reply="this.addDiscussionReply"
+          @discussion:edit-reply="this.editDiscussionReply"
+          @discussion:delete-reply="this.deleteDiscussionReply"
       />
     </div>
   </div>
@@ -95,7 +98,8 @@ import {toRaw} from 'vue';
 
 export default {
   name: 'discussion-section',
-  emits: ['discussion:new-post', 'discussion:edit-post', 'discussion:delete-post', 'discussion:open-modal'],
+  emits: ['discussion:new-post', 'discussion:edit-post', 'discussion:delete-post', 'discussion:open-modal',
+    'discussion:new-reply', 'discussion:edit-reply', 'discussion:delete-reply'],
   components: {
     DiscussionPost,
     DiscussionAttachment,
@@ -188,6 +192,15 @@ export default {
       }
       this.newAttachments.splice(attachmentIndex, 1);
     },
+    addDiscussionReply(postId, newReplyContent) {
+      this.$emit('discussion:new-reply', postId, toRaw(newReplyContent));
+    },
+    editDiscussionReply(postId, replyId, replyContent) {
+      this.$emit('discussion:edit-reply', postId, replyId, replyContent);
+    },
+    deleteDiscussionReply(postId, replyId) {
+      this.$emit('discussion:delete-reply', postId, replyId);
+    },
   },
 };
 
@@ -195,7 +208,13 @@ export default {
 
 <style scoped>
 .rosalution-section-seperator {
-  margin: var(--p-5) 0
+  margin: var(--p-8) 0
+}
+
+.discussion-section-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--p-10);
 }
 
 .discussion-new-post {

@@ -3,8 +3,11 @@ import {shallowMount} from '@vue/test-utils';
 
 import DiscussionSection from '../../../src/components/AnalysisView/DiscussionSection.vue';
 import DiscussionPost from '../../../src/components/AnalysisView/DiscussionPost.vue';
+import inputDialog from '@/inputDialog.js';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import DiscussionAttachment from '../../../src/components/AnalysisView/DiscussionAttachment.vue';
+import notificationDialog from '../../../src/notificationDialog';
 
 describe('DiscussionSection.vue', () => {
   let wrapper;
@@ -91,6 +94,97 @@ describe('DiscussionSection.vue', () => {
     expect(emittedObject[0]).toBe(editPostId);
     expect(emittedObject[1]).toBe(editPostContent);
   });
+
+  it('Should recieve an emit to add new reply, then emit discussion:new-reply with post id and content', async () => {
+    const discussionPosts = wrapper.findAllComponents(DiscussionPost);
+
+    const postId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
+    const newReplyContent = 'Hermione Granger is the smartest!';
+
+    discussionPosts[0].vm.$emit('discussion:new-reply', postId, newReplyContent);
+    await wrapper.vm.$nextTick();
+
+    const emittedObject = wrapper.emitted()['discussion:new-reply'][0];
+
+    expect(emittedObject[0]).toBe(postId);
+    expect(emittedObject[1]).toBe(newReplyContent);
+  });
+
+  it('Should recieve an emit to edit reply and then emit discussion:edit-reply with reply id and content', async () => {
+    const discussionPosts = wrapper.findAllComponents(DiscussionPost);
+
+    const postId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
+    const replyId = '6905754b-554e-44f7-9553-8d622710e303';
+    const editReplyContent = 'Hermione Granger is the smartest!';
+
+    discussionPosts[0].vm.$emit('discussion:edit-reply', postId, replyId, editReplyContent);
+    await wrapper.vm.$nextTick();
+
+    const emittedObject = wrapper.emitted()['discussion:edit-reply'][0];
+
+    expect(emittedObject[0]).toBe(postId);
+    expect(emittedObject[1]).toBe(replyId);
+    expect(emittedObject[2]).toBe(editReplyContent);
+  });
+
+  it('Should recieve an emit to delete reply and then emit discussion:delete-reply with reply id', async () => {
+    const discussionPosts = wrapper.findAllComponents(DiscussionPost);
+
+    const postId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
+    const replyId = '6905754b-554e-44f7-9553-8d622710e303';
+
+    discussionPosts[0].vm.$emit('discussion:delete-reply', postId, replyId);
+    await wrapper.vm.$nextTick();
+
+    const emittedObject = wrapper.emitted()['discussion:delete-reply'][0];
+
+    expect(emittedObject[0]).toBe(postId);
+    expect(emittedObject[1]).toBe(replyId);
+  });
+
+  it('Should add a new attachment to a new post being created', async () => {
+    const newDiscussionButton = wrapper.find('[data-test=new-discussion-button]');
+    await newDiscussionButton.trigger('click');
+
+    const discussionAttachButton = wrapper.find('[data-test=discussion-attachment-button]');
+    await discussionAttachButton.trigger('click');
+
+    const fakeImage = {data: 'path/to/fake/fakeImage.png'};
+
+    inputDialog.confirmation(fakeImage);
+
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+
+
+    const discussionAttachment = wrapper.findAllComponents(DiscussionAttachment);
+    expect(discussionAttachment.length).toBe(1);
+  });
+
+  it('Should not add a new attachment when it is removed from a new post being created', async () => {
+    const newDiscussionButton = wrapper.find('[data-test=new-discussion-button]');
+    await newDiscussionButton.trigger('click');
+
+    const discussionAttachButton = wrapper.find('[data-test=discussion-attachment-button]');
+    await discussionAttachButton.trigger('click');
+
+    const fakeImage = {data: 'path/to/fake/fakeImage.png'};
+
+    inputDialog.confirmation(fakeImage);
+
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+
+    const discussionAttachment = wrapper.findAllComponents(DiscussionAttachment);
+    discussionAttachment[0].vm.$emit('remove');
+
+    notificationDialog.confirmation(true);
+
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.findAllComponents(DiscussionAttachment).length).toBe(0);
+  });
 });
 
 /**
@@ -107,8 +201,30 @@ function fixtureData() {
         'author_fullname': 'Developer Person',
         'publish_timestamp': '2023-10-09T21:13:22.687000',
         'content': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        'attachments': [],
-        'thread': [],
+        'attachments': [
+          {
+            'name': 'CGDS',
+            'attachment_id': 'cb82fe13-4190-4faa-9108-905b62f97820',
+            'data': 'https://sites.uab.edu/cgds/',
+            'type': 'link',
+          },
+          {
+            'name': 'Rosalution Github Repository',
+            'attachment_id': '55f22661-a24e-4ef0-9152-df79b386b09a',
+            'data': 'https://github.com/uab-cgds-worthey/rosalution',
+            'type': 'link',
+          },
+        ],
+        'thread': [
+          {
+            replyId: '6905754b-554e-44f7-9553-8d622710e303',
+            authorId: 'fake-user-id',
+            authorName: 'Developer Person',
+            publishTimestamp: '2024-10-09T21:13:22.687000',
+            content: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugit paritur.',
+            actions: [{text: 'Edit'}, {text: 'Delete'}],
+          },
+        ],
       },
       {
         'post_id': 'a677bb36-acf8-4ff9-a406-b113a7952f7e',
@@ -127,6 +243,15 @@ function fixtureData() {
         'content': 'Mauris at mauris eu neque varius suscipit.',
         'attachments': [],
         'thread': [],
+      },
+    ],
+    supporting_evidence_files: [
+      {
+        'name': 'VMA21 deficiency prevents vacuolar ATPase assembly and causes autophagic vacuolar myopathy',
+        'data': 'https://link.springer.com/article/10.1007/s00401-012-1073-6',
+        'attachment_id': '19684b36-6e06-4659-93bb-6c420601d1da',
+        'type': 'link',
+        'comments': '',
       },
     ],
     actions: [

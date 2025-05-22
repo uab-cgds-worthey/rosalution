@@ -16,7 +16,8 @@
         <font-awesome-icon :icon="['far', 'file']" size="lg" v-if="existingAttachment.type==='file'"/>
         <font-awesome-icon icon="link" size="lg" v-else-if="existingAttachment.type==='link'"/>
       </span>
-      <label :for="existingAttachment.attachment_id" class="existing-attachment-name">
+      <label :for="existingAttachment.attachment_id" class="existing-attachment-name"
+      data-test="existing-attachment-name">
         {{ existingAttachment.name }}
         <input type="checkbox"
         :id="existingAttachment.attachment_id"
@@ -24,6 +25,7 @@
         :value="existingAttachment"
         v-model="checkedAttachments"
         @change="onChanged($event)"
+        data-test="existing-attachment-checkbox"
         />
       </label>
     </div>

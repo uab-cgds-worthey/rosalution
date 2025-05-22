@@ -312,4 +312,35 @@ export default {
 
     return success;
   },
+
+  async postNewDiscussionReply(analysisName, postId, newReplyContent) {
+    const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}/thread/`;
+
+    const discussionThread = {
+      'post_id': postId,
+      'discussion_reply_content': newReplyContent,
+    };
+
+    const success = await Requests.postForm(url, discussionThread);
+
+    return success;
+  },
+
+  async editDiscussionReply(analysisName, postId, replyId, replyContent) {
+    const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}/thread/${replyId}`;
+
+    const attachmentForm = {'discussion_reply_content': replyContent};
+
+    const success = await Requests.postForm(url, attachmentForm);
+
+    return success;
+  },
+
+  async deleteDiscussionReply(analysisName, postId, replyId) {
+    const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}/thread/${replyId}`;
+
+    const success = await Requests.delete(url);
+
+    return success;
+  },
 };

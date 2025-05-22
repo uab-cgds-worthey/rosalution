@@ -449,6 +449,48 @@ class AnalysisCollection:
 
         return updated_document['discussions']
 
+    def add_discussion_reply(self, discussion_post_id: str, analysis_name: str, discussion_reply: object):
+        """ Appends a new discussion reply to an existing discussion post to an analysis """
+
+        updated_document = self.collection.find_one_and_update({"name": analysis_name}, {
+            "$push": {"discussions.$[item].thread": discussion_reply}
+        },
+                                                               array_filters=[{"item.post_id": discussion_post_id}],
+                                                               return_document=ReturnDocument.AFTER)
+
+        updated_document.pop("_id", None)
+
+        return updated_document['discussions']
+
+    def updated_discussion_reply(
+        self, discussion_post_id: str, analysis_name: str, discussion_reply_id: str, discussion_reply_content: str
+    ):
+        """ Edits a discussion reply from an analysis to update the discussion reply's content """
+
+        updated_document = self.collection.find_one_and_update({"name": analysis_name}, {
+            "$set": {"discussions.$[post].thread.$[reply].content": discussion_reply_content}
+        },
+                                                               array_filters=[{"post.post_id": discussion_post_id},
+                                                                              {"reply.reply_id": discussion_reply_id}],
+                                                               return_document=ReturnDocument.AFTER)
+
+        updated_document.pop("_id", None)
+
+        return updated_document['discussions']
+
+    def delete_discussion_reply(self, discussion_post_id: str, analysis_name: str, discussion_reply_id: str):
+        """ Removes a Discussion Reply from a Discussion Post's Thread"""
+
+        updated_document = self.collection.find_one_and_update({"name": analysis_name}, {
+            "$pull": {"discussions.$[post].thread": {"reply_id": discussion_reply_id}}
+        },
+                                                               array_filters=[{"post.post_id": discussion_post_id}],
+                                                               return_document=ReturnDocument.AFTER)
+
+        updated_document.pop("_id", None)
+
+        return updated_document['discussions']
+
     def attach_file(self, analysis_name: str, file_id: str, filename: str, comments: str):
         """Adds documents and comments to an analysis"""
         new_uuid = str(file_id)
