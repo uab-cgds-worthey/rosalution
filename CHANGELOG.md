@@ -9,6 +9,9 @@
 
 ### Features
 
+- Discussion Post Threads - Users can collaborate by replying to existing discussion posts in a discussion thread in
+  order to capture insights and have relevant conversations with other experts to make more robust decisions on an
+  analysis in Rosalution. Also includes support to edit and delete replies a user has authored.
 - Caching calls to HTTP datasources configured as a dataset, and forge annotation tasks can be enabled to read value
   from the cached call dataset.
 - Caching versions in-memory temporarily when processing annotations.  A version is cached used its datasource &
@@ -19,6 +22,7 @@
 
 - Updated Python Backend to not use `datetime.utcnow()` which is being deprecated.
 - Revised invalid HTML DOM that mixed `<table>` HTML DOM elements within `<div>`s and `<span>`s.
+- Upgrading jq Python module to 1.8.0 to be to support building the backend for Python 3.13+
 
 ## 0.8.4
 
