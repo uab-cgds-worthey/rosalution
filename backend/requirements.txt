@@ -3,7 +3,7 @@ uvicorn[standard]==0.23.2
 python-cas==1.6.0
 itsdangerous==2.1.2
 pymongo==4.6.3
-jq==1.6.0
+jq==1.8.0
 
 python-multipart==0.0.20
 PyJWT[crypto]==2.8.0
