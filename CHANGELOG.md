@@ -18,11 +18,19 @@
   versioning type.
 - Consolidating user experience for Attachments by renaming "Supporting Evidence" to "Attachments" application wide.
 
+### Bugs
+
+- Action menu on an analysis' landing page renders as expected when navigating using the 'backwards navigation'
+  button in a browser.
+- Titles of attachments on discussions now use elipses when the attachment titles are too long to fit on the row.
+  Full attachment name is visible by hovering over the attachment with a mouse.
+
 ### Chores
 
 - Updated Python Backend to not use `datetime.utcnow()` which is being deprecated.
 - Revised invalid HTML DOM that mixed `<table>` HTML DOM elements within `<div>`s and `<span>`s.
-- Upgrading jq Python module to 1.8.0 to be to support building the backend for Python 3.13+
+- Upgrading jq Python module to 1.8.0 to be to support building the backend for Python 3.13+.
+- Consolidated administrative script for adding users to a Rosalution deployment.
 
 ## 0.8.4
 
