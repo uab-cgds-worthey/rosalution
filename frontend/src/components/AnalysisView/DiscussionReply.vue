@@ -19,7 +19,9 @@
           </ul>
         </div>
         <div v-if="!editingReplyFlag.value" class="discussion-reply-content">
-          {{content}}
+          <span v-for="(rowContent, index) in content" :key="index" data-test="reply-row">
+            {{ rowContent }}
+          </span>
         </div>
         <div v-else class="discussion-edit-reply">
           <textarea
@@ -68,7 +70,8 @@ const props = defineProps({
     type: String,
   },
   content: {
-    type: String,
+    type: Array,
+    default: () => { return [] }
   },
   userClientId: {
     type: String,

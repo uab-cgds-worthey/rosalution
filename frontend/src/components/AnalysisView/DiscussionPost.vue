@@ -19,13 +19,14 @@
       </div>
       <div class="discussion-body">
         <div v-if="!editingPostFlag" class="discussion-content" data-test="discussion-post-content">
-          {{ content }}
+          <span v-for="(rowContent, index) in content" :key="index" data-test="value-row">
+            {{ rowContent }}
+          </span>
           </div>
           <div v-else class="discussion-edit-post">
-            <textarea
-              contenteditable="plaintext-only"
+            <MultilineEditableTextarea
               class="discussion-edit-post-text-area"
-              v-model="editPostContent"
+              v-model:content="editPostContent"
               data-test="edit-discussion-input"
             />
             <div class="discussion-actions">
@@ -65,10 +66,9 @@
       </div>
   </div>
   <div class="discussion-new-reply" v-if="showNewReply">
-      <textarea
-        contenteditable="plaintext-only"
+      <MultilineEditableTextarea
         class="discussion-new-reply-text-area"
-        v-model="newReplyContent"
+        v-model:content="newReplyContent"
         data-test="discussion-new-reply-text-area"
       />
       <div class="discussion-reply-actions">
@@ -140,6 +140,7 @@ import notificationDialog from '@/notificationDialog.js';
 import inputDialog from '@/inputDialog.js';
 
 import {toRaw} from 'vue';
+import MultilineEditableTextarea from '@/components/AnalysisView/MultilineEditableTextarea.vue';
 
 const emits = defineEmits(['post:edit', 'post:delete', 'discussion:new-reply', 'discussion:edit-reply',
   'discussion:delete-reply']);
@@ -157,7 +158,8 @@ const props = defineProps({
     type: String,
   },
   content: {
-    type: String,
+    type: Array,
+    default: () => { return [] }
   },
   attachments: {
     type: Array,
@@ -177,11 +179,11 @@ const props = defineProps({
 });
 
 const editingPostFlag = ref(false);
-const editPostContent = ref(props.content);
+const editPostContent = defineModel(props.content);
 
 const showNewReply = ref(false);
 
-const newReplyContent = ref('');
+const newReplyContent = defineModel('');
 const newReplyAttachments = ref([]);
 
 const timestamp = computed(() => {
@@ -191,10 +193,6 @@ const timestamp = computed(() => {
 const isUser = computed(() => {
   return props.userClientId == props.authorId;
 });
-
-// const isReply = computed(() => {
-//   return props.thread == 0;
-// });
 
 const checkReplyContent = computed(() => {
   return newReplyContent.value == '';
@@ -272,7 +270,6 @@ async function addAttachmentToDiscussionReply(replyId) {
   console.log(attachment);
 
   if (typeof attachment === 'object' && !Array.isArray(attachment)) {
-    // DONE - double check reactivity with arrays in composition API & refs
     newReplyAttachments.value.push(attachment);
   } else {
     for (let i = 0; i < attachment.length; i++) {
@@ -293,7 +290,6 @@ async function removeReplyAttachment(replyId, attachmentIndex) {
   if (!confirmedDelete) {
     return;
   }
-  // TODO - Doouble check reactivity for array ref's with the splice function
   newReplyAttachments.value.splice(attachmentIndex, 1);
 }
 </script>
@@ -325,6 +321,8 @@ async function removeReplyAttachment(replyId, attachmentIndex) {
 }
 
 .discussion-content {
+  display: flex;
+  flex-direction: column;
   margin-bottom: var(--p-10);
 }
 

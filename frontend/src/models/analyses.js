@@ -260,7 +260,7 @@ export default {
   },
 
   // Posting a Discussion Thread and corresponding attachments together
-  async postNewDiscussionThread(analysisName, postContent, postAttachments=[]) {
+  async postNewDiscussionPost(analysisName, postContent, postAttachments=[]) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions`;
 
     const attachmentsList = [];

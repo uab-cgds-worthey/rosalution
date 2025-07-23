@@ -1,22 +1,14 @@
 <template>
   <div class="section-row">
-    <label
-      class="section-field"
-      v-bind:style="[
-        value.length === 0 && !this.editable
-          ? 'color: var(--rosalution-grey-300);'
-          : 'color: var(--rosalution-black);',
-      ]"
-    >
+    <label class="section-field" v-bind:style="[fieldEmptyStyle]">
       {{ field }}
     </label>
     <span class="section-content">
-      <span v-if="this.editable" role="textbox"
-        class="editable-section-content-values" contenteditable
-        data-test="editable-value" @input="onContentChanged($event)"
-      >
-        {{ value.join("\r\n") }}
-      </span>
+      <MultilineEditableSpan v-if="editable"
+        class="editable-section-content-values" 
+        data-test="editable-value"
+        v-model:content="content"
+      />
       <span v-else v-for="(rowValue, index) in value" :key="index" data-test="value-row">
         {{ rowValue }}
       </span>
@@ -24,49 +16,34 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'section-text',
-  emits: ['update:sectionContent'],
-  props: {
-    field: {
-      type: String,
-    },
-    value: {
-      type: Array,
-      required: false,
-    },
-    editable: {
-      type: Boolean,
-      default: false,
-    },
+<script setup>
+import { ref, watch } from 'vue';
+import MultilineEditableSpan from '@/components/AnalysisView/MultilineEditableSpan.vue';
+const props = defineProps({
+  field: {
+    type: String,
   },
-  computed: {
-    isDataUnavailable: function() {
-      return this.value == '.' || this.value == 'null' || this.value == null;
-    },
-    dataAvailabilityColour: function() {
-      return this.isDataUnavailable ?
-        'var(--rosalution-grey-300)' : this.linkout ? 'var(--rosalution-purple-300)' : 'var(--rosalution-black)';
-    },
-    content: function() {
-      if (typeof this.value == 'object') {
-        return this.value.join(this.delimeter);
-      }
+  value: {
+    type: Array,
+    required: false,
+    default: () => { return [] }
+  },
+  editable: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-      return this.value;
-    },
-  },
-  methods: {
-    onContentChanged(event) {
-      const contentRow = {
-        field: this.field,
-        value: event.target.innerText.split('\n'),
-      };
-      this.$emit('update:sectionContent', contentRow);
-    },
-  },
-};
+const isEmptyField = props.value.length === 0 && !props.editable 
+const fieldEmptyStyle =  isEmptyField ? 'color: var(--rosalution-grey-300);' : 'color: var(--rosalution-black);';
+const content = ref(props.value)
+watch(content, async(newContent) => {
+  const contentRow = {
+    field: props.field,
+    value: newContent,
+  };
+  emits('update:sectionContent', contentRow);
+});
 </script>
 
 <style scoped>
