@@ -10,8 +10,8 @@
           <ContextMenu
             :actions="actions"
             :contextId="id"
-            @edit="this.editPost"
-            @delete="this.deletePost"
+            @edit="editPost"
+            @delete="deletePost"
             >
             <font-awesome-icon class="header-icon" icon="ellipsis-vertical" size="xl" />
           </ContextMenu>
@@ -64,7 +64,7 @@
         </div>
       </div>
   </div>
-  <div class="discussion-new-reply" v-if="this.showNewReply">
+  <div class="discussion-new-reply" v-if="showNewReply">
       <textarea
         contenteditable="plaintext-only"
         class="discussion-new-reply-text-area"
@@ -106,7 +106,7 @@
               class="primary-button discussion-reply-publish-button"
               @click="newDiscussionReply"
               data-test="discussion-new-reply-publish"
-              :disabled="this.checkReplyContent"
+              :disabled="checkReplyContent"
           >
             Publish
           </button>
@@ -122,13 +122,15 @@
     :content="reply.content"
     :userClientId="userClientId"
     :actions="actions"
-    @reply:edit="this.editDiscussionReply"
-    @reply:delete="this.deleteDiscussionReply"
+    @reply:edit="editDiscussionReply"
+    @reply:delete="deleteDiscussionReply"
   />
 </div>
 </template>
 
-<script>
+<script setup>
+import {computed, ref} from 'vue';
+
 import ContextMenu from '@/components/ContextMenu.vue';
 import DiscussionAttachment from './DiscussionAttachment.vue';
 import DiscussionReply from './DiscussionReply.vue';
@@ -139,144 +141,158 @@ import inputDialog from '@/inputDialog.js';
 
 import {toRaw} from 'vue';
 
-export default {
-  name: 'discussion-post',
-  emits: ['post:edit', 'post:delete', 'discussion:new-reply', 'discussion:edit-reply', 'discussion:delete-reply'],
-  components: {
-    ContextMenu,
-    DiscussionAttachment,
-    DiscussionReply,
+const emits = defineEmits(['post:edit', 'post:delete', 'discussion:new-reply', 'discussion:edit-reply',
+  'discussion:delete-reply']);
+const props = defineProps({
+  id: {
+    type: String,
   },
-  props: {
-    id: {
-      type: String,
-    },
-    authorId: {
-      type: String,
-    },
-    authorName: {
-      type: String,
-    },
-    publishTimestamp: {
-      type: String,
-    },
-    content: {
-      type: String,
-    },
-    attachments: {
-      type: Array,
-    },
-    thread: {
-      type: Array,
-    },
-    existingAttachments: {
-      type: Array,
-    },
-    userClientId: {
-      type: String,
-    },
-    actions: {
-      type: Array,
-    },
+  authorId: {
+    type: String,
   },
-  data: function() {
-    return {
-      editingPostFlag: false,
-      editPostContent: this.content,
-      showNewReply: false,
-      newReplyContent: '',
-      newReplyAttachments: '',
-    };
+  authorName: {
+    type: String,
   },
-  computed: {
-    timestamp: function() {
-      return new Date(this.publishTimestamp + 'Z').toLocaleString();
-    },
-    isUser: function() {
-      return this.userClientId == this.authorId;
-    },
-    isReply: function() {
-      return this.thread == 0;
-    },
-    checkReplyContent() {
-      return this.newReplyContent == '';
-    },
+  publishTimestamp: {
+    type: String,
   },
-  methods: {
-    editPost() {
-      this.editingPostFlag = true;
-    },
-    confirmEditPost() {
-      this.editingPostFlag = false;
-      this.$emit('post:edit', this.id, this.editPostContent);
-    },
-    cancelEditPost() {
-      this.editingPostFlag = false;
-      this.editPostContent = this.content;
-    },
-    deletePost(postId) {
-      this.$emit('post:delete', postId);
-    },
-    newDiscussionReplyForm() {
-      this.showNewReply = true;
-    },
-    newDiscussionReply() {
-      this.$emit('discussion:new-reply', this.id, toRaw(this.newReplyContent));
-      this.clearNewDiscussionReplyField();
-    },
-    cancelNewDiscussionReply() {
-      this.clearNewDiscussionReplyField();
-    },
-    clearNewDiscussionReplyField() {
-      this.newReplyContent = '';
-      this.showNewReply = false;
-      this.newReplyAttachments = [];
-    },
-    editDiscussionReply(replyId, replyContent) {
-      this.$emit('discussion:edit-reply', this.id, replyId, replyContent);
-    },
-    deleteDiscussionReply(replyId) {
-      this.$emit('discussion:delete-reply', this.id, replyId);
-    },
-    async addAttachmentToDiscussionReply(replyId) {
-      const includeComments = false;
-      const includeName = true;
+  content: {
+    type: String,
+  },
+  attachments: {
+    type: Array,
+  },
+  thread: {
+    type: Array,
+  },
+  existingAttachments: {
+    type: Array,
+  },
+  userClientId: {
+    type: String,
+  },
+  actions: {
+    type: Array,
+  },
+});
 
-      const attachment = await inputDialog
-          .confirmText('Attach')
-          .cancelText('Cancel')
-          .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp, .png, .gb')
-          .url(includeComments, includeName)
-          .existing(this.existingAttachments)
-          .prompt();
-      if (!attachment) {
-        return;
-      }
+const editingPostFlag = ref(false);
+const editPostContent = ref(props.content);
 
-      if (typeof attachment === 'object' && !Array.isArray(attachment)) {
-        this.newReplyAttachments.push(attachment);
-      } else {
-        for (let i = 0; i < attachment.length; i++) {
-          this.newReplyAttachments.push(attachment[i]);
-        }
-      }
-    },
-    async removeReplyAttachment(replyId, attachmentIndex) {
-      const confirmedDelete = await notificationDialog
-          .title(`Remove reply attachment?`)
-          .confirmText('Remove')
-          .cancelText('Cancel')
-          .confirm(
-              `Remove attachment from new reply. Are you sure you want to remove?`,
-          );
+const showNewReply = ref(false);
 
-      if (!confirmedDelete) {
-        return;
-      }
-      this.newReplyAttachments.splice(attachmentIndex, 1);
-    },
-  },
+const newReplyContent = ref('');
+const newReplyAttachments = ref('');
+
+const timestamp = computed(() => {
+  return new Date(props.publishTimestamp + 'Z').toLocaleString();
+});
+
+const isUser = computed(() => {
+  return props.userClientId == props.authorId;
+});
+
+// const isReply = computed(() => {
+//   return props.thread == 0;
+// });
+
+const checkReplyContent = computed(() => {
+  return newReplyContent.value == '';
+});
+
+// *****
+// Posts
+// ****
+
+function editPost() {
+  editingPostFlag.value = true;
+}
+
+function confirmEditPost() {
+  editingPostFlag.value = false;
+  emits('post:edit', props.id, editPostContent.value);
 };
+
+function cancelEditPost() {
+  editingPostFlag.value = false;
+  editPostContent.value = props.content;
+}
+
+function deletePost(postId) {
+  emits('post:delete', postId);
+}
+
+// *****
+// Replies
+// ****
+
+function newDiscussionReplyForm() {
+  showNewReply.value = true;
+}
+
+function newDiscussionReply() {
+  emits('discussion:new-reply', props.id, toRaw(newReplyContent.value));
+  clearNewDiscussionReplyField();
+}
+
+function cancelNewDiscussionReply() {
+  clearNewDiscussionReplyField();
+};
+
+function clearNewDiscussionReplyField() {
+  newReplyContent.value = '';
+  showNewReply.value = false;
+  newReplyAttachments.value = [];
+};
+
+function editDiscussionReply(replyId, replyContent) {
+  emits('discussion:edit-reply', props.id, replyId, replyContent);
+};
+
+function deleteDiscussionReply(replyId) {
+  emits('discussion:delete-reply', props.id, replyId);
+};
+
+async function addAttachmentToDiscussionReply(replyId) {
+  const includeComments = false;
+  const includeName = true;
+
+  const attachment = await inputDialog
+      .confirmText('Attach')
+      .cancelText('Cancel')
+      .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp, .png, .gb')
+      .url(includeComments, includeName)
+      .existing(props.existingAttachments)
+      .prompt();
+  if (!attachment) {
+    return;
+  }
+
+  if (typeof attachment === 'object' && !Array.isArray(attachment)) {
+    // TODO - double check reactivity with arrays in composition API & refs
+    newReplyAttachments.value.push(attachment);
+  } else {
+    for (let i = 0; i < attachment.length; i++) {
+      newReplyAttachments.value.push(attachment[i]);
+    }
+  }
+};
+
+async function removeReplyAttachment(replyId, attachmentIndex) {
+  const confirmedDelete = await notificationDialog
+      .title(`Remove reply attachment?`)
+      .confirmText('Remove')
+      .cancelText('Cancel')
+      .confirm(
+          `Remove attachment from new reply. Are you sure you want to remove?`,
+      );
+
+  if (!confirmedDelete) {
+    return;
+  }
+  // TODO - Doouble check reactivity for array ref's with the splice function
+  newReplyAttachments.value.splice(attachmentIndex, 1);
+}
 </script>
 
 <style scoped>
