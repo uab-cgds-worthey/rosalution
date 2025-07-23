@@ -41,9 +41,9 @@
                 @click="confirmEditPost"
                 data-test="edit-discussion-save"
               >
-              Save
-            </button>
-          </div>
+                Save
+              </button>
+            </div>
         </div>
         <div class="discussion-attachment-reply-button-row">
           <div v-if="attachments.length" class="attachments-list" data-test="discussion-attachment">
@@ -72,21 +72,45 @@
         data-test="discussion-new-reply-text-area"
       />
       <div class="discussion-reply-actions">
-        <button
-          class="secondary-button discussion-cancel-new-reply"
-          @click="cancelNewDiscussionReply"
-          data-test="new-discussion-reply-cancel-button"
-        >
-          Cancel
-        </button>
-        <button
-            class="primary-button discussion-reply-publish-button"
-            @click="newDiscussionReply"
-            data-test="discussion-new-reply-publish"
-            :disabled="this.checkReplyContent"
-        >
-          Publish
-        </button>
+        <span class="reply-attachments-actions">
+          <button
+            class="primary-button attach-button"
+            @click="addAttachmentToDiscussionReply"
+            data-test="discussion-reply-attachment-button"
+          >
+            Attach
+          </button>
+          <div class="new-reply-attachments-list">
+            <DiscussionAttachment
+              v-for="newReplyAttachment, index in newReplyAttachments"
+              v-bind:key="index"
+              postId="new-post"
+              :name="newReplyAttachment.name"
+              :type="newReplyAttachment.type"
+              :attachment="newAttachment"
+              :removeable="true"
+              @remove="removeReplyAttachment('new_reply', index)"
+            >
+            </DiscussionAttachment>
+          </div>
+        </span>
+        <span class="reply-actions">
+          <button
+            class="secondary-button discussion-cancel-new-reply"
+            @click="cancelNewDiscussionReply"
+            data-test="new-discussion-reply-cancel-button"
+          >
+            Cancel
+          </button>
+          <button
+              class="primary-button discussion-reply-publish-button"
+              @click="newDiscussionReply"
+              data-test="discussion-new-reply-publish"
+              :disabled="this.checkReplyContent"
+          >
+            Publish
+          </button>
+        </span>
       </div>
   </div>
   <DiscussionReply v-for="reply in thread"
@@ -108,6 +132,10 @@
 import ContextMenu from '@/components/ContextMenu.vue';
 import DiscussionAttachment from './DiscussionAttachment.vue';
 import DiscussionReply from './DiscussionReply.vue';
+
+import notificationDialog from '@/notificationDialog.js';
+
+import inputDialog from '@/inputDialog.js';
 
 import {toRaw} from 'vue';
 
@@ -141,6 +169,9 @@ export default {
     thread: {
       type: Array,
     },
+    existingAttachments: {
+      type: Array,
+    },
     userClientId: {
       type: String,
     },
@@ -154,6 +185,7 @@ export default {
       editPostContent: this.content,
       showNewReply: false,
       newReplyContent: '',
+      newReplyAttachments: '',
     };
   },
   computed: {
@@ -198,12 +230,50 @@ export default {
     clearNewDiscussionReplyField() {
       this.newReplyContent = '';
       this.showNewReply = false;
+      this.newReplyAttachments = [];
     },
     editDiscussionReply(replyId, replyContent) {
       this.$emit('discussion:edit-reply', this.id, replyId, replyContent);
     },
     deleteDiscussionReply(replyId) {
       this.$emit('discussion:delete-reply', this.id, replyId);
+    },
+    async addAttachmentToDiscussionReply(replyId) {
+      const includeComments = false;
+      const includeName = true;
+
+      const attachment = await inputDialog
+          .confirmText('Attach')
+          .cancelText('Cancel')
+          .file(includeComments, 'file', '.png, .jpg, .jpeg, .bmp, .png, .gb')
+          .url(includeComments, includeName)
+          .existing(this.existingAttachments)
+          .prompt();
+      if (!attachment) {
+        return;
+      }
+
+      if (typeof attachment === 'object' && !Array.isArray(attachment)) {
+        this.newReplyAttachments.push(attachment);
+      } else {
+        for (let i = 0; i < attachment.length; i++) {
+          this.newReplyAttachments.push(attachment[i]);
+        }
+      }
+    },
+    async removeReplyAttachment(replyId, attachmentIndex) {
+      const confirmedDelete = await notificationDialog
+          .title(`Remove reply attachment?`)
+          .confirmText('Remove')
+          .cancelText('Cancel')
+          .confirm(
+              `Remove attachment from new reply. Are you sure you want to remove?`,
+          );
+
+      if (!confirmedDelete) {
+        return;
+      }
+      this.newReplyAttachments.splice(attachmentIndex, 1);
     },
   },
 };
@@ -344,6 +414,18 @@ export default {
 
 .discussion-reply-publish-button {
   margin-left: var(--p-8);
+}
+
+.reply-attachments-actions {
+  display: flex;
+  gap: var(--p-10);
+}
+
+.new-reply-attachments-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: auto;
+  gap: var(--p-5);
 }
 
 </style>
