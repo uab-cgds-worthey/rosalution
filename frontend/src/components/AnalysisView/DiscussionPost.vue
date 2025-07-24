@@ -134,16 +134,17 @@ import {computed, ref} from 'vue';
 import ContextMenu from '@/components/ContextMenu.vue';
 import DiscussionAttachment from './DiscussionAttachment.vue';
 import DiscussionReply from './DiscussionReply.vue';
+import MultilineEditableTextarea from '@/components/AnalysisView/MultilineEditableTextarea.vue';
 
 import notificationDialog from '@/notificationDialog.js';
 
 import inputDialog from '@/inputDialog.js';
 
 import {toRaw} from 'vue';
-import MultilineEditableTextarea from '@/components/AnalysisView/MultilineEditableTextarea.vue';
 
 const emits = defineEmits(['post:edit', 'post:delete', 'discussion:new-reply', 'discussion:edit-reply',
   'discussion:delete-reply']);
+
 const props = defineProps({
   id: {
     type: String,
@@ -159,7 +160,9 @@ const props = defineProps({
   },
   content: {
     type: Array,
-    default: () => { return [] }
+    default: () => {
+      return [];
+    },
   },
   attachments: {
     type: Array,
@@ -179,7 +182,7 @@ const props = defineProps({
 });
 
 const editingPostFlag = ref(false);
-const editPostContent = defineModel(props.content);
+const editPostContent = ref(props.content);
 
 const showNewReply = ref(false);
 
@@ -200,7 +203,7 @@ const checkReplyContent = computed(() => {
 
 // *****
 // Posts
-// ****
+// *****
 
 function editPost() {
   editingPostFlag.value = true;
@@ -208,6 +211,7 @@ function editPost() {
 
 function confirmEditPost() {
   editingPostFlag.value = false;
+  console.log(editPostContent.value);
   emits('post:edit', props.id, editPostContent.value);
 };
 
@@ -220,9 +224,9 @@ function deletePost(postId) {
   emits('post:delete', postId);
 }
 
-// *****
+// ********
 // Replies
-// ****
+// ********
 
 function newDiscussionReplyForm() {
   showNewReply.value = true;

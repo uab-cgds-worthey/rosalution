@@ -5,7 +5,7 @@
     </label>
     <span class="section-content">
       <MultilineEditableSpan v-if="editable"
-        class="editable-section-content-values" 
+        class="editable-section-content-values"
         data-test="editable-value"
         v-model:content="content"
       />
@@ -17,8 +17,11 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import {ref, watch} from 'vue';
+
 import MultilineEditableSpan from '@/components/AnalysisView/MultilineEditableSpan.vue';
+
+const emits = defineEmits(['update:sectionContent']);
 const props = defineProps({
   field: {
     type: String,
@@ -26,7 +29,9 @@ const props = defineProps({
   value: {
     type: Array,
     required: false,
-    default: () => { return [] }
+    default: () => {
+      return [];
+    },
   },
   editable: {
     type: Boolean,
@@ -34,10 +39,11 @@ const props = defineProps({
   },
 });
 
-const isEmptyField = props.value.length === 0 && !props.editable 
+const isEmptyField = props.value.length === 0 && !props.editable;
 const fieldEmptyStyle =  isEmptyField ? 'color: var(--rosalution-grey-300);' : 'color: var(--rosalution-black);';
-const content = ref(props.value)
-watch(content, async(newContent) => {
+
+const content = ref(props.value);
+watch(content, async (newContent) => {
   const contentRow = {
     field: props.field,
     value: newContent,

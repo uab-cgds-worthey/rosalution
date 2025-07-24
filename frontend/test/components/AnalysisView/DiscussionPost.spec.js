@@ -1,11 +1,12 @@
 import {it, expect, describe} from 'vitest';
 import {shallowMount} from '@vue/test-utils';
 
-import ContextMenu from '../../../src/components/ContextMenu.vue';
-import DiscussionPost from '../../../src/components/AnalysisView/DiscussionPost.vue';
-import DiscussionReply from '../../../src/components/AnalysisView/DiscussionReply.vue';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
-import DiscussionAttachment from '../../../src/components/AnalysisView/DiscussionAttachment.vue';
+
+import ContextMenu from '@/components/ContextMenu.vue';
+import DiscussionPost from '@/components/AnalysisView/DiscussionPost.vue';
+import DiscussionReply from '@/components/AnalysisView/DiscussionReply.vue';
+import DiscussionAttachment from '@/components/AnalysisView/DiscussionAttachment.vue';
 
 /**
  * Helper mounts and returns the rendered component
@@ -19,7 +20,7 @@ function getMountedComponent(props) {
     authorId: 'fake-user-id',
     authorName: 'Developer Person',
     publishTimestamp: '2023-10-09T21:13:22.687000',
-    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum',
+    content: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum'],
     attachments: [
       {
         'name': 'CGDS',
@@ -40,7 +41,7 @@ function getMountedComponent(props) {
         authorId: 'fake-user-id',
         authorName: 'Developer Person',
         publishTimestamp: '2024-10-09T21:13:22.687000',
-        content: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugit nulla paritur.',
+        content: ['Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugit nulla paritur.'],
         actions: [{text: 'Edit'}, {text: 'Delete'}],
       },
     ],
@@ -95,32 +96,30 @@ describe('DiscussionPost.vue', () => {
     expect(emittedObject[0]).toBe(postId);
   });
 
-  it('Should recieve an emit to edit a post and emits a post:edit with the new message upon confirmation', async () => {
+  it('Should enable editing a post and allow to post the new message upon confirmation', async () => {
     const wrapper = getMountedComponent({userClientId: 'fake-user-id'});
 
     const contextMenu = wrapper.getComponent(ContextMenu);
 
-    const testPostId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
-    const testPostContent = 'Inuyasha is the best.';
-
-    contextMenu.vm.$emit('edit', testPostId);
-
+    const expectedPostId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
+    const expectedPostContent = ['Inuyasha is the best.'];
+  
+    contextMenu.vm.$emit('edit');
     await wrapper.vm.$nextTick();
 
     const discussionPost = wrapper.getComponent(DiscussionPost);
-
-    await discussionPost.setData({editPostContent: testPostContent});
-
-    const editPostSaveButton = discussionPost.find('[data-test=edit-discussion-save]');
-
-    editPostSaveButton.trigger('click');
+    const editableTextarea = discussionPost.findComponent('[data-test=edit-discussion-input]');
+    editableTextarea.vm.$emit('update:content', expectedPostContent);
 
     await wrapper.vm.$nextTick();
 
-    const emittedObject = wrapper.emitted()['post:edit'][0];
+    const editPostSaveButton = discussionPost.find('[data-test=edit-discussion-save]');
+    editPostSaveButton.trigger('click');
+    await wrapper.vm.$nextTick();
 
-    expect(emittedObject[0]).toBe(testPostId);
-    expect(emittedObject[1]).toBe(testPostContent);
+    const emittedObject = wrapper.emitted()['post:edit'][0];
+    expect(emittedObject[0]).toBe(expectedPostId);
+    expect(emittedObject[1]).toStrictEqual(expectedPostContent);
   });
 
   it('Should recieve an emit to edit a post and cancels the edit post dialog closing the edit field', async () => {

@@ -298,9 +298,7 @@ export default {
   async editDiscussionThreadById(analysisName, postId, postContent) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}`;
 
-    const attachmentForm = {'discussion_content': postContent};
-
-    const success = await Requests.putForm(url, attachmentForm);
+    const success = await Requests.put(url, postContent);
 
     return success;
   },
@@ -316,12 +314,7 @@ export default {
   async postNewDiscussionReply(analysisName, postId, newReplyContent) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}/thread/`;
 
-    const discussionThread = {
-      'post_id': postId,
-      'discussion_reply_content': newReplyContent,
-    };
-
-    const success = await Requests.postForm(url, discussionThread);
+    const success = await Requests.post(url, newReplyContent);
 
     return success;
   },
@@ -329,9 +322,7 @@ export default {
   async editDiscussionReply(analysisName, postId, replyId, replyContent) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}/thread/${replyId}`;
 
-    const attachmentForm = {'discussion_reply_content': replyContent};
-
-    const success = await Requests.postForm(url, attachmentForm);
+    const success = await Requests.post(url, replyContent);
 
     return success;
   },

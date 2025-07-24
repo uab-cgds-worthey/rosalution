@@ -161,6 +161,7 @@ export const analysisStore = reactive({
    */
 
   async addDiscussionPost(newPostContent, newPostAttachments=[]) {
+    console.log(newPostContent);
     const discussions = await Analyses.postNewDiscussionPost(this.analysis.name, newPostContent, newPostAttachments);
     this.analysis.discussions = discussions;
   },

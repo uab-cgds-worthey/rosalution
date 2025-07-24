@@ -71,7 +71,9 @@ const props = defineProps({
   },
   content: {
     type: Array,
-    default: () => { return [] }
+    default: () => {
+      return [];
+    },
   },
   userClientId: {
     type: String,
