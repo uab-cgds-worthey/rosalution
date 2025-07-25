@@ -77,6 +77,7 @@
           :thread="discussion.thread"
           :userClientId="userClientId"
           :actions="actions"
+          :existingAttachments = "existingAttachments"
           @post:edit="this.editDiscussionPost"
           @post:delete="this.deleteDiscussionPost"
           @discussion:new-reply="this.addDiscussionReply"

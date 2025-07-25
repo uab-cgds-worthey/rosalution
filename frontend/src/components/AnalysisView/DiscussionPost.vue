@@ -182,7 +182,7 @@ const editPostContent = ref(props.content);
 const showNewReply = ref(false);
 
 const newReplyContent = ref('');
-const newReplyAttachments = ref('');
+const newReplyAttachments = ref([]);
 
 const timestamp = computed(() => {
   return new Date(props.publishTimestamp + 'Z').toLocaleString();
@@ -267,6 +267,9 @@ async function addAttachmentToDiscussionReply(replyId) {
   if (!attachment) {
     return;
   }
+
+  console.log('Received an attachment');
+  console.log(attachment);
 
   if (typeof attachment === 'object' && !Array.isArray(attachment)) {
     // TODO - double check reactivity with arrays in composition API & refs
@@ -400,12 +403,10 @@ async function removeReplyAttachment(replyId, attachmentIndex) {
 .discussion-new-reply {
   background-color: var(--rosalution-grey-50);
   border-radius: var(--content-border-radius);
-  margin-top: var(--p-8);
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+  flex-direction: column;
+  gap: var(--p-8);
+  padding: var(--p-8);
 }
 
 .discussion-new-reply-text-area {
@@ -414,18 +415,12 @@ async function removeReplyAttachment(replyId, attachmentIndex) {
   border: solid;
   border-color: var(--rosalution-grey-000);
   padding: var(--p-16);
-  margin: var(--p-10);
-  position: relative;
-  width: 100%;
 }
 
 .discussion-reply-actions {
-  width: 100%;
   display: flex;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  margin-right: var(--p-16);
-  margin-bottom: var(--p-10);
+  justify-content: space-between;
+  gap: var(--p-8);
 }
 
 .discussion-reply-publish-button {
