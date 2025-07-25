@@ -87,7 +87,7 @@
               postId="new-post"
               :name="newReplyAttachment.name"
               :type="newReplyAttachment.type"
-              :attachment="newAttachment"
+              :attachment="newReplyAttachment"
               :removeable="true"
               @remove="removeReplyAttachment('new_reply', index)"
             >
@@ -96,14 +96,14 @@
         </span>
         <span class="reply-actions">
           <button
-            class="secondary-button discussion-cancel-new-reply"
+            class="secondary-button"
             @click="cancelNewDiscussionReply"
             data-test="new-discussion-reply-cancel-button"
           >
             Cancel
           </button>
           <button
-              class="primary-button discussion-reply-publish-button"
+              class="primary-button"
               @click="newDiscussionReply"
               data-test="discussion-new-reply-publish"
               :disabled="checkReplyContent"
@@ -421,10 +421,7 @@ async function removeReplyAttachment(replyId, attachmentIndex) {
   display: flex;
   justify-content: space-between;
   gap: var(--p-8);
-}
-
-.discussion-reply-publish-button {
-  margin-left: var(--p-8);
+  flex-wrap: nowrap;
 }
 
 .reply-attachments-actions {
