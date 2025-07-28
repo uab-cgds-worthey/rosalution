@@ -20,7 +20,10 @@ function getMountedComponent(props) {
     authorId: 'fake-user-id',
     authorName: 'Developer Person',
     publishTimestamp: '2023-10-09T21:13:22.687000',
-    content: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum'],
+    content: [
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'Suspendisse eget metus nec erat accumsan rutrum',
+    ],
     attachments: [
       {
         'name': 'CGDS',
@@ -41,7 +44,10 @@ function getMountedComponent(props) {
         authorId: 'fake-user-id',
         authorName: 'Developer Person',
         publishTimestamp: '2024-10-09T21:13:22.687000',
-        content: ['Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugit nulla paritur.'],
+        content: [
+          'Duis aute irure dolor in reprehenderit in voluptate velit esse.',
+          'cillum dolore eu fugit nulla paritur.',
+        ],
         actions: [{text: 'Edit'}, {text: 'Delete'}],
       },
     ],
@@ -103,7 +109,7 @@ describe('DiscussionPost.vue', () => {
 
     const expectedPostId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
     const expectedPostContent = ['Inuyasha is the best.'];
-  
+
     contextMenu.vm.$emit('edit');
     await wrapper.vm.$nextTick();
 

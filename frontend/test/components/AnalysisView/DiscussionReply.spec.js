@@ -16,7 +16,7 @@ function getMountedComponent(props) {
     authorId: 'fake-user-id',
     authorName: 'Developer Person',
     publishTimestamp: '2024-10-09T21:13:22.687000',
-    content: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+    content: ['Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'],
     actions: [{text: 'Edit'}, {text: 'Delete'}],
   };
 

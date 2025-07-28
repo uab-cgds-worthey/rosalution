@@ -201,9 +201,9 @@ const checkReplyContent = computed(() => {
   return newReplyContent.value == '';
 });
 
-// *****
+// -----------------------------------
 // Posts
-// *****
+// -----------------------------------
 
 function editPost() {
   editingPostFlag.value = true;
@@ -211,7 +211,6 @@ function editPost() {
 
 function confirmEditPost() {
   editingPostFlag.value = false;
-  console.log(editPostContent.value);
   emits('post:edit', props.id, editPostContent.value);
 };
 
@@ -224,9 +223,9 @@ function deletePost(postId) {
   emits('post:delete', postId);
 }
 
-// ********
+// -----------------------------------
 // Replies
-// ********
+// -----------------------------------
 
 function newDiscussionReplyForm() {
   showNewReply.value = true;
