@@ -96,7 +96,7 @@ describe('DiscussionPost.vue', () => {
     expect(emittedObject[0]).toBe(postId);
   });
 
-  it('Should enable editing a post and allow to post the new message upon confirmation', async () => {
+  it('Should enable editing a post and allow to post the new mess©ge upon confirmation', async () => {
     const wrapper = getMountedComponent({userClientId: 'fake-user-id'});
 
     const contextMenu = wrapper.getComponent(ContextMenu);
@@ -122,50 +122,48 @@ describe('DiscussionPost.vue', () => {
     expect(emittedObject[1]).toStrictEqual(expectedPostContent);
   });
 
-  it('Should recieve an emit to edit a post and cancels the edit post dialog closing the edit field', async () => {
+  it('Should enable and cancel editting a post and hide the inline edit area', async () => {
     const wrapper = getMountedComponent({userClientId: 'fake-user-id'});
 
     const contextMenu = wrapper.getComponent(ContextMenu);
-
     const testPostId = '9027ec8d-6298-4afb-add5-6ef710eb5e98';
-
     contextMenu.vm.$emit('edit', testPostId);
 
     await wrapper.vm.$nextTick();
 
     const discussionPost = wrapper.getComponent(DiscussionPost);
+    let edittableDiscussionPost = discussionPost.find('[data-test=edit-discussion-input]');
 
-    expect(discussionPost.vm.editingPostFlag).toBe(true);
+    expect(edittableDiscussionPost.exists()).toBe(true);
 
     const editPostCancelButton = discussionPost.find('[data-test=edit-discussion-cancel]');
-
     editPostCancelButton.trigger('click');
-
     await wrapper.vm.$nextTick();
 
-    expect(discussionPost.vm.editingPostFlag).toBe(false);
+    edittableDiscussionPost = discussionPost.find('[data-test=edit-discussion-input]');
+    expect(edittableDiscussionPost.exists()).toBe(false);
   });
 
   it('Should emit a discussion:new-reply event when the publish reply button is pressed', async () => {
     const wrapper = getMountedComponent({userClientId: 'fake-user-id'});
-    const newReplyContent = 'Test reply content.';
+    const newReplyContent = ['Test reply content.'];
 
     const discussionPost = wrapper.getComponent(DiscussionPost);
 
     const newDiscussionReplyButton = wrapper.find('[data-test=discussion-new-reply-button]');
     await newDiscussionReplyButton.trigger('click');
 
-    const newReplyTextArea = discussionPost.find('[data-test=discussion-new-reply-text-area]');
-    await newReplyTextArea.setValue(newReplyContent);
+    const newReplyTextArea = discussionPost.findComponent('[data-test=discussion-new-reply-text-area]');
+    newReplyTextArea.vm.$emit('update:content', newReplyContent);
+    await wrapper.vm.$nextTick();
 
     const publishNewDiscussionReplyButton = wrapper.find('[data-test=discussion-new-reply-publish]');
     await publishNewDiscussionReplyButton.trigger('click');
-
     await wrapper.vm.$nextTick();
 
     const emittedObjects = wrapper.emitted()['discussion:new-reply'][0];
 
-    expect(emittedObjects[1]).to.include('Test reply content');
+    expect(emittedObjects[1]).toStrictEqual(['Test reply content.']);
   });
 
   it('Should not be able to publish a reply if the new reply content field is empty', async () => {
@@ -200,13 +198,12 @@ describe('DiscussionPost.vue', () => {
     await newDiscussionReplyButton.trigger('click');
 
     const newReplyContent = 'Test reply content.';
-    const newReplyTextArea = wrapper.find('[data-test=discussion-new-reply-text-area]');
-    await newReplyTextArea.setValue(newReplyContent);
+    const newReplyTextArea = wrapper.findComponent('[data-test=discussion-new-reply-text-area]');
+    newReplyTextArea.vm.$emit('update:content', newReplyContent);
+    await wrapper.vm.$nextTick();
 
     const newDiscussionReplyCancelButton = wrapper.find('[data-test=new-discussion-reply-cancel-button]');
-
     await newDiscussionReplyCancelButton.trigger('click');
-
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.newReplyContent).not.toBe(newReplyContent);

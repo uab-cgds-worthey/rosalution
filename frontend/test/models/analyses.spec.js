@@ -160,9 +160,9 @@ describe('analyses.js', () => {
       mockPostFormResponse.resolves({success: 'yay!'});
 
       const analysisName = 'CPAM0002';
-      const postContent = 'Hello Frontend Unit Test!';
+      const postContent = ['Hello Frontend Unit Test!'];
 
-      await Analyses.postNewDiscussionThread(analysisName, postContent);
+      await Analyses.postNewDiscussionPost(analysisName, postContent);
 
       expect(mockPostFormResponse.called).toBe(true);
     });
