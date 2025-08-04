@@ -272,7 +272,7 @@ async function addAttachmentToDiscussionReply(replyId) {
   console.log(attachment);
 
   if (typeof attachment === 'object' && !Array.isArray(attachment)) {
-    // TODO - double check reactivity with arrays in composition API & refs
+    // DONE - double check reactivity with arrays in composition API & refs
     newReplyAttachments.value.push(attachment);
   } else {
     for (let i = 0; i < attachment.length; i++) {
@@ -421,7 +421,11 @@ async function removeReplyAttachment(replyId, attachmentIndex) {
   display: flex;
   justify-content: space-between;
   gap: var(--p-8);
-  flex-wrap: nowrap;
+}
+
+.reply-actions {
+  display: flex;
+  gap: var(--p-5);
 }
 
 .reply-attachments-actions {
