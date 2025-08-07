@@ -24,10 +24,9 @@
           </span>
         </div>
         <div v-else class="discussion-edit-reply">
-          <textarea
-            contenteditable="plaintext-only"
+          <MultilineEditableTextarea
             class="discussion-edit-reply-text-area"
-            v-model="editReplyContent"
+            v-model:content="editReplyContent"
             data-test="discussion-reply-edit-text-area"
           />
           <div class="discussion-reply-actions">
@@ -55,6 +54,7 @@
 <script setup>
 import {computed, ref} from 'vue';
 import ContextMenu from '@/components/ContextMenu.vue';
+import MultilineEditableTextarea from '@/components/AnalysisView/MultilineEditableTextarea.vue';
 
 const props = defineProps({
   replyId: {
