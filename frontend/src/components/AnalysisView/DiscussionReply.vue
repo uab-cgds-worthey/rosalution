@@ -156,6 +156,12 @@ function deleteDiscussionReply(replyId) {
   margin-left: var(--p-8);
 }
 
+.discussion-reply-content {
+  display: flex;
+  flex-direction: column;
+  white-space: pre;
+}
+
 .discussion-edit-reply {
   background-color: var(--rosalution-grey-000);
   border-radius: var(--content-border-radius);

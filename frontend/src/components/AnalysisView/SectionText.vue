@@ -68,6 +68,7 @@ watch(content, async (newContent) => {
 .section-content {
   display: flex;
   flex-direction: column;
+  white-space: pre;
   flex: 1 0 0;
 }
 

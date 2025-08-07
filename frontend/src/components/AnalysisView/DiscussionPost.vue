@@ -326,6 +326,7 @@ async function removeReplyAttachment(replyId, attachmentIndex) {
 .discussion-content {
   display: flex;
   flex-direction: column;
+  white-space: pre;
   margin-bottom: var(--p-10);
 }
 
