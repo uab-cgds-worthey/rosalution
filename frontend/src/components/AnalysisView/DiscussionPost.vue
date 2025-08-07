@@ -186,7 +186,7 @@ const editPostContent = ref(props.content);
 
 const showNewReply = ref(false);
 
-const newReplyContent = defineModel({ default: () => [] });
+const newReplyContent = defineModel({default: () => []});
 const newReplyAttachments = ref([]);
 
 const timestamp = computed(() => {
