@@ -159,7 +159,7 @@ function deleteDiscussionReply(replyId) {
 .discussion-reply-content {
   display: flex;
   flex-direction: column;
-  white-space: pre;
+  white-space: pre-wrap;
 }
 
 .discussion-edit-reply {

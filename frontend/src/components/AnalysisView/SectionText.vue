@@ -9,7 +9,7 @@
         data-test="editable-value"
         v-model:content="content"
       />
-      <span v-else v-for="(rowValue, index) in value" :key="index" data-test="value-row">
+      <span v-else v-for="(rowValue, index) in value" :key="index" class="row-content" data-test="value-row">
         {{ rowValue }}
       </span>
     </span>
@@ -68,8 +68,12 @@ watch(content, async (newContent) => {
 .section-content {
   display: flex;
   flex-direction: column;
-  white-space: pre;
   flex: 1 0 0;
+}
+
+.row-content {
+  display: inline-block;
+  white-space: pre-wrap;
 }
 
 .editable-section-content-values {
