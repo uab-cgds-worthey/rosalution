@@ -186,7 +186,7 @@ const editPostContent = ref(props.content);
 
 const showNewReply = ref(false);
 
-const newReplyContent = defineModel('');
+const newReplyContent = defineModel({ default: () => [] });
 const newReplyAttachments = ref([]);
 
 const timestamp = computed(() => {
@@ -241,7 +241,7 @@ function cancelNewDiscussionReply() {
 };
 
 function clearNewDiscussionReplyField() {
-  newReplyContent.value = '';
+  newReplyContent.value = [];
   showNewReply.value = false;
   newReplyAttachments.value = [];
 };
