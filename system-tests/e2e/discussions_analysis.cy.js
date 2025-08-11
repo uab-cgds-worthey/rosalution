@@ -11,14 +11,14 @@ describe('discussions_analysis.cy.js', () => {
 
     cy.get('[data-test="discussion-post"]').should('have.length', 3);
 
-    cy.get('[data-test="new-discussion-input"]').type('System Test Text');
+    cy.get('[data-test="new-discussion-input"]').type('System Test Text', {force: true});
     cy.get('[data-test="new-discussion-publish"]').click();
 
     cy.get('[data-test="discussion-post"]').should('have.length', 4);
   
     //! Attach a single file to a new post
     cy.get('[data-test="new-discussion-button"]').click();
-    cy.get('[data-test="new-discussion-input"]').type('System Test Text with single file');
+    cy.get('[data-test="new-discussion-input"]').type('System Test Text with single file', {force: true});
     cy.get('[data-test="discussion-attachment-button"]').click();
     cy.get('.modal-container')
         .find('[data-test="button-input-dialog-upload-file"]')
@@ -46,7 +46,7 @@ describe('discussions_analysis.cy.js', () => {
 
     //! Attach new link attachment
     cy.get('[data-test="new-discussion-button"]').click();
-    cy.get('[data-test="new-discussion-input"]').type('System Test Text with single link');
+    cy.get('[data-test="new-discussion-input"]').type('System Test Text with single link', {force: true});
     cy.get('[data-test="discussion-attachment-button"]').click();
     cy.get('.modal-container')
         .find('[data-test="button-input-dialog-attach-url"]')
@@ -58,7 +58,7 @@ describe('discussions_analysis.cy.js', () => {
 
     //! Attach new link attachment
     cy.get('[data-test="new-discussion-button"]').click();
-    cy.get('[data-test="new-discussion-input"]').type('System Test Text with single link');
+    cy.get('[data-test="new-discussion-input"]').type('System Test Text with single link', {force: true});
     cy.get('[data-test="discussion-attachment-button"]').click();
     cy.get('.modal-container')
         .find('[data-test="button-input-dialog-attach-url"]')
@@ -81,7 +81,7 @@ describe('discussions_analysis.cy.js', () => {
 
     cy.get('[data-test="new-discussion-button"]').click();
 
-    cy.get('[data-test="new-discussion-input"]').type('System Test Text');
+    cy.get('[data-test="new-discussion-input"]').type('System Test Text', {force: true});
     cy.get('[data-test="new-discussion-cancel"]').click();
 
     cy.get('[data-test="new-discussion-input"]').should('not.exist');
@@ -94,7 +94,7 @@ describe('discussions_analysis.cy.js', () => {
 
     cy.get('[data-test="new-discussion-button"]').click();
 
-    cy.get('[data-test="new-discussion-input"]').type('System Test Text');
+    cy.get('[data-test="new-discussion-input"]').type('System Test Text', {force: true});
     cy.get('[data-test="new-discussion-publish"]').click();
 
     cy.get('[data-test="discussion-post"]').should('have.length', 4);
@@ -120,7 +120,7 @@ describe('discussions_analysis.cy.js', () => {
 
     cy.get('[data-test="new-discussion-button"]').click();
 
-    cy.get('[data-test="new-discussion-input"]').type('System Test Text');
+    cy.get('[data-test="new-discussion-input"]').type('System Test Text', {force: true});
     cy.get('[data-test="new-discussion-publish"]').click();
 
     cy.get('[data-test="discussion-post"]').should('have.length', 4);
@@ -145,7 +145,7 @@ describe('discussions_analysis.cy.js', () => {
   it('Should proceed to edit an existing discussion post and save it', () => {
     cy.get('[data-test="new-discussion-button"').click();
 
-    cy.get('[data-test="new-discussion-input"]').type('System Test Text');
+    cy.get('[data-test="new-discussion-input"]').type('System Test Text', {force: true});
     cy.get('[data-test="new-discussion-publish"]').click();
 
     cy.get('[data-test="discussion-post"]').should('have.length', 4);
@@ -175,7 +175,7 @@ describe('discussions_analysis.cy.js', () => {
   it('Should proceed to edit a discussion post and then cancel it leaving the original post intact', () => {
     cy.get('[data-test="new-discussion-button"').click();
 
-    cy.get('[data-test="new-discussion-input"]').type('System Test Text.');
+    cy.get('[data-test="new-discussion-input"]').type('System Test Text.', {force: true});
     cy.get('[data-test="new-discussion-publish"]').click();
 
     cy.get('[data-test="discussion-post"]').should('have.length', 4);

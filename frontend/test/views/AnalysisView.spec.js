@@ -138,7 +138,7 @@ describe('AnalysisView', () => {
 
     updateAnalysisSectionsMock = sandbox.stub(Analyses, 'updateAnalysisSections');
 
-    postNewDiscussionThreadMock = sandbox.stub(Analyses, 'postNewDiscussionThread');
+    postNewDiscussionThreadMock = sandbox.stub(Analyses, 'postNewDiscussionPost');
     deleteDiscussionThreadByIdMock = sandbox.stub(Analyses, 'deleteDiscussionThreadById');
     editDiscussionThreadByIdMock = sandbox.stub(Analyses, 'editDiscussionThreadById');
 

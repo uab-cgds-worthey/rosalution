@@ -19,13 +19,14 @@
           </ul>
         </div>
         <div v-if="!editingReplyFlag.value" class="discussion-reply-content">
-          {{content}}
+          <span v-for="(rowContent, index) in content" :key="index" data-test="reply-row">
+            {{ rowContent }}
+          </span>
         </div>
         <div v-else class="discussion-edit-reply">
-          <textarea
-            contenteditable="plaintext-only"
+          <MultilineEditableTextarea
             class="discussion-edit-reply-text-area"
-            v-model="editReplyContent"
+            v-model:content="editReplyContent"
             data-test="discussion-reply-edit-text-area"
           />
           <div class="discussion-reply-actions">
@@ -53,6 +54,7 @@
 <script setup>
 import {computed, ref} from 'vue';
 import ContextMenu from '@/components/ContextMenu.vue';
+import MultilineEditableTextarea from '@/components/AnalysisView/MultilineEditableTextarea.vue';
 
 const props = defineProps({
   replyId: {
@@ -68,7 +70,10 @@ const props = defineProps({
     type: String,
   },
   content: {
-    type: String,
+    type: Array,
+    default: () => {
+      return [];
+    },
   },
   userClientId: {
     type: String,
@@ -149,6 +154,12 @@ function deleteDiscussionReply(replyId) {
 
 .save-button {
   margin-left: var(--p-8);
+}
+
+.discussion-reply-content {
+  display: flex;
+  flex-direction: column;
+  white-space: pre-wrap;
 }
 
 .discussion-edit-reply {

@@ -75,7 +75,7 @@ def get_analysis_discussions(
 @router.post("/{analysis_name}/discussions")
 async def add_analysis_discussion(
     analysis_name: str,
-    discussion_content: Annotated[str, Form()],
+    discussion_content: Annotated[list[str], Form()],
     attachments: Annotated[IncomingDiscussionFormData, Form()],
     attachment_files: Annotated[list[UploadFile] | None,
                                 File(description="Multiple files as File")] = None,
@@ -125,7 +125,7 @@ async def add_analysis_discussion(
 def update_analysis_discussion_post(
     analysis_name: str,
     discussion_post_id: str,
-    discussion_content: str = Form(...),
+    discussion_content: list[str],
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):
@@ -188,7 +188,7 @@ def delete_analysis_discussion(
 async def add_analysis_discussion_reply(
     analysis_name: str,
     discussion_post_id: str,
-    discussion_reply_content: str = Form(...),
+    discussion_reply_content: list[str],
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):
@@ -220,7 +220,7 @@ async def edit_analysis_discussion_reply(
     analysis_name: str,
     discussion_post_id: str,
     discussion_reply_id: str,
-    discussion_reply_content: str = Form(...),
+    discussion_reply_content: list[str],
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):

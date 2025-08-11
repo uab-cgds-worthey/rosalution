@@ -19,13 +19,14 @@
       </div>
       <div class="discussion-body">
         <div v-if="!editingPostFlag" class="discussion-content" data-test="discussion-post-content">
-          {{ content }}
+          <span v-for="(rowContent, index) in content" :key="index" data-test="value-row">
+            {{ rowContent }}
+          </span>
           </div>
           <div v-else class="discussion-edit-post">
-            <textarea
-              contenteditable="plaintext-only"
+            <MultilineEditableTextarea
               class="discussion-edit-post-text-area"
-              v-model="editPostContent"
+              v-model:content="editPostContent"
               data-test="edit-discussion-input"
             />
             <div class="discussion-actions">
@@ -65,10 +66,9 @@
       </div>
   </div>
   <div class="discussion-new-reply" v-if="showNewReply">
-      <textarea
-        contenteditable="plaintext-only"
+      <MultilineEditableTextarea
         class="discussion-new-reply-text-area"
-        v-model="newReplyContent"
+        v-model:content="newReplyContent"
         data-test="discussion-new-reply-text-area"
       />
       <div class="discussion-reply-actions">
@@ -134,6 +134,7 @@ import {computed, ref} from 'vue';
 import ContextMenu from '@/components/ContextMenu.vue';
 import DiscussionAttachment from './DiscussionAttachment.vue';
 import DiscussionReply from './DiscussionReply.vue';
+import MultilineEditableTextarea from '@/components/AnalysisView/MultilineEditableTextarea.vue';
 
 import notificationDialog from '@/notificationDialog.js';
 
@@ -143,6 +144,7 @@ import {toRaw} from 'vue';
 
 const emits = defineEmits(['post:edit', 'post:delete', 'discussion:new-reply', 'discussion:edit-reply',
   'discussion:delete-reply']);
+
 const props = defineProps({
   id: {
     type: String,
@@ -157,7 +159,10 @@ const props = defineProps({
     type: String,
   },
   content: {
-    type: String,
+    type: Array,
+    default: () => {
+      return [];
+    },
   },
   attachments: {
     type: Array,
@@ -181,7 +186,7 @@ const editPostContent = ref(props.content);
 
 const showNewReply = ref(false);
 
-const newReplyContent = ref('');
+const newReplyContent = defineModel({default: () => []});
 const newReplyAttachments = ref([]);
 
 const timestamp = computed(() => {
@@ -192,17 +197,13 @@ const isUser = computed(() => {
   return props.userClientId == props.authorId;
 });
 
-// const isReply = computed(() => {
-//   return props.thread == 0;
-// });
-
 const checkReplyContent = computed(() => {
   return newReplyContent.value == '';
 });
 
-// *****
+// -----------------------------------
 // Posts
-// ****
+// -----------------------------------
 
 function editPost() {
   editingPostFlag.value = true;
@@ -222,9 +223,9 @@ function deletePost(postId) {
   emits('post:delete', postId);
 }
 
-// *****
+// -----------------------------------
 // Replies
-// ****
+// -----------------------------------
 
 function newDiscussionReplyForm() {
   showNewReply.value = true;
@@ -240,7 +241,7 @@ function cancelNewDiscussionReply() {
 };
 
 function clearNewDiscussionReplyField() {
-  newReplyContent.value = '';
+  newReplyContent.value = [];
   showNewReply.value = false;
   newReplyAttachments.value = [];
 };
@@ -272,7 +273,6 @@ async function addAttachmentToDiscussionReply(replyId) {
   console.log(attachment);
 
   if (typeof attachment === 'object' && !Array.isArray(attachment)) {
-    // DONE - double check reactivity with arrays in composition API & refs
     newReplyAttachments.value.push(attachment);
   } else {
     for (let i = 0; i < attachment.length; i++) {
@@ -293,7 +293,6 @@ async function removeReplyAttachment(replyId, attachmentIndex) {
   if (!confirmedDelete) {
     return;
   }
-  // TODO - Doouble check reactivity for array ref's with the splice function
   newReplyAttachments.value.splice(attachmentIndex, 1);
 }
 </script>
@@ -325,6 +324,9 @@ async function removeReplyAttachment(replyId, attachmentIndex) {
 }
 
 .discussion-content {
+  display: flex;
+  flex-direction: column;
+  white-space: pre-wrap;
   margin-bottom: var(--p-10);
 }
 

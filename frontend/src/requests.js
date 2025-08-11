@@ -17,6 +17,10 @@ async function sendFormData(method, url, data) {
       for (const file of fieldContent) {
         formData.append(`${field}`, file, file.name);
       }
+    } else if (Array.isArray(fieldContent)) {
+      for (const contentItem of fieldContent) {
+        formData.append(`${field}`, contentItem);
+      }
     } else {
       formData.append(field, fieldContent);
     }

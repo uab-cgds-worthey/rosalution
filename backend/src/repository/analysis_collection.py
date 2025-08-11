@@ -424,7 +424,7 @@ class AnalysisCollection:
 
         return updated_document['discussions']
 
-    def updated_discussion_post(self, discussion_post_id: str, discussion_content: str, analysis_name: str):
+    def updated_discussion_post(self, discussion_post_id: str, discussion_content: list, analysis_name: str):
         """ Edits a discussion post from an analysis to update the discussion post's content """
 
         updated_document = self.collection.find_one_and_update({"name": analysis_name}, {
@@ -463,7 +463,7 @@ class AnalysisCollection:
         return updated_document['discussions']
 
     def updated_discussion_reply(
-        self, discussion_post_id: str, analysis_name: str, discussion_reply_id: str, discussion_reply_content: str
+        self, discussion_post_id: str, analysis_name: str, discussion_reply_id: str, discussion_reply_content: list
     ):
         """ Edits a discussion reply from an analysis to update the discussion reply's content """
 
