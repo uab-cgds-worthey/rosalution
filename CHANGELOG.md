@@ -5,6 +5,13 @@
 
 ### Features - In Progress
 
+## 0.8.6
+
+### Bugs
+
+- Catching HTTP Error exceptions from the Python requests module during annotation; Uncaught HTTPError exceptions
+  cause the annotation background task in FastAPI to crash without completing annotations in the queue.
+
 ## 0.8.5
 
 ### Features
