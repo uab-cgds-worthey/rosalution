@@ -15,7 +15,7 @@
             "chromosome": "19",
             "effect": "repeat_expansion",
             "inheritance": "paternal",
-            "cdna": "c.(?_?)[37]",
+            "cdna": "c.?_?[37]",
             "segregation": "segregates"
         }
     ],
