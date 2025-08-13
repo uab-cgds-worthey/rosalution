@@ -1,10 +1,15 @@
 import Requests from '@/requests.js';
 
+
+function encodeVariantSpecialCharacters(incomingVariant) {
+  return incomingVariant.replaceAll('?', '%3F');
+}
+
 export default {
   async getAnnotations(analysisName, gene, variant) {
     const baseUrl = '/rosalution/api/analysis';
 
-    const variantWithoutProtein = variant.replace(/\(.*/, '');
+    const encodedVariantForUrl = encodeVariantSpecialCharacters(variant);
 
     /**
      * Inline helper method to determine if the variant annotations need to get queried.
@@ -20,33 +25,40 @@ export default {
 
     const [geneAnnotations, variantAnnotations] = await Promise.all([
       Requests.get(`${baseUrl}/${analysisName}/gene/${gene}`),
-      ...insertIf(variant !== '', Requests.get(`${baseUrl}/${analysisName}/hgvsVariant/${variantWithoutProtein}`)),
+      ...insertIf(variant !== '', Requests.get(`${baseUrl}/${analysisName}/hgvsVariant/${encodedVariantForUrl}`)),
     ]);
     return {...geneAnnotations, ...variantAnnotations};
   },
   async attachAnnotationImage(genomicUnit, dataSet, annotation) {
     const baseUrl = `/rosalution/api/annotation`;
 
+    const encodedGenomicUnit =
+      (annotation.genomic_unit_type === 'hgvs_variant') ? encodeVariantSpecialCharacters(genomicUnit) : genomicUnit;
+
+
     const attachmentForm = {
       'upload_file': annotation.annotation_data,
     };
 
-    return await Requests.postForm(
-        `${baseUrl}/${genomicUnit}/${dataSet}/attachment?genomic_unit_type=${annotation.genomic_unit_type}`,
-        attachmentForm,
-    );
+    const url = `${baseUrl}/${encodedGenomicUnit}/${dataSet}` +
+      `/attachment?genomic_unit_type=${annotation.genomic_unit_type}`;
+
+    return await Requests.postForm(url, attachmentForm);
   },
   async updateAnnotationImage(genomicUnit, dataSet, oldId, annotation) {
     const baseUrl = '/rosalution/api/annotation';
 
+    const encodedGenomicUnit =
+      (annotation.genomic_unit_type === 'hgvs_variant') ? encodeVariantSpecialCharacters(genomicUnit) : genomicUnit;
+
     const attachmentForm = {
       'upload_file': annotation.annotation_data,
     };
 
-    return await Requests.putForm(
-        `${baseUrl}/${genomicUnit}/${dataSet}/attachment/${oldId}?genomic_unit_type=${annotation.genomic_unit_type}`,
-        attachmentForm,
-    );
+    const url = `${baseUrl}/${encodedGenomicUnit}/${dataSet}/`+
+      `attachment/${oldId}?genomic_unit_type=${annotation.genomic_unit_type}`;
+
+    return await Requests.putForm(url, attachmentForm);
   },
   async removeAnnotationImage(genomicUnit, dataSet, fileId, annotation) {
     const baseUrl = '/rosalution/api/annotation';

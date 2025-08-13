@@ -1,0 +1,88 @@
+{
+    "date": "2025-08-12T21:21:09.000Z",
+    "external_id": "CPAM0176 (PLIN4) [Unknown Position]",
+    "variants": [
+        {
+            "transcript": "NM_001367868.2",
+            "sanger": "NA",
+            "evidence": [
+                "reported"
+            ],
+            "zygosity": "heterozygous",
+            "gene": "ENSG00000167676",
+            "interpretation": "likely_pathogenic",
+            "reference_genome": "GRCh37",
+            "chromosome": "19",
+            "effect": "repeat_expansion",
+            "inheritance": "paternal",
+            "cdna": "c.?_?[37]",
+            "segregation": "segregates"
+        }
+    ],
+    "features": [
+        {
+            "id": "HP:0001265",
+            "label": "Hyporeflexia",
+            "type": "phenotype",
+            "observed": "yes"
+        },
+        {
+            "id": "HP:0001324",
+            "label": "Muscle weakness",
+            "type": "phenotype",
+            "observed": "yes"
+        },
+        {
+            "id": "HP:0003202",
+            "label": "Skeletal muscle atrophy",
+            "type": "phenotype",
+            "observed": "yes"
+        },
+        {
+            "id": "HP:0003236",
+            "label": "Elevated serum creatine kinase",
+            "type": "phenotype",
+            "observed": "yes"
+        },
+        {
+            "id": "HP:0003691",
+            "label": "Scapular winging",
+            "type": "phenotype",
+            "observed": "yes"
+        },
+        {
+            "id": "HP:0003750",
+            "label": "Increased muscle fatiguability",
+            "type": "phenotype",
+            "observed": "yes"
+        },
+        {
+            "id": "HP:0003805",
+            "label": "Rimmed vacuoles",
+            "type": "phenotype",
+            "observed": "yes"
+        },
+        {
+            "id": "HP:0009050",
+            "label": "Quadriceps muscle atrophy",
+            "type": "phenotype",
+            "observed": "yes"
+        },
+        {
+            "id": "HP:0012548",
+            "label": "Fatty replacement of skeletal muscle",
+            "type": "phenotype",
+            "observed": "yes"
+        }
+    ],
+    "genes": [
+        {
+            "gene": "PLIN4",
+            "id": "ENSG00000167676",
+            "strategy": [
+                "familial_mutation"
+            ],
+            "status": "candidate"
+        }
+    ]
+}
