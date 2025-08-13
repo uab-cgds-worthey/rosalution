@@ -4,7 +4,7 @@ export default {
   async getAnnotations(analysisName, gene, variant) {
     const baseUrl = '/rosalution/api/analysis';
 
-    const variantWithoutProtein = variant.replace(/\(.*/, '');
+    const variantWithEncodedSpecialCharacters = variant.replaceAll('?', '%3F')
 
     /**
      * Inline helper method to determine if the variant annotations need to get queried.
@@ -20,7 +20,7 @@ export default {
 
     const [geneAnnotations, variantAnnotations] = await Promise.all([
       Requests.get(`${baseUrl}/${analysisName}/gene/${gene}`),
-      ...insertIf(variant !== '', Requests.get(`${baseUrl}/${analysisName}/hgvsVariant/${variantWithoutProtein}`)),
+      ...insertIf(variant !== '', Requests.get(`${baseUrl}/${analysisName}/hgvsVariant/${variantWithEncodedSpecialCharacters}`)),
     ]);
     return {...geneAnnotations, ...variantAnnotations};
   },
