@@ -291,6 +291,9 @@ export default {
       ...(fileList.length !== 0) && ({'attachment_files': fileList}),
     };
 
+    console.log('Post Attachment Form in analyses.js');
+    console.log(attachmentForm);
+
     const success = await Requests.postForm(url, attachmentForm);
     return success;
   },
@@ -314,7 +317,38 @@ export default {
   async postNewDiscussionReply(analysisName, postId, newReplyContent, newReplyAttachments) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}/thread/`;
 
-    const success = await Requests.post(url, newReplyContent, newReplyAttachments);
+    const attachmentsList = [];
+    const fileList = [];
+    for (const attachment of newReplyAttachments) {
+      const discussionAttachment = {
+        ...attachment,
+      };
+
+      if (attachment.type == 'file' && !('attachment_id' in attachment) ) {
+        fileList.push(attachment.data);
+        delete discussionAttachment.data;
+        discussionAttachment['name'] = attachment.data.name;
+      }
+
+      if ( 'comments' in attachment ) {
+        delete discussionAttachment.comments;
+      }
+
+      attachmentsList.push(discussionAttachment);
+    }
+
+    const attachmentForm = {
+      'discussion_reply_content': newReplyContent,
+      'reply_attachments': JSON.stringify({
+        'attachments': attachmentsList,
+      }),
+      ...(fileList.length !== 0) && ({'reply_attachment_files': fileList}),
+    };
+
+    console.log('Attachment Form in analyses.js');
+    console.log(attachmentForm);
+
+    const success = await Requests.post(url, attachmentForm);
 
     return success;
   },
