@@ -183,8 +183,9 @@ export const analysisStore = reactive({
     this.analysis.discussions = discussions;
   },
 
-  async addDiscussionReply(postId, newReplyContent) {
-    const discussions = await Analyses.postNewDiscussionReply(this.analysis.name, postId, newReplyContent);
+  async addDiscussionReply(postId, newReplyContent, newReplyAttachments) {
+    const discussions =
+      await Analyses.postNewDiscussionReply(this.analysis.name, postId, newReplyContent, newReplyAttachments);
     this.analysis.discussions = discussions;
   },
 

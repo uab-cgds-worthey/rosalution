@@ -311,10 +311,10 @@ export default {
     return success;
   },
 
-  async postNewDiscussionReply(analysisName, postId, newReplyContent) {
+  async postNewDiscussionReply(analysisName, postId, newReplyContent, newReplyAttachments) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}/thread/`;
 
-    const success = await Requests.post(url, newReplyContent);
+    const success = await Requests.post(url, newReplyContent, newReplyAttachments);
 
     return success;
   },

@@ -195,8 +195,8 @@ export default {
       }
       this.newAttachments.splice(attachmentIndex, 1);
     },
-    addDiscussionReply(postId, newReplyContent) {
-      this.$emit('discussion:new-reply', postId, toRaw(newReplyContent));
+    addDiscussionReply(postId, newReplyContent, newReplyAttachments) {
+      this.$emit('discussion:new-reply', postId, toRaw(newReplyContent), toRaw(newReplyAttachments));
     },
     editDiscussionReply(postId, replyId, replyContent) {
       this.$emit('discussion:edit-reply', postId, replyId, replyContent);

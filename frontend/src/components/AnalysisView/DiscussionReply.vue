@@ -46,6 +46,19 @@
             </button>
           </div>
         </div>
+        <div class="discussion-reply-attachments-row" @click="printReplyAttachments">
+          <div class="reply-attachments-list" data-test="reply-attachment">
+            <DiscussionAttachment
+              v-for="attachment, index in replyAttachments"
+              v-bind:key="index"
+              postId="new-post"
+              :name="attachment.name"
+              :type="attachment.type"
+              :attachment="attachment"
+            >
+            </DiscussionAttachment>
+          </div>
+        </div>
       </div>
     </blockquote>
   </div>
@@ -55,6 +68,8 @@
 import {computed, ref} from 'vue';
 import ContextMenu from '@/components/ContextMenu.vue';
 import MultilineEditableTextarea from '@/components/AnalysisView/MultilineEditableTextarea.vue';
+import DiscussionAttachment from './DiscussionAttachment.vue';
+
 
 const props = defineProps({
   replyId: {
@@ -74,6 +89,9 @@ const props = defineProps({
     default: () => {
       return [];
     },
+  },
+  replyAttachments: {
+    type: Array,
   },
   userClientId: {
     type: String,
@@ -100,6 +118,10 @@ const isUser = computed(() => {
 });
 
 // functions
+
+function printReplyAttachments() {
+  console.log(props.replyAttachments);
+}
 
 function editDiscussionReply() {
   editingReplyFlag.value = ref(true);
@@ -191,6 +213,18 @@ function deleteDiscussionReply(replyId) {
   justify-content: right;
   margin-right: var(--p-16);
   margin-bottom: var(--p-10);
+}
+
+.reply-attachments-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: auto;
+  gap: var(--p-5);
+}
+
+.discussion-reply-attachments-row {
+  display: flex;
+  padding: var(--p-1);
 }
 
 </style>

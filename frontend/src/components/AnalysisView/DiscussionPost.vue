@@ -120,6 +120,7 @@
     :authorName="reply.author_fullname"
     :publishTimestamp="reply.publish_timestamp"
     :content="reply.content"
+    :replyAttachments = "reply.reply_attachments"
     :userClientId="userClientId"
     :actions="actions"
     @reply:edit="editDiscussionReply"
@@ -232,7 +233,7 @@ function newDiscussionReplyForm() {
 }
 
 function newDiscussionReply() {
-  emits('discussion:new-reply', props.id, toRaw(newReplyContent.value));
+  emits('discussion:new-reply', props.id, toRaw(newReplyContent.value), toRaw(newReplyAttachments.value));
   clearNewDiscussionReplyField();
 }
 
@@ -268,9 +269,6 @@ async function addAttachmentToDiscussionReply(replyId) {
   if (!attachment) {
     return;
   }
-
-  console.log('Received an attachment');
-  console.log(attachment);
 
   if (typeof attachment === 'object' && !Array.isArray(attachment)) {
     newReplyAttachments.value.push(attachment);
