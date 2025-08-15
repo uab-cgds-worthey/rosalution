@@ -96,6 +96,7 @@ DATASETS = {
             "dom_attribute": "a#orthology",
             "dependencies": ["HGNC_ID"],
             "selenium_by": By.CSS_SELECTOR,
+            "get_parent": True,
         },
         {
             "dataset": "Human_Gene_versus_Protein_Expression_Profile",
@@ -149,7 +150,7 @@ class ScreenCaptureDatasets(contextlib.ExitStack):
         options = Options()
         options.add_argument("--window-size=1920,1080")
         options.add_argument("--start-maximized")
-        options.add_argument("--headless")
+        # options.add_argument("--headless")
         options.add_argument("--disable-gpu")
 
         # Initialize the Chrome WebDriver
@@ -219,11 +220,13 @@ class ScreenCaptureDatasets(contextlib.ExitStack):
                 self.click_popup(url, selector)
 
         try:
+            print(f'{url}: Waiting for {dataset['selenium_by']}, {dataset["dom_attribute"]}...', end='\r', flush=True)
             WebDriverWait(self.driver, 200).until(
                 EC.presence_of_element_located((dataset['selenium_by'], dataset["dom_attribute"]))
             )
 
             if "extra_dom_element_wait" in dataset:
+                print(f'{url}: Extra waiting for  for By.TAG_NAME, {dataset["extra_dom_element_wait"]}...', end='\r', flush=True)
                 WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.TAG_NAME, dataset['extra_dom_element_wait']))
                 )
@@ -231,12 +234,17 @@ class ScreenCaptureDatasets(contextlib.ExitStack):
         except TimeoutException as err:
             print(f'{url}: Failed to locate visualization {err}', end='\r', flush=True)
             return None
-
+        print("")
+        print("")
+        print("")
         page_element = self.driver.find_element(dataset['selenium_by'], dataset["dom_attribute"])
         print(f'{url}: Found visualization, saving image', end='\r', flush=True)
 
         if 'additional_script_execution' in dataset:
             self.driver.execute_script(dataset['additional_script_execution'])
+        
+        if 'get_parent' in dataset and dataset['get_parent']:
+            page_element = page_element.find_element(By.XPATH, "..")
 
         page_element.screenshot(file_name)
 
@@ -338,7 +346,7 @@ def rosalution_authenticate():
     client_id, client_secret = config['ROSALUTION_CLIENT_ID'], config['ROSALUTION_CLIENT_SECRET']
     auth_headers = {'Content-Type': 'application/x-www-form-urlencoded'}
     auth_data = \
-        f"grant_type=&scope=&client_id={client_id}&client_secret={client_secret}"
+        f"scope=&client_id={client_id}&client_secret={client_secret}"
     auth_response = requests.post(
         f"{config['ROSALUTION_API_URL']}auth/token", headers=auth_headers, data=auth_data, verify=False, timeout=20
     )
