@@ -597,8 +597,6 @@ async function deleteDiscussionPost(postId) {
  * @param {string} newReplyContent - The content of the new discussion reply.
 */
 async function addDiscussionReply(postId, newReplyContent, newReplyAttachments) {
-  console.log('Analysis View receives new reply attachments');
-  console.log(newReplyAttachments);
   await analysisStore.addDiscussionReply(postId, newReplyContent, newReplyAttachments);
 }
 /**

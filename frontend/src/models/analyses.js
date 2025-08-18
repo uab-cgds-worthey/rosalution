@@ -291,9 +291,6 @@ export default {
       ...(fileList.length !== 0) && ({'attachment_files': fileList}),
     };
 
-    console.log('Post Attachment Form in analyses.js');
-    console.log(attachmentForm);
-
     const success = await Requests.postForm(url, attachmentForm);
     return success;
   },
@@ -345,10 +342,7 @@ export default {
       ...(fileList.length !== 0) && ({'reply_attachment_files': fileList}),
     };
 
-    console.log('Attachment Form in analyses.js');
-    console.log(attachmentForm);
-
-    const success = await Requests.post(url, attachmentForm);
+    const success = await Requests.postForm(url, attachmentForm);
 
     return success;
   },
