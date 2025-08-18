@@ -3,7 +3,7 @@ import concurrent
 import logging
 import time
 import queue
-from requests.exceptions import JSONDecodeError
+from requests.exceptions import JSONDecodeError, HTTPError
 
 from ..repository.analysis_collection import AnalysisCollection
 from ..repository.genomic_unit_collection import GenomicUnitCollection
@@ -229,7 +229,7 @@ class AnnotationProcess():
             logger.error('%s Exception [%s] Not Found [%s]', format_annotation_logging(annotation_unit), error, task)
             logger.exception(error)
             self.track_dataset_exception(annotation_unit, error)
-        except (JSONDecodeError, TypeError, ValueError) as exception_error:
+        except (JSONDecodeError, TypeError, ValueError, HTTPError) as exception_error:
             logger.error('%s Exception [%s]', format_annotation_logging(annotation_unit), exception_error)
             logger.exception(exception_error)
             self.track_dataset_exception(annotation_unit, exception_error)
