@@ -90,6 +90,7 @@
               :attachment="newReplyAttachment"
               :removeable="true"
               @remove="removeReplyAttachment('new_reply', index)"
+              data-test="discussion-new-reply-attachments"
             >
             </DiscussionAttachment>
           </div>

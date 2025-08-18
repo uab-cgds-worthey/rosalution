@@ -7,6 +7,8 @@ import ContextMenu from '@/components/ContextMenu.vue';
 import DiscussionPost from '@/components/AnalysisView/DiscussionPost.vue';
 import DiscussionReply from '@/components/AnalysisView/DiscussionReply.vue';
 import DiscussionAttachment from '@/components/AnalysisView/DiscussionAttachment.vue';
+import inputDialog from '@/inputDialog.js';
+import notificationDialog from '../../../src/notificationDialog';
 
 /**
  * Helper mounts and returns the rendered component
@@ -180,6 +182,81 @@ describe('DiscussionPost.vue', () => {
 
     const publishNewDiscussionReplyButton = wrapper.find('[data-test=discussion-new-reply-publish]');
     expect(publishNewDiscussionReplyButton.attributes().disabled).to.not.be.undefined;
+  });
+
+  it('Should add a new reply attachment to a new reply being created', async () => {
+    const wrapper = getMountedComponent({userClientId: 'fake-user-id'});
+
+    const newDiscussionReplyButton = wrapper.find('[data-test=discussion-new-reply-button]');
+    await newDiscussionReplyButton.trigger('click');
+
+    const discussionReplyAttachButton = wrapper.find('[data-test=discussion-reply-attachment-button]');
+    await discussionReplyAttachButton.trigger('click');
+
+    const fakeImage = {data: 'path/to/fake/fakeImage.png'};
+
+    inputDialog.confirmation(fakeImage);
+
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+
+
+    const discussionNewReplyAttachment = wrapper.findAllComponents('[data-test=discussion-new-reply-attachments]');
+    expect(discussionNewReplyAttachment.length).toBe(1);
+  });
+
+  it('Should not add a new reply attachment when it is removed from a new reply being created', async () => {
+    const wrapper = getMountedComponent({userClientId: 'fake-user-id'});
+
+    const newDiscussionReplyButton = wrapper.find('[data-test=discussion-new-reply-button]');
+    await newDiscussionReplyButton.trigger('click');
+
+    const discussionReplyAttachButton = wrapper.find('[data-test=discussion-reply-attachment-button]');
+    await discussionReplyAttachButton.trigger('click');
+
+    const fakeImage = {data: 'path/to/fake/fakeToBeRemovedImage.png'};
+
+    inputDialog.confirmation(fakeImage);
+
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+
+    const discussionNewReplyAttachment = wrapper.findAllComponents('[data-test=discussion-new-reply-attachments]');
+    discussionNewReplyAttachment[0].vm.$emit('remove');
+
+    notificationDialog.confirmation(true);
+
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.findAllComponents('[data-test=discussion-new-reply-attachments]').length).toBe(0);
+  });
+
+  it('Should add a new reply attachment when its removal is cancelled from a new reply being created', async () => {
+    const wrapper = getMountedComponent({userClientId: 'fake-user-id'});
+
+    const newDiscussionReplyButton = wrapper.find('[data-test=discussion-new-reply-button]');
+    await newDiscussionReplyButton.trigger('click');
+
+    const discussionReplyAttachButton = wrapper.find('[data-test=discussion-reply-attachment-button]');
+    await discussionReplyAttachButton.trigger('click');
+
+    const fakeImage = {data: 'path/to/fake/fakeToBeRemovedImage.png'};
+
+    inputDialog.confirmation(fakeImage);
+
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+
+    const discussionNewReplyAttachment = wrapper.findAllComponents('[data-test=discussion-new-reply-attachments]');
+    discussionNewReplyAttachment[0].vm.$emit('remove');
+
+    notificationDialog.cancel();
+
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.findAllComponents('[data-test=discussion-new-reply-attachments]').length).toBe(1);
   });
 
   it('Should close the new discussion reply field when the cancel button is pressed', async () => {

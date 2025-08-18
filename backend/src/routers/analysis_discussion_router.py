@@ -185,13 +185,13 @@ def delete_analysis_discussion(
 
 
 @router.post("/{analysis_name}/discussions/{discussion_post_id}/thread/")
-async def add_analysis_discussion_reply(
+async def add_analysis_discussion_reply(    #pylint: disable=too-many-arguments, too-many-locals
     analysis_name: str,
     discussion_post_id: str,
     discussion_reply_content: list[str],
     reply_attachments: Annotated[IncomingDiscussionFormData, Form()],
     reply_attachment_files: Annotated[list[UploadFile] | None,
-                                File(description="Multiple files as File")] = None,
+                                      File(description="Multiple files as File")] = None,
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):
@@ -229,7 +229,6 @@ async def add_analysis_discussion_reply(
         "publish_timestamp": datetime.now(timezone.utc),
         "content": discussion_reply_content,
         "reply_attachments": reply_attachments_as_json,
-
     }
 
     return repositories['analysis'].add_discussion_reply(discussion_post_id, analysis.name, new_discussion_reply)

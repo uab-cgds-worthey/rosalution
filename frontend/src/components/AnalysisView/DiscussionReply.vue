@@ -119,10 +119,6 @@ const isUser = computed(() => {
 
 // functions
 
-function printReplyAttachments() {
-  console.log(props.replyAttachments);
-}
-
 function editDiscussionReply() {
   editingReplyFlag.value = ref(true);
 }

@@ -211,15 +211,24 @@ def test_add_new_discussion_reply_to_analysis(client, mock_access_token, mock_re
     response = client.post(
         "/analysis/" + cpam_analysis + "/discussions/" + discussion_post_id + "/thread/",
         headers={"Authorization": "Bearer " + mock_access_token},
-        content=json.dumps(new_reply_content)
+        data={
+            "discussion_reply_content": new_reply_content,
+            "reply_attachments":
+                json.dumps({
+                    "attachments": [{
+                        "attachment_id": "existing-id-0123", "name": "best website", "data": "http://a03.org"
+                    }]
+                }),
+            "reply_attachment_files": [],
+        }
     )
-
-    discussion_post = next(
-        (item for item in response.json() if item['post_id'] == "9027ec8d-6298-4afb-add5-6ef710eb5e98"), None
-    )
-    thread = discussion_post['thread']
 
     assert response.status_code == 200
+
+    discussion_post = next(
+        (item for item in response.json() if item['post_id'] == '9027ec8d-6298-4afb-add5-6ef710eb5e98'), None
+    )
+    thread = discussion_post['thread']
 
     assert len(thread) == 1
 
