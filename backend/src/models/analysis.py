@@ -187,3 +187,9 @@ class Analysis(BaseAnalysis):
             return discussion_reply
 
         return None
+
+    def is_file_attached(self, attachment_id):
+        """
+        Returns true if any of the attachments in the analysis contains the attachment id.
+        """
+        return any(attachment['attachment_id'] == attachment_id for attachment in self.attachments)

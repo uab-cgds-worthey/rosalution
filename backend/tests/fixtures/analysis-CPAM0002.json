@@ -320,19 +320,27 @@
   "discussions": [
     {
       "post_id": "9027ec8d-6298-4afb-add5-6ef710eb5e98",
-      "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
+      "author_id": "johndoe-client-id",
       "author_fullname": "Developer Person",
       "publish_timestamp": "2023-10-09T21:13:22.687000",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum.",
-      "attachments": [],
+      "content": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum."],
+      "attachments": [{
+        "name": "not-a-real-image.jpg",
+        "attachment_id": "68a761c9bd16bc0a0c98062e",
+        "type": "file"
+      },{
+        "name": "test.txt",
+        "attachment_id": "633afb87fb250a6ea1569555",
+        "type": "file"
+      }],
       "thread": []
     },
     {
       "post_id": "a677bb36-acf8-4ff9-a406-b113a7952f7e",
-      "author_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
+      "author_id": "johndoe-client-id",
       "author_fullname": "Researcher Person",
       "publish_timestamp": "2023-10-10T21:13:22.687000",
-      "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum.",
+      "content": ["Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum."],
       "attachments": [],
       "thread": [
         {
@@ -340,16 +348,16 @@
           "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
           "author_fullname": "Developer Person",
           "publish_timestamp": "2024-10-09T21:13:22.687000",
-          "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+          "content": ["Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."]
         }
       ]
     },
     {
       "post_id": "e6023fa7-b598-416a-9f42-862c826255ef",
-      "author_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
+      "author_id": "johndoe-client-id",
       "author_fullname": "Variant Review Report Preparer Person",
       "publish_timestamp": "2023-10-13T21:13:22.687000",
-      "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also.",
+      "content": ["Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also."],
       "attachments": [],
       "thread": []
     }

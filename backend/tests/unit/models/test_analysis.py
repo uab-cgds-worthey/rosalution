@@ -96,6 +96,22 @@ def test_find_authored_discussion_post_author_mismatch(cpam0002_analysis):
     assert found_post is None
 
 
+def test_attachment_exists_in_analysis(cpam0002_analysis):
+    """ Test that no post is returned if a post is found, but the author's client id does not match """
+
+    actual_file_attached = cpam0002_analysis.is_file_attached("633afb87fb250a6ea1569555")
+
+    assert actual_file_attached is True
+
+
+def test_attachment_doesnt_exist_in_analysis(cpam0002_analysis):
+    """ Test that no post is returned if a post is found, but the author's client id does not match """
+
+    actual_file_attached = cpam0002_analysis.is_file_attached("68a761c9bd16bc0a0c98062e")
+
+    assert actual_file_attached is False
+
+
 @pytest.fixture(name="units_to_annotate")
 def fixture_units_to_annotate(cpam0002_analysis):
     """Fixture for the units to annotate for the CPAM0002 Analysis"""

@@ -1,6 +1,8 @@
 """Testing endpoints for adding/updating/removing discussion messages to an analysis."""
 
 import json
+import pytest
+from bson import ObjectId
 
 
 def test_add_new_discussion_to_analysis(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
@@ -124,23 +126,9 @@ def test_update_post_in_analysis_author_mismatch(client, mock_access_token, mock
 def test_delete_discussion_post_in_analysis(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """ Tests successfully deleting an existing post in the discussions with the user being the author """
     cpam_analysis = "CPAM0002"
-    discussion_post_id = "fake-post-id"
+    discussion_post_id = "e6023fa7-b598-416a-9f42-862c826255ef"
 
-    # Inject a new discussion post by John Doe
-    def valid_query_side_effect_one(*args, **kwargs):  # pylint: disable=unused-argument
-        analysis = cpam0002_analysis_json
-
-        new_discussion_post = {
-            "post_id": "fake-post-id",
-            "author_id": "johndoe-client-id",
-            "author_fullname": 'johndoe',
-        }
-
-        analysis['discussions'].append(new_discussion_post)
-        analysis['_id'] = 'fake-mongo-object-id'
-        return analysis
-
-    def valid_query_side_effect_two(*args, **kwargs):  # pylint: disable=unused-argument
+    def remove_discussion_from_fixture(*args, **kwargs):  # pylint: disable=unused-argument
         find, query = args  # pylint: disable=unused-variable
 
         analysis = cpam0002_analysis_json
@@ -151,8 +139,25 @@ def test_delete_discussion_post_in_analysis(client, mock_access_token, mock_repo
 
         return analysis
 
-    mock_repositories['analysis'].collection.find_one.side_effect = valid_query_side_effect_one
-    mock_repositories["analysis"].collection.find_one_and_update.side_effect = valid_query_side_effect_two
+    mock_repositories['analysis'].collection.find_one.return_value = cpam0002_analysis_json
+    mock_repositories["analysis"].collection.find_one_and_update.side_effect = remove_discussion_from_fixture
+
+    response = client.delete(
+        "/analysis/" + cpam_analysis + "/discussions/" + discussion_post_id,
+        headers={"Authorization": "Bearer " + mock_access_token}
+    )
+
+    assert len(response.json()) == 2
+
+
+def test_delete_discussion_post_with_thread(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
+    """ Tests successfully deleting an existing post in the discussions with the user being the author """
+    cpam_analysis = "CPAM0002"
+    discussion_post_id = "a677bb36-acf8-4ff9-a406-b113a7952f7e"
+    cpam0002_analysis_json["_id"] = "fjkldsjfil;ajkfdlja;f"
+
+    mock_repositories['analysis'].collection.find_one.return_value = cpam0002_analysis_json
+    mock_repositories["analysis"].collection.find_one_and_update.return_value = cpam0002_analysis_json
 
     response = client.delete(
         "/analysis/" + cpam_analysis + "/discussions/" + discussion_post_id,
@@ -160,6 +165,44 @@ def test_delete_discussion_post_in_analysis(client, mock_access_token, mock_repo
     )
 
     assert len(response.json()) == 3
+    assert mock_repositories["analysis"].collection.find_one_and_update.call_count == 1
+    actual_filter, actual_update = mock_repositories["analysis"].collection.find_one_and_update.call_args[0]
+    assert actual_filter['name'] == "CPAM0002"
+    assert len(actual_update['$set']["discussions.$[item].content"]) == 0
+    assert actual_update['$set']["discussions.$[item].author_fullname"] == ""
+    assert actual_update['$set']["discussions.$[item].deleted"] is True
+
+
+def test_delete_discussion_with_attachments(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
+    """ Tests successfully deleting an existing post in the discussions with the user being the author """
+    cpam_analysis = "CPAM0002"
+    discussion_post_id = "9027ec8d-6298-4afb-add5-6ef710eb5e98"
+
+    def remove_discussion_from_fixture(*args, **kwargs):  # pylint: disable=unused-argument
+        find, query = args  # pylint: disable=unused-variable
+
+        analysis = cpam0002_analysis_json
+        fake_post_id = query['$pull']['discussions']['post_id']
+
+        analysis['discussions'] = [x for x in analysis['discussions'] if fake_post_id not in x['post_id']]
+        analysis['_id'] = 'fake-mongo-object-id'
+
+        return analysis
+
+    mock_repositories['analysis'].collection.find_one.return_value = cpam0002_analysis_json
+    mock_repositories['bucket'].bucket.exists.return_value = True
+    mock_repositories["analysis"].collection.find_one_and_update.side_effect = remove_discussion_from_fixture
+
+    response = client.delete(
+        "/analysis/" + cpam_analysis + "/discussions/" + discussion_post_id,
+        headers={"Authorization": "Bearer " + mock_access_token}
+    )
+
+    assert len(response.json()) == 2
+    assert mock_repositories["bucket"].bucket.delete.call_count == 1
+
+    actual_removed_file_id = mock_repositories["bucket"].bucket.delete.call_args[0][0]
+    assert actual_removed_file_id == ObjectId("68a761c9bd16bc0a0c98062e")
 
 
 def test_handle_delete_post_not_existing_in_analysis(
@@ -368,3 +411,16 @@ def test_delete_discussion_reply_from_analysis(client, mock_access_token, mock_r
     )
 
     assert len(discussion_post['thread']) == 0
+
+
+@pytest.fixture(name="get_discussion_json")
+def get_analysis_discussion_json():
+    """Fixture function to retrieve the json for a single discussion by an analysis"""
+
+    def _get_analysis_discussion_json(analysis_json, post_id: str):
+        """Provides the json for an individual discussion from an analysis json fixture"""
+        print(analysis_json)
+        return next((discussion for discussion in analysis_json['discussions'] if discussion['post_id'] == post_id),
+                    None)
+
+    return _get_analysis_discussion_json

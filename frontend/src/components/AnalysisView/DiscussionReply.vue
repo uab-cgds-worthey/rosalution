@@ -1,5 +1,5 @@
 <template>
-  <div class="discussion-reply-container">
+  <div class="discussion-reply-container" data-test="discussion-reply">
     <blockquote class="discussion-reply-quote">
       <div class="discussion-reply">
         <div class="discussion-reply-header">

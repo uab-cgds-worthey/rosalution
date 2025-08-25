@@ -1,7 +1,7 @@
 <template>
-<div class="discussion-post-container">
+<div class="discussion-post-container" data-test="discussion-post-container">
   <div class="discussion-post" data-test="discussion-post">
-      <div class="discussion-header" data-test="discussion-post-header">
+      <div v-if="!deleted" class="discussion-header" data-test="discussion-post-header">
         <div>
           <b>{{ authorName }}</b>
           {{  timestamp  }}
@@ -45,6 +45,9 @@
                 Save
               </button>
             </div>
+        </div>
+        <div v-if="deleted" class="deleted-text">
+          [ This post was deleted. ]
         </div>
         <div class="discussion-attachment-reply-button-row">
           <div v-if="attachments.length" class="attachments-list" data-test="discussion-attachment">
@@ -168,6 +171,10 @@ const props = defineProps({
   },
   attachments: {
     type: Array,
+  },
+  deleted: {
+    type: Boolean,
+    default: false,
   },
   thread: {
     type: Array,
@@ -439,6 +446,10 @@ async function removeReplyAttachment(replyId, attachmentIndex) {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-auto-rows: auto;
   gap: var(--p-5);
+}
+
+.deleted-text {
+  font-style: italic;
 }
 
 </style>
