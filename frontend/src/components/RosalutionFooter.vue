@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-const version = import.meta.env.VITE_ROSALUTION_VERSION
+const version = import.meta.env.VITE_ROSALUTION_VERSION;
 </script>
 
 <style>

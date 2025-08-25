@@ -85,7 +85,7 @@ async function onToggleSecret() {
   }
 }
 
-document.title = "Account | rosalution"
+document.title = 'Account | rosalution';
 </script>
 
 <style>

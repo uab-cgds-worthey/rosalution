@@ -637,7 +637,7 @@ onMounted(async () => {
   toast = toastRef.value;
 });
 
-document.title = `${props.analysis_name} | rosalution`
+document.title = `${props.analysis_name} | rosalution`;
 </script>
 
 <style scoped>
