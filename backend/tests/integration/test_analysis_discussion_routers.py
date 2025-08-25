@@ -2,7 +2,6 @@
 
 import json
 import pytest
-from bson import ObjectId
 
 
 def test_add_new_discussion_to_analysis(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
@@ -103,13 +102,13 @@ def test_update_discussion_post_in_analysis(client, mock_access_token, mock_repo
     assert actual_post['content'] == discussion_content
 
 
-def test_update_post_in_analysis_author_mismatch(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
+def test_update_post_in_analysis_author_mismatch(client, mock_access_token, mock_repositories, cpam0047_analysis_json):
     """ Tests updating a post that the author did not post and results in an unauthorized failure """
-    cpam_analysis = "CPAM0002"
-    discussion_post_id = "9027ec8d-6298-4afb-add5-6ef710eb5e98"
+    cpam_analysis = "CPAM0047"
+    discussion_post_id = "b2023fa7-b598-416a-9f42-862c826255ef"
     discussion_content = ["I am an integration test post. Look at me!"]
 
-    mock_repositories['analysis'].collection.find_one.return_value = cpam0002_analysis_json
+    mock_repositories['analysis'].collection.find_one.return_value = cpam0047_analysis_json
 
     response = client.put(
         "/analysis/" + cpam_analysis + "/discussions/" + discussion_post_id,
@@ -201,8 +200,9 @@ def test_delete_discussion_with_attachments(client, mock_access_token, mock_repo
     assert len(response.json()) == 2
     assert mock_repositories["bucket"].bucket.delete.call_count == 1
 
+    expected_objectid_string = "68a761c9bd16bc0a0c98062e"
     actual_removed_file_id = mock_repositories["bucket"].bucket.delete.call_args[0][0]
-    assert actual_removed_file_id == ObjectId("68a761c9bd16bc0a0c98062e")
+    assert str(actual_removed_file_id) == expected_objectid_string
 
 
 def test_handle_delete_post_not_existing_in_analysis(
@@ -285,39 +285,18 @@ def test_update_discussion_reply_in_analysis(client, mock_access_token, mock_rep
     """ Testing that a discussion reply was edited, updated and returned properly """
     cpam_analysis = "CPAM0002"
     edit_reply_user = "John Doe"
-    discussion_post_id = "9027ec8d-6298-4afb-add5-6ef710eb5e98"
-    discussion_reply_id = "fake-reply-id"
+    discussion_post_id = "a677bb36-acf8-4ff9-a406-b113a7952f7e"
+    discussion_reply_id = "79057545a-554e-44f7-9553-8d622710e303"
     edit_reply_content = ["EDIT: Integration Test Text."]
 
-    # Inject a new discussion reply by John Doe
-    def valid_query_side_effect_one(*args, **kwargs):  # pylint: disable=unused-argument
-        analysis = cpam0002_analysis_json
-        discussion_post_id = "9027ec8d-6298-4afb-add5-6ef710eb5e98"
-
-        new_discussion_reply = {
-            "reply_id": "fake-reply-id",
-            "author_id": "johndoe-client-id",
-            "author_fullname": 'johndoe',
-            "content": ["Hello, I am a discussion reply."],
-        }
-
-        discussion_post = next((item for item in analysis['discussions'] if item['post_id'] == discussion_post_id),
-                               None)
-        discussion_post['thread'].append(new_discussion_reply)
-
-        analysis['_id'] = 'fake-mongo-object-id'
-        return analysis
-
-    def valid_query_side_effect_two(*args, **kwargs):
+    def find_one_and_update_reply(*args, **kwargs):
         find, query = args  # pylint: disable=unused-variable
         query_filter = kwargs
 
         analysis = cpam0002_analysis_json
 
-        modified_discussion = next(
-            (item for item in analysis['discussions'] if item['post_id'] == "9027ec8d-6298-4afb-add5-6ef710eb5e98"),
-            None
-        )
+        modified_discussion = next((item for item in analysis['discussions'] if item['post_id'] == discussion_post_id),
+                                   None)
 
         fake_reply_content = query['$set']['discussions.$[post].thread.$[reply].content']
         fake_reply_id = query_filter['array_filters'][1]['reply.reply_id']
@@ -332,21 +311,16 @@ def test_update_discussion_reply_in_analysis(client, mock_access_token, mock_rep
 
     mock_repositories["user"].collection.find_one.return_value = {"full_name": edit_reply_user}
     mock_repositories['analysis'].collection.find_one.return_value = cpam0002_analysis_json
-    mock_repositories['analysis'].collection.find_one.side_effect = valid_query_side_effect_one
-    mock_repositories["analysis"].collection.find_one_and_update.side_effect = valid_query_side_effect_two
+    mock_repositories["analysis"].collection.find_one_and_update.side_effect = find_one_and_update_reply
 
     response = client.post(
         "/analysis/" + cpam_analysis + "/discussions/" + discussion_post_id + "/thread/" + discussion_reply_id,
         headers={"Authorization": "Bearer " + mock_access_token},
         content=json.dumps(edit_reply_content)
     )
-
-    discussion_post = next(
-        (item for item in response.json() if item['post_id'] == "9027ec8d-6298-4afb-add5-6ef710eb5e98"), None
-    )
-
     assert response.status_code == 200
 
+    discussion_post = next((item for item in response.json() if item['post_id'] == discussion_post_id), None)
     actual_most_recent_reply = discussion_post['thread'].pop()
 
     assert actual_most_recent_reply['content'] == edit_reply_content

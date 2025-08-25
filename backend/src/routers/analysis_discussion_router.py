@@ -184,7 +184,7 @@ def delete_analysis_discussion(
     file_attachments = [attachment for attachment in valid_post['attachments'] if attachment['type'] == 'file']
     for attachment in file_attachments:
         attachment_id = attachment['attachment_id']
-        if analysis.is_file_attached(attachment_id) and repositories["bucket"].id_exists(attachment_id):
+        if not analysis.is_file_attached(attachment_id) and repositories["bucket"].id_exists(attachment_id):
             repositories["bucket"].delete_file(attachment_id)
 
     if len(valid_post['thread']) > 0:

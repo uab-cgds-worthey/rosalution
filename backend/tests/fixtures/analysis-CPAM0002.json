@@ -349,6 +349,13 @@
           "author_fullname": "Developer Person",
           "publish_timestamp": "2024-10-09T21:13:22.687000",
           "content": ["Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."]
+        },
+        {
+          "reply_id": "79057545a-554e-44f7-9553-8d622710e303",
+          "author_id": "johndoe-client-id",
+          "author_fullname": "Researcher Person",
+          "publish_timestamp": "2024-10-09T21:15:22.687000",
+          "content": ["Yes."]
         }
       ]
     },
