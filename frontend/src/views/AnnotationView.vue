@@ -285,6 +285,9 @@ export default {
       });
     },
   },
+  async beforeMount() {
+    document.title = `${this.analysis_name} | ${this.active.gene} | ${this.active.variant} | rosalution`;
+  },
 };
 </script>
 

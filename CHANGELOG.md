@@ -13,6 +13,13 @@
 - Content for discusion posts and replies support new lines for multiline content
 - Soft delete support for posts that have threads. A deleted post placeholder rendered when a post with a thread is
   deleted.  The deleted post author, content, and attachments are deleted.
+- Rosalution page titles reflect the name of the analysis being viewed.  Annotation pages include the analysis' name
+  along with the selected gene and variant.
+- The build version of Rosalution is in the footer of each Rosalution page after login
+
+### Bugs
+
+- Missing Favicon with rosalution's logo on each Rosalution page now present
 
 ## 0.8.6
 

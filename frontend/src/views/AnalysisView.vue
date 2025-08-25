@@ -636,6 +636,8 @@ onMounted(async () => {
   await analysisStore.getAnalysis(props.analysis_name);
   toast = toastRef.value;
 });
+
+document.title = `${props.analysis_name} | rosalution`;
 </script>
 
 <style scoped>

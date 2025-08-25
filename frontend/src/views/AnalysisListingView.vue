@@ -152,6 +152,9 @@ export default {
       this.$router.push({name: 'logout'});
     },
   },
+  async beforeMount() {
+    document.title = 'rosalution';
+  },
 };
 </script>
 

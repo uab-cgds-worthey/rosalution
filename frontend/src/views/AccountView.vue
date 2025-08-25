@@ -84,6 +84,8 @@ async function onToggleSecret() {
     showSecretValue.value = true;
   }
 }
+
+document.title = 'Account | rosalution';
 </script>
 
 <style>
