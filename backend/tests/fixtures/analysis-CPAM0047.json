@@ -266,6 +266,16 @@
       "username": "vrr-prep"
     }
   ],
-  "discussions": [],
+  "discussions": [
+    {
+      "post_id": "b2023fa7-b598-416a-9f42-862c826255ef",
+      "author_id": "janedoe-client-id",
+      "author_fullname": "Variant Review Report Preparer Person",
+      "publish_timestamp": "2023-10-13T21:13:22.687000",
+      "content": ["Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also."],
+      "attachments": [],
+      "thread": []
+    }
+  ],
   "attachments": []
 }

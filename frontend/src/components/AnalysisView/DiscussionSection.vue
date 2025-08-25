@@ -73,6 +73,7 @@
           :publishTimestamp="discussion.publish_timestamp"
           :content="discussion.content"
           :attachments="discussion.attachments"
+          :deleted="discussion.deleted"
           :thread="discussion.thread"
           :userClientId="userClientId"
           :actions="actions"

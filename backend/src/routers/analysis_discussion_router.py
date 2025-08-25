@@ -181,6 +181,15 @@ def delete_analysis_discussion(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot delete post they did not author."
         )
 
+    file_attachments = [attachment for attachment in valid_post['attachments'] if attachment['type'] == 'file']
+    for attachment in file_attachments:
+        attachment_id = attachment['attachment_id']
+        if not analysis.is_file_attached(attachment_id) and repositories["bucket"].id_exists(attachment_id):
+            repositories["bucket"].delete_file(attachment_id)
+
+    if len(valid_post['thread']) > 0:
+        return repositories['analysis'].clear_discussion_post_content(valid_post['post_id'], analysis.name)
+
     return repositories['analysis'].delete_discussion_post(valid_post['post_id'], analysis.name)
 
 

@@ -434,6 +434,22 @@ class AnalysisCollection:
                                                                return_document=ReturnDocument.AFTER)
 
         updated_document.pop("_id", None)
+        return updated_document['discussions']
+
+    def clear_discussion_post_content(self, discussion_post_id: str, analysis_name: str):
+        """ Removes a discussion post from an analysis """
+
+        updated_document = self.collection.find_one_and_update({"name": analysis_name}, {
+            "$set": {
+                "discussions.$[item].author_id": "", "discussions.$[item].author_fullname": "",
+                "discussions.$[item].content": [], "discussions.$[item].attachments": [], "discussions.$[item].deleted":
+                    True
+            }
+        },
+                                                               array_filters=[{"item.post_id": discussion_post_id}],
+                                                               return_document=ReturnDocument.AFTER)
+
+        updated_document.pop("_id", None)
 
         return updated_document['discussions']
 

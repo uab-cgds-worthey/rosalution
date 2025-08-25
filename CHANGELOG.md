@@ -5,6 +5,15 @@
 
 ### Features - In Progress
 
+## 0.8.7
+
+### Features
+
+- Files, links, and existing attachments are attachable to discussion replies within a discussion post thread
+- Content for discusion posts and replies support new lines for multiline content
+- Soft delete support for posts that have threads. A deleted post placeholder rendered when a post with a thread is
+  deleted.  The deleted post author, content, and attachments are deleted.
+
 ## 0.8.6
 
 ### Bugs
