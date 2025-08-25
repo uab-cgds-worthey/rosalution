@@ -52,7 +52,7 @@ def test_find_dicussion_post(cpam0002_analysis):
     """ Finds a discussion post matching the post_id """
     found_post = cpam0002_analysis.find_discussion_post("9027ec8d-6298-4afb-add5-6ef710eb5e98")
 
-    assert found_post['author_id'] == '3bghhsmnyqi6uxovazy07ryn9q1tqbnt'
+    assert found_post['author_id'] == 'johndoe-client-id'
     assert found_post['author_fullname'] == 'Developer Person'
 
 
@@ -66,7 +66,7 @@ def test_find_dicussion_post_not_found(cpam0002_analysis):
 def test_find_authored_discussion_post(cpam0002_analysis):
     """ Tests that a discussion post is returned matching a post id and client id """
     discussion_post_id = "e6023fa7-b598-416a-9f42-862c826255ef"
-    client_id = 'exqkhvidr7uh2ndslsdymbzfbmqjlunk'
+    client_id = 'johndoe-client-id'
 
     found_post = cpam0002_analysis.find_authored_discussion_post(discussion_post_id, client_id)
 
