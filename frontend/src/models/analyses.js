@@ -260,7 +260,7 @@ export default {
   },
 
   // Posting a Discussion Thread and corresponding attachments together
-  async postNewDiscussionThread(analysisName, postContent, postAttachments=[]) {
+  async postNewDiscussionPost(analysisName, postContent, postAttachments=[]) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions`;
 
     const attachmentsList = [];
@@ -298,9 +298,7 @@ export default {
   async editDiscussionThreadById(analysisName, postId, postContent) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}`;
 
-    const attachmentForm = {'discussion_content': postContent};
-
-    const success = await Requests.putForm(url, attachmentForm);
+    const success = await Requests.put(url, postContent);
 
     return success;
   },
@@ -313,15 +311,38 @@ export default {
     return success;
   },
 
-  async postNewDiscussionReply(analysisName, postId, newReplyContent) {
+  async postNewDiscussionReply(analysisName, postId, newReplyContent, newReplyAttachments) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}/thread/`;
 
-    const discussionThread = {
-      'post_id': postId,
+    const attachmentsList = [];
+    const fileList = [];
+    for (const attachment of newReplyAttachments) {
+      const discussionAttachment = {
+        ...attachment,
+      };
+
+      if (attachment.type == 'file' && !('attachment_id' in attachment) ) {
+        fileList.push(attachment.data);
+        delete discussionAttachment.data;
+        discussionAttachment['name'] = attachment.data.name;
+      }
+
+      if ( 'comments' in attachment ) {
+        delete discussionAttachment.comments;
+      }
+
+      attachmentsList.push(discussionAttachment);
+    }
+
+    const attachmentForm = {
       'discussion_reply_content': newReplyContent,
+      'reply_attachments': JSON.stringify({
+        'attachments': attachmentsList,
+      }),
+      ...(fileList.length !== 0) && ({'reply_attachment_files': fileList}),
     };
 
-    const success = await Requests.postForm(url, discussionThread);
+    const success = await Requests.postForm(url, attachmentForm);
 
     return success;
   },
@@ -329,9 +350,7 @@ export default {
   async editDiscussionReply(analysisName, postId, replyId, replyContent) {
     const url = `/rosalution/api/analysis/${analysisName}/discussions/${postId}/thread/${replyId}`;
 
-    const attachmentForm = {'discussion_reply_content': replyContent};
-
-    const success = await Requests.postForm(url, attachmentForm);
+    const success = await Requests.post(url, replyContent);
 
     return success;
   },

@@ -16,7 +16,7 @@ function getMountedComponent(props) {
     authorId: 'fake-user-id',
     authorName: 'Developer Person',
     publishTimestamp: '2024-10-09T21:13:22.687000',
-    content: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+    content: ['Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'],
     actions: [{text: 'Edit'}, {text: 'Delete'}],
   };
 
@@ -81,8 +81,9 @@ describe('DiscussionReply.vue', () => {
 
     const discussionReply = wrapper.getComponent(DiscussionReply);
 
-    const editReplyTextArea = discussionReply.find('[data-test=discussion-reply-edit-text-area]');
-    await editReplyTextArea.setValue(editReplyContent);
+    const editReplyTextArea = discussionReply.findComponent('[data-test=discussion-reply-edit-text-area]');
+    editReplyTextArea.vm.$emit('update:content', editReplyContent);
+    await wrapper.vm.$nextTick();
 
     const editReplySaveButton = discussionReply.find('[data-test=edit-discussion-reply-save]');
     editReplySaveButton.trigger('click');

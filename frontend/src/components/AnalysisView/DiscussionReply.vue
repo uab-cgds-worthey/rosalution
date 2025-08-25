@@ -19,13 +19,14 @@
           </ul>
         </div>
         <div v-if="!editingReplyFlag.value" class="discussion-reply-content">
-          {{content}}
+          <span v-for="(rowContent, index) in content" :key="index" data-test="reply-row">
+            {{ rowContent }}
+          </span>
         </div>
         <div v-else class="discussion-edit-reply">
-          <textarea
-            contenteditable="plaintext-only"
+          <MultilineEditableTextarea
             class="discussion-edit-reply-text-area"
-            v-model="editReplyContent"
+            v-model:content="editReplyContent"
             data-test="discussion-reply-edit-text-area"
           />
           <div class="discussion-reply-actions">
@@ -45,6 +46,19 @@
             </button>
           </div>
         </div>
+        <div class="discussion-reply-attachments-row" @click="printReplyAttachments">
+          <div class="reply-attachments-list" data-test="reply-attachment">
+            <DiscussionAttachment
+              v-for="attachment, index in replyAttachments"
+              v-bind:key="index"
+              postId="new-post"
+              :name="attachment.name"
+              :type="attachment.type"
+              :attachment="attachment"
+            >
+            </DiscussionAttachment>
+          </div>
+        </div>
       </div>
     </blockquote>
   </div>
@@ -53,6 +67,9 @@
 <script setup>
 import {computed, ref} from 'vue';
 import ContextMenu from '@/components/ContextMenu.vue';
+import MultilineEditableTextarea from '@/components/AnalysisView/MultilineEditableTextarea.vue';
+import DiscussionAttachment from './DiscussionAttachment.vue';
+
 
 const props = defineProps({
   replyId: {
@@ -68,7 +85,13 @@ const props = defineProps({
     type: String,
   },
   content: {
-    type: String,
+    type: Array,
+    default: () => {
+      return [];
+    },
+  },
+  replyAttachments: {
+    type: Array,
   },
   userClientId: {
     type: String,
@@ -151,6 +174,12 @@ function deleteDiscussionReply(replyId) {
   margin-left: var(--p-8);
 }
 
+.discussion-reply-content {
+  display: flex;
+  flex-direction: column;
+  white-space: pre-wrap;
+}
+
 .discussion-edit-reply {
   background-color: var(--rosalution-grey-000);
   border-radius: var(--content-border-radius);
@@ -180,6 +209,18 @@ function deleteDiscussionReply(replyId) {
   justify-content: right;
   margin-right: var(--p-16);
   margin-bottom: var(--p-10);
+}
+
+.reply-attachments-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: auto;
+  gap: var(--p-5);
+}
+
+.discussion-reply-attachments-row {
+  display: flex;
+  padding: var(--p-1);
 }
 
 </style>

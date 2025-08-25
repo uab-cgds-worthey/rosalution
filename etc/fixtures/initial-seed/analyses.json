@@ -303,7 +303,7 @@
         "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
         "author_fullname": "Developer Person",
         "publish_timestamp": "2023-10-09T21:13:22.687000",
-        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum.",
+        "content": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit.", "Suspendisse eget metus nec erat accumsan rutrum."],
         "attachments": [
           {
             "name": "Identification of a muscle-specific isoform of VMA21 as a potent actor in X-linked myopathy with excessive autophagy pathogenesis",
@@ -324,14 +324,29 @@
             "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
             "author_fullname": "Developer Person",
             "publish_timestamp": "2024-10-09T21:13:22.687000",
-            "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+            "content": ["Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."],
+            "reply_attachments": []
           },
           {
             "reply_id": "4b7525bc-a882-4f7a-8a96-38b8bc1bf5fc",
             "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
             "author_fullname": "Developer Person",
             "publish_timestamp": "2024-10-09T21:13:22.687000",
-            "content": "Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere."
+            "content": ["Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere."],
+            "reply_attachments": [
+              {
+                "name": "Autophagy in health and disease: From molecular mechanisms to therapeutic target",
+                "attachment_id": "12b64cec-da2c-4af1-9103-73e5dbfae518",
+                "data": "https://onlinelibrary.wiley.com/doi/full/10.1002/mco2.150",
+                "type": "link"
+              },
+              {
+                "name": "Sugary Logistics Gone Wrong: Membrane Trafficking and Congenital Disorders of Glycosylation",
+                "attachment_id": "e585e3ca-0b04-4879-ab84-4f7c8050321b",
+                "data": "https://www.researchgate.net/figure/Schematic-overview-of-the-mammalian-V-ATPase-and-the-putative-model-of-its-assembly_fig2_342577209",
+                "type": "link"
+              }
+            ]
           }
         ]
       },
@@ -340,7 +355,7 @@
         "author_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
         "author_fullname": "Researcher Person",
         "publish_timestamp": "2023-10-10T21:13:22.687000",
-        "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum.",
+        "content": ["Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum."],
         "attachments": [],
         "thread": [
           {
@@ -348,21 +363,24 @@
             "author_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
             "author_fullname": "Researcher Person",
             "publish_timestamp": "2024-10-09T21:13:22.687000",
-            "content": "Conubia nostra inceptos himenaeos orci varius natoque penatibus."
+            "content": ["Conubia nostra inceptos himenaeos orci varius natoque penatibus."],
+            "reply_attachments": []
           },
           {
             "reply_id": "8b364fa6-26c3-49b6-bb8b-7d91a2bdca5d",
             "author_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
             "author_fullname": "Researcher Person",
             "publish_timestamp": "2025-03-09T21:13:22.687000",
-            "content": "Urna tempor pulvinar vivamus fringilla lacus nec metus. Iaculis massa nisl malesuada lacinia integer nunc posuere."
+            "content": ["Urna tempor pulvinar vivamus fringilla lacus nec metus. Iaculis massa nisl malesuada lacinia integer nunc posuere."],
+            "reply_attachments": []
           },
           {
             "reply_id": "375bef86-264c-4ecf-b59f-03734e02e765",
             "author_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
             "author_fullname": "Researcher Person",
             "publish_timestamp": "2025-04-09T21:13:22.687000",
-            "content": "Ex sapien vitae pellentesque sem placerat in id."
+            "content": ["Ex sapien vitae pellentesque sem placerat in id."],
+            "reply_attachments": []
           }
         ]
       },
@@ -371,7 +389,7 @@
         "author_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
         "author_fullname": "Variant Review Report Preparer Person",
         "publish_timestamp": "2023-10-13T21:13:22.687000",
-        "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also.",
+        "content": ["Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also."],
         "attachments": [],
         "thread": []
       }
@@ -963,7 +981,7 @@
         "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
         "author_fullname": "Developer Person",
         "publish_timestamp": "2023-10-09T21:13:22.687000",
-        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum.",
+        "content": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum."],
         "attachments": [],
         "thread": []
       },
@@ -972,7 +990,7 @@
         "author_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
         "author_fullname": "Variant Review Report Preparer Person",
         "publish_timestamp": "2023-10-13T21:13:22.687000",
-        "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also.",
+        "content": ["Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also."],
         "attachments": [],
         "thread": []
       }
@@ -1505,7 +1523,7 @@
         "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
         "author_fullname": "Developer Person",
         "publish_timestamp": "2023-10-09T21:13:22.687000",
-        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum.",
+        "content": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum."],
         "attachments": [],
         "thread": []
       },
@@ -1514,7 +1532,7 @@
         "author_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
         "author_fullname": "Researcher Person",
         "publish_timestamp": "2023-10-10T21:13:22.687000",
-        "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum.",
+        "content":[ "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum."],
         "attachments": [],
         "thread": []
       },
@@ -1523,7 +1541,7 @@
         "author_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
         "author_fullname": "Variant Review Report Preparer Person",
         "publish_timestamp": "2023-10-13T21:13:22.687000",
-        "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also.",
+        "content": ["Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also."],
         "attachments": [],
         "thread": []
       }
@@ -2133,7 +2151,7 @@
         "author_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
         "author_fullname": "Variant Review Report Preparer Person",
         "publish_timestamp": "2023-10-13T21:13:22.687000",
-        "content": "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also.",
+        "content": ["Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also."],
         "attachments": [],
         "thread": []
       }

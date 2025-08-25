@@ -7,7 +7,7 @@ def test_add_new_discussion_to_analysis(client, mock_access_token, mock_reposito
     """ Testing that a discussion was added and returned properly """
     cpam_analysis = "CPAM0002"
     new_post_user = "John Doe"
-    new_post_content = "Integration Test Text"
+    new_post_content = ["Integration Test Text"]
 
     def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
         find, query = args  # pylint: disable=unused-variable
@@ -49,7 +49,7 @@ def test_update_discussion_post_in_analysis(client, mock_access_token, mock_repo
     """ Tests successfully updating an existing post in the discussions with the user being the author """
     cpam_analysis = "CPAM0002"
     discussion_post_id = "fake-post-id"
-    discussion_content = "I am an integration test post. Look at me!"
+    discussion_content = ["I am an integration test post. Look at me!"]
 
     # Inject a new discussion post by John Doe
     def valid_query_side_effect_one(*args, **kwargs):  # pylint: disable=unused-argument
@@ -57,7 +57,7 @@ def test_update_discussion_post_in_analysis(client, mock_access_token, mock_repo
 
         new_discussion_post = {
             "post_id": "fake-post-id", "author_id": "johndoe-client-id", "author_fullname": 'johndoe',
-            "content": "Hello, I am a discussion post.",
+            "content": ["Hello, I am a discussion post."],
             "attachments": [{"attachment_id": "existing-id-0123", "name": "best website", "data": "http://a03.org"}]
         }
 
@@ -87,21 +87,13 @@ def test_update_discussion_post_in_analysis(client, mock_access_token, mock_repo
     response = client.put(
         "/analysis/" + cpam_analysis + "/discussions/" + discussion_post_id,
         headers={"Authorization": "Bearer " + mock_access_token},
-        data={
-            "discussion_content": discussion_content,
-            "attachments":
-                json.dumps({
-                    "attachments": [{
-                        "attachment_id": "existing-id-0123", "name": "best website", "data": "http://a03.org"
-                    }]
-                }),
-            "file_attachments": [],
-        }
+        content=json.dumps(discussion_content)
     )
 
     actual_post = None
 
     for d in response.json():
+
         if d['post_id'] == discussion_post_id:
             actual_post = d
 
@@ -113,14 +105,14 @@ def test_update_post_in_analysis_author_mismatch(client, mock_access_token, mock
     """ Tests updating a post that the author did not post and results in an unauthorized failure """
     cpam_analysis = "CPAM0002"
     discussion_post_id = "9027ec8d-6298-4afb-add5-6ef710eb5e98"
-    discussion_content = "I am an integration test post. Look at me!"
+    discussion_content = ["I am an integration test post. Look at me!"]
 
     mock_repositories['analysis'].collection.find_one.return_value = cpam0002_analysis_json
 
     response = client.put(
         "/analysis/" + cpam_analysis + "/discussions/" + discussion_post_id,
         headers={"Authorization": "Bearer " + mock_access_token},
-        data={"discussion_content": discussion_content}
+        content=json.dumps(discussion_content)
     )
 
     expected_failure_detail = {'detail': 'User cannot update post they did not author.'}
@@ -195,7 +187,7 @@ def test_add_new_discussion_reply_to_analysis(client, mock_access_token, mock_re
     cpam_analysis = "CPAM0002"
     new_reply_user = "John Doe"
     discussion_post_id = "9027ec8d-6298-4afb-add5-6ef710eb5e98"
-    new_reply_content = "Integration Test Text."
+    new_reply_content = ["Integration Test Text."]
 
     def valid_query_side_effect(*args, **kwargs):
         find, query = args  # pylint: disable=unused-variable
@@ -221,15 +213,22 @@ def test_add_new_discussion_reply_to_analysis(client, mock_access_token, mock_re
         headers={"Authorization": "Bearer " + mock_access_token},
         data={
             "discussion_reply_content": new_reply_content,
+            "reply_attachments":
+                json.dumps({
+                    "attachments": [{
+                        "attachment_id": "existing-id-0123", "name": "best website", "data": "http://a03.org"
+                    }]
+                }),
+            "reply_attachment_files": [],
         }
     )
 
+    assert response.status_code == 200
+
     discussion_post = next(
-        (item for item in response.json() if item['post_id'] == "9027ec8d-6298-4afb-add5-6ef710eb5e98"), None
+        (item for item in response.json() if item['post_id'] == '9027ec8d-6298-4afb-add5-6ef710eb5e98'), None
     )
     thread = discussion_post['thread']
-
-    assert response.status_code == 200
 
     assert len(thread) == 1
 
@@ -245,7 +244,7 @@ def test_update_discussion_reply_in_analysis(client, mock_access_token, mock_rep
     edit_reply_user = "John Doe"
     discussion_post_id = "9027ec8d-6298-4afb-add5-6ef710eb5e98"
     discussion_reply_id = "fake-reply-id"
-    edit_reply_content = "EDIT: Integration Test Text."
+    edit_reply_content = ["EDIT: Integration Test Text."]
 
     # Inject a new discussion reply by John Doe
     def valid_query_side_effect_one(*args, **kwargs):  # pylint: disable=unused-argument
@@ -256,7 +255,7 @@ def test_update_discussion_reply_in_analysis(client, mock_access_token, mock_rep
             "reply_id": "fake-reply-id",
             "author_id": "johndoe-client-id",
             "author_fullname": 'johndoe',
-            "content": "Hello, I am a discussion reply.",
+            "content": ["Hello, I am a discussion reply."],
         }
 
         discussion_post = next((item for item in analysis['discussions'] if item['post_id'] == discussion_post_id),
@@ -296,9 +295,7 @@ def test_update_discussion_reply_in_analysis(client, mock_access_token, mock_rep
     response = client.post(
         "/analysis/" + cpam_analysis + "/discussions/" + discussion_post_id + "/thread/" + discussion_reply_id,
         headers={"Authorization": "Bearer " + mock_access_token},
-        data={
-            "discussion_reply_content": edit_reply_content,
-        }
+        content=json.dumps(edit_reply_content)
     )
 
     discussion_post = next(

@@ -18,11 +18,10 @@
     <div class="rosalution-section-seperator"></div>
     <div class="discussion-section-content">
       <div v-if="this.showNewPost" class="discussion-new-post">
-        <textarea
-            contenteditable="plaintext-only"
-            class="discussion-new-post-text-area"
-            v-model="newPostContent"
-            data-test="new-discussion-input"
+        <MultilineEditableTextarea
+          class="discussion-new-post-text-area"
+          v-model:content="newPostContent"
+          data-test="new-discussion-input"
         />
         <div class="discussion-actions">
           <span class="attachments-actions">
@@ -77,6 +76,7 @@
           :thread="discussion.thread"
           :userClientId="userClientId"
           :actions="actions"
+          :existingAttachments = "existingAttachments"
           @post:edit="this.editDiscussionPost"
           @post:delete="this.deleteDiscussionPost"
           @discussion:new-reply="this.addDiscussionReply"
@@ -90,6 +90,8 @@
 <script>
 import DiscussionPost from './DiscussionPost.vue';
 import DiscussionAttachment from './DiscussionAttachment.vue';
+import MultilineEditableTextarea from '@/components/AnalysisView/MultilineEditableTextarea.vue';
+
 
 import notificationDialog from '@/notificationDialog.js';
 
@@ -103,6 +105,7 @@ export default {
   components: {
     DiscussionPost,
     DiscussionAttachment,
+    MultilineEditableTextarea,
   },
   props: {
     header: {
@@ -123,7 +126,7 @@ export default {
   },
   data: function() {
     return {
-      newPostContent: '',
+      newPostContent: [],
       showNewPost: false,
       newAttachments: [],
     };
@@ -145,12 +148,12 @@ export default {
       this.clearNewDiscussionField();
     },
     clearNewDiscussionField() {
-      this.newPostContent = '';
+      this.newPostContent = [];
       this.showNewPost = false;
       this.newAttachments = [];
     },
     editDiscussionPost(postId, postContent) {
-      this.$emit('discussion:edit-post', postId, postContent);
+      this.$emit('discussion:edit-post', postId, toRaw(postContent));
     },
     deleteDiscussionPost(postId) {
       this.$emit('discussion:delete-post', postId);
@@ -184,7 +187,7 @@ export default {
           .confirmText('Remove')
           .cancelText('Cancel')
           .confirm(
-              `Remove attachment from new post. Are you want to remove?`,
+              `Remove attachment from new post. Are you sure you want to remove?`,
           );
 
       if (!confirmedDelete) {
@@ -192,8 +195,8 @@ export default {
       }
       this.newAttachments.splice(attachmentIndex, 1);
     },
-    addDiscussionReply(postId, newReplyContent) {
-      this.$emit('discussion:new-reply', postId, toRaw(newReplyContent));
+    addDiscussionReply(postId, newReplyContent, newReplyAttachments) {
+      this.$emit('discussion:new-reply', postId, toRaw(newReplyContent), toRaw(newReplyAttachments));
     },
     editDiscussionReply(postId, replyId, replyContent) {
       this.$emit('discussion:edit-reply', postId, replyId, replyContent);

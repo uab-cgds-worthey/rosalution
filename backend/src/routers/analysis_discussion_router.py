@@ -75,7 +75,7 @@ def get_analysis_discussions(
 @router.post("/{analysis_name}/discussions")
 async def add_analysis_discussion(
     analysis_name: str,
-    discussion_content: Annotated[str, Form()],
+    discussion_content: Annotated[list[str], Form()],
     attachments: Annotated[IncomingDiscussionFormData, Form()],
     attachment_files: Annotated[list[UploadFile] | None,
                                 File(description="Multiple files as File")] = None,
@@ -125,7 +125,7 @@ async def add_analysis_discussion(
 def update_analysis_discussion_post(
     analysis_name: str,
     discussion_post_id: str,
-    discussion_content: str = Form(...),
+    discussion_content: list[str],
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):
@@ -185,10 +185,13 @@ def delete_analysis_discussion(
 
 
 @router.post("/{analysis_name}/discussions/{discussion_post_id}/thread/")
-async def add_analysis_discussion_reply(
+async def add_analysis_discussion_reply(    #pylint: disable=too-many-arguments, too-many-locals
     analysis_name: str,
     discussion_post_id: str,
-    discussion_reply_content: str = Form(...),
+    discussion_reply_content: list[str],
+    reply_attachments: Annotated[IncomingDiscussionFormData, Form()],
+    reply_attachment_files: Annotated[list[UploadFile] | None,
+                                      File(description="Multiple files as File")] = None,
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):
@@ -204,12 +207,28 @@ async def add_analysis_discussion_reply(
     analysis = Analysis(**found_analysis)
     current_user = repositories["user"].find_by_client_id(client_id)
 
+    reply_attachments_as_json = []
+
+    for attachment in reply_attachments.attachments:
+        if not attachment.attachment_id and attachment.type == 'link':
+            attachment.attachment_id = str(uuid4())
+        elif not attachment.attachment_id and attachment.type == 'file':
+            file = next((item for item in reply_attachment_files if item.filename == attachment.name), None)
+            if not file:
+                attachment_error = f"'{attachment.name}' file failed to upload."
+                raise HTTPException(status_code=400, detail=attachment_error)
+            new_file_object_id = repositories['bucket'].save_file(file.file, file.filename, file.content_type)
+            attachment.attachment_id = str(new_file_object_id)
+
+        reply_attachments_as_json.append(attachment.model_dump(exclude_none=True))
+
     new_discussion_reply = {
         "reply_id": str(uuid4()),
         "author_id": client_id,
         "author_fullname": current_user["full_name"],
         "publish_timestamp": datetime.now(timezone.utc),
         "content": discussion_reply_content,
+        "reply_attachments": reply_attachments_as_json,
     }
 
     return repositories['analysis'].add_discussion_reply(discussion_post_id, analysis.name, new_discussion_reply)
@@ -220,7 +239,7 @@ async def edit_analysis_discussion_reply(
     analysis_name: str,
     discussion_post_id: str,
     discussion_reply_id: str,
-    discussion_reply_content: str = Form(...),
+    discussion_reply_content: list[str],
     repositories=Depends(database),
     client_id: VerifyUser = Security(get_current_user)
 ):

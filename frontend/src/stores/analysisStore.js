@@ -112,9 +112,9 @@ export const analysisStore = reactive({
     this.replaceAnalysisSection(sectionWithReplacedField);
   },
 
-  /**
-   * Section Attachments
-   */
+  // -----------------------------------
+  // Section Attachments
+  // -----------------------------------
 
   async attachSectionAttachment(section, field, attachment) {
     const updatedSectionField =
@@ -130,10 +130,6 @@ export const analysisStore = reactive({
     const sectionWithReplacedField = this.replaceFieldInSection(section, updatedSectionField);
     this.replaceAnalysisSection(sectionWithReplacedField);
   },
-
-  // -----------------------------------
-  // Section Attachments
-  // -----------------------------------
 
   replaceFieldInSection(sectionName, updatedField) {
     const sectionToUpdate = this.analysis.sections.find((section) => {
@@ -156,13 +152,12 @@ export const analysisStore = reactive({
     this.analysis.sections.splice(originalSectionIndex, 1, sectionToReplace);
   },
 
-  /**
-   * Discussions
-   */
+  // -----------------------------------
+  // Discussions
+  // -----------------------------------
 
   async addDiscussionPost(newPostContent, newPostAttachments=[]) {
-    const discussions = await Analyses.postNewDiscussionThread(this.analysis.name, newPostContent,
-        newPostAttachments);
+    const discussions = await Analyses.postNewDiscussionPost(this.analysis.name, newPostContent, newPostAttachments);
     this.analysis.discussions = discussions;
   },
 
@@ -188,8 +183,9 @@ export const analysisStore = reactive({
     this.analysis.discussions = discussions;
   },
 
-  async addDiscussionReply(postId, newReplyContent) {
-    const discussions = await Analyses.postNewDiscussionReply(this.analysis.name, postId, newReplyContent);
+  async addDiscussionReply(postId, newReplyContent, newReplyAttachments) {
+    const discussions =
+      await Analyses.postNewDiscussionReply(this.analysis.name, postId, newReplyContent, newReplyAttachments);
     this.analysis.discussions = discussions;
   },
 
