@@ -43,8 +43,15 @@ Changes made:
   To check this run the following commands:
 
   ``` bash
-  command (s) here
+  < Recommended command (s) provided here, modify as needed. >
+  ....
+  docker compose down
+  docker system prune -a --volumes
+  docker compose up --build -d
   ```
+
+    - Visit <https://local.rosalution.cgds/rosalution/login>. Login as `developer`.
+    - Remaining instructions to review changes.
 
 - [ ] List any other checks needed to be reviewed.
 - [ ] All Github Actions checks have passed.
