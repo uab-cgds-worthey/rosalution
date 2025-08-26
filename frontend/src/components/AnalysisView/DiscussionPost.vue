@@ -61,6 +61,7 @@
             >
             </DiscussionAttachment>
           </div>
+          <div v-else></div>
           <button class="discussion-reply-button" @click="newDiscussionReplyForm"
           data-test="discussion-new-reply-button">
             <font-awesome-icon icon="reply" size="lg"/>
@@ -393,7 +394,7 @@ async function removeReplyAttachment(replyId, attachmentIndex) {
 
 .discussion-attachment-reply-button-row {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .attachments-list {
