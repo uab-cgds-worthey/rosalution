@@ -20,7 +20,7 @@ Any contributions to this repository should follow the
 - [ ] My changes generate no new warnings.
 - [ ] New and existing unit tests pass locally with my changes.
 - [ ] New or existing JSON is formatted using JQ
-- [ ] Will this be part of a product update? If yes, please write one phrase about this update.
+- [ ] I have updated the CHANGELOG to note of any product updates that will be going in with this pull request.
 
 <!-- Delete the tasks from the above list that are Not Applicable for your pull request -->
 
@@ -43,8 +43,15 @@ Changes made:
   To check this run the following commands:
 
   ``` bash
-  command (s) here
+  < Recommended command (s) provided here, modify as needed. >
+  ....
+  docker compose down
+  docker system prune -a --volumes
+  docker compose up --build -d
   ```
+
+    - Visit <https://local.rosalution.cgds/rosalution/login>. Login as `developer`.
+    - Remaining instructions to review changes.
 
 - [ ] List any other checks needed to be reviewed.
 - [ ] All Github Actions checks have passed.
