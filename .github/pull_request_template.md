@@ -21,6 +21,7 @@ Any contributions to this repository should follow the
 - [ ] New and existing unit tests pass locally with my changes.
 - [ ] New or existing JSON is formatted using JQ
 - [ ] Will this be part of a product update? If yes, please write one phrase about this update.
+- [ ] I have added the necessary updates to the CHANGELOG for any new updates to the Rosalution application.
 
 <!-- Delete the tasks from the above list that are Not Applicable for your pull request -->
 
