@@ -31,7 +31,7 @@ def test_processing_cpam0046_annotation_tasks(process_cpam0046_tasks):
 
     assert process_cpam0046_tasks['extract'].call_count == 8
 
-
+# REFERENCE a pytest 'yield fixture' that returns the mocked context of running annotations for an annotation config
 def test_processing_cpam0002_annotations_tasks(process_cpam0002_tasks):
     """
         Verifies that the annotation collection is being sent the proper amount of extracted annotations for
@@ -88,7 +88,8 @@ def fixture_cpam0046_hgvs_variant(cpam0046_analysis):
 
     return unit
 
-
+# REFERENCE a pytest 'yield fixture' that returns the mocked context of running annotations for an annotation config
+# REFERENCE unittest.patch to mock annotation tasks using python 'with' to keep context, to yield results as fixture
 @pytest.fixture(name="process_cpam0002_tasks")
 def fixture_extract_and_annotate_cpam0002(cpam0002_annotation_queue, get_dataset_manifest_config):
     """
