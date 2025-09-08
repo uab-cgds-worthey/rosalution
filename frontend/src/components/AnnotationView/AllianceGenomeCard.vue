@@ -51,7 +51,7 @@
 <script setup>
 import {computed} from 'vue';
 
-import { chooseAnimalModelsSchema } from '@/components/AnnotationView/allianceGenomeRenderingUtility';
+import {chooseAnimalModelsSchema} from '@/components/AnnotationView/allianceGenomeRenderingUtility';
 
 const props = defineProps({
   model: {
@@ -92,7 +92,7 @@ const frequentTermsObject = [
   },
 ];
 
-const animalModel =  chooseAnimalModelsSchema(props.model)
+const animalModel =  chooseAnimalModelsSchema(props.model);
 
 function calculateAssociatedPhenotypes() {
   const phenotypesDict = {'':
@@ -146,7 +146,7 @@ const modelName = computed(()=> {
   if ('name' in animalModel == false) {
     return '';
   }
-  console.log(animalModel)
+  console.log(animalModel);
   const matchResult = animalModel.name.match(regex);
 
   if (matchResult) {
@@ -177,8 +177,8 @@ const modelSource = computed(() => {
   if ( 'source' in animalModel == false ) {
     return '';
   }
-  return animalModel['source']
-})
+  return animalModel['source'];
+});
 
 const associatedPhenotypesData = calculateAssociatedPhenotypes();
 const experimentalConditions = 'conditions' in animalModel ? animalModel.conditions : [];
@@ -186,14 +186,17 @@ const diseaseModels = 'diseaseModels' in animalModel ? animalModel.diseaseModels
 
 
 function sectionTextColor(section) {
-  // Added this check due to section being undefined at times even though it is expected to exist.
-  console.log(section)
-  console.log('inside the text color calcdulation')
+  console.log(section);
+  console.log('inside the text color calcdulation');
 
-  const hasEmptyContent =section === undefined || section === null || Object.keys(section).length === 0 || section.length === 0
-  const hasPhenotypeContentButItsEmpty = Object.keys(section).length === 1 && section?.['']?.phenotypes.length ===0 
+  const hasEmptyContent =
+    section === undefined ||
+    section === null ||
+    Object.keys(section).length === 0 ||
+    section.length === 0;
+  const hasPhenotypeContentButItsEmpty = Object.keys(section).length === 1 && section?.['']?.phenotypes.length ===0;
 
-  if( hasEmptyContent || hasPhenotypeContentButItsEmpty ) {
+  if ( hasEmptyContent || hasPhenotypeContentButItsEmpty ) {
     return {color: `var(--rosalution-grey-300)`};
   }
 

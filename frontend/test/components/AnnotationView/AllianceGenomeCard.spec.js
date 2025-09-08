@@ -5,7 +5,7 @@ import AllianceGenomeCard from '@/components/AnnotationView/AllianceGenomeCard.v
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
-import modelFixture from "../../__fixtures__/mockAllianceGenomeModels.json"
+import modelFixture from '../../__fixtures__/mockAllianceGenomeModels.json';
 
 /**
  * helper function that shallow mounts and returns the rendered component
@@ -30,9 +30,9 @@ function getMountedComponent(propsData) {
 describe('AllianceGenomeCard.vue', () => {
   it.each([
     ['aliance genome 8.1.0<=', modelFixture['8.1.0<=,LMNA,fish'], 'lmna<sup>bw25/bw25</sup>'],
-    ['aliance genome 8.2.0>=', modelFixture['8.2.0>=,LMNA,fish'], 'lmna<sup>bw25/bw25</sup>']
+    ['aliance genome 8.2.0>=', modelFixture['8.2.0>=,LMNA,fish'], 'lmna<sup>bw25/bw25</sup>'],
   ])('Displays %s animal model card with title', (title, mockModel, expected) => {
-    const wrapper = getMountedComponent({ model: mockModel});
+    const wrapper = getMountedComponent({model: mockModel});
     const cardHeader = wrapper.find('[data-test=model-header]');
 
     expect(cardHeader.html()).to.include(expected);
@@ -54,9 +54,9 @@ describe('AllianceGenomeCard.vue', () => {
 
   describe.each([
     ['aliance genome 8.1.0<=', modelFixture['8.1.0<=,NUMB,mouse']],
-    ['aliance genome 8.2.0>=', modelFixture['8.2.0>=,NUMB,mouse']]
+    ['aliance genome 8.2.0>=', modelFixture['8.2.0>=,NUMB,mouse']],
   ])('animal models from %s are missing', (title, mockModelFixture) => {
-    const expectedTitle = 'Numbtm1Zili/Numbtm1Zili Numbltm1Zili/Numbltm1Zili Tg(Mx1-cre)1Cgn/?'
+    const expectedTitle = 'Numbtm1Zili/Numbtm1Zili Numbltm1Zili/Numbltm1Zili Tg(Mx1-cre)1Cgn/?';
 
     it('model conditions', () => {
       const wrapper = getMountedComponent({model: mockModelFixture});
@@ -78,7 +78,7 @@ describe('AllianceGenomeCard.vue', () => {
 
       expect(diseasesList.exists()).to.be.false;
     });
-  })
+  });
 
   it('Shows a list of conditions under the experimental conditions section', () => {
     const wrapper = getMountedComponent();
@@ -92,13 +92,13 @@ describe('AllianceGenomeCard.vue', () => {
       ['aliance genome 8.1.0<=', modelFixture['8.1.0<=,NUMB,mouse'], '--rosalution-grey-300'],
       ['aliance genome 8.2.0>=', modelFixture['8.2.0>=,NUMB,mouse'], '--rosalution-grey-300'],
       ['aliance genome 8.1.0<=', modelFixture['8.1.0<=,LMNA,fish'], 'color: black;'],
-      ['aliance genome 8.2.0>=', modelFixture['8.2.0>=,LMNA,fish'], '--rosalution-grey-300']
+      ['aliance genome 8.2.0>=', modelFixture['8.2.0>=,LMNA,fish'], '--rosalution-grey-300'],
     ])('%s for disease models', (title, mockModelFixture, expected) => {
-          const wrapper = getMountedComponent({model: mockModelFixture});
+      const wrapper = getMountedComponent({model: mockModelFixture});
 
-          const diseasesSection = wrapper.find('[data-test=model-section-disease]');
-          expect(diseasesSection.attributes().style).to.include(expected);
-      });
+      const diseasesSection = wrapper.find('[data-test=model-section-disease]');
+      expect(diseasesSection.attributes().style).to.include(expected);
+    });
 
     it.each([
       ['aliance genome 8.1.0<= (NUMB) mouse,', modelFixture['8.1.0<=,NUMB,mouse'], '--rosalution-grey-300'],
@@ -107,24 +107,24 @@ describe('AllianceGenomeCard.vue', () => {
       ['aliance genome 8.2.0>= (LMNA) fish,', modelFixture['8.2.0>=,LMNA,fish'], 'color: black;'],
       ['aliance genome 8.1.0<= (LMNA) mouse,', modelFixture['8.1.0<=,LMNA,mouse'], 'color: black;'],
     ])('%s for associated phenotypes', (title, mockModelFixture, expected) => {
-        const wrapper = getMountedComponent({model: mockModelFixture});
+      const wrapper = getMountedComponent({model: mockModelFixture});
 
-        const phenotypesSection = wrapper.find('[data-test=model-section-phenotype]');
-        expect(phenotypesSection.attributes().style).to.include(expected);
+      const phenotypesSection = wrapper.find('[data-test=model-section-phenotype]');
+      expect(phenotypesSection.attributes().style).to.include(expected);
     });
 
     it.each([
       ['aliance genome 8.1.0<= mouse,', modelFixture['8.1.0<=,NUMB,mouse'], '--rosalution-grey-300'],
       ['aliance genome 8.2.0>= mouse,', modelFixture['8.2.0>=,NUMB,mouse'], '--rosalution-grey-300'],
       ['aliance genome 8.1.0<= fish,', modelFixture['8.1.0<=,LMNA,fish'], 'color: black;'],
-      ['aliance genome 8.2.0>= fish,', modelFixture['8.2.0>=,LMNA,fish'], 'color: black;']
+      ['aliance genome 8.2.0>= fish,', modelFixture['8.2.0>=,LMNA,fish'], 'color: black;'],
     ])('%s for experimental condition', (title, mockModelFixture, expected) => {
       const wrapper = getMountedComponent({model: mockModelFixture});
       const experimentalConditionSection = wrapper.find('[data-test=model-section-condition]');
 
       expect(experimentalConditionSection.attributes().style).to.include(expected);
     });
-  })
+  });
 
   it('Displays Phenotype lists with frequent term sub-headers ', () => {
     const wrapper = getMountedComponent({model: modelFixture['8.1.0<=,LMNA,fish']});
