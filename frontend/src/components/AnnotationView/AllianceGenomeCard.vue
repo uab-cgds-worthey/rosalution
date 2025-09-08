@@ -3,7 +3,7 @@
   <div class="card-header" v-html="modelName" data-test="model-header"/>
   <div class="card-sub-header" v-html="modelBackground" data-test="model-background"/>
   <div class="card-content">
-    <div class="card-section" :style="experimentalConditionStyle" data-test="model-section-condition">
+    <div class="card-section" :style="sectionTextColor(experimentalConditions)" data-test="model-section-condition">
         Experimental Condition
     </div>
     <ul>
@@ -16,17 +16,17 @@
           {{ condition.conditionStatement }}
       </li>
     </ul>
-    <div class="card-section" :style="associatedHumanDiseasesStyle" data-test="model-section-disease">
+    <div class="card-section" :style="sectionTextColor(diseaseModels)" data-test="model-section-disease">
       Associated Human Diseases
     </div>
     <li
       class="card-list"
-      v-for="(diseaseModel) in model.diseaseModels" :key="diseaseModel"
+      v-for="(diseaseModel) in diseaseModels" :key="diseaseModel"
       data-test="model-list-disease"
     >
       {{ diseaseModel.diseaseModel }}
     </li>
-    <div class="card-section" :style="associatedPhenotypesStyle" data-test="model-section-phenotype">
+    <div class="card-section" :style="sectionTextColor(associatedPhenotypesData)" data-test="model-section-phenotype">
           Associated Phenotypes
     </div>
     <div class="card-list"
@@ -42,7 +42,7 @@
         </ul>
     </div>
     <div class="card-source" data-test="model-source">
-        <b>Source:</b> {{ model.source.name }}
+        <b>Source:</b> {{ modelSource }}
     </div>
   </div>
 </div>
@@ -50,6 +50,8 @@
 
 <script setup>
 import {computed} from 'vue';
+
+import { chooseAnimalModelsSchema } from '@/components/AnnotationView/allianceGenomeRenderingUtility';
 
 const props = defineProps({
   model: {
@@ -90,6 +92,7 @@ const frequentTermsObject = [
   },
 ];
 
+const animalModel =  chooseAnimalModelsSchema(props.model)
 
 function calculateAssociatedPhenotypes() {
   const phenotypesDict = {'':
@@ -101,11 +104,11 @@ function calculateAssociatedPhenotypes() {
         },
   };
 
-  if ( !('phenotypes' in props.model)) {
+  if ( 'phenotypes' in animalModel == false) {
     return phenotypesDict;
   }
 
-  props.model.phenotypes.forEach((phenotype) => {
+  animalModel.phenotypes.forEach((phenotype) => {
     phenotypesDict[''].phenotypes.push(phenotype);
   });
 
@@ -118,7 +121,7 @@ function calculateAssociatedPhenotypes() {
     };
   });
 
-  props.model.phenotypes.forEach((phenotype) => {
+  animalModel.phenotypes.forEach((phenotype) => {
     frequentTermsObject.forEach((term) => {
       const regex = new RegExp('\\b' + term.term + '\\b', 'i');
 
@@ -138,44 +141,30 @@ function calculateAssociatedPhenotypes() {
   return phenotypesDict;
 };
 
-function calculateExperimentalCondition() {
-  if ( !('conditions' in props.model ) || Object.keys(props.model.conditions).length == 0) {
-    return;
-  }
-
-  return props.model.conditions.has_condition;
-};
-
-function determineSectionTextColor(section) {
-  // Added this check due to section being undefined at times even though it is expected to exist.
-  if (section === undefined || section=== null) {
-    return 'color: black';
-  }
-
-  if (Object.keys(section).length === 0) {
-    return {color: `var(--rosalution-grey-300)`};
-  }
-
-  return 'color: black';
-};
-
-
 const modelName = computed(()=> {
   const regex = new RegExp('^(.*?)(?= \\[)', 'g');
-  const matchResult = props.model.name.match(regex);
+  if ('name' in animalModel == false) {
+    return '';
+  }
+  console.log(animalModel)
+  const matchResult = animalModel.name.match(regex);
 
   if (matchResult) {
     return matchResult[0];
   }
 
-  return props.model.name;
+  return animalModel.name;
 });
 
 const modelBackground = computed(() => {
   // This escape character is very necessary, but eslint doesn't think so
   const regex = new RegExp(`\\[background:\]?(.*)`, 'g'); // eslint-disable-line
 
-  const matchResult = props.model.name.match(regex);
+  if ('background' in animalModel == false) {
+    return '';
+  }
+
+  const matchResult = animalModel.background.match(regex);
 
   if (matchResult) {
     return matchResult[0];
@@ -184,22 +173,32 @@ const modelBackground = computed(() => {
   return '';
 });
 
-const associatedHumanDiseasesData = props.model.diseaseModels;
+const modelSource = computed(() => {
+  if ( 'source' in animalModel == false ) {
+    return '';
+  }
+  return animalModel['source']
+})
+
 const associatedPhenotypesData = calculateAssociatedPhenotypes();
-const experimentalConditions = calculateExperimentalCondition();
+const experimentalConditions = 'conditions' in animalModel ? animalModel.conditions : [];
+const diseaseModels = 'diseaseModels' in animalModel ? animalModel.diseaseModels: [];
 
-const associatedHumanDiseasesStyle = computed(()=> {
-  return determineSectionTextColor(associatedHumanDiseasesData);
-});
 
-const associatedPhenotypesStyle = computed(()=> {
-  return determineSectionTextColor(associatedPhenotypesData);
-});
+function sectionTextColor(section) {
+  // Added this check due to section being undefined at times even though it is expected to exist.
+  console.log(section)
+  console.log('inside the text color calcdulation')
 
-const experimentalConditionStyle = computed(()=> {
-  return determineSectionTextColor(experimentalConditions);
-});
+  const hasEmptyContent =section === undefined || section === null || Object.keys(section).length === 0 || section.length === 0
+  const hasPhenotypeContentButItsEmpty = Object.keys(section).length === 1 && section?.['']?.phenotypes.length ===0 
 
+  if( hasEmptyContent || hasPhenotypeContentButItsEmpty ) {
+    return {color: `var(--rosalution-grey-300)`};
+  }
+
+  return 'color: black';
+};
 </script>
 
 <style scoped>
