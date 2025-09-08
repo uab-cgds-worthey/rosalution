@@ -28,28 +28,59 @@ function getMountedComponent(propsData) {
 }
 
 describe('AllianceGenomeCard.vue', () => {
-  it.each([
-    ['aliance genome 8.1.0<=', modelFixture['8.1.0<=,LMNA,fish'], 'lmna<sup>bw25/bw25</sup>'],
-    ['aliance genome 8.2.0>=', modelFixture['8.2.0>=,LMNA,fish'], 'lmna<sup>bw25/bw25</sup>'],
-  ])('Displays %s animal model card with title', (title, mockModel, expected) => {
-    const wrapper = getMountedComponent({model: mockModel});
-    const cardHeader = wrapper.find('[data-test=model-header]');
+  describe.each([
+    ['aliance genome 8.1.0<= (LMNA) fish,', '8.1.0<=,LMNA,fish'],
+    ['aliance genome 8.2.0>= (LMNA) fish,', '8.2.0>=,LMNA,fish'],
+    ['aliance genome 8.1.0<= (NUMB) mouse,', '8.1.0<=,NUMB,mouse'],
+    ['aliance genome 8.2.0>= (NUMB) mouse,', '8.2.0>=,NUMB,mouse'],
+  ])('Displays %s model card', (title, mockModelName) => {
+    const expected = {
+      '8.1.0<=,LMNA,fish': {
+        'header': 'lmna<sup>bw25/bw25</sup>',
+        'background': '[background:] involves: 129S4/SvJae * C57BL/6',
+        'source': 'ZFIN',
+      },
+      '8.2.0>=,LMNA,fish': {
+        'header': 'lmna<sup>bw25/bw25</sup>',
+        'background': '',
+        'source': 'ZFIN',
+      },
+      '8.1.0<=,NUMB,mouse': {
+        'header': 'Numb<sup>tm1Zili</sup>/Numb<sup>tm1Zili</sup> Numbl<sup>tm1Zili</sup>/Numbl<sup>tm1Zili</sup>' +
+          ' Tg(Mx1-cre)1Cgn/?',
+        'background': '[background:] involves: 129/Sv * C57BL/6 * CBA',
+        'source': 'MGI',
+      },
+      '8.2.0>=,NUMB,mouse': {
+        'header': 'Numb<sup>tm1Zili</sup>/Numb<sup>tm1Zili</sup> Numbl<sup>tm1Zili</sup>/Numbl<sup>tm1Zili</sup>' +
+          ' Tg(Mx1-cre)1Cgn/?',
+        'background': '[background:] involves: 129/Sv * C57BL/6 * CBA',
+        'source': 'MGI',
+      },
+    };
+    it('animal model card title', () => {
+      const mockModel = modelFixture[mockModelName];
+      const wrapper = getMountedComponent({model: mockModel});
+      const cardHeader = wrapper.find('[data-test=model-header]');
 
-    expect(cardHeader.html()).to.include(expected);
-  });
+      expect(cardHeader.html()).to.include(expected[mockModelName]['header']);
+    });
 
-  it('Displays a card with a proper background', () => {
-    const wrapper = getMountedComponent();
-    const cardBackground = wrapper.find('[data-test=model-background]');
+    it('animal model card background', () => {
+      const mockModel = modelFixture[mockModelName];
+      const wrapper = getMountedComponent({model: mockModel});
+      const cardBackground = wrapper.find('[data-test=model-background]');
 
-    expect(cardBackground.html()).to.include('[background:] involves: 129S4/SvJae * C57BL/6');
-  });
+      expect(cardBackground.html()).to.include(expected[mockModelName]['background']);
+    });
 
-  it('Displays the Experimental Condition section with black text because it has list items', () => {
-    const wrapper = getMountedComponent();
-    const experimentalSection = wrapper.find('[data-test=model-section-condition]');
+    it('animal model source', () => {
+      const mockModel = modelFixture[mockModelName];
+      const wrapper = getMountedComponent({model: mockModel});
+      const modelSource = wrapper.find('[data-test=model-source]');
 
-    expect(experimentalSection.attributes().style).to.include('color: black;');
+      expect(modelSource.html()).to.include(expected[mockModelName]['source']);
+    });
   });
 
   describe.each([
@@ -78,13 +109,6 @@ describe('AllianceGenomeCard.vue', () => {
 
       expect(diseasesList.exists()).to.be.false;
     });
-  });
-
-  it('Shows a list of conditions under the experimental conditions section', () => {
-    const wrapper = getMountedComponent();
-    const experimentalSectionList = wrapper.findAll('[data-test=model-list-condition]');
-
-    expect(experimentalSectionList.length).to.equal(1);
   });
 
   describe('card sections with lists render section header grey if list is empty, otherwise renders black', () => {
@@ -126,29 +150,34 @@ describe('AllianceGenomeCard.vue', () => {
     });
   });
 
-  it('Displays Phenotype lists with frequent term sub-headers ', () => {
-    const wrapper = getMountedComponent({model: modelFixture['8.1.0<=,LMNA,fish']});
-    const phenotypesList = wrapper.findAll('[data-test=model-list-phenotype]');
+  describe.each([
+    ['aliance genome 8.1.0<=', modelFixture['8.1.0<=,LMNA,fish']],
+    ['aliance genome 8.2.0>=', modelFixture['8.2.0>=,LMNA,fish']],
+  ])('card section content from %s', (title, mockModelFixture) => {
+    it('displays Phenotype lists with frequent term sub-headers ', () => {
+      const wrapper = getMountedComponent({model: mockModelFixture});
+      const phenotypesList = wrapper.findAll('[data-test=model-list-phenotype]');
 
-    const firstTerm = phenotypesList[0].find('span');
-    const firstTermList = phenotypesList[0].findAll('li');
+      const firstTerm = phenotypesList[0].find('span');
+      const firstTermList = phenotypesList[0].findAll('li');
 
-    expect(firstTerm.html()).to.include('abnormal');
-    expect(firstTermList.length).to.equal(5);
+      expect(firstTerm.html()).to.include('abnormal');
+      expect(firstTermList.length).to.equal(5);
 
-    const secondTerm = phenotypesList[1].find('span');
-    const secondTermIcon = phenotypesList[1].find('font-awesome-icon-stub');
-    const secondTermList = phenotypesList[1].findAll('li');
+      const secondTerm = phenotypesList[1].find('span');
+      const secondTermIcon = phenotypesList[1].find('font-awesome-icon-stub');
+      const secondTermList = phenotypesList[1].findAll('li');
 
-    expect(secondTerm.html()).to.include('decreased');
-    expect(secondTermIcon.attributes().icon).to.equal('arrow-down');
-    expect(secondTermList.length).to.equal(4);
-  });
+      expect(secondTerm.html()).to.include('decreased');
+      expect(secondTermIcon.attributes().icon).to.equal('arrow-down');
+      expect(secondTermList.length).to.equal(4);
+    });
 
-  it('Displays the source of the animal model', () => {
-    const wrapper = getMountedComponent();
-    const modelSource = wrapper.find('[data-test=model-source]');
+    it('Shows a list of conditions under the experimental conditions section', () => {
+      const wrapper = getMountedComponent({model: mockModelFixture});
+      const experimentalSectionList = wrapper.findAll('[data-test=model-list-condition]');
 
-    expect(modelSource.html()).to.include('ZFIN');
+      expect(experimentalSectionList.length).to.equal(1);
+    });
   });
 });
