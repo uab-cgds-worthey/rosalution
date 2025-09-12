@@ -8,7 +8,7 @@
         }"
         target="_blank" rel="noreferrer noopener"
       >
-        <img class="section-image" :src="imageSrc" data-test="annotation-image" :id="imageId"/>
+        <img class="section-image" :src="imageSrc" data-test="annotation-image" :id="imageId" @click="getDimensions"/>
       </router-link>
       <!-- TODO: Since both AnalysisView and AnnotationView are using this component,
         change the emit to be update-image -->
@@ -22,47 +22,80 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import {reactive, ref} from 'vue';
 import FileRequests from '@/fileRequests.js';
 
-export default {
-  name: 'section-image',
-  emits: ['update-annotation-image'],
-  props: {
-    imageId: {
-      type: String,
-    },
-    dataSet: {
-      type: String,
-      default: '',
-    },
-    genomicType: {
-      type: String,
-      default: '',
-    },
-    writePermissions: {
-      type: Boolean,
-      default: false,
-    },
+defineEmits(['update-annotation-image']);
+
+const props = defineProps({
+  imageId: {
+    type: String,
   },
-  data() {
-    return {
-      imageSrc: new URL('/src/assets/rosalution-logo.svg', import.meta.url),
-    };
+  dataSet: {
+    type: String,
+    default: '',
   },
-  created() {
-    this.sectionImageUpdate();
+  genomicType: {
+    type: String,
+    default: '',
   },
-  methods: {
-    async sectionImageUpdate() {
-      const loadingImage = await FileRequests.getImage(this.imageId);
-      this.imageSrc = loadingImage;
-    },
+  writePermissions: {
+    type: Boolean,
+    default: false,
   },
+});
+
+const img = new Image();
+
+img.src = ref(new URL('/src/assets/rosalution-logo.svg', import.meta.url));
+
+img.onload = () => {
+  console.log(`the image dimensions are ${imageSrc.width}x${imageSrc.height}`);
 };
+
+const imageSrc = ref(new URL('/src/assets/rosalution-logo.svg', import.meta.url));
+
+const styledImage = reactive({
+  width: '100%',
+  height: '100%',
+});
+
+// functions
+
+function getDimensions() {
+  console.log(`the image dimensions are ${img.width}x${img.height}`);
+}
+
+async function sectionImageUpdate() {
+  const loadingImage = await FileRequests.getImage(props.imageId);
+  imageSrc.value = loadingImage;
+}
+
+function calculateAspectRatioFit(imgWidth, imgHeight, maxWidth, maxHeight) {
+  const ratio = Math.min(maxWidth/imgWidth, maxHeight/imgHeight);
+  // return {width: imgWidth*ratio, height: imgHeight*ratio};
+  return ratio;
+}
+
+sectionImageUpdate();
+
 </script>
 
 <style>
+
+/* html {
+  --img-width: .section-image.width;
+  --img-height: .section-image.height
+  --max-width: 12.5rem;
+  --max-height: 12.5rem;
+  --ratio: min(var(--img-width)/var(--max-width), var(--img-height)/var(--max-height));
+} */
+
+/* img {
+  width:
+  --org-width: this.imageSrc.naturalWidth
+} */
 
 .image-row {
   display: flex;
@@ -71,9 +104,10 @@ export default {
   align-items: start;
 }
 
-.section-image {
-  width:100%;
-}
+/* .section-image {
+  width: calc(100%*calculateAspectRatioFit());
+  height: calc(100%*calculateAspectRatioFit());
+} */
 
 .edit-icon {
   color: var(--rosalution-purple-300);
