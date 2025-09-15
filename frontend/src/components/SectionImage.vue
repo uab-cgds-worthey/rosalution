@@ -51,7 +51,7 @@ const img = new Image();
 img.src = ref(new URL('/src/assets/rosalution-logo.svg', import.meta.url));
 
 img.onload = () => {
-  console.log(`the image dimensions are ${imageSrc.width}x${imageSrc.height}`);
+  console.log(`the image dimensions are ${img.width}x${img.height}`);
 };
 
 const imageSrc = ref(new URL('/src/assets/rosalution-logo.svg', import.meta.url));
@@ -64,6 +64,8 @@ const styledImage = reactive({
 // functions
 
 function getDimensions() {
+  console.log('This is the image');
+  console.log(img);
   console.log(`the image dimensions are ${img.width}x${img.height}`);
 }
 
