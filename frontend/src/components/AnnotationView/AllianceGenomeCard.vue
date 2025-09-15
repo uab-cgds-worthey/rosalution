@@ -1,48 +1,65 @@
 <template>
-<div class="card-base">
-  <div class="card-header" v-html="modelName" data-test="model-header"/>
-  <div class="card-sub-header" v-html="modelBackground" data-test="model-background"/>
-  <div class="card-content">
-    <div class="card-section" :style="sectionTextColor(experimentalConditions)" data-test="model-section-condition">
-        Experimental Condition
-    </div>
-    <ul>
-      <li
-        v-for="condition in experimentalConditions"
-        :key="condition"
-        class="card-list"
-        data-test="model-list-condition"
+<div class="card-border">
+  <div class="card-base">
+    <div class="card-header" data-test="model-header">
+      <a v-if="modelUrl"
+        :href="modelUrl"
+        class="card-header"
+        target="_blank"
+        rel="noreferrer noopener"
+        data-test="model-name"
       >
-          {{ condition.conditionStatement }}
-      </li>
-    </ul>
-    <div class="card-section" :style="sectionTextColor(diseaseModels)" data-test="model-section-disease">
-      Associated Human Diseases
+        <span v-html="modelName" :style="{padding: '0 0.35rem 0 0'}"></span>
+        <sup><font-awesome-icon icon="up-right-from-square" size="2xs"/></sup>
+      </a>
+      <span v-else class="card-header" v-html="modelName" data-test="model-name"></span>
     </div>
-    <li
-      class="card-list"
-      v-for="(diseaseModel) in diseaseModels" :key="diseaseModel"
-      data-test="model-list-disease"
-    >
-      {{ diseaseModel.diseaseModel }}
-    </li>
-    <div class="card-section" :style="sectionTextColor(associatedPhenotypesData)" data-test="model-section-phenotype">
-          Associated Phenotypes
-    </div>
-    <div class="card-list"
-        v-for="(value, key) in associatedPhenotypesData" :key="key"
+    <div class="card-sub-header" v-html="modelBackground" data-test="model-background"></div>
+    <div class="card-content">
+      <div class="card-section" :style="experimentalConditionsHeaderColor" data-test="model-section-condition">
+        Experimental Condition
+      </div>
+      <ul>
+        <li
+          v-for="condition in experimentalConditions"
+          :key="condition"
+          class="card-list"
+          data-test="model-list-condition"
+        >
+            {{ condition.conditionStatement }}
+        </li>
+      </ul>
+      <div class="card-section" :style="diseaseModelsHeaderColor" data-test="model-section-disease">
+        Associated Human Diseases
+      </div>
+      <ul>
+        <li v-for="(diseaseModel) in diseaseModels"
+          :key="diseaseModel"
+          class="card-list"
+          data-test="model-list-disease"
+        >
+          {{ diseaseModel.diseaseModel }}
+        </li>
+      </ul>
+      <div class="card-section" :style="phenotypesHeaderColor" data-test="model-section-phenotype">
+        Associated Phenotypes
+      </div>
+      <div v-for="(value, key) in associatedPhenotypesData"
+        :key="key"
+        class="card-list"
         data-test="model-list-phenotype"
-    >
-    <div v-if="key != ''">
-        <font-awesome-icon v-if="value.icon" :icon="value.icon" :style="value.iconStyle"/>
-        <span class="card-section-term" :style="value.style">{{ key }}</span>
-    </div>
+      >
+        <div v-if="key != ''">
+          <font-awesome-icon v-if="value.icon" :icon="value.icon" :style="value.iconStyle"/>
+          <span class="card-section-term" :style="value.style">{{ key }}</span>
+        </div>
         <ul>
-            <li v-for="item in value.phenotypes" :key="item">{{ item }}</li>
+          <li v-for="item in value.phenotypes" :key="item">{{ item }}</li>
         </ul>
-    </div>
-    <div class="card-source" data-test="model-source">
+      </div>
+      <div class="card-source" data-test="model-source">
         <b>Source:</b> {{ modelSource }}
+      </div>
     </div>
   </div>
 </div>
@@ -146,7 +163,6 @@ const modelName = computed(()=> {
   if ('name' in animalModel == false) {
     return '';
   }
-  console.log(animalModel);
   const matchResult = animalModel.name.match(regex);
 
   if (matchResult) {
@@ -155,6 +171,8 @@ const modelName = computed(()=> {
 
   return animalModel.name;
 });
+
+const modelUrl = 'modelUrl' in animalModel ? animalModel.modelUrl : undefined;
 
 const modelBackground = computed(() => {
   // This escape character is very necessary, but eslint doesn't think so
@@ -184,11 +202,7 @@ const associatedPhenotypesData = calculateAssociatedPhenotypes();
 const experimentalConditions = 'conditions' in animalModel ? animalModel.conditions : [];
 const diseaseModels = 'diseaseModels' in animalModel ? animalModel.diseaseModels: [];
 
-
 function sectionTextColor(section) {
-  console.log(section);
-  console.log('inside the text color calcdulation');
-
   const hasEmptyContent =
     section === undefined ||
     section === null ||
@@ -202,6 +216,11 @@ function sectionTextColor(section) {
 
   return 'color: black';
 };
+
+const experimentalConditionsHeaderColor = sectionTextColor(experimentalConditions);
+const phenotypesHeaderColor  = sectionTextColor(associatedPhenotypesData);
+const diseaseModelsHeaderColor = sectionTextColor(diseaseModels);
+
 </script>
 
 <style scoped>
@@ -217,44 +236,49 @@ li {
 }
 
 .card-header {
-    font-size: 22px;
-    font-weight: bold;
+  font-size: 22px;
+  font-weight: bold;
 }
 
 .card-sub-header {
-    font-size: 16px;
-    padding-top: 2%;
+  font-size: 16px;
+  padding-top: 2%;
+}
+
+.card-border {
+  background-color: var(--rosalution-grey-50);
+  border-radius: var(--content-border-radius);
+  overflow-y: hidden;
+  height: 35rem;
 }
 
 .card-base {
   text-decoration: none;
   width: 30rem;
   padding: var(--p-8);
-  background-color: var(--rosalution-grey-50);
   box-sizing: border-box;
   color: inherit;
-  border-radius: var(--content-border-radius);
+  overflow-y: visible;
   height: 35rem;
-  overflow-y: scroll;
 }
 
 .card-content {
-    padding-bottom: 10%;
+  padding-bottom: 10%;
 }
 
 .card-section {
-    font-weight: bold;
-    padding-top: 2.5%;
+  font-weight: bold;
+  padding-top: 2.5%;
 }
 
 .card-section-term {
-    padding-left: var(--p-5);
+  padding-left: var(--p-5);
 }
 
 .card-list {
-    padding-top: 1%;
-    padding-left: 5%;
-    font-size: 16px;
+  padding-top: 1%;
+  padding-left: 5%;
+  font-size: 16px;
 }
 
 .card-source {

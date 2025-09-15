@@ -15,6 +15,24 @@ describe('allianceGenomeRenderingUtility.js', () => {
   });
 
   it.each([
+    ['aliance genome 8.1.0<=, (LMNA) fish', modelFixture['8.1.0<=,LMNA,fish'], 'https://zfin.org/ZDB-FISH-220613-4'],
+    ['aliance genome 8.2.0>=, (LMNA) fish', modelFixture['8.2.0>=,LMNA,fish'],
+      'https://zfin.org/ZFIN:ZDB-FISH-220613-4'],
+    ['aliance genome 8.1.0<= (NUMB) mouse,', modelFixture['8.1.0<=,NUMB,mouse'],
+      'http://www.informatics.jax.org/allele/genoview/MGI:3783760'],
+    ['aliance genome 8.2.0>= (NUMB) mouse,', modelFixture['8.2.0>=,NUMB,mouse'],
+      'https://www.informatics.jax.org/allele/genoview/MGI:3783760'],
+    ['alliance genome 8.1.0<= (SBF1) rat,', modelFixture['8.1.0<=,SBF1,rat'],
+      'https://rgd.mcw.edu/rgdweb/report/strain/main.html?id=631848'],
+    ['alliance genome 8.2.0>= (SBF1) rat,', modelFixture['8.2.0>=,SBF1,rat'],
+      'https://rgd.mcw.edu/rgdweb/report/strain/main.html?id=RGD:631848'],
+  ])('Should %s return an animal model data provider URL', (title, mockModel, expected) => {
+    const actualModel = chooseAnimalModelsSchema(mockModel);
+    expect('modelUrl' in actualModel).to.equal(true);
+    expect(actualModel.modelUrl).to.include(expected);
+  });
+
+  it.each([
     ['aliance genome 8.1.0<=', modelFixture['8.1.0<=,LMNA,fish'], true,
       'lmna<sup>bw25/bw25</sup> [background:] involves: 129S4/SvJae * C57BL/6'],
     ['aliance genome 8.2.0>=', modelFixture['8.2.0>=,LMNA,fish'], true,
@@ -63,6 +81,10 @@ describe('allianceGenomeRenderingUtility.js', () => {
   it.each([
     ['aliance genome 8.1.0<=', modelFixture['8.1.0<=,LMNA,fish'], true, ['progeria', 'otitis media']],
     ['aliance genome 8.2.0>=', modelFixture['8.2.0>=,LMNA,fish'], false, []],
+    ['aliance genome 8.1.0<=', modelFixture['8.1.0<=,SBF1,rat'], true,
+      ['essential hypertension', 'hyperglycemia', 'hypertension']],
+    ['aliance genome 8.2.0>=', modelFixture['8.2.0>=,SBF1,rat'], true,
+      ['essential hypertension', 'hyperglycemia', 'hypertension']],
   ])('Should %s return disease models', (title, mockModel, expectedExist, expected) => {
     const actualModel = chooseAnimalModelsSchema(mockModel);
     expect('diseaseModels' in actualModel).to.equal(expectedExist);

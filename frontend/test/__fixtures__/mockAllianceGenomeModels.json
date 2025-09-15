@@ -288,5 +288,176 @@
     "hasDiseaseAnnotations": false,
     "hasDiseaseAndPhenotypeAnnotations": false,
     "hasPhenotypeAnnotations": false
+  },
+  "8.1.0<=,SBF1,rat": {
+    "id": "RGD:631848",
+    "name": "SHR/OlaIpcv",
+    "displayName": "SHR/OlaIpcv",
+    "url": "https://rgd.mcw.edu/rgdweb/report/strain/main.html?id=631848",
+    "type": "strain",
+    "source": {
+      "name": "RGD",
+      "url": null
+    },
+    "diseaseModels": [
+      {
+        "disease": {
+          "id": "DOID:10825",
+          "name": "essential hypertension",
+          "url": "http://www.disease-ontology.org/?id=DOID:10825"
+        },
+        "associationType": "IS_MODEL_OF",
+        "diseaseModel": "essential hypertension"
+      },
+      {
+        "disease": {
+          "id": "DOID:4195",
+          "name": "hyperglycemia",
+          "url": "http://www.disease-ontology.org/?id=DOID:4195"
+        },
+        "associationType": "IS_MODEL_OF",
+        "diseaseModel": "hyperglycemia"
+      },
+      {
+        "disease": {
+          "id": "DOID:10763",
+          "name": "hypertension",
+          "url": "http://www.disease-ontology.org/?id=DOID:10763"
+        },
+        "associationType": "IS_MODEL_OF",
+        "diseaseModel": "hypertension"
+      }
+    ],
+    "publicationEvidenceCodes": [
+      {
+        "primaryKey": "8a39037a-0c6f-45cb-a35a-4c88a1904261",
+        "publication": {
+          "id": "PMID:10925780",
+          "url": "https://www.ncbi.nlm.nih.gov/pubmed/10925780"
+        },
+        "dateAssigned": "2020-04-09T00:00:00.000-05:00",
+        "evidenceCodes": [
+          {
+            "id": "ECO:0007191",
+            "name": "inference by association of genotype from phenotype used in manual assertion"
+          }
+        ]
+      },
+      {
+        "primaryKey": "ab497ad1-65d3-4a33-8718-2b79afa06449",
+        "publication": {
+          "id": "PMID:12790759",
+          "url": "https://www.ncbi.nlm.nih.gov/pubmed/12790759"
+        },
+        "dateAssigned": "2020-01-08T00:00:00.000-06:00",
+        "evidenceCodes": [
+          {
+            "id": "ECO:0007191",
+            "name": "inference by association of genotype from phenotype used in manual assertion"
+          }
+        ]
+      },
+      {
+        "primaryKey": "9fc09a6a-a2dc-402e-a845-72ce7f3ddecc",
+        "publication": {
+          "id": "PMID:11403354",
+          "url": "https://www.ncbi.nlm.nih.gov/pubmed/11403354"
+        },
+        "dateAssigned": "1999-01-01T00:00:00.000-06:00",
+        "evidenceCodes": [
+          {
+            "id": "ECO:0007191",
+            "name": "inference by association of genotype from phenotype used in manual assertion"
+          }
+        ]
+      },
+      {
+        "primaryKey": "022b0087-2672-418e-a471-cacde8fbe43b",
+        "publication": {
+          "id": "PMID:19620519",
+          "url": "https://www.ncbi.nlm.nih.gov/pubmed/19620519"
+        },
+        "dateAssigned": "2020-04-23T00:00:00.000-05:00",
+        "evidenceCodes": [
+          {
+            "id": "ECO:0007191",
+            "name": "inference by association of genotype from phenotype used in manual assertion"
+          }
+        ]
+      }
+    ],
+    "species": {
+      "name": "Rattus norvegicus",
+      "shortName": "Rno",
+      "dataProviderFullName": "Rat Genome Database",
+      "dataProviderShortName": "RGD",
+      "commonNames": "['rat', 'rno']",
+      "taxonId": "NCBITaxon:10116"
+    }
+  },
+  "8.2.0>=,SBF1,rat": {
+    "category": "affected_genomic_model_annotation",
+    "searchable": false,
+    "model": {
+      "type": "AffectedGenomicModel",
+      "primaryExternalId": "RGD:631848",
+      "dataProvider": {
+        "type": "AllianceMember",
+        "abbreviation": "RGD"
+      },
+      "subtype": {
+        "name": "strain"
+      },
+      "agmFullName": {
+        "formatText": "SHR/OlaIpcv",
+        "displayText": "SHR/OlaIpcv"
+      }
+    },
+    "gene": {
+      "type": "Gene",
+      "primaryExternalId": "RGD:1307090",
+      "dataProvider": {
+        "type": "AllianceMember",
+        "abbreviation": "RGD"
+      },
+      "geneSymbol": {
+        "formatText": "Sbf1",
+        "displayText": "Sbf1"
+      }
+    },
+    "diseaseModels": [
+      {
+        "disease": {
+          "curie": "DOID:10825",
+          "name": "essential hypertension"
+        },
+        "associationType": "IS_MODEL_OF",
+        "diseaseModel": "essential hypertension"
+      },
+      {
+        "disease": {
+          "curie": "DOID:4195",
+          "name": "hyperglycemia"
+        },
+        "associationType": "IS_MODEL_OF",
+        "diseaseModel": "hyperglycemia"
+      },
+      {
+        "disease": {
+          "curie": "DOID:10763",
+          "name": "hypertension"
+        },
+        "associationType": "IS_MODEL_OF",
+        "diseaseModel": "hypertension"
+      }
+    ],
+    "dataProvider": "RGD",
+    "modifierRelationshipTypes": [
+      "ameliorated_by",
+      "exacerbated_by"
+    ],
+    "hasDiseaseAnnotations": true,
+    "hasDiseaseAndPhenotypeAnnotations": false,
+    "hasPhenotypeAnnotations": false
   }
 }
