@@ -32,7 +32,7 @@
       <div class="card-section" :style="diseaseModelsHeaderColor" data-test="model-section-disease">
         Associated Human Diseases
       </div>
-      <ul>
+      <ul class="card-section-list">
         <li v-for="(diseaseModel) in diseaseModels"
           :key="diseaseModel"
           class="card-list"
@@ -53,7 +53,7 @@
           <font-awesome-icon v-if="value.icon" :icon="value.icon" :style="value.iconStyle"/>
           <span class="card-section-term" :style="value.style">{{ key }}</span>
         </div>
-        <ul>
+        <ul :class="key == '' ? 'card-section-list' : 'card-section-list-indented'">
           <li v-for="item in value.phenotypes" :key="item">{{ item }}</li>
         </ul>
       </div>
@@ -230,7 +230,6 @@ ul {
 }
 
 li {
-  margin-left: var(--p-10);
   padding-top: 1%;
   font-size: 15px;
 }
@@ -241,14 +240,15 @@ li {
 }
 
 .card-sub-header {
-  font-size: 16px;
+  font-size: 18px;
   padding-top: 2%;
+  font-weight: bold;
 }
 
 .card-border {
   background-color: var(--rosalution-grey-50);
   border-radius: var(--content-border-radius);
-  overflow-y: hidden;
+  overflow-y: auto;
   height: 35rem;
 }
 
@@ -273,11 +273,20 @@ li {
 
 .card-section-term {
   padding-left: var(--p-5);
+  font-weight: bold;
+}
+
+.card-section-list {
+  padding-left: 5%;
+}
+
+.card-section-list-indented {
+  padding-left: 8%;
 }
 
 .card-list {
   padding-top: 1%;
-  padding-left: 5%;
+  /* padding-left: 5%; */
   font-size: 16px;
 }
 

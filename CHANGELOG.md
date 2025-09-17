@@ -20,6 +20,7 @@
 ### Bugs
 
 - Missing Favicon with rosalution's logo on each Rosalution page now present
+- Fixed the styling of Alliance Genome Cards in the Annotation View to display text in a more distinct and readable format.
 
 ## 0.8.6
 
