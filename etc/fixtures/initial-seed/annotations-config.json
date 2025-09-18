@@ -429,7 +429,7 @@
     "annotation_source_type": "forge",
     "base_string_cache": true,
     "base_string": "{ZEBRAFISH_SUMMARY_ALLIANCE_GENOME_CACHE}",
-    "attribute": ".Zebrafish_Zebrafish_Information_Network_url | { Zebrafish_Alliance_Genome_Automated_Summary: .automatedGeneSynopsis }",
+    "attribute": ".Zebrafish_Alliance_Genome_Automated_Summary | { Zebrafish_Alliance_Genome_Automated_Summary: .automatedGeneSynopsis }",
     "dependencies": [
       "ZEBRAFISH_SUMMARY_ALLIANCE_GENOME_CACHE"
     ],
@@ -444,7 +444,7 @@
     "annotation_source_type": "forge",
     "base_string_cache": true,
     "base_string": "{ZEBRAFISH_SUMMARY_ALLIANCE_GENOME_CACHE}",
-    "attribute": ".Zebrafish_Zebrafish_Information_Network_url | { Zebrafish_Alliance_Genome_ZFIN_Summary: .geneSynopsis }",
+    "attribute": ".Zebrafish_Alliance_Genome_ZFIN_Summary | { Zebrafish_Alliance_Genome_ZFIN_Summary: .geneSynopsis }",
     "dependencies": [
       "ZEBRAFISH_SUMMARY_ALLIANCE_GENOME_CACHE"
     ],

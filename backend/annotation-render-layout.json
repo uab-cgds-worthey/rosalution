@@ -568,14 +568,24 @@
             "props": {
               "label": "AG Summary"
             }
-          },
+          }
+        ]
+      },
+      {
+        "class": "",
+        "datasets": [
           {
             "dataset": "Rat_Alliance_Genome_RGD_Summary",
             "type": "text-dataset",
             "props": {
               "label": "RGD Summary"
             }
-          },
+          }
+        ]
+      },
+      {
+        "class": "",
+        "datasets": [
           {
             "dataset": "Rat_Alliance_Genome_Models",
             "type": "card-dataset"
@@ -617,14 +627,24 @@
             "props": {
               "label": "AG Summary"
             }
-          },
+          }
+        ]
+      },
+      {
+        "class": "",
+        "datasets": [
           {
             "dataset": "Mouse_Alliance_Genome_MGI_Summary",
             "type": "text-dataset",
             "props": {
               "label": "MGI Summary"
             }
-          },
+          }
+        ]
+      },
+      {
+        "class": "",
+        "datasets": [
           {
             "dataset": "Mouse_Alliance_Genome_Models",
             "type": "card-dataset"
@@ -666,14 +686,24 @@
             "props": {
               "label": "AG Summary"
             }
-          },
+          }
+        ]
+      },
+      {
+        "class": "",
+        "datasets": [
           {
             "dataset": "Zebrafish_Alliance_Genome_ZFIN_Summary",
             "type": "text-dataset",
             "props": {
               "label": "ZFIN Summary"
             }
-          },
+          }
+        ]
+      },
+      {
+        "class": "",
+        "datasets": [
           {
             "dataset": "Zebrafish_Alliance_Genome_Models",
             "type": "card-dataset"

@@ -5,6 +5,10 @@ import AllianceGenomeCard from '@/components/AnnotationView/AllianceGenomeCard.v
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
+import modelFixture from '../../__fixtures__/mockAllianceGenomeModels.json';
+
+const shallowRenderedModels = [];
+
 /**
  * helper function that shallow mounts and returns the rendered component
  * @param {propsData} propsData props for testing to overwrite default props
@@ -12,253 +16,236 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
  */
 function getMountedComponent(propsData) {
   const defaultPropsData = {
-    model: fakeModelProp,
+    model: modelFixture['8.1.0<=,LMNA,fish'],
   };
 
-  return shallowMount(AllianceGenomeCard, {
-    props: {...defaultPropsData, ...propsData},
+  const props = {
+    ...defaultPropsData,
+    ...propsData,
+  };
+  const propsString = JSON.stringify(props);
+  const found = shallowRenderedModels.find((cache) => {
+    return cache.includes(propsString);
+  });
+
+  if (found) {
+    const [, wrapper] = found;
+    return wrapper;
+  }
+
+  const wrapper = shallowMount(AllianceGenomeCard, {
+    props: props,
     global: {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
       },
     },
   });
+
+  shallowRenderedModels.push([propsString, wrapper]);
+  return wrapper;
 }
 
 describe('AllianceGenomeCard.vue', () => {
-  it('Displays a card with the proper title', () => {
-    const wrapper = getMountedComponent();
-    const cardHeader = wrapper.find('[data-test=model-header]');
+  describe.each([
+    ['aliance genome 8.1.0<= (LMNA) fish,', '8.1.0<=,LMNA,fish'],
+    ['aliance genome 8.2.0>= (LMNA) fish,', '8.2.0>=,LMNA,fish'],
+    ['aliance genome 8.1.0<= (NUMB) mouse,', '8.1.0<=,NUMB,mouse'],
+    ['aliance genome 8.2.0>= (NUMB) mouse,', '8.2.0>=,NUMB,mouse'],
+    ['alliance gneome 8.1.0<= (SBF1) rat,', '8.1.0<=,SBF1,rat'],
+    ['alliance gneome 8.2.0>= (SBF1) rat,', '8.2.0>=,SBF1,rat'],
+  ])('Displays %s model card', (title, mockModelName) => {
+    const expected = {
+      '8.1.0<=,LMNA,fish': {
+        'header': 'lmna<sup>bw25/bw25</sup>',
+        'modelUrl': 'https://zfin.org/ZDB-FISH-220613-4',
+        'background': '[background:] involves: 129S4/SvJae * C57BL/6',
+        'source': 'ZFIN',
+      },
+      '8.2.0>=,LMNA,fish': {
+        'header': 'lmna<sup>bw25/bw25</sup>',
+        'modelUrl': 'https://zfin.org/ZDB-FISH-220613-4',
+        'background': '',
+        'source': 'ZFIN',
+      },
+      '8.1.0<=,NUMB,mouse': {
+        'header': 'Numb<sup>tm1Zili</sup>/Numb<sup>tm1Zili</sup> Numbl<sup>tm1Zili</sup>/Numbl<sup>tm1Zili</sup>' +
+          ' Tg(Mx1-cre)1Cgn/?',
+        'modelUrl': 'http://www.informatics.jax.org/allele/genoview/MGI:3783760',
+        'background': '[background:] involves: 129/Sv * C57BL/6 * CBA',
+        'source': 'MGI',
+      },
+      '8.2.0>=,NUMB,mouse': {
+        'header': 'Numb<sup>tm1Zili</sup>/Numb<sup>tm1Zili</sup> Numbl<sup>tm1Zili</sup>/Numbl<sup>tm1Zili</sup>' +
+          ' Tg(Mx1-cre)1Cgn/?',
+        'modelUrl': 'http://www.informatics.jax.org/allele/genoview/MGI:3783760',
+        'background': '[background:] involves: 129/Sv * C57BL/6 * CBA',
+        'source': 'MGI',
+      },
+      '8.1.0<=,SBF1,rat': {
+        'header': 'SHR/OlaIpcv',
+        'modelUrl': 'https://rgd.mcw.edu/rgdweb/report/strain/main.html?id=631848',
+        'background': '',
+        'source': 'RGD',
+      },
+      '8.2.0>=,SBF1,rat': {
+        'header': 'SHR/OlaIpcv',
+        'modelUrl': 'https://rgd.mcw.edu/rgdweb/report/strain/main.html?id=RGD:631848',
+        'background': '',
+        'source': 'RGD',
+      },
+    };
 
-    expect(cardHeader.html()).to.include('lmna<sup>bw25/bw25</sup>');
+    it('animal model card title', () => {
+      const mockModel = modelFixture[mockModelName];
+      const wrapper = getMountedComponent({model: mockModel});
+      const cardHeader = wrapper.find('[data-test=model-name]');
+
+      expect(cardHeader.html()).to.include(expected[mockModelName]['header']);
+    });
+
+    it('animal model card background', () => {
+      const mockModel = modelFixture[mockModelName];
+      const wrapper = getMountedComponent({model: mockModel});
+      const cardBackground = wrapper.find('[data-test=model-background]');
+
+      expect(cardBackground.html()).to.include(expected[mockModelName]['background']);
+    });
+
+    it('animal model source', () => {
+      const mockModel = modelFixture[mockModelName];
+      const wrapper = getMountedComponent({model: mockModel});
+      const modelSource = wrapper.find('[data-test=model-source]');
+
+      expect(modelSource.html()).to.include(expected[mockModelName]['source']);
+    });
+
+    it('linkouts to animal model in model data provider', () => {
+
+    });
   });
 
-  it('Displays a card with a proper background', () => {
-    const wrapper = getMountedComponent();
-    const cardBackground = wrapper.find('[data-test=model-background]');
+  describe.each([
+    ['aliance genome 8.1.0<=', modelFixture['8.1.0<=,NUMB,mouse']],
+    ['aliance genome 8.2.0>=', modelFixture['8.2.0>=,NUMB,mouse']],
+  ])('animal models from %s are missing', (title, mockModelFixture) => {
+    const expectedTitle = 'Numbtm1Zili/Numbtm1Zili Numbltm1Zili/Numbltm1Zili Tg(Mx1-cre)1Cgn/?';
 
-    expect(cardBackground.html()).to.include('[background:] involves: 129S4/SvJae * C57BL/6');
+    it('model conditions', () => {
+      const wrapper = getMountedComponent({model: mockModelFixture});
+      const cardHeader = wrapper.find('[data-test=model-header]');
+
+      expect(cardHeader.text()).to.include(expectedTitle);
+    });
+
+    it('phenotypes', () => {
+      const wrapper = getMountedComponent({model: mockModelFixture});
+      const cardHeader = wrapper.find('[data-test=model-header]');
+
+      expect(cardHeader.text()).to.include(expectedTitle);
+    });
+
+    it('diseases', () => {
+      const wrapper = getMountedComponent({model: mockModelFixture});
+      const diseasesList = wrapper.find('[data-test=model-list-disease]');
+
+      expect(diseasesList.exists()).to.be.false;
+    });
   });
 
-  it('Displays the Experimental Condition section with black text because it has list items', () => {
-    const wrapper = getMountedComponent();
-    const experimentalSection = wrapper.find('[data-test=model-section-condition]');
+  describe('card sections with lists render section header grey if list is empty, otherwise renders black', () => {
+    it.each([
+      ['aliance genome 8.1.0<=', modelFixture['8.1.0<=,NUMB,mouse'], '--rosalution-grey-300'],
+      ['aliance genome 8.2.0>=', modelFixture['8.2.0>=,NUMB,mouse'], '--rosalution-grey-300'],
+      ['aliance genome 8.1.0<=', modelFixture['8.1.0<=,LMNA,fish'], 'color: black;'],
+      ['aliance genome 8.2.0>=', modelFixture['8.2.0>=,LMNA,fish'], '--rosalution-grey-300'],
+      ['aliance genome 8.1.0<=', modelFixture['8.1.0<=,SBF1,rat'], 'color: black;'],
+      ['aliance genome 8.2.0>=', modelFixture['8.2.0>=,SBF1,rat'], 'color: black;'],
+    ])('%s for disease models', (title, mockModelFixture, expected) => {
+      const wrapper = getMountedComponent({model: mockModelFixture});
 
-    expect(experimentalSection.attributes().style).to.include('color: black;');
+      const diseasesSection = wrapper.find('[data-test=model-section-disease]');
+      expect(diseasesSection.attributes().style).to.include(expected);
+    });
+
+    it.each([
+      ['aliance genome 8.1.0<= (NUMB) mouse,', modelFixture['8.1.0<=,NUMB,mouse'], '--rosalution-grey-300'],
+      ['aliance genome 8.2.0>= (NUMB) mouse,', modelFixture['8.2.0>=,NUMB,mouse'], '--rosalution-grey-300'],
+      ['aliance genome 8.1.0<= (LMNA) fish,', modelFixture['8.1.0<=,LMNA,fish'], 'color: black;'],
+      ['aliance genome 8.2.0>= (LMNA) fish,', modelFixture['8.2.0>=,LMNA,fish'], 'color: black;'],
+      ['aliance genome 8.1.0<= (LMNA) mouse,', modelFixture['8.1.0<=,LMNA,mouse'], 'color: black;'],
+    ])('%s for associated phenotypes', (title, mockModelFixture, expected) => {
+      const wrapper = getMountedComponent({model: mockModelFixture});
+
+      const phenotypesSection = wrapper.find('[data-test=model-section-phenotype]');
+      expect(phenotypesSection.attributes().style).to.include(expected);
+    });
+
+    it.each([
+      ['aliance genome 8.1.0<= mouse,', modelFixture['8.1.0<=,NUMB,mouse'], '--rosalution-grey-300'],
+      ['aliance genome 8.2.0>= mouse,', modelFixture['8.2.0>=,NUMB,mouse'], '--rosalution-grey-300'],
+      ['aliance genome 8.1.0<= fish,', modelFixture['8.1.0<=,LMNA,fish'], 'color: black;'],
+      ['aliance genome 8.2.0>= fish,', modelFixture['8.2.0>=,LMNA,fish'], 'color: black;'],
+    ])('%s for experimental condition', (title, mockModelFixture, expected) => {
+      const wrapper = getMountedComponent({model: mockModelFixture});
+      const experimentalConditionSection = wrapper.find('[data-test=model-section-condition]');
+
+      expect(experimentalConditionSection.attributes().style).to.include(expected);
+    });
   });
 
-  it('It renders component when there are no model conditions', () => {
-    const wrapper = getMountedComponent({model: missingConditionsAndPhenotypsModelProp});
-    const cardHeader = wrapper.find('[data-test=model-header]');
+  describe.each([
+    ['aliance genome 8.1.0<=', modelFixture['8.1.0<=,LMNA,fish']],
+    ['aliance genome 8.2.0>=', modelFixture['8.2.0>=,LMNA,fish']],
+  ])('card section content from %s ZFIN fish models', (title, mockModelFixture) => {
+    it('displays Phenotype lists with frequent term sub-headers ', () => {
+      const wrapper = getMountedComponent({model: mockModelFixture});
+      const phenotypesList = wrapper.findAll('[data-test=model-list-phenotype]');
 
-    expect(cardHeader.text()).to.include('Numbtm1Zili/Numbtm1Zili Numbltm1Zili/Numbltm1Zili Tg(Mx1-cre)1Cgn/?');
+      const firstTerm = phenotypesList[0].find('span');
+      const firstTermList = phenotypesList[0].findAll('li');
+
+      expect(firstTerm.html()).to.include('abnormal');
+      expect(firstTermList.length).to.equal(5);
+
+      const secondTerm = phenotypesList[1].find('span');
+      const secondTermIcon = phenotypesList[1].find('font-awesome-icon-stub');
+      const secondTermList = phenotypesList[1].findAll('li');
+
+      expect(secondTerm.html()).to.include('decreased');
+      expect(secondTermIcon.attributes().icon).to.equal('arrow-down');
+      expect(secondTermList.length).to.equal(4);
+    });
+
+    it('Shows a list of conditions under the experimental conditions section', () => {
+      const wrapper = getMountedComponent({model: mockModelFixture});
+      const experimentalSectionList = wrapper.findAll('[data-test=model-list-condition]');
+
+      expect(experimentalSectionList.length).to.equal(1);
+    });
   });
 
-  it('It renders component when there are no phenotypes', () => {
-    const wrapper = getMountedComponent({model: missingConditionsAndPhenotypsModelProp});
-    const cardHeader = wrapper.find('[data-test=model-header]');
+  describe.each([
+    ['aliance genome 8.1.0<=', modelFixture['8.1.0<=,SBF1,rat']],
+    ['aliance genome 8.2.0>=', modelFixture['8.2.0>=,SBF1,rat']],
+  ])('card section content from %s RGD rat models', (title, mockModelFixture) => {
+    it('Shows a list of conditions under the experimental conditions section', () => {
+      const wrapper = getMountedComponent({model: mockModelFixture});
+      const experimentalSectionList = wrapper.findAll('[data-test=model-list-condition]');
 
-    expect(cardHeader.text()).to.include('Numbtm1Zili/Numbtm1Zili Numbltm1Zili/Numbltm1Zili Tg(Mx1-cre)1Cgn/?');
-  });
+      expect(experimentalSectionList.length).to.equal(0);
+    });
 
-  it('Shows a list of conditions under the experimental conditions section', () => {
-    const wrapper = getMountedComponent();
-    const experimentalSectionList = wrapper.findAll('[data-test=model-list-condition]');
+    it('Shows the expected disease models', () =>{
+      const wrapper = getMountedComponent({model: mockModelFixture});
+      const diseaseModelsSectionList = wrapper.findAll('[data-test=model-list-disease]');
 
-    expect(experimentalSectionList.length).to.equal(1);
-  });
+      expect(diseaseModelsSectionList.length).to.equal(3);
 
-  it('Shows the Associated Human Diseases as gray because it has list items', () => {
-    const wrapper = getMountedComponent();
-    const diseasesSection = wrapper.find('[data-test=model-section-disease]');
-
-    expect(diseasesSection.attributes().style).to.include('color: black;');
-  });
-
-  it('Shows the Associated Human Diseases as gray because there are no list items', () => {
-    const wrapper = getMountedComponent({model: fakeEmptyModelProp});
-    const diseasesSection = wrapper.find('[data-test=model-section-disease]');
-
-    expect(diseasesSection.attributes().style).to.include('--rosalution-grey-300');
-  });
-
-  it('Does not display a list as there are no diseases to show', () => {
-    const wrapper = getMountedComponent({model: fakeEmptyModelProp});
-    const diseasesList = wrapper.find('[data-test=model-list-disease]');
-
-    expect(diseasesList.exists()).to.be.false;
-  });
-
-  it('Displays the Associated Phenotypes section with black text because it has list items', () => {
-    const wrapper = getMountedComponent();
-    const phenotypesSection = wrapper.find('[data-test=model-section-phenotype]');
-
-    expect(phenotypesSection.attributes().style).to.include('color: black;');
-  });
-
-  it('Shows the Associated Phenotypes section as gray because there are no items', () => {
-    const wrapper = getMountedComponent({model: fakeEmptyModelProp});
-    const phenotypesSection = wrapper.find('[data-test=model-section-phenotype]');
-
-    expect(phenotypesSection.attributes().style).to.include('--rosalution-grey-300');
-  });
-
-  it('Displays Phenotype lists with frequent term sub-headers ', () => {
-    const wrapper = getMountedComponent({model: fakeModelProp});
-    const phenotypesList = wrapper.findAll('[data-test=model-list-phenotype]');
-
-    const firstTerm = phenotypesList[0].find('span');
-    const firstTermList = phenotypesList[0].findAll('li');
-
-    expect(firstTerm.html()).to.include('abnormal');
-    expect(firstTermList.length).to.equal(5);
-
-    const secondTerm = phenotypesList[1].find('span');
-    const secondTermIcon = phenotypesList[1].find('font-awesome-icon-stub');
-    const secondTermList = phenotypesList[1].findAll('li');
-
-    expect(secondTerm.html()).to.include('decreased');
-    expect(secondTermIcon.attributes().icon).to.equal('arrow-down');
-    expect(secondTermList.length).to.equal(4);
-  });
-
-  it('Displays the source of the animal model', () => {
-    const wrapper = getMountedComponent();
-    const modelSource = wrapper.find('[data-test=model-source]');
-
-    expect(modelSource.html()).to.include('ZFIN');
+      const diseases = diseaseModelsSectionList.map((itemWrapper) => itemWrapper.text());
+      ['essential hypertension', 'hyperglycemia', 'hypertension'].forEach((expectedDisease) => {
+        diseases.includes(expectedDisease);
+      });
+    });
   });
 });
-
-const fakeModelProp = {
-  'id': 'ZFIN:ZDB-FISH-220613-4',
-  'name': 'lmna<sup>bw25/bw25</sup> [background:] involves: 129S4/SvJae * C57BL/6',
-  'displayName': 'lmna<bw25/bw25>',
-  'phenotypes': [
-    'atrioventricular canal cardiac conduction decreased process quality, abnormal',
-    'cardiac muscle cell nucleus morphology, abnormal',
-    'cardiac ventricle cardiac conduction decreased process quality, abnormal',
-    'heart contraction decreased rate, abnormal',
-    'heart decreased functionality, abnormal',
-  ],
-  'url': 'https://zfin.org/ZDB-FISH-220613-4',
-  'type': 'affected_genomic_model',
-  'crossReference': null,
-  'source': {
-    'name': 'ZFIN',
-    'url': null,
-  },
-  'diseaseAssociationType': null,
-  'diseaseModels': [
-    {
-      'disease': {
-        'id': 'DOID:10754',
-        'name': 'otitis media',
-        'url': 'http://www.disease-ontology.org/?id=DOID:10754',
-      },
-      'associationType': 'IS_MODEL_OF',
-      'diseaseModel': 'otitis media',
-    },
-    {
-      'disease': {
-        'id': 'DOID:3911',
-        'name': 'progeria',
-        'url': 'http://www.disease-ontology.org/?id=DOID:3911',
-      },
-      'associationType': 'IS_MODEL_OF',
-      'diseaseModel': 'progeria',
-    },
-  ],
-  'publicationEvidenceCodes': [],
-  'conditions': {
-    'has_condition': [
-      {
-        'primaryKey': 'standard conditionsZECO:0000103',
-        'conditionStatement': 'standard conditions',
-        'term': {
-          'id': 'ZECO:0000103',
-          'name': 'standard conditions',
-        },
-      },
-    ],
-  },
-  'conditionModifiers': {},
-  'alleles': [],
-  'sequenceTargetingReagents': [],
-  'species': null,
-};
-
-const missingConditionsAndPhenotypsModelProp = {
-  'id': 'MGI:3783760',
-  'name': 'Numb<sup>tm1Zili</sup>/Numb<sup>tm1Zili</sup> Numbl<sup>tm1Zili</sup>/Numbl<sup>tm1Zili</sup> ' +
-          'Tg(Mx1-cre)1Cgn/?  [background:] involves: 129/Sv * C57BL/6 * CBA',
-  'displayName': 'Numb<tm1Zili>/Numb<tm1Zili> Numbl<tm1Zili>/Numbl<tm1Zili> Tg(Mx1-cre)1Cgn/?  [background:] ' +
-                 'involves: 129/Sv * C57BL/6 * CBA',
-  'url': 'http://www.informatics.jax.org/allele/genoview/MGI:3783760',
-  'type': 'genotype',
-  'source': {
-    'name': 'MGI',
-    'url': null,
-  },
-  'alleles': [
-    {
-      'id': 'MGI:3618286',
-      'symbol': 'Numbl<sup>tm1Zili</sup>',
-      'species': {
-        'name': 'Mus musculus',
-        'shortName': 'Mmu',
-        'dataProviderFullName': 'Mouse Genome Informatics',
-        'dataProviderShortName': 'MGI',
-        'commonNames': ['mouse', 'mmu'],
-        'taxonId': 'NCBITaxon:10090',
-      },
-      'symbolText': 'Numbl<tm1Zili>',
-      'hasDisease': false,
-      'hasPhenotype': false,
-      'category': 'allele',
-      'type': 'allele',
-    },
-    {
-      'id': 'MGI:2388022',
-      'symbol': 'Numb<sup>tm1Zili</sup>',
-      'species': {
-        'name': 'Mus musculus',
-        'shortName': 'Mmu',
-        'dataProviderFullName': 'Mouse Genome Informatics',
-        'dataProviderShortName': 'MGI',
-        'commonNames': ['mouse', 'mmu'],
-        'taxonId': 'NCBITaxon:10090',
-      },
-      'symbolText': 'Numb<tm1Zili>',
-      'hasDisease': false,
-      'hasPhenotype': false,
-      'category': 'allele',
-      'type': 'allele',
-    },
-  ],
-  'species': {
-    'name': 'Mus musculus',
-    'shortName': 'Mmu',
-    'dataProviderFullName': 'Mouse Genome Informatics',
-    'dataProviderShortName': 'MGI',
-    'commonNames': ['mouse', 'mmu'],
-    'taxonId': 'NCBITaxon:10090',
-  },
-};
-
-const fakeEmptyModelProp = {
-  'id': 'ZFIN:ZDB-FISH-220613-4',
-  'name': 'lmna<sup>bw25/bw25</sup>',
-  'displayName': 'lmna<bw25/bw25>',
-  'phenotypes': [],
-  'source': {
-    'name': 'ZFIN',
-    'url': null,
-  },
-  'diseaseModels': [],
-  'conditions': {},
-  'conditionModifiers': {},
-  'alleles': [],
-  'sequenceTargetingReagents': [],
-  'species': null,
-};

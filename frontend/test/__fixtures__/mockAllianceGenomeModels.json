@@ -1,0 +1,463 @@
+{
+  "8.1.0<=,LMNA,fish": {
+    "id": "ZFIN:ZDB-FISH-220613-4",
+    "name": "lmna<sup>bw25/bw25</sup> [background:] involves: 129S4/SvJae * C57BL/6",
+    "displayName": "lmna<bw25/bw25>",
+    "phenotypes": [
+      "atrioventricular canal cardiac conduction decreased process quality, abnormal",
+      "cardiac muscle cell nucleus morphology, abnormal",
+      "cardiac ventricle cardiac conduction decreased process quality, abnormal",
+      "heart contraction decreased rate, abnormal",
+      "heart decreased functionality, abnormal"
+    ],
+    "url": "https://zfin.org/ZDB-FISH-220613-4",
+    "type": "affected_genomic_model",
+    "crossReference": null,
+    "source": {
+      "name": "ZFIN",
+      "url": null
+    },
+    "diseaseAssociationType": null,
+    "diseaseModels": [
+      {
+        "disease": {
+          "id": "DOID:10754",
+          "name": "otitis media",
+          "url": "http://www.disease-ontology.org/?id=DOID:10754"
+        },
+        "associationType": "IS_MODEL_OF",
+        "diseaseModel": "otitis media"
+      },
+      {
+        "disease": {
+          "id": "DOID:3911",
+          "name": "progeria",
+          "url": "http://www.disease-ontology.org/?id=DOID:3911"
+        },
+        "associationType": "IS_MODEL_OF",
+        "diseaseModel": "progeria"
+      }
+    ],
+    "publicationEvidenceCodes": [],
+    "conditions": {
+      "has_condition": [
+        {
+          "primaryKey": "standard conditionsZECO:0000103",
+          "conditionStatement": "standard conditions",
+          "term": {
+            "id": "ZECO:0000103",
+            "name": "standard conditions"
+          }
+        }
+      ]
+    },
+    "conditionModifiers": {},
+    "alleles": [],
+    "sequenceTargetingReagents": [],
+    "species": null
+  },
+  "8.1.0<=,LMNA,fish,empty": {
+    "id": "ZFIN:ZDB-FISH-220613-4",
+    "name": "lmna<sup>bw25/bw25</sup>",
+    "displayName": "lmna<bw25/bw25>",
+    "phenotypes": [],
+    "source": {
+      "name": "ZFIN",
+      "url": null
+    },
+    "diseaseModels": [],
+    "conditions": {},
+    "conditionModifiers": {},
+    "alleles": [],
+    "sequenceTargetingReagents": [],
+    "species": null
+  },
+  "8.2.0>=,LMNA,fish": {
+    "category": "affected_genomic_model_annotation",
+    "searchable": false,
+    "model": {
+      "type": "AffectedGenomicModel",
+      "primaryExternalId": "ZFIN:ZDB-FISH-220613-4",
+      "dataProvider": {
+        "type": "AllianceMember",
+        "abbreviation": "ZFIN"
+      },
+      "subtype": {
+        "name": "fish"
+      },
+      "agmFullName": {
+        "formatText": "lmna<sup>bw25/bw25</sup>",
+        "displayText": "lmna<sup>bw25/bw25</sup>"
+      }
+    },
+    "associatedPhenotype": [
+      "atrioventricular canal cardiac conduction decreased process quality, abnormal",
+      "cardiac muscle cell nucleus morphology, abnormal",
+      "cardiac ventricle cardiac conduction decreased process quality, abnormal",
+      "heart contraction decreased rate, abnormal",
+      "heart decreased functionality, abnormal"
+    ],
+    "gene": {
+      "type": "Gene",
+      "primaryExternalId": "ZFIN:ZDB-GENE-020424-3",
+      "dataProvider": {
+        "type": "AllianceMember",
+        "abbreviation": "ZFIN"
+      },
+      "geneSymbol": {
+        "formatText": "lmna",
+        "displayText": "lmna"
+      }
+    },
+    "dataProvider": "ZFIN",
+    "conditionRelations": [
+      {
+        "conditionRelationType": {
+          "name": "has_condition"
+        },
+        "conditions": [
+          {
+            "conditionSummary": "standard conditions"
+          }
+        ]
+      }
+    ],
+    "modifierRelationshipTypes": [
+      "ameliorated_by",
+      "exacerbated_by"
+    ],
+    "hasDiseaseAnnotations": false,
+    "hasDiseaseAndPhenotypeAnnotations": false,
+    "hasPhenotypeAnnotations": true
+  },
+  "8.1.0<=,LMNA,mouse": {
+    "id": "MGI:7311569",
+    "name": "Lmna<sup>tm1.1Otin</sup>/Lmna<sup>+</sup>  [background:] involves: 129P2/OlaHsd * C57BL/6NTac",
+    "displayName": "Lmna<tm1.1Otin>/Lmna<+>  [background:] involves: 129P2/OlaHsd * C57BL/6NTac",
+    "phenotypes": [
+      "premature aging"
+    ],
+    "url": "http://www.informatics.jax.org/allele/genoview/MGI:7311569",
+    "type": "genotype",
+    "source": {
+      "name": "MGI",
+      "url": null
+    },
+    "diseaseModels": [
+      {
+        "disease": {
+          "id": "DOID:3911",
+          "name": "progeria",
+          "url": "http://www.disease-ontology.org/?id=DOID:3911"
+        },
+        "associationType": "IS_MODEL_OF",
+        "diseaseModel": "progeria"
+      }
+    ],
+    "publicationEvidenceCodes": [
+      {
+        "primaryKey": "05a411f8-e7da-420c-bb27-0bc830d538dc",
+        "publication": {
+          "id": "PMID:29703891",
+          "url": "https://www.ncbi.nlm.nih.gov/pubmed/29703891"
+        }
+      },
+      {
+        "primaryKey": "7984caaf-dd1a-4216-addc-13b4a9761bcd",
+        "publication": {
+          "id": "PMID:29703891",
+          "url": "https://www.ncbi.nlm.nih.gov/pubmed/29703891"
+        },
+        "dateAssigned": "2022-07-12T00:00:00-04:00",
+        "evidenceCodes": [
+          {
+            "id": "ECO:0000033",
+            "name": "author statement supported by traceable reference"
+          }
+        ]
+      }
+    ],
+    "species": {
+      "name": "Mus musculus",
+      "shortName": "Mmu",
+      "dataProviderFullName": "Mouse Genome Informatics",
+      "dataProviderShortName": "MGI",
+      "commonNames": "['mouse', 'mmu']",
+      "taxonId": "NCBITaxon:10090"
+    }
+  },
+  "8.1.0<=,NUMB,mouse": {
+    "id": "MGI:3783760",
+    "name": "Numb<sup>tm1Zili</sup>/Numb<sup>tm1Zili</sup> Numbl<sup>tm1Zili</sup>/Numbl<sup>tm1Zili</sup> Tg(Mx1-cre)1Cgn/?  [background:] involves: 129/Sv * C57BL/6 * CBA",
+    "displayName": "Numb<tm1Zili>/Numb<tm1Zili> Numbl<tm1Zili>/Numbl<tm1Zili> Tg(Mx1-cre)1Cgn/?  [background:] involves: 129/Sv * C57BL/6 * CBA",
+    "url": "http://www.informatics.jax.org/allele/genoview/MGI:3783760",
+    "type": "genotype",
+    "source": {
+      "name": "MGI",
+      "url": null
+    },
+    "alleles": [
+      {
+        "id": "MGI:3618286",
+        "symbol": "Numbl<sup>tm1Zili</sup>",
+        "species": {
+          "name": "Mus musculus",
+          "shortName": "Mmu",
+          "dataProviderFullName": "Mouse Genome Informatics",
+          "dataProviderShortName": "MGI",
+          "commonNames": [
+            "mouse",
+            "mmu"
+          ],
+          "taxonId": "NCBITaxon:10090"
+        },
+        "symbolText": "Numbl<tm1Zili>",
+        "hasDisease": false,
+        "hasPhenotype": false,
+        "category": "allele",
+        "type": "allele"
+      },
+      {
+        "id": "MGI:2388022",
+        "symbol": "Numb<sup>tm1Zili</sup>",
+        "species": {
+          "name": "Mus musculus",
+          "shortName": "Mmu",
+          "dataProviderFullName": "Mouse Genome Informatics",
+          "dataProviderShortName": "MGI",
+          "commonNames": [
+            "mouse",
+            "mmu"
+          ],
+          "taxonId": "NCBITaxon:10090"
+        },
+        "symbolText": "Numb<tm1Zili>",
+        "hasDisease": false,
+        "hasPhenotype": false,
+        "category": "allele",
+        "type": "allele"
+      }
+    ],
+    "species": {
+      "name": "Mus musculus",
+      "shortName": "Mmu",
+      "dataProviderFullName": "Mouse Genome Informatics",
+      "dataProviderShortName": "MGI",
+      "commonNames": [
+        "mouse",
+        "mmu"
+      ],
+      "taxonId": "NCBITaxon:10090"
+    }
+  },
+  "8.2.0>=,NUMB,mouse": {
+    "category": "affected_genomic_model_annotation",
+    "searchable": false,
+    "model": {
+      "type": "AffectedGenomicModel",
+      "primaryExternalId": "MGI:3783760",
+      "dataProvider": {
+        "type": "AllianceMember",
+        "abbreviation": "MGI"
+      },
+      "subtype": {
+        "name": "genotype"
+      },
+      "agmFullName": {
+        "formatText": "Numb<sup>tm1Zili</sup>/Numb<sup>tm1Zili</sup> Numbl<sup>tm1Zili</sup>/Numbl<sup>tm1Zili</sup> Tg(Mx1-cre)1Cgn/?  [background:] involves: 129/Sv * C57BL/6 * CBA",
+        "displayText": "Numb<sup>tm1Zili</sup>/Numb<sup>tm1Zili</sup> Numbl<sup>tm1Zili</sup>/Numbl<sup>tm1Zili</sup> Tg(Mx1-cre)1Cgn/?  [background:] involves: 129/Sv * C57BL/6 * CBA"
+      }
+    },
+    "gene": {
+      "type": "Gene",
+      "primaryExternalId": "MGI:107423",
+      "dataProvider": {
+        "type": "AllianceMember",
+        "abbreviation": "MGI"
+      },
+      "geneSymbol": {
+        "formatText": "Numb",
+        "displayText": "Numb"
+      }
+    },
+    "dataProvider": "MGI",
+    "modifierRelationshipTypes": [
+      "ameliorated_by",
+      "exacerbated_by"
+    ],
+    "hasDiseaseAnnotations": false,
+    "hasDiseaseAndPhenotypeAnnotations": false,
+    "hasPhenotypeAnnotations": false
+  },
+  "8.1.0<=,SBF1,rat": {
+    "id": "RGD:631848",
+    "name": "SHR/OlaIpcv",
+    "displayName": "SHR/OlaIpcv",
+    "url": "https://rgd.mcw.edu/rgdweb/report/strain/main.html?id=631848",
+    "type": "strain",
+    "source": {
+      "name": "RGD",
+      "url": null
+    },
+    "diseaseModels": [
+      {
+        "disease": {
+          "id": "DOID:10825",
+          "name": "essential hypertension",
+          "url": "http://www.disease-ontology.org/?id=DOID:10825"
+        },
+        "associationType": "IS_MODEL_OF",
+        "diseaseModel": "essential hypertension"
+      },
+      {
+        "disease": {
+          "id": "DOID:4195",
+          "name": "hyperglycemia",
+          "url": "http://www.disease-ontology.org/?id=DOID:4195"
+        },
+        "associationType": "IS_MODEL_OF",
+        "diseaseModel": "hyperglycemia"
+      },
+      {
+        "disease": {
+          "id": "DOID:10763",
+          "name": "hypertension",
+          "url": "http://www.disease-ontology.org/?id=DOID:10763"
+        },
+        "associationType": "IS_MODEL_OF",
+        "diseaseModel": "hypertension"
+      }
+    ],
+    "publicationEvidenceCodes": [
+      {
+        "primaryKey": "8a39037a-0c6f-45cb-a35a-4c88a1904261",
+        "publication": {
+          "id": "PMID:10925780",
+          "url": "https://www.ncbi.nlm.nih.gov/pubmed/10925780"
+        },
+        "dateAssigned": "2020-04-09T00:00:00.000-05:00",
+        "evidenceCodes": [
+          {
+            "id": "ECO:0007191",
+            "name": "inference by association of genotype from phenotype used in manual assertion"
+          }
+        ]
+      },
+      {
+        "primaryKey": "ab497ad1-65d3-4a33-8718-2b79afa06449",
+        "publication": {
+          "id": "PMID:12790759",
+          "url": "https://www.ncbi.nlm.nih.gov/pubmed/12790759"
+        },
+        "dateAssigned": "2020-01-08T00:00:00.000-06:00",
+        "evidenceCodes": [
+          {
+            "id": "ECO:0007191",
+            "name": "inference by association of genotype from phenotype used in manual assertion"
+          }
+        ]
+      },
+      {
+        "primaryKey": "9fc09a6a-a2dc-402e-a845-72ce7f3ddecc",
+        "publication": {
+          "id": "PMID:11403354",
+          "url": "https://www.ncbi.nlm.nih.gov/pubmed/11403354"
+        },
+        "dateAssigned": "1999-01-01T00:00:00.000-06:00",
+        "evidenceCodes": [
+          {
+            "id": "ECO:0007191",
+            "name": "inference by association of genotype from phenotype used in manual assertion"
+          }
+        ]
+      },
+      {
+        "primaryKey": "022b0087-2672-418e-a471-cacde8fbe43b",
+        "publication": {
+          "id": "PMID:19620519",
+          "url": "https://www.ncbi.nlm.nih.gov/pubmed/19620519"
+        },
+        "dateAssigned": "2020-04-23T00:00:00.000-05:00",
+        "evidenceCodes": [
+          {
+            "id": "ECO:0007191",
+            "name": "inference by association of genotype from phenotype used in manual assertion"
+          }
+        ]
+      }
+    ],
+    "species": {
+      "name": "Rattus norvegicus",
+      "shortName": "Rno",
+      "dataProviderFullName": "Rat Genome Database",
+      "dataProviderShortName": "RGD",
+      "commonNames": "['rat', 'rno']",
+      "taxonId": "NCBITaxon:10116"
+    }
+  },
+  "8.2.0>=,SBF1,rat": {
+    "category": "affected_genomic_model_annotation",
+    "searchable": false,
+    "model": {
+      "type": "AffectedGenomicModel",
+      "primaryExternalId": "RGD:631848",
+      "dataProvider": {
+        "type": "AllianceMember",
+        "abbreviation": "RGD"
+      },
+      "subtype": {
+        "name": "strain"
+      },
+      "agmFullName": {
+        "formatText": "SHR/OlaIpcv",
+        "displayText": "SHR/OlaIpcv"
+      }
+    },
+    "gene": {
+      "type": "Gene",
+      "primaryExternalId": "RGD:1307090",
+      "dataProvider": {
+        "type": "AllianceMember",
+        "abbreviation": "RGD"
+      },
+      "geneSymbol": {
+        "formatText": "Sbf1",
+        "displayText": "Sbf1"
+      }
+    },
+    "diseaseModels": [
+      {
+        "disease": {
+          "curie": "DOID:10825",
+          "name": "essential hypertension"
+        },
+        "associationType": "IS_MODEL_OF",
+        "diseaseModel": "essential hypertension"
+      },
+      {
+        "disease": {
+          "curie": "DOID:4195",
+          "name": "hyperglycemia"
+        },
+        "associationType": "IS_MODEL_OF",
+        "diseaseModel": "hyperglycemia"
+      },
+      {
+        "disease": {
+          "curie": "DOID:10763",
+          "name": "hypertension"
+        },
+        "associationType": "IS_MODEL_OF",
+        "diseaseModel": "hypertension"
+      }
+    ],
+    "dataProvider": "RGD",
+    "modifierRelationshipTypes": [
+      "ameliorated_by",
+      "exacerbated_by"
+    ],
+    "hasDiseaseAnnotations": true,
+    "hasDiseaseAndPhenotypeAnnotations": false,
+    "hasPhenotypeAnnotations": false
+  }
+}

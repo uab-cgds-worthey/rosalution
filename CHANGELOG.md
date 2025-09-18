@@ -16,10 +16,13 @@
 - Rosalution page titles reflect the name of the analysis being viewed.  Annotation pages include the analysis' name
   along with the selected gene and variant.
 - The build version of Rosalution is in the footer of each Rosalution page after login
+- Animal model cards are backwards compatible with past and current versions of the JSON schema from Alliance Genome.
+- Animal model card titles linkout directly to the animal model from their source database if the URL is available.
 
 ### Bugs
 
 - Missing Favicon with rosalution's logo on each Rosalution page now present
+- Fixed the styling of Alliance Genome Cards in the Annotation View to display text in a more distinct and readable format.
 
 ## 0.8.6
 

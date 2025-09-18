@@ -1,0 +1,160 @@
+{
+  "date": "2022-12-27T16:32:19.000Z",
+  "parental_names": {
+    "paternal_first_name": "",
+    "maternal_first_name": "",
+    "paternal_last_name": "",
+    "maternal_last_name": ""
+  },
+  "apgar": {},
+  "notes": {
+    "family_history": "",
+    "prenatal_development": "",
+    "indication_for_referral": "",
+    "genetic_notes": "",
+    "medical_history": "",
+    "diagnosis_notes": ""
+  },
+  "ethnicity": {
+    "maternal_ethnicity": [],
+    "paternal_ethnicity": []
+  },
+  "date_of_birth": {
+    "year": 2014
+  },
+  "solved": {
+    "status": "unsolved"
+  },
+  "external_id": "CPAM0084-duplicate-again",
+  "variants": [
+    {
+      "start_position": "7100249",
+      "evidence": [
+        "rare"
+      ],
+      "gene": "ENSG00000132535",
+      "chromosome": "17",
+      "inheritance": "unknown",
+      "end_position": "7100249",
+      "transcript": "NM_001365.4",
+      "sanger": "NA",
+      "zygosity": "heterozygous",
+      "interpretation": "likely_pathogenic",
+      "reference_genome": "GRCh37",
+      "protein": "p.Glu347ArgTer12",
+      "effect": "deletion_frameshift",
+      "cdna": "c.1039del",
+      "segregation": "NA"
+    },
+    {
+      "evidence": [
+        "reported"
+      ],
+      "gene": "ENSG00000198563",
+      "chromosome": "6X",
+      "inheritance": "NA",
+      "transcript": "NM_004640.7",
+      "sanger": "NA",
+      "zygosity": "heterozygous",
+      "interpretation": "pathogenic",
+      "reference_genome": "GRCh37",
+      "protein": "p.Gly92Asp",
+      "cdna": "c.275G>A"
+    }
+  ],
+  "clinicalStatus": "affected",
+  "disorders": [],
+  "features": [
+    {
+      "id": "HP:0000739",
+      "label": "Anxiety",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0000750",
+      "label": "Delayed speech and language development",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001249",
+      "label": "Intellectual disability",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001260",
+      "label": "Dysarthria",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001290",
+      "label": "Generalized hypotonia",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001298",
+      "label": "Encephalopathy",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0002194",
+      "label": "Delayed gross motor development",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0002370",
+      "label": "Poor coordination",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0002425",
+      "label": "Anarthria",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0007018",
+      "label": "Attention deficit hyperactivity disorder",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0012758",
+      "label": "Neurodevelopmental delay",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0100702",
+      "label": "Arachnoid cyst",
+      "type": "phenotype",
+      "observed": "yes"
+    }
+  ],
+  "genes": [
+    {
+      "gene": "DDX39B",
+      "id": "ENSG00000198563",
+      "strategy": [
+        "sequencing"
+      ],
+      "status": "candidate"
+    },
+    {
+      "gene": "DLG4",
+      "id": "ENSG00000132535",
+      "strategy": [
+        "sequencing"
+      ],
+      "status": "candidate"
+    }
+  ],
+  "last_modified_by": "affoksinska"
+}

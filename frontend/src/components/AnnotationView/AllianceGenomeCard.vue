@@ -1,14 +1,25 @@
 <template>
-<div class="card-base">
-  <div class="card-header" v-html="modelName" data-test="model-header"/>
-  <div class="card-sub-header" v-html="modelBackground" data-test="model-background"/>
+<div class="card-border card-base">
+  <div class="card-header" data-test="model-header">
+    <a v-if="modelUrl"
+      :href="modelUrl"
+      class="dataset-text-subheader card-title"
+      target="_blank"
+      rel="noreferrer noopener"
+      data-test="model-name"
+    >
+      <span class="title-linkout" v-html="modelName"></span>
+      <sup><font-awesome-icon icon="up-right-from-square" size="2xs"/></sup>
+    </a>
+    <span v-else class="dataset-text-subheader card-title" v-html="modelName" data-test="model-name"></span>
+    <div class="card-sub-title" v-html="modelBackground" data-test="model-background"></div>
+  </div>
   <div class="card-content">
-    <div class="card-section" :style="experimentalConditionStyle" data-test="model-section-condition">
-        Experimental Condition
+    <div class="card-section" :style="experimentalConditionsHeaderColor" data-test="model-section-condition">
+      Experimental Condition
     </div>
     <ul>
-      <li
-        v-for="condition in experimentalConditions"
+      <li v-for="condition in experimentalConditions"
         :key="condition"
         class="card-list"
         data-test="model-list-condition"
@@ -16,40 +27,45 @@
           {{ condition.conditionStatement }}
       </li>
     </ul>
-    <div class="card-section" :style="associatedHumanDiseasesStyle" data-test="model-section-disease">
+    <div class="card-section" :style="diseaseModelsHeaderColor" data-test="model-section-disease">
       Associated Human Diseases
     </div>
-    <li
-      class="card-list"
-      v-for="(diseaseModel) in model.diseaseModels" :key="diseaseModel"
-      data-test="model-list-disease"
-    >
-      {{ diseaseModel.diseaseModel }}
-    </li>
-    <div class="card-section" :style="associatedPhenotypesStyle" data-test="model-section-phenotype">
-          Associated Phenotypes
+    <ul class="card-section-list">
+      <li v-for="(diseaseModel) in diseaseModels"
+        :key="diseaseModel"
+        class="card-list"
+        data-test="model-list-disease"
+      >
+        {{ diseaseModel.diseaseModel }}
+      </li>
+    </ul>
+    <div class="card-section" :style="phenotypesHeaderColor" data-test="model-section-phenotype">
+      Associated Phenotypes
     </div>
-    <div class="card-list"
-        v-for="(value, key) in associatedPhenotypesData" :key="key"
-        data-test="model-list-phenotype"
+    <div v-for="(value, key) in associatedPhenotypesData"
+      :key="key"
+      class="card-list"
+      data-test="model-list-phenotype"
     >
-    <div v-if="key != ''">
+      <div v-if="key != ''">
         <font-awesome-icon v-if="value.icon" :icon="value.icon" :style="value.iconStyle"/>
         <span class="card-section-term" :style="value.style">{{ key }}</span>
+      </div>
+      <ul :class="key == '' ? 'card-section-list' : 'card-section-list-indented'">
+        <li v-for="item in value.phenotypes" :key="item">{{ item }}</li>
+      </ul>
     </div>
-        <ul>
-            <li v-for="item in value.phenotypes" :key="item">{{ item }}</li>
-        </ul>
-    </div>
-    <div class="card-source" data-test="model-source">
-        <b>Source:</b> {{ model.source.name }}
-    </div>
+  </div>
+  <div class="card-source" data-test="model-source">
+    <b>Source:</b> {{ modelSource }}
   </div>
 </div>
 </template>
 
 <script setup>
 import {computed} from 'vue';
+
+import {chooseAnimalModelsSchema} from '@/components/AnnotationView/allianceGenomeRenderingUtility';
 
 const props = defineProps({
   model: {
@@ -90,6 +106,7 @@ const frequentTermsObject = [
   },
 ];
 
+const animalModel =  chooseAnimalModelsSchema(props.model);
 
 function calculateAssociatedPhenotypes() {
   const phenotypesDict = {'':
@@ -101,11 +118,11 @@ function calculateAssociatedPhenotypes() {
         },
   };
 
-  if ( !('phenotypes' in props.model)) {
+  if ( 'phenotypes' in animalModel == false) {
     return phenotypesDict;
   }
 
-  props.model.phenotypes.forEach((phenotype) => {
+  animalModel.phenotypes.forEach((phenotype) => {
     phenotypesDict[''].phenotypes.push(phenotype);
   });
 
@@ -118,7 +135,7 @@ function calculateAssociatedPhenotypes() {
     };
   });
 
-  props.model.phenotypes.forEach((phenotype) => {
+  animalModel.phenotypes.forEach((phenotype) => {
     frequentTermsObject.forEach((term) => {
       const regex = new RegExp('\\b' + term.term + '\\b', 'i');
 
@@ -138,44 +155,31 @@ function calculateAssociatedPhenotypes() {
   return phenotypesDict;
 };
 
-function calculateExperimentalCondition() {
-  if ( !('conditions' in props.model ) || Object.keys(props.model.conditions).length == 0) {
-    return;
-  }
-
-  return props.model.conditions.has_condition;
-};
-
-function determineSectionTextColor(section) {
-  // Added this check due to section being undefined at times even though it is expected to exist.
-  if (section === undefined || section=== null) {
-    return 'color: black';
-  }
-
-  if (Object.keys(section).length === 0) {
-    return {color: `var(--rosalution-grey-300)`};
-  }
-
-  return 'color: black';
-};
-
-
 const modelName = computed(()=> {
   const regex = new RegExp('^(.*?)(?= \\[)', 'g');
-  const matchResult = props.model.name.match(regex);
+  if ('name' in animalModel == false) {
+    return '';
+  }
+  const matchResult = animalModel.name.match(regex);
 
   if (matchResult) {
     return matchResult[0];
   }
 
-  return props.model.name;
+  return animalModel.name;
 });
+
+const modelUrl = 'modelUrl' in animalModel ? animalModel.modelUrl : undefined;
 
 const modelBackground = computed(() => {
   // This escape character is very necessary, but eslint doesn't think so
   const regex = new RegExp(`\\[background:\]?(.*)`, 'g'); // eslint-disable-line
 
-  const matchResult = props.model.name.match(regex);
+  if ('background' in animalModel == false) {
+    return '';
+  }
+
+  const matchResult = animalModel.background.match(regex);
 
   if (matchResult) {
     return matchResult[0];
@@ -184,21 +188,35 @@ const modelBackground = computed(() => {
   return '';
 });
 
-const associatedHumanDiseasesData = props.model.diseaseModels;
+const modelSource = computed(() => {
+  if ( 'source' in animalModel == false ) {
+    return '';
+  }
+  return animalModel['source'];
+});
+
 const associatedPhenotypesData = calculateAssociatedPhenotypes();
-const experimentalConditions = calculateExperimentalCondition();
+const experimentalConditions = 'conditions' in animalModel ? animalModel.conditions : [];
+const diseaseModels = 'diseaseModels' in animalModel ? animalModel.diseaseModels: [];
 
-const associatedHumanDiseasesStyle = computed(()=> {
-  return determineSectionTextColor(associatedHumanDiseasesData);
-});
+function sectionTextColor(section) {
+  const hasEmptyContent =
+    section === undefined ||
+    section === null ||
+    Object.keys(section).length === 0 ||
+    section.length === 0;
+  const hasPhenotypeContentButItsEmpty = Object.keys(section).length === 1 && section?.['']?.phenotypes.length ===0;
 
-const associatedPhenotypesStyle = computed(()=> {
-  return determineSectionTextColor(associatedPhenotypesData);
-});
+  if ( hasEmptyContent || hasPhenotypeContentButItsEmpty ) {
+    return {color: `var(--rosalution-grey-300)`};
+  }
 
-const experimentalConditionStyle = computed(()=> {
-  return determineSectionTextColor(experimentalConditions);
-});
+  return 'color: black';
+};
+
+const experimentalConditionsHeaderColor = sectionTextColor(experimentalConditions);
+const phenotypesHeaderColor  = sectionTextColor(associatedPhenotypesData);
+const diseaseModelsHeaderColor = sectionTextColor(diseaseModels);
 
 </script>
 
@@ -206,57 +224,65 @@ const experimentalConditionStyle = computed(()=> {
 ul {
   list-style-type: disc;
   padding-left: 7%;
-}
-
-li {
-  margin-left: var(--p-10);
-  padding-top: 1%;
-  font-size: 15px;
+  line-height: var(--annotation-line-height);
+  margin-bottom: var(--p-8);
 }
 
 .card-header {
-    font-size: 22px;
-    font-weight: bold;
+  overflow-wrap: break-word;
 }
 
-.card-sub-header {
-    font-size: 16px;
-    padding-top: 2%;
+.card-title {
+  font-weight: 600;
+  line-height: var(--p-28);
+}
+
+.title-linkout {
+  margin-right: var(--p-5);
+}
+
+.card-sub-title {
+  font-size: var(--p-16);
 }
 
 .card-base {
-  text-decoration: none;
-  width: 30rem;
-  padding: var(--p-8);
   background-color: var(--rosalution-grey-50);
-  box-sizing: border-box;
-  color: inherit;
   border-radius: var(--content-border-radius);
+  text-decoration: none;
+  width: 25rem;
+  padding: var(--p-8);
+  box-sizing: border-box;
   height: 35rem;
-  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: var(--p-8);
 }
 
 .card-content {
-    padding-bottom: 10%;
+  overflow-y: auto;
+  flex-grow: 1;
 }
 
 .card-section {
-    font-weight: bold;
-    padding-top: 2.5%;
+  font-weight: 600;
+  line-height: var(--p-28);
 }
 
 .card-section-term {
-    padding-left: var(--p-5);
+  padding-left: var(--p-5);
+  font-weight: 600;
+}
+
+.card-section-list {
+  padding-left: 5%;
+}
+
+.card-section-list-indented {
+  padding-left: 8%;
 }
 
 .card-list {
-    padding-top: 1%;
-    padding-left: 5%;
-    font-size: 16px;
-}
-
-.card-source {
-  padding-top: 2%;
+  font-size: var(--p-16);
 }
 
 </style>
