@@ -1,66 +1,63 @@
 <template>
-<div class="card-border">
-  <div class="card-base">
-    <div class="card-header" data-test="model-header">
-      <a v-if="modelUrl"
-        :href="modelUrl"
-        class="card-header"
-        target="_blank"
-        rel="noreferrer noopener"
-        data-test="model-name"
-      >
-        <span v-html="modelName" :style="{padding: '0 0.35rem 0 0'}"></span>
-        <sup><font-awesome-icon icon="up-right-from-square" size="2xs"/></sup>
-      </a>
-      <span v-else class="card-header" v-html="modelName" data-test="model-name"></span>
+<div class="card-border card-base">
+  <div class="card-header" data-test="model-header">
+    <a v-if="modelUrl"
+      :href="modelUrl"
+      class="card-title"
+      target="_blank"
+      rel="noreferrer noopener"
+      data-test="model-name"
+    >
+      <span class="title-linkout" v-html="modelName"></span>
+      <sup><font-awesome-icon icon="up-right-from-square" size="2xs"/></sup>
+    </a>
+    <span v-else class="card-title" v-html="modelName" data-test="model-name"></span>
+    <div class="card-sub-title" v-html="modelBackground" data-test="model-background"></div>
+  </div>
+  <div class="card-content">
+    <div class="card-section" :style="experimentalConditionsHeaderColor" data-test="model-section-condition">
+      Experimental Condition
     </div>
-    <div class="card-sub-header" v-html="modelBackground" data-test="model-background"></div>
-    <div class="card-content">
-      <div class="card-section" :style="experimentalConditionsHeaderColor" data-test="model-section-condition">
-        Experimental Condition
-      </div>
-      <ul>
-        <li
-          v-for="condition in experimentalConditions"
-          :key="condition"
-          class="card-list"
-          data-test="model-list-condition"
-        >
-            {{ condition.conditionStatement }}
-        </li>
-      </ul>
-      <div class="card-section" :style="diseaseModelsHeaderColor" data-test="model-section-disease">
-        Associated Human Diseases
-      </div>
-      <ul class="card-section-list">
-        <li v-for="(diseaseModel) in diseaseModels"
-          :key="diseaseModel"
-          class="card-list"
-          data-test="model-list-disease"
-        >
-          {{ diseaseModel.diseaseModel }}
-        </li>
-      </ul>
-      <div class="card-section" :style="phenotypesHeaderColor" data-test="model-section-phenotype">
-        Associated Phenotypes
-      </div>
-      <div v-for="(value, key) in associatedPhenotypesData"
-        :key="key"
+    <ul>
+      <li v-for="condition in experimentalConditions"
+        :key="condition"
         class="card-list"
-        data-test="model-list-phenotype"
+        data-test="model-list-condition"
       >
-        <div v-if="key != ''">
-          <font-awesome-icon v-if="value.icon" :icon="value.icon" :style="value.iconStyle"/>
-          <span class="card-section-term" :style="value.style">{{ key }}</span>
-        </div>
-        <ul :class="key == '' ? 'card-section-list' : 'card-section-list-indented'">
-          <li v-for="item in value.phenotypes" :key="item">{{ item }}</li>
-        </ul>
-      </div>
-      <div class="card-source" data-test="model-source">
-        <b>Source:</b> {{ modelSource }}
-      </div>
+          {{ condition.conditionStatement }}
+      </li>
+    </ul>
+    <div class="card-section" :style="diseaseModelsHeaderColor" data-test="model-section-disease">
+      Associated Human Diseases
     </div>
+    <ul class="card-section-list">
+      <li v-for="(diseaseModel) in diseaseModels"
+        :key="diseaseModel"
+        class="card-list"
+        data-test="model-list-disease"
+      >
+        {{ diseaseModel.diseaseModel }}
+      </li>
+    </ul>
+    <div class="card-section" :style="phenotypesHeaderColor" data-test="model-section-phenotype">
+      Associated Phenotypes
+    </div>
+    <div v-for="(value, key) in associatedPhenotypesData"
+      :key="key"
+      class="card-list"
+      data-test="model-list-phenotype"
+    >
+      <div v-if="key != ''">
+        <font-awesome-icon v-if="value.icon" :icon="value.icon" :style="value.iconStyle"/>
+        <span class="card-section-term" :style="value.style">{{ key }}</span>
+      </div>
+      <ul :class="key == '' ? 'card-section-list' : 'card-section-list-indented'">
+        <li v-for="item in value.phenotypes" :key="item">{{ item }}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card-source" data-test="model-source">
+    <b>Source:</b> {{ modelSource }}
   </div>
 </div>
 </template>
@@ -227,53 +224,54 @@ const diseaseModelsHeaderColor = sectionTextColor(diseaseModels);
 ul {
   list-style-type: disc;
   padding-left: 7%;
-}
-
-li {
-  padding-top: 1%;
-  font-size: 15px;
+  line-height: 1.5rem;
+  margin-bottom: var(--p-8);
 }
 
 .card-header {
-  font-size: 22px;
-  font-weight: bold;
+  overflow-wrap: break-word;
 }
 
-.card-sub-header {
-  font-size: 18px;
-  padding-top: 2%;
-  font-weight: bold;
+.card-title {
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: var(--p-28);
 }
 
-.card-border {
-  background-color: var(--rosalution-grey-50);
-  border-radius: var(--content-border-radius);
-  overflow-y: auto;
-  height: 35rem;
+.title-linkout {
+  margin-right: var(--p-5);
+}
+
+.card-sub-title {
+  font-size: var(--p-16);
 }
 
 .card-base {
+  background-color: var(--rosalution-grey-50);
+  border-radius: var(--content-border-radius);
   text-decoration: none;
-  width: 30rem;
+  width: 25rem;
   padding: var(--p-8);
   box-sizing: border-box;
-  color: inherit;
-  overflow-y: visible;
   height: 35rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--p-8);
 }
 
 .card-content {
-  padding-bottom: 10%;
+  overflow-y: auto;
+  flex-grow: 1;
 }
 
 .card-section {
-  font-weight: bold;
-  padding-top: 2.5%;
+  font-weight: 600;
+  line-height: var(--p-28);
 }
 
 .card-section-term {
   padding-left: var(--p-5);
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .card-section-list {
@@ -285,13 +283,7 @@ li {
 }
 
 .card-list {
-  padding-top: 1%;
-  /* padding-left: 5%; */
   font-size: 16px;
-}
-
-.card-source {
-  padding-top: 2%;
 }
 
 </style>
