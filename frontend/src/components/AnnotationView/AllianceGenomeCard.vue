@@ -3,7 +3,7 @@
   <div class="card-header" data-test="model-header">
     <a v-if="modelUrl"
       :href="modelUrl"
-      class="card-title"
+      class="dataset-text-subheader card-title"
       target="_blank"
       rel="noreferrer noopener"
       data-test="model-name"
@@ -11,7 +11,7 @@
       <span class="title-linkout" v-html="modelName"></span>
       <sup><font-awesome-icon icon="up-right-from-square" size="2xs"/></sup>
     </a>
-    <span v-else class="card-title" v-html="modelName" data-test="model-name"></span>
+    <span v-else class="dataset-text-subheader card-title" v-html="modelName" data-test="model-name"></span>
     <div class="card-sub-title" v-html="modelBackground" data-test="model-background"></div>
   </div>
   <div class="card-content">
@@ -224,7 +224,7 @@ const diseaseModelsHeaderColor = sectionTextColor(diseaseModels);
 ul {
   list-style-type: disc;
   padding-left: 7%;
-  line-height: 1.5rem;
+  line-height: var(--annotation-line-height);
   margin-bottom: var(--p-8);
 }
 
@@ -234,7 +234,6 @@ ul {
 
 .card-title {
   font-weight: 600;
-  font-size: 1.25rem;
   line-height: var(--p-28);
 }
 
@@ -283,7 +282,7 @@ ul {
 }
 
 .card-list {
-  font-size: 16px;
+  font-size: var(--p-16);
 }
 
 </style>
