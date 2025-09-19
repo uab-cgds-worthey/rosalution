@@ -56,9 +56,14 @@ img.onload = () => {
 
 const imageSrc = ref(new URL('/src/assets/rosalution-logo.svg', import.meta.url));
 
+const screenWidth = ref(window.innerWidth);
+const screenHeight = ref(window.height);
+
+const maxScreenResolution = Math.min(screenWidth, screenHeight);
+
 const styledImage = reactive({
-  width: '100%',
-  height: '100%',
+  width: 100% * maxScreenResolution,
+  height: 100% * maxScreenResolution,
 });
 
 // functions
