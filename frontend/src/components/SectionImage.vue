@@ -7,12 +7,13 @@
           },
         }"
         target="_blank" rel="noreferrer noopener"
+        :style="styledImage"
       >
-        <img class="section-image" :src="imageSrc" data-test="annotation-image" :id="imageId" @click="getDimensions"/>
+        <img class="section-image image-content" :src="imageSrc" data-test="annotation-image" :id="imageId" />
       </router-link>
       <!-- TODO: Since both AnalysisView and AnnotationView are using this component,
         change the emit to be update-image -->
-        <button v-if="this.writePermissions"
+        <button v-if="writePermissions"
           class="edit-icon"
           @click="$emit('update-annotation-image', imageId, dataSet, genomicType)"
           data-test="annotation-edit-icon"
@@ -23,7 +24,7 @@
 </template>
 
 <script setup>
-import {reactive, ref} from 'vue';
+import {reactive, ref, watch} from 'vue';
 import FileRequests from '@/fileRequests.js';
 
 defineEmits(['update-annotation-image']);
@@ -46,37 +47,69 @@ const props = defineProps({
   },
 });
 
-const img = new Image();
 
-img.src = ref(new URL('/src/assets/rosalution-logo.svg', import.meta.url));
-
-img.onload = () => {
-  console.log(`the image dimensions are ${img.width}x${img.height}`);
-};
-
-const imageSrc = ref(new URL('/src/assets/rosalution-logo.svg', import.meta.url));
 
 const screenWidth = ref(window.innerWidth);
 const screenHeight = ref(window.height);
 
-const maxScreenResolution = Math.min(screenWidth, screenHeight);
+
+
+// img.onload = () => {
+//   console.log(`the image dimensions are ${img.naturalWidth}x${img.naturalHeight}`);
+//   imageWidth.value = img.naturalWidth;
+//   imageHeight.value = img.naturalHeight;
+// };
+
+const imageSrc = ref(new URL('/src/assets/rosalution-logo.svg', import.meta.url));
 
 const styledImage = reactive({
-  width: 100% * maxScreenResolution,
-  height: 100% * maxScreenResolution,
+  width: '100%',
+  height: '100%',
 });
+
+
+//  const maxScreenResolution = Math.min(imageWidth, imageHeight);
+const imageWidth = ref(0);
+const imageHeight = ref(0);
+
+watch(imageSrc, (loadedImageSrc) => {
+  const img = new Image();
+  img.src = ref(new URL(loadedImageSrc, import.meta.url));
+  console.log(img);
+  console.log(img.width)
+  // console.log(loadedImageSrc);
+  imageWidth.value= ref(img.width);
+  imageHeight.value = ref(img.height);
+
+  const maxImageResolution = Math.min(screenWidth.value/imageWidth.value, screenHeight.value/imageHeight.value);
+
+  if ( imageWidth.value > screenWidth.value || imageHeight.value > screenHeight.value ) {
+    styledImage.width.value = imageWidth.value * maxImageResolution;
+    styledImage.height.value = imageHeight.value * maxImageResolution;
+  }
+  console.log('weeeeeeeeeeeeee');
+});
+
+// const renderedWidth = imageWidth * maxScreenResolution;
+// const renderedHeight = imageHeight * maxScreenResolution;
+
+// const styledImage = reactive({
+//   width: renderedWidth,
+//   height: renderedHeight,
+// });
 
 // functions
 
-function getDimensions() {
-  console.log('This is the image');
-  console.log(img);
-  console.log(`the image dimensions are ${img.width}x${img.height}`);
-}
+// function getDimensions() {
+//   console.log('This is the image');
+//   console.log(img);
+//   console.log(`the image dimensions are ${img.width}x${img.height}`);
+// }
 
 async function sectionImageUpdate() {
   const loadingImage = await FileRequests.getImage(props.imageId);
   imageSrc.value = loadingImage;
+  console.log('its updating here though right?');
 }
 
 function calculateAspectRatioFit(imgWidth, imgHeight, maxWidth, maxHeight) {
@@ -109,6 +142,11 @@ sectionImageUpdate();
   justify-content: space-between;
   flex-wrap: nowrap;
   align-items: start;
+}
+
+.image-content {
+  width: inherit;
+  height: inherit;
 }
 
 /* .section-image {
