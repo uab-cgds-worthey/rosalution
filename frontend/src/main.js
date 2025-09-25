@@ -46,7 +46,13 @@ const routes = [
   {path: '/rosalution/account', name: 'account', component: AccountView},
   {path: '/rosalution/analysis/:analysis_name', name: 'analysis', component: AnalysisView, props: true},
   {path: '/rosalution/analysis/file/:file_id', name: 'file', component: FileView, props: true},
-  {path: '/rosalution/analysis/:analysis_name/annotation/', name: 'annotation', component: AnnotationView, props: true},
+  {path: '/rosalution/analysis/:analysis_name/annotation', name: 'annotation', component: AnnotationView, props:
+    (route) => ({
+      analysis_name: route.params.analysis_name,
+      ...(route.query.gene ? {gene: route.query.gene} : {}),
+      ...(route.query.variant ? {variant: route.query.variant} : {}),
+    }),
+  },
   {path: '/rosalution/logout', name: 'logout', component: LogoutView},
   {path: '/:pathMatch(.*)', component: NotFoundView},
 ];

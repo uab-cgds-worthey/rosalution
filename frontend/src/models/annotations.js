@@ -9,25 +9,16 @@ export default {
   async getAnnotations(analysisName, gene, variant) {
     const baseUrl = '/rosalution/api/analysis';
 
-    const encodedVariantForUrl = encodeVariantSpecialCharacters(variant);
-
-    /**
-     * Inline helper method to determine if the variant annotations need to get queried.
-     * This allows for ease of debugging and readability
-     * @param {boolean} condition
-     * @param  {Object} elements
-     * @return {Array} If condition is true, returns the elements spread to be
-     *                 populated in an array or an empty array
-     */
-    function insertIf(condition, ...elements) {
-      return condition ? elements : [];
+    const annotationEndpoints = [`${baseUrl}/${analysisName}/gene/${gene}`];
+    if ( variant && variant !== '' ) {
+      const encodedVariantForUrl = encodeVariantSpecialCharacters(variant);
+      annotationEndpoints.push(`${baseUrl}/${analysisName}/hgvsVariant/${encodedVariantForUrl}`);
     }
 
-    const [geneAnnotations, variantAnnotations] = await Promise.all([
-      Requests.get(`${baseUrl}/${analysisName}/gene/${gene}`),
-      ...insertIf(variant !== '', Requests.get(`${baseUrl}/${analysisName}/hgvsVariant/${encodedVariantForUrl}`)),
-    ]);
-    return {...geneAnnotations, ...variantAnnotations};
+    const [geneAnnotations, variantAnnotations] = await Promise.all(
+        annotationEndpoints.map( (endpoints) => Requests.get(endpoints) ),
+    );
+    return {...geneAnnotations, ...(variantAnnotations ? variantAnnotations : [])};
   },
   async attachAnnotationImage(genomicUnit, dataSet, annotation) {
     const baseUrl = `/rosalution/api/annotation`;

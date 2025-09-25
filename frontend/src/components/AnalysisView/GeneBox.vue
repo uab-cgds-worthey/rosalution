@@ -7,6 +7,10 @@
             params: {
               analysis_name: this.name,
             },
+            query: {
+              gene: this.gene,
+              ...(variants.length > 0 ? { variant: getCompleteHgvsVariantName(variants[0]) } : {}),
+            },
             state: {
               gene: this.gene,
               ...(variants.length > 0 ? { variant: getCompleteHgvsVariantName(variants[0]) } : {}),
@@ -27,6 +31,10 @@
                 name: 'annotation',
                 params: {
                   analysis_name: this.name,
+                },
+                query: {
+                  gene: this.gene,
+                  variant: getCompleteHgvsVariantName(variant),
                 },
                 state: {
                   gene: this.gene,

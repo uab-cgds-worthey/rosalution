@@ -1,0 +1,150 @@
+{
+  "date": "2022-12-27T16:32:19.000Z",
+  "parental_names": {
+    "paternal_first_name": "",
+    "maternal_first_name": "",
+    "paternal_last_name": "",
+    "maternal_last_name": ""
+  },
+  "apgar": {},
+  "notes": {
+    "family_history": "",
+    "prenatal_development": "",
+    "indication_for_referral": "",
+    "genetic_notes": "",
+    "medical_history": "",
+    "diagnosis_notes": ""
+  },
+  "ethnicity": {
+    "maternal_ethnicity": [],
+    "paternal_ethnicity": []
+  },
+  "solved": {
+    "status": "unsolved"
+  },
+  "external_id": "PAH AK2_rs752889879",
+  "variants": [
+    {
+      "start_position": "7100249",
+      "evidence": [
+        "rare"
+      ],
+      "gene": "ENSG00000004455",
+      "chromosome": "17",
+      "inheritance": "unknown",
+      "end_position": "7100249",
+      "transcript": "NM_001319141.3",
+      "sanger": "NA",
+      "zygosity": "heterozygous",
+      "interpretation": "likely_pathogenic",
+      "reference_genome": "GRCh37",
+      "protein": "p.?",
+      "effect": "deletion_frameshift",
+      "cdna": "c.*46_*47insACATCC",
+      "segregation": "NA"
+    }
+  ],
+  "clinicalStatus": "affected",
+  "disorders": [],
+  "features": [
+    {
+      "id": "HP:0000739",
+      "label": "Anxiety",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0000750",
+      "label": "Delayed speech and language development",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001249",
+      "label": "Intellectual disability",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001260",
+      "label": "Dysarthria",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001290",
+      "label": "Generalized hypotonia",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001298",
+      "label": "Encephalopathy",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0002194",
+      "label": "Delayed gross motor development",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0002370",
+      "label": "Poor coordination",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0002425",
+      "label": "Anarthria",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0007018",
+      "label": "Attention deficit hyperactivity disorder",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0012758",
+      "label": "Neurodevelopmental delay",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0100702",
+      "label": "Arachnoid cyst",
+      "type": "phenotype",
+      "observed": "yes"
+    }
+  ],
+  "specificity": {
+    "date": "2022-12-27T16:47:27.068Z",
+    "score": 0.9144866681383053,
+    "server": "local-omim"
+  },
+  "nonstandard_features": [],
+  "id": "P0000055",
+  "genes": [
+    {
+      "gene": "AK2",
+      "id": "ENSG00000004455",
+      "strategy": [
+        "sequencing"
+      ],
+      "status": "candidate"
+    }
+  ],
+  "life_status": "alive",
+  "sex": "F",
+  "clinical-diagnosis": [],
+  "meta": {
+    "hgnc_version": "2020-09-16T16:21:14.971Z",
+    "omim_version": "2018-10-03T17:01:45.970Z",
+    "ordo_version": "3.0",
+    "hpo_version": "hp/releases/2020-08-11",
+    "phenotips_version": "6.9.2.RELEASE"
+  }
+}
