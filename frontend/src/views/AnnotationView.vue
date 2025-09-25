@@ -148,7 +148,7 @@ export default {
       return this.active.variant.replace(/\(.*/, '');
     },
     pageTitle() {
-      const variantString = this.active.variant && ('| ' + this.active.variant)
+      const variantString = this.active.variant && ('| ' + this.active.variant);
       return `${this.analysis_name} | ${this.active.gene} ${variantString} | rosalution`;
     },
   },

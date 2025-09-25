@@ -19,7 +19,6 @@
 - For analyses that include only a gene, the annotation page will no longer attempt to query a non-existent variant from
   the API.
 
-
 ## 0.8.7
 
 ### Features
