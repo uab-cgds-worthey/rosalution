@@ -14,8 +14,8 @@
 ### Bugs
 
 - Opening an analysis' annotation page in a new tab from the analysis page will correctly select the linked gene and
-  variant using the query paramters from its URL.
-- The annotation page title will no longer include an additional '| ' when  there are no variants in the analysis.
+  variant using the query parameters from its URL.
+- The annotation page title will no longer include an additional '| ' when there are no variants in the analysis.
 - For analyses that include only a gene, the annotation page will no longer attempt to query a non-existent variant from
   the API.
 
