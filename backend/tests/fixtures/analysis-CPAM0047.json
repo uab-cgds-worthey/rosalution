@@ -2,56 +2,74 @@
   "name": "CPAM0047",
   "description": "Congenital variant of Rett syndrome",
   "nominated_by": "CMT4B3 Foundation",
-  "manifest": [
-    {
-      "Polyphen Prediction": {
-        "data_source": "Ensembl",
-        "version": "112"
+  "manifest": {
+    "NM_002972.2:c.3493_3494dupTA": [
+      {
+        "Polyphen Prediction": {
+          "data_source": "Ensembl",
+          "version": "112"
+        }
+      },
+      {
+        "ClinVar_Variantion_Id": {
+          "data_source": "Ensembl",
+          "version": "rosalution-manifest-00"
+        }
       }
-    },
-    {
-      "Entrez Gene Id": {
-        "data_source": "Ensembl",
-        "version": "rosalution-manifest-00"
+    ],
+    "NM_002972.2:c.5474_5475delTG": [
+      {
+        "Polyphen Prediction": {
+          "data_source": "Ensembl",
+          "version": "112"
+        }
+      },
+      {
+        "ClinVar_Variantion_Id": {
+          "data_source": "Ensembl",
+          "version": "rosalution-manifest-00"
+        }
       }
-    },
-    {
-      "HPO_NCBI_GENE_ID": {
-        "data_source": "Ensembl",
-        "version": "2024-09-06"
+    ],
+    "SBF1": [
+      {
+        "Entrez Gene Id": {
+          "data_source": "Ensembl",
+          "version": "rosalution-manifest-00"
+        }
+      },
+      {
+        "HPO_NCBI_GENE_ID": {
+          "data_source": "Ensembl",
+          "version": "2024-09-06"
+        }
+      },
+      {
+        "Ensembl Gene Id": {
+          "data_source": "Ensembl",
+          "version": "112"
+        }
+      },
+      {
+        "ClinGen_gene_url": {
+          "data_source": "Ensembl",
+          "version": "rosalution-manifest-00"
+        }
+      },
+      {
+        "OMIM": {
+          "data_source": "Ensembl",
+          "version": "2024-09-06"
+        }
+      },
+      {
+        "HGNC_ID": {
+          "data_source": "Ensembl",
+          "version": "rosalution-manifest-00"
+        }
       }
-    },
-    {
-      "Ensembl Gene Id": {
-        "data_source": "Ensembl",
-        "version": "112"
-      }
-    },
-    {
-      "ClinGen_gene_url": {
-        "data_source": "Ensembl",
-        "version": "rosalution-manifest-00"
-      }
-    },
-    {
-      "OMIM": {
-        "data_source": "Ensembl",
-        "version": "2024-09-06"
-      }
-    },
-    {
-      "ClinVar_Variantion_Id": {
-        "data_source": "Ensembl",
-        "version": "rosalution-manifest-00"
-      }
-    },
-    {
-      "HGNC_ID": {
-        "data_source": "Ensembl",
-        "version": "rosalution-manifest-00"
-      }
-    }
-  ],
+    ]
+  },
   "genomic_units": [
     {
       "gene": "SBF1",

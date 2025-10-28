@@ -138,12 +138,12 @@ def fixture_annotation_config_collection_with_cached_dataset():
 def get_dataset_manifest_config(analysis_collection_json):
     """Fixture factory method to create an dataset from the genomic unit information and name of the datset."""
 
-    def _create_dataset_manifest(analysis_name, dataset_name):
+    def _create_dataset_manifest(analysis_name, omic_unit, dataset_name):
         """Method to create the dataset manifest config"""
 
         analysis_json = next((item for item in analysis_collection_json if item['name'] == analysis_name), None)
         analysis = Analysis(**analysis_json)
-        dataset_manifest = next((item for item in analysis.manifest if dataset_name in item), None)
+        dataset_manifest = next((item for item in analysis.manifest[omic_unit] if dataset_name in item), None)
 
         dataset_config = {
             "data_set": dataset_name, "data_source": dataset_manifest[dataset_name]['data_source'],

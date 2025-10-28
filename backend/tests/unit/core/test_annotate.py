@@ -117,7 +117,7 @@ def fixture_extract_and_annotate_cpam0002(cpam0002_annotation_queue, get_dataset
             skip_depends.skip_hgncid_get_value_first_time_mock
         )
         mock_analysis_collection.get_manifest_dataset_config.return_value = get_dataset_manifest_config(
-            "CPAM0002", 'HGNC_ID'
+            "CPAM0002", "VMA21", 'HGNC_ID'
         )
         mock_genomic_unit_collection.annotation_exist.return_value = False
 
@@ -159,7 +159,7 @@ def fixture_extract_and_annotate_cpam0046(cpam0046_annotation_queue, get_dataset
         mock_genomic_unit_collection.find_genomic_unit_annotation_value.side_effect = (
             skip_depends.skip_hgncid_get_value_first_time_mock
         )
-        dependency_dataset = get_dataset_manifest_config("CPAM0046", 'HGNC_ID')
+        dependency_dataset = get_dataset_manifest_config("CPAM0046", "LMNA", 'HGNC_ID')
         mock_analysis_collection.get_manifest_dataset_config.return_value = dependency_dataset
         mock_genomic_unit_collection.annotation_exist.return_value = False
 
