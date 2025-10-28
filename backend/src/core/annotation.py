@@ -247,7 +247,7 @@ class AnnotationProcess():
                     logger.info('%s Saving %s...', format_annotation_logging(annotation_unit), annotation['value'])
 
                     self.genomic_unit_collection.annotate_genomic_unit(annotation_unit.genomic_unit, annotation)
-                    self.analysis_collection.add_dataset_to_πmanifest(annotation_unit.analysis_name, annotation_unit)
+                    self.analysis_collection.add_dataset_to_manifest(annotation_unit.analysis_name, annotation_unit)
                 logger.info('%s Complete...', format_annotation_logging(annotation_unit))
 
         except FileNotFoundError as error:

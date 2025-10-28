@@ -143,7 +143,11 @@ def get_dataset_manifest_config(analysis_collection_json):
 
         analysis_json = next((item for item in analysis_collection_json if item['name'] == analysis_name), None)
         analysis = Analysis(**analysis_json)
-        dataset_manifest = next((item for item in analysis.manifest[omic_unit] if dataset_name in item), None)
+
+        omic_unit_manifest = next(
+            (omic_manifest for omic_manifest in analysis.manifest if omic_manifest['unit'] == omic_unit), None
+        )
+        dataset_manifest = next((item for item in omic_unit_manifest['manifest'] if dataset_name in item), None)
 
         dataset_config = {
             "data_set": dataset_name, "data_source": dataset_manifest[dataset_name]['data_source'],

@@ -2,8 +2,10 @@
   "name": "CPAM0046",
   "description": ": LMNA-related congenital muscular dystropy",
   "nominated_by": "Dr. Person Two",
-  "manifest": {
-    "LMNA": [
+  "manifest": [
+    {
+      "unit": "LMNA",
+      "manifest": [
       {
         "Entrez Gene Id": {
           "data_source": "Ensembl",
@@ -40,8 +42,9 @@
           "version": "rosalution-manifest-00"
         }
       }
-    ],
-    "NM_170707.3:c.745C>T": [
+    ]},
+    {"unit": "NM_170707.3:c.745C>T",
+    "manifest": [
       {
         "Polyphen Prediction": {
           "data_source": "Ensembl",
@@ -55,7 +58,7 @@
         }
       }
     ]
-  },
+  }],
   "genomic_units": [
     {
       "gene": "LMNA",
