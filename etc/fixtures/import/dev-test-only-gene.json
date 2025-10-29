@@ -1,0 +1,218 @@
+{
+  "date": "2023-02-10T00:11:36.000Z",
+  "parental_names": {
+    "paternal_first_name": "",
+    "maternal_first_name": "",
+    "paternal_last_name": "",
+    "maternal_last_name": ""
+  },
+  "apgar": {},
+  "notes": {
+    "family_history": "",
+    "prenatal_development": "",
+    "indication_for_referral": "",
+    "genetic_notes": "",
+    "medical_history": "",
+    "diagnosis_notes": ""
+  },
+  "ethnicity": {
+    "maternal_ethnicity": [],
+    "paternal_ethnicity": []
+  },
+  "date_of_birth": {},
+  "solved": {
+    "status": "unsolved"
+  },
+  "external_id": "CPAM (NEK8)",
+  "variants": [
+  ],
+  "clinicalStatus": "affected",
+  "disorders": [],
+  "features": [
+    {
+      "id": "HP:0000155",
+      "label": "Oral ulcer",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0000217",
+      "label": "Xerostomia",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0000365",
+      "label": "Hearing impairment",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0000508",
+      "label": "Ptosis",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0000716",
+      "label": "Depressivity",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0000872",
+      "label": "Hashimoto thyroiditis",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0000988",
+      "label": "Skin rash",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0000992",
+      "label": "Cutaneous photosensitivity",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001097",
+      "label": "Keratoconjunctivitis sicca",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001337",
+      "label": "Tremor",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001369",
+      "label": "Arthritis",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001370",
+      "label": "Rheumatoid arthritis",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001596",
+      "label": "Alopecia",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001701",
+      "label": "Pericarditis",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001882",
+      "label": "Leukopenia",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0001903",
+      "label": "Anemia",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0002035",
+      "label": "Rectal prolapse",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0002102",
+      "label": "Pleuritis",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0002315",
+      "label": "Headache",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0002583",
+      "label": "Colitis",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0003401",
+      "label": "Paresthesia",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0005681",
+      "label": "Juvenile rheumatoid arthritis",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0030880",
+      "label": "Raynaud phenomenon",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0100543",
+      "label": "Cognitive impairment",
+      "type": "phenotype",
+      "observed": "yes"
+    },
+    {
+      "id": "HP:0100654",
+      "label": "Retrobulbar optic neuritis",
+      "type": "phenotype",
+      "observed": "yes"
+    }
+  ],
+  "id": "P0000060",
+  "prenatal_perinatal_history": {
+    "multipleGestation": null,
+    "icsi": null,
+    "ivf": null,
+    "assistedReproduction_donoregg": null,
+    "assistedReproduction_iui": null,
+    "twinNumber": "",
+    "assistedReproduction_fertilityMeds": null,
+    "gestation": null,
+    "assistedReproduction_surrogacy": null,
+    "assistedReproduction_donorsperm": null
+  },
+  "family_history": {
+    "miscarriages": null,
+    "consanguinity": null,
+    "affectedRelatives": null
+  },
+  "genes": [
+    {
+      "gene": "NEK8",
+      "id": "ENSG00000160602",
+      "strategy": [
+        "sequencing"
+      ],
+      "status": "candidate"
+    }
+  ],
+  "meta": {
+    "hgnc_version": "2020-09-16T16:21:14.971Z",
+    "omim_version": "2018-10-03T17:01:45.970Z",
+    "ordo_version": "3.0",
+    "hpo_version": "hp/releases/2020-08-11",
+    "phenotips_version": "6.9.2.RELEASE"
+  }
+}

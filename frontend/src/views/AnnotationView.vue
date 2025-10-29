@@ -110,6 +110,14 @@ export default {
       type: String,
       required: true,
     },
+    gene: {
+      type: String,
+      required: false,
+    },
+    variant: {
+      type: String,
+      required: false,
+    },
   },
   data: function() {
     return {
@@ -117,8 +125,8 @@ export default {
       rendering: [],
       annotations: {},
       active: {
-        'gene': history.state.gene || '',
-        'variant': history.state.variant || '',
+        'gene': ( this.gene && this.gene != '' ) ? this.gene : ( history.state.gene || '' ),
+        'variant': ( this.variant && this.variant != '' ) ? this.variant : ( history.state.variant || '' ),
       },
       genomicUnits: {
         'genes': {},
@@ -138,6 +146,15 @@ export default {
     },
     activeVariantWithRemovedProtein() {
       return this.active.variant.replace(/\(.*/, '');
+    },
+    pageTitle() {
+      const variantString = this.active.variant && ('| ' + this.active.variant);
+      return `${this.analysis_name} | ${this.active.gene} ${variantString} | rosalution`;
+    },
+  },
+  watch: {
+    pageTitle() {
+      document.title = this.pageTitle;
     },
   },
   async created() {
@@ -286,7 +303,7 @@ export default {
     },
   },
   async beforeMount() {
-    document.title = `${this.analysis_name} | ${this.active.gene} | ${this.active.variant} | rosalution`;
+    document.title = this.pageTitle;
   },
 };
 </script>

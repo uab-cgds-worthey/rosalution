@@ -273,18 +273,6 @@
     "versioning_type": "rosalution"
   },
   {
-    "data_set": "gnomAD4",
-    "data_source": "OpenCravat",
-    "genomic_unit_type": "hgvs_variant",
-    "annotation_source_type": "http",
-    "url": "https://run.opencravat.org/submit/annotate?{opencravat_search_variant_vcf_string}&annotators=gnomad4",
-    "attribute": "{ \"gnomad4\": .gnomad4 }",
-    "dependencies": [
-      "opencravat_search_variant_vcf_string"
-    ],
-    "versioning_type": "date"
-  },
-  {
     "data_set": "COSMIC_gene_url",
     "data_source": "Rosalution",
     "genomic_unit_type": "gene",
