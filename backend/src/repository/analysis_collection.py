@@ -179,8 +179,7 @@ class AnalysisCollection:
             return None
 
         manifest_entry = next((dataset for dataset in unit_manifest['manifest'] if dataset_name in dataset), None)
-        # print(manifest_entry)
-        # print('manifest entry for getting the config')
+
         return {
             "data_set": dataset_name, "data_source": manifest_entry[dataset_name]['data_source'],
             "version": manifest_entry[dataset_name]['version']

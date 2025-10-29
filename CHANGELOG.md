@@ -10,6 +10,8 @@
 ### Features
 
 - The annotations page can select genes & variant of an analysis to view using the page URL's query parameters
+- Annotation manifests for analyses are now organized by omic unit, allowing more granular support for versioning of
+  annotations.
 
 ### Bugs
 
