@@ -190,9 +190,7 @@ class AnnotationProcess():
                     '%s Remove Manifest Entry Manually...', format_annotation_logging(manifest_annotation_unit)
                 )
             else:
-                logger.info(
-                    '%s Manifest Annotation Exists...', format_annotation_logging(manifest_annotation_unit)
-                )
+                logger.info('%s Manifest Annotation Exists...', format_annotation_logging(manifest_annotation_unit))
                 return
 
         if not annotation_unit.version_calculated():
@@ -325,9 +323,7 @@ class AnnotationProcess():
         if self.is_version_cached(version_cache_id):
             cached_version = self.version_cache[version_cache_id]
             annotation_unit.set_latest_version(cached_version)
-            logger.info(
-                '%s Version From Cache %s...', format_annotation_logging(annotation_unit), cached_version
-            )
+            logger.info('%s Version From Cache %s...', format_annotation_logging(annotation_unit), cached_version)
         self.queue.put(annotation_unit)
 
     def handle_annotation_unit_dependencies(self, annotation_unit: AnnotationUnit):
