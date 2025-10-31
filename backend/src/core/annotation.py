@@ -176,20 +176,20 @@ class AnnotationProcess():
         on the task execeutor thread pool.
         """
 
-        maybe_manifest_entry = self.retrieve_manifest_entry_if_exist(annotation_unit)
-        if maybe_manifest_entry is not None and not annotation_unit.version_calculated():
+        possible_manifest_entry = self.retrieve_manifest_entry_if_exist(annotation_unit)
+        if possible_manifest_entry is not None and not annotation_unit.version_calculated():
             manifest_annotation_unit = self._create_temporary_annotation_unit(
-                annotation_unit.genomic_unit, maybe_manifest_entry, annotation_unit.analysis_name,
+                annotation_unit.genomic_unit, possible_manifest_entry, annotation_unit.analysis_name,
                 annotation_unit.is_transcript_dataset()
             )
             if not self.genomic_unit_collection.annotation_exist(manifest_annotation_unit):
                 logger.error(
-                    '%s Annotation in Manifest Does Not Exist...', format_annotation_logging(manifest_annotation_unit)
+                    '%s Manifest Annotation Does Not Exist...', format_annotation_logging(manifest_annotation_unit)
                 )
-                logger.error('%s Remove From Manifest Later...', format_annotation_logging(manifest_annotation_unit))
+                logger.error('%s Remove Manifest Entry Manually...', format_annotation_logging(manifest_annotation_unit))
             else:
                 logger.info(
-                    '%s Annotation From Manifest Exists...', format_annotation_logging(manifest_annotation_unit)
+                    '%s Manifest Annotation Exists...', format_annotation_logging(manifest_annotation_unit)
                 )
                 return
 
@@ -315,7 +315,7 @@ class AnnotationProcess():
         version_cache_id = version_task.get_version_cache_id()
 
         if not self.is_version_cache_setup(version_cache_id):
-            logger.info('%s Creating Task Calculate Version...', format_annotation_logging(annotation_unit))
+            logger.info('%s Creating Calculate Version Task...', format_annotation_logging(annotation_unit))
             self.setup_version_cache(version_cache_id)
             self.queue_task_in_tasks_worker(version_task)
             return
@@ -324,7 +324,7 @@ class AnnotationProcess():
             cached_version = self.version_cache[version_cache_id]
             annotation_unit.set_latest_version(cached_version)
             logger.info(
-                '%s Version Gathered from Cache %s...', format_annotation_logging(annotation_unit), cached_version
+                '%s Version From Cache %s...', format_annotation_logging(annotation_unit), cached_version
             )
         self.queue.put(annotation_unit)
 
