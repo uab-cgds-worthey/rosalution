@@ -186,7 +186,9 @@ class AnnotationProcess():
                 logger.error(
                     '%s Manifest Annotation Does Not Exist...', format_annotation_logging(manifest_annotation_unit)
                 )
-                logger.error('%s Remove Manifest Entry Manually...', format_annotation_logging(manifest_annotation_unit))
+                logger.error(
+                    '%s Remove Manifest Entry Manually...', format_annotation_logging(manifest_annotation_unit)
+                )
             else:
                 logger.info(
                     '%s Manifest Annotation Exists...', format_annotation_logging(manifest_annotation_unit)
