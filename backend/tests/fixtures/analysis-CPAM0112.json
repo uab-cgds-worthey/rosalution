@@ -2,13 +2,9 @@
   "name": "CPAM0112",
   "description": "",
   "nominated_by": "",
-  "manifest": [
-    {
-      "Polyphen Prediction": {
-        "data_source": "Ensembl",
-        "version": "112"
-      }
-    },
+  "manifest": [{
+    "unit": "VMA21",
+    "manifest": [
     {
       "Entrez Gene Id": {
         "data_source": "Ensembl",
@@ -40,17 +36,28 @@
       }
     },
     {
-      "ClinVar_Variantion_Id": {
-        "data_source": "Ensembl",
-        "version": "rosalution-manifest-00"
-      }
-    },
-    {
       "HGNC_ID": {
         "data_source": "Ensembl",
         "version": "rosalution-manifest-00"
       }
     }
+  ]}, {
+    "unit": "NM_001017980.3:c.164G>T",
+    "manifest": [
+    {
+      "Polyphen Prediction": {
+        "data_source": "Ensembl",
+        "version": "112"
+      }
+    },
+    {
+      "ClinVar_Variation_Id": {
+        "data_source": "Ensembl",
+        "version": "rosalution-manifest-00"
+      }
+    }
+  ]
+  }
   ],
   "genomic_units": [
     {

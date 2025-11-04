@@ -434,304 +434,314 @@
     ],
     "manifest": [
       {
-        "Entrez Gene Id": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
+        "unit": "VMA21",
+        "manifest": [
+          {
+            "Entrez Gene Id": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Ensembl Gene Id": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "HGNC_ID": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Gene Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "ClinGen_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "NCBI_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "gnomAD_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "OMIM": {
+              "data_source": "HPO",
+              "version": "2024-09-25"
+            }
+          },
+          {
+            "OMIM_gene_search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "HPO": {
+              "data_source": "HPO",
+              "version": "2024-09-25"
+            }
+          },
+          {
+            "HPO_gene_search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_RGD_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_MGI_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_ZFIN_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_WB_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Human_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat_Rat_Genome_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Mouse_Mouse_Genome_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Zebrafish_Zebrafish_Information_Network_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "C-Elegens_Worm_Base_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Frog_General_Xenbase_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "GTEx_Human_Gene_Expression_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Human_Protein_Atlas_Protein_Gene_Search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Pharos_Target_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          }
+        ]
       },
       {
-        "Ensembl Gene Id": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "HGNC_ID": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Gene Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "ClinGen_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "ClinVar_variant_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "ClinVar_Variantion_Id": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "NCBI_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "gnomAD_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "OMIM": {
-          "data_source": "HPO",
-          "version": "2024-09-25"
-        }
-      },
-      {
-        "OMIM_gene_search_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "HPO": {
-          "data_source": "HPO",
-          "version": "2024-09-25"
-        }
-      },
-      {
-        "HPO_gene_search_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Rat Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_RGD_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_MGI_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_ZFIN_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_WB_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "transcript_id": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Polyphen Prediction": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Polyphen Score": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "SIFT Prediction": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "SIFT Score": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Consequences": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "CADD": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Impact": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Human_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Rat_Rat_Genome_Database_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Mouse_Mouse_Genome_Database_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Zebrafish_Zebrafish_Information_Network_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "C-Elegens_Worm_Base_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Frog_General_Xenbase_Database_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "GTEx_Human_Gene_Expression_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Human_Protein_Atlas_Protein_Gene_Search_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Pharos_Target_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
+        "unit": "NM_001017980.3:c.164G>T",
+        "manifest": [
+          {
+            "ClinVar_variant_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "ClinVar_Variantion_Id": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "transcript_id": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Polyphen Prediction": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Polyphen Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Prediction": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Consequences": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "CADD": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Impact": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          }
+        ]
       }
     ]
   },
@@ -1020,304 +1030,314 @@
     ],
     "manifest": [
       {
-        "Entrez Gene Id": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
+        "unit": "LMNA",
+        "manifest": [
+          {
+            "Entrez Gene Id": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Ensembl Gene Id": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "HGNC_ID": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Gene Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "ClinGen_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "NCBI_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "gnomAD_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "OMIM": {
+              "data_source": "HPO",
+              "version": "2024-09-25"
+            }
+          },
+          {
+            "OMIM_gene_search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "HPO": {
+              "data_source": "HPO",
+              "version": "2024-09-25"
+            }
+          },
+          {
+            "HPO_gene_search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_RGD_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_MGI_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_ZFIN_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_WB_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Human_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat_Rat_Genome_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Mouse_Mouse_Genome_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Zebrafish_Zebrafish_Information_Network_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "C-Elegens_Worm_Base_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Frog_General_Xenbase_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "GTEx_Human_Gene_Expression_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Human_Protein_Atlas_Protein_Gene_Search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Pharos_Target_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          }
+        ]
       },
       {
-        "Ensembl Gene Id": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "HGNC_ID": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Gene Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "ClinGen_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "ClinVar_variant_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "ClinVar_Variantion_Id": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "NCBI_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "gnomAD_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "OMIM": {
-          "data_source": "HPO",
-          "version": "2024-09-25"
-        }
-      },
-      {
-        "OMIM_gene_search_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "HPO": {
-          "data_source": "HPO",
-          "version": "2024-09-25"
-        }
-      },
-      {
-        "HPO_gene_search_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Rat Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_RGD_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_MGI_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_ZFIN_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_WB_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "transcript_id": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Polyphen Prediction": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Polyphen Score": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "SIFT Prediction": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "SIFT Score": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Consequences": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "CADD": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Impact": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Human_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Rat_Rat_Genome_Database_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Mouse_Mouse_Genome_Database_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Zebrafish_Zebrafish_Information_Network_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "C-Elegens_Worm_Base_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Frog_General_Xenbase_Database_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "GTEx_Human_Gene_Expression_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Human_Protein_Atlas_Protein_Gene_Search_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Pharos_Target_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
+        "unit": "NM_170707.3:c.745C>T",
+        "manifest": [
+          {
+            "ClinVar_variant_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "ClinVar_Variantion_Id": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "transcript_id": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Polyphen Prediction": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Polyphen Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Prediction": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Consequences": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "CADD": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Impact": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          }
+        ]
       }
     ]
   },
@@ -1571,304 +1591,379 @@
     ],
     "manifest": [
       {
-        "Entrez Gene Id": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
+        "unit": "SBF1",
+        "manifest": [
+          {
+            "Entrez Gene Id": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Ensembl Gene Id": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "HGNC_ID": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Gene Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "ClinGen_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "NCBI_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "gnomAD_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "OMIM": {
+              "data_source": "HPO",
+              "version": "2024-09-25"
+            }
+          },
+          {
+            "OMIM_gene_search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "HPO": {
+              "data_source": "HPO",
+              "version": "2024-09-25"
+            }
+          },
+          {
+            "HPO_gene_search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_RGD_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_MGI_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_ZFIN_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_WB_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Human_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat_Rat_Genome_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Mouse_Mouse_Genome_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Zebrafish_Zebrafish_Information_Network_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "C-Elegens_Worm_Base_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Frog_General_Xenbase_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "GTEx_Human_Gene_Expression_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Human_Protein_Atlas_Protein_Gene_Search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Pharos_Target_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          }
+        ]
       },
       {
-        "Ensembl Gene Id": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
+        "unit": "NM_002972.2:c.3493_3494dupTA",
+        "manifest": [
+          {
+            "ClinVar_variant_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "ClinVar_Variantion_Id": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "transcript_id": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Polyphen Prediction": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Polyphen Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Prediction": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Consequences": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "CADD": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Impact": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          }
+        ]
       },
       {
-        "HGNC_ID": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Gene Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "ClinGen_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "ClinVar_variant_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "ClinVar_Variantion_Id": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "NCBI_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "gnomAD_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "OMIM": {
-          "data_source": "HPO",
-          "version": "2024-09-25"
-        }
-      },
-      {
-        "OMIM_gene_search_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "HPO": {
-          "data_source": "HPO",
-          "version": "2024-09-25"
-        }
-      },
-      {
-        "HPO_gene_search_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Rat Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_RGD_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_MGI_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_ZFIN_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_WB_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "transcript_id": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Polyphen Prediction": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Polyphen Score": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "SIFT Prediction": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "SIFT Score": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Consequences": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "CADD": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Impact": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Human_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Rat_Rat_Genome_Database_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Mouse_Mouse_Genome_Database_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Zebrafish_Zebrafish_Information_Network_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "C-Elegens_Worm_Base_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Frog_General_Xenbase_Database_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "GTEx_Human_Gene_Expression_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Human_Protein_Atlas_Protein_Gene_Search_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Pharos_Target_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
+        "unit": "NM_002972.2:c.5474_5475delTG",
+        "manifest": [
+          {
+            "ClinVar_variant_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "ClinVar_Variantion_Id": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "transcript_id": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Polyphen Prediction": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Polyphen Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Prediction": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Consequences": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "CADD": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Impact": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          }
+        ]
       }
     ]
   },
@@ -2171,304 +2266,379 @@
     ],
     "manifest": [
       {
-        "Entrez Gene Id": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
+        "unit": "PEX10",
+        "manifest": [
+          {
+            "Entrez Gene Id": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Ensembl Gene Id": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "HGNC_ID": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Gene Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "ClinGen_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "NCBI_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "gnomAD_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "OMIM": {
+              "data_source": "HPO",
+              "version": "2024-09-25"
+            }
+          },
+          {
+            "OMIM_gene_search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "HPO": {
+              "data_source": "HPO",
+              "version": "2024-09-25"
+            }
+          },
+          {
+            "HPO_gene_search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_RGD_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_MGI_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_ZFIN_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_WB_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Human_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat_Rat_Genome_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Mouse_Mouse_Genome_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Zebrafish_Zebrafish_Information_Network_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "C-Elegens_Worm_Base_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Frog_General_Xenbase_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "GTEx_Human_Gene_Expression_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Human_Protein_Atlas_Protein_Gene_Search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Pharos_Target_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          }
+        ]
       },
       {
-        "Ensembl Gene Id": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
+        "unit": "NM_153818.2:c.28dup",
+        "manifest": [
+          {
+            "ClinVar_variant_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "ClinVar_Variantion_Id": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "transcript_id": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Polyphen Prediction": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Polyphen Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Prediction": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Consequences": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "CADD": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Impact": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          }
+        ]
       },
       {
-        "HGNC_ID": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Gene Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "ClinGen_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "ClinVar_variant_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "ClinVar_Variantion_Id": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "NCBI_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "gnomAD_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "OMIM": {
-          "data_source": "HPO",
-          "version": "2024-09-25"
-        }
-      },
-      {
-        "OMIM_gene_search_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "HPO": {
-          "data_source": "HPO",
-          "version": "2024-09-25"
-        }
-      },
-      {
-        "HPO_gene_search_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Rat Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_RGD_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_MGI_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_ZFIN_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_WB_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "transcript_id": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Polyphen Prediction": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Polyphen Score": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "SIFT Prediction": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "SIFT Score": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Consequences": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "CADD": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Impact": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Human_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Rat_Rat_Genome_Database_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Mouse_Mouse_Genome_Database_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Zebrafish_Zebrafish_Information_Network_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "C-Elegens_Worm_Base_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Frog_General_Xenbase_Database_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "GTEx_Human_Gene_Expression_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Human_Protein_Atlas_Protein_Gene_Search_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Pharos_Target_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
+        "unit": "NM_153818.2:c.928C>G",
+        "manifest": [
+          {
+            "ClinVar_variant_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "ClinVar_Variantion_Id": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "transcript_id": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Polyphen Prediction": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Polyphen Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Prediction": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Consequences": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "CADD": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Impact": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          }
+        ]
       }
     ]
   },
@@ -2696,304 +2866,379 @@
     ],
     "manifest": [
       {
-        "Entrez Gene Id": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
+        "unit": "FOXG1",
+        "manifest": [
+          {
+            "Entrez Gene Id": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Ensembl Gene Id": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "HGNC_ID": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Gene Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "ClinGen_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "NCBI_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "gnomAD_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "OMIM": {
+              "data_source": "HPO",
+              "version": "2024-09-25"
+            }
+          },
+          {
+            "OMIM_gene_search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "HPO": {
+              "data_source": "HPO",
+              "version": "2024-09-25"
+            }
+          },
+          {
+            "HPO_gene_search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_RGD_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_MGI_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_ZFIN_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_WB_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Human_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat_Rat_Genome_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Mouse_Mouse_Genome_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Zebrafish_Zebrafish_Information_Network_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "C-Elegens_Worm_Base_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Frog_General_Xenbase_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "GTEx_Human_Gene_Expression_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Human_Protein_Atlas_Protein_Gene_Search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Pharos_Target_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          }
+        ]
       },
       {
-        "Ensembl Gene Id": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
+        "unit": "NM_005249.5:c.924G>A",
+        "manifest": [
+          {
+            "ClinVar_variant_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "ClinVar_Variantion_Id": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "transcript_id": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Polyphen Prediction": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Polyphen Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Prediction": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Consequences": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "CADD": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Impact": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          }
+        ]
       },
       {
-        "HGNC_ID": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Gene Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "ClinGen_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "ClinVar_variant_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "ClinVar_Variantion_Id": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "NCBI_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "gnomAD_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "OMIM": {
-          "data_source": "HPO",
-          "version": "2024-09-25"
-        }
-      },
-      {
-        "OMIM_gene_search_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "HPO": {
-          "data_source": "HPO",
-          "version": "2024-09-25"
-        }
-      },
-      {
-        "HPO_gene_search_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Rat Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_RGD_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_MGI_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_ZFIN_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_WB_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "transcript_id": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Polyphen Prediction": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Polyphen Score": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "SIFT Prediction": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "SIFT Score": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Consequences": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "CADD": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Impact": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Human_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Rat_Rat_Genome_Database_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Mouse_Mouse_Genome_Database_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Zebrafish_Zebrafish_Information_Network_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "C-Elegens_Worm_Base_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Frog_General_Xenbase_Database_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "GTEx_Human_Gene_Expression_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Human_Protein_Atlas_Protein_Gene_Search_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Pharos_Target_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
+        "unit": "NM_005249.5:c.256dup",
+        "manifest": [
+          {
+            "ClinVar_variant_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "ClinVar_Variantion_Id": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "transcript_id": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Polyphen Prediction": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Polyphen Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Prediction": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Consequences": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "CADD": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Impact": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          }
+        ]
       }
     ]
   },
@@ -3289,304 +3534,624 @@
     "attachments": [],
     "manifest": [
       {
-        "Entrez Gene Id": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
+        "unit": "DLG4",
+        "manifest": [
+          {
+            "Entrez Gene Id": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Ensembl Gene Id": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "HGNC_ID": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Gene Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "ClinGen_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "NCBI_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "gnomAD_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "OMIM": {
+              "data_source": "HPO",
+              "version": "2024-09-25"
+            }
+          },
+          {
+            "OMIM_gene_search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "HPO": {
+              "data_source": "HPO",
+              "version": "2024-09-25"
+            }
+          },
+          {
+            "HPO_gene_search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_RGD_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_MGI_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_ZFIN_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_WB_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Human_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat_Rat_Genome_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Mouse_Mouse_Genome_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Zebrafish_Zebrafish_Information_Network_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "C-Elegens_Worm_Base_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Frog_General_Xenbase_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "GTEx_Human_Gene_Expression_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Human_Protein_Atlas_Protein_Gene_Search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Pharos_Target_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          }
+        ]
       },
       {
-        "Ensembl Gene Id": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
+        "unit": "NM_001365.4:c.1039del",
+        "manifest": [
+          {
+            "ClinVar_variant_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "ClinVar_Variantion_Id": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "transcript_id": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Polyphen Prediction": {
+              "data_source": "Ensembl",
+              "version": 100
+            }
+          },
+          {
+            "Polyphen Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Prediction": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Consequences": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "CADD": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Impact": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          }
+        ]
       },
       {
-        "HGNC_ID": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
+        "unit": "G6PD",
+        "manifest": [
+          {
+            "Entrez Gene Id": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Ensembl Gene Id": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "HGNC_ID": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Gene Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "ClinGen_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "NCBI_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "gnomAD_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "OMIM": {
+              "data_source": "HPO",
+              "version": "2024-09-25"
+            }
+          },
+          {
+            "OMIM_gene_search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "HPO": {
+              "data_source": "HPO",
+              "version": "2024-09-25"
+            }
+          },
+          {
+            "HPO_gene_search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_RGD_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_MGI_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_ZFIN_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_WB_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Human_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat_Rat_Genome_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Mouse_Mouse_Genome_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Zebrafish_Zebrafish_Information_Network_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "C-Elegens_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "C-Elegens_Worm_Base_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "Frog_General_Xenbase_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "7.3.0"
+            }
+          },
+          {
+            "GTEx_Human_Gene_Expression_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Human_Protein_Atlas_Protein_Gene_Search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Pharos_Target_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          }
+        ]
       },
       {
-        "Gene Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "ClinGen_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "ClinVar_variant_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "ClinVar_Variantion_Id": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "NCBI_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "gnomAD_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "OMIM": {
-          "data_source": "HPO",
-          "version": "2024-09-25"
-        }
-      },
-      {
-        "OMIM_gene_search_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "HPO": {
-          "data_source": "HPO",
-          "version": "2024-09-25"
-        }
-      },
-      {
-        "HPO_gene_search_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Rat Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_RGD_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_MGI_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_ZFIN_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens Gene Identifier": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_Automated_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_WB_Summary": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_Models": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "transcript_id": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Polyphen Prediction": {
-          "data_source": "Ensembl",
-          "version": 100
-        }
-      },
-      {
-        "Polyphen Score": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "SIFT Prediction": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "SIFT Score": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Consequences": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "CADD": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Impact": {
-          "data_source": "Ensembl",
-          "version": 112
-        }
-      },
-      {
-        "Human_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Rat_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Rat_Rat_Genome_Database_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Mouse_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Mouse_Mouse_Genome_Database_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Zebrafish_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Zebrafish_Zebrafish_Information_Network_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "C-Elegens_Alliance_Genome_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "C-Elegens_Worm_Base_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "Frog_General_Xenbase_Database_url": {
-          "data_source": "Alliance Genome",
-          "version": "7.3.0"
-        }
-      },
-      {
-        "GTEx_Human_Gene_Expression_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Human_Protein_Atlas_Protein_Gene_Search_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "Pharos_Target_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
+        "unit": "NM_001360016.2:c.563C>T",
+        "manifest": [
+          {
+            "ClinVar_variant_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "ClinVar_Variantion_Id": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "transcript_id": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Polyphen Prediction": {
+              "data_source": "Ensembl",
+              "version": 100
+            }
+          },
+          {
+            "Polyphen Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Prediction": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "SIFT Score": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Consequences": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "CADD": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          },
+          {
+            "Impact": {
+              "data_source": "Ensembl",
+              "version": 112
+            }
+          }
+        ]
       }
     ]
   }

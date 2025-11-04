@@ -124,7 +124,7 @@ class AnnotationUnit:
         delay_count = self.dataset['delay_count'] + 1 if 'delay_count' in self.dataset else 0
         self.dataset['delay_count'] = delay_count
 
-        is_delay_count_exceeding = self.dataset['delay_count'] > 10
+        is_delay_count_exceeding = self.dataset['delay_count'] > 20
 
         return not is_delay_count_exceeding
 
@@ -132,6 +132,6 @@ class AnnotationUnit:
         """Sets the Annotation Unit with the version"""
         self.version = version_details
 
-    def version_exists(self):
+    def version_calculated(self):
         """Checks if the Annotation Unit is versioned or not"""
         return self.version != ""

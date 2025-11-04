@@ -393,7 +393,6 @@ def get_analysis_discussion_json():
 
     def _get_analysis_discussion_json(analysis_json, post_id: str):
         """Provides the json for an individual discussion from an analysis json fixture"""
-        print(analysis_json)
         return next((discussion for discussion in analysis_json['discussions'] if discussion['post_id'] == post_id),
                     None)
 

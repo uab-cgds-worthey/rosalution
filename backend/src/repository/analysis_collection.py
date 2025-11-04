@@ -134,31 +134,51 @@ class AnalysisCollection:
 
     def add_dataset_to_manifest(self, analysis_name: str, annotation_unit: AnnotationUnit):
         """Adds this dataset and its version to this Analysis."""
-
         dataset = {
             annotation_unit.get_dataset_name(): {
                 'data_source': annotation_unit.get_dataset_source(), 'version': annotation_unit.version
             }
         }
 
-        updated_document = self.collection.find_one_and_update({"name": analysis_name},
-                                                               {"$addToSet": {"manifest": dataset}},
+        self.collection.find_one_and_update({
+            "name": analysis_name, "manifest.unit": {"$ne": annotation_unit.get_genomic_unit()}
+        }, {'$addToSet': {'manifest': {'unit': annotation_unit.get_genomic_unit(), 'manifest': []}}})
+
+        updated_document = self.collection.find_one_and_update({
+            "name": analysis_name, "manifest.unit": annotation_unit.get_genomic_unit()
+        }, {"$addToSet": {"manifest.$[entry].manifest": dataset}},
+                                                               array_filters=[{
+                                                                   'entry.unit': annotation_unit.get_genomic_unit()
+                                                               }],
                                                                return_document=ReturnDocument.AFTER)
 
         return updated_document['manifest']
 
-    def get_manifest_dataset_config(self, analysis_name: str, dataset_name: str):
+    def get_manifest_dataset_config(self, analysis_name: str, omic_unit: str, dataset_name: str):
         """ Returns an individual dataset manifest """
-        dataset_attribute = f"manifest.{dataset_name}"
 
-        projection = {"manifest.$": 1}
-        query = {"name": analysis_name, dataset_attribute: {'$exists': True}}
+        dataset_field = f"manifest.{dataset_name}"
+
+        query = {
+            "name": analysis_name, "manifest": {"$elemMatch": {"unit": omic_unit, dataset_field: {'$exists': True}}}
+        }
+
+        projection = {"manifest.manifest": 1, "manifest.unit.$": 1}
+
         analysis = self.collection.find_one(query, projection)
 
         if not analysis:
             return None
 
-        manifest_entry = next((dataset for dataset in analysis['manifest'] if dataset_name in dataset), None)
+        unit_manifest = next((
+            unit_manifest for unit_manifest in analysis['manifest']
+            if "unit" in unit_manifest and unit_manifest['unit'] == omic_unit
+        ), None)
+
+        if not unit_manifest:
+            return None
+
+        manifest_entry = next((dataset for dataset in unit_manifest['manifest'] if dataset_name in dataset), None)
 
         return {
             "data_set": dataset_name, "data_source": manifest_entry[dataset_name]['data_source'],

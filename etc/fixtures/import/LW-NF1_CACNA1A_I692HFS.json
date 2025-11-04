@@ -1,0 +1,32 @@
+{
+  "date": "2025-10-07T00:00:00.000Z",
+  "external_id": "LW_NF1 CACNA1A_I692HFS",
+  "variants": [
+    {
+      "transcript": "NM_001127221.2",
+      "gene": "ENSG00000141837",
+      "reference_genome": "GRCh39",
+      "protein": "p.Ile692HisfsTer90",
+      "effect": "frameshift",
+      "cdna": "c.2073dup"
+    },
+    {
+      "transcript": "NM_001127222.2",
+      "gene": "ENSG00000141837",
+      "reference_genome": "GRCh39",
+      "protein": "p.Ile691HisfsTer90",
+      "effect": "frameshift",
+      "cdna": "c.2070dup"
+    }
+  ],
+  "genes": [
+    {
+      "gene": "CACNA1A",
+      "id": "ENSG00000141837",
+      "strategy": [
+        "sequencing"
+      ],
+      "status": "candidate"
+    }
+  ]
+}
