@@ -72,4 +72,13 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
     cy.get('[data-test="user-menu"] > .grey-rounded-menu > :nth-child(2)').contains('Approve').click();
     cy.get('[data-test="status-icon"] > svg').should('have.class', 'fa-check');
   });
+
+  it('should render the content visible within a desktop viewport', () => {
+    cy.visit('/analysis/CPAM0178%20(ITGA3)');
+    cy.get('[data-test="header-title-text"]').contains('CPAM0178 (ITGA3)')
+
+    // Using the far right most menu item in the header is visible to verify the content width of
+    // the CSS grid does not exceed the viewport.
+    cy.get('[data-test="user-menu"]').should('exist').and('be.visible')
+  });
 });
