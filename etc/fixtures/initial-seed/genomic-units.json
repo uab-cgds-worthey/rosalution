@@ -23216,5 +23216,5756 @@
         ]
       }
     ]
+  },
+  {
+    "gene_symbol": "ITGA3",
+    "gene": "ITGA3",
+    "annotations": [
+      {
+        "OMIM_gene_search_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.omim.org/search?index=entry&start=1&sort=score+desc%2C+prefix_sort+desc&search=ITGA3"
+          }
+        ]
+      },
+      {
+        "HPO_gene_search_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://hpo.jax.org/app/browse/search?q=ITGA3&navFilter=all"
+          }
+        ]
+      },
+      {
+        "Frog_General_Xenbase_Database_url": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": "https://www.xenbase.org/entry/XB-GENEPAGE-493978"
+          }
+        ]
+      },
+      {
+        "GTEx_Human_Gene_Expression_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://gtexportal.org/home/gene/ITGA3"
+          }
+        ]
+      },
+      {
+        "Human_Protein_Atlas_Protein_Gene_Search_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.proteinatlas.org/search/ITGA3"
+          }
+        ]
+      },
+      {
+        "Pharos_Target_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://pharos.nih.gov/targets/ITGA3"
+          }
+        ]
+      },
+      {
+        "COSMIC_gene_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://cancer.sanger.ac.uk/cosmic/gene/analysis?ln=ITGA3"
+          }
+        ]
+      },
+      {
+        "HGNC_GENE_NAMES_CALL_CACHE": [
+          {
+            "data_source": "HGNC_GeneNames",
+            "version": "2025-11-11",
+            "value": {
+              "ensembl_gene_id": "ENSG00000005884",
+              "agr": "HGNC:6139",
+              "alias_symbol": [
+                "CD49c",
+                "VLA3a",
+                "VCA-2",
+                "GAP-B3"
+              ],
+              "refseq_accession": [
+                "NM_005501"
+              ],
+              "locus_group": "protein-coding gene",
+              "status": "Approved",
+              "date_approved_reserved": "1992-02-27T00:00:00Z",
+              "rgd_id": [
+                "RGD:1310333"
+              ],
+              "gene_group": [
+                "CD molecules",
+                "Integrin alpha subunits"
+              ],
+              "mane_select": [
+                "ENST00000320031.13",
+                "NM_002204.4"
+              ],
+              "prev_symbol": [
+                "MSK18"
+              ],
+              "date_modified": "2023-03-15T00:00:00Z",
+              "mgd_id": [
+                "MGI:96602"
+              ],
+              "name": "integrin subunit alpha 3",
+              "uuid": "c872b2c2-81bc-4b77-adfb-9d67456eff4a",
+              "orphanet": 311039,
+              "symbol": "ITGA3",
+              "ccds_id": [
+                "CCDS11558"
+              ],
+              "locus_type": "gene with protein product",
+              "gene_group_id": [
+                471,
+                1160
+              ],
+              "entrez_id": "3675",
+              "prev_name": [
+                "antigen identified by monoclonal antibody J143",
+                "integrin, alpha 3 (antigen CD49C, alpha 3 subunit of VLA-3 receptor)"
+              ],
+              "omim_id": [
+                "605025"
+              ],
+              "iuphar": "HGNC:6139",
+              "alias_name": [
+                "alpha 3 subunit of VLA-3 receptor",
+                "antigen CD49C",
+                "galactoprotein b3",
+                "very late activation receptor subunit alpha-3"
+              ],
+              "date_name_changed": "2015-12-15T00:00:00Z",
+              "pubmed_id": [
+                1655803,
+                9704023,
+                26854491
+              ],
+              "gencc": "HGNC:6139",
+              "ucsc_id": "uc010dbl.4",
+              "cd": "CD49c",
+              "ena": [
+                "M59911"
+              ],
+              "hgnc_id": "HGNC:6139",
+              "location": "17q21.33",
+              "vega_id": "OTTHUMG00000161890",
+              "uniprot_ids": [
+                "P26006"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "ANIMAL_MODEL_IDS_VIA_AUTOCOMPLETE_ALLIANCE_GENOME_CACHE": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": [
+              {
+                "symbol": "ITGA3",
+                "name_key": "ITGA3 (Hsa)",
+                "name": "ITGA3",
+                "category": "gene",
+                "primaryKey": "HGNC:6139"
+              },
+              {
+                "symbol": "Itga3",
+                "name_key": "Itga3 (Rno)",
+                "name": "Itga3",
+                "category": "gene",
+                "primaryKey": "RGD:1310333"
+              },
+              {
+                "symbol": "Itga3",
+                "name_key": "Itga3 (Mmu)",
+                "name": "Itga3",
+                "category": "gene",
+                "primaryKey": "MGI:96602"
+              },
+              {
+                "symbol": "itga3a",
+                "name_key": "itga3a (Dre)",
+                "name": "itga3a",
+                "category": "gene",
+                "primaryKey": "ZFIN:ZDB-GENE-090805-3"
+              },
+              {
+                "symbol": "itga3b",
+                "name_key": "itga3b (Dre)",
+                "name": "itga3b",
+                "category": "gene",
+                "primaryKey": "ZFIN:ZDB-GENE-050411-55"
+              },
+              {
+                "symbol": "itga3",
+                "name_key": "itga3 (Xtr)",
+                "name": "itga3",
+                "category": "gene",
+                "primaryKey": "Xenbase:XB-GENE-493979"
+              },
+              {
+                "symbol": "itga3.S",
+                "name_key": "itga3.S (Xla)",
+                "name": "itga3.S",
+                "category": "gene",
+                "primaryKey": "Xenbase:XB-GENE-866306"
+              },
+              {
+                "symbol": "itga3.L",
+                "name_key": "itga3.L (Xla)",
+                "name": "itga3.L",
+                "category": "gene",
+                "primaryKey": "Xenbase:XB-GENE-6252370"
+              },
+              {
+                "symbol": "Itga3<sup>tm1Son</sup>",
+                "name_key": "Itga3<tm1Son> (Mmu)",
+                "name": "Itga3<sup>tm1Son</sup>",
+                "category": "allele",
+                "primaryKey": "MGI:3691084"
+              },
+              {
+                "name_key": "itga3b<sa22024/+> (Dre)",
+                "name": "itga3b<sup>sa22024/+</sup>",
+                "category": "model",
+                "primaryKey": "ZFIN:ZDB-FISH-231025-2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Ensembl Gene Id": [
+          {
+            "data_source": "HGNC_GeneNames",
+            "version": "2025-11-11",
+            "value": "ENSG00000005884"
+          }
+        ]
+      },
+      {
+        "Rat Gene Identifier": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": "RGD:1310333"
+          }
+        ]
+      },
+      {
+        "Mouse Gene Identifier": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": "MGI:96602"
+          }
+        ]
+      },
+      {
+        "HGNC_ID": [
+          {
+            "data_source": "HGNC_GeneNames",
+            "version": "2025-11-11",
+            "value": "HGNC:6139"
+          }
+        ]
+      },
+      {
+        "Entrez Gene Id": [
+          {
+            "data_source": "HGNC_GeneNames",
+            "version": "2025-11-11",
+            "value": "3675"
+          }
+        ]
+      },
+      {
+        "Gene Summary": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": "The gene encodes a member of the integrin alpha chain family of proteins. Integrins are heterodimeric integral membrane proteins composed of an alpha chain and a beta chain that function as cell surface adhesion molecules. The encoded preproprotein is proteolytically processed to generate light and heavy chains that comprise the alpha 3 subunit. This subunit joins with a beta 1 subunit to form an integrin that interacts with extracellular matrix proteins including members of the laminin family. Expression of this gene may be correlated with breast cancer metastasis. [provided by RefSeq, Oct 2015]"
+          }
+        ]
+      },
+      {
+        "ClinGen_gene_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://search.clinicalgenome.org/kb/genes/HGNC:6139"
+          }
+        ]
+      },
+      {
+        "gnomAD_gene_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://gnomad.broadinstitute.org/gene/ENSG00000005884?dataset=gnomad_r2_1"
+          }
+        ]
+      },
+      {
+        "NCBI_gene_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=3675"
+          }
+        ]
+      },
+      {
+        "HPO_NCBI_GENE_ID": [
+          {
+            "data_source": "HGNC_GeneNames",
+            "version": "2025-11-11",
+            "value": "NCBIGene:3675"
+          }
+        ]
+      },
+      {
+        "Mouse_Alliance_Genome_Models": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": [
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:5766498",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "A/a In(11Trp53;11Wnt3)8Brd/+  [background:] either: (involves: 129S7/SvEvBrd * C57BL/6Brd) or (involves: 129S5/SvEvBrd * 129S7/SvEvBrd * C57BL/6Brd) or (involves: 129S5/SvEvBrd * C57BL/6Brd * C57BL/6J)",
+                    "displayText": "A/a In(11Trp53;11Wnt3)8Brd/+  [background:] either: (involves: 129S7/SvEvBrd * C57BL/6Brd) or (involves: 129S5/SvEvBrd * 129S7/SvEvBrd * C57BL/6Brd) or (involves: 129S5/SvEvBrd * C57BL/6Brd * C57BL/6J)"
+                  }
+                },
+                "associatedPhenotype": [
+                  "abnormal tail pigmentation",
+                  "decreased ear pigmentation"
+                ],
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": true
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:5766500",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "a/a In(11Trp53;11Wnt3)8Brd/+  [background:] involves: 129S7/SvEvBrd * C57BL/6Brd * C57BL/6J",
+                    "displayText": "a/a In(11Trp53;11Wnt3)8Brd/+  [background:] involves: 129S7/SvEvBrd * C57BL/6Brd * C57BL/6J"
+                  }
+                },
+                "associatedPhenotype": [
+                  "abnormal tail pigmentation"
+                ],
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": true
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:5550138",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "Cd151<sup>tm2Nki</sup>/Cd151<sup>tm2Nki</sup> Itga3<sup>tm1Son</sup>/Itga3<sup>+</sup> Krt14<sup>tm1(cre)Wbm</sup>/?  [background:] FVB.129P2-Cd151<sup>tm2Nki</sup> Itga3<sup>tm1Son</sup> Krt14<sup>tm1(cre)Wbm</sup>",
+                    "displayText": "Cd151<sup>tm2Nki</sup>/Cd151<sup>tm2Nki</sup> Itga3<sup>tm1Son</sup>/Itga3<sup>+</sup> Krt14<sup>tm1(cre)Wbm</sup>/?  [background:] FVB.129P2-Cd151<sup>tm2Nki</sup> Itga3<sup>tm1Son</sup> Krt14<sup>tm1(cre)Wbm</sup>"
+                  }
+                },
+                "associatedPhenotype": [
+                  "decreased incidence of tumors by chemical induction",
+                  "decreased keratinocyte proliferation",
+                  "decreased tumor growth/size"
+                ],
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": true
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:3766752",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "Del(11Chad-Hoxb1)19Brd/+  [background:] involves: 129S7/SvEvBrd * C57BL/6",
+                    "displayText": "Del(11Chad-Hoxb1)19Brd/+  [background:] involves: 129S7/SvEvBrd * C57BL/6"
+                  }
+                },
+                "associatedPhenotype": [
+                  "female infertility"
+                ],
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": true
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:5140360",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "In(11Trp53;11Wnt3)8Brd/+ Rpl27a<sup>Sfa</sup>/Rpl27a<sup>+</sup>  [background:] involves: 129S7/SvEvBrd * C57BL/6J",
+                    "displayText": "In(11Trp53;11Wnt3)8Brd/+ Rpl27a<sup>Sfa</sup>/Rpl27a<sup>+</sup>  [background:] involves: 129S7/SvEvBrd * C57BL/6J"
+                  }
+                },
+                "associatedPhenotype": [
+                  "no abnormal phenotype detected"
+                ],
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": true
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:2673217",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "In(11Trp53;11Wnt3)8Brd/In(11Trp53;11Wnt3)8Brd  [background:] involves: 129S7/SvEvBrd * C57BL/6Brd",
+                    "displayText": "In(11Trp53;11Wnt3)8Brd/In(11Trp53;11Wnt3)8Brd  [background:] involves: 129S7/SvEvBrd * C57BL/6Brd"
+                  }
+                },
+                "associatedPhenotype": [
+                  "prenatal lethality, complete penetrance"
+                ],
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": true
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:7472054",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "Itga3<sup>em1(IMPC)Mbp</sup>/Itga3<sup>em1(IMPC)Mbp</sup>  [background:] C57BL/6NCrl-Itga3<sup>em1(IMPC)Mbp</sup>/MbpMmucd",
+                    "displayText": "Itga3<sup>em1(IMPC)Mbp</sup>/Itga3<sup>em1(IMPC)Mbp</sup>  [background:] C57BL/6NCrl-Itga3<sup>em1(IMPC)Mbp</sup>/MbpMmucd"
+                  }
+                },
+                "associatedPhenotype": [
+                  "abnormal craniofacial morphology",
+                  "abnormal placenta morphology",
+                  "abnormal placenta size",
+                  "embryonic growth retardation",
+                  "preweaning lethality, complete penetrance"
+                ],
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": true
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:3833134",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "Itga3<sup>tm1Hap</sup>/Itga3<sup>tm1Hap</sup> Tg(CAG-Bgeo/GFP)21Lbe/? Tg(SFTPC-rtTA)5Jaw/? Tg(tetO-cre)1Jaw/?  [background:] involves: 129 * C57BL/6",
+                    "displayText": "Itga3<sup>tm1Hap</sup>/Itga3<sup>tm1Hap</sup> Tg(CAG-Bgeo/GFP)21Lbe/? Tg(SFTPC-rtTA)5Jaw/? Tg(tetO-cre)1Jaw/?  [background:] involves: 129 * C57BL/6"
+                  }
+                },
+                "associatedPhenotype": [
+                  "abnormal pulmonary alveolus epithelial cell morphology"
+                ],
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": true
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:3833133",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "Itga3<sup>tm1Hap</sup>/Itga3<sup>tm1Hap</sup> Tg(SFTPC-rtTA)5Jaw/? Tg(tetO-cre)1Jaw/?  [background:] involves: 129 * C57BL/6",
+                    "displayText": "Itga3<sup>tm1Hap</sup>/Itga3<sup>tm1Hap</sup> Tg(SFTPC-rtTA)5Jaw/? Tg(tetO-cre)1Jaw/?  [background:] involves: 129 * C57BL/6"
+                  }
+                },
+                "associatedPhenotype": [
+                  "decreased lung compliance",
+                  "increased type II pneumocyte number",
+                  "pulmonary fibrosis",
+                  "pulmonary hyperplasia",
+                  "thick pulmonary interalveolar septum"
+                ],
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": true
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:3583667",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "Itga3<sup>tm1Jak</sup>/Itga3<sup>+</sup> Itga5<sup>tm1Hyn</sup>/Itga5<sup>+</sup> Itga8<sup>tm1Lfr</sup>/Itga8<sup>+</sup>  [background:] involves: 129S2/SvPas * 129S4/SvJae * 129X1/SvJ * C57BL/6J",
+                    "displayText": "Itga3<sup>tm1Jak</sup>/Itga3<sup>+</sup> Itga5<sup>tm1Hyn</sup>/Itga5<sup>+</sup> Itga8<sup>tm1Lfr</sup>/Itga8<sup>+</sup>  [background:] involves: 129S2/SvPas * 129S4/SvJae * 129X1/SvJ * C57BL/6J"
+                  }
+                },
+                "associatedPhenotype": [
+                  "abnormal spatial learning",
+                  "reduced long-term potentiation"
+                ],
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": true
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:3583665",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "Itga3<sup>tm1Jak</sup>/Itga3<sup>+</sup> Itga8<sup>tm1Lfr</sup>/Itga8<sup>+</sup>  [background:] involves: 129S4/SvJae * 129X1/SvJ * C57BL/6J",
+                    "displayText": "Itga3<sup>tm1Jak</sup>/Itga3<sup>+</sup> Itga8<sup>tm1Lfr</sup>/Itga8<sup>+</sup>  [background:] involves: 129S4/SvJae * 129X1/SvJ * C57BL/6J"
+                  }
+                },
+                "associatedPhenotype": [
+                  "reduced long-term potentiation"
+                ],
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": true
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:2180464",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "Itga3<sup>tm1Jak</sup>/Itga3<sup>tm1Jak</sup>  [background:] involves: 129S4/SvJae * C57BL/6J",
+                    "displayText": "Itga3<sup>tm1Jak</sup>/Itga3<sup>tm1Jak</sup>  [background:] involves: 129S4/SvJae * C57BL/6J"
+                  }
+                },
+                "associatedPhenotype": [
+                  "abnormal bronchiole epithelium morphology",
+                  "abnormal distal convoluted tubule morphology",
+                  "abnormal kidney collecting duct morphology",
+                  "abnormal podocyte morphology",
+                  "abnormal proximal convoluted tubule morphology",
+                  "abnormal renal glomerulus basement membrane morphology",
+                  "absent podocyte foot process",
+                  "decreased glomerular capillary number",
+                  "decreased kidney collecting duct number",
+                  "dehydration",
+                  "dilated glomerular capillary",
+                  "impaired branching involved in bronchus morphogenesis",
+                  "increased renal glomerulus basement membrane thickness",
+                  "kidney cyst",
+                  "neonatal lethality, complete penetrance",
+                  "small kidney"
+                ],
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": true
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:2169730",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "Itga3<sup>tm1Jak</sup>/Itga3<sup>tm1Jak</sup> Itga6<sup>tm1Egl</sup>/Itga6<sup>tm1Egl</sup>  [background:] involves: 129S2/SvPas * 129S4/SvJae",
+                    "displayText": "Itga3<sup>tm1Jak</sup>/Itga3<sup>tm1Jak</sup> Itga6<sup>tm1Egl</sup>/Itga6<sup>tm1Egl</sup>  [background:] involves: 129S2/SvPas * 129S4/SvJae"
+                  }
+                },
+                "associatedPhenotype": [
+                  "abnormal apical ectodermal ridge morphology",
+                  "abnormal autopod morphology",
+                  "abnormal choroid plexus morphology",
+                  "abnormal digit development",
+                  "abnormal epidermal layer morphology",
+                  "abnormal left lung morphology",
+                  "abnormal lens epithelium morphology",
+                  "abnormal Mullerian duct morphology",
+                  "abnormal neural tube closure",
+                  "abnormal primitive urogenital sinus morphology",
+                  "abnormal rectum morphology",
+                  "abnormal retina nerve fiber layer morphology",
+                  "abnormal right lung morphology",
+                  "abnormal stratification in cerebral cortex",
+                  "abnormal vitreous body morphology",
+                  "abnormal Wolffian duct morphology",
+                  "absent ureter",
+                  "absent urinary bladder",
+                  "disorganized retina ganglion layer",
+                  "fetal growth retardation",
+                  "impaired branching involved in terminal bronchiole morphogenesis",
+                  "impaired lung lobe morphogenesis",
+                  "lethality throughout fetal growth and development, complete penetrance",
+                  "oligodactyly",
+                  "pancreas hypoplasia",
+                  "pulmonary hypoplasia",
+                  "syndactyly",
+                  "urethra atresia"
+                ],
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": true
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:3843051",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "Itga3<sup>tm1Rdav</sup>/Itga3<sup>tm1Rdav</sup> Tg(Camk2a-cre)T29-1Stl/0  [background:] B6.Cg-Itga3<sup>tm1Rdav</sup> Tg(Camk2a-cre)T29-1Stl",
+                    "displayText": "Itga3<sup>tm1Rdav</sup>/Itga3<sup>tm1Rdav</sup> Tg(Camk2a-cre)T29-1Stl/0  [background:] B6.Cg-Itga3<sup>tm1Rdav</sup> Tg(Camk2a-cre)T29-1Stl"
+                  }
+                },
+                "associatedPhenotype": [
+                  "impaired spatial working memory",
+                  "reduced long-term potentiation"
+                ],
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": true
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:3836769",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "Itga3<sup>tm1Son</sup>/Itga3<sup>tm1Son</sup> Krt14<sup>tm1(cre)Wbm</sup>/Krt14<sup>+</sup>  [background:] involves: 129P2/OlaHsd * FVB/N",
+                    "displayText": "Itga3<sup>tm1Son</sup>/Itga3<sup>tm1Son</sup> Krt14<sup>tm1(cre)Wbm</sup>/Krt14<sup>+</sup>  [background:] involves: 129P2/OlaHsd * FVB/N"
+                  }
+                },
+                "associatedPhenotype": [
+                  "alopecia",
+                  "blistering",
+                  "enhanced wound healing",
+                  "skin inflammation",
+                  "thick skin"
+                ],
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": true
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:3836770",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "Itga3<sup>tm1Son</sup>/Itga3<sup>tm1Son</sup> Tg(KRT5-cre)5132Jlj/?  [background:] involves: 129P2/OlaHsd * C57BL/6 * DBA",
+                    "displayText": "Itga3<sup>tm1Son</sup>/Itga3<sup>tm1Son</sup> Tg(KRT5-cre)5132Jlj/?  [background:] involves: 129P2/OlaHsd * C57BL/6 * DBA"
+                  }
+                },
+                "associatedPhenotype": [
+                  "alopecia",
+                  "blistering",
+                  "skin inflammation",
+                  "thick skin"
+                ],
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": true
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:3691146",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "Itga3<sup>tm1Son</sup>/Itga3<sup>tm1Son</sup> Tg(NPHS2-cre)295Lbh/0  [background:] Not Specified",
+                    "displayText": "Itga3<sup>tm1Son</sup>/Itga3<sup>tm1Son</sup> Tg(NPHS2-cre)295Lbh/0  [background:] Not Specified"
+                  }
+                },
+                "associatedPhenotype": [
+                  "abnormal renal glomerulus basement membrane morphology",
+                  "albuminuria",
+                  "dilated proximal convoluted tubule",
+                  "edema",
+                  "glomerulosclerosis",
+                  "increased renal glomerulus basement membrane thickness",
+                  "increased urine protein level",
+                  "pale kidney",
+                  "podocyte foot process effacement",
+                  "renal cast"
+                ],
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": true
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:5766501",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "In(11Trp53;11Wnt3)8Brd/+ Tyr<sup>c-Brd</sup>/Tyr<sup>c-Brd</sup>  [background:] involves: 129S7/SvEvBrd * C57BL/6Brd",
+                    "displayText": "In(11Trp53;11Wnt3)8Brd/+ Tyr<sup>c-Brd</sup>/Tyr<sup>c-Brd</sup>  [background:] involves: 129S7/SvEvBrd * C57BL/6Brd"
+                  }
+                },
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": false
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:5563094",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "Itga3<sup>tm1Hap</sup>/Itga3<sup>tm1Hap</sup> Itga6<sup>tm2Egl</sup>/Itga6<sup>tm2Egl</sup> Tg(Mpz-cre)26Mes/0  [background:] involves: 129 * C57BL/6 * FVB/NTac",
+                    "displayText": "Itga3<sup>tm1Hap</sup>/Itga3<sup>tm1Hap</sup> Itga6<sup>tm2Egl</sup>/Itga6<sup>tm2Egl</sup> Tg(Mpz-cre)26Mes/0  [background:] involves: 129 * C57BL/6 * FVB/NTac"
+                  }
+                },
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": false
+              },
+              {
+                "category": "affected_genomic_model_annotation",
+                "searchable": false,
+                "model": {
+                  "type": "AffectedGenomicModel",
+                  "primaryExternalId": "MGI:5563095",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "subtype": {
+                    "name": "genotype"
+                  },
+                  "agmFullName": {
+                    "formatText": "Itga3<sup>tm1Hap</sup>/Itga3<sup>tm1Hap</sup> Tg(Mpz-cre)26Mes/0  [background:] involves: 129 * C57BL/6 * FVB/NTac",
+                    "displayText": "Itga3<sup>tm1Hap</sup>/Itga3<sup>tm1Hap</sup> Tg(Mpz-cre)26Mes/0  [background:] involves: 129 * C57BL/6 * FVB/NTac"
+                  }
+                },
+                "gene": {
+                  "type": "Gene",
+                  "primaryExternalId": "MGI:96602",
+                  "dataProvider": {
+                    "type": "AllianceMember",
+                    "abbreviation": "MGI"
+                  },
+                  "geneSymbol": {
+                    "formatText": "Itga3",
+                    "displayText": "Itga3"
+                  }
+                },
+                "dataProvider": "MGI",
+                "modifierRelationshipTypes": [
+                  "ameliorated_by",
+                  "exacerbated_by"
+                ],
+                "hasDiseaseAnnotations": false,
+                "hasDiseaseAndPhenotypeAnnotations": false,
+                "hasPhenotypeAnnotations": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Human_Alliance_Genome_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.alliancegenome.org/gene/HGNC:6139"
+          }
+        ]
+      },
+      {
+        "Rat_Alliance_Genome_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.alliancegenome.org/gene/RGD:1310333"
+          }
+        ]
+      },
+      {
+        "Mouse_Alliance_Genome_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.alliancegenome.org/gene/MGI:96602"
+          }
+        ]
+      },
+      {
+        "HPO_GENE_CALL_CACHE": [
+          {
+            "data_source": "HPO",
+            "version": "2025-11-12",
+            "value": {
+              "diseases": [
+                {
+                  "id": "OMIM:614748",
+                  "name": "Interstitial lung disease, nephrotic syndrome, and epidermolysis bullosa, congenital",
+                  "mondoId": "MONDO:0013881",
+                  "description": null
+                }
+              ],
+              "phenotypes": [
+                {
+                  "id": "HP:0011220",
+                  "name": "Prominent forehead"
+                },
+                {
+                  "id": "HP:0001806",
+                  "name": "Onycholysis"
+                },
+                {
+                  "id": "HP:0000448",
+                  "name": "Prominent nose"
+                },
+                {
+                  "id": "HP:0000400",
+                  "name": "Macrotia"
+                },
+                {
+                  "id": "HP:0000311",
+                  "name": "Round face"
+                },
+                {
+                  "id": "HP:0000316",
+                  "name": "Hypertelorism"
+                },
+                {
+                  "id": "HP:0006530",
+                  "name": "Abnormal pulmonary interstitial morphology"
+                },
+                {
+                  "id": "HP:0012213",
+                  "name": "Decreased glomerular filtration rate"
+                },
+                {
+                  "id": "HP:0000252",
+                  "name": "Microcephaly"
+                },
+                {
+                  "id": "HP:0008066",
+                  "name": "Abnormal blistering of the skin"
+                },
+                {
+                  "id": "HP:0045075",
+                  "name": "Sparse eyebrow"
+                },
+                {
+                  "id": "HP:0000774",
+                  "name": "Narrow chest"
+                },
+                {
+                  "id": "HP:0000771",
+                  "name": "Gynecomastia"
+                },
+                {
+                  "id": "HP:0003073",
+                  "name": "Hypoalbuminemia"
+                },
+                {
+                  "id": "HP:0000653",
+                  "name": "Sparse eyelashes"
+                },
+                {
+                  "id": "HP:0003623",
+                  "name": "Neonatal onset"
+                },
+                {
+                  "id": "HP:0010783",
+                  "name": "Erythema"
+                },
+                {
+                  "id": "HP:0001030",
+                  "name": "Fragile skin"
+                },
+                {
+                  "id": "HP:0008404",
+                  "name": "Nail dystrophy"
+                },
+                {
+                  "id": "HP:0002205",
+                  "name": "Recurrent respiratory infections"
+                },
+                {
+                  "id": "HP:0002209",
+                  "name": "Sparse scalp hair"
+                },
+                {
+                  "id": "HP:0002213",
+                  "name": "Fine hair"
+                },
+                {
+                  "id": "HP:0003577",
+                  "name": "Congenital onset"
+                },
+                {
+                  "id": "HP:0003593",
+                  "name": "Infantile onset"
+                },
+                {
+                  "id": "HP:0002098",
+                  "name": "Respiratory distress"
+                },
+                {
+                  "id": "HP:0005972",
+                  "name": "Respiratory acidosis"
+                },
+                {
+                  "id": "HP:0000100",
+                  "name": "Nephrotic syndrome"
+                },
+                {
+                  "id": "HP:0000160",
+                  "name": "Narrow mouth"
+                },
+                {
+                  "id": "HP:0002643",
+                  "name": "Neonatal respiratory distress"
+                },
+                {
+                  "id": "HP:0000007",
+                  "name": "Autosomal recessive inheritance"
+                },
+                {
+                  "id": "HP:0000092",
+                  "name": "Renal tubular atrophy"
+                },
+                {
+                  "id": "HP:0000093",
+                  "name": "Proteinuria"
+                },
+                {
+                  "id": "HP:0000097",
+                  "name": "Focal segmental glomerulosclerosis"
+                },
+                {
+                  "id": "HP:0000083",
+                  "name": "Renal insufficiency"
+                },
+                {
+                  "id": "HP:0001252",
+                  "name": "Hypotonia"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "MOUSE_SUMMARY_ALLIANCE_GENOME_CACHE": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": {
+              "id": "MGI:96602",
+              "symbol": "Itga3",
+              "dateProduced": "2025-04-09T15:46:08.000+00:00",
+              "modCrossRefCompleteUrl": "http://www.informatics.jax.org/marker/MGI:96602",
+              "species": {
+                "name": "Mus musculus",
+                "shortName": "Mmu",
+                "dataProviderFullName": "Mouse Genome Informatics",
+                "dataProviderShortName": "MGI",
+                "commonNames": "['mouse', 'mmu']",
+                "taxonId": "NCBITaxon:10090"
+              },
+              "synonyms": [
+                "alpha3-integrin",
+                "expressed sequence AA407068",
+                "VLA-3 alpha 3",
+                "AA407068"
+              ],
+              "secondaryIds": [
+                "MGD_old:MGD-MRK-11481",
+                "MGI:2143964"
+              ],
+              "geneSynopsis": "PHENOTYPE: Homozygotes for a targeted null mutation exhibit defects of the kidney and submandibular gland, decreased bronchial branching of the lungs, skin blisters at the dermal-epidermal junction, abnormal layering of the cerebral cortex and perinatal lethality. [provided by MGI curators]",
+              "automatedGeneSynopsis": "Predicted to enable several functions, including fibronectin binding activity; integrin binding activity; and protein heterodimerization activity. Involved in postsynapse organization and synaptic membrane adhesion. Acts upstream of or within several processes, including dendritic spine maintenance; exploration behavior; and negative regulation of Rho protein signal transduction. Located in several cellular components, including basolateral plasma membrane; external side of plasma membrane; and synaptic membrane. Is active in glutamatergic synapse; neuromuscular junction; and presynaptic active zone membrane. Is expressed in several structures, including alimentary system; central nervous system; genitourinary system; integumental system; and sensory organ. Human ortholog(s) of this gene implicated in junctional epidermolysis bullosa. Orthologous to human ITGA3 (integrin subunit alpha 3).",
+              "dataProvider": "MGI",
+              "name": "integrin alpha 3",
+              "soTerm": {
+                "id": "SO:0001217",
+                "name": "protein_coding_gene"
+              },
+              "genomeLocations": [
+                {
+                  "chromosome": "11",
+                  "start": 94935300,
+                  "end": 94967627,
+                  "assembly": "GRCm39",
+                  "strand": "-"
+                }
+              ],
+              "crossReferenceMap": {
+                "phenotypes_impc": {
+                  "crossRefCompleteUrl": "https://www.mousephenotype.org/data/genes/MGI:96602",
+                  "name": "MGI:96602",
+                  "displayName": "IMPC"
+                },
+                "other": [
+                  {
+                    "crossRefCompleteUrl": "http://www.uniprot.org/uniprot/Q8C8X8",
+                    "name": "UniProtKB:Q8C8X8",
+                    "displayName": "UniProtKB:Q8C8X8"
+                  },
+                  {
+                    "crossRefCompleteUrl": "http://www.uniprot.org/uniprot/Q62470",
+                    "name": "UniProtKB:Q62470",
+                    "displayName": "UniProtKB:Q62470"
+                  },
+                  {
+                    "crossRefCompleteUrl": "http://www.ensembl.org/id/ENSMUSG00000001507",
+                    "name": "ENSEMBL:ENSMUSG00000001507",
+                    "displayName": "ENSEMBL:ENSMUSG00000001507"
+                  },
+                  {
+                    "crossRefCompleteUrl": "http://www.uniprot.org/uniprot/F6UD16",
+                    "name": "UniProtKB:F6UD16",
+                    "displayName": "UniProtKB:F6UD16"
+                  },
+                  {
+                    "crossRefCompleteUrl": "https://www.ncbi.nlm.nih.gov/gene/16400",
+                    "name": "NCBI_Gene:16400",
+                    "displayName": "NCBI_Gene:16400"
+                  }
+                ],
+                "biogrid_orcs": {
+                  "crossRefCompleteUrl": "https://orcs.thebiogrid.org/Gene/16400",
+                  "name": "NCBI_Gene:16400",
+                  "displayName": "BioGRID CRISPR Screen Cell Line Phenotypes"
+                },
+                "expression": {
+                  "crossRefCompleteUrl": "http://www.informatics.jax.org/gxd/marker/MGI:96602",
+                  "name": "MGI:96602"
+                },
+                "phenotypes": {
+                  "crossRefCompleteUrl": "http://www.informatics.jax.org/marker/phenotypes/MGI:96602",
+                  "name": "MGI:96602",
+                  "displayName": "MGI"
+                },
+                "references": {
+                  "crossRefCompleteUrl": "http://www.informatics.jax.org/reference/marker/MGI:96602",
+                  "name": "MGI:96602"
+                },
+                "expression-atlas": {
+                  "crossRefCompleteUrl": "http://www.ebi.ac.uk/gxa/genes/ENSMUSG00000001507",
+                  "name": "ExpressionAtlas_gene:96602",
+                  "displayName": "MGI:96602"
+                },
+                "expression_images": {
+                  "crossRefCompleteUrl": "http://www.informatics.jax.org/gxd/marker/MGI:96602?tab=imagestab",
+                  "name": "MGI:96602"
+                },
+                "MODinteractions_molecular": {
+                  "crossRefCompleteUrl": "http://www.informatics.jax.org/interaction/explorer?markerIDs=MGI:96602",
+                  "name": "MGI:96602",
+                  "displayName": "MGI:96602"
+                },
+                "panther": {
+                  "crossRefCompleteUrl": "http://pantherdb.org/treeViewer/treeViewer.jsp?book=PTHR23220&species=agr&seq=MGI=MGI=96602",
+                  "name": "PANTHER:PTHR23220",
+                  "displayName": "PANTHER:PTHR23220"
+                },
+                "other_expression": {
+                  "crossRefCompleteUrl": "https://www.ncbi.nlm.nih.gov/sites/entrez?Db=geoprofiles&DbFrom=gene&Cmd=Link&LinkName=gene_geoprofiles&LinkReadableName=GEO%20Profiles&IdsFromResult=16400",
+                  "name": "NCBI_Gene:16400",
+                  "displayName": "GEO"
+                },
+                "primary": {
+                  "crossRefCompleteUrl": "http://www.informatics.jax.org/marker/MGI:96602",
+                  "name": "MGI:96602"
+                }
+              },
+              "type": "gene"
+            }
+          }
+        ]
+      },
+      {
+        "RAT_SUMMARY_ALLIANCE_GENOME_CACHE": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": {
+              "id": "RGD:1310333",
+              "symbol": "Itga3",
+              "dateProduced": "2025-04-16T17:32:24.339+00:00",
+              "modCrossRefCompleteUrl": "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=RGD:1310333",
+              "species": {
+                "name": "Rattus norvegicus",
+                "shortName": "Rno",
+                "dataProviderFullName": "Rat Genome Database",
+                "dataProviderShortName": "RGD",
+                "commonNames": "['rat', 'rno']",
+                "taxonId": "NCBITaxon:10116"
+              },
+              "synonyms": [
+                "integrin alpha 3",
+                "LOC360606",
+                "integrin, alpha 3",
+                "integrin alpha-3"
+              ],
+              "geneSynopsis": "Enables several functions, including fibronectin binding activity; integrin binding activity; and laminin binding activity. Involved in several processes, including maternal process involved in female pregnancy; positive regulation of epithelial cell migration; and regulation of cell projection organization. Located in cell surface; growth cone filopodium; and perinuclear region of cytoplasm. Part of integrin alpha3-beta1 complex. Is active in glutamatergic synapse and postsynaptic membrane. Biomarker of glomerulonephritis and myocardial infarction. Human ortholog(s) of this gene implicated in junctional epidermolysis bullosa. Orthologous to human ITGA3 (integrin subunit alpha 3); PARTICIPATES IN altered Reelin signaling pathway; integrin mediated signaling pathway; interleukin-23 signaling pathway; INTERACTS WITH 1-[3-(dimethylamino)propyl]-1-(4-fluorophenyl)-1,3-dihydro-2-benzofuran-5-carbonitrile; 1-naphthyl isothiocyanate; 3'-amino-3'-deoxy-N(6),N(6)-dimethyladenosine.",
+              "automatedGeneSynopsis": "Enables several functions, including fibronectin binding activity; integrin binding activity; and laminin binding activity. Involved in several processes, including maternal process involved in female pregnancy; positive regulation of epithelial cell migration; and regulation of cell projection organization. Located in cell surface; growth cone filopodium; and perinuclear region of cytoplasm. Part of integrin alpha3-beta1 complex. Is active in glutamatergic synapse and postsynaptic membrane. Biomarker of glomerulonephritis and myocardial infarction. Human ortholog(s) of this gene implicated in junctional epidermolysis bullosa. Orthologous to human ITGA3 (integrin subunit alpha 3).",
+              "dataProvider": "RGD",
+              "name": "integrin subunit alpha 3",
+              "soTerm": {
+                "id": "SO:0001217",
+                "name": "protein_coding_gene"
+              },
+              "genomeLocations": [
+                {
+                  "chromosome": "10",
+                  "start": 79990160,
+                  "end": 80022206,
+                  "assembly": "mRatBN7.2",
+                  "strand": "-"
+                }
+              ],
+              "crossReferenceMap": {
+                "other": [
+                  {
+                    "crossRefCompleteUrl": "http://www.ensembl.org/id/ENSRNOG00000004276",
+                    "name": "ENSEMBL:ENSRNOG00000004276",
+                    "displayName": "ENSEMBL:ENSRNOG00000004276"
+                  },
+                  {
+                    "crossRefCompleteUrl": "https://www.ncbi.nlm.nih.gov/gene/360606",
+                    "name": "NCBI_Gene:360606",
+                    "displayName": "NCBI_Gene:360606"
+                  },
+                  {
+                    "crossRefCompleteUrl": "http://www.uniprot.org/uniprot/A0A8I6GLI8",
+                    "name": "UniProtKB:A0A8I6GLI8",
+                    "displayName": "UniProtKB:A0A8I6GLI8"
+                  },
+                  {
+                    "crossRefCompleteUrl": "http://www.uniprot.org/uniprot/D3ZQM3",
+                    "name": "UniProtKB:D3ZQM3",
+                    "displayName": "UniProtKB:D3ZQM3"
+                  },
+                  {
+                    "crossRefCompleteUrl": "http://www.uniprot.org/uniprot/D3ZCG9",
+                    "name": "UniProtKB:D3ZCG9",
+                    "displayName": "UniProtKB:D3ZCG9"
+                  },
+                  {
+                    "crossRefCompleteUrl": "http://www.uniprot.org/uniprot/I4DUB5",
+                    "name": "UniProtKB:I4DUB5",
+                    "displayName": "UniProtKB:I4DUB5"
+                  }
+                ],
+                "references": {
+                  "crossRefCompleteUrl": "https://rgd.mcw.edu/rgdweb/report/gene/main.html?view=5&id=1310333",
+                  "name": "RGD:1310333"
+                },
+                "expression-atlas": {
+                  "crossRefCompleteUrl": "http://www.ebi.ac.uk/gxa/genes/ENSRNOG00000004276",
+                  "name": "ExpressionAtlas_gene:1310333",
+                  "displayName": "1310333"
+                },
+                "panther": {
+                  "crossRefCompleteUrl": "http://pantherdb.org/treeViewer/treeViewer.jsp?book=PTHR23220&species=agr&seq=RGD=1310333",
+                  "name": "PANTHER:PTHR23220",
+                  "displayName": "PANTHER:PTHR23220"
+                },
+                "other_expression": {
+                  "crossRefCompleteUrl": "https://www.ncbi.nlm.nih.gov/sites/entrez?Db=geoprofiles&DbFrom=gene&Cmd=Link&LinkName=gene_geoprofiles&LinkReadableName=GEO%20Profiles&IdsFromResult=360606",
+                  "name": "NCBI_Gene:360606",
+                  "displayName": "GEO"
+                },
+                "primary": {
+                  "crossRefCompleteUrl": "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=RGD:1310333",
+                  "name": "RGD:1310333"
+                }
+              },
+              "type": "gene"
+            }
+          }
+        ]
+      },
+      {
+        "OMIM": [
+          {
+            "data_source": "HPO",
+            "version": "2025-11-12",
+            "value": [
+              "Interstitial lung disease, nephrotic syndrome, and epidermolysis bullosa, congenital"
+            ]
+          }
+        ]
+      },
+      {
+        "HPO": [
+          {
+            "data_source": "HPO",
+            "version": "2025-11-12",
+            "value": [
+              "HP:0011220: Prominent forehead",
+              "HP:0001806: Onycholysis",
+              "HP:0000448: Prominent nose",
+              "HP:0000400: Macrotia",
+              "HP:0000311: Round face",
+              "HP:0000316: Hypertelorism",
+              "HP:0006530: Abnormal pulmonary interstitial morphology",
+              "HP:0012213: Decreased glomerular filtration rate",
+              "HP:0000252: Microcephaly",
+              "HP:0008066: Abnormal blistering of the skin",
+              "HP:0045075: Sparse eyebrow",
+              "HP:0000774: Narrow chest",
+              "HP:0000771: Gynecomastia",
+              "HP:0003073: Hypoalbuminemia",
+              "HP:0000653: Sparse eyelashes",
+              "HP:0003623: Neonatal onset",
+              "HP:0010783: Erythema",
+              "HP:0001030: Fragile skin",
+              "HP:0008404: Nail dystrophy",
+              "HP:0002205: Recurrent respiratory infections",
+              "HP:0002209: Sparse scalp hair",
+              "HP:0002213: Fine hair",
+              "HP:0003577: Congenital onset",
+              "HP:0003593: Infantile onset",
+              "HP:0002098: Respiratory distress",
+              "HP:0005972: Respiratory acidosis",
+              "HP:0000100: Nephrotic syndrome",
+              "HP:0000160: Narrow mouth",
+              "HP:0002643: Neonatal respiratory distress",
+              "HP:0000007: Autosomal recessive inheritance",
+              "HP:0000092: Renal tubular atrophy",
+              "HP:0000093: Proteinuria",
+              "HP:0000097: Focal segmental glomerulosclerosis",
+              "HP:0000083: Renal insufficiency",
+              "HP:0001252: Hypotonia"
+            ]
+          }
+        ]
+      },
+      {
+        "Rat_Alliance_Genome_Automated_Summary": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": "Enables several functions, including fibronectin binding activity; integrin binding activity; and laminin binding activity. Involved in several processes, including maternal process involved in female pregnancy; positive regulation of epithelial cell migration; and regulation of cell projection organization. Located in cell surface; growth cone filopodium; and perinuclear region of cytoplasm. Part of integrin alpha3-beta1 complex. Is active in glutamatergic synapse and postsynaptic membrane. Biomarker of glomerulonephritis and myocardial infarction. Human ortholog(s) of this gene implicated in junctional epidermolysis bullosa. Orthologous to human ITGA3 (integrin subunit alpha 3)."
+          }
+        ]
+      },
+      {
+        "Rat_Alliance_Genome_RGD_Summary": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": null
+          }
+        ]
+      },
+      {
+        "Mouse_Alliance_Genome_Automated_Summary": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": "Predicted to enable several functions, including fibronectin binding activity; integrin binding activity; and protein heterodimerization activity. Involved in postsynapse organization and synaptic membrane adhesion. Acts upstream of or within several processes, including dendritic spine maintenance; exploration behavior; and negative regulation of Rho protein signal transduction. Located in several cellular components, including basolateral plasma membrane; external side of plasma membrane; and synaptic membrane. Is active in glutamatergic synapse; neuromuscular junction; and presynaptic active zone membrane. Is expressed in several structures, including alimentary system; central nervous system; genitourinary system; integumental system; and sensory organ. Human ortholog(s) of this gene implicated in junctional epidermolysis bullosa. Orthologous to human ITGA3 (integrin subunit alpha 3)."
+          }
+        ]
+      },
+      {
+        "Mouse_Alliance_Genome_MGI_Summary": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": "PHENOTYPE: Homozygotes for a targeted null mutation exhibit defects of the kidney and submandibular gland, decreased bronchial branching of the lungs, skin blisters at the dermal-epidermal junction, abnormal layering of the cerebral cortex and perinatal lethality. [provided by MGI curators]"
+          }
+        ]
+      },
+      {
+        "Rat_Rat_Genome_Database_url": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=RGD:1310333"
+          }
+        ]
+      },
+      {
+        "Mouse_Mouse_Genome_Database_url": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": "http://www.informatics.jax.org/marker/MGI:96602"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "gene_symbol": "SERPINA1",
+    "gene": "SERPINA1",
+    "annotations": [
+      {
+        "OMIM_gene_search_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.omim.org/search?index=entry&start=1&sort=score+desc%2C+prefix_sort+desc&search=SERPINA1"
+          }
+        ]
+      },
+      {
+        "HPO_gene_search_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://hpo.jax.org/app/browse/search?q=SERPINA1&navFilter=all"
+          }
+        ]
+      },
+      {
+        "Frog_General_Xenbase_Database_url": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": null
+          }
+        ]
+      },
+      {
+        "GTEx_Human_Gene_Expression_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://gtexportal.org/home/gene/SERPINA1"
+          }
+        ]
+      },
+      {
+        "Human_Protein_Atlas_Protein_Gene_Search_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.proteinatlas.org/search/SERPINA1"
+          }
+        ]
+      },
+      {
+        "Pharos_Target_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://pharos.nih.gov/targets/SERPINA1"
+          }
+        ]
+      },
+      {
+        "COSMIC_gene_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://cancer.sanger.ac.uk/cosmic/gene/analysis?ln=SERPINA1"
+          }
+        ]
+      },
+      {
+        "HGNC_GENE_NAMES_CALL_CACHE": [
+          {
+            "data_source": "HGNC_GeneNames",
+            "version": "2025-11-11",
+            "value": {
+              "merops": "I04.001",
+              "ena": [
+                "X01683"
+              ],
+              "location": "14q32.13",
+              "vega_id": "OTTHUMG00000150355",
+              "hgnc_id": "HGNC:8941",
+              "uniprot_ids": [
+                "P01009"
+              ],
+              "alias_name": [
+                "protease inhibitor 1",
+                "anti-elastase",
+                "alpha-1 antitrypsin",
+                "alpha-1 proteinase inhibitor"
+              ],
+              "pubmed_id": [
+                24172014
+              ],
+              "date_name_changed": "2016-04-06T00:00:00Z",
+              "gencc": "HGNC:8941",
+              "ucsc_id": "uc010auy.3",
+              "uuid": "ba549a9f-ba1b-4bcc-985c-68864e1963c6",
+              "symbol": "SERPINA1",
+              "ccds_id": [
+                "CCDS9925"
+              ],
+              "orphanet": 118602,
+              "omim_id": [
+                "107400"
+              ],
+              "prev_name": [
+                "serine (or cysteine) proteinase inhibitor, clade A (alpha-1 antiproteinase, antitrypsin), member 1",
+                "serpin peptidase inhibitor, clade A (alpha-1 antiproteinase, antitrypsin), member 1"
+              ],
+              "entrez_id": "5265",
+              "gene_group_id": [
+                739
+              ],
+              "locus_type": "gene with protein product",
+              "alias_symbol": [
+                "AAT",
+                "A1A",
+                "PI1",
+                "alpha-1-antitrypsin",
+                "A1AT",
+                "alpha1AT"
+              ],
+              "agr": "HGNC:8941",
+              "ensembl_gene_id": "ENSG00000197249",
+              "status": "Approved",
+              "locus_group": "protein-coding gene",
+              "refseq_accession": [
+                "NM_001002235"
+              ],
+              "date_approved_reserved": "1986-01-01T00:00:00Z",
+              "name": "serpin family A member 1",
+              "lsdb": [
+                "LRG_575|http://ftp.ebi.ac.uk/pub/databases/lrgex/LRG_575.xml"
+              ],
+              "mgd_id": [
+                "MGI:891967",
+                "MGI:891968",
+                "MGI:891969",
+                "MGI:891970",
+                "MGI:891971"
+              ],
+              "date_modified": "2023-01-20T00:00:00Z",
+              "prev_symbol": [
+                "PI"
+              ],
+              "mane_select": [
+                "ENST00000393087.9",
+                "NM_000295.5"
+              ],
+              "rgd_id": [
+                "RGD:3326"
+              ],
+              "gene_group": [
+                "Serpin peptidase inhibitors"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "ANIMAL_MODEL_IDS_VIA_AUTOCOMPLETE_ALLIANCE_GENOME_CACHE": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": [
+              {
+                "symbol": "SERPINA1",
+                "name_key": "SERPINA1 (Hsa)",
+                "name": "SERPINA1",
+                "category": "gene",
+                "primaryKey": "HGNC:8941"
+              },
+              {
+                "symbol": "Serpina1",
+                "name_key": "Serpina1 (Rno)",
+                "name": "Serpina1",
+                "category": "gene",
+                "primaryKey": "RGD:3326"
+              },
+              {
+                "symbol": "serpina1",
+                "name_key": "serpina1 (Dre)",
+                "name": "serpina1",
+                "category": "gene",
+                "primaryKey": "ZFIN:ZDB-GENE-030131-1421"
+              },
+              {
+                "symbol": "Serpina1d",
+                "name_key": "Serpina1d (Mmu)",
+                "name": "Serpina1d",
+                "category": "gene",
+                "primaryKey": "MGI:891968"
+              },
+              {
+                "symbol": "SERPINA11",
+                "name_key": "SERPINA11 (Hsa)",
+                "name": "SERPINA11",
+                "category": "gene",
+                "primaryKey": "HGNC:19193"
+              },
+              {
+                "symbol": "SERPINA12",
+                "name_key": "SERPINA12 (Hsa)",
+                "name": "SERPINA12",
+                "category": "gene",
+                "primaryKey": "HGNC:18359"
+              },
+              {
+                "symbol": "Serpina1a",
+                "name_key": "Serpina1a (Mmu)",
+                "name": "Serpina1a",
+                "category": "gene",
+                "primaryKey": "MGI:891971"
+              },
+              {
+                "symbol": "Serpina1b",
+                "name_key": "Serpina1b (Mmu)",
+                "name": "Serpina1b",
+                "category": "gene",
+                "primaryKey": "MGI:891970"
+              },
+              {
+                "symbol": "Serpina1c",
+                "name_key": "Serpina1c (Mmu)",
+                "name": "Serpina1c",
+                "category": "gene",
+                "primaryKey": "MGI:891969"
+              },
+              {
+                "symbol": "Serpina1e",
+                "name_key": "Serpina1e (Mmu)",
+                "name": "Serpina1e",
+                "category": "gene",
+                "primaryKey": "MGI:891967"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Ensembl Gene Id": [
+          {
+            "data_source": "HGNC_GeneNames",
+            "version": "2025-11-11",
+            "value": "ENSG00000197249"
+          }
+        ]
+      },
+      {
+        "Rat Gene Identifier": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": "RGD:3326"
+          }
+        ]
+      },
+      {
+        "Zebrafish Gene Identifier": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": "ZFIN:ZDB-GENE-030131-1421"
+          }
+        ]
+      },
+      {
+        "HGNC_ID": [
+          {
+            "data_source": "HGNC_GeneNames",
+            "version": "2025-11-11",
+            "value": "HGNC:8941"
+          }
+        ]
+      },
+      {
+        "Entrez Gene Id": [
+          {
+            "data_source": "HGNC_GeneNames",
+            "version": "2025-11-11",
+            "value": "5265"
+          }
+        ]
+      },
+      {
+        "Gene Summary": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": "The protein encoded by this gene is a serine protease inhibitor belonging to the serpin superfamily whose targets include elastase, plasmin, thrombin, trypsin, chymotrypsin, and plasminogen activator. This protein is produced in the liver, the bone marrow, by lymphocytic and monocytic cells in lymphoid tissue, and by the Paneth cells of the gut. Defects in this gene are associated with chronic obstructive pulmonary disease, emphysema, and chronic liver disease. Several transcript variants encoding the same protein have been found for this gene. [provided by RefSeq, Aug 2020]"
+          }
+        ]
+      },
+      {
+        "ClinGen_gene_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://search.clinicalgenome.org/kb/genes/HGNC:8941"
+          }
+        ]
+      },
+      {
+        "gnomAD_gene_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://gnomad.broadinstitute.org/gene/ENSG00000197249?dataset=gnomad_r2_1"
+          }
+        ]
+      },
+      {
+        "NCBI_gene_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=5265"
+          }
+        ]
+      },
+      {
+        "HPO_NCBI_GENE_ID": [
+          {
+            "data_source": "HGNC_GeneNames",
+            "version": "2025-11-11",
+            "value": "NCBIGene:5265"
+          }
+        ]
+      },
+      {
+        "Human_Alliance_Genome_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.alliancegenome.org/gene/HGNC:8941"
+          }
+        ]
+      },
+      {
+        "Rat_Alliance_Genome_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.alliancegenome.org/gene/RGD:3326"
+          }
+        ]
+      },
+      {
+        "Zebrafish_Alliance_Genome_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.alliancegenome.org/gene/ZFIN:ZDB-GENE-030131-1421"
+          }
+        ]
+      },
+      {
+        "HPO_GENE_CALL_CACHE": [
+          {
+            "data_source": "HPO",
+            "version": "2025-11-12",
+            "value": {
+              "diseases": [
+                {
+                  "id": "OMIM:613490",
+                  "name": "Alpha-1-Antitrypsin deficiency",
+                  "mondoId": "MONDO:0013282",
+                  "description": null
+                },
+                {
+                  "id": "ORPHA:60",
+                  "name": "Alpha-1-antitrypsin deficiency",
+                  "mondoId": "MONDO:0013282",
+                  "description": null
+                },
+                {
+                  "id": "ORPHA:586",
+                  "name": "Cystic fibrosis",
+                  "mondoId": "MONDO:0009061",
+                  "description": null
+                }
+              ],
+              "phenotypes": [
+                {
+                  "id": "HP:0002910",
+                  "name": "Elevated circulating hepatic transaminase concentration"
+                },
+                {
+                  "id": "HP:0025708",
+                  "name": "Early young adult onset"
+                },
+                {
+                  "id": "HP:0001744",
+                  "name": "Splenomegaly"
+                },
+                {
+                  "id": "HP:0001738",
+                  "name": "Exocrine pancreatic insufficiency"
+                },
+                {
+                  "id": "HP:0005376",
+                  "name": "Recurrent Haemophilus influenzae infections"
+                },
+                {
+                  "id": "HP:0012490",
+                  "name": "Panniculitis"
+                },
+                {
+                  "id": "HP:0032967",
+                  "name": "Panacinar emphysema"
+                },
+                {
+                  "id": "HP:0030169",
+                  "name": "Gastric varix"
+                },
+                {
+                  "id": "HP:0000365",
+                  "name": "Hearing impairment"
+                },
+                {
+                  "id": "HP:0032261",
+                  "name": "Nontuberculous mycobacterial pulmonary infection"
+                },
+                {
+                  "id": "HP:0032229",
+                  "name": "Perinuclear antineutrophil antibody positivity"
+                },
+                {
+                  "id": "HP:0033709",
+                  "name": "Increased sputum production"
+                },
+                {
+                  "id": "HP:0002570",
+                  "name": "Steatorrhea"
+                },
+                {
+                  "id": "HP:0032342",
+                  "name": "Reduced forced expiratory volume in one second"
+                },
+                {
+                  "id": "HP:0001396",
+                  "name": "Cholestasis"
+                },
+                {
+                  "id": "HP:0001399",
+                  "name": "Hepatic failure"
+                },
+                {
+                  "id": "HP:0001392",
+                  "name": "Abnormality of the liver"
+                },
+                {
+                  "id": "HP:0001394",
+                  "name": "Cirrhosis"
+                },
+                {
+                  "id": "HP:0000007",
+                  "name": "Autosomal recessive inheritance"
+                },
+                {
+                  "id": "HP:0012115",
+                  "name": "Hepatitis"
+                },
+                {
+                  "id": "HP:0002783",
+                  "name": "Recurrent lower respiratory tract infections"
+                },
+                {
+                  "id": "HP:0000100",
+                  "name": "Nephrotic syndrome"
+                },
+                {
+                  "id": "HP:0001402",
+                  "name": "Hepatocellular carcinoma"
+                },
+                {
+                  "id": "HP:0002726",
+                  "name": "Recurrent Staphylococcus aureus infections"
+                },
+                {
+                  "id": "HP:0002724",
+                  "name": "Recurrent Aspergillus infections"
+                },
+                {
+                  "id": "HP:0002024",
+                  "name": "Malabsorption"
+                },
+                {
+                  "id": "HP:0002020",
+                  "name": "Gastroesophageal reflux"
+                },
+                {
+                  "id": "HP:0002035",
+                  "name": "Rectal prolapse"
+                },
+                {
+                  "id": "HP:0002099",
+                  "name": "Asthma"
+                },
+                {
+                  "id": "HP:0002097",
+                  "name": "Emphysema"
+                },
+                {
+                  "id": "HP:0002094",
+                  "name": "Dyspnea"
+                },
+                {
+                  "id": "HP:0100582",
+                  "name": "Nasal polyposis"
+                },
+                {
+                  "id": "HP:0002110",
+                  "name": "Bronchiectasis"
+                },
+                {
+                  "id": "HP:0002107",
+                  "name": "Pneumothorax"
+                },
+                {
+                  "id": "HP:0002105",
+                  "name": "Hemoptysis"
+                },
+                {
+                  "id": "HP:0002240",
+                  "name": "Hepatomegaly"
+                },
+                {
+                  "id": "HP:0002205",
+                  "name": "Recurrent respiratory infections"
+                },
+                {
+                  "id": "HP:0032025",
+                  "name": "Reduced circulating alpha-1-antitrypsin concentration"
+                },
+                {
+                  "id": "HP:0012735",
+                  "name": "Cough"
+                },
+                {
+                  "id": "HP:0000739",
+                  "name": "Anxiety"
+                },
+                {
+                  "id": "HP:0000716",
+                  "name": "Depression"
+                },
+                {
+                  "id": "HP:0000787",
+                  "name": "Nephrolithiasis"
+                },
+                {
+                  "id": "HP:0004401",
+                  "name": "Meconium ileus"
+                },
+                {
+                  "id": "HP:0004469",
+                  "name": "Chronic bronchitis"
+                },
+                {
+                  "id": "HP:0012873",
+                  "name": "Absent vas deferens"
+                },
+                {
+                  "id": "HP:0045051",
+                  "name": "Decreased DLCO"
+                },
+                {
+                  "id": "HP:0030828",
+                  "name": "Wheezing"
+                },
+                {
+                  "id": "HP:0045082",
+                  "name": "Decreased body mass index"
+                },
+                {
+                  "id": "HP:0003251",
+                  "name": "Male infertility"
+                },
+                {
+                  "id": "HP:0000952",
+                  "name": "Jaundice"
+                },
+                {
+                  "id": "HP:0000939",
+                  "name": "Osteoporosis"
+                },
+                {
+                  "id": "HP:0000938",
+                  "name": "Osteopenia"
+                },
+                {
+                  "id": "HP:0012236",
+                  "name": "Elevated sweat chloride"
+                },
+                {
+                  "id": "HP:0000246",
+                  "name": "Sinusitis"
+                },
+                {
+                  "id": "HP:0001508",
+                  "name": "Failure to thrive"
+                },
+                {
+                  "id": "HP:0002842",
+                  "name": "Recurrent Burkholderia cepacia infections"
+                },
+                {
+                  "id": "HP:0006510",
+                  "name": "Chronic pulmonary obstruction"
+                },
+                {
+                  "id": "HP:0012387",
+                  "name": "Bronchitis"
+                },
+                {
+                  "id": "HP:0006536",
+                  "name": "Airway obstruction"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "ZEBRAFISH_SUMMARY_ALLIANCE_GENOME_CACHE": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": {
+              "id": "ZFIN:ZDB-GENE-030131-1421",
+              "symbol": "serpina1",
+              "dateProduced": "2025-04-28T15:09:08.000+00:00",
+              "modCrossRefCompleteUrl": "https://zfin.org/ZDB-GENE-030131-1421",
+              "species": {
+                "name": "Danio rerio",
+                "shortName": "Dre",
+                "dataProviderFullName": "Zebrafish Information Network",
+                "dataProviderShortName": "ZFIN",
+                "commonNames": "['zebrafish', 'fish', 'dre']",
+                "taxonId": "NCBITaxon:7955"
+              },
+              "synonyms": [
+                "zgc:158145",
+                "zgc:153807",
+                "wu:fb61c07",
+                "wu:fb71a09"
+              ],
+              "secondaryIds": [
+                "ZFIN:ZDB-GENE-061110-25",
+                "ZFIN:ZDB-GENE-030131-1159",
+                "ZFIN:ZDB-GENE-070209-86"
+              ],
+              "automatedGeneSynopsis": "Predicted to enable serine-type endopeptidase inhibitor activity. Predicted to be active in extracellular space. Is expressed in blood and lapillus. Human ortholog(s) of this gene implicated in several diseases, including alpha 1-antitrypsin deficiency; artery disease (multiple); chronic obstructive pulmonary disease (multiple); inflammatory bowel disease (multiple); and liver disease (multiple). Orthologous to several human genes including SERPINA1 (serpin family A member 1).",
+              "dataProvider": "ZFIN",
+              "name": "serpin peptidase inhibitor, clade A (alpha-1 antiproteinase, antitrypsin), member 1",
+              "soTerm": {
+                "id": "SO:0001217",
+                "name": "protein_coding_gene"
+              },
+              "genomeLocations": [
+                {
+                  "chromosome": "20",
+                  "start": 10544100,
+                  "end": 10547411,
+                  "assembly": "GRCz11"
+                }
+              ],
+              "crossReferenceMap": {
+                "other": [
+                  {
+                    "crossRefCompleteUrl": "http://www.ensembl.org/id/ENSDARG00000090286",
+                    "name": "ENSEMBL:ENSDARG00000090286",
+                    "displayName": "ENSEMBL:ENSDARG00000090286"
+                  },
+                  {
+                    "crossRefCompleteUrl": "https://www.ncbi.nlm.nih.gov/gene/322701",
+                    "name": "NCBI_Gene:322701",
+                    "displayName": "NCBI_Gene:322701"
+                  },
+                  {
+                    "crossRefCompleteUrl": "http://www.uniprot.org/uniprot/Q5SPJ4",
+                    "name": "UniProtKB:Q5SPJ4",
+                    "displayName": "UniProtKB:Q5SPJ4"
+                  },
+                  {
+                    "crossRefCompleteUrl": "http://www.uniprot.org/uniprot/A0A8M6YU45",
+                    "name": "UniProtKB:A0A8M6YU45",
+                    "displayName": "UniProtKB:A0A8M6YU45"
+                  }
+                ],
+                "expression": {
+                  "crossRefCompleteUrl": "https://zfin.org/action/marker/ZDB-GENE-030131-1421/expression",
+                  "name": "ZFIN:ZDB-GENE-030131-1421"
+                },
+                "references": {
+                  "crossRefCompleteUrl": "https://zfin.org/action/marker/citation-list/ZDB-GENE-030131-1421",
+                  "name": "ZFIN:ZDB-GENE-030131-1421"
+                },
+                "expression-atlas": {
+                  "crossRefCompleteUrl": "http://www.ebi.ac.uk/gxa/genes/ENSDARG00000090286",
+                  "name": "ExpressionAtlas_gene:ZDB-GENE-030131-1421",
+                  "displayName": "ZDB-GENE-030131-1421"
+                },
+                "expression_images": {
+                  "crossRefCompleteUrl": "https://zfin.org/ZDB-GENE-030131-1421/wt-expression/images",
+                  "name": "ZFIN:ZDB-GENE-030131-1421"
+                },
+                "panther": {
+                  "crossRefCompleteUrl": "http://pantherdb.org/treeViewer/treeViewer.jsp?book=PTHR11461&species=agr&seq=ZFIN=ZDB-GENE-030131-1421",
+                  "name": "PANTHER:PTHR11461",
+                  "displayName": "PANTHER:PTHR11461"
+                },
+                "primary": {
+                  "crossRefCompleteUrl": "https://zfin.org/ZDB-GENE-030131-1421",
+                  "name": "ZFIN:ZDB-GENE-030131-1421"
+                },
+                "wild_type_expression": {
+                  "crossRefCompleteUrl": "https://zfin.org/ZDB-GENE-030131-1421/wt-expression",
+                  "name": "ZFIN:ZDB-GENE-030131-1421"
+                }
+              },
+              "type": "gene"
+            }
+          }
+        ]
+      },
+      {
+        "RAT_SUMMARY_ALLIANCE_GENOME_CACHE": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": {
+              "id": "RGD:3326",
+              "symbol": "Serpina1",
+              "dateProduced": "2025-04-16T17:32:24.339+00:00",
+              "modCrossRefCompleteUrl": "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=RGD:3326",
+              "species": {
+                "name": "Rattus norvegicus",
+                "shortName": "Rno",
+                "dataProviderFullName": "Rat Genome Database",
+                "dataProviderShortName": "RGD",
+                "commonNames": "['rat', 'rno']",
+                "taxonId": "NCBITaxon:10116"
+              },
+              "synonyms": [
+                "alpha-1-protease inhibitor",
+                "serine protease inhibitor alpha 1",
+                "alpha-1-antitrypsin (protease inhibitor)",
+                "alpha-1-antiproteinase",
+                "AAT",
+                "alpha-1-proteinase inhibitor",
+                "serpin peptidase inhibitor, clade A (alpha-1 antiproteinase, antitrypsin), member 1",
+                "Spi1",
+                "Pi",
+                "serpin A1",
+                "serine (or cysteine) proteinase inhibitor, clade A (alpha-1 antiproteinase, antitrypsin), member 1",
+                "serine (or cysteine) proteinase inhibitor, clade A, member 1"
+              ],
+              "geneSynopsis": "Enables serine-type endopeptidase inhibitor activity. Involved in several processes, including negative regulation of serine-type endopeptidase activity; response to estradiol; and response to methanol. Located in extracellular space. Used to study pulmonary hypertension. Biomarker of asthma; osteoarthritis; pancreatitis (multiple); primary hyperaldosteronism; and proteinuria. Human ortholog(s) of this gene implicated in several diseases, including alpha 1-antitrypsin deficiency; chronic obstructive pulmonary disease (multiple); human immunodeficiency virus infectious disease; inflammatory bowel disease (multiple); and liver disease (multiple). Orthologous to human SERPINA1 (serpin family A member 1); PARTICIPATES IN forkhead class A signaling pathway; coagulation cascade pathway; complement system pathway; INTERACTS WITH 17alpha-ethynylestradiol; 2,3,7,8-tetrachlorodibenzodioxine; 3-chloropropane-1,2-diol.",
+              "automatedGeneSynopsis": "Enables serine-type endopeptidase inhibitor activity. Involved in several processes, including response to estradiol; response to methanol; and response to triglyceride. Located in extracellular space. Used to study pulmonary hypertension. Biomarker of asthma; osteoarthritis; pancreatitis (multiple); primary hyperaldosteronism; and proteinuria. Human ortholog(s) of this gene implicated in several diseases, including alpha 1-antitrypsin deficiency; chronic obstructive pulmonary disease (multiple); human immunodeficiency virus infectious disease; inflammatory bowel disease (multiple); and liver disease (multiple). Orthologous to human SERPINA1 (serpin family A member 1).",
+              "dataProvider": "RGD",
+              "name": "serpin family A member 1",
+              "soTerm": {
+                "id": "SO:0001217",
+                "name": "protein_coding_gene"
+              },
+              "genomeLocations": [
+                {
+                  "chromosome": "6",
+                  "start": 122866312,
+                  "end": 122888339,
+                  "assembly": "mRatBN7.2",
+                  "strand": "-"
+                }
+              ],
+              "crossReferenceMap": {
+                "other": [
+                  {
+                    "crossRefCompleteUrl": "http://www.uniprot.org/uniprot/P17475",
+                    "name": "UniProtKB:P17475",
+                    "displayName": "UniProtKB:P17475"
+                  },
+                  {
+                    "crossRefCompleteUrl": "https://www.ncbi.nlm.nih.gov/gene/24648",
+                    "name": "NCBI_Gene:24648",
+                    "displayName": "NCBI_Gene:24648"
+                  },
+                  {
+                    "crossRefCompleteUrl": "http://www.ensembl.org/id/ENSRNOG00000032669",
+                    "name": "ENSEMBL:ENSRNOG00000032669",
+                    "displayName": "ENSEMBL:ENSRNOG00000032669"
+                  }
+                ],
+                "references": {
+                  "crossRefCompleteUrl": "https://rgd.mcw.edu/rgdweb/report/gene/main.html?view=5&id=3326",
+                  "name": "RGD:3326"
+                },
+                "expression-atlas": {
+                  "crossRefCompleteUrl": "http://www.ebi.ac.uk/gxa/genes/ENSRNOG00000032669",
+                  "name": "ExpressionAtlas_gene:3326",
+                  "displayName": "3326"
+                },
+                "panther": {
+                  "crossRefCompleteUrl": "http://pantherdb.org/treeViewer/treeViewer.jsp?book=PTHR11461&species=agr&seq=RGD=3326",
+                  "name": "PANTHER:PTHR11461",
+                  "displayName": "PANTHER:PTHR11461"
+                },
+                "other_expression": {
+                  "crossRefCompleteUrl": "https://www.ncbi.nlm.nih.gov/sites/entrez?Db=geoprofiles&DbFrom=gene&Cmd=Link&LinkName=gene_geoprofiles&LinkReadableName=GEO%20Profiles&IdsFromResult=24648",
+                  "name": "NCBI_Gene:24648",
+                  "displayName": "GEO"
+                },
+                "primary": {
+                  "crossRefCompleteUrl": "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=RGD:3326",
+                  "name": "RGD:3326"
+                }
+              },
+              "type": "gene"
+            }
+          }
+        ]
+      },
+      {
+        "OMIM": [
+          {
+            "data_source": "HPO",
+            "version": "2025-11-12",
+            "value": [
+              "Alpha-1-Antitrypsin deficiency"
+            ]
+          }
+        ]
+      },
+      {
+        "HPO": [
+          {
+            "data_source": "HPO",
+            "version": "2025-11-12",
+            "value": [
+              "HP:0002910: Elevated circulating hepatic transaminase concentration",
+              "HP:0025708: Early young adult onset",
+              "HP:0001744: Splenomegaly",
+              "HP:0001738: Exocrine pancreatic insufficiency",
+              "HP:0005376: Recurrent Haemophilus influenzae infections",
+              "HP:0012490: Panniculitis",
+              "HP:0032967: Panacinar emphysema",
+              "HP:0030169: Gastric varix",
+              "HP:0000365: Hearing impairment",
+              "HP:0032261: Nontuberculous mycobacterial pulmonary infection",
+              "HP:0032229: Perinuclear antineutrophil antibody positivity",
+              "HP:0033709: Increased sputum production",
+              "HP:0002570: Steatorrhea",
+              "HP:0032342: Reduced forced expiratory volume in one second",
+              "HP:0001396: Cholestasis",
+              "HP:0001399: Hepatic failure",
+              "HP:0001392: Abnormality of the liver",
+              "HP:0001394: Cirrhosis",
+              "HP:0000007: Autosomal recessive inheritance",
+              "HP:0012115: Hepatitis",
+              "HP:0002783: Recurrent lower respiratory tract infections",
+              "HP:0000100: Nephrotic syndrome",
+              "HP:0001402: Hepatocellular carcinoma",
+              "HP:0002726: Recurrent Staphylococcus aureus infections",
+              "HP:0002724: Recurrent Aspergillus infections",
+              "HP:0002024: Malabsorption",
+              "HP:0002020: Gastroesophageal reflux",
+              "HP:0002035: Rectal prolapse",
+              "HP:0002099: Asthma",
+              "HP:0002097: Emphysema",
+              "HP:0002094: Dyspnea",
+              "HP:0100582: Nasal polyposis",
+              "HP:0002110: Bronchiectasis",
+              "HP:0002107: Pneumothorax",
+              "HP:0002105: Hemoptysis",
+              "HP:0002240: Hepatomegaly",
+              "HP:0002205: Recurrent respiratory infections",
+              "HP:0032025: Reduced circulating alpha-1-antitrypsin concentration",
+              "HP:0012735: Cough",
+              "HP:0000739: Anxiety",
+              "HP:0000716: Depression",
+              "HP:0000787: Nephrolithiasis",
+              "HP:0004401: Meconium ileus",
+              "HP:0004469: Chronic bronchitis",
+              "HP:0012873: Absent vas deferens",
+              "HP:0045051: Decreased DLCO",
+              "HP:0030828: Wheezing",
+              "HP:0045082: Decreased body mass index",
+              "HP:0003251: Male infertility",
+              "HP:0000952: Jaundice",
+              "HP:0000939: Osteoporosis",
+              "HP:0000938: Osteopenia",
+              "HP:0012236: Elevated sweat chloride",
+              "HP:0000246: Sinusitis",
+              "HP:0001508: Failure to thrive",
+              "HP:0002842: Recurrent Burkholderia cepacia infections",
+              "HP:0006510: Chronic pulmonary obstruction",
+              "HP:0012387: Bronchitis",
+              "HP:0006536: Airway obstruction"
+            ]
+          }
+        ]
+      },
+      {
+        "Rat_Alliance_Genome_Automated_Summary": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": "Enables serine-type endopeptidase inhibitor activity. Involved in several processes, including response to estradiol; response to methanol; and response to triglyceride. Located in extracellular space. Used to study pulmonary hypertension. Biomarker of asthma; osteoarthritis; pancreatitis (multiple); primary hyperaldosteronism; and proteinuria. Human ortholog(s) of this gene implicated in several diseases, including alpha 1-antitrypsin deficiency; chronic obstructive pulmonary disease (multiple); human immunodeficiency virus infectious disease; inflammatory bowel disease (multiple); and liver disease (multiple). Orthologous to human SERPINA1 (serpin family A member 1)."
+          }
+        ]
+      },
+      {
+        "Rat_Alliance_Genome_RGD_Summary": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": null
+          }
+        ]
+      },
+      {
+        "Zebrafish_Alliance_Genome_Automated_Summary": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": "Predicted to enable serine-type endopeptidase inhibitor activity. Predicted to be active in extracellular space. Is expressed in blood and lapillus. Human ortholog(s) of this gene implicated in several diseases, including alpha 1-antitrypsin deficiency; artery disease (multiple); chronic obstructive pulmonary disease (multiple); inflammatory bowel disease (multiple); and liver disease (multiple). Orthologous to several human genes including SERPINA1 (serpin family A member 1)."
+          }
+        ]
+      },
+      {
+        "Zebrafish_Alliance_Genome_ZFIN_Summary": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": null
+          }
+        ]
+      },
+      {
+        "Rat_Rat_Genome_Database_url": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=RGD:3326"
+          }
+        ]
+      },
+      {
+        "Zebrafish_Zebrafish_Information_Network_url": [
+          {
+            "data_source": "Alliance Genome",
+            "version": "8.2.0",
+            "value": "https://zfin.org/ZDB-GENE-030131-1421"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "hgvs_variant": "NM_002204.2:c.1973C>G",
+    "chromosome": "",
+    "position": "",
+    "reference": "",
+    "alternate": "",
+    "build": "GRCh37",
+    "transcripts": [
+      {
+        "transcript_id": "NM_002204.4",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "NM_002204.4"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "probably_damaging"
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0.994
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "deleterious"
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "missense_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "MODERATE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "transcript_id": "XM_005257308.3",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "XM_005257308.3"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "missense_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "MODERATE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "transcript_id": "XM_047435922.1",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "XM_047435922.1"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "missense_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "MODERATE"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "annotations": [
+      {
+        "hgvs_variant_without_transcript_version": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "NM_002204:c.1973C>G"
+          }
+        ]
+      },
+      {
+        "SpliceAI_variant_linkout": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://spliceailookup.broadinstitute.org/#variant=NM_002204:c.1973C>G&hg=38&bc=basic&distance=500&mask=0&ra=0"
+          }
+        ]
+      },
+      {
+        "transcript_without_version": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "NM_002204"
+          }
+        ]
+      },
+      {
+        "Ensembl_Transcript_Id": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": "ENST00000320031"
+          }
+        ]
+      },
+      {
+        "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": [
+              {
+                "colocated_variants": [
+                  {
+                    "clin_sig": [
+                      "uncertain_significance",
+                      "likely_pathogenic"
+                    ],
+                    "phenotype_or_disease": 1,
+                    "pubmed": [
+                      24088041,
+                      26633545
+                    ],
+                    "start": 50077024,
+                    "end": 50077024,
+                    "id": "rs540704248",
+                    "clin_sig_allele": "G:likely_pathogenic;G:uncertain_significance",
+                    "strand": 1,
+                    "var_synonyms": {
+                      "ClinVar": [
+                        "RCV000191095",
+                        "VCV000209162",
+                        "RCV004730900"
+                      ]
+                    },
+                    "allele_string": "C/G/T",
+                    "seq_region_name": "17",
+                    "frequencies": {
+                      "G": {
+                        "gnomadg_afr": 0,
+                        "gnomadg_asj": 0,
+                        "gnomadg_amr": 0,
+                        "gnomadg_sas": 0,
+                        "gnomadg_eas": 0,
+                        "gnomadg_ami": 0,
+                        "gnomadg": 0.000006574,
+                        "gnomadg_mid": 0,
+                        "gnomadg_nfe": 0.00001471,
+                        "gnomadg_remaining": 0,
+                        "gnomadg_fin": 0
+                      }
+                    }
+                  }
+                ],
+                "assembly_name": "GRCh38",
+                "vcf_string": "17-50077024-C-G",
+                "id": "NM_002204:c.1973C>G",
+                "end": 50077024,
+                "start": 50077024,
+                "seq_region_name": "17",
+                "most_severe_consequence": "missense_variant",
+                "input": "NM_002204:c.1973C>G",
+                "allele_string": "C/G",
+                "transcript_consequences": [
+                  {
+                    "sift_score": 0,
+                    "cds_start": 1973,
+                    "alphamissense": {
+                      "am_class": "ambiguous",
+                      "am_pathogenicity": 0.4144
+                    },
+                    "codons": "aCg/aGg",
+                    "strand": 1,
+                    "biotype": "protein_coding",
+                    "given_ref": "C",
+                    "variant_allele": "G",
+                    "amino_acids": "T/R",
+                    "cds_end": 1973,
+                    "gene_symbol_source": "EntrezGene",
+                    "protein_start": 658,
+                    "cdna_end": 2303,
+                    "impact": "MODERATE",
+                    "cdna_start": 2303,
+                    "polyphen_prediction": "probably_damaging",
+                    "protein_end": 658,
+                    "gene_symbol": "ITGA3",
+                    "cadd_raw": 4.634294,
+                    "sift_prediction": "deleterious",
+                    "gene_id": "3675",
+                    "polyphen_score": 0.994,
+                    "transcript_id": "NM_002204.4",
+                    "spliceai": {
+                      "DP_DL": 43,
+                      "DS_AG": 0.01,
+                      "DP_DG": -5,
+                      "DS_AL": 0.01,
+                      "DP_AL": -38,
+                      "DP_AG": -43,
+                      "DS_DL": 0,
+                      "DS_DG": 0.01,
+                      "SYMBOL": "ITGA3"
+                    },
+                    "consequence_terms": [
+                      "missense_variant"
+                    ],
+                    "used_ref": "C",
+                    "cadd_phred": 26
+                  },
+                  {
+                    "codons": "aCg/aGg",
+                    "cds_start": 1568,
+                    "cds_end": 1568,
+                    "variant_allele": "G",
+                    "amino_acids": "T/R",
+                    "given_ref": "C",
+                    "biotype": "protein_coding",
+                    "strand": 1,
+                    "cdna_start": 1898,
+                    "gene_symbol_source": "EntrezGene",
+                    "protein_start": 523,
+                    "cdna_end": 1898,
+                    "impact": "MODERATE",
+                    "gene_symbol": "ITGA3",
+                    "protein_end": 523,
+                    "transcript_id": "XM_005257308.3",
+                    "gene_id": "3675",
+                    "cadd_raw": 4.634294,
+                    "cadd_phred": 26,
+                    "used_ref": "C",
+                    "spliceai": {
+                      "DP_DG": -5,
+                      "DS_AG": 0.01,
+                      "DP_DL": 43,
+                      "DS_DG": 0.01,
+                      "SYMBOL": "ITGA3",
+                      "DP_AL": -38,
+                      "DS_AL": 0.01,
+                      "DP_AG": -43,
+                      "DS_DL": 0
+                    },
+                    "consequence_terms": [
+                      "missense_variant"
+                    ]
+                  },
+                  {
+                    "codons": "aCg/aGg",
+                    "alphamissense": {
+                      "am_pathogenicity": 0.4144,
+                      "am_class": "ambiguous"
+                    },
+                    "cds_start": 1973,
+                    "cds_end": 1973,
+                    "variant_allele": "G",
+                    "given_ref": "C",
+                    "amino_acids": "T/R",
+                    "strand": 1,
+                    "biotype": "protein_coding",
+                    "cdna_start": 2303,
+                    "cdna_end": 2303,
+                    "gene_symbol_source": "EntrezGene",
+                    "impact": "MODERATE",
+                    "protein_start": 658,
+                    "gene_symbol": "ITGA3",
+                    "protein_end": 658,
+                    "transcript_id": "XM_047435922.1",
+                    "gene_id": "3675",
+                    "cadd_raw": 4.634294,
+                    "cadd_phred": 26,
+                    "used_ref": "C",
+                    "spliceai": {
+                      "DP_DG": -5,
+                      "DP_DL": 43,
+                      "DS_AG": 0.01,
+                      "DS_DG": 0.01,
+                      "SYMBOL": "ITGA3",
+                      "DP_AG": -43,
+                      "DP_AL": -38,
+                      "DS_AL": 0.01,
+                      "DS_DL": 0
+                    },
+                    "consequence_terms": [
+                      "missense_variant"
+                    ]
+                  }
+                ],
+                "strand": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "ensembl_vep_vcf_string": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": "17-50077024-C-G"
+          }
+        ]
+      },
+      {
+        "ClinVar_Variant_Id": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": "209162"
+          }
+        ]
+      },
+      {
+        "ClinVar_variant_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.ncbi.nlm.nih.gov/clinvar/variation/209162"
+          }
+        ]
+      },
+      {
+        "CADD": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": 26
+          }
+        ]
+      },
+      {
+        "alphamissense_pathogenicity": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": 0.4144
+          }
+        ]
+      },
+      {
+        "alphamissense_classification": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": "ambiguous"
+          }
+        ]
+      },
+      {
+        "revel": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": null
+          }
+        ]
+      },
+      {
+        "opencravat_search_variant_vcf_string": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": "chrom=chr17&pos=50077024&ref_base=C&alt_base=G"
+          }
+        ]
+      },
+      {
+        "chrom": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "17"
+          }
+        ]
+      },
+      {
+        "pos": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "50077024"
+          }
+        ]
+      },
+      {
+        "DITTO": [
+          {
+            "data_source": "cgds",
+            "version": "rosalution-manifest-00",
+            "value": "1.0"
+          }
+        ]
+      },
+      {
+        "spliceai_acceptor_loss": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": 0.01
+          }
+        ]
+      },
+      {
+        "spliceai_donor_loss": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "spliceai_acceptor_gain": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": 0.01
+          }
+        ]
+      },
+      {
+        "spliceai_donor_gain": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": 0.01
+          }
+        ]
+      },
+      {
+        "gnomAD_variant_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://gnomad.broadinstitute.org/variant/17-50077024-C-G?dataset=gnomad_r4"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "hgvs_variant": "NM_002204.2:c.2070+1G>A",
+    "chromosome": "",
+    "position": "",
+    "reference": "",
+    "alternate": "",
+    "build": "GRCh37",
+    "transcripts": [
+      {
+        "transcript_id": "NM_002204.4",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "NM_002204.4"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "splice_donor_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "HIGH"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "transcript_id": "XM_005257308.3",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "XM_005257308.3"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "splice_donor_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "HIGH"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "transcript_id": "XM_047435922.1",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "XM_047435922.1"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": null
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "splice_donor_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "HIGH"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "annotations": [
+      {
+        "hgvs_variant_without_transcript_version": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "NM_002204:c.2070+1G>A"
+          }
+        ]
+      },
+      {
+        "SpliceAI_variant_linkout": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://spliceailookup.broadinstitute.org/#variant=NM_002204:c.2070+1G>A&hg=38&bc=basic&distance=500&mask=0&ra=0"
+          }
+        ]
+      },
+      {
+        "transcript_without_version": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "NM_002204"
+          }
+        ]
+      },
+      {
+        "Ensembl_Transcript_Id": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": "ENST00000320031"
+          }
+        ]
+      },
+      {
+        "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": [
+              {
+                "assembly_name": "GRCh38",
+                "strand": 1,
+                "start": 50077122,
+                "allele_string": "G/A",
+                "transcript_consequences": [
+                  {
+                    "consequence_terms": [
+                      "splice_donor_variant"
+                    ],
+                    "given_ref": "G",
+                    "gene_id": "3675",
+                    "transcript_id": "NM_002204.4",
+                    "cadd_phred": 34,
+                    "used_ref": "G",
+                    "biotype": "protein_coding",
+                    "impact": "HIGH",
+                    "variant_allele": "A",
+                    "spliceai": {
+                      "SYMBOL": "ITGA3",
+                      "DP_AL": -1,
+                      "DP_AG": 35,
+                      "DS_DG": 0.42,
+                      "DS_AG": 0,
+                      "DP_DL": -1,
+                      "DS_DL": 0.99,
+                      "DS_AL": 0,
+                      "DP_DG": -40
+                    },
+                    "strand": 1,
+                    "cadd_raw": 6.510041,
+                    "gene_symbol": "ITGA3",
+                    "gene_symbol_source": "EntrezGene"
+                  },
+                  {
+                    "spliceai": {
+                      "DS_AL": 0,
+                      "DS_DL": 0.99,
+                      "DP_DG": -40,
+                      "DS_AG": 0,
+                      "DP_DL": -1,
+                      "DS_DG": 0.42,
+                      "DP_AG": 35,
+                      "SYMBOL": "ITGA3",
+                      "DP_AL": -1
+                    },
+                    "strand": 1,
+                    "gene_symbol": "ITGA3",
+                    "cadd_raw": 6.510041,
+                    "gene_symbol_source": "EntrezGene",
+                    "consequence_terms": [
+                      "splice_donor_variant"
+                    ],
+                    "given_ref": "G",
+                    "gene_id": "3675",
+                    "transcript_id": "XM_005257308.3",
+                    "used_ref": "G",
+                    "cadd_phred": 34,
+                    "variant_allele": "A",
+                    "biotype": "protein_coding",
+                    "impact": "HIGH"
+                  },
+                  {
+                    "transcript_id": "XM_047435922.1",
+                    "gene_id": "3675",
+                    "consequence_terms": [
+                      "splice_donor_variant"
+                    ],
+                    "given_ref": "G",
+                    "variant_allele": "A",
+                    "impact": "HIGH",
+                    "biotype": "protein_coding",
+                    "used_ref": "G",
+                    "cadd_phred": 34,
+                    "strand": 1,
+                    "spliceai": {
+                      "DS_DG": 0.42,
+                      "DP_DL": -1,
+                      "DS_AG": 0,
+                      "DP_DG": -40,
+                      "DS_AL": 0,
+                      "DS_DL": 0.99,
+                      "DP_AL": -1,
+                      "SYMBOL": "ITGA3",
+                      "DP_AG": 35
+                    },
+                    "gene_symbol_source": "EntrezGene",
+                    "gene_symbol": "ITGA3",
+                    "cadd_raw": 6.510041
+                  }
+                ],
+                "id": "NM_002204:c.2070+1G>A",
+                "seq_region_name": "17",
+                "input": "NM_002204:c.2070+1G>A",
+                "most_severe_consequence": "splice_donor_variant",
+                "colocated_variants": [
+                  {
+                    "phenotype_or_disease": 1,
+                    "strand": 1,
+                    "somatic": 1,
+                    "var_synonyms": {
+                      "COSMIC": [
+                        "COSM8942706"
+                      ]
+                    },
+                    "seq_region_name": "17",
+                    "allele_string": "COSMIC_MUTATION",
+                    "end": 50077122,
+                    "id": "COSV99144064",
+                    "start": 50077122
+                  },
+                  {
+                    "seq_region_name": "17",
+                    "var_synonyms": {
+                      "ClinVar": [
+                        "RCV000191096",
+                        "VCV000209163"
+                      ]
+                    },
+                    "allele_string": "G/A/C",
+                    "frequencies": {
+                      "A": {
+                        "gnomade_remaining": 0,
+                        "gnomade_asj": 0,
+                        "gnomade_nfe": 0,
+                        "gnomade_mid": 0,
+                        "gnomade_eas": 0,
+                        "gnomade_sas": 0.00001256,
+                        "gnomade_afr": 0,
+                        "gnomade": 7.195e-7,
+                        "gnomade_amr": 0,
+                        "gnomade_fin": 0
+                      }
+                    },
+                    "end": 50077122,
+                    "start": 50077122,
+                    "clin_sig": [
+                      "pathogenic"
+                    ],
+                    "id": "rs797045048",
+                    "pubmed": [
+                      24088041,
+                      26633545
+                    ],
+                    "phenotype_or_disease": 1,
+                    "clin_sig_allele": "A:pathogenic",
+                    "strand": 1
+                  }
+                ],
+                "vcf_string": "17-50077122-G-A",
+                "end": 50077122
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "ensembl_vep_vcf_string": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": "17-50077122-G-A"
+          }
+        ]
+      },
+      {
+        "ClinVar_Variant_Id": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": "209163"
+          }
+        ]
+      },
+      {
+        "ClinVar_variant_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.ncbi.nlm.nih.gov/clinvar/variation/209163"
+          }
+        ]
+      },
+      {
+        "CADD": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": 34
+          }
+        ]
+      },
+      {
+        "alphamissense_pathogenicity": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": null
+          }
+        ]
+      },
+      {
+        "alphamissense_classification": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": null
+          }
+        ]
+      },
+      {
+        "revel": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": null
+          }
+        ]
+      },
+      {
+        "opencravat_search_variant_vcf_string": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": "chrom=chr17&pos=50077122&ref_base=G&alt_base=A"
+          }
+        ]
+      },
+      {
+        "chrom": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "17"
+          }
+        ]
+      },
+      {
+        "pos": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "50077122"
+          }
+        ]
+      },
+      {
+        "DITTO": [
+          {
+            "data_source": "cgds",
+            "version": "rosalution-manifest-00",
+            "value": "1.0"
+          }
+        ]
+      },
+      {
+        "spliceai_acceptor_loss": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "spliceai_donor_loss": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": 0.99
+          }
+        ]
+      },
+      {
+        "spliceai_acceptor_gain": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "spliceai_donor_gain": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": 0.42
+          }
+        ]
+      },
+      {
+        "gnomAD_variant_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://gnomad.broadinstitute.org/variant/17-50077122-G-A?dataset=gnomad_r4"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "hgvs_variant": "NM_000295.4:c.863A>T",
+    "chromosome": "",
+    "position": "",
+    "reference": "",
+    "alternate": "",
+    "build": "GRCh37",
+    "transcripts": [
+      {
+        "transcript_id": "NM_000295.5",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "NM_000295.5"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "probably_damaging"
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0.99
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "deleterious"
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "missense_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "MODERATE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "transcript_id": "NM_001002235.3",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "NM_001002235.3"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "probably_damaging"
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0.99
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "deleterious"
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "missense_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "MODERATE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "transcript_id": "NM_001002236.3",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "NM_001002236.3"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "probably_damaging"
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0.99
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "deleterious"
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "missense_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "MODERATE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "transcript_id": "NM_001127700.2",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "NM_001127700.2"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "probably_damaging"
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0.99
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "deleterious"
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "missense_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "MODERATE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "transcript_id": "NM_001127701.2",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "NM_001127701.2"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "probably_damaging"
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0.99
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "deleterious"
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "missense_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "MODERATE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "transcript_id": "NM_001127702.2",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "NM_001127702.2"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "probably_damaging"
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0.99
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "deleterious"
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "missense_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "MODERATE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "transcript_id": "NM_001127703.2",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "NM_001127703.2"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "probably_damaging"
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0.99
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "deleterious"
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "missense_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "MODERATE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "transcript_id": "NM_001127704.2",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "NM_001127704.2"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "probably_damaging"
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0.99
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "deleterious"
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "missense_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "MODERATE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "transcript_id": "NM_001127705.2",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "NM_001127705.2"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "probably_damaging"
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0.99
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "deleterious"
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "missense_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "MODERATE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "transcript_id": "NM_001127706.2",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "NM_001127706.2"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "probably_damaging"
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0.99
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "deleterious"
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "missense_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "MODERATE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "transcript_id": "NM_001127707.2",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "NM_001127707.2"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "probably_damaging"
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0.99
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "deleterious"
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "missense_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "MODERATE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "transcript_id": "XM_017021370.2",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "XM_017021370.2"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "probably_damaging"
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0.99
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "deleterious"
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "missense_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "MODERATE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "transcript_id": "XM_047431478.1",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "XM_047431478.1"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "probably_damaging"
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0.99
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "deleterious"
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "missense_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "MODERATE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "transcript_id": "XM_047431479.1",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "XM_047431479.1"
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "probably_damaging"
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0.99
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "deleterious"
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": 0
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": [
+                  "missense_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "Impact": [
+              {
+                "data_source": "Ensembl",
+                "version": 115,
+                "value": "MODERATE"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "annotations": [
+      {
+        "hgvs_variant_without_transcript_version": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "NM_000295:c.863A>T"
+          }
+        ]
+      },
+      {
+        "SpliceAI_variant_linkout": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://spliceailookup.broadinstitute.org/#variant=NM_000295:c.863A>T&hg=38&bc=basic&distance=500&mask=0&ra=0"
+          }
+        ]
+      },
+      {
+        "transcript_without_version": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "NM_000295"
+          }
+        ]
+      },
+      {
+        "Ensembl_Transcript_Id": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": "ENST00000393087"
+          }
+        ]
+      },
+      {
+        "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": [
+              {
+                "end": 94380925,
+                "vcf_string": "14-94380925-T-A",
+                "most_severe_consequence": "missense_variant",
+                "transcript_consequences": [
+                  {
+                    "variant_allele": "T",
+                    "impact": "MODERATE",
+                    "polyphen_score": 0.99,
+                    "gene_symbol": "SERPINA1",
+                    "codons": "gAa/gTa",
+                    "biotype": "protein_coding",
+                    "sift_score": 0,
+                    "cdna_start": 910,
+                    "strand": -1,
+                    "polyphen_prediction": "probably_damaging",
+                    "consequence_terms": [
+                      "missense_variant"
+                    ],
+                    "gene_id": "5265",
+                    "cds_end": 863,
+                    "protein_start": 288,
+                    "alphamissense": {
+                      "am_pathogenicity": 0.6396,
+                      "am_class": "likely_pathogenic"
+                    },
+                    "given_ref": "A",
+                    "cds_start": 863,
+                    "cadd_phred": 33,
+                    "sift_prediction": "deleterious",
+                    "transcript_id": "NM_000295.5",
+                    "used_ref": "A",
+                    "cdna_end": 910,
+                    "protein_end": 288,
+                    "gene_symbol_source": "EntrezGene",
+                    "cadd_raw": 5.638055,
+                    "amino_acids": "E/V"
+                  },
+                  {
+                    "consequence_terms": [
+                      "missense_variant"
+                    ],
+                    "polyphen_prediction": "probably_damaging",
+                    "gene_id": "5265",
+                    "sift_score": 0,
+                    "biotype": "protein_coding",
+                    "cdna_start": 1046,
+                    "strand": -1,
+                    "codons": "gAa/gTa",
+                    "variant_allele": "T",
+                    "gene_symbol": "SERPINA1",
+                    "polyphen_score": 0.99,
+                    "impact": "MODERATE",
+                    "gene_symbol_source": "EntrezGene",
+                    "protein_end": 288,
+                    "cadd_raw": 5.638055,
+                    "amino_acids": "E/V",
+                    "sift_prediction": "deleterious",
+                    "transcript_id": "NM_001002235.3",
+                    "cadd_phred": 33,
+                    "cdna_end": 1046,
+                    "used_ref": "A",
+                    "cds_start": 863,
+                    "cds_end": 863,
+                    "given_ref": "A",
+                    "alphamissense": {
+                      "am_class": "likely_pathogenic",
+                      "am_pathogenicity": 0.6396
+                    },
+                    "protein_start": 288
+                  },
+                  {
+                    "variant_allele": "T",
+                    "impact": "MODERATE",
+                    "polyphen_score": 0.99,
+                    "gene_symbol": "SERPINA1",
+                    "codons": "gAa/gTa",
+                    "sift_score": 0,
+                    "biotype": "protein_coding",
+                    "cdna_start": 1360,
+                    "strand": -1,
+                    "polyphen_prediction": "probably_damaging",
+                    "consequence_terms": [
+                      "missense_variant"
+                    ],
+                    "gene_id": "5265",
+                    "cds_end": 863,
+                    "protein_start": 288,
+                    "alphamissense": {
+                      "am_pathogenicity": 0.6396,
+                      "am_class": "likely_pathogenic"
+                    },
+                    "given_ref": "A",
+                    "cds_start": 863,
+                    "cadd_phred": 33,
+                    "sift_prediction": "deleterious",
+                    "transcript_id": "NM_001002236.3",
+                    "used_ref": "A",
+                    "cdna_end": 1360,
+                    "protein_end": 288,
+                    "gene_symbol_source": "EntrezGene",
+                    "cadd_raw": 5.638055,
+                    "amino_acids": "E/V"
+                  },
+                  {
+                    "amino_acids": "E/V",
+                    "protein_end": 288,
+                    "gene_symbol_source": "EntrezGene",
+                    "cadd_raw": 5.638055,
+                    "used_ref": "A",
+                    "cdna_end": 1083,
+                    "cadd_phred": 33,
+                    "transcript_id": "NM_001127700.2",
+                    "sift_prediction": "deleterious",
+                    "cds_start": 863,
+                    "protein_start": 288,
+                    "alphamissense": {
+                      "am_class": "likely_pathogenic",
+                      "am_pathogenicity": 0.6396
+                    },
+                    "given_ref": "A",
+                    "cds_end": 863,
+                    "gene_id": "5265",
+                    "polyphen_prediction": "probably_damaging",
+                    "consequence_terms": [
+                      "missense_variant"
+                    ],
+                    "strand": -1,
+                    "sift_score": 0,
+                    "cdna_start": 1083,
+                    "biotype": "protein_coding",
+                    "codons": "gAa/gTa",
+                    "polyphen_score": 0.99,
+                    "impact": "MODERATE",
+                    "gene_symbol": "SERPINA1",
+                    "variant_allele": "T"
+                  },
+                  {
+                    "biotype": "protein_coding",
+                    "sift_score": 0,
+                    "cdna_start": 1379,
+                    "strand": -1,
+                    "polyphen_prediction": "probably_damaging",
+                    "consequence_terms": [
+                      "missense_variant"
+                    ],
+                    "gene_id": "5265",
+                    "variant_allele": "T",
+                    "impact": "MODERATE",
+                    "polyphen_score": 0.99,
+                    "gene_symbol": "SERPINA1",
+                    "codons": "gAa/gTa",
+                    "cadd_phred": 33,
+                    "sift_prediction": "deleterious",
+                    "transcript_id": "NM_001127701.2",
+                    "used_ref": "A",
+                    "cdna_end": 1379,
+                    "cadd_raw": 5.638055,
+                    "gene_symbol_source": "EntrezGene",
+                    "protein_end": 288,
+                    "amino_acids": "E/V",
+                    "cds_end": 863,
+                    "protein_start": 288,
+                    "given_ref": "A",
+                    "alphamissense": {
+                      "am_class": "likely_pathogenic",
+                      "am_pathogenicity": 0.6396
+                    },
+                    "cds_start": 863
+                  },
+                  {
+                    "polyphen_score": 0.99,
+                    "impact": "MODERATE",
+                    "gene_symbol": "SERPINA1",
+                    "variant_allele": "T",
+                    "codons": "gAa/gTa",
+                    "strand": -1,
+                    "biotype": "protein_coding",
+                    "sift_score": 0,
+                    "cdna_start": 1187,
+                    "gene_id": "5265",
+                    "polyphen_prediction": "probably_damaging",
+                    "consequence_terms": [
+                      "missense_variant"
+                    ],
+                    "protein_start": 288,
+                    "given_ref": "A",
+                    "alphamissense": {
+                      "am_class": "likely_pathogenic",
+                      "am_pathogenicity": 0.6396
+                    },
+                    "cds_end": 863,
+                    "cds_start": 863,
+                    "used_ref": "A",
+                    "cdna_end": 1187,
+                    "cadd_phred": 33,
+                    "sift_prediction": "deleterious",
+                    "transcript_id": "NM_001127702.2",
+                    "amino_acids": "E/V",
+                    "cadd_raw": 5.638055,
+                    "gene_symbol_source": "EntrezGene",
+                    "protein_end": 288
+                  },
+                  {
+                    "codons": "gAa/gTa",
+                    "polyphen_score": 0.99,
+                    "impact": "MODERATE",
+                    "gene_symbol": "SERPINA1",
+                    "variant_allele": "T",
+                    "gene_id": "5265",
+                    "polyphen_prediction": "probably_damaging",
+                    "consequence_terms": [
+                      "missense_variant"
+                    ],
+                    "strand": -1,
+                    "sift_score": 0,
+                    "cdna_start": 1342,
+                    "biotype": "protein_coding",
+                    "cds_start": 863,
+                    "protein_start": 288,
+                    "given_ref": "A",
+                    "alphamissense": {
+                      "am_class": "likely_pathogenic",
+                      "am_pathogenicity": 0.6396
+                    },
+                    "cds_end": 863,
+                    "amino_acids": "E/V",
+                    "protein_end": 288,
+                    "gene_symbol_source": "EntrezGene",
+                    "cadd_raw": 5.638055,
+                    "used_ref": "A",
+                    "cdna_end": 1342,
+                    "cadd_phred": 33,
+                    "transcript_id": "NM_001127703.2",
+                    "sift_prediction": "deleterious"
+                  },
+                  {
+                    "cds_end": 863,
+                    "alphamissense": {
+                      "am_class": "likely_pathogenic",
+                      "am_pathogenicity": 0.6396
+                    },
+                    "given_ref": "A",
+                    "protein_start": 288,
+                    "cds_start": 863,
+                    "sift_prediction": "deleterious",
+                    "transcript_id": "NM_001127704.2",
+                    "cadd_phred": 33,
+                    "cdna_end": 1339,
+                    "used_ref": "A",
+                    "cadd_raw": 5.638055,
+                    "gene_symbol_source": "EntrezGene",
+                    "protein_end": 288,
+                    "amino_acids": "E/V",
+                    "variant_allele": "T",
+                    "gene_symbol": "SERPINA1",
+                    "polyphen_score": 0.99,
+                    "impact": "MODERATE",
+                    "codons": "gAa/gTa",
+                    "sift_score": 0,
+                    "cdna_start": 1339,
+                    "biotype": "protein_coding",
+                    "strand": -1,
+                    "consequence_terms": [
+                      "missense_variant"
+                    ],
+                    "polyphen_prediction": "probably_damaging",
+                    "gene_id": "5265"
+                  },
+                  {
+                    "sift_score": 0,
+                    "biotype": "protein_coding",
+                    "cdna_start": 1357,
+                    "strand": -1,
+                    "consequence_terms": [
+                      "missense_variant"
+                    ],
+                    "polyphen_prediction": "probably_damaging",
+                    "gene_id": "5265",
+                    "variant_allele": "T",
+                    "gene_symbol": "SERPINA1",
+                    "polyphen_score": 0.99,
+                    "impact": "MODERATE",
+                    "codons": "gAa/gTa",
+                    "sift_prediction": "deleterious",
+                    "transcript_id": "NM_001127705.2",
+                    "cadd_phred": 33,
+                    "cdna_end": 1357,
+                    "used_ref": "A",
+                    "cadd_raw": 5.638055,
+                    "gene_symbol_source": "EntrezGene",
+                    "protein_end": 288,
+                    "amino_acids": "E/V",
+                    "cds_end": 863,
+                    "given_ref": "A",
+                    "alphamissense": {
+                      "am_pathogenicity": 0.6396,
+                      "am_class": "likely_pathogenic"
+                    },
+                    "protein_start": 288,
+                    "cds_start": 863
+                  },
+                  {
+                    "cds_end": 863,
+                    "alphamissense": {
+                      "am_class": "likely_pathogenic",
+                      "am_pathogenicity": 0.6396
+                    },
+                    "given_ref": "A",
+                    "protein_start": 288,
+                    "cds_start": 863,
+                    "sift_prediction": "deleterious",
+                    "transcript_id": "NM_001127706.2",
+                    "cadd_phred": 33,
+                    "cdna_end": 1150,
+                    "used_ref": "A",
+                    "gene_symbol_source": "EntrezGene",
+                    "protein_end": 288,
+                    "cadd_raw": 5.638055,
+                    "amino_acids": "E/V",
+                    "variant_allele": "T",
+                    "gene_symbol": "SERPINA1",
+                    "impact": "MODERATE",
+                    "polyphen_score": 0.99,
+                    "codons": "gAa/gTa",
+                    "sift_score": 0,
+                    "cdna_start": 1150,
+                    "biotype": "protein_coding",
+                    "strand": -1,
+                    "consequence_terms": [
+                      "missense_variant"
+                    ],
+                    "polyphen_prediction": "probably_damaging",
+                    "gene_id": "5265"
+                  },
+                  {
+                    "polyphen_score": 0.99,
+                    "impact": "MODERATE",
+                    "gene_symbol": "SERPINA1",
+                    "variant_allele": "T",
+                    "codons": "gAa/gTa",
+                    "strand": -1,
+                    "sift_score": 0,
+                    "cdna_start": 1147,
+                    "biotype": "protein_coding",
+                    "gene_id": "5265",
+                    "polyphen_prediction": "probably_damaging",
+                    "consequence_terms": [
+                      "missense_variant"
+                    ],
+                    "protein_start": 288,
+                    "given_ref": "A",
+                    "alphamissense": {
+                      "am_pathogenicity": 0.6396,
+                      "am_class": "likely_pathogenic"
+                    },
+                    "cds_end": 863,
+                    "cds_start": 863,
+                    "used_ref": "A",
+                    "cdna_end": 1147,
+                    "cadd_phred": 33,
+                    "transcript_id": "NM_001127707.2",
+                    "sift_prediction": "deleterious",
+                    "amino_acids": "E/V",
+                    "protein_end": 288,
+                    "gene_symbol_source": "EntrezGene",
+                    "cadd_raw": 5.638055
+                  },
+                  {
+                    "polyphen_prediction": "probably_damaging",
+                    "consequence_terms": [
+                      "missense_variant"
+                    ],
+                    "gene_id": "5265",
+                    "cdna_start": 1285,
+                    "sift_score": 0,
+                    "biotype": "protein_coding",
+                    "strand": -1,
+                    "codons": "gAa/gTa",
+                    "variant_allele": "T",
+                    "impact": "MODERATE",
+                    "polyphen_score": 0.99,
+                    "gene_symbol": "SERPINA1",
+                    "protein_end": 288,
+                    "gene_symbol_source": "EntrezGene",
+                    "cadd_raw": 5.638055,
+                    "amino_acids": "E/V",
+                    "cadd_phred": 33,
+                    "sift_prediction": "deleterious",
+                    "transcript_id": "XM_017021370.2",
+                    "used_ref": "A",
+                    "cdna_end": 1285,
+                    "cds_start": 863,
+                    "cds_end": 863,
+                    "protein_start": 288,
+                    "given_ref": "A",
+                    "alphamissense": {
+                      "am_class": "likely_pathogenic",
+                      "am_pathogenicity": 0.6396
+                    }
+                  },
+                  {
+                    "cds_start": 863,
+                    "cds_end": 863,
+                    "alphamissense": {
+                      "am_pathogenicity": 0.6396,
+                      "am_class": "likely_pathogenic"
+                    },
+                    "given_ref": "A",
+                    "protein_start": 288,
+                    "gene_symbol_source": "EntrezGene",
+                    "protein_end": 288,
+                    "cadd_raw": 5.638055,
+                    "amino_acids": "E/V",
+                    "sift_prediction": "deleterious",
+                    "transcript_id": "XM_047431478.1",
+                    "cadd_phred": 33,
+                    "cdna_end": 1184,
+                    "used_ref": "A",
+                    "codons": "gAa/gTa",
+                    "variant_allele": "T",
+                    "gene_symbol": "SERPINA1",
+                    "impact": "MODERATE",
+                    "polyphen_score": 0.99,
+                    "consequence_terms": [
+                      "missense_variant"
+                    ],
+                    "polyphen_prediction": "probably_damaging",
+                    "gene_id": "5265",
+                    "sift_score": 0,
+                    "cdna_start": 1184,
+                    "biotype": "protein_coding",
+                    "strand": -1
+                  },
+                  {
+                    "consequence_terms": [
+                      "missense_variant"
+                    ],
+                    "polyphen_prediction": "probably_damaging",
+                    "gene_id": "5265",
+                    "sift_score": 0,
+                    "cdna_start": 1288,
+                    "biotype": "protein_coding",
+                    "strand": -1,
+                    "codons": "gAa/gTa",
+                    "variant_allele": "T",
+                    "gene_symbol": "SERPINA1",
+                    "impact": "MODERATE",
+                    "polyphen_score": 0.99,
+                    "cadd_raw": 5.638055,
+                    "gene_symbol_source": "EntrezGene",
+                    "protein_end": 288,
+                    "amino_acids": "E/V",
+                    "sift_prediction": "deleterious",
+                    "transcript_id": "XM_047431479.1",
+                    "cadd_phred": 33,
+                    "cdna_end": 1288,
+                    "used_ref": "A",
+                    "cds_start": 863,
+                    "cds_end": 863,
+                    "alphamissense": {
+                      "am_class": "likely_pathogenic",
+                      "am_pathogenicity": 0.6396
+                    },
+                    "given_ref": "A",
+                    "protein_start": 288
+                  }
+                ],
+                "strand": -1,
+                "seq_region_name": "14",
+                "allele_string": "A/T",
+                "id": "NM_000295:c.863A>T",
+                "assembly_name": "GRCh38",
+                "colocated_variants": [
+                  {
+                    "start": 94380925,
+                    "end": 94380925,
+                    "id": "CM890097",
+                    "strand": 1,
+                    "seq_region_name": "14",
+                    "allele_string": "HGMD_MUTATION",
+                    "phenotype_or_disease": 1
+                  },
+                  {
+                    "strand": 1,
+                    "seq_region_name": "14",
+                    "allele_string": "COSMIC_MUTATION",
+                    "var_synonyms": {
+                      "COSMIC": [
+                        "COSM4988717"
+                      ]
+                    },
+                    "phenotype_or_disease": 1,
+                    "somatic": 1,
+                    "start": 94380925,
+                    "end": 94380925,
+                    "id": "COSV63345500"
+                  },
+                  {
+                    "start": 94380925,
+                    "clin_sig_allele": "A:pathogenic/pathogenic,_low_penetrance;A:other;A:pathogenic;A:risk_factor",
+                    "id": "rs17580",
+                    "end": 94380925,
+                    "pubmed": [
+                      25741868,
+                      25361584,
+                      32213001,
+                      35873600,
+                      31019283,
+                      24491308,
+                      24895604,
+                      31666285,
+                      30060175,
+                      27535533,
+                      16608528,
+                      22975760,
+                      20981092,
+                      26831755,
+                      24055113,
+                      21067581,
+                      26174136,
+                      21625484,
+                      26304913,
+                      31517326,
+                      28289587,
+                      32971794,
+                      35892712,
+                      22426792,
+                      31661293,
+                      31892136,
+                      33790624,
+                      31298815,
+                      301355,
+                      1082356,
+                      2539391,
+                      2567291,
+                      6093867,
+                      6602622,
+                      8970361,
+                      10194472,
+                      14985567,
+                      15711957,
+                      15978931,
+                      15994391,
+                      18565211,
+                      19956452,
+                      20170533,
+                      20301692,
+                      21138453,
+                      23837941,
+                      25454901,
+                      26141072,
+                      26672964,
+                      30739910,
+                      32547005,
+                      32960480,
+                      33804385,
+                      35437467,
+                      22912729,
+                      30068317,
+                      35789772,
+                      36186645,
+                      33450625,
+                      36320441,
+                      25287719,
+                      36171422,
+                      35263815,
+                      36504721,
+                      34558842,
+                      23990791,
+                      36077263,
+                      35192695,
+                      32493714,
+                      29573137,
+                      33536631,
+                      27863252,
+                      29090095,
+                      35772218,
+                      28170284,
+                      36497451,
+                      28546746,
+                      34638908,
+                      29507422,
+                      22993338,
+                      33462484,
+                      36501135,
+                      29875488,
+                      35887629,
+                      32888493,
+                      24603877,
+                      36611860,
+                      32675199,
+                      34648354,
+                      35025710,
+                      34762809,
+                      32014855,
+                      33150777,
+                      32888494,
+                      35078996,
+                      34887591,
+                      31717526,
+                      33513852,
+                      25306238,
+                      32042192,
+                      36439023,
+                      34010739,
+                      36155958,
+                      28256260,
+                      18164971,
+                      30275531,
+                      35213538,
+                      32154731,
+                      36764567,
+                      34594039,
+                      34321204,
+                      37294003,
+                      37651384,
+                      37476767,
+                      387237
+                    ],
+                    "frequencies": {
+                      "T": {
+                        "gnomade_amr": 0.03226,
+                        "gnomade_sas": 0.00006956,
+                        "sas": 0,
+                        "eas": 0,
+                        "gnomadg_asj": 0.01037,
+                        "gnomade_asj": 0.014,
+                        "eur": 0.0567,
+                        "af": 0.0196,
+                        "gnomade_remaining": 0.03239,
+                        "gnomade_nfe": 0.04485,
+                        "amr": 0.0576,
+                        "gnomadg_remaining": 0.04636,
+                        "gnomade": 0.03715,
+                        "gnomadg_fin": 0.008282,
+                        "gnomade_afr": 0.006422,
+                        "gnomadg_eas": 0,
+                        "gnomade_eas": 0.00005038,
+                        "afr": 0.0008,
+                        "gnomadg_amr": 0.05519,
+                        "gnomadg_ami": 0.1261,
+                        "gnomadg_mid": 0,
+                        "gnomadg_nfe": 0.04161,
+                        "gnomadg_afr": 0.008776,
+                        "gnomade_mid": 0.001214,
+                        "gnomade_fin": 0.008405,
+                        "gnomadg": 0.02873,
+                        "gnomadg_sas": 0
+                      }
+                    },
+                    "var_synonyms": {
+                      "ClinVar": [
+                        "RCV002466248",
+                        "RCV002371777",
+                        "RCV000991136",
+                        "RCV001195102",
+                        "RCV000508836",
+                        "VCV000440501",
+                        "RCV000508742",
+                        "VCV000440500",
+                        "RCV000177031",
+                        "RCV000148878",
+                        "RCV000768544",
+                        "VCV000626305",
+                        "RCV000762932",
+                        "RCV000019569",
+                        "VCV000017969",
+                        "RCV003415722"
+                      ],
+                      "UniProt": [
+                        "VAR_007000"
+                      ],
+                      "OMIM": [
+                        107400.0013
+                      ]
+                    },
+                    "allele_string": "T/A",
+                    "seq_region_name": "14",
+                    "strand": 1,
+                    "clin_sig": [
+                      "pathogenic",
+                      "other",
+                      "risk_factor",
+                      "pathogenic_low_penetrance"
+                    ],
+                    "phenotype_or_disease": 1
+                  }
+                ],
+                "start": 94380925,
+                "input": "NM_000295:c.863A>T"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "ensembl_vep_vcf_string": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": "14-94380925-T-A"
+          }
+        ]
+      },
+      {
+        "ClinVar_Variant_Id": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": "17969"
+          }
+        ]
+      },
+      {
+        "ClinVar_variant_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.ncbi.nlm.nih.gov/clinvar/variation/17969"
+          }
+        ]
+      },
+      {
+        "CADD": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": 33
+          }
+        ]
+      },
+      {
+        "alphamissense_pathogenicity": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": 0.6396
+          }
+        ]
+      },
+      {
+        "alphamissense_classification": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": "likely_pathogenic"
+          }
+        ]
+      },
+      {
+        "revel": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": null
+          }
+        ]
+      },
+      {
+        "opencravat_search_variant_vcf_string": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": "chrom=chr14&pos=94380925&ref_base=T&alt_base=A"
+          }
+        ]
+      },
+      {
+        "chrom": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "14"
+          }
+        ]
+      },
+      {
+        "pos": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "94380925"
+          }
+        ]
+      },
+      {
+        "DITTO": [
+          {
+            "data_source": "cgds",
+            "version": "rosalution-manifest-00",
+            "value": "0.0"
+          }
+        ]
+      },
+      {
+        "spliceai_acceptor_loss": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": null
+          }
+        ]
+      },
+      {
+        "spliceai_donor_loss": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": null
+          }
+        ]
+      },
+      {
+        "spliceai_acceptor_gain": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": null
+          }
+        ]
+      },
+      {
+        "spliceai_donor_gain": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": null
+          }
+        ]
+      },
+      {
+        "gnomAD_variant_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://gnomad.broadinstitute.org/variant/14-94380925-T-A?dataset=gnomad_r4"
+          }
+        ]
+      }
+    ]
   }
 ]

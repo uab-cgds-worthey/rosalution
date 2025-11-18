@@ -6,7 +6,7 @@ describe('Rosalution home', () => {
 
   it('renders the available analyses as cards', () => {
     cy.visit('/');
-    cy.get('[data-test="analysis-card"]').should('have.length', 6);
+    cy.get('[data-test="analysis-card"]').should('have.length', 7);
   });
 
   it('should allow the user to navigate to a third party link from the card after adding one', () => {

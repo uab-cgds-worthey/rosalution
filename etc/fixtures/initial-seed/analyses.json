@@ -303,7 +303,10 @@
         "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
         "author_fullname": "Developer Person",
         "publish_timestamp": "2023-10-09T21:13:22.687000",
-        "content": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit.", "Suspendisse eget metus nec erat accumsan rutrum."],
+        "content": [
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+          "Suspendisse eget metus nec erat accumsan rutrum."
+        ],
         "attachments": [
           {
             "name": "Identification of a muscle-specific isoform of VMA21 as a potent actor in X-linked myopathy with excessive autophagy pathogenesis",
@@ -324,7 +327,9 @@
             "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
             "author_fullname": "Developer Person",
             "publish_timestamp": "2024-10-09T21:13:22.687000",
-            "content": ["Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."],
+            "content": [
+              "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+            ],
             "reply_attachments": []
           },
           {
@@ -332,7 +337,9 @@
             "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
             "author_fullname": "Developer Person",
             "publish_timestamp": "2024-10-09T21:13:22.687000",
-            "content": ["Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere."],
+            "content": [
+              "Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere."
+            ],
             "reply_attachments": [
               {
                 "name": "Autophagy in health and disease: From molecular mechanisms to therapeutic target",
@@ -355,7 +362,9 @@
         "author_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
         "author_fullname": "Researcher Person",
         "publish_timestamp": "2023-10-10T21:13:22.687000",
-        "content": ["Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum."],
+        "content": [
+          "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum."
+        ],
         "attachments": [],
         "thread": [
           {
@@ -363,7 +372,9 @@
             "author_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
             "author_fullname": "Researcher Person",
             "publish_timestamp": "2024-10-09T21:13:22.687000",
-            "content": ["Conubia nostra inceptos himenaeos orci varius natoque penatibus."],
+            "content": [
+              "Conubia nostra inceptos himenaeos orci varius natoque penatibus."
+            ],
             "reply_attachments": []
           },
           {
@@ -371,7 +382,9 @@
             "author_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
             "author_fullname": "Researcher Person",
             "publish_timestamp": "2025-03-09T21:13:22.687000",
-            "content": ["Urna tempor pulvinar vivamus fringilla lacus nec metus. Iaculis massa nisl malesuada lacinia integer nunc posuere."],
+            "content": [
+              "Urna tempor pulvinar vivamus fringilla lacus nec metus. Iaculis massa nisl malesuada lacinia integer nunc posuere."
+            ],
             "reply_attachments": []
           },
           {
@@ -379,7 +392,9 @@
             "author_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
             "author_fullname": "Researcher Person",
             "publish_timestamp": "2025-04-09T21:13:22.687000",
-            "content": ["Ex sapien vitae pellentesque sem placerat in id."],
+            "content": [
+              "Ex sapien vitae pellentesque sem placerat in id."
+            ],
             "reply_attachments": []
           }
         ]
@@ -389,7 +404,9 @@
         "author_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
         "author_fullname": "Variant Review Report Preparer Person",
         "publish_timestamp": "2023-10-13T21:13:22.687000",
-        "content": ["Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also."],
+        "content": [
+          "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also."
+        ],
         "attachments": [],
         "thread": []
       }
@@ -991,7 +1008,9 @@
         "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
         "author_fullname": "Developer Person",
         "publish_timestamp": "2023-10-09T21:13:22.687000",
-        "content": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum."],
+        "content": [
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum."
+        ],
         "attachments": [],
         "thread": []
       },
@@ -1000,7 +1019,9 @@
         "author_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
         "author_fullname": "Variant Review Report Preparer Person",
         "publish_timestamp": "2023-10-13T21:13:22.687000",
-        "content": ["Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also."],
+        "content": [
+          "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also."
+        ],
         "attachments": [],
         "thread": []
       }
@@ -1543,7 +1564,9 @@
         "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
         "author_fullname": "Developer Person",
         "publish_timestamp": "2023-10-09T21:13:22.687000",
-        "content": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum."],
+        "content": [
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum."
+        ],
         "attachments": [],
         "thread": []
       },
@@ -1552,7 +1575,9 @@
         "author_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
         "author_fullname": "Researcher Person",
         "publish_timestamp": "2023-10-10T21:13:22.687000",
-        "content":[ "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum."],
+        "content": [
+          "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum."
+        ],
         "attachments": [],
         "thread": []
       },
@@ -1561,7 +1586,9 @@
         "author_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
         "author_fullname": "Variant Review Report Preparer Person",
         "publish_timestamp": "2023-10-13T21:13:22.687000",
-        "content": ["Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also."],
+        "content": [
+          "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also."
+        ],
         "attachments": [],
         "thread": []
       }
@@ -2246,7 +2273,9 @@
         "author_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
         "author_fullname": "Variant Review Report Preparer Person",
         "publish_timestamp": "2023-10-13T21:13:22.687000",
-        "content": ["Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also."],
+        "content": [
+          "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also."
+        ],
         "attachments": [],
         "thread": []
       }
@@ -4149,6 +4178,1392 @@
             "Impact": {
               "data_source": "Ensembl",
               "version": 112
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "CPAM0178 (ITGA3)",
+    "description": "",
+    "nominated_by": "Local Medical Genetecist",
+    "genomic_units": [
+      {
+        "gene": "ITGA3",
+        "transcripts": [
+          {
+            "transcript": "NM_002204.2"
+          },
+          {
+            "transcript": "NM_000295.4"
+          }
+        ],
+        "variants": [
+          {
+            "hgvs_variant": "NM_002204.2:c.1973C>G",
+            "c_dot": "c.1973C>G",
+            "p_dot": "p.Thr658Arg",
+            "build": "GRCh37",
+            "case": [
+              {
+                "field": "Interpretation",
+                "value": [
+                  "likely_pathogenic"
+                ]
+              },
+              {
+                "field": "Zygosity",
+                "value": [
+                  "heterozygous"
+                ]
+              },
+              {
+                "field": "Inheritance",
+                "value": [
+                  "maternal"
+                ]
+              }
+            ]
+          },
+          {
+            "hgvs_variant": "NM_002204.2:c.2070+1G>A",
+            "c_dot": "c.2070+1G>A",
+            "p_dot": "p.?",
+            "build": "GRCh37",
+            "case": [
+              {
+                "field": "Interpretation",
+                "value": [
+                  "pathogenic"
+                ]
+              },
+              {
+                "field": "Zygosity",
+                "value": [
+                  "heterozygous"
+                ]
+              },
+              {
+                "field": "Inheritance",
+                "value": [
+                  "paternal"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "gene": "SERPINA1",
+        "transcripts": [
+          {
+            "transcript": "NM_002204.2"
+          },
+          {
+            "transcript": "NM_000295.4"
+          }
+        ],
+        "variants": [
+          {
+            "hgvs_variant": "NM_000295.4:c.863A>T",
+            "c_dot": "c.863A>T",
+            "p_dot": "p.Glu288Val",
+            "build": "GRCh37",
+            "case": [
+              {
+                "field": "Interpretation",
+                "value": [
+                  "pathogenic"
+                ]
+              },
+              {
+                "field": "Zygosity",
+                "value": [
+                  "heterozygous"
+                ]
+              },
+              {
+                "field": "Inheritance",
+                "value": [
+                  "paternal"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "sections": [
+      {
+        "header": "Brief",
+        "content": [
+          {
+            "type": "section-text",
+            "field": "Nominator",
+            "value": [
+              "Local Collaborator"
+            ]
+          },
+          {
+            "type": "section-text",
+            "field": "Participant",
+            "value": [
+              ""
+            ]
+          },
+          {
+            "type": "section-text",
+            "field": "Phenotype",
+            "value": [
+              ""
+            ]
+          },
+          {
+            "type": "section-text",
+            "field": "ACMG Classification",
+            "value": [
+              "Likely pathogenic / pathogenic"
+            ]
+          },
+          {
+            "type": "section-text",
+            "field": "ACMG Classification Criteria",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "ACMG Criteria To Add",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Decision",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "Clinical History",
+        "content": [
+          {
+            "type": "section-text",
+            "field": "Clinical Diagnosis",
+            "value": [
+              ""
+            ]
+          },
+          {
+            "type": "section-text",
+            "field": "Affected Individuals Identified",
+            "value": [
+              "1"
+            ]
+          },
+          {
+            "type": "section-text",
+            "field": "Sequencing",
+            "value": [
+              "Whole exome (GeneDx: Diagnostic Testing / XomeDx / Clinical Exome Sequence Analysis)"
+            ]
+          },
+          {
+            "type": "section-text",
+            "field": "Testing",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "Systems",
+            "value": [
+              "Respiratory, Genitourinary"
+            ]
+          },
+          {
+            "type": "section-text",
+            "field": "Additional Details",
+            "value": [
+            ]
+          }
+        ]
+      },
+      {
+        "header": "Pedigree",
+        "attachment_field": "Pedigree",
+        "content": [
+          {
+            "type": "images-dataset",
+            "field": "Pedigree",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "ITGA3 Gene To Phenotype",
+        "attachment_field": "ITGA3 Gene To Phenotype",
+        "content": [
+          {
+            "type": "images-dataset",
+            "field": "ITGA3 Gene To Phenotype",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "HPO Terms",
+            "value": [
+              "HP:0000083: Renal insufficiency; HP:0000822: Hypertension; HP:0001369: Arthritis; HP:0001952: Glucose intolerance; HP:0002020: Gastroesophageal reflux; HP:0002091: Restrictive ventilatory defect; HP:0002206: Pulmonary fibrosis; HP:0002878: Respiratory failure; HP:0003546: Exercise intolerance; HP:0003774: Stage 5 chronic kidney disease; HP:0005939: Multiple bilateral pneumothoraces; HP:0006530: Interstitial pulmonary abnormality; HP:0006536: Pulmonary obstruction; HP:0012594: Moderate albuminuria; HP:0025397: Mosaic attenuation pattern on pulmonary HRCT; HP:0025421: Pneumomediastinum; HP:0032969: Traction bronchiectasis; HP:0045051: Decreased DLCO"
+            ]
+          }
+        ]
+      },
+      {
+        "header": "ITGA3 Molecular Mechanism",
+        "content": [
+          {
+            "type": "section-text",
+            "field": "ITGA3 Molecular Mechanism",
+            "value": [
+              "Integrin α3 (ITGA3) is a multifunctional adhesion receptor that plays pivotal roles in orchestrating cell–extracellular matrix interactions, thereby influencing cell adhesion, migration, and tissue organization."
+            ]
+          }
+        ]
+      },
+      {
+        "header": "ITGA3 Function",
+        "attachment_field": "ITGA3 Function",
+        "content": [
+          {
+            "type": "images-dataset",
+            "field": "ITGA3 Function",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "SERPINA1 Gene To Phenotype",
+        "attachment_field": "SERPINA1 Gene To Phenotype",
+        "content": [
+          {
+            "type": "images-dataset",
+            "field": "SERPINA1 Gene To Phenotype",
+            "value": []
+          },
+          {
+            "type": "section-text",
+            "field": "HPO Terms",
+            "value": [
+              "HP:0000083: Renal insufficiency; HP:0000822: Hypertension; HP:0001369: Arthritis; HP:0001952: Glucose intolerance; HP:0002020: Gastroesophageal reflux; HP:0002091: Restrictive ventilatory defect; HP:0002206: Pulmonary fibrosis; HP:0002878: Respiratory failure; HP:0003546: Exercise intolerance; HP:0003774: Stage 5 chronic kidney disease; HP:0005939: Multiple bilateral pneumothoraces; HP:0006530: Interstitial pulmonary abnormality; HP:0006536: Pulmonary obstruction; HP:0012594: Moderate albuminuria; HP:0025397: Mosaic attenuation pattern on pulmonary HRCT; HP:0025421: Pneumomediastinum; HP:0032969: Traction bronchiectasis; HP:0045051: Decreased DLCO"
+            ]
+          }
+        ]
+      },
+      {
+        "header": "SERPINA1 Molecular Mechanism",
+        "content": [
+          {
+            "type": "section-text",
+            "field": "SERPINA1 Molecular Mechanism",
+            "value": [
+              "The SERPINA1 gene encodes alpha-1-antitrypsin (AAT), also known as protease inhibitor (PI), a major plasma serine protease inhibitor. AAT complexes predominantly with elastase, but also with trypsin, chymotrypsin, thrombin, and bacterial proteases. The most important inhibitory action of AAT is that against neutrophil elastase (ELANE, or HLE; 130130), a protease that degrades elastin of the alveolar walls as well as other structural proteins of a variety of tissues (review by Cox, 2001)."
+            ]
+          }
+        ]
+      },
+      {
+        "header": "SERPINA1 Function",
+        "attachment_field": "SERPINA1 Function",
+        "content": [
+          {
+            "type": "images-dataset",
+            "field": "SERPINA1 Function",
+            "value": []
+          }
+        ]
+      },
+      {
+        "header": "Model Goals",
+        "content": [
+          {
+            "type": "section-text",
+            "field": "Model of Interest",
+            "value": [
+            ]
+          },
+          {
+            "type": "section-text",
+            "field": "Goals",
+            "value": [
+
+            ]
+          },
+          {
+            "type": "section-text",
+            "field": "Proposed Model/Project",
+            "value": [
+            ]
+          },
+          {
+            "type": "section-text",
+            "field": "Existing Collaborations",
+            "value": [
+              "Cell-based modeling:",
+              "",
+              "Rodent model work:",
+              ""
+            ]
+          },
+          {
+            "type": "section-text",
+            "field": "Existing Funding",
+            "value": [
+            ]
+          }
+        ]
+      }
+    ],
+    "discussions": [
+      {
+        "post_id": "695e1788-cc47-40a9-97e3-d7ceb89124b9",
+        "author_id": "h3bnr2uh1bo4oe0cs1rdyh3n5hrg71ej",
+        "author_fullname": "Aleksandra Foksinska",
+        "publish_timestamp": "2025-11-13T00:05:02.141",
+        "content": [
+          "Regarding the SERPINA1 gene: \"This SERPINA1 result is consistent with this proband being at least a carrier for autosomal recessive SERPINA1-related alpha-",
+          "1-antitrypsin deficiency, but does not establish a molecular diagnosis as a second variant was not identified in this gene.\""
+        ],
+        "attachments": [],
+        "thread": []
+      },
+      {
+        "post_id": "e960fdb9-f0c6-4b62-a193-e22e74166364",
+        "author_id": "1axgii2hdrhsl6fisez1p84jm38p6ump",
+        "author_fullname": "Liz Worthey",
+        "publish_timestamp": "2025-11-17T21:27:49.770",
+        "content": [
+          "The region with the missense variant has many other VUSs. There are other pathogenic or likely pathogenic truncating variants including splice variants downstream (c.2261- c.2974) from this variant according to ClinVar. "
+        ],
+        "attachments": [],
+        "thread": []
+      },
+      {
+        "post_id": "118b0b23-bcb3-4e71-8746-bdcca27cf221",
+        "author_id": "1axgii2hdrhsl6fisez1p84jm38p6ump",
+        "author_fullname": "Liz Worthey",
+        "publish_timestamp": "2025-11-17T21:51:10.533",
+        "content": [
+          "One variant is in the Integrin alpha chain conserved family region in the Integrin alpha Ig-like domain 2 critical for cell–cell and cell–extracellular matrix adhesion as well as stability. ",
+          "The second variant is a splice site variant acting on the amino acid 690 in the same region/domain. If functional this would cause loss of the downstream α3-integrin extracellular domains (remaining Ig-like modules, thigh, calf-1/2), as well as the transmembrane and cytoplasmic regions."
+        ],
+        "attachments": [],
+        "thread": []
+      },
+      {
+        "post_id": "35369456-018a-4c54-885d-0a8d3880b0d5",
+        "author_id": "1axgii2hdrhsl6fisez1p84jm38p6ump",
+        "author_fullname": "Liz Worthey",
+        "publish_timestamp": "2025-11-17T21:53:30.049",
+        "content": [
+          "The SeprinA1 variant is well characterised and also reported as p.Glu264Val or the S allele. It is usually of clinical consequence only in the compound heterozygous state with another pathogenic allele that results in concentrations of alpha-1 antitrypsin (AAT) that fall below the protective threshold of 57 mg/dL (Stoller et al. 2014). The p.Glu288Val variant in a compound heterozygous state is not usually associated with a high risk for liver disease, though some individuals may be at an increased risk for lung disease (Turino et al. 1996). Individuals who are homozygous for the p.Glu288Val variant do not appear to be at an increased risk for clinical disease and often do not show any clinical symptoms (Ferrarotti et al. 2012). Curiel et al. (1989) demonstrated that the p.Glu288Val variant results in intracellular degradation of AAT protein prior to secretion."
+        ],
+        "attachments": [],
+        "thread": []
+      }
+    ],
+    "attachments": [
+      {
+        "name": "First patient with ILNEB syndrome due to pathogenic variants in ITGA3 surviving to adulthood",
+        "data": "https://doi.org/10.1016/j.ejmg.2021.104335",
+        "attachment_id": "645e9853-0ad3-4703-afbe-ab6be63dc5f2",
+        "type": "link",
+        "comments": "Interstitial Lung disease, Nephrotic syndrome and Epidermolysis Bullosa, also referred to as ILNEB syndrome is an extremely rare autosomal recessive condition, caused by pathogenic variants in ITGA3. 11 patients have previously been diagnosed with ILNEB syndrome of whom 7 died in infancy or early childhood. We report the only patient with ILNEB syndrome who survived past adolescence, partly due to a double lung transplant."
+      },
+      {
+        "name": "Genomic and clinical characterization of adult CVID patients: results from a single-centre turkish cohort",
+        "data": "10.1007/s12026-025-09699-2",
+        "attachment_id": "271dfabf-1cd3-465c-853b-0c9b7b2c5d35",
+        "type": "link",
+        "comments": "Common Variable Immunodeficiency (CVID) is the most frequently encountered symptomatic primary immunodeficiency in clinical practice, presenting with heterogeneous clinical and genetic features. While traditionally considered polygenic, recent advances in genomic technologies have revealed monogenic causes in a significant subset of patients. Paper includes a finding of a homozygous ITGA3 insertion region variant that suggested a mild form of ILNED syndrome."
+      },
+      {
+        "name": "Nephrotic syndrome, skin involvement, and chronic lung disease",
+        "data": "https://link.springer.com/article/10.1007/s00467-022-05711-1",
+        "attachment_id": "07e6c87d-6e16-4ab9-8e7f-99c6142ecb94",
+        "type": "link",
+        "comments": "WES result showed a homozygous mutation (c.3061C > T) causing a premature stop codon (p.Arg1021*) in the ITGA3 gene and the patient was diagnosed with ILNEB (interstitial lung disease, nephrotic syndrome, and epidermolysis bullosa) syndrome.Tarur et al. detected a homozygous splice site ITGA3 mutation in a patient with skin findings at the age of 2, who was diagnosed with nephrotic syndrome at the age of 4, and had an insidious onset of breathlessness at the age of 9 years. Liu et al. recently reported a compound heterozygous ITGA3 mutation in a patient who had skin findings shortly after birth, had recurrent respiratory tract infection at the age of 2, and was diagnosed with nephrotic syndrome at the age of 8 years"
+      },
+      {
+        "name": "Integrins: An Overview of Structural and Functional Aspects",
+        "data": "https://www.ncbi.nlm.nih.gov/books/NBK6259/",
+        "attachment_id": "c1dcdfa6-081e-4d65-a6af-b500e21542f4",
+        "type": "link",
+        "comments": "  "
+      },
+      {
+        "name": "Heterozygous SERPINA1 Defects and Their Impact on Clinical Manifestations of Patients with Predominantly Antibody Deficiencies",
+        "data": "https://doi.org/10.3390/ijms25105382",
+        "attachment_id": "b329c105-de0f-4f5e-a861-a540cc0cca10",
+        "type": "link",
+        "comments": "Ten CVID patients carried heterozygous pathogenic SERPINA1 defects with normal alpha-1 antitrypsin levels. Interestingly, the presence of the Z allele (rs28929474), which was found in three patients, was significantly associated with liver disease; hepatic complications were also observed in patients carrying the p.Leu23Gln (rs1379209512) and the p.Phe76del (rs775982338) alleles. Conversely, no correlation of SERPINA1 defective variants with respiratory complications was observed, although patients with pathogenic variants exhibit a reduced probability of developing autoimmune diseases. "
+      },
+      {
+        "name": "A novel ITGA3 homozygous splice mutation in an ILNEB syndrome child with slow progression",
+        "data": "https://doi.org/10.1016/j.cca.2021.10.027",
+        "attachment_id": "26305576-6572-4723-bcfa-cad61a68fe6b",
+        "type": "link",
+        "comments": "ILNEB (interstitial lung disease, nephrotic syndrome, epidermolysis bullosa) syndrome is caused by ITGA3 mutations. Demises usually happened at infancy. This study reports a complete ILNEB syndrome child with slow disease progression."
+      },
+      {
+        "name": "ITGA3 and lung disease HMG 2015.pdf",
+        "attachment_id": "691ba3e78dccc412965162ea",
+        "type": "file",
+        "comments": "  "
+      }
+    ],
+    "timeline": [
+      {
+        "event": "create",
+        "timestamp": "2025-11-12T23:06:04.996",
+        "username": "h3bnr2uh1bo4oe0cs1rdyh3n5hrg71ej"
+      },
+      {
+        "event": "ready",
+        "timestamp": "2025-11-13T00:07:15.757",
+        "username": "h3bnr2uh1bo4oe0cs1rdyh3n5hrg71ej"
+      },
+      {
+        "event": "opened",
+        "timestamp": "2025-11-13T00:07:20.780",
+        "username": "h3bnr2uh1bo4oe0cs1rdyh3n5hrg71ej"
+      }
+    ],
+    "manifest": [
+      {
+        "unit": "ITGA3",
+        "manifest": [
+          {
+            "OMIM_gene_search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "HPO_gene_search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Frog_General_Xenbase_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "GTEx_Human_Gene_Expression_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Human_Protein_Atlas_Protein_Gene_Search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Pharos_Target_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "COSMIC_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "HGNC_GENE_NAMES_CALL_CACHE": {
+              "data_source": "HGNC_GeneNames",
+              "version": "2025-11-11"
+            }
+          },
+          {
+            "ANIMAL_MODEL_IDS_VIA_AUTOCOMPLETE_ALLIANCE_GENOME_CACHE": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "Ensembl Gene Id": {
+              "data_source": "HGNC_GeneNames",
+              "version": "2025-11-11"
+            }
+          },
+          {
+            "Rat Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "Mouse Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "HGNC_ID": {
+              "data_source": "HGNC_GeneNames",
+              "version": "2025-11-11"
+            }
+          },
+          {
+            "Entrez Gene Id": {
+              "data_source": "HGNC_GeneNames",
+              "version": "2025-11-11"
+            }
+          },
+          {
+            "Gene Summary": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "ClinGen_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "gnomAD_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "NCBI_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "HPO_NCBI_GENE_ID": {
+              "data_source": "HGNC_GeneNames",
+              "version": "2025-11-11"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_Models": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "Human_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "HPO_GENE_CALL_CACHE": {
+              "data_source": "HPO",
+              "version": "2025-11-12"
+            }
+          },
+          {
+            "MOUSE_SUMMARY_ALLIANCE_GENOME_CACHE": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "RAT_SUMMARY_ALLIANCE_GENOME_CACHE": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "OMIM": {
+              "data_source": "HPO",
+              "version": "2025-11-12"
+            }
+          },
+          {
+            "HPO": {
+              "data_source": "HPO",
+              "version": "2025-11-12"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_RGD_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "Mouse_Alliance_Genome_MGI_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "Rat_Rat_Genome_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "Mouse_Mouse_Genome_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          }
+        ]
+      },
+      {
+        "unit": "NM_002204.2:c.1973C>G",
+        "manifest": [
+          {
+            "hgvs_variant_without_transcript_version": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "SpliceAI_variant_linkout": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "transcript_without_version": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Ensembl_Transcript_Id": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "ensembl_vep_vcf_string": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "transcript_id": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "ClinVar_Variant_Id": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "ClinVar_variant_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Polyphen Prediction": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "Polyphen Score": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "SIFT Prediction": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "SIFT Score": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "Consequences": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "CADD": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "alphamissense_pathogenicity": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "alphamissense_classification": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "revel": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "Impact": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "opencravat_search_variant_vcf_string": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "chrom": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "pos": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "DITTO": {
+              "data_source": "cgds",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "spliceai_acceptor_loss": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "spliceai_donor_loss": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "spliceai_acceptor_gain": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "spliceai_donor_gain": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "gnomAD_variant_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          }
+        ]
+      },
+      {
+        "unit": "NM_002204.2:c.2070+1G>A",
+        "manifest": [
+          {
+            "hgvs_variant_without_transcript_version": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "SpliceAI_variant_linkout": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "transcript_without_version": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Ensembl_Transcript_Id": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "ensembl_vep_vcf_string": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "transcript_id": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "ClinVar_Variant_Id": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "ClinVar_variant_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Polyphen Prediction": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "Polyphen Score": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "SIFT Prediction": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "SIFT Score": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "Consequences": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "CADD": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "alphamissense_pathogenicity": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "alphamissense_classification": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "revel": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "Impact": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "opencravat_search_variant_vcf_string": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "chrom": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "pos": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "DITTO": {
+              "data_source": "cgds",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "spliceai_acceptor_loss": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "spliceai_donor_loss": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "spliceai_acceptor_gain": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "spliceai_donor_gain": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "gnomAD_variant_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          }
+        ]
+      },
+      {
+        "unit": "SERPINA1",
+        "manifest": [
+          {
+            "OMIM_gene_search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "HPO_gene_search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Frog_General_Xenbase_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "GTEx_Human_Gene_Expression_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Human_Protein_Atlas_Protein_Gene_Search_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Pharos_Target_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "COSMIC_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "HGNC_GENE_NAMES_CALL_CACHE": {
+              "data_source": "HGNC_GeneNames",
+              "version": "2025-11-11"
+            }
+          },
+          {
+            "ANIMAL_MODEL_IDS_VIA_AUTOCOMPLETE_ALLIANCE_GENOME_CACHE": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "Ensembl Gene Id": {
+              "data_source": "HGNC_GeneNames",
+              "version": "2025-11-11"
+            }
+          },
+          {
+            "Rat Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "Zebrafish Gene Identifier": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "HGNC_ID": {
+              "data_source": "HGNC_GeneNames",
+              "version": "2025-11-11"
+            }
+          },
+          {
+            "Entrez Gene Id": {
+              "data_source": "HGNC_GeneNames",
+              "version": "2025-11-11"
+            }
+          },
+          {
+            "Gene Summary": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "ClinGen_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "gnomAD_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "NCBI_gene_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "HPO_NCBI_GENE_ID": {
+              "data_source": "HGNC_GeneNames",
+              "version": "2025-11-11"
+            }
+          },
+          {
+            "Human_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "HPO_GENE_CALL_CACHE": {
+              "data_source": "HPO",
+              "version": "2025-11-12"
+            }
+          },
+          {
+            "ZEBRAFISH_SUMMARY_ALLIANCE_GENOME_CACHE": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "RAT_SUMMARY_ALLIANCE_GENOME_CACHE": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "OMIM": {
+              "data_source": "HPO",
+              "version": "2025-11-12"
+            }
+          },
+          {
+            "HPO": {
+              "data_source": "HPO",
+              "version": "2025-11-12"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "Rat_Alliance_Genome_RGD_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_Automated_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "Zebrafish_Alliance_Genome_ZFIN_Summary": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "Rat_Rat_Genome_Database_url": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          },
+          {
+            "Zebrafish_Zebrafish_Information_Network_url": {
+              "data_source": "Alliance Genome",
+              "version": "8.2.0"
+            }
+          }
+        ]
+      },
+      {
+        "unit": "NM_000295.4:c.863A>T",
+        "manifest": [
+          {
+            "hgvs_variant_without_transcript_version": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "SpliceAI_variant_linkout": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "transcript_without_version": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Ensembl_Transcript_Id": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "ensembl_vep_vcf_string": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "transcript_id": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "ClinVar_Variant_Id": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "ClinVar_variant_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Polyphen Prediction": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "Polyphen Score": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "SIFT Prediction": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "SIFT Score": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "Consequences": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "CADD": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "alphamissense_pathogenicity": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "alphamissense_classification": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "revel": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "Impact": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "opencravat_search_variant_vcf_string": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "chrom": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "pos": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "DITTO": {
+              "data_source": "cgds",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "spliceai_acceptor_loss": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "spliceai_donor_loss": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "spliceai_acceptor_gain": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "spliceai_donor_gain": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "gnomAD_variant_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
             }
           }
         ]

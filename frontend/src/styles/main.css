@@ -154,8 +154,7 @@ input[type=checkbox]:checked {
 
   display: grid;
   grid-template-rows: auto 1fr auto;
-  grid-template-columns: auto 12.5rem;
-  grid-auto-columns: 1fr;
+  grid-template-columns: 1fr 12.5rem;
   gap: var(--p-10);
 
   padding: var(--p-10);
