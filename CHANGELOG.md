@@ -5,6 +5,12 @@
 
 ### Features - In Progress
 
+## 0.8.8-er
+
+### Bugs
+
+- Resolved viewport overflow for content within analysis edge cases.
+
 ## 0.8.8
 
 ### Features
