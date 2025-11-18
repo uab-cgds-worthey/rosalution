@@ -4526,7 +4526,7 @@
         "post_id": "695e1788-cc47-40a9-97e3-d7ceb89124b9",
         "author_id": "h3bnr2uh1bo4oe0cs1rdyh3n5hrg71ej",
         "author_fullname": "Aleksandra Foksinska",
-        "publish_timestamp": "2025-11-13T00:05:02.141Z",
+        "publish_timestamp": "2025-11-13T00:05:02.141",
         "content": [
           "Regarding the SERPINA1 gene: \"This SERPINA1 result is consistent with this proband being at least a carrier for autosomal recessive SERPINA1-related alpha-",
           "1-antitrypsin deficiency, but does not establish a molecular diagnosis as a second variant was not identified in this gene.\""
@@ -4538,7 +4538,7 @@
         "post_id": "e960fdb9-f0c6-4b62-a193-e22e74166364",
         "author_id": "1axgii2hdrhsl6fisez1p84jm38p6ump",
         "author_fullname": "Liz Worthey",
-        "publish_timestamp": "2025-11-17T21:27:49.770Z",
+        "publish_timestamp": "2025-11-17T21:27:49.770",
         "content": [
           "The region with the missense variant has many other VUSs. There are other pathogenic or likely pathogenic truncating variants including splice variants downstream (c.2261- c.2974) from this variant according to ClinVar. "
         ],
@@ -4549,7 +4549,7 @@
         "post_id": "118b0b23-bcb3-4e71-8746-bdcca27cf221",
         "author_id": "1axgii2hdrhsl6fisez1p84jm38p6ump",
         "author_fullname": "Liz Worthey",
-        "publish_timestamp": "2025-11-17T21:51:10.533Z",
+        "publish_timestamp": "2025-11-17T21:51:10.533",
         "content": [
           "One variant is in the Integrin alpha chain conserved family region in the Integrin alpha Ig-like domain 2 critical for cell–cell and cell–extracellular matrix adhesion as well as stability. ",
           "The second variant is a splice site variant acting on the amino acid 690 in the same region/domain. If functional this would cause loss of the downstream α3-integrin extracellular domains (remaining Ig-like modules, thigh, calf-1/2), as well as the transmembrane and cytoplasmic regions."
@@ -4561,7 +4561,7 @@
         "post_id": "35369456-018a-4c54-885d-0a8d3880b0d5",
         "author_id": "1axgii2hdrhsl6fisez1p84jm38p6ump",
         "author_fullname": "Liz Worthey",
-        "publish_timestamp": "2025-11-17T21:53:30.049Z",
+        "publish_timestamp": "2025-11-17T21:53:30.049",
         "content": [
           "The SeprinA1 variant is well characterised and also reported as p.Glu264Val or the S allele. It is usually of clinical consequence only in the compound heterozygous state with another pathogenic allele that results in concentrations of alpha-1 antitrypsin (AAT) that fall below the protective threshold of 57 mg/dL (Stoller et al. 2014). The p.Glu288Val variant in a compound heterozygous state is not usually associated with a high risk for liver disease, though some individuals may be at an increased risk for lung disease (Turino et al. 1996). Individuals who are homozygous for the p.Glu288Val variant do not appear to be at an increased risk for clinical disease and often do not show any clinical symptoms (Ferrarotti et al. 2012). Curiel et al. (1989) demonstrated that the p.Glu288Val variant results in intracellular degradation of AAT protein prior to secretion."
         ],
@@ -4622,17 +4622,17 @@
     "timeline": [
       {
         "event": "create",
-        "timestamp": "2025-11-12T23:06:04.996Z",
+        "timestamp": "2025-11-12T23:06:04.996",
         "username": "h3bnr2uh1bo4oe0cs1rdyh3n5hrg71ej"
       },
       {
         "event": "ready",
-        "timestamp": "2025-11-13T00:07:15.757Z",
+        "timestamp": "2025-11-13T00:07:15.757",
         "username": "h3bnr2uh1bo4oe0cs1rdyh3n5hrg71ej"
       },
       {
         "event": "opened",
-        "timestamp": "2025-11-13T00:07:20.780Z",
+        "timestamp": "2025-11-13T00:07:20.780",
         "username": "h3bnr2uh1bo4oe0cs1rdyh3n5hrg71ej"
       }
     ],
