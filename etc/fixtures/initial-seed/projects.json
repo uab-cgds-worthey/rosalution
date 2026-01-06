@@ -1,0 +1,14 @@
+[
+  { 
+    "_id": { "$oid": "695d5b157709ebcd1c7325c0" },
+    "name": "Ciliopathies"
+  },
+  {
+    "_id": { "$oid": "695d5b157709ebcd1c7325c1" },
+    "name": "CPAM"
+  },
+  {
+    "_id": { "$oid": "695d5b157709ebcd1c7325c4" },
+    "name": "LW"
+  }
+]

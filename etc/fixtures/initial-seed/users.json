@@ -7,7 +7,8 @@
     "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
     "disabled": false,
     "client_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
-    "client_secret": ""
+    "client_secret": "",
+    "projects": [{ "$oid": "695d5b157709ebcd1c7325c0" }, { "$oid": "695d5b157709ebcd1c7325c1" }, { "$oid": "695d5b157709ebcd1c7325c4" }]
   },
   {
     "username": "vrr-prep",
@@ -17,7 +18,8 @@
     "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
     "disabled": false,
     "client_id": "exqkhvidr7uh2ndslsdymbzfbmqjlunk",
-    "client_secret": ""
+    "client_secret": "",
+    "projects": [{ "$oid": "695d5b157709ebcd1c7325c1" }]
   },
   {
     "username": "researcher",
@@ -27,6 +29,7 @@
     "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
     "disabled": false,
     "client_id": "kw0g790fdx715xsr1ead2jk0pqubtlyz",
-    "client_secret": ""
+    "client_secret": "",
+    "projects": [{ "$oid": "695d5b157709ebcd1c7325c0" }, { "$oid": "695d5b157709ebcd1c7325c1" }]
   }
 ]

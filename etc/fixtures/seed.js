@@ -1,16 +1,23 @@
 // connection URI
 const uri = 'mongodb://localhost:27017/rosalution_db';
 
-// The default path to the fixtures, can be changed to a script argument in the future
+// The default path to the fixtures
 const fixturePath = '/tmp/fixtures';
 
-// This JavaScript executes within a mongosh shell making 'connect' is implicitly available
 const db = connect(uri); // eslint-disable-line no-undef
 
+const loadBson = function(path) {
+  const raw = fs.readFileSync(path, 'utf8');
+  let docs = EJSON.parse(raw);
+  return Array.isArray(docs) ? docs : [docs];
+};
+
+
 const collections = {
-  'analyses': require(`${fixturePath}/initial-seed/analyses.json`),
+  'projects': loadBson(`${fixturePath}/initial-seed/projects.json`),
+  'analyses': loadBson(`${fixturePath}/initial-seed/analyses.json`),
   'annotations_config': require(`${fixturePath}/initial-seed/annotations-config.json`),
-  'users': require(`${fixturePath}/initial-seed/users.json`),
+  'users': loadBson(`${fixturePath}/initial-seed/users.json`),
   'genomic_units': require(`${fixturePath}/initial-seed/genomic-units.json`),
 };
 
