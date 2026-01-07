@@ -64,7 +64,7 @@ try {
         }
         
         usersJsonData[projectName].forEach((username) => {
-            db.users.updateOne({"username": username}, {$addToSet: { projects: projectsObjectId[projectName]["_id"]}})
+            db.users.updateOne({"username": username}, {$addToSet: { project_ids: projectsObjectId[projectName]["_id"]}})
         });
     });
 
@@ -76,11 +76,11 @@ try {
 
             if(analysis["name"].match(expression)) {
                 const rosalutionProject = projectAbbreviationMapping[abbreviation];
-                const objectId = projectsObjectId[rosalutionProject];
+                const projectDocument = projectsObjectId[rosalutionProject];
 
-                db.analyses.updateOne({_id: analysis["_id"]}, {$set: {project_id: objectId}});
+                db.analyses.updateOne({_id: analysis["_id"]}, {$set: {project_id: projectDocument["_id"]}});
 
-                print(`Rosalution Project '${analysis['name']}' to project ${rosalutionProject}`)
+                print(`Rosalution Project '${analysis['name']}' to project ${rosalutionProject}}`)
 
                 return true
             }
