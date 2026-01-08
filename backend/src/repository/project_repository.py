@@ -2,6 +2,11 @@
 Collection with retrieves, creates, and modify projects.
 """
 
+from .analysis_collection_summary import AnalysisCollectionSummary
+
+# pylint: disable=too-few-public-methods
+# Disabling rule in Project Repository until Rosalution Projects is fully implemented, more
+
 
 class ProjectRepository:
     """Repository to access users and analyses for projects"""
@@ -19,33 +24,14 @@ class ProjectRepository:
                 "from": "analyses", "let": {"projectIds": '$project_ids'},
                 "pipeline": [{"$match": {"$expr": {"$in": ["$project_id", "$$projectIds"]}}}], "as": "analyses"
             }
-        }, {"$unwind": "$analyses"}, {"$replaceRoot": {"newRoot": "$analyses"}}, {
-            "$project": {
-                "name": 1,
-                "description": 1,
-                "genomic_units": 1,
-                "nominated_by": 1,
-                "timeline": 1,
-                "third_party_links": 1,
-            }
-        }]
+        }, {"$unwind": "$analyses"}, {"$replaceRoot": {"newRoot": "$analyses"}},
+                    {"$project": AnalysisCollectionSummary.query_projection()}]
 
         query_result = self.user_collection.aggregate(pipeline)
 
         summaries = []
         for analysis in query_result:
-            genomic_unit_summaries = []
-            for unit in analysis['genomic_units']:
-                genomic_unit_summary = {}
-                if unit.get('gene'):
-                    genomic_unit_summary['gene'] = unit['gene']
-                genomic_unit_summary['variants'] = []
-                for variant in unit['variants']:
-                    summary_variant = variant['hgvs_variant']
-                    if variant['p_dot'] is not None:
-                        summary_variant = f"{summary_variant}({variant['p_dot']})"
-                    genomic_unit_summary['variants'].append(summary_variant)
-                genomic_unit_summaries.append(genomic_unit_summary)
+            genomic_unit_summaries = AnalysisCollectionSummary.omic_unit_json_summary(analysis['genomic_units'])
             analysis['genomic_units'] = genomic_unit_summaries
             summaries.append(analysis)
 

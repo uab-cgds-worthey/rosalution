@@ -11,6 +11,7 @@ from ..core.annotation_unit import AnnotationUnit
 from ..models.analysis import Section
 from ..models.event import Event
 from ..enums import EventType
+from .analysis_collection_summary import AnalysisCollectionSummary
 
 # pylint: disable=too-many-public-methods
 # Disabling due to pushing a refactor of Analysis Collection to a later time.
@@ -30,28 +31,10 @@ class AnalysisCollection:
     def summary_by_name(self, name: str):
         """Returns the summary of an analysis by name"""
 
-        query_result = self.collection.find_one({"name": name}, {
-            "name": 1,
-            "description": 1,
-            "genomic_units": 1,
-            "nominated_by": 1,
-            "timeline": 1,
-            "third_party_links": 1,
-        })
+        query_result = self.collection.find_one({"name": name}, AnalysisCollectionSummary.query_projection())
 
         if query_result:
-            genomic_unit_summaries = []
-            for unit in query_result['genomic_units']:
-                genomic_unit_summary = {}
-                if unit.get('gene'):
-                    genomic_unit_summary['gene'] = unit['gene']
-                genomic_unit_summary['variants'] = []
-                for variant in unit['variants']:
-                    summary_variant = variant['hgvs_variant']
-                    if variant['p_dot'] is not None:
-                        summary_variant = f"{summary_variant}({variant['p_dot']})"
-                    genomic_unit_summary['variants'].append(summary_variant)
-                genomic_unit_summaries.append(genomic_unit_summary)
+            genomic_unit_summaries = AnalysisCollectionSummary.omic_unit_json_summary(query_result['genomic_units'])
             query_result['genomic_units'] = genomic_unit_summaries
 
         return query_result
