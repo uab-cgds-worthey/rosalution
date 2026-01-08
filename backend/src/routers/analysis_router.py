@@ -36,7 +36,9 @@ def get_all_analyses(repositories=Depends(database), client_id: VerifyUser = Sec
 
 
 @router.get("/summary", tags=["analysis"], response_model=List[AnalysisSummary])
-async def get_all_analyses_summaries(repositories=Depends(database), client_id: VerifyUser = Security(get_current_user)):
+async def get_all_analyses_summaries(
+    repositories=Depends(database), client_id: VerifyUser = Security(get_current_user)
+):
     """Returns a summary of every analysis within the application"""
     return repositories["project"].all_summaries(client_id)
 
