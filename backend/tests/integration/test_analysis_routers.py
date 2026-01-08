@@ -26,7 +26,7 @@ def test_get_analyses(client, mock_access_token, mock_repositories, analysis_col
 
 def test_get_analysis_summary(client, mock_access_token, mock_repositories, analysis_collection_json):
     """Testing if the analysis summary endpoint returns all of the analyses available"""
-    mock_repositories['analysis'].collection.find.return_value = analysis_collection_json
+    mock_repositories['user'].collection.aggregate.return_value = analysis_collection_json
     response = client.get("/analysis/summary", headers={"Authorization": "Bearer " + mock_access_token})
     assert len(response.json()) == 2
 

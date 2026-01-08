@@ -27,37 +27,6 @@ class AnalysisCollection:
         """Returns all analyses within the system"""
         return list(self.collection.find())
 
-    def all_summaries(self):
-        """Returns all of the summaries for all of the analyses within the system"""
-
-        query_result = self.collection.find({}, {
-            "name": 1,
-            "description": 1,
-            "genomic_units": 1,
-            "nominated_by": 1,
-            "timeline": 1,
-            "third_party_links": 1,
-        })
-
-        summaries = []
-        for analysis in query_result:
-            genomic_unit_summaries = []
-            for unit in analysis['genomic_units']:
-                genomic_unit_summary = {}
-                if unit.get('gene'):
-                    genomic_unit_summary['gene'] = unit['gene']
-                genomic_unit_summary['variants'] = []
-                for variant in unit['variants']:
-                    summary_variant = variant['hgvs_variant']
-                    if variant['p_dot'] is not None:
-                        summary_variant = f"{summary_variant}({variant['p_dot']})"
-                    genomic_unit_summary['variants'].append(summary_variant)
-                genomic_unit_summaries.append(genomic_unit_summary)
-            analysis['genomic_units'] = genomic_unit_summaries
-            summaries.append(analysis)
-
-        return summaries
-
     def summary_by_name(self, name: str):
         """Returns the summary of an analysis by name"""
 

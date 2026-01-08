@@ -4,9 +4,17 @@ describe('Rosalution home', () => {
     cy.intercept('/rosalution/api/analysis/CPAM0002').as('analysisLoad');
   });
 
-  it('renders the available analyses as cards', () => {
+  it('renders the available analyses as cards within the users projects', () => {
     cy.visit('/');
-    cy.get('[data-test="analysis-card"]').should('have.length', 7);
+    cy.get('[data-test="analysis-card"]').should('have.length', 6);
+
+    cy.login('lw-researcher');
+    cy.visit('/');
+    cy.get('[data-test="analysis-card"]').should('have.length', 1);
+
+    cy.login('researcher');
+    cy.visit('/');
+    cy.get('[data-test="analysis-card"]').should('have.length', 6);
   });
 
   it('should allow the user to navigate to a third party link from the card after adding one', () => {

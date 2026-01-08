@@ -18,6 +18,7 @@ import './commands';
 
 before( () => {
   cy.login('researcher');
+  cy.login('lw-researcher');
 });
 
 

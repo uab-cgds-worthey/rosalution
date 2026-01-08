@@ -2,7 +2,9 @@
   {
     "name": "CPAM0002",
     "description": "Vacuolar myopathy with autophagy, X-linked vacuolar myopathy with autophagy",
-    "project_id": { "$oid": "695d5b157709ebcd1c7325c1" },
+    "project_id": {
+      "$oid": "695d5b157709ebcd1c7325c1"
+    },
     "nominated_by": "Dr. Person One",
     "genomic_units": [
       {
@@ -766,7 +768,9 @@
   {
     "name": "CPAM0046",
     "description": ": LMNA-related congenital muscular dystropy",
-    "project_id": { "$oid": "695d5b157709ebcd1c7325c1" },
+    "project_id": {
+      "$oid": "695d5b157709ebcd1c7325c1"
+    },
     "nominated_by": "Dr. Person Two",
     "genomic_units": [
       {
@@ -1367,7 +1371,9 @@
   {
     "name": "CPAM0047",
     "description": "Congenital variant of Rett syndrome",
-    "project_id": { "$oid": "695d5b157709ebcd1c7325c1" },
+    "project_id": {
+      "$oid": "695d5b157709ebcd1c7325c1"
+    },
     "genomic_units": [
       {
         "gene": "SBF1",
@@ -2000,7 +2006,9 @@
   {
     "name": "CPAM0053",
     "description": "Mild Zellweger Spectrum Disorder, a Peroxisome Biogenesis Disorder",
-    "project_id": { "$oid": "695d5b157709ebcd1c7325c1" },
+    "project_id": {
+      "$oid": "695d5b157709ebcd1c7325c1"
+    },
     "nominated_by": "Precision Medicine Institute",
     "genomic_units": [
       {
@@ -2678,7 +2686,9 @@
   {
     "name": "CPAM0065",
     "description": "Congenital variant of Rett syndrome",
-    "project_id": { "$oid": "695d5b157709ebcd1c7325c1" },
+    "project_id": {
+      "$oid": "695d5b157709ebcd1c7325c1"
+    },
     "genomic_units": [
       {
         "gene": "FOXG1",
@@ -3279,7 +3289,9 @@
   {
     "name": "CPAM0084",
     "description": "",
-    "project_id": { "$oid": "695d5b157709ebcd1c7325c1" },
+    "project_id": {
+      "$oid": "695d5b157709ebcd1c7325c1"
+    },
     "nominated_by": "",
     "timeline": [
       {
@@ -4193,7 +4205,9 @@
   {
     "name": "CPAM0178 (ITGA3)",
     "description": "",
-    "project_id": { "$oid": "695d5b157709ebcd1c7325c1" },
+    "project_id": {
+      "$oid": "695d5b157709ebcd1c7325c4"
+    },
     "nominated_by": "Local Medical Genetecist",
     "genomic_units": [
       {
@@ -4389,8 +4403,7 @@
           {
             "type": "section-text",
             "field": "Additional Details",
-            "value": [
-            ]
+            "value": []
           }
         ]
       },
@@ -4493,21 +4506,17 @@
           {
             "type": "section-text",
             "field": "Model of Interest",
-            "value": [
-            ]
+            "value": []
           },
           {
             "type": "section-text",
             "field": "Goals",
-            "value": [
-
-            ]
+            "value": []
           },
           {
             "type": "section-text",
             "field": "Proposed Model/Project",
-            "value": [
-            ]
+            "value": []
           },
           {
             "type": "section-text",
@@ -4522,8 +4531,7 @@
           {
             "type": "section-text",
             "field": "Existing Funding",
-            "value": [
-            ]
+            "value": []
           }
         ]
       }

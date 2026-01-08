@@ -15,6 +15,7 @@ from ..enums import EventType, StatusType, GenomicUnitType
 
 PyObjectId = Annotated[str, BeforeValidator(str)]
 
+
 class GenomicUnit(BaseModel):
     """The basic units within an analysis"""
 
