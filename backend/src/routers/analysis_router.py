@@ -146,7 +146,7 @@ def download(
     return StreamingResponse(repositories['bucket'].stream_analysis_file_by_id(file['attachment_id']))
 
 
-@router.put("/{analysis_name}/attach/{third_party_enum}", tags=["analysis"])
+@router.put("/{analysis_name}/attach/{third_party_enum}", tags=["analysis"], response_model=Analysis)
 def attach_third_party_link(
     analysis_name: str,
     third_party_enum: ThirdPartyLinkType,
