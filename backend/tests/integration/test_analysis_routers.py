@@ -116,9 +116,8 @@ def test_get_genomic_units_does_not_exist(client, mock_access_token, mock_reposi
 def test_attach_third_party_link(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """ Testing the attach third party link endpoint """
     mock_repositories["analysis"].collection.find_one.return_value = cpam0002_analysis_json
-    mock_repositories["analysis"].collection.find_one_and_update.return_value = {
-        "_id": 'valid-response-not-real-return'
-    }
+    mock_repositories["analysis"].collection.find_one_and_update.return_value = cpam0002_analysis_json
+
     response = client.put(
         "/analysis/CPAM0002/attach/monday_com",
         headers={"Authorization": "Bearer " + mock_access_token},
