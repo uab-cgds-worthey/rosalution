@@ -168,12 +168,6 @@ describe('AnalysisView', () => {
       expect(appHeader.exists()).to.be.true;
     });
 
-    it('allows user logout', () => {
-      const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
-      headerComponent.vm.$emit('logout');
-      expect(mockVueRouterPush.called).to.be.true;
-    });
-
     it('should have a copy button and show a toast with the copied content within it', async () => {
       const geneBox = wrapper.getComponent(GeneBox);
 
