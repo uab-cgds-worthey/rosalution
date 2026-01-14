@@ -80,3 +80,7 @@ etc/.rosalution-db-backups
 **/screen_capture_annotate_env/**
 
 *.csv
+
+secrets.file
+
+profile.html

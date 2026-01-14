@@ -12,6 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
 from .config import get_settings
+from .profiler_middleware import register_profiler_middleware
 from .routers import analysis_router, annotation_router, auth_router
 
 urllib3.disable_warnings()
@@ -82,6 +83,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+register_profiler_middleware(app, settings.profiler_enabled)
 
 
 @app.get("/render-layout/annotations", tags=["config"])
