@@ -82,5 +82,5 @@ etc/.rosalution-db-backups
 *.csv
 
 secrets.file
-
 profile.html
+**benchmark-run**/

@@ -4,6 +4,7 @@
   "description": "Simple Rosalution REST API benchmarking",
   "license": "MIT",
   "scripts": {
-    "benchmark:local:api": "docker run -v .:/scripts -w /scripts -e BASE_URL=http://backend:8000 --network=rosalution-network --rm grafana/k6:1.5.0 run --secret-source=file=/scripts/secrets.file"
+    "benchmark:local:api": "docker run -v .:/scripts -w /scripts -e BASE_URL=http://backend:8000 --network=rosalution-network --rm grafana/k6:1.5.0 run --secret-source=file=/scripts/secrets.file",
+    "bundle:benchmark": "./bundleBenchmark.sh -p '../../backend/profile.html' -b './summary.json'"
   }
 }
