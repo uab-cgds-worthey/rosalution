@@ -24,12 +24,14 @@
       </a>
       <slot></slot>
       <ul class="actions-menu">
-        <router-link :to="{path: '/rosalution/account'}" class="auth-menu">
-          <span v-if="username" class="login" data-test="user-text">
-            {{ username }}
-          </span>
-          <font-awesome-icon class="header-icon" icon="user-doctor" size="xl" />
-        </router-link>
+        <drop-down-menu :actions="this.userAuthActions" data-test="auth-menu">
+          <router-link :to="{path: '/rosalution/account'}" class="auth-menu">
+            <span v-if="username" class="login" data-test="user-text">
+              {{ username }}
+            </span>
+            <font-awesome-icon class="header-icon" icon="user-doctor" size="xl" />
+          </router-link>
+        </drop-down-menu>
         <drop-down-menu v-if="actionsExist" :actions="actions" data-test="user-menu">
           <font-awesome-icon class="header-icon" icon="bars" size="xl" />
         </drop-down-menu>
@@ -49,6 +51,13 @@ export default {
   },
   data: function() {
     return {
+      userAuthActions: [{
+        icon: '',
+        text: 'Logout',
+        operation: () => {
+          this.$emit('logout');
+        },
+      }],
     };
   },
   props: {
