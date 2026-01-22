@@ -4,7 +4,8 @@ import json
 from typing import List, Union
 
 from fastapi import (APIRouter, BackgroundTasks, Depends, HTTPException, File, Form, Security)
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, ORJSONResponse  # Simple import change
+
 
 from ..core.annotation import AnnotationService
 from ..core.phenotips_importer import PhenotipsImporter
@@ -35,7 +36,7 @@ def get_all_analyses(repositories=Depends(database), username: VerifyUser = Secu
 
 
 @router.get("/summary", tags=["analysis"], response_model=List[AnalysisSummary])
-def get_all_analyses_summaries(repositories=Depends(database)):
+async def get_all_analyses_summaries(repositories=Depends(database)):
     """Returns a summary of every analysis within the application"""
     return repositories["analysis"].all_summaries()
 

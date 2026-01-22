@@ -4,7 +4,9 @@ of identifiers, case notes, and the genomic units being analyzed.
 """
 # pylint: disable=too-few-public-methods
 from datetime import date
+from functools import cached_property
 import json
+from operator import attrgetter
 import re
 from typing import List, Optional
 from pydantic import BaseModel, computed_field, model_validator
@@ -46,6 +48,14 @@ class BaseAnalysis(BaseModel):
     nominated_by: str
     timeline: List[Event] = []
     third_party_links: Optional[List] = []
+    sorting_call_count: int = 0
+
+    @computed_field
+    @cached_property
+    def sorted_timeline(self) -> List[Event]:
+        """"""
+        self.timeline.sort(key=attrgetter('timestamp'), reverse=True)
+        return self.timeline
 
     @computed_field
     @property
@@ -54,26 +64,28 @@ class BaseAnalysis(BaseModel):
         if len(self.timeline) == 0:
             return None
 
-        return next((event.timestamp.date() for event in self.timeline if event.event == EventType.CREATE), None)
+        return next((event.timestamp.date() for event in self.sorted_timeline if event.event == EventType.CREATE), None)
 
     @computed_field
     @property
     def last_modified_date(self) -> date:
         """The last modified date derived from the last event in the timeline"""
-        if len(self.timeline) == 0:
+
+        if len(self.sorted_timeline) == 0:
             return None
 
-        last_event = sorted(self.timeline, key=lambda event: event.timestamp, reverse=True)[0]
+        last_event = self.sorted_timeline[0]
         return last_event.timestamp.date()
 
     @computed_field
     @property
     def latest_status(self) -> StatusType:
         """The status as calculated from the events on the timeline"""
-        if len(self.timeline) == 0:
+
+        if self.sorted_timeline == None or len(self.sorted_timeline) == 0:
             return None
 
-        last_event = sorted(self.timeline, key=lambda event: event.timestamp, reverse=True)[0]
+        last_event = self.sorted_timeline[0]
         return StatusType.from_event(last_event.event)
 
 

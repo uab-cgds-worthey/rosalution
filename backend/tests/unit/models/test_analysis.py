@@ -1,8 +1,16 @@
 """Tests to verify Analysis operations"""
 import pytest
+from datetime import date
+from typing import List
 
-from src.enums import GenomicUnitType
+from src.enums import EventType, GenomicUnitType
 
+def test_get_sorted_timeline(cpam0002_analysis):
+    assert(isinstance(cpam0002_analysis.sorted_timeline, List) == True)
+    assert(cpam0002_analysis.sorted_timeline[0].event == EventType.DECLINE)
+
+def test_get_latest_status(cpam0002_analysis):
+    assert(isinstance(cpam0002_analysis.last_modified_date, date) == True)
 
 def test_get_units_to_annotate(units_to_annotate):
     """tests the number of units to annotate"""

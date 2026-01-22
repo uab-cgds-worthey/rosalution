@@ -12,7 +12,7 @@ const BASE_URL = __ENV.BASE_URL || 'http://backend:8000'
 
 export const options = {
   vus: 10,
-  duration: '5s',
+  duration: '30s',
   thresholds: {
     http_req_failed: ['rate<0.01'], // http errors should be less than 1%
     http_req_duration: ['p(95)<200'] // 95% of requests should be below 200ms
@@ -44,7 +44,7 @@ export default async function(data) {
     }
   };
   
-  let res = http.get(`${BASE_URL}/analysis/summary?profile=1&profile_type=html`, authHeader);
+  let res = http.get(`${BASE_URL}/analysis/summary?profile=1&profile_format=speedscope`, authHeader);
 
   check(res, { "status is 200": (res) => res.status === 200 });
   sleep(1);
