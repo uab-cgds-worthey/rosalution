@@ -53,7 +53,11 @@ class BaseAnalysis(BaseModel):
     @computed_field
     @cached_property
     def sorted_timeline(self) -> List[Event]:
-        """"""
+        """
+        Pre calculates the timeline as sorted to prevent it from copying and sorting multiple times.
+        When JSON is searlizing into the object and de-serializing, it is time consuming to make multiple copies
+        of the same list to sort it.
+        """
         self.timeline.sort(key=attrgetter('timestamp'), reverse=True)
         return self.timeline
 
@@ -82,7 +86,7 @@ class BaseAnalysis(BaseModel):
     def latest_status(self) -> StatusType:
         """The status as calculated from the events on the timeline"""
 
-        if self.sorted_timeline == None or len(self.sorted_timeline) == 0:
+        if self.sorted_timeline is None or len(self.sorted_timeline) == 0:
             return None
 
         last_event = self.sorted_timeline[0]

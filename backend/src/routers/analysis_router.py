@@ -4,8 +4,7 @@ import json
 from typing import List, Union
 
 from fastapi import (APIRouter, BackgroundTasks, Depends, HTTPException, File, Form, Security)
-from fastapi.responses import StreamingResponse, ORJSONResponse  # Simple import change
-
+from fastapi.responses import StreamingResponse  # Simple import change
 
 from ..core.annotation import AnnotationService
 from ..core.phenotips_importer import PhenotipsImporter

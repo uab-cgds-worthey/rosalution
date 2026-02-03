@@ -28,6 +28,7 @@ class Settings(BaseSettings):
     cas_server_url: str = "https://padlockdev.idm.uab.edu/cas/"
     cas_login_enable: bool = False
     profiler_enabled: bool = False
+    profiler_renderer: str = "html"
 
     @model_validator(mode="before")
     @classmethod
