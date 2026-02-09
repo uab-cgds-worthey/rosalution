@@ -159,7 +159,7 @@ watch([hasWritePermissions, latestStatus], () => {
   builder.addDivider();
 
   builder.addMenuAction('Attach', 'paperclip', addAnalysisAttachment);
-  builder.addMenuAction('Link Unit', 'dna', linkOmicUnit);
+  builder.addMenuAction('Add Unit', 'dna', addOmicUnit);
   builder.addMenuAction('Attach Monday.com', null, addMondayLink);
   builder.addMenuAction('Connect PhenoTips', null, addPhenotipsLink);
 
@@ -496,8 +496,22 @@ function onLogout() {
 /**
  * Links an 'omic unit to the Analysis
  */
-async function linkOmicUnit() {
-  console.log('Linking an omic unit to this Analysis');
+async function addOmicUnit() {
+  console.log('Adding an omic unit to this Analysis');
+
+  // on Click pops up an input dialog
+  // call InputDialogAddOmicUnit
+  const omicUnit = await inputDialog
+      .confirmText('Add')
+      .cancelText('Cancel')
+      .omicUnit(analysisName)
+      .prompt();
+
+  if (!omicUnit) {
+    return;
+  }
+  console.log('This is the added Omic Unit');
+  console.log(omicUnit);
 }
 
 /**
