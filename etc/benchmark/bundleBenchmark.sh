@@ -70,6 +70,7 @@ done
 
 using_ssh=false
 using_docker=false
+original_pyinstrument_profiling_summary="$pyinstrument_profiling_summary"
 
 if [ ! -z "${ssh_connection}" ]; then
     using_ssh=true
@@ -102,7 +103,8 @@ then
 fi
 
 date_stamp=$(date +"%Y-%m-%d-%s")
-output_path="$base_output_path/benchmark-run-$date_stamp"
+output_directory="benchmark-run-$date_stamp"
+output_path="$base_output_path/$output_directory"
 profiling_filename="${pyinstrument_profiling_summary##*/}"
 
 mkdir -p "$output_path"
@@ -136,3 +138,26 @@ fi
 
 mv "$pyinstrument_profiling_summary" "$output_path"
 mv "$k6_metrics_summary_json" "$output_path"
+tar -czvf "$output_path.tar.gz" "$output_path"
+
+cleanup_summaries_command=""
+
+if $using_docker; then
+  priviledged=""
+  if [[ $EUID -eq 0 ]]; then #checking if script is executing as priviledged user
+    priviledged="sudo "
+  fi
+  cleanup_summaries_command="$priviledged docker exec $docker_container rm $original_pyinstrument_profiling_summary"
+fi
+
+if $using_ssh; then
+  cleanup_summaries_command="ssh $ssh_connection \"$cleanup_summaries_command\""
+fi
+
+if [ ! -z "${cleanup_summaries_command}" ]; then
+  eval "$cleanup_summaries_command"
+fi
+
+if $using_ssh && ! $using_docker; then
+  eval ssh "$ssh_connection \"rm $original_pyinstrument_profiling_summary\""
+fi

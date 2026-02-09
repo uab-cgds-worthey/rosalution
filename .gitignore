@@ -84,4 +84,5 @@ etc/.rosalution-db-backups
 secrets.file
 profile.html
 **benchmark-run**/
-speedscope.json
+*speedscope.json
+k6-summary*

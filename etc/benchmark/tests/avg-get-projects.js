@@ -32,7 +32,7 @@ export async function setup() {
 
 export function handleSummary(data) {
   return {
-    'summary.json': json_metrics_summary(data.metrics),
+    'k6-summary.json': json_metrics_summary(data.metrics),
     stdout: textSummary(data)
   };
 }
