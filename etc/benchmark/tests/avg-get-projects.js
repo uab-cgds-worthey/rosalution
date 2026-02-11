@@ -44,7 +44,7 @@ export default async function(data) {
     }
   };
   
-  let res = http.get(`${BASE_URL}/analysis/summary?profile=1&profile_format=speedscope`, authHeader);
+  let res = http.get(`${BASE_URL}/analysis/summary?profile=1&profile_format=html`, authHeader);
 
   check(res, { "status is 200": (res) => res.status === 200 });
   sleep(1);
