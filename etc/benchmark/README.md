@@ -56,10 +56,10 @@ This will move both the Pyinstrument profiling and k6-summary.json benchmark run
 the current run directory.
 
 ```bash
-./bundleBenchmark.sh \
-  --pyinstrument "<absolute-path-to-rosalution>/rosalution/backend/profile.speedscope.json" \
-  -k6 "<absolute-path-to-rosalution>/rosalution/etc/benchmark/k6-summary.json" \
-  --output "<absolute-path-to-rosalution>/rosalution/etc/benchmark/"
+    ./bundleBenchmark.sh \
+    --pyinstrument "<absolute-path-to-rosalution>/rosalution/backend/profile.speedscope.json" \
+    -k6 "<absolute-path-to-rosalution>/rosalution/etc/benchmark/k6-summary.json" \
+    --output "<absolute-path-to-rosalution>/rosalution/etc/benchmark/"
 ```
 
 ### Example: Bundling Dev Results
@@ -68,9 +68,9 @@ This will SSH to target machine and use docker to copy the Pyinstrument profilin
 the k6-summary.json benchmark run summary, and save them in a new directory within the current run directory.
 
 ```bash
-sudo ./bundleBenchmark.sh \
-  --remote "-i <private-ssh-key> <ssh-user@ip>" \
-  --docker "rosalution-prod_backend.1.sb49011lh3e4az4s71vt9vo1u" \
-  --pyinstrument "/app/profile.html" \
-  -k6 "/mnt/persistent/opt/rosalution/etc/benchmark/k6-summary.json"
+    sudo ./bundleBenchmark.sh \
+    --remote "-i <private-ssh-key> <ssh-user@ip>" \
+    --docker "rosalution-prod_backend.1.sb49011lh3e4az4s71vt9vo1u" \
+    --pyinstrument "/app/profile.html" \
+    -k6 "/mnt/persistent/opt/rosalution/etc/benchmark/k6-summary.json"
 ```
