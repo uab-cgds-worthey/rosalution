@@ -55,22 +55,22 @@ profile.
 This will move both the Pyinstrument profiling and k6-summary.json benchmark run summary to a new directory within
 the current run directory.
 
-```bash
+    ```bash
     ./bundleBenchmark.sh \
     --pyinstrument "<absolute-path-to-rosalution>/rosalution/backend/profile.speedscope.json" \
     -k6 "<absolute-path-to-rosalution>/rosalution/etc/benchmark/k6-summary.json" \
     --output "<absolute-path-to-rosalution>/rosalution/etc/benchmark/"
-```
+    ```
 
 ### Example: Bundling Dev Results
 
 This will SSH to target machine and use docker to copy the Pyinstrument profiling to the current host machine, pull
 the k6-summary.json benchmark run summary, and save them in a new directory within the current run directory.
 
-```bash
+    ```bash
     sudo ./bundleBenchmark.sh \
     --remote "-i <private-ssh-key> <ssh-user@ip>" \
     --docker "rosalution-prod_backend.1.sb49011lh3e4az4s71vt9vo1u" \
     --pyinstrument "/app/profile.html" \
     -k6 "/mnt/persistent/opt/rosalution/etc/benchmark/k6-summary.json"
-```
+    ```
