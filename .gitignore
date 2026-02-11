@@ -84,5 +84,6 @@ etc/.rosalution-db-backups
 secrets.file
 profile.html
 **benchmark-run**/
+**benchmark-run**.tar.gz
 *speedscope.json
 k6-summary*
