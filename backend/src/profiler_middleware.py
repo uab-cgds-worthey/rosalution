@@ -1,7 +1,6 @@
 # pylint: disable=import-outside-toplevel
 # Disabling this rule to avoid relying on a global variable to enable the profiler. Keeping the profiler
 # enabled only if its enabled as a method param for the time being for simplicity.
-
 """Module to enable PyInstrument to profile FastAPI routes"""
 from typing import Callable
 from fastapi import FastAPI, Request

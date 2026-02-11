@@ -1,26 +1,22 @@
 #! /bin/bash
 # ./bundleBenchmark.sh
 
-
 usage() {
   echo " "
-  echo "usage: $0"
+  echo "usage: $0 [options...]"
   echo " "
+  echo " -r | --remote        SSH options and connection string for either SCP or SSH to retrieve rendered PyInstrument"
+  echo "                      output"
+  echo " -d | --docker        Target Docker container for with rendered PyInstrument output"
+  echo " -p | --pyinstrument  Absolute file path to rendered PyInstrument output on target, either locally, remote,"
+  echo "                      docker container, or remote and docker container"
+  echo " -k | --k6            Absolute file path to K6 Metrics Summary JSON on local machine"
+  echo " -o | --output        Output directory for bundled benchmark results"
+  echo " -h | --help          Prints usage"
   echo " "
-  echo " -r | --remote SSH options and connection string for either SCP or SSH to retrieve rendered PyInstrument output"
-  echo " -d | --docker Target Docker container for with rendered PyInstrument output"
-  echo " -p | --pyinstrument Absolute file path to rendered PyInstrument output on target, either locally, remote, docker container, or remote and docker container"
-  echo " -k | --k6 Absolute file path to K6 Metrics Summary JSON on local machine"
-  echo " -o | --output Output directory for bundled benchmark results"
-  echo " -h | --help Prints usage"
-  echo " "
-  exit
 }
 
-docker_prefix=""
-connection_string=""
 base_output_path="."
-
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -53,30 +49,15 @@ while [ $# -gt 0 ]; do
   shift 2
 done
 
-
-# while getopts ":r:d:o:p:b:h" opt; do
-#   case $opt in
-#     r) ssh_connection="$OPTARG";;
-#     d) docker_container="$OPTARG";;
-#     p) pyinstrument_profiling_summary="$OPTARG";;
-#     b) k6_metrics_summary_json="$OPTARG";;
-#     p) pyinstrument_profiling_summary="$OPTARG";;
-#     o) base_output_path="$OPTARG";;
-#     h) usage;;
-#     \?) echo "Invalid option -$OPTARG" && exit 127;;
-#   esac
-# done
-
-
 using_ssh=false
 using_docker=false
 original_pyinstrument_profiling_summary="$pyinstrument_profiling_summary"
 
-if [ ! -z "${ssh_connection}" ]; then
+if [ -n "${ssh_connection}" ]; then
     using_ssh=true
 fi
 
-if [ ! -z "${docker_container}" ]; then
+if [ -n "${docker_container}" ]; then
     using_docker=true
 fi
 
@@ -84,12 +65,16 @@ fi
 if ! $using_ssh && ! $using_docker; then
   if [ ! -f "$pyinstrument_profiling_summary" ]; then
     echo "Rendered PyInstrument profiling '$pyinstrument_profiling_summary' does not exist.  Canceling bundling operation ..."
+    
+    usage
     exit 1
   fi
 fi
 
 if [ ! -f "$k6_metrics_summary_json" ]; then
   echo "K6 benchmark metrics summary '$k6_metrics_summary_json' does not exist.  Canceling bundling operation ..."
+  
+  usage
   exit 1
 fi
 
@@ -132,7 +117,7 @@ if $using_ssh; then
   pyinstrument_profiling_summary="/tmp/tmp_$profiling_filename"
 fi
 
-if [ ! -z "${retrieve_profiling_output_command}" ]; then
+if [ -n "${retrieve_profiling_output_command}" ]; then
   eval "$retrieve_profiling_output_command"
 fi
 
@@ -154,7 +139,7 @@ if $using_ssh; then
   cleanup_summaries_command="ssh $ssh_connection \"$cleanup_summaries_command\""
 fi
 
-if [ ! -z "${cleanup_summaries_command}" ]; then
+if [ -n "${cleanup_summaries_command}" ]; then
   eval "$cleanup_summaries_command"
 fi
 
