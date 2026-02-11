@@ -37,7 +37,6 @@ def fixture_cpam0112_analysis_json():
 @pytest.fixture(name="cpam0002_analysis")
 def fixture_analysis(cpam0002_analysis_json):
     """Fixture for the CPAM0002 Analysis"""
-    print("getting fixture how many times")
     return Analysis(**cpam0002_analysis_json)
 
 

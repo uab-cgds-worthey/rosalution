@@ -1,18 +1,16 @@
 """Tests to verify Analysis operations"""
 from datetime import date
-from typing import List
 import pytest
 
-from src.enums import EventType, GenomicUnitType
-
-
-def test_get_sorted_timeline(cpam0002_analysis):
-    """ Tests that there is a sorted timeline for the analysis """
-    assert isinstance(cpam0002_analysis.sorted_timeline, List) is True
-    assert cpam0002_analysis.sorted_timeline[0].event == EventType.DECLINE
+from src.enums import StatusType, GenomicUnitType
 
 
 def test_get_latest_status(cpam0002_analysis):
+    """ Confirms the type of last modified date is a date object """
+    assert cpam0002_analysis.latest_status == StatusType.DECLINED
+
+
+def test_get_latest_date(cpam0002_analysis):
     """ Confirms the type of last modified date is a date object """
     assert isinstance(cpam0002_analysis.last_modified_date, date) is True
 
