@@ -156,9 +156,9 @@ def get_project_authorization(
     """
     Verify current user by client_id is a member of the project associated with then given analysis_name in the path.
     """
-    current_user = repositories["user"].find_by_client_id(client_id)
+    user_json = repositories["user"].find_by_client_id(client_id)
     project_id = repositories["analysis"].project_id_by_name(analysis_name)
-    user = ProjectUser(**current_user)
+    user = ProjectUser(**user_json)
 
     if not user.is_authorized(project_id):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not apart of project")

@@ -74,6 +74,7 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
   });
 
   it('should render the content visible within a desktop viewport', () => {
+    cy.login('lw-researcher');
     cy.visit('/analysis/CPAM0178%20(ITGA3)');
     cy.get('[data-test="header-title-text"]').contains('CPAM0178 (ITGA3)')
 

@@ -36,4 +36,5 @@ class ProjectUser(User):
 
     def is_authorized(self, project_id: PyObjectId):
         """Returns true if user is authorized to access content by a project's ID"""
-        return any(project_id == user_project_ids for user_project_ids in self.project_ids)
+
+        return any(project_id == user_project_id for user_project_id in self.project_ids)
