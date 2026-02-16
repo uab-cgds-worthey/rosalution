@@ -9,11 +9,7 @@ from ..dependencies import database
 from ..security.oauth2 import HTTPBasicClientCredentials
 from ..security.security import (authenticate_password, create_access_token)
 
-router = APIRouter(
-    prefix="/dev",
-    tags=["development"],
-    dependencies=[Depends(database)],
-)
+router = APIRouter(prefix="/dev", tags=["development"])
 
 token_scheme = HTTPBasicClientCredentials(auto_error=False, scheme_name="oAuth2ClientCredentials")
 

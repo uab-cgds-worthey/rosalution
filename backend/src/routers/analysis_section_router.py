@@ -8,9 +8,9 @@ from fastapi import APIRouter, Depends, File, Form, HTTPException, Response, Sec
 from ..dependencies import database
 from ..enums import SectionRowType
 from ..models.analysis import Analysis, Section
-from ..security.security import get_authorization
+from ..security.security import get_write_project_authorization
 
-router = APIRouter(tags=["analysis sections"], dependencies=[Depends(database)])
+router = APIRouter(tags=["analysis sections"])
 
 logger = logging.getLogger(__name__)
 
@@ -20,13 +20,12 @@ def add_file_to_bucket_repository(file_to_save, bucket_repository):
     return bucket_repository.save_file(file_to_save.file, file_to_save.filename, file_to_save.content_type)
 
 
-@router.post("/{analysis_name}/sections/batch", response_model=List[Section])
-def update_many_analysis_sections(
-    analysis_name: str,
-    updated_sections: List[Section],
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
-):
+@router.post(
+    "/{analysis_name}/sections/batch",
+    response_model=List[Section],
+    dependencies=[Security(get_write_project_authorization)]
+)
+def update_many_analysis_sections(analysis_name: str, updated_sections: List[Section], repositories=Depends(database)):
     """Updates the sections that have changes"""
 
     repositories["analysis"].update_analysis_sections(analysis_name, updated_sections)
@@ -35,15 +34,16 @@ def update_many_analysis_sections(
     return updated_analysis_model.sections
 
 
-@router.post("/{analysis_name}/sections", response_model=List[Section])
-def update_analysis_section( #pylint: disable=too-many-arguments
+@router.post(
+    "/{analysis_name}/sections", response_model=List[Section], dependencies=[Security(get_write_project_authorization)]
+)
+def update_analysis_section(
     response: Response,
     analysis_name: str,
     row_type: SectionRowType,
     updated_section: Section = Form(...),
     upload_file: UploadFile = File(None),
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+    repositories=Depends(database)
 ):
     """Updates a section with the changed fields"""
     if row_type not in (SectionRowType.TEXT, SectionRowType.IMAGE, SectionRowType.DOCUMENT, SectionRowType.LINK):
@@ -91,14 +91,12 @@ def update_analysis_section( #pylint: disable=too-many-arguments
 
 
 @router.delete(
-    "/{analysis_name}/sections/{attachment_id}", response_model=List[Section], status_code=status.HTTP_200_OK
+    "/{analysis_name}/sections/{attachment_id}",
+    response_model=List[Section],
+    status_code=status.HTTP_200_OK,
+    dependencies=[Security(get_write_project_authorization)]
 )
-def remove_section_attachment_from_field(
-    analysis_name: str,
-    attachment_id: str,
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
-):
+def remove_section_attachment_from_field(analysis_name: str, attachment_id: str, repositories=Depends(database)):
     """ Removes the attachment from the analysis section """
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
 
@@ -126,15 +124,18 @@ def remove_section_attachment_from_field(
     )
 
 
-@router.put("/{analysis_name}/sections/{attachment_id}", response_model=List[Section])
-def update_analysis_section_image( # pylint: disable=too-many-arguments
+@router.put(
+    "/{analysis_name}/sections/{attachment_id}",
+    response_model=List[Section],
+    dependencies=[Security(get_write_project_authorization)]
+)
+def update_analysis_section_image(
     analysis_name: str,
     attachment_id: str,
     row_type: SectionRowType,
     updated_section: Section = Form(...),
     upload_file: UploadFile = File(None),
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+    repositories=Depends(database)
 ):
     """
     Replaces the existing image by the file identifier with the uploaded one or updates a section with changed field.

@@ -109,10 +109,7 @@ def get_genomic_units(analysis_name: str, repositories=Depends(database)):
     response_model=AnalysisSummary,
     dependencies=[Security(get_project_authorization)]
 )
-def get_analysis_summary_by_name(
-    analysis_name: str,
-    repositories=Depends(database),
-):
+def get_analysis_summary_by_name(analysis_name: str, repositories=Depends(database)):
     """Returns a summary of every analysis within the application"""
 
     return repositories["analysis"].summary_by_name(analysis_name)

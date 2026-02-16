@@ -6,9 +6,9 @@ from fastapi import APIRouter, Depends, File, Form, HTTPException, Security, Upl
 from pydantic import BaseModel, model_validator
 
 from ..dependencies import database
-from ..security.security import get_authorization
+from ..security.security import get_write_project_authorization
 
-router = APIRouter(tags=["analysis attachments"], dependencies=[Depends(database)])
+router = APIRouter(tags=["analysis attachments"])
 
 
 class IncomingNewAttachment(BaseModel, frozen=True):
@@ -46,13 +46,14 @@ class IncommingUpdatedAttachment(BaseModel, frozen=True):
     data: str | None = None
 
 
-@router.post("/{analysis_name}/attachment", response_model=List)
+@router.post(
+    "/{analysis_name}/attachment", response_model=List, dependencies=[Security(get_write_project_authorization)]
+)
 def attach_file(
     analysis_name: str,
     new_attachment: Annotated[IncomingNewAttachment, Form()],
     upload_file: UploadFile = File(None),
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+    repositories=Depends(database)
 ):
     """Uploads a file to GridFS and adds it to the analysis"""
     updated_analysis_json = None
@@ -73,13 +74,16 @@ def attach_file(
     return updated_analysis_json["attachments"]
 
 
-@router.put("/{analysis_name}/attachment/{attachment_id}", response_model=List)
+@router.put(
+    "/{analysis_name}/attachment/{attachment_id}",
+    response_model=List,
+    dependencies=[Security(get_write_project_authorization)]
+)
 def update_attachment(
     analysis_name: str,
     attachment_id: str,
     updated_attachment: Annotated[IncommingUpdatedAttachment, Form()],
     repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
 ):
     """ Updates the attachment in the analysis """
     content = {
@@ -95,13 +99,12 @@ def update_attachment(
         raise HTTPException(status_code=404, detail=str(exception)) from exception
 
 
-@router.delete("/{analysis_name}/attachment/{attachment_id}", response_model=List)
-def remove_attachment(
-    analysis_name: str,
-    attachment_id: str,
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
-):
+@router.delete(
+    "/{analysis_name}/attachment/{attachment_id}",
+    response_model=List,
+    dependencies=[Security(get_write_project_authorization)]
+)
+def remove_attachment(analysis_name: str, attachment_id: str, repositories=Depends(database)):
     """ Removes attachment from the analysis """
     if repositories["bucket"].id_exists(attachment_id):
         repositories["bucket"].delete_file(attachment_id)

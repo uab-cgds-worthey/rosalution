@@ -11,9 +11,9 @@ from fastapi import (APIRouter, Depends, Form, Security, HTTPException, status, 
 from ..dependencies import database
 from ..models.user import VerifyUser
 from ..models.analysis import Analysis
-from ..security.security import get_current_user
+from ..security.security import get_current_user, get_project_authorization
 
-router = APIRouter(tags=["analysis discussions"], dependencies=[Depends(database)])
+router = APIRouter(tags=["analysis discussions"])
 
 
 # Disabling duplicate warning, two incomming FormData is similar right now
@@ -52,12 +52,8 @@ class IncomingDiscussionFormData(BaseModel):
         return value
 
 
-@router.get("/{analysis_name}/discussions")
-def get_analysis_discussions(
-    analysis_name: str,
-    repositories=Depends(database),
-    username: VerifyUser = Security(get_current_user)  #pylint: disable=unused-argument
-):
+@router.get("/{analysis_name}/discussions", dependencies=[Security(get_project_authorization)])
+def get_analysis_discussions(analysis_name: str, repositories=Depends(database)):
     """ Returns a list of discussion posts for a given analysis """
 
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
@@ -72,7 +68,7 @@ def get_analysis_discussions(
     return analysis.discussions
 
 
-@router.post("/{analysis_name}/discussions")
+@router.post("/{analysis_name}/discussions", dependencies=[Security(get_project_authorization)])
 async def add_analysis_discussion(
     analysis_name: str,
     discussion_content: Annotated[list[str], Form()],
@@ -121,7 +117,7 @@ async def add_analysis_discussion(
     return repositories['analysis'].add_discussion_post(analysis.name, new_discussion_post)
 
 
-@router.put("/{analysis_name}/discussions/{discussion_post_id}")
+@router.put("/{analysis_name}/discussions/{discussion_post_id}", dependencies=[Security(get_project_authorization)])
 def update_analysis_discussion_post(
     analysis_name: str,
     discussion_post_id: str,
@@ -153,7 +149,7 @@ def update_analysis_discussion_post(
     return repositories['analysis'].updated_discussion_post(valid_post['post_id'], discussion_content, analysis.name)
 
 
-@router.delete("/{analysis_name}/discussions/{discussion_post_id}")
+@router.delete("/{analysis_name}/discussions/{discussion_post_id}", dependencies=[Security(get_project_authorization)])
 def delete_analysis_discussion(
     analysis_name: str,
     discussion_post_id: str,
@@ -193,7 +189,9 @@ def delete_analysis_discussion(
     return repositories['analysis'].delete_discussion_post(valid_post['post_id'], analysis.name)
 
 
-@router.post("/{analysis_name}/discussions/{discussion_post_id}/thread/")
+@router.post(
+    "/{analysis_name}/discussions/{discussion_post_id}/thread/", dependencies=[Security(get_project_authorization)]
+)
 async def add_analysis_discussion_reply(    #pylint: disable=too-many-arguments, too-many-locals
     analysis_name: str,
     discussion_post_id: str,
@@ -243,7 +241,10 @@ async def add_analysis_discussion_reply(    #pylint: disable=too-many-arguments,
     return repositories['analysis'].add_discussion_reply(discussion_post_id, analysis.name, new_discussion_reply)
 
 
-@router.post("/{analysis_name}/discussions/{discussion_post_id}/thread/{discussion_reply_id}")
+@router.post(
+    "/{analysis_name}/discussions/{discussion_post_id}/thread/{discussion_reply_id}",
+    dependencies=[Security(get_project_authorization)]
+)
 async def edit_analysis_discussion_reply(
     analysis_name: str,
     discussion_post_id: str,
@@ -279,7 +280,10 @@ async def edit_analysis_discussion_reply(
     )
 
 
-@router.delete("/{analysis_name}/discussions/{discussion_post_id}/thread/{discussion_reply_id}")
+@router.delete(
+    "/{analysis_name}/discussions/{discussion_post_id}/thread/{discussion_reply_id}",
+    dependencies=[Security(get_project_authorization)]
+)
 async def delete_analysis_discussion_reply(
     analysis_name: str,
     discussion_post_id: str,
