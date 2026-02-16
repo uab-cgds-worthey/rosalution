@@ -4,6 +4,7 @@ import json
 import pytest
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_add_new_discussion_to_analysis(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """ Testing that a discussion was added and returned properly """
     cpam_analysis = "CPAM0002"
@@ -46,6 +47,7 @@ def test_add_new_discussion_to_analysis(client, mock_access_token, mock_reposito
     assert actual_most_recent_post['content'] == new_post_content
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_update_discussion_post_in_analysis(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """ Tests successfully updating an existing post in the discussions with the user being the author """
     cpam_analysis = "CPAM0002"
@@ -102,6 +104,7 @@ def test_update_discussion_post_in_analysis(client, mock_access_token, mock_repo
     assert actual_post['content'] == discussion_content
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_update_post_in_analysis_author_mismatch(client, mock_access_token, mock_repositories, cpam0047_analysis_json):
     """ Tests updating a post that the author did not post and results in an unauthorized failure """
     cpam_analysis = "CPAM0047"
@@ -122,6 +125,7 @@ def test_update_post_in_analysis_author_mismatch(client, mock_access_token, mock
     assert response.json() == expected_failure_detail
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_delete_discussion_post_in_analysis(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """ Tests successfully deleting an existing post in the discussions with the user being the author """
     cpam_analysis = "CPAM0002"
@@ -149,6 +153,7 @@ def test_delete_discussion_post_in_analysis(client, mock_access_token, mock_repo
     assert len(response.json()) == 2
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_delete_discussion_post_with_thread(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """ Tests successfully deleting an existing post in the discussions with the user being the author """
     cpam_analysis = "CPAM0002"
@@ -172,6 +177,7 @@ def test_delete_discussion_post_with_thread(client, mock_access_token, mock_repo
     assert actual_update['$set']["discussions.$[item].deleted"] is True
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_delete_discussion_with_attachments(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """ Tests successfully deleting an existing post in the discussions with the user being the author """
     cpam_analysis = "CPAM0002"
@@ -205,6 +211,7 @@ def test_delete_discussion_with_attachments(client, mock_access_token, mock_repo
     assert str(actual_removed_file_id) == expected_objectid_string
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_handle_delete_post_not_existing_in_analysis(
     client, mock_access_token, mock_repositories, cpam0002_analysis_json
 ):
@@ -225,6 +232,7 @@ def test_handle_delete_post_not_existing_in_analysis(
     assert response.json() == expected_failure_detail
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_add_new_discussion_reply_to_analysis(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """ Testing that a discussion reply was added and returned properly """
     cpam_analysis = "CPAM0002"
@@ -281,6 +289,7 @@ def test_add_new_discussion_reply_to_analysis(client, mock_access_token, mock_re
     assert actual_most_recent_reply['content'] == new_reply_content
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_update_discussion_reply_in_analysis(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """ Testing that a discussion reply was edited, updated and returned properly """
     cpam_analysis = "CPAM0002"
@@ -326,6 +335,7 @@ def test_update_discussion_reply_in_analysis(client, mock_access_token, mock_rep
     assert actual_most_recent_reply['content'] == edit_reply_content
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_delete_discussion_reply_from_analysis(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """ Tests successfully deleting an existing reply in the discussions with the user being the author """
     cpam_analysis = "CPAM0002"

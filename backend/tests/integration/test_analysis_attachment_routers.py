@@ -4,6 +4,7 @@ import json
 import pytest
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_attaching_link_to_analysis(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """Test attaching a URL to the analysis"""
 
@@ -33,6 +34,7 @@ def test_attaching_link_to_analysis(client, mock_access_token, mock_repositories
     assert len(actual_attachments) == 2
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_remove_file_attachment(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """ Testing the remove a file attachment endpoint """
     mock_repositories["bucket"].bucket.exists.return_value = True
@@ -55,6 +57,7 @@ def test_remove_file_attachment(client, mock_access_token, mock_repositories, cp
     assert len(actual_update_query['$set']['attachments']) == 0
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_remove_link_attachment(
     client, mock_access_token, mock_repositories, cpam0002_analysis_json_with_link_attachment
 ):
@@ -78,6 +81,7 @@ def test_remove_link_attachment(
 
 
 @pytest.fixture(name="cpam0002_analysis_json_with_link_attachment")
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def fixture_attachment_link_json(cpam0002_analysis_json):
     """The JSON that is being returned to the endpoint with a link in the attachments"""
     cpam0002_analysis_json["attachments"] = [{

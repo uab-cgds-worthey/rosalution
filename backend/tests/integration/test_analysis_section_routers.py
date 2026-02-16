@@ -2,6 +2,7 @@
 
 import json
 from typing import List
+import pytest
 
 from bson import ObjectId
 from pydantic import TypeAdapter
@@ -11,6 +12,7 @@ from src.models.analysis import Section
 from ..test_utils import fixture_filepath, read_test_fixture
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_update_analysis_sections(client, mock_access_token, mock_repositories, cpam0047_analysis_json):
     """Testing if the update analysis endpoint updates an existing analysis"""
 
@@ -36,6 +38,7 @@ def test_update_analysis_sections(client, mock_access_token, mock_repositories, 
     mock_repositories["analysis"].collection.update_one.assert_called()
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_update_individual_section_text_fields(client, mock_access_token, mock_repositories, cpam0047_analysis_json):
     """Testing if the update analysis endpoint updates an existing analysis"""
 
@@ -56,6 +59,7 @@ def test_update_individual_section_text_fields(client, mock_access_token, mock_r
     mock_repositories["analysis"].collection.update_one.assert_called()
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_attach_image_to_pedigree_section(client, mock_access_token, mock_repositories, cpam0112_analysis_json):
     """ Testing attaching an image to the Pedigree section of an analysis """
     mock_repositories["analysis"].collection.find_one.return_value = cpam0112_analysis_json
@@ -91,6 +95,7 @@ def test_attach_image_to_pedigree_section(client, mock_access_token, mock_reposi
     assert actual_updated_field["value"] == [{'file_id': new_image_id}]
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_update_existing_pedigree_section_image(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """ Testing the update pedigree attachment endpoint """
     mock_repositories["analysis"].collection.find_one.return_value = cpam0002_analysis_json
@@ -113,6 +118,7 @@ def test_update_existing_pedigree_section_image(client, mock_access_token, mock_
     assert response.status_code == 200
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_remove_existing_pedigree_section_image(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
     """ Tests removing an existing image from the pedigree section of CPAM0002 """
     pedigree_image_id = "63505be22888347cf1c275db"

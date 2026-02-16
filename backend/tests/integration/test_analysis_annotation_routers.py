@@ -1,6 +1,9 @@
 """Routes dedicated for annotation within the system"""
 
+import pytest
 
+
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_get_annotations_by_gene_in_analysis(
     client, mock_access_token, mock_repositories, gene_vma21_annotations_json, cpam0002_analysis_json
 ):
@@ -17,6 +20,7 @@ def test_get_annotations_by_gene_in_analysis(
     assert len(response.json()) == 6
 
 
+@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def test_get_annotations_by_hgvs_varian_in_analysis(
     client, mock_access_token, mock_repositories, variant_nm001017980_3_c_164g_t_annotations_json,
     cpam0002_analysis_json
