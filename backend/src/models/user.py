@@ -1,9 +1,11 @@
 """ Represents a user that is stored in our database """
 # pylint: disable=too-few-public-methods
 
-from typing import Optional
+from typing import Annotated, List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, BeforeValidator
+
+PyObjectId = Annotated[str, BeforeValidator(str)]
 
 
 class User(BaseModel):
@@ -26,3 +28,12 @@ class VerifyUser(User):
     """Hashed password was omitted from the base object as it's not always needed"""
 
     hashed_password: str
+
+
+class ProjectUser(User):
+    """ This extends the use class to include project_id """
+    project_ids: List[PyObjectId] = []
+
+    def is_authorized(self, project_id: PyObjectId):
+        """Returns true if user is authorized to access content by a project's ID"""
+        return any(project_id == user_project_ids for user_project_ids in self.project_ids)

@@ -16,6 +16,20 @@ class ProjectRepository:
         self.user_collection = user_collection
         self.analysis_collection = analysis_collection
 
+    def all_analyses(self, client_id: str):
+        """Returns all analyses available to the user by client id"""
+        pipeline = [{"$match": {"client_id": client_id}}, {
+            "$lookup": {
+                "from": "analyses", "let": {"projectIds": '$project_ids'},
+                "pipeline": [{"$match": {"$expr": {"$in": ["$project_id", "$$projectIds"]}}}], "as": "analyses"
+            }
+        }, {"$unwind": "$analyses"}, {"$replaceRoot": {"newRoot": "$analyses"}},
+                    {"$project": AnalysisCollectionSummary.query_projection()}]
+
+        query_result = self.user_collection.aggregate(pipeline)
+
+        return list(query_result)
+
     def all_summaries(self, client_id: str):
         """Returns all of the summaries for all of the analyses within the system"""
 

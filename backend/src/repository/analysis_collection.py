@@ -39,6 +39,10 @@ class AnalysisCollection:
 
         return query_result
 
+    def project_id_by_name(self, name: str):
+        """Returns analysis by searching for name"""
+        return self.collection.find_one({"name": name}, {"project_id": 1, "_id": 0})
+
     def find_by_name(self, name: str):
         """Returns analysis by searching for name"""
         return self.collection.find_one({"name": name})

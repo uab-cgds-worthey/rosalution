@@ -8,7 +8,7 @@ from src.main import app
 from src.database import Database
 from src.config import get_settings, Settings
 from src.dependencies import database, annotation_queue
-from src.security.security import create_access_token, get_current_user
+from src.security.security import create_access_token, get_current_user, get_project_authorization
 
 from ..test_utils import mock_mongo_collection, mock_gridfs_bucket, read_test_fixture
 
@@ -68,6 +68,19 @@ def mock_get_current_user(mock_user):
 
     app.dependency_overrides[get_current_user] = mock_current_user
     yield mock_user["sub"]
+    app.dependency_overrides.clear()
+
+
+@pytest.fixture(name="mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_security_get_current_user")
+def mock_get_project_authorization():
+    """Mocks user successfully authroizing access to project"""
+
+    def mock_project_authorized():
+        return True
+
+    app.dependency_overrides[get_project_authorization] = mock_project_authorized
+    yield
     app.dependency_overrides.clear()
 
 

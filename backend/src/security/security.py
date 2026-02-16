@@ -4,19 +4,21 @@ import secrets
 import string
 
 from datetime import datetime, timedelta, UTC
-from typing import Optional
+from typing import Annotated, Optional
 
 import jwt
 
 from pydantic import ValidationError
 from jwt.exceptions import InvalidTokenError
 
-from fastapi import Depends, HTTPException, Response, status
+from fastapi import Depends, HTTPException, Path, Response, Security, status
 from fastapi.security import SecurityScopes
 
 import bcrypt
 
-from ..dependencies import oauth2_scheme
+from ..models.user import ProjectUser
+
+from ..dependencies import database, oauth2_scheme
 
 from ..config import Settings, get_settings
 
@@ -110,9 +112,7 @@ def get_current_user(
 
 
 def get_authorization(
-    security_scopes: SecurityScopes,
-    token: str = Depends(oauth2_scheme),
-    settings: Settings = Depends(get_settings),
+    security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme), settings: Settings = Depends(get_settings)
 ):
     """
     This function does a general authorization check to see if the user is authorized and within scope to use the
@@ -146,5 +146,32 @@ def get_authorization(
             detail="Not enough permissions",
             headers={"WWW-Authenticate": authenticate_value},
         )
+
+    return True
+
+
+def get_project_authorization(
+    analysis_name: str = Path(...), repositories=Depends(database), client_id=Depends(get_current_user)
+):
+    """
+    Verify current user by client_id is a member of the project associated with then given analysis_name in the path.
+    """
+    current_user = repositories["user"].find_by_client_id(client_id)
+    project_id = repositories["analysis"].project_id_by_name(analysis_name)
+    user = ProjectUser(**current_user)
+
+    if not user.is_authorized(project_id):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not apart of project")
+
+    return True
+
+
+def get_write_project_authorization(
+    project_authorization: Annotated[bool, Security(get_project_authorization)],
+    write_authorized: Annotated[bool, Security(get_authorization, scopes=["write"])]
+):
+    """Verify the requester is both a member of the project and has 'write' scope."""
+    if not project_authorization or not write_authorized:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User authorization failed for operation")
 
     return True
