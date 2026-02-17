@@ -4,47 +4,47 @@
       Please enter unit of interest for this case. {{ props.analysisName }}
     </div>
     <div class="input-row">
-      <span class="transcript-input-field">
+      <span class="input-field">
         RefSeq Transcript
       </span>
       <input
-        class="transcript-input"
+        class="input-area"
         placeholder="Enter Transcript"
       />
     </div>
     <div class="input-row">
-      <span class="gene-input-field">
+      <span class="input-field">
         Gene Symbol
       </span>
       <input
-        class="gene-input"
+        class="input-area"
         placeholder="Enter Gene Symbol"
       />
     </div>
     <div class="input-row">
-      <span class="cDNA-input-field">
+      <span class="input-field">
         cDNA
       </span>
       <input
-        class="cDNA-input"
+        class="input-area"
         placeholder="Enter cDNA"
       />
     </div>
     <div class="input-row">
-      <span class="protein-input-field">
+      <span class="input-field">
         Protein
       </span>
       <input
-        class="protein-input"
+        class="input-area"
         placeholder="Enter Protein"
       />
     </div>
     <div class="input-row">
-      <span class="reason-of-interest-input-field">
+      <span class="input-field">
         Reason of Interest
       </span>
       <textarea
-        class="reason-of-interest-input"
+        class="input-area"
         placeholder="Enter Reason of Interest."
       >
       </textarea>
@@ -84,16 +84,25 @@ onMounted(async () => {
 
 <style scoped>
 
+.dialog-header {
+  padding: var(--p-8);
+  text-align: center;
+}
+
 .input-row {
   display: flex;
-  padding: var(--p-8);
-  gap: var(--p-10);
+  padding: var(--p-10);
+  gap: var(--p-24);
   justify-content: space-between;
 }
 
-.gene-input {
-  /* padding: var(--p-8); */
-  /* margin: var(--p-8); */
+.input-field {
+  font-weight: bold;
+}
+
+.input-area {
+  max-width: fit-content;
+  min-width: 250px;
 }
 
 </style>
