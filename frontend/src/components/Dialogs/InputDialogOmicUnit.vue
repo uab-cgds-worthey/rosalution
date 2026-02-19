@@ -1,7 +1,9 @@
 <template>
   <div>
-    <div class="dialog-header">
-      Please enter unit of interest for this case. {{ props.analysisName }}
+    <div class="dialog-header"
+      @click="logAnalysisName"
+    >
+      Please enter unit of interest for this case. {{ props.analysis }}
     </div>
     <div class="input-row">
       <span class="input-field">
@@ -66,8 +68,11 @@ const props = defineProps({
     type: Object,
     required: false,
   },
-  analysisName: {
+  analysis: {
     type: String,
+    default: () => {
+      return '';
+    },
   },
   omicUnit: {
     type: Object,
@@ -79,6 +84,10 @@ const props = defineProps({
 
 onMounted(async () => {
 });
+
+function logAnalysisName() {
+  console.log(props.analysisName);
+}
 
 </script>
 

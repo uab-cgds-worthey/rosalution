@@ -238,6 +238,19 @@ export const analysisStore = reactive({
   },
 
   // -----------------------------------
+  // Omic Units
+  // -----------------------------------
+
+  async addOmicUnit(omicUnit) {
+    const omicUnitAdded = await Analyses.addOmicUnit(
+        this.analysisName,
+        omicUnit,
+    );
+    console.log('Am I able to receive a response from the request to add to the endpoint?');
+    console.log(omicUnitAdded);
+  },
+
+  // -----------------------------------
   // Analysis Operations
   // -----------------------------------
 
