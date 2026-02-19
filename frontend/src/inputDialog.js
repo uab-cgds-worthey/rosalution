@@ -111,8 +111,11 @@ export default {
       icon: 'dna',
       analysis: analysisName,
     };
+    console.log('checking if inputDialog receives. analysis name');
+    console.log(analysisName.value);
     state.tabs.push(omicUnitInput);
     state.activeTabName = omicUnitInput.name;
+    console.log('checking if receiving the entered input');
     return this;
   },
   edit(attachmentInput) {
