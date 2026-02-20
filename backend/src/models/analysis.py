@@ -7,13 +7,20 @@ from datetime import date
 import json
 import re
 from typing import Annotated, List, Optional
-from pydantic import BaseModel, BeforeValidator, ConfigDict, computed_field, model_validator
+from pydantic import BaseModel, BeforeValidator, ConfigDict, computed_field, Field, model_validator
 
 from .event import Event
 
 from ..enums import EventType, StatusType, GenomicUnitType
 
 PyObjectId = Annotated[str, BeforeValidator(str)]
+
+
+class Project(BaseModel):
+    """Basic tenant within Rosalution"""
+
+    id: Optional[PyObjectId] = Field(alias="_id", default=None)
+    name: str
 
 
 class GenomicUnit(BaseModel):

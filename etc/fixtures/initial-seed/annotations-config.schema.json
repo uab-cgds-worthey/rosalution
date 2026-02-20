@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Rosalution Annotation's Config Schema",
+  "description": "Schema for configuring the annotations a Rosalution project with query by an analysis' genomic units",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "data_set": {
+        "type": "string"
+      },
+      "data_source": {
+        "type": "string"
+      },
+      "genomic_unit_type": {
+        "type": "string",
+        "enum": [
+          "gene",
+          "hgvs_variant"
+        ]
+      },
+      "annotation_source_type": {
+        "type": "string",
+        "enum": [
+          "forge",
+          "http",
+          "subprocess"
+        ]
+      },
+      
+      "attribute": {
+        "type": "string"
+      },
+      "versioning_type": {
+        "type": "string",
+        "enum": [
+          "date",
+          "rest",
+          "rosalution"
+        ]
+      },
+      "dependencies": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 0
+      }
+    },
+    "required": [
+      "genomic_unit_type",
+      "annotation_source_type",
+      "data_set",
+      "data_source",
+      "attribute",
+      "versioning_type"
+    ],
+    "allOf": [
+    {
+      "if": {
+        "properties": {
+          "genomic_unit_type": { "const": "hgvs_variant" }
+        },
+        "required": ["annotation_source_type"]
+      },
+      "then": {
+        "properties": {
+          "transcript": { "type": "boolean" }
+        }
+      },
+      "else": {
+        "not": { "required": ["transcript"] }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "annotation_source_type": { "const": "forge" }
+        },
+        "required": ["annotation_source_type"]
+      },
+      "then": {
+        "properties": {
+          "base_string": {"type": "string"},
+          "base_string_cache": { "type": "boolean" }
+        },
+        "required": ["base_string"]
+      },
+      "else": {
+        "not": { "required": ["base_string_cache"]}
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "annotation_source_type": { "const": "http" }
+        },
+        "required": ["annotation_source_type"]
+      },
+      "then": {
+        "properties": {
+          "url": { "type": "string" }
+        },
+        "required": ["url"]
+      },
+      "else": {
+        "not": { "required": ["url"] }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "annotation_source_type": { "const": "subprocess" }
+        },
+        "required": ["annotation_source_type"]
+      },
+      "then": {
+        "properties": {
+          "subprocess": { "type": "string" },
+          "fieldnames": {
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 1
+          },
+          "delimiter": { "type": "string" }
+        },
+        "required": ["subprocess", "fieldnames", "delimiter"]
+      },
+      "else": {
+        "allOf": [
+            { "not": { "required": ["subprocess"] } },
+            { "not": { "required": ["fieldnames"] } },
+            { "not": { "required": ["delimiter"] } }
+          ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "versioning_type": { "const": "rest" }
+        },
+        "required": ["versioning_type"]
+      },
+      "then": {
+        "properties": {
+          "version_url": { "type": "string" },
+          "version_attribute": { "type": "string" }
+        },
+        "required": ["version_url", "version_attribute"]
+      },
+      "else": {
+        "allOf": [
+            { "not": { "required": ["version_url"] } },
+            { "not": { "required": ["version_attribute"] } }
+          ]
+      }
+    }
+  ]
+  },
+
+  "minItems": 0
+}

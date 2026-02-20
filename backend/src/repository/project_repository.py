@@ -2,6 +2,8 @@
 Collection with retrieves, creates, and modify projects.
 """
 
+from .analysis_collection_summary import AnalysisCollectionSummary
+
 
 class ProjectRepository:
     """Repository to access users and analyses for projects"""
@@ -10,6 +12,33 @@ class ProjectRepository:
         """Initializes with the 'PyMongo' Collection object for projects collection"""
         self.user_collection = user_collection
         self.analysis_collection = analysis_collection
+
+    def all_projects(self, client_id: str):
+        """Returns all projects available to the user by client id"""
+        pipeline = [{"$match": {"client_id": client_id}}, {
+            "$lookup": {
+                "from": "projects", "let": {"projectIds": '$project_ids'},
+                "pipeline": [{"$match": {"$expr": {"$in": ["$_id", "$$projectIds"]}}}], "as": "projects"
+            }
+        }, {"$unwind": "$projects"}, {"$replaceRoot": {"newRoot": "$projects"}}]
+
+        query_result = self.user_collection.aggregate(pipeline)
+
+        return list(query_result)
+
+    def all_analyses(self, client_id: str):
+        """Returns all analyses available to the user by client id"""
+        pipeline = [{"$match": {"client_id": client_id}}, {
+            "$lookup": {
+                "from": "analyses", "let": {"projectIds": '$project_ids'},
+                "pipeline": [{"$match": {"$expr": {"$in": ["$project_id", "$$projectIds"]}}}], "as": "analyses"
+            }
+        }, {"$unwind": "$analyses"}, {"$replaceRoot": {"newRoot": "$analyses"}},
+                    {"$project": AnalysisCollectionSummary.query_projection()}]
+
+        query_result = self.user_collection.aggregate(pipeline)
+
+        return list(query_result)
 
     def all_summaries(self, client_id: str):
         """Returns all of the summaries for all of the analyses within the system"""

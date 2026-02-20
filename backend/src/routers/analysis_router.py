@@ -1,20 +1,16 @@
 """ Analysis endpoint routes that serve up information regarding anaysis cases for rosalution """
-import json
 
-from typing import List, Union
+from typing import List
 
-from fastapi import (APIRouter, BackgroundTasks, Depends, HTTPException, File, Form, Security, status)
+from fastapi import (APIRouter, Depends, HTTPException, Form, Security, status)
 from fastapi.responses import StreamingResponse
 
-from ..core.annotation import AnnotationService
-from ..core.phenotips_importer import PhenotipsImporter
-from ..dependencies import database, annotation_queue
+from ..dependencies import database
 from ..models.analysis import Analysis, AnalysisSummary
-from ..models.event import Event
 from ..enums import ThirdPartyLinkType, EventType
-from ..models.phenotips_json import BasePhenotips
+
 from ..models.user import ProjectUser, VerifyUser
-from ..security.security import get_authorization, get_current_user, get_project_authorization, \
+from ..security.security import get_current_user, get_project_authorization, \
     get_write_project_authorization
 
 from . import analysis_annotation_router
@@ -41,39 +37,6 @@ async def get_all_analyses_summaries(
 ):
     """Returns a summary of every analysis within the application"""
     return repositories["project"].all_summaries(client_id)
-
-
-@router.post("", tags=["analysis"], response_model=Analysis)
-async def create_file(
-    background_tasks: BackgroundTasks,
-    phenotips_file: Union[bytes, None] = File(default=None),
-    repositories=Depends(database),
-    annotation_task_queue=Depends(annotation_queue),
-    client_id: VerifyUser = Security(get_current_user),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
-):
-    """ Imports a .json file for a phenotips case """
-
-    # Quick and dirty json loads
-    phenotips_input = BasePhenotips(**json.loads(phenotips_file))
-
-    phenotips_importer = PhenotipsImporter(repositories["analysis"], repositories["genomic_unit"])
-    try:
-        new_analysis = phenotips_importer.import_phenotips_json(phenotips_input.model_dump())
-        new_analysis['timeline'].append(Event.timestamp_create_event(client_id).model_dump())
-        repositories['analysis'].create_analysis(new_analysis)
-
-    except ValueError as exception:
-        raise HTTPException(status_code=409) from exception
-
-    analysis = Analysis(**new_analysis)
-    annotation_service = AnnotationService(repositories["annotation_config"])
-    annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
-    background_tasks.add_task(
-        AnnotationService.process_tasks, annotation_task_queue, repositories['genomic_unit'], repositories["analysis"]
-    )
-
-    return new_analysis
 
 
 @router.get("/{analysis_name}", tags=["analysis"], response_model=Analysis, response_model_exclude_none=True)
@@ -111,7 +74,10 @@ def get_genomic_units(analysis_name: str, repositories=Depends(database)):
     response_model=AnalysisSummary,
     dependencies=[Security(get_project_authorization)]
 )
-def get_analysis_summary_by_name(analysis_name: str, repositories=Depends(database)):
+def get_analysis_summary_by_name(
+    analysis_name: str,
+    repositories=Depends(database),
+):
     """Returns a summary of every analysis within the application"""
 
     return repositories["analysis"].summary_by_name(analysis_name)

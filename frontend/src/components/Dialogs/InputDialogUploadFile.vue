@@ -1,4 +1,12 @@
 <template>
+  <div v-if="'projectSelect' in userInput" class="project-select-row">
+    <label for="project-select" class="project-select-label">Project</label>
+    <select id="project-select" class="project-select-content" v-model="selectedProject">
+      <option v-for="option in userInput['projectSelect'].options" :key="option.value" :value="option.value">
+        {{ option.text }}
+      </option>
+    </select>
+  </div>
   <div class="drop-file-box" @dragover="dragover"  @drop="drop">
     <div v-if="!fileUploaded" class="drop-file-box-content">
         Drag & drop or
@@ -58,6 +66,16 @@ export default {
         this.$emit('update:userInput', input);
       },
     },
+    selectedProject: {
+      get() {
+        return this.userInput['projectSelect'].selected;
+      },
+      set(value) {
+        const input = this.userInput;
+        input['projectSelect']['selected'] = value;
+        this.$emit('update:userInput', input);
+      },
+    },
   },
   methods: {
     onChanged() {
@@ -90,6 +108,23 @@ export default {
 </script>
 
 <style scoped>
+
+.project-select-row {
+  display: flex;
+  flex-direction: row;
+  gap: var(--p-10);
+  padding: var(--p-1);
+  align-items: center;
+}
+
+.project-select-label {
+  flex: 0 0 8.125rem;
+  font-weight: 600;
+}
+
+.project-select-content {
+  flex: 1 0 0;
+}
 
 input[type=file]::file-selector-button {
   border: none;
