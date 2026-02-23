@@ -168,17 +168,6 @@ input[type=checkbox]:checked {
   background-color: var(--rosalution-purple-200);
 }
 
-/* select {
-  font-family: "Proxima Nova", sans-serif;
-  font-size: 1.125rem; 18px */
-  /* border-radius: var(--input-border-radius);
-  padding: var(--p-10);
-  border: 2px solid var(--rosalution-grey-100);
-  background-color: var(--secondary-background-color);
-  outline: none;
-  appearance: none;
-} */
-
 
 /** || Primary Grid Site Layout **/
 
