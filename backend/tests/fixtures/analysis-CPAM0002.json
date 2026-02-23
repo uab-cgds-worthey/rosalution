@@ -385,5 +385,27 @@
       "attachment_id": "633afb87fb250a6ea1569555",
       "comments": "hello world"
     }
+  ],
+  "timeline": [
+    {
+      "event": "create",
+      "timestamp": "2022-10-09T21:13:22.687000",
+      "username": "vrr-prep"
+    },
+    {
+      "event": "ready",
+      "timestamp": "2022-10-09T21:14:22.687000",
+      "username": "vrr-prep"
+    },
+    {
+      "event": "opened",
+      "timestamp": "2022-10-09T21:15:22.687000",
+      "username": "vrr-prep"
+    },
+    {
+      "event": "decline",
+      "timestamp": "2022-10-09T21:16:22.687000",
+      "username": "vrr-prep"
+    }
   ]
 }

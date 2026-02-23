@@ -24,6 +24,8 @@ services:
       - ROSALUTION_ENV=production
       - MONGODB_HOST=rosalution-db
       - CAS_LOGIN_ENABLE=True
+      - PROFILER_ENABLED=True
+      - PROFILER_ENABLED=True
     command: ['./entrypoint-init.sh']
     deploy:
       labels:

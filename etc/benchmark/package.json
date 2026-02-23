@@ -1,0 +1,14 @@
+{
+  "name": "rosalution-k6-benchmark",
+  "version": "0.0.1",
+  "description": "Simple Rosalution REST API benchmarking",
+  "license": "MIT",
+  "scripts": {
+    "benchmark:local:api": "docker run -v .:/scripts -w /scripts -e BASE_URL=http://backend:8000 --network=rosalution-network --rm grafana/k6:1.5.0 run --secret-source=file=/scripts/secrets.file",
+    "benchmark:dev:api": "docker run -u $(id -u):$(id -g) -v .:/scripts -w /scripts -e BASE_URL=http://backend:8000 --network=rosalution-network-dev --rm grafana/k6:1.5.0 run --secret-source=file=/scripts/secrets.file",
+    "bundle:benchmark": "./bundleBenchmark.sh -b './summary.json' -p",
+    "deploy:clean": "docker compose down && docker compose system prune -a --volumes -f && docker compose up --build -d && ../../etc/database/restore-database-lts.sh rosalution-rosalution-db-1",
+    "restore:db": "../../etc/database/restore-database-lts.sh rosalution-rosalution-db-1",
+    "restart:clean:backend": "docker compose down backend && docker system prune -a --volumes -f && docker compose up --build -d backend"
+  }
+}

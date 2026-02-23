@@ -1,6 +1,7 @@
 """
 End points for backend
 """
+
 import json
 import logging
 import logging.config
@@ -12,6 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
 from .config import get_settings
+from .profiler_middleware import register_profiler_middleware
 from .routers import analysis_router, annotation_router, auth_router
 
 urllib3.disable_warnings()
@@ -59,7 +61,7 @@ tags_metadata = [
 settings = get_settings()
 origins = [settings.origin_domain_url, settings.cas_server_url]
 
-log_file_path = path.join(path.dirname(path.abspath(__file__)), '../logging.conf')
+log_file_path = path.join(path.dirname(path.abspath(__file__)), "../logging.conf")
 logging.config.fileConfig(log_file_path, disable_existing_loggers=False)
 
 # create logger
@@ -73,6 +75,7 @@ app.include_router(auth_router.router)
 
 if __debug__:
     from .routers import dev_router
+
     app.include_router(dev_router.router)
 
 app.add_middleware(
@@ -83,6 +86,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+register_profiler_middleware(app, settings.profiler_enabled, settings.profiler_renderer)
+
 
 @app.get("/render-layout/annotations", tags=["config"])
 def get_annotations_render_layout():
@@ -92,7 +97,7 @@ def get_annotations_render_layout():
     """
     render_layout = []
     with open(
-        Path(__file__).resolve().parent / '../annotation-render-layout.json', mode="r", encoding="utf-8"
+        Path(__file__).resolve().parent / "../annotation-render-layout.json", mode="r", encoding="utf-8"
     ) as layout_file:
         render_layout = json.load(layout_file)
     return render_layout

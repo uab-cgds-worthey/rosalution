@@ -27,6 +27,8 @@ class Settings(BaseSettings):
     cas_api_service_url: str = "http://dev.cgds.uab.edu/rosalution/api/auth/login?nexturl=%2F"
     cas_server_url: str = "https://padlockdev.idm.uab.edu/cas/"
     cas_login_enable: bool = False
+    profiler_enabled: bool = False
+    profiler_renderer: str = "html"
 
     @model_validator(mode="before")
     @classmethod

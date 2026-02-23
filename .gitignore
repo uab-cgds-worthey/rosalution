@@ -80,3 +80,10 @@ etc/.rosalution-db-backups
 **/screen_capture_annotate_env/**
 
 *.csv
+
+secrets.file
+profile.html
+**benchmark-run**/
+**benchmark-run**.tar.gz
+*speedscope.json
+k6-summary*
