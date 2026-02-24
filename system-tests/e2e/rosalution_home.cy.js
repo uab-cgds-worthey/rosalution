@@ -14,7 +14,7 @@ describe('Rosalution home', () => {
     cy.wait('@analysisLoad');
 
     cy.get('.grey-rounded-menu').invoke('attr', 'style', 'display: block; visibility: visible; opacity: 1;');
-    cy.get('[data-test="user-menu"] > .grey-rounded-menu > :nth-child(7)')
+    cy.get('[data-test="user-menu"] > .grey-rounded-menu > :nth-child(8)')
         .contains('Attach Monday.com')
         .click({force: true});
     cy.get('.grey-rounded-menu').invoke('attr', 'style', 'display: block; visibility: hidden; opacity: 0;');

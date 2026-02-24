@@ -105,6 +105,19 @@ export default {
     state.activeTabName = existingAttachmentsSelected.name;
     return this;
   },
+  omicUnit(analysisName) {
+    const omicUnitInput = {
+      name: 'input-dialog-omic-unit',
+      icon: 'dna',
+      analysis: analysisName,
+    };
+    console.log('checking if inputDialog receives. analysis name');
+    console.log(analysisName.value);
+    state.tabs.push(omicUnitInput);
+    state.activeTabName = omicUnitInput.name;
+    console.log('checking if receiving the entered input');
+    return this;
+  },
   edit(attachmentInput) {
     const attachUrlInput = {
       name: attachmentInput.type == 'link' ? 'input-dialog-attach-url' : 'input-dialog-upload-file',

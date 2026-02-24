@@ -6,7 +6,6 @@
         :sectionAnchors="sectionsHeaders"
         :username="username"
         :workflow_status="latestStatus"
-        @logout="onLogout"
         :third_party_links="thirdPartyLinks"
         data-test="analysis-view-header"
       >
@@ -160,8 +159,13 @@ watch([hasWritePermissions, latestStatus], () => {
   builder.addDivider();
 
   builder.addMenuAction('Attach', 'paperclip', addAnalysisAttachment);
+  builder.addMenuAction('Add Unit', 'dna', addOmicUnit);
   builder.addMenuAction('Attach Monday.com', null, addMondayLink);
   builder.addMenuAction('Connect PhenoTips', null, addPhenotipsLink);
+
+  builder.addMenuAction('Account', null, null);
+  builder.addDivider();
+  builder.addMenuAction('Logout', 'arrow-right-from-bracket', onLogout);
 },
 {immediate: true},
 );
@@ -487,6 +491,27 @@ function downloadSectionAttachment(attachmentToDownload) {
  */
 function onLogout() {
   router.push({name: 'logout'});
+}
+
+/**
+ * Links an 'omic unit to the Analysis
+ */
+async function addOmicUnit() {
+  console.log('Adding an omic unit to this Analysis');
+
+  // on Click pops up an input dialog
+  // call InputDialogAddOmicUnit
+  const omicUnit = await inputDialog
+      .confirmText('Add')
+      .cancelText('Cancel')
+      .omicUnit(analysisName)
+      .prompt();
+
+  if (!omicUnit) {
+    return;
+  }
+  console.log('This is the added Omic Unit');
+  console.log(omicUnit);
 }
 
 /**
