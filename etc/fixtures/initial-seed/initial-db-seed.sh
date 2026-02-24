@@ -34,7 +34,7 @@ echo "Seeding Rosalution database..."
 database="rosalution_db"
 
 echo "Importing Projects..."
-mongoimport  --db "$database" --collection users --file "$fixture_filepath/projects.json" --jsonArray
+mongoimport  --db "$database" --collection projects --file "$fixture_filepath/projects.json" --jsonArray
 
 echo "Importing Analyses..."
 mongoimport  --db "$database" --collection analyses --file "$fixture_filepath/analyses.json" --jsonArray

@@ -175,3 +175,24 @@ def get_write_project_authorization(
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User authorization failed for operation")
 
     return True
+
+
+def get_create_project_authorization(
+    write_authorized: Annotated[bool, Security(get_authorization, scopes=["write"])],
+    project_id: Annotated[str, Path()],
+    client_id=Depends(get_current_user),
+    repositories=Depends(database)
+):
+    """
+    Verify current user by client_id is a member of the project associated with then given analysis_name in the path.
+    """
+    user_json = repositories["user"].find_by_client_id(client_id)
+    user = ProjectUser(**user_json)
+
+    if not user.is_authorized(project_id):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not apart of project")
+
+    if not write_authorized:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User authorization failed for operation")
+
+    return True

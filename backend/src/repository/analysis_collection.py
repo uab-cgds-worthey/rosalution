@@ -4,6 +4,7 @@ Collection with retrieves, creates, and modify analyses.
 from typing import List
 from uuid import uuid4
 
+from bson import ObjectId
 from pymongo import ReturnDocument
 
 from ..core.annotation_unit import AnnotationUnit
@@ -149,8 +150,11 @@ class AnalysisCollection:
 
         return analysis['manifest']
 
-    def create_analysis(self, analysis_data: dict):
+    def create_analysis(self, project_id: str, analysis_data: dict):
         """Creates a new analysis if the name does not already exist"""
+
+        analysis_data['project_id'] = ObjectId(project_id)
+
         if self.collection.find_one({"name": analysis_data["name"]}) is not None:
             raise ValueError(f"Analysis with name {analysis_data['name']} already exists")
 

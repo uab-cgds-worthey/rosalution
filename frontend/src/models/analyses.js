@@ -5,6 +5,13 @@ export default {
 
   EventType,
 
+  async getProjects() {
+    const baseUrl = '/rosalution/api/';
+    const urlQuery = 'project';
+    const projectsList = await Requests.get(baseUrl + urlQuery);
+    return projectsList;
+  },
+
   async all() {
     const baseUrl = '/rosalution/api/';
     const urlQuery = 'analysis/summary';
@@ -43,11 +50,12 @@ export default {
   /**
    * Requests to upload the JSON required for creating a new analysis in Rosalution
    * with a unique analysis name.
+   * @param {str} projectId The ObjectID String identifier for the project to import the analysis into
    * @param {File} file The JSON for creating the new Analysis
    * @return {Object} Returns the new complete analysis created within Rosalution
    */
-  async importNewAnalysis(file) {
-    const url = '/rosalution/api/analysis';
+  async importNewAnalysis(projectId, file) {
+    const url = `/rosalution/api/project/${projectId}/analysis`;
 
     const fileUploadFormData = {
       'phenotips_file': file,

@@ -56,13 +56,16 @@ export default {
     state.message = text;
     return this;
   },
-  file(includeComments=false, includeIcon='file', fileTypesAccept='.json') {
+  file(includeComments=false, includeIcon='file', fileTypesAccept='.json', includeProjectSelect={}) {
+    const hasProjectSelect = Object.keys(includeProjectSelect).length != 0;
+
     const fileInput = {
       name: 'input-dialog-upload-file',
       icon: includeIcon,
       input: {
         data: '',
         ...(includeComments) && {comments: ''},
+        ...(hasProjectSelect) && {projectSelect: includeProjectSelect},
         type: 'file',
       },
       props: {

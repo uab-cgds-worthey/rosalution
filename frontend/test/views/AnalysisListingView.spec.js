@@ -20,6 +20,7 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 describe('AnalysisListingView', () => {
   let mockedData;
+  let mockProjectsList;
   let mockedImport;
   let mockAuthWritePermissions;
   let wrapper;
@@ -29,6 +30,22 @@ describe('AnalysisListingView', () => {
     sandbox = sinon.createSandbox();
     mockedData = sandbox.stub(Analyses, 'all');
     mockedData.returns(fixtureData());
+
+    mockProjectsList = sandbox.stub(Analyses, 'getProjects');
+    mockProjectsList.returns([
+      {
+        '_id': '695d5b157709ebcd1c7325c0',
+        'name': 'Ciliopathies',
+      },
+      {
+        '_id': '695d5b157709ebcd1c7325c1',
+        'name': 'CPAM',
+      },
+      {
+        '_id': '695d5b157709ebcd1c7325c4',
+        'name': 'LW',
+      },
+    ]);
 
     mockedImport = sandbox.stub(Analyses, 'importNewAnalysis');
     mockAuthWritePermissions = sandbox.stub(authStore, 'hasWritePermissions');
@@ -77,8 +94,12 @@ describe('AnalysisListingView', () => {
         data: {
           name: 'fake-analysis-import.json',
         },
+        projectSelect: {
+          selected: '695d5b157709ebcd1c7325c0',
+        },
       };
       inputDialog.confirmation(attachmentData);
+      await wrapper.vm.$nextTick();
       await wrapper.vm.$nextTick();
 
       expect(mockedImport.called).to.be.true;
@@ -91,6 +112,9 @@ describe('AnalysisListingView', () => {
       const attachmentData = {
         data: {
           name: 'fake-analysis-import.json',
+        },
+        projectSelect: {
+          selected: '695d5b157709ebcd1c7325c0',
         },
       };
       inputDialog.confirmation(attachmentData);
@@ -108,6 +132,9 @@ describe('AnalysisListingView', () => {
       const attachmentData = {
         data: {
           name: 'fake-analysis-import.json',
+        },
+        projectSelect: {
+          selected: '695d5b157709ebcd1c7325c0',
         },
       };
 
