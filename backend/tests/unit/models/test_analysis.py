@@ -3,6 +3,7 @@ from datetime import date
 import pytest
 
 from src.enums import StatusType, GenomicUnitType
+from src.models.analysis import normalize_hgvs_protein_notation
 
 
 def test_get_latest_status(cpam0002_analysis):
@@ -31,10 +32,23 @@ def test_get_genes_in_units_to_annotate(units_to_annotate):
 def test_get_variants_in_units_to_annotate(units_to_annotate):
     """Tests the list of variants returned"""
     variants = list(filter(lambda x: GenomicUnitType.HGVS_VARIANT == x["type"], units_to_annotate))
-    variant_names = list(map(lambda x: x["unit"], variants))
-    assert len(variant_names) == 1
-    assert "NM_001017980.3:c.164G>T" in variant_names
+    assert len(variants) == 1
 
+    variant = next((variant for variant in variants if variant['unit'] == "NM_001017980.3:c.164G>T"), None)
+    found_variant = variant is not None
+    assert found_variant is True
+    
+    assert variant["protein"] == "p.(Gly55Val)"
+
+def test_get_variants_without_protein_in_units_to_annotate(units_to_annotate_with_variant_no_protein):
+    """Tests the list of variants returned"""
+    variants = list(filter(lambda x: GenomicUnitType.HGVS_VARIANT == x["type"], units_to_annotate_with_variant_no_protein))
+    assert len(variants) == 1
+
+    variant = next((variant for variant in variants if variant['unit'] == "NM_001017980.3:c.164G>T"), None)
+    found_variant = variant is not None
+    assert found_variant is True
+    assert "protein" not in variant
 
 def test_get_transcripts_in_units_to_annotate(units_to_annotate):
     """Tests the list of transcripts returned"""
@@ -122,6 +136,32 @@ def test_attachment_doesnt_exist_in_analysis(cpam0002_analysis):
 
     assert actual_file_attached is False
 
+@pytest.mark.parametrize(
+    "hgvs_protein, expected",[
+        ('p.His1139Arg', 'p.(His1139Arg)'),
+        ('(Val1825GlyfsX27)', 'p.(Val1825GlyfsX27)'),
+        ('p.Gly55Val', 'p.(Gly55Val)'),
+        ('Val1825GlyfsX27', 'p.(Val1825GlyfsX27)'),
+        ('p.(Val1825GlyfsX27)', 'p.(Val1825GlyfsX27)'),
+        ('(p.Gly55Val)', 'p.(Gly55Val)'),
+        ('', None)
+    ]
+)
+def test_normalizing_hgvs_p_dot_notations(hgvs_protein, expected):
+    actual = normalize_hgvs_protein_notation(hgvs_protein)
+
+    assert actual == expected
+
+@pytest.fixture(name="units_to_annotate_with_variant_no_protein")
+def fixture_units_to_annotate_variant_without_protein(cpam0002_analysis):
+    """Fixture for the units to annotate for the CPAM0002 Analysis"""
+
+    for units in cpam0002_analysis.genomic_units:
+        for variant in units.variants:
+            if variant['hgvs_variant'] == "NM_001017980.3:c.164G>T":
+                del variant['p_dot']
+
+    return cpam0002_analysis.units_to_annotate()
 
 @pytest.fixture(name="units_to_annotate")
 def fixture_units_to_annotate(cpam0002_analysis):
