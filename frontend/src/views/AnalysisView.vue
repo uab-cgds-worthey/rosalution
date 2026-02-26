@@ -504,6 +504,7 @@ async function addOmicUnit() {
   const omicUnit = await inputDialog
       .confirmText('Add')
       .cancelText('Cancel')
+      .message('Please enter unit of interest for ' + analysisName.value)
       .omicUnit(analysisName)
       .prompt();
 
@@ -512,6 +513,12 @@ async function addOmicUnit() {
   }
   console.log('This is the added Omic Unit');
   console.log(omicUnit);
+
+  try {
+    await analysisStore.addOmicUnit(omicUnit);
+  } catch (error) {
+    await notificationDialog.title('Failure').confirmText('Ok').alert(error);
+  }
 }
 
 /**

@@ -113,12 +113,21 @@ export default {
       name: 'input-dialog-omic-unit',
       icon: 'dna',
       analysis: analysisName,
+      input: {
+        data: {
+          refSeqTranscript: '',
+          geneSymbol: '',
+          cdna: '',
+          protein: '',
+          ROI: '',
+        },
+        type: 'omicUnit',
+      },
     };
-    console.log('checking if inputDialog receives. analysis name');
-    console.log(analysisName.value);
     state.tabs.push(omicUnitInput);
     state.activeTabName = omicUnitInput.name;
     console.log('checking if receiving the entered input');
+    console.log(omicUnitInput.input);
     return this;
   },
   edit(attachmentInput) {

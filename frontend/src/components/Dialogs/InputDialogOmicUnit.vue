@@ -1,10 +1,5 @@
 <template>
   <div>
-    <div class="dialog-header"
-      @click="logAnalysisName"
-    >
-      Please enter unit of interest for this case. {{ props.analysis }}
-    </div>
     <div class="input-row">
       <span class="input-field">
         RefSeq Transcript
@@ -12,6 +7,7 @@
       <input
         class="input-area"
         placeholder="Enter Transcript"
+        v-model="refSeqTranscript"
       />
     </div>
     <div class="input-row">
@@ -21,6 +17,7 @@
       <input
         class="input-area"
         placeholder="Enter Gene Symbol"
+        v-model="geneSymbol"
       />
     </div>
     <div class="input-row">
@@ -30,6 +27,7 @@
       <input
         class="input-area"
         placeholder="Enter cDNA"
+        v-model="cdna"
       />
     </div>
     <div class="input-row">
@@ -39,6 +37,7 @@
       <input
         class="input-area"
         placeholder="Enter Protein"
+        v-model="protein"
       />
     </div>
     <div class="input-row">
@@ -48,6 +47,7 @@
       <textarea
         class="input-area"
         placeholder="Enter Reason of Interest."
+        v-model="ROI"
       >
       </textarea>
     </div>
@@ -55,9 +55,7 @@
 </template>
 
 <script setup>
-import {onMounted, ref, toRaw} from 'vue';
-
-const omicUnit = ref({});
+import {ref, toRaw, computed} from 'vue';
 
 defineOptions({
   name: 'input-dialog-omic-unit',
@@ -66,37 +64,80 @@ defineOptions({
 const props = defineProps({
   userInput: {
     type: Object,
-    required: false,
-  },
-  analysis: {
-    type: String,
-    default: () => {
-      return '';
-    },
-  },
-  omicUnit: {
-    type: Object,
-    default: () => {
-      return {};
-    },
+    required: true,
   },
 });
 
-onMounted(async () => {
+const emit = defineEmits(['update:userInput']);
+
+const omicUnit = ref({
+  refSeqTranscript: '',
+  geneSymbol: '',
+  cdna: '',
+  protein: '',
+  ROI: '',
 });
 
-function logAnalysisName() {
-  console.log(props.analysisName);
+const refSeqTranscript = computed({
+  get() {
+    return omicUnit.value['refSeqTranscript'];
+  },
+  set(value) {
+    omicUnit.value['refSeqTranscript'] = value;
+    omicUnitUpdated();
+  },
+});
+
+const geneSymbol = computed({
+  get() {
+    return omicUnit.value['geneSymbol'];
+  },
+  set(value) {
+    omicUnit.value['geneSymbol'] = value;
+    omicUnitUpdated();
+  },
+});
+
+const cdna = computed({
+  get() {
+    return omicUnit.value['cdna'];
+  },
+  set(value) {
+    omicUnit.value['cdna'] = value;
+    omicUnitUpdated();
+  },
+});
+
+const protein = computed({
+  get() {
+    return omicUnit.value['protein'];
+  },
+  set(value) {
+    omicUnit.value['protein'] = value;
+    omicUnitUpdated();
+  },
+});
+
+const ROI = computed({
+  get() {
+    return omicUnit.value['ROI'];
+  },
+  set(value) {
+    omicUnit.value['ROI'] = value;
+    omicUnitUpdated();
+  },
+});
+
+function omicUnitUpdated() {
+  const input = props.userInput;
+  input['data'] = omicUnit.value;
+  emit('update:userInput', toRaw(input));
 }
+
 
 </script>
 
 <style scoped>
-
-.dialog-header {
-  padding: var(--p-8);
-  text-align: center;
-}
 
 .input-row {
   display: flex;
