@@ -41,15 +41,19 @@
                   variant: getCompleteHgvsVariantName(variant),
                 },
               }"
-:data-test="`variant-route-${index}`">
+              :data-test="`variant-route-${index}`"
+            >
               <font-awesome-icon icon="angles-right" size="sm" />
               <span class="variant-transcript">{{ variant.hgvs_variant.split(':')[0] }}:</span>
               <span>{{ variant.c_dot }}</span>
               <span v-if="variant.p_dot">({{ variant.p_dot }})</span>
             </router-link>
-            <font-awesome-icon :icon="['far', 'copy']" class="copy-icon"
-@click="copyToClipboard(variant.hgvs_variant)"
-              data-test="copy-button" />
+            <CopyToClipboard
+              class="copy-icon"
+              :copyText="variant.hgvs_variant"
+              @clipboard-copy="$emit('clipboard-copy', text)"
+              data-test="copy-button"
+            />
             <span class="genomic-build"> {{ getBuild(variant.build) }} </span>
           </div>
           <div class="seperator-variant"></div>
@@ -70,10 +74,13 @@
 </template>
 
 <script>
+import CopyToClipboard from '@/components/CopyToClipboard.vue';
 
 export default {
   name: 'gene-box',
+  emits: ['clipboard-copy'],
   components: {
+    CopyToClipboard,
   },
   props: {
     name: {
@@ -96,16 +103,6 @@ export default {
       } else if (build == 'hg38') {
         return 'grch38';
       }
-    },
-    async copyToClipboard(textToCopy) {
-      /* Needed to add a try/catch to can an error that occurs in Cypress, which causes the test to fail. */
-      try {
-        await navigator.clipboard.writeText(textToCopy);
-      } catch (error) {
-        console.error(error.message);
-      }
-
-      this.$emit('clipboard-copy', textToCopy);
     },
     getCompleteHgvsVariantName(variant) {
       if (variant.p_dot) {
@@ -157,14 +154,6 @@ export default {
 
 .copy-icon {
   padding-bottom: var(--p-1)
-}
-
-.copy-icon:hover {
-  cursor: pointer;
-}
-
-.copy-icon:active {
-  color: var(--rosalution-purple-200)
 }
 
 .genomic-build {

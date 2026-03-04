@@ -12,6 +12,7 @@
       @logout="onLogout"
     >
     </AnnotationViewHeader>
+    <ToastDialog data-test="toast" ref="rosalution-toast"></ToastDialog>
   </app-header>
   <app-content v-if="renderReady">
     <div class="sections">
@@ -45,6 +46,7 @@
                 :data-test="datasetConfig.dataset"
                 :writePermissions="hasWritePermissions"
                 @update-annotation-image="updateAnnotationImage"
+                @clipboard-copy="onClipboardCopy"
               />
           </div>
         </template>
@@ -82,13 +84,14 @@ import TranscriptDatasets from '@/components/AnnotationView/TranscriptDatasets.v
 import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import TagDataset from '@/components/AnnotationView/TagDataset.vue';
+import ToastDialog from '@/components/Dialogs/ToastDialog.vue';
 
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
 
 import {authStore} from '@/stores/authStore.js';
 import {useRouter} from 'vue-router';
-import {computed, onBeforeMount, reactive, watch} from 'vue';
+import {computed, onBeforeMount, onMounted, reactive, useTemplateRef, watch} from 'vue';
 
 const datasetComponents = {
   'text-dataset': TextDataset,
@@ -119,6 +122,9 @@ const props = defineProps({
 });
 
 const router = useRouter();
+
+const toastRef = useTemplateRef('rosalution-toast');
+let toast = {};
 
 const renderingLayout = reactive([]);
 
@@ -285,6 +291,10 @@ async function attachAnnotationImage(dataSet, genomicUnitType) {
   }
 };
 
+function onClipboardCopy(copiedText) {
+  toast.success(`Copied ${copiedText} to clipboard!`);
+}
+
 async function updateAnnotationImage(fileId, dataSet, genomicUnitType) {
   const includeComments = false;
   const attachment = await inputDialog
@@ -349,6 +359,10 @@ async function removeAnnotationImage(genomicUnit, dataSet, fileId, annotation) {
 
 onBeforeMount(() => {
   document.title = pageTitle.value;
+});
+
+onMounted(async () => {
+  toast = toastRef.value;
 });
 
 </script>
