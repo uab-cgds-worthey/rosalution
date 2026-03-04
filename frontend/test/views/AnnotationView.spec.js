@@ -48,6 +48,7 @@ function getMountedComponent(props) {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
         'font-awesome-layers': FontAwesomeLayers,
+        'router-link': RouterLink,
       },
       mocks: {
         $route: mockRoute,
