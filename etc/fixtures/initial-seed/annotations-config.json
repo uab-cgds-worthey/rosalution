@@ -1018,7 +1018,7 @@
     "version_attribute": ".[] | select (.key == \"protein_locations_count\") | .release"
   },
   {
-   "data_set": "variant_in_pocket_prediction_confidence_level_score_confidence",
+    "data_set": "variant_in_pocket_prediction_confidence_level_score_confidence",
     "data_source": "ProtVar",
     "genomic_unit_type": "hgvs_variant",
     "annotation_source_type": "forge",
@@ -1096,7 +1096,7 @@
     "annotation_source_type": "forge",
     "base_string_cache": true,
     "base_string": "{PROTVAR_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE}",
-    "attribute": ".ProtVar_Protein_Subcellular_Location_Topologies | .comments[] | select (.type == \"SUBCELLULAR_LOCATION\").locations | sort_by(.topology.value) | group_by(.topology.value) | map({topology: .[0].topology.value, locations: (map(.location.value) | unique | sort )}) | map(\"* \\(.topology)<br \/>\" + (.locations | map(\" - \\(.)\") | join(\"<br \/>\"))) | join(\"<br \/>\") |{ \"ProtVar_Protein_Subcellular_Location_Topologies\": . }",
+    "attribute": ".ProtVar_Protein_Subcellular_Location_Topologies | .comments[] | select (.type == \"SUBCELLULAR_LOCATION\").locations | sort_by(.topology.value) | group_by(.topology.value) | map({topology: .[0].topology.value, locations: (map(.location.value) | unique | sort )}) | map(\"* \\(.topology)<br />\" + (.locations | map(\" - \\(.)\") | join(\"<br />\"))) | join(\"<br />\") |{ \"ProtVar_Protein_Subcellular_Location_Topologies\": . }",
     "dependencies": [
       "PROTVAR_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE"
     ],

@@ -144,9 +144,7 @@
       },
       {
         "class": "",
-        "datasets": [
-
-        ]
+        "datasets": []
       },
       {
         "class": "grid-row-horizontal",
@@ -220,7 +218,8 @@
               },
               "cutoff": 1
             }
-          },          {
+          },
+          {
             "dataset": "spliceai_donor_loss",
             "type": "score-dataset",
             "props": {
@@ -247,7 +246,8 @@
               },
               "cutoff": 1
             }
-          },          {
+          },
+          {
             "dataset": "spliceai_donor_gain",
             "type": "score-dataset",
             "props": {
@@ -363,7 +363,7 @@
             "type": "set-dataset",
             "props": {
               "label": "Stability change ΔΔG",
-              "set":[
+              "set": [
                 {
                   "value": "unlikely destabilising",
                   "classification": "unlikely destabilising",
@@ -401,7 +401,7 @@
             "type": "set-dataset",
             "props": {
               "label": "Combined Score",
-              "set":[
+              "set": [
                 {
                   "value": "low confidence",
                   "classification": "low confidence",
@@ -425,7 +425,7 @@
             "type": "set-dataset",
             "props": {
               "label": "Pocket pLDD mean",
-              "set":[
+              "set": [
                 {
                   "value": "low confidence",
                   "classification": "low confidence",

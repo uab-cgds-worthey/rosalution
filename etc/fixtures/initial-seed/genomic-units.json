@@ -513,6 +513,1972 @@
             "value": "https://gnomad.broadinstitute.org/variant/X-151404916-G-T?dataset=gnomad_r4"
           }
         ]
+      },
+      {
+        "hgvs_variant_without_transcript_version": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "NM_001017980:c.164G>T"
+          }
+        ]
+      },
+      {
+        "SpliceAI_variant_linkout": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://spliceailookup.broadinstitute.org/#variant=NM_001017980:c.164G>T&hg=38&bc=basic&distance=500&mask=0&ra=0"
+          }
+        ]
+      },
+      {
+        "protvar_protein_linkout": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.ebi.ac.uk/ProtVar/query?search=NM_001017980.3:c.164G>T%20p.(Gly55Val)&assembly=AUTO&annotation=functional-row-1"
+          }
+        ]
+      },
+      {
+        "transcript_without_version": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "NM_001017980"
+          }
+        ]
+      },
+      {
+        "Ensembl_Transcript_Id": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": "ENST00000330374"
+          }
+        ]
+      },
+      {
+        "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": [
+              {
+                "start": 151404916,
+                "assembly_name": "GRCh38",
+                "allele_string": "G/T",
+                "seq_region_name": "X",
+                "id": "NM_001017980:c.164G>T",
+                "end": 151404916,
+                "colocated_variants": [
+                  {
+                    "seq_region_name": "X",
+                    "var_synonyms": {
+                      "ClinVar": [
+                        "RCV003741639",
+                        "VCV002805126",
+                        "RCV000705011",
+                        "VCV000581244"
+                      ]
+                    },
+                    "id": "rs1306425454",
+                    "clin_sig": [
+                      "uncertain_significance"
+                    ],
+                    "allele_string": "G/A/T",
+                    "clin_sig_allele": "T:uncertain_significance;A:uncertain_significance",
+                    "strand": 1,
+                    "phenotype_or_disease": 1,
+                    "end": 151404916,
+                    "start": 151404916
+                  }
+                ],
+                "transcript_consequences": [
+                  {
+                    "spliceai": {
+                      "DP_AL": 0,
+                      "DP_DL": 22,
+                      "DS_AL": 0.68,
+                      "DS_DG": 0,
+                      "DS_AG": 0,
+                      "DP_DG": 0,
+                      "SYMBOL": "VMA21",
+                      "DP_AG": 28,
+                      "DS_DL": 0
+                    },
+                    "gene_symbol": "VMA21",
+                    "transcript_id": "NM_001017980.4",
+                    "variant_allele": "T",
+                    "alphamissense": {
+                      "am_pathogenicity": 0.5303,
+                      "am_class": "ambiguous"
+                    },
+                    "strand": 1,
+                    "used_ref": "G",
+                    "sift_score": 0,
+                    "given_ref": "G",
+                    "gene_symbol_source": "EntrezGene",
+                    "biotype": "protein_coding",
+                    "cadd_raw": 3.96743,
+                    "cds_end": 164,
+                    "amino_acids": "G/V",
+                    "codons": "gGc/gTc",
+                    "cds_start": 164,
+                    "polyphen_score": 0.607,
+                    "cadd_phred": 24,
+                    "impact": "MODERATE",
+                    "cdna_end": 267,
+                    "cdna_start": 267,
+                    "protein_end": 55,
+                    "gene_id": "203547",
+                    "polyphen_prediction": "possibly_damaging",
+                    "protein_start": 55,
+                    "sift_prediction": "deleterious",
+                    "consequence_terms": [
+                      "missense_variant",
+                      "splice_region_variant"
+                    ]
+                  },
+                  {
+                    "protein_start": 110,
+                    "polyphen_prediction": "probably_damaging",
+                    "sift_prediction": "deleterious",
+                    "consequence_terms": [
+                      "missense_variant",
+                      "splice_region_variant"
+                    ],
+                    "cds_start": 329,
+                    "impact": "MODERATE",
+                    "polyphen_score": 0.998,
+                    "cadd_phred": 24,
+                    "protein_end": 110,
+                    "cdna_start": 574,
+                    "cdna_end": 574,
+                    "gene_id": "203547",
+                    "given_ref": "G",
+                    "sift_score": 0.01,
+                    "codons": "gGc/gTc",
+                    "amino_acids": "G/V",
+                    "cds_end": 329,
+                    "gene_symbol_source": "EntrezGene",
+                    "biotype": "protein_coding",
+                    "cadd_raw": 3.96743,
+                    "gene_symbol": "VMA21",
+                    "spliceai": {
+                      "DP_DG": 0,
+                      "DS_AG": 0,
+                      "SYMBOL": "VMA21",
+                      "DP_AG": 28,
+                      "DS_DL": 0,
+                      "DP_AL": 0,
+                      "DP_DL": 22,
+                      "DS_AL": 0.68,
+                      "DS_DG": 0
+                    },
+                    "variant_allele": "T",
+                    "transcript_id": "NM_001363810.1",
+                    "strand": 1,
+                    "used_ref": "G"
+                  }
+                ],
+                "vcf_string": "X-151404916-G-T",
+                "strand": 1,
+                "most_severe_consequence": "missense_variant",
+                "input": "NM_001017980:c.164G>T"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "ENSEMBL_VARIANT_TRANSCRIPT_IDS_CALL_CACHE": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": [
+              {
+                "id": "ENSG00000160131",
+                "type": "gene"
+              },
+              {
+                "id": "ENST00000330374",
+                "type": "transcript"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "UNIPROT_PROTEIN_IDS_SEARCH_CACHE": [
+          {
+            "data_source": "Uniprot",
+            "version": "2026-03-04",
+            "value": {
+              "results": [
+                {
+                  "entryType": "UniProtKB reviewed (Swiss-Prot)",
+                  "primaryAccession": "Q3ZAQ7",
+                  "entryAudit": {
+                    "firstPublicDate": "2008-04-29",
+                    "lastAnnotationUpdateDate": "2026-01-28",
+                    "entryVersion": 144
+                  },
+                  "uniProtKBCrossReferences": [
+                    {
+                      "database": "Ensembl",
+                      "id": "ENST00000330374.7",
+                      "properties": [
+                        {
+                          "key": "ProteinId",
+                          "value": "ENSP00000333255.6"
+                        },
+                        {
+                          "key": "GeneId",
+                          "value": "ENSG00000160131.15"
+                        }
+                      ],
+                      "isoformId": "Q3ZAQ7-1"
+                    },
+                    {
+                      "database": "Ensembl",
+                      "id": "ENST00000370361.5",
+                      "properties": [
+                        {
+                          "key": "ProteinId",
+                          "value": "ENSP00000359386.1"
+                        },
+                        {
+                          "key": "GeneId",
+                          "value": "ENSG00000160131.15"
+                        }
+                      ],
+                      "isoformId": "Q3ZAQ7-2"
+                    }
+                  ],
+                  "extraAttributes": {
+                    "uniParcId": "UPI00000467E2"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "PROTVAR_HGVS_VARIANT_MAPPINGS_CACHE": [
+          {
+            "data_source": "ProtVar",
+            "version": "2025_01",
+            "value": {
+              "inputs": [
+                {
+                  "inputStr": "NM_001017980.3:c.164G>T p.(Gly55Val)",
+                  "type": "CODING",
+                  "format": "HGVS_CODING",
+                  "messages": [
+                    {
+                      "type": "INFO",
+                      "text": "ProtVar is using a different version of the RefSeq accession NM_001017980.4."
+                    }
+                  ],
+                  "derivedGenomicInputs": [
+                    {
+                      "inputStr": "NM_001017980.3:c.164G>T p.(Gly55Val)",
+                      "type": "GENOMIC",
+                      "format": "CUSTOM_GEN",
+                      "messages": [],
+                      "chr": "X",
+                      "pos": 151404916,
+                      "ref": "G",
+                      "alt": "T",
+                      "id": null,
+                      "converted": null,
+                      "mappings": [
+                        {
+                          "genes": [
+                            {
+                              "ensg": "ENSG00000160131.14",
+                              "reverseStrand": false,
+                              "geneName": "VMA21",
+                              "refAllele": "G",
+                              "altAllele": "T",
+                              "isoforms": [
+                                {
+                                  "accession": "Q3ZAQ7",
+                                  "canonical": true,
+                                  "canonicalAccession": "Q3ZAQ7",
+                                  "isoformPosition": 55,
+                                  "refCodon": "gGc",
+                                  "cdsPosition": 2,
+                                  "refAA": "Gly",
+                                  "variantAA": "Val",
+                                  "variantCodon": "gUc",
+                                  "consequences": "missense",
+                                  "proteinName": "Vacuolar ATPase assembly integral membrane protein VMA21",
+                                  "translatedSequences": [
+                                    {
+                                      "ensp": "ENSP00000333255.6",
+                                      "transcripts": [
+                                        {
+                                          "enst": "ENST00000330374.7",
+                                          "ense": "ENSE00001809985"
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "populationObservationsUri": "/population/Q3ZAQ7/55?genomicLocation=151404916",
+                                  "referenceFunctionUri": "/function/Q3ZAQ7/55?variantAA=V",
+                                  "proteinStructureUri": "/structure/Q3ZAQ7/55",
+                                  "conservScore": {
+                                    "name": "CONSERV",
+                                    "score": 0.671
+                                  },
+                                  "amScore": {
+                                    "name": "AM",
+                                    "amPathogenicity": 0.5303,
+                                    "amClass": "AMBIGUOUS"
+                                  },
+                                  "eveScore": {
+                                    "name": "EVE",
+                                    "score": 0.373,
+                                    "eveClass": "UNCERTAIN"
+                                  },
+                                  "esmScore": {
+                                    "name": "ESM",
+                                    "score": -6.52
+                                  },
+                                  "codonChange": "gGc/gUc",
+                                  "aminoAcidChange": "Gly/Val"
+                                },
+                                {
+                                  "accession": "Q3ZAQ7-1",
+                                  "canonical": false,
+                                  "canonicalAccession": "Q3ZAQ7",
+                                  "isoformPosition": 55,
+                                  "refCodon": "gGc",
+                                  "cdsPosition": 2,
+                                  "refAA": "Gly",
+                                  "variantAA": "Val",
+                                  "variantCodon": "gUc",
+                                  "consequences": "missense",
+                                  "proteinName": "Isoform 1 of Vacuolar ATPase assembly integral membrane protein VMA21",
+                                  "translatedSequences": [
+                                    {
+                                      "ensp": "ENSP00000333255.6",
+                                      "transcripts": [
+                                        {
+                                          "enst": "ENST00000330374.7",
+                                          "ense": "ENSE00001809985"
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "codonChange": "gGc/gUc",
+                                  "aminoAcidChange": "Gly/Val"
+                                },
+                                {
+                                  "accession": "Q3ZAQ7-2",
+                                  "canonical": false,
+                                  "canonicalAccession": "Q3ZAQ7",
+                                  "isoformPosition": 110,
+                                  "refCodon": "gGc",
+                                  "cdsPosition": 2,
+                                  "refAA": "Gly",
+                                  "variantAA": "Val",
+                                  "variantCodon": "gUc",
+                                  "consequences": "missense",
+                                  "proteinName": "Isoform 2 of Vacuolar ATPase assembly integral membrane protein VMA21",
+                                  "translatedSequences": [
+                                    {
+                                      "ensp": "ENSP00000359386.1",
+                                      "transcripts": [
+                                        {
+                                          "enst": "ENST00000370361.5",
+                                          "ense": "ENSE00003615267"
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "codonChange": "gGc/gUc",
+                                  "aminoAcidChange": "Gly/Val"
+                                }
+                              ],
+                              "caddScore": 24,
+                              "alleleFreq": null
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "rsAcc": "NM_001017980.3",
+                  "pos": 164,
+                  "ref": "G",
+                  "alt": "T",
+                  "gene": null,
+                  "protRef": "Gly",
+                  "protAlt": "Val",
+                  "protPos": 55,
+                  "derivedUniprotAcc": "Q3ZAQ7",
+                  "derivedProtPos": 55,
+                  "derivedCodonPos": 2
+                }
+              ],
+              "messages": []
+            }
+          }
+        ]
+      },
+      {
+        "Ensembl Gene Id": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": "ENSG00000160131"
+          }
+        ]
+      },
+      {
+        "revel": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": null
+          }
+        ]
+      },
+      {
+        "opencravat_search_variant_vcf_string": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": "chrom=chrX&pos=151404916&ref_base=G&alt_base=T"
+          }
+        ]
+      },
+      {
+        "chrom": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "X"
+          }
+        ]
+      },
+      {
+        "pos": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "151404916"
+          }
+        ]
+      },
+      {
+        "ensembl_protein_id": [
+          {
+            "data_source": "Uniprot",
+            "version": "2026-03-04",
+            "value": "ENSP00000333255.6"
+          }
+        ]
+      },
+      {
+        "ensembl_protein_id_without_version": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "ENSP00000333255"
+          }
+        ]
+      },
+      {
+        "uniprot_isoform_id": [
+          {
+            "data_source": "Uniprot",
+            "version": "2026-03-04",
+            "value": "Q3ZAQ7-1"
+          }
+        ]
+      },
+      {
+        "protvar_protein_hgvs_variant_mapping_messages": [
+          {
+            "data_source": "ProtVar",
+            "version": "2025_01",
+            "value": "ProtVar is using a different version of the RefSeq accession NM_001017980.4."
+          }
+        ]
+      },
+      {
+        "protvar_variant_in_pockets_annotations_exist": [
+          {
+            "data_source": "ProtVar",
+            "version": "2025_01",
+            "value": true
+          }
+        ]
+      },
+      {
+        "paxdb_protein_abundance_linkout": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://pax-db.org/protein/9606/ENSP00000333255"
+          }
+        ]
+      },
+      {
+        "stringdb_interactions_linkout": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://string-db.org/network/9606.ENSP00000333255"
+          }
+        ]
+      },
+      {
+        "uniprot_id": [
+          {
+            "data_source": "Uniprot",
+            "version": "2026-03-04",
+            "value": "Q3ZAQ7"
+          }
+        ]
+      },
+      {
+        "DITTO": [
+          {
+            "data_source": "cgds",
+            "version": "rosalution-manifest-00",
+            "value": "1.0"
+          }
+        ]
+      },
+      {
+        "spliceai_acceptor_loss": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": 0.68
+          }
+        ]
+      },
+      {
+        "spliceai_donor_loss": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "spliceai_acceptor_gain": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "spliceai_donor_gain": [
+          {
+            "data_source": "Ensembl",
+            "version": 115,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "UNIPROT_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE": [
+          {
+            "data_source": "Uniprot",
+            "version": "2026-03-04",
+            "value": {
+              "entryType": "UniProtKB reviewed (Swiss-Prot)",
+              "primaryAccession": "Q3ZAQ7",
+              "proteinDescription": {
+                "recommendedName": {
+                  "fullName": {
+                    "evidences": [
+                      {
+                        "evidenceCode": "ECO:0000255",
+                        "source": "HAMAP-Rule",
+                        "id": "MF_03058"
+                      }
+                    ],
+                    "value": "Vacuolar ATPase assembly integral membrane protein VMA21"
+                  }
+                },
+                "alternativeNames": [
+                  {
+                    "fullName": {
+                      "value": "Myopathy with excessive autophagy protein"
+                    }
+                  }
+                ]
+              },
+              "comments": [
+                {
+                  "texts": [
+                    {
+                      "evidences": [
+                        {
+                          "evidenceCode": "ECO:0000269",
+                          "source": "PubMed",
+                          "id": "29127204"
+                        }
+                      ],
+                      "value": "Associates with the V0 complex of the vacuolar ATPase (V-ATPase) (PubMed:29127204). Interacts with ATP6AP2 (PubMed:29127204)"
+                    }
+                  ],
+                  "commentType": "SUBUNIT"
+                },
+                {
+                  "commentType": "INTERACTION",
+                  "interactions": [
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "O95870",
+                        "geneName": "ABHD16A",
+                        "intActId": "EBI-348517"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q08AM2",
+                        "geneName": "ADAM33",
+                        "intActId": "EBI-10225815"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q13520",
+                        "geneName": "AQP6",
+                        "intActId": "EBI-13059134"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q15041",
+                        "geneName": "ARL6IP1",
+                        "intActId": "EBI-714543"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q9HD20-3",
+                        "geneName": "ATP13A1",
+                        "intActId": "EBI-12069500"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q99437",
+                        "geneName": "ATP6V0B",
+                        "intActId": "EBI-3904417"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q12981",
+                        "geneName": "BNIP1",
+                        "intActId": "EBI-4402847"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "O14735",
+                        "geneName": "CDIPT",
+                        "intActId": "EBI-358858"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q2HXU8-2",
+                        "geneName": "CLEC12B",
+                        "intActId": "EBI-12811991"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q9Y4D2",
+                        "geneName": "DAGLA",
+                        "intActId": "EBI-12808806"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "P30519",
+                        "geneName": "HMOX2",
+                        "intActId": "EBI-712096"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q9Y5U4",
+                        "geneName": "INSIG2",
+                        "intActId": "EBI-8503746"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q8TAF8",
+                        "geneName": "LHFPL5",
+                        "intActId": "EBI-2820517"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q9NZG7",
+                        "geneName": "NINJ2",
+                        "intActId": "EBI-10317425"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q6P499",
+                        "geneName": "NIPAL3",
+                        "intActId": "EBI-10252783"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q9P0S3",
+                        "geneName": "ORMDL1",
+                        "intActId": "EBI-1054848"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q9Y342",
+                        "geneName": "PLLP",
+                        "intActId": "EBI-3919291"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q5QGT7",
+                        "geneName": "RTP2",
+                        "intActId": "EBI-10244780"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "O00767",
+                        "geneName": "SCD",
+                        "intActId": "EBI-2684237"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q96AG3",
+                        "geneName": "SLC25A46",
+                        "intActId": "EBI-10281975"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q6ICL7",
+                        "geneName": "SLC35E4",
+                        "intActId": "EBI-12867720"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q9NZ01",
+                        "geneName": "TECR",
+                        "intActId": "EBI-2877718"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q9UPZ6",
+                        "geneName": "THSD7A",
+                        "intActId": "EBI-310962"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q6UX40",
+                        "geneName": "TMEM107",
+                        "intActId": "EBI-12845616"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q9H2L4",
+                        "geneName": "TMEM60",
+                        "intActId": "EBI-2852148"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "P63027",
+                        "geneName": "VAMP2",
+                        "intActId": "EBI-520113"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "O95070",
+                        "geneName": "YIF1A",
+                        "intActId": "EBI-2799703"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    },
+                    {
+                      "interactantOne": {
+                        "uniProtKBAccession": "Q3ZAQ7",
+                        "intActId": "EBI-1055364"
+                      },
+                      "interactantTwo": {
+                        "uniProtKBAccession": "Q9Y548",
+                        "geneName": "YIPF1",
+                        "intActId": "EBI-7850136"
+                      },
+                      "numberOfExperiments": 3,
+                      "organismDiffer": false
+                    }
+                  ]
+                },
+                {
+                  "commentType": "SUBCELLULAR LOCATION",
+                  "subcellularLocations": [
+                    {
+                      "location": {
+                        "evidences": [
+                          {
+                            "evidenceCode": "ECO:0000255",
+                            "source": "HAMAP-Rule",
+                            "id": "MF_03058"
+                          },
+                          {
+                            "evidenceCode": "ECO:0000269",
+                            "source": "PubMed",
+                            "id": "23315026"
+                          }
+                        ],
+                        "value": "Endoplasmic reticulum membrane",
+                        "id": "SL-0097"
+                      },
+                      "topology": {
+                        "evidences": [
+                          {
+                            "evidenceCode": "ECO:0000255",
+                            "source": "HAMAP-Rule",
+                            "id": "MF_03058"
+                          }
+                        ],
+                        "value": "Multi-pass membrane protein",
+                        "id": "SL-9909"
+                      }
+                    },
+                    {
+                      "location": {
+                        "evidences": [
+                          {
+                            "evidenceCode": "ECO:0000255",
+                            "source": "HAMAP-Rule",
+                            "id": "MF_03058"
+                          },
+                          {
+                            "evidenceCode": "ECO:0000269",
+                            "source": "PubMed",
+                            "id": "23315026"
+                          }
+                        ],
+                        "value": "Endoplasmic reticulum-Golgi intermediate compartment membrane",
+                        "id": "SL-0099"
+                      },
+                      "topology": {
+                        "evidences": [
+                          {
+                            "evidenceCode": "ECO:0000255",
+                            "source": "HAMAP-Rule",
+                            "id": "MF_03058"
+                          }
+                        ],
+                        "value": "Multi-pass membrane protein",
+                        "id": "SL-9909"
+                      }
+                    },
+                    {
+                      "location": {
+                        "evidences": [
+                          {
+                            "evidenceCode": "ECO:0000255",
+                            "source": "HAMAP-Rule",
+                            "id": "MF_03058"
+                          },
+                          {
+                            "evidenceCode": "ECO:0000269",
+                            "source": "PubMed",
+                            "id": "19379691"
+                          },
+                          {
+                            "evidenceCode": "ECO:0000269",
+                            "source": "PubMed",
+                            "id": "23315026"
+                          }
+                        ],
+                        "value": "Cytoplasmic vesicle, COPII-coated vesicle membrane",
+                        "id": "SL-0078"
+                      },
+                      "topology": {
+                        "evidences": [
+                          {
+                            "evidenceCode": "ECO:0000255",
+                            "source": "HAMAP-Rule",
+                            "id": "MF_03058"
+                          }
+                        ],
+                        "value": "Multi-pass membrane protein",
+                        "id": "SL-9909"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "uniProtKBCrossReferences": [
+                {
+                  "database": "IntAct",
+                  "id": "Q3ZAQ7",
+                  "properties": [
+                    {
+                      "key": "Interactions",
+                      "value": "84"
+                    }
+                  ]
+                },
+                {
+                  "database": "STRING",
+                  "id": "9606.ENSP00000359386",
+                  "properties": [
+                    {
+                      "key": "Description",
+                      "value": "-"
+                    }
+                  ]
+                },
+                {
+                  "database": "PaxDb",
+                  "id": "9606-ENSP00000333255",
+                  "properties": [
+                    {
+                      "key": "Description",
+                      "value": "-"
+                    }
+                  ]
+                },
+                {
+                  "database": "InterPro",
+                  "id": "IPR019013",
+                  "properties": [
+                    {
+                      "key": "EntryName",
+                      "value": "Vma21"
+                    }
+                  ]
+                }
+              ],
+              "extraAttributes": {
+                "uniParcId": "UPI00000467E2"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "protvar_protein_api_reference_function_uri": [
+          {
+            "data_source": "ProtVar",
+            "version": "2025_01",
+            "value": "/function/Q3ZAQ7/55?variantAA=V"
+          }
+        ]
+      },
+      {
+        "uniprot_protein_linkout": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.uniprot.org/uniprotkb/Q3ZAQ7/entry"
+          }
+        ]
+      },
+      {
+        "interpro_domain_protein_linkout": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.ebi.ac.uk/interpro/protein/UniProt/Q3ZAQ7/?isoform=Q3ZAQ7-1"
+          }
+        ]
+      },
+      {
+        "alphafold_protein_linkout": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://alphafold.ebi.ac.uk/entry/Q3ZAQ7"
+          }
+        ]
+      },
+      {
+        "Protein_EBI_Interaction_Id": [
+          {
+            "data_source": "ProtVar",
+            "version": "2026-03-04",
+            "value": "EBI-1055364"
+          }
+        ]
+      },
+      {
+        "Protein_EBI_Interaction_Network": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.ebi.ac.uk/intact/search?query=EBI-1055364"
+          }
+        ]
+      },
+      {
+        "UniProt_Protein_Subcellular_Location_Topologies": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": [
+              "* Multi-pass membrane protein:  Cytoplasmic vesicle, COPII-coated vesicle membrane,  Endoplasmic reticulum membrane,  Endoplasmic reticulum-Golgi intermediate compartment membrane"
+            ]
+          }
+        ]
+      },
+      {
+        "IntAct_Protein_Gene_Interactions": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "ABHD16A, ADAM33, AQP6, ARL6IP1, ATP13A1, ATP6V0B, BNIP1, CDIPT, CLEC12B, DAGLA, HMOX2, INSIG2, LHFPL5, NINJ2, NIPAL3, ORMDL1, PLLP, RTP2, SCD, SLC25A46, SLC35E4, TECR, THSD7A, TMEM107, TMEM60, VAMP2, YIF1A, YIPF1"
+          }
+        ]
+      },
+      {
+        "IntAct_Protein_Gene_Interactions_linkout": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.ebi.ac.uk/intact/search?query=EBI-1055364"
+          }
+        ]
+      },
+      {
+        "PROTVAR_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE": [
+          {
+            "data_source": "ProtVar",
+            "version": "2025_01",
+            "value": {
+              "position": 55,
+              "accession": "Q3ZAQ7",
+              "name": "Vacuolar ATPase assembly integral membrane protein VMA21",
+              "alternativeNames": "Myopathy with excessive autophagy protein",
+              "geneNames": [
+                {
+                  "geneName": "VMA21",
+                  "synonyms": "MEAX,XMEA"
+                }
+              ],
+              "id": "VMA21_HUMAN",
+              "proteinExistence": "Evidence at protein level",
+              "type": "Swiss-Prot",
+              "features": [
+                {
+                  "begin": 1,
+                  "end": 101,
+                  "description": "Vacuolar ATPase assembly integral membrane protein VMA21",
+                  "type": "CHAIN",
+                  "category": "MOLECULE_PROCESSING",
+                  "typeDescription": "Chain",
+                  "evidences": null
+                },
+                {
+                  "begin": 47,
+                  "end": 65,
+                  "description": "Lumenal",
+                  "type": "TOPO_DOM",
+                  "category": "TOPOLOGY",
+                  "typeDescription": "Transmembrane Protein Topological Region",
+                  "evidences": [
+                    {
+                      "code": "ECO:0000255",
+                      "source": {
+                        "name": "HAMAP-Rule",
+                        "id": "MF_03058",
+                        "url": "https://hamap.expasy.org/unirule/MF_03058",
+                        "alternativeUrl": null
+                      },
+                      "label": null
+                    }
+                  ]
+                }
+              ],
+              "comments": [
+                {
+                  "type": "FUNCTION",
+                  "text": [
+                    {
+                      "value": "Required for the assembly of the V0 complex of the vacuolar ATPase (V-ATPase) in the endoplasmic reticulum",
+                      "evidences": [
+                        {
+                          "code": "ECO:0000255",
+                          "source": {
+                            "name": "HAMAP-Rule",
+                            "id": "MF_03058",
+                            "url": "https://hamap.expasy.org/unirule/MF_03058"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "SUBUNIT",
+                  "text": [
+                    {
+                      "value": "Associates with the V0 complex of the vacuolar ATPase (V-ATPase) (PubMed:29127204). Interacts with ATP6AP2 (PubMed:29127204)",
+                      "evidences": [
+                        {
+                          "code": "ECO:0000269",
+                          "source": {
+                            "name": "PubMed",
+                            "id": "29127204",
+                            "url": "http://www.ncbi.nlm.nih.gov/pubmed/29127204",
+                            "alternativeUrl": "https://europepmc.org/abstract/MED/29127204"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "INTERACTION",
+                  "interactions": [
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "O95870",
+                      "gene": "ABHD16A",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-348517",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q08AM2",
+                      "gene": "ADAM33",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-10225815",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q13520",
+                      "gene": "AQP6",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-13059134",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q15041",
+                      "gene": "ARL6IP1",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-714543",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q9HD20-3",
+                      "gene": "ATP13A1",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-12069500",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q99437",
+                      "gene": "ATP6V0B",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-3904417",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q12981",
+                      "gene": "BNIP1",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-4402847",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "O14735",
+                      "gene": "CDIPT",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-358858",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q2HXU8-2",
+                      "gene": "CLEC12B",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-12811991",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q9Y4D2",
+                      "gene": "DAGLA",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-12808806",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "P30519",
+                      "gene": "HMOX2",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-712096",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q9Y5U4",
+                      "gene": "INSIG2",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-8503746",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q8TAF8",
+                      "gene": "LHFPL5",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-2820517",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q9NZG7",
+                      "gene": "NINJ2",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-10317425",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q6P499",
+                      "gene": "NIPAL3",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-10252783",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q9P0S3",
+                      "gene": "ORMDL1",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-1054848",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q9Y342",
+                      "gene": "PLLP",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-3919291",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q5QGT7",
+                      "gene": "RTP2",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-10244780",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "O00767",
+                      "gene": "SCD",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-2684237",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q96AG3",
+                      "gene": "SLC25A46",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-10281975",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q6ICL7",
+                      "gene": "SLC35E4",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-12867720",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q9NZ01",
+                      "gene": "TECR",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-2877718",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q9UPZ6",
+                      "gene": "THSD7A",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-310962",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q6UX40",
+                      "gene": "TMEM107",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-12845616",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q9H2L4",
+                      "gene": "TMEM60",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-2852148",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "P63027",
+                      "gene": "VAMP2",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-520113",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "O95070",
+                      "gene": "YIF1A",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-2799703",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    },
+                    {
+                      "accession1": "Q3ZAQ7",
+                      "accession2": "Q9Y548",
+                      "gene": "YIPF1",
+                      "interactor1": "EBI-1055364",
+                      "interactor2": "EBI-7850136",
+                      "organismDiffer": false,
+                      "experiments": 3
+                    }
+                  ]
+                },
+                {
+                  "type": "SUBCELLULAR_LOCATION",
+                  "locations": [
+                    {
+                      "location": {
+                        "value": "Endoplasmic reticulum membrane"
+                      },
+                      "topology": {
+                        "value": "Multi-pass membrane protein"
+                      }
+                    },
+                    {
+                      "location": {
+                        "value": "Endoplasmic reticulum-Golgi intermediate compartment membrane"
+                      },
+                      "topology": {
+                        "value": "Multi-pass membrane protein"
+                      }
+                    },
+                    {
+                      "location": {
+                        "value": "Cytoplasmic vesicle, COPII-coated vesicle membrane"
+                      },
+                      "topology": {
+                        "value": "Multi-pass membrane protein"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "ALTERNATIVE_PRODUCTS"
+                },
+                {
+                  "type": "DISEASE",
+                  "text": [
+                    {
+                      "value": "The disease is caused by variants affecting the gene represented in this entry. VMA21 deficiency results in an increase of lysosomal pH from 4.7 to 5.2, which reduces lysosomal degradative ability and blocks autophagy. This reduces cellular free amino acids, which up-regulates the mTOR pathway and mTOR-dependent macroautophagy, resulting in proliferation of large and ineffective autolysosomes that engulf sections of cytoplasm, merge together, and vacuolate the cell",
+                      "evidences": [
+                        {
+                          "code": "ECO:0000269",
+                          "source": {
+                            "name": "PubMed",
+                            "id": "23315026",
+                            "url": "http://www.ncbi.nlm.nih.gov/pubmed/23315026",
+                            "alternativeUrl": "https://europepmc.org/abstract/MED/23315026"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "description": {
+                    "value": "A muscle disorder characterized by childhood early onset of a slowly progressive proximal limb muscle weakness (especially in legs) and elevation of serum creatine kinase, without evidence of cardiac, respiratory or central nervous system involvement. Histopathological analysis reveals diseased muscle fibers that are not necrotic, but show abnormal autophagic vacuolation as a manifestation of excessive autophagic activity in skeletal muscle cells.",
+                    "evidences": [
+                      {
+                        "code": "ECO:0000269",
+                        "source": {
+                          "name": "PubMed",
+                          "id": "23315026",
+                          "url": "http://www.ncbi.nlm.nih.gov/pubmed/23315026",
+                          "alternativeUrl": "https://europepmc.org/abstract/MED/23315026"
+                        },
+                        "label": null
+                      },
+                      {
+                        "code": "ECO:0000269",
+                        "source": {
+                          "name": "PubMed",
+                          "id": "24488655",
+                          "url": "http://www.ncbi.nlm.nih.gov/pubmed/24488655",
+                          "alternativeUrl": "https://europepmc.org/abstract/MED/24488655"
+                        },
+                        "label": null
+                      },
+                      {
+                        "code": "ECO:0000269",
+                        "source": {
+                          "name": "PubMed",
+                          "id": "25683699",
+                          "url": "http://www.ncbi.nlm.nih.gov/pubmed/25683699",
+                          "alternativeUrl": "https://europepmc.org/abstract/MED/25683699"
+                        },
+                        "label": null
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "SIMILARITY",
+                  "text": [
+                    {
+                      "value": "Belongs to the VMA21 family",
+                      "evidences": [
+                        {
+                          "code": "ECO:0000255",
+                          "source": {
+                            "name": "HAMAP-Rule",
+                            "id": "MF_03058",
+                            "url": "https://hamap.expasy.org/unirule/MF_03058"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "CAUTION",
+                  "text": [
+                    {
+                      "value": "Protein characterization data are from PubMed:19379691. Due to a number of errors in the figure panels, the article has been retracted but the authors stand by the validity of the main results and conclusions (PubMed:20873370)",
+                      "evidences": [
+                        {
+                          "code": "ECO:0000305",
+                          "source": {
+                            "name": "PubMed",
+                            "id": "19379691",
+                            "url": "http://www.ncbi.nlm.nih.gov/pubmed/19379691",
+                            "alternativeUrl": "https://europepmc.org/abstract/MED/19379691"
+                          }
+                        },
+                        {
+                          "code": "ECO:0000305",
+                          "source": {
+                            "name": "PubMed",
+                            "id": "20873370",
+                            "url": "http://www.ncbi.nlm.nih.gov/pubmed/20873370",
+                            "alternativeUrl": "https://europepmc.org/abstract/MED/20873370"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "sequence": {
+                "length": 101,
+                "sequence": "MERPDKAALNALQPPEFRNESSLASTLKTLLFFTALMITVPIGLYFTTKSYIFEGALGMSNRDSYFYAAIVAVVAVHVVLALFVYVAWNEGSRQWREGKQD",
+                "modified": "2005-09-27"
+              },
+              "lastUpdated": "2025-02-05",
+              "dbReferences": [
+                {
+                  "id": "IPR019013",
+                  "type": "InterPro",
+                  "properties": {
+                    "entry name": "Vma21"
+                  }
+                },
+                {
+                  "id": "PF09446",
+                  "type": "Pfam",
+                  "properties": {
+                    "match status": "1",
+                    "entry name": "VMA21"
+                  }
+                }
+              ],
+              "pockets": [
+                {
+                  "structId": "Q3ZAQ7",
+                  "pocketId": 5,
+                  "radGyration": 3.784842,
+                  "energyPerVol": 0.344582,
+                  "buriedness": 0.783708,
+                  "resid": [
+                    43,
+                    44,
+                    45,
+                    46,
+                    47,
+                    48,
+                    50,
+                    51,
+                    52,
+                    55,
+                    56,
+                    67,
+                    71
+                  ],
+                  "meanPlddt": 63.92846153846154,
+                  "score": 150.48325656906968
+                }
+              ],
+              "foldxs": [
+                {
+                  "proteinAcc": "Q3ZAQ7",
+                  "position": 55,
+                  "afId": "F1",
+                  "afPos": 55,
+                  "wildType": "G",
+                  "mutatedType": "V",
+                  "foldxDdg": 1.49902,
+                  "plddt": 48.12,
+                  "numFragments": 1,
+                  "groupBy": "Q3ZAQ7-55-V"
+                }
+              ],
+              "interactions": [
+                {
+                  "a": "Q3ZAQ7",
+                  "aresidues": [
+                    47,
+                    48,
+                    49,
+                    50,
+                    51,
+                    52,
+                    53,
+                    54,
+                    55,
+                    56,
+                    57,
+                    58,
+                    59,
+                    60,
+                    61,
+                    62,
+                    63,
+                    65,
+                    66,
+                    69,
+                    72,
+                    73,
+                    283,
+                    286,
+                    287,
+                    288,
+                    289,
+                    290,
+                    291,
+                    292,
+                    293,
+                    294,
+                    295,
+                    296,
+                    297,
+                    298,
+                    299,
+                    300,
+                    301,
+                    302,
+                    303,
+                    304,
+                    319,
+                    322,
+                    323,
+                    326,
+                    327,
+                    330,
+                    331,
+                    333,
+                    334,
+                    337,
+                    338,
+                    340
+                  ],
+                  "b": "Q6ICL7",
+                  "bresidues": [
+                    14,
+                    15,
+                    16,
+                    17,
+                    18,
+                    19,
+                    20,
+                    22,
+                    23,
+                    24,
+                    26,
+                    27,
+                    28,
+                    30,
+                    31,
+                    32,
+                    33,
+                    34,
+                    35,
+                    36,
+                    37,
+                    38,
+                    39,
+                    40,
+                    41,
+                    42,
+                    43,
+                    44,
+                    45,
+                    46,
+                    62,
+                    63,
+                    64,
+                    65,
+                    66,
+                    67,
+                    68,
+                    69,
+                    70,
+                    71,
+                    72,
+                    73,
+                    74,
+                    75,
+                    76,
+                    77,
+                    78,
+                    79,
+                    80,
+                    81,
+                    82,
+                    83,
+                    84,
+                    85,
+                    86,
+                    87,
+                    88,
+                    89,
+                    92,
+                    94
+                  ],
+                  "pdockq": 0.323715,
+                  "pdbModel": "/interaction/Q3ZAQ7/Q6ICL7/model"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "foldx_5_0_stability_change": [
+          {
+            "data_source": "ProtVar foldX",
+            "version": "2025_01",
+            "value": 1.49902
+          }
+        ]
+      },
+      {
+        "foldx_5_0_stability_change_state": [
+          {
+            "data_source": "ProtVar foldX",
+            "version": "2025_01",
+            "value": "unlikely destabilising"
+          }
+        ]
+      },
+      {
+        "variant_in_pocket_prediction_pocket": [
+          {
+            "data_source": "ProtVar",
+            "version": "2025_01",
+            "value": 5
+          }
+        ]
+      },
+      {
+        "variant_in_pocket_prediction_confidence_level_score": [
+          {
+            "data_source": "ProtVar",
+            "version": "2025_01",
+            "value": 150.48325656906968
+          }
+        ]
+      },
+      {
+        "variant_in_pocket_prediction_confidence_level_score_confidence": [
+          {
+            "data_source": "ProtVar",
+            "version": "2025_01",
+            "value": "low confidence"
+          }
+        ]
+      },
+      {
+        "variant_in_pocket_prediction_mean_per_residue_model_form_pocket": [
+          {
+            "data_source": "ProtVar",
+            "version": "2025_01",
+            "value": 63.92846153846154
+          }
+        ]
+      },
+      {
+        "variant_in_pocket_prediction_mean_per_residue_model_form_pocket_confidence": [
+          {
+            "data_source": "ProtVar",
+            "version": "2025_01",
+            "value": "low confidence"
+          }
+        ]
+      },
+      {
+        "ProtVar_Protein_Subcellular_Location_Topologies": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "* Multi-pass membrane protein<br /> - Cytoplasmic vesicle, COPII-coated vesicle membrane<br /> - Endoplasmic reticulum membrane<br /> - Endoplasmic reticulum-Golgi intermediate compartment membrane"
+          }
+        ]
       }
     ]
   },
@@ -26921,7 +28887,7 @@
                         "gnomade_eas": 0,
                         "gnomade_sas": 0.00001256,
                         "gnomade_afr": 0,
-                        "gnomade": 7.195e-7,
+                        "gnomade": 7.195E-7,
                         "gnomade_amr": 0,
                         "gnomade_fin": 0
                       }
