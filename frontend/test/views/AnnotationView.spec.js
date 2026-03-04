@@ -1,4 +1,4 @@
-import {expect, describe, it, beforeAll, afterAll, beforeEach} from 'vitest';
+import {expect, describe, it, beforeAll, afterAll, beforeEach, vi} from 'vitest';
 import {config, mount} from '@vue/test-utils';
 import sinon from 'sinon';
 
@@ -20,6 +20,16 @@ import notificationDialog from '@/notificationDialog.js';
 import {FontAwesomeIcon, FontAwesomeLayers} from '@fortawesome/vue-fontawesome';
 import {RouterLink} from 'vue-router';
 
+vi.mock(import('vue-router'), async (importOriginal) => {
+  const mod = await importOriginal();
+  return {
+    ...mod,
+    useRouter: vi.fn(() => ({
+      push: () => { },
+    })),
+  };
+});
+
 /**
  * Helper mounts and returns the rendered component
  * @param {props} props props for testing to overwrite default props
@@ -38,7 +48,6 @@ function getMountedComponent(props) {
       components: {
         'font-awesome-icon': FontAwesomeIcon,
         'font-awesome-layers': FontAwesomeLayers,
-        'router-link': RouterLink,
       },
       mocks: {
         $route: mockRoute,

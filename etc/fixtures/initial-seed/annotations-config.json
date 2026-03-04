@@ -845,6 +845,22 @@
     "version_attribute": ".[] | select (.key == \"protein_locations_count\") | .release"
   },
   {
+    "data_set": "protvar_variant_in_pockets_annotations_exist",
+    "data_source": "ProtVar",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{PROTVAR_HGVS_VARIANT_MAPPINGS_CACHE}",
+    "attribute": ".protvar_variant_in_pockets_annotations_exist | .inputs[] | select ( .inputStr == \"{hgvs_variant} {protein}\").derivedGenomicInputs | (if length == 0 then false else true end) | { protvar_variant_in_pockets_annotations_exist: . }",
+    "dependencies": [
+      "PROTVAR_HGVS_VARIANT_MAPPINGS_CACHE",
+      "protein"
+    ],
+    "versioning_type": "rest",
+    "version_url": "https://www.ebi.ac.uk/ProtVar/api/stats/latest",
+    "version_attribute": ".[] | select (.key == \"protein_locations_count\") | .release"
+  },
+  {
     "data_set": "protvar_protein_api_reference_function_uri",
     "data_source": "ProtVar",
     "genomic_unit_type": "hgvs_variant",
@@ -912,6 +928,18 @@
     "versioning_type": "rosalution"
   },
   {
+    "data_set": "stringdb_interactions_linkout",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "forge",
+    "base_string": "https://string-db.org/network/9606.{ensembl_protein_id_without_version}",
+    "attribute": "{ \"stringdb_interactions_linkout\": .stringdb_interactions_linkout }",
+    "dependencies": [
+      "ensembl_protein_id_without_version"
+    ],
+    "versioning_type": "rosalution"
+  },
+  {
     "data_set": "uniprot_id",
     "data_source": "Uniprot",
     "genomic_unit_type": "hgvs_variant",
@@ -943,13 +971,28 @@
     "version_attribute": ".[] | select (.key == \"protein_locations_count\") | .release"
   },
   {
+    "data_set": "foldx_5_0_stability_change_state",
+    "data_source": "ProtVar foldX",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{foldx_5_0_stability_change}",
+    "attribute": ".foldx_5_0_stability_change_state | { foldx_5_0_stability_change_state : ( if . >= 2.0 then \"likely destabilising\" else \"unlikely destabilising\" end ) }",
+    "dependencies": [
+      "foldx_5_0_stability_change"
+    ],
+    "versioning_type": "rest",
+    "version_url": "https://www.ebi.ac.uk/ProtVar/api/stats/latest",
+    "version_attribute": ".[] | select (.key == \"protein_locations_count\") | .release"
+  },
+  {
     "data_set": "variant_in_pocket_prediction_pocket",
     "data_source": "ProtVar",
     "genomic_unit_type": "hgvs_variant",
     "annotation_source_type": "forge",
     "base_string_cache": true,
     "base_string": "{PROTVAR_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE}",
-    "attribute": ".variant_in_pocket_prediction_pocket | select ( .structId == \"{uniprot_id}\") | .pocketId ) { variant_in_pocket_prediction_pocket: . }",
+    "attribute": ".variant_in_pocket_prediction_pocket | .pockets[] | select ( .structId == \"{uniprot_id}\") | .pocketId | { variant_in_pocket_prediction_pocket: . }",
     "dependencies": [
       "PROTVAR_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE",
       "uniprot_id"
@@ -965,10 +1008,25 @@
     "annotation_source_type": "forge",
     "base_string_cache": true,
     "base_string": "{PROTVAR_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE}",
-    "attribute": ".variant_in_pocket_prediction_confidence_level_score | select ( .structId == \"{uniprot_id}\") | .score ) { variant_in_pocket_prediction_confidence_level_score: . }",
+    "attribute": ".variant_in_pocket_prediction_confidence_level_score | .pockets[] | select ( .structId == \"{uniprot_id}\") | .score | { variant_in_pocket_prediction_confidence_level_score: . }",
     "dependencies": [
       "PROTVAR_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE",
       "uniprot_id"
+    ],
+    "versioning_type": "rest",
+    "version_url": "https://www.ebi.ac.uk/ProtVar/api/stats/latest",
+    "version_attribute": ".[] | select (.key == \"protein_locations_count\") | .release"
+  },
+  {
+   "data_set": "variant_in_pocket_prediction_confidence_level_score_confidence",
+    "data_source": "ProtVar",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{variant_in_pocket_prediction_confidence_level_score}",
+    "attribute": ".variant_in_pocket_prediction_confidence_level_score_confidence | { variant_in_pocket_prediction_confidence_level_score_confidence : ( if . < 800 then \"low confidence\" elif . > 900 then \"very high confidence\" else \"high confidence\" end ) }",
+    "dependencies": [
+      "variant_in_pocket_prediction_confidence_level_score"
     ],
     "versioning_type": "rest",
     "version_url": "https://www.ebi.ac.uk/ProtVar/api/stats/latest",
@@ -981,10 +1039,25 @@
     "annotation_source_type": "forge",
     "base_string_cache": true,
     "base_string": "{PROTVAR_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE}",
-    "attribute": ".variant_in_pocket_prediction_mean_per_residue_model_form_pocket | select ( .structId == \"{uniprot_id}\") | .meanPlddt ) { variant_in_pocket_prediction_mean_per_residue_model_form_pocket: . }",
+    "attribute": ".variant_in_pocket_prediction_mean_per_residue_model_form_pocket | .pockets[] | select ( .structId == \"{uniprot_id}\") | .meanPlddt | { variant_in_pocket_prediction_mean_per_residue_model_form_pocket: . }",
     "dependencies": [
       "PROTVAR_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE",
       "uniprot_id"
+    ],
+    "versioning_type": "rest",
+    "version_url": "https://www.ebi.ac.uk/ProtVar/api/stats/latest",
+    "version_attribute": ".[] | select (.key == \"protein_locations_count\") | .release"
+  },
+  {
+    "data_set": "variant_in_pocket_prediction_mean_per_residue_model_form_pocket_confidence",
+    "data_source": "ProtVar",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{variant_in_pocket_prediction_mean_per_residue_model_form_pocket}",
+    "attribute": ".variant_in_pocket_prediction_mean_per_residue_model_form_pocket_confidence | { variant_in_pocket_variant_in_pocket_prediction_mean_per_residue_model_form_pocket_confidenceprediction_confidence_level_score_confidence : ( if . < 800 then \"low confidence\" elif . > 900 then \"very high confidence\" else \"high confidence\" end ) }",
+    "dependencies": [
+      "variant_in_pocket_prediction_mean_per_residue_model_form_pocket"
     ],
     "versioning_type": "rest",
     "version_url": "https://www.ebi.ac.uk/ProtVar/api/stats/latest",
@@ -996,15 +1069,13 @@
     "genomic_unit_type": "hgvs_variant",
     "annotation_source_type": "forge",
     "base_string_cache": true,
-    "base_string": "{PROTVAR_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE}",
-    "attribute": ".Protein_EBI_Interaction_Id | .comments[] | first(select( .type == \"INTERACTION\").interactions[] | select(.accession1 == \"{uniprot_id}\")) | { Protein_EBI_Interaction_Id: .interactor1 }",
+    "base_string": "{UNIPROT_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE}",
+    "attribute": ".Protein_EBI_Interaction_Id | .comments[] | first(select (.commentType == \"INTERACTION\").interactions[] | select( .interactantOne.uniProtKBAccession == \"{uniprot_id}\" )).interactantOne.intActId | { Protein_EBI_Interaction_Id: . }",
     "dependencies": [
-      "PROTVAR_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE",
+      "UNIPROT_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE",
       "uniprot_id"
     ],
-    "versioning_type": "rest",
-    "version_url": "https://www.ebi.ac.uk/ProtVar/api/stats/latest",
-    "version_attribute": ".[] | select (.key == \"protein_locations_count\") | .release"
+    "versioning_type": "date"
   },
   {
     "data_set": "Protein_EBI_Interaction_Network",
@@ -1013,6 +1084,57 @@
     "annotation_source_type": "forge",
     "base_string": "https://www.ebi.ac.uk/intact/search?query={Protein_EBI_Interaction_Id}",
     "attribute": "{ \"Protein_EBI_Interaction_Network\": .Protein_EBI_Interaction_Network }",
+    "dependencies": [
+      "Protein_EBI_Interaction_Id"
+    ],
+    "versioning_type": "rosalution"
+  },
+  {
+    "data_set": "ProtVar_Protein_Subcellular_Location_Topologies",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{PROTVAR_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE}",
+    "attribute": ".ProtVar_Protein_Subcellular_Location_Topologies | .comments[] | select (.type == \"SUBCELLULAR_LOCATION\").locations | sort_by(.topology.value) | group_by(.topology.value) | map({topology: .[0].topology.value, locations: (map(.location.value) | unique | sort )}) | map(\"* \\(.topology)<br \/>\" + (.locations | map(\" - \\(.)\") | join(\"<br \/>\"))) | join(\"<br \/>\") |{ \"ProtVar_Protein_Subcellular_Location_Topologies\": . }",
+    "dependencies": [
+      "PROTVAR_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE"
+    ],
+    "versioning_type": "rosalution"
+  },
+  {
+    "data_set": "UniProt_Protein_Subcellular_Location_Topologies",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{UNIPROT_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE}",
+    "attribute": ".UniProt_Protein_Subcellular_Location_Topologies | .comments[] | select (.commentType == \"SUBCELLULAR LOCATION\").subcellularLocations | map({location: .location.value,topology: .topology.value}) | sort_by(.topology) | group_by(.topology) | map({topology: .[0].topology, locations: (map(.location) | unique | sort )}) | map(\"* \\(.topology): \" + (.locations | map(\" \\(.)\") | join(\", \"))) | { \"UniProt_Protein_Subcellular_Location_Topologies\": . }",
+    "dependencies": [
+      "UNIPROT_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE"
+    ],
+    "versioning_type": "rosalution"
+  },
+  {
+    "data_set": "IntAct_Protein_Gene_Interactions",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "forge",
+    "base_string_cache": true,
+    "base_string": "{UNIPROT_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE}",
+    "attribute": ".IntAct_Protein_Gene_Interactions | .comments[] | select (.commentType == \"INTERACTION\") | [.interactions[].interactantTwo.geneName] | join(\", \") | { \"IntAct_Protein_Gene_Interactions\": . }",
+    "dependencies": [
+      "UNIPROT_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE"
+    ],
+    "versioning_type": "rosalution"
+  },
+  {
+    "data_set": "IntAct_Protein_Gene_Interactions_linkout",
+    "data_source": "Rosalution",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "forge",
+    "base_string": "https://www.ebi.ac.uk/intact/search?query={Protein_EBI_Interaction_Id}",
+    "attribute": "{ IntAct_Protein_Gene_Interactions_linkout: .IntAct_Protein_Gene_Interactions_linkout }",
     "dependencies": [
       "Protein_EBI_Interaction_Id"
     ],
@@ -1337,5 +1459,17 @@
     "version_url": "https://www.ebi.ac.uk/ProtVar/api/stats/latest",
     "version_attribute": ".[] | select (.key == \"protein_locations_count\") | .release",
     "cache": true
+  },
+  {
+    "data_set": "UNIPROT_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE",
+    "data_source": "Uniprot",
+    "genomic_unit_type": "hgvs_variant",
+    "annotation_source_type": "http",
+    "url": "https://rest.uniprot.org/uniprotkb/{uniprot_id}?fields=accession%2Cprotein_name%2Ccc_polymorphism%2Ccc_subunit%2Ccc_interaction%2Cxref_interpro%2Cxref_paxdb%2Cxref_intact%2Ccc_subcellular_location%2Cxref_string",
+    "attribute": "{UNIPROT_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE: .}",
+    "dependencies": [
+      "uniprot_id"
+    ],
+    "versioning_type": "date"
   }
 ]

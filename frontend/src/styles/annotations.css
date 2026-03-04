@@ -51,6 +51,7 @@ html {
 
 .dataset-text-subheader  {
   font-size: 1.25rem; /** 20 px **/
+  font-weight: 600;
 }
 .dataset-label-flex-parent-style {
   flex: inherit !important;
