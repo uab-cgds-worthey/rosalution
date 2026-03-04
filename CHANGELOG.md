@@ -5,6 +5,11 @@
 
 ### Features - In Progress
 
+- Added support for visualizing protein annotations when an analysis contains a Gene and HGVS variant with a RefSeq
+  transcript and p dot value.
+- TextDataset components support enabling a copy text button via the annotation rendering layout configuration.
+- Introduced new keyword in annotation configuration for 'protein' allowing use of an HGVS variant’s p.dot value.
+
 ## 0.8.8-er
 
 ### Bugs

@@ -455,7 +455,8 @@
             "extra_annotation": "linkout",
             "linkout": "IntAct_Protein_Gene_Interactions_linkout",
             "props": {
-              "label": "IntAct Protein Gene Interactions"
+              "label": "IntAct Protein Gene Interactions",
+              "enableCopy": true
             }
           }
         ]
