@@ -1,7 +1,9 @@
 describe('import_new_case.cy.js', () => {
   beforeEach(() => {
     cy.resetDatabase();
+    cy.intercept('/rosalution/api/analysis/summary').as('summaryLoad');
     cy.visit('/');
+    cy.wait('@summaryLoad');
   });
 
   /** TODO: Expected failure due to importing analses into a CGDS Project is not implemented. */
