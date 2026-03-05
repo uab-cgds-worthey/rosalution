@@ -2,7 +2,7 @@
   <aside>
     <router-link
       v-for="(anchor,index) in this.sectionAnchors"
-      :to="{ path: '', hash: `#${anchor}` }"
+      :to="{hash: `#${anchor}` }"
       :key="`${anchor}-${index}`"
       class="menu-button"
       @click.prevent=""

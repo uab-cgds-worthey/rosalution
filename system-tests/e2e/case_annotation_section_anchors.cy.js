@@ -18,7 +18,7 @@ describe('case_annotation_display_transcripts.cy.js', () => {
         if (anchorLinks.includes(text)) {
           const anchorLink = `#${text.replace(/ /g, '_')}`;
           cy.wrap($el).click();
-          cy.url().should('contain', `analysis/CPAM0002/annotation/${anchorLink}`);
+          cy.url().should('contain', `analysis/CPAM0002/annotation${anchorLink}`);
           cy.get(anchorLink);
         }
       });
