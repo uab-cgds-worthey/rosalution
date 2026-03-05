@@ -14,7 +14,6 @@ usage() {
 
 database="rosalution_db"
 docker_container="rosalution-rosalution-db-1"
-fail=false
 
 while getopts "tc:pf:h" opt; do
   case $opt in
