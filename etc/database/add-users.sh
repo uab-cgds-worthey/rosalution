@@ -127,7 +127,7 @@ function add_user() {
   "disabled":false,
   "client_id": "${client_id}",
   "client_secret": "",
-  "project_ids": [{"\$oid": "${project}"}]
+  "project_ids": [ObjectId("$project")]
 }
 EOF
 )
