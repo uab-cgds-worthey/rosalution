@@ -15,7 +15,7 @@ usage() {
 database="rosalution_db"
 docker_container="rosalution-rosalution-db-1"
 
-while getopts "tc:pf:h" opt; do
+while getopts "c:h" opt; do
   case $opt in
     c) docker_container="$OPTARG";;
     h) usage;;
@@ -116,7 +116,7 @@ OPTIONS=("Show Projects" "Show User's Projects" "Add User To Project" "Remove Us
 
 function show_menu {
   select option in "${OPTIONS[@]}"; do
-    echo $option
+    echo "$option"
     break
   done
 }
