@@ -1,6 +1,7 @@
 {
   "name": "CPAM0046",
   "description": ": LMNA-related congenital muscular dystropy",
+  "project_id": { "$oid": "695d5b157709ebcd1c7325c1" },
   "nominated_by": "Dr. Person Two",
   "manifest": [
     {

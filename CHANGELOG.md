@@ -5,6 +5,10 @@
 
 ### Features - In Progress
 
+- Introducing Projects as a core feature, enabling analyses to be grouped and access-controlled by project membership.
+    - Updated both the frontend and REST API so users only see and access analyses belonging to Projects they are
+    members of with authorization checks server‑side.
+
 ## 0.8.8-er
 
 ### Bugs

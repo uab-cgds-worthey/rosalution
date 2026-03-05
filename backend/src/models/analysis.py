@@ -6,12 +6,21 @@ of identifiers, case notes, and the genomic units being analyzed.
 from datetime import date
 import json
 import re
-from typing import List, Optional
-from pydantic import BaseModel, computed_field, model_validator
+from typing import Annotated, List, Optional
+from pydantic import BaseModel, BeforeValidator, ConfigDict, computed_field, Field, model_validator
 
 from .event import Event
 
 from ..enums import EventType, StatusType, GenomicUnitType
+
+PyObjectId = Annotated[str, BeforeValidator(str)]
+
+
+class Project(BaseModel):
+    """Basic tenant within Rosalution"""
+
+    id: Optional[PyObjectId] = Field(alias="_id", default=None)
+    name: str
 
 
 class GenomicUnit(BaseModel):
@@ -46,6 +55,8 @@ class BaseAnalysis(BaseModel):
     nominated_by: str
     timeline: List[Event] = []
     third_party_links: Optional[List] = []
+
+    model_config = ConfigDict(arbitary_types_allowed=True)
 
     @computed_field
     @property
@@ -85,7 +96,7 @@ class AnalysisSummary(BaseAnalysis):
 
 class Analysis(BaseAnalysis):
     """Models a detailed analysis"""
-
+    project_id: PyObjectId
     genomic_units: List[GenomicUnit] = []
     sections: List[Section] = []
     discussions: List = []

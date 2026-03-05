@@ -70,6 +70,7 @@ export default {
       searchText: '',
       analysisList: [],
       filteredChanged: [],
+      projects: [],
     };
   },
   computed: {
@@ -96,13 +97,26 @@ export default {
           });
       });
     },
+    projectsAvailable() {
+      return this.projects.map((project) => {
+        return {
+          'value': project._id,
+          'text': project.name,
+        };
+      });
+    },
   },
-  created() {
-    this.getListing();
+  async created() {
+    await Promise.all([this.getProjects(), this.getListing()]);
   },
   methods: {
     filteredUpdated(filteredChanged) {
       this.filteredChanged = filteredChanged;
+    },
+    async getProjects() {
+      this.projects.length = 0;
+      const projects = await Analyses.getProjects();
+      this.projects.push(...projects);
     },
     async getListing() {
       this.analysisList.length = 0;
@@ -122,6 +136,12 @@ export default {
     async importNewAnalysis() {
       const includeComments = false;
       const includeIcon = 'phenotips';
+      const fileTypesAccept = '.json';
+
+      const includeProjects = {
+        selected: this.projectsAvailable[0]['value'],
+        options: this.projectsAvailable,
+      };
 
       const importFile = await inputDialog
           .confirmText('Upload')
@@ -129,7 +149,7 @@ export default {
           .message(`Rosalution is <span style="color: var(--rosalution-red-200)">not authorized to store any
              Protected Health Information (PHI).</span> Double check the *.json files before importing them to create
              a new analysis.`)
-          .file(includeComments, includeIcon)
+          .file(includeComments, includeIcon, fileTypesAccept, includeProjects)
           .prompt('Temp for file upload');
 
       if (!importFile) {
@@ -137,7 +157,7 @@ export default {
       }
 
       try {
-        await Analyses.importNewAnalysis(importFile.data);
+        await Analyses.importNewAnalysis(importFile.projectSelect.selected, importFile.data);
         await notificationDialog
             .title('Successful import')
             .alert('');

@@ -1,9 +1,12 @@
 describe('import_new_case.cy.js', () => {
   beforeEach(() => {
     cy.resetDatabase();
+    cy.intercept('/rosalution/api/analysis/summary').as('summaryLoad');
     cy.visit('/');
+    cy.wait('@summaryLoad');
   });
 
+  /** TODO: Expected failure due to importing analses into a CGDS Project is not implemented. */
   it('imports a new analysis', () => {
     cy.get('[data-test="create-card"]').click();
     cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/new-analysis-import.json', {
@@ -19,6 +22,7 @@ describe('import_new_case.cy.js', () => {
     cy.get('app-content').should('contain', 'CPAM0112');
   });
 
+  /** TODO: Expected failure due to importing analses into a CGDS Project is not implemented. */
   it('imports a new analysis with a duplicate case ID', () => {
     cy.get('[data-test="create-card"]').click();
     cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/new-analysis-import.json', {
@@ -46,6 +50,7 @@ describe('import_new_case.cy.js', () => {
     cy.get('[data-test="notification-dialog"]').should('not.exist');
   });
 
+  /** TODO: Expected failure due to importing analses into a CGDS Project is not implemented. */
   it('tries to import a new case with a file that isn\'t a JSON file', () => {
     cy.get('[data-test="create-card"]').click();
     cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/example_file_to_upload.txt', {

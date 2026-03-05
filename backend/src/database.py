@@ -7,6 +7,7 @@ from .repository.user_collection import UserCollection
 from .repository.analysis_collection import AnalysisCollection
 from .repository.annotation_config_collection import AnnotationConfigCollection
 from .repository.genomic_unit_collection import GenomicUnitCollection
+from .repository.project_repository import ProjectRepository
 
 
 class Database:
@@ -36,6 +37,7 @@ class Database:
             "annotation_config": AnnotationConfigCollection(self.database['annotations_config']),
             "genomic_unit": GenomicUnitCollection(self.database['genomic_units']),
             "user": UserCollection(self.database['users']),
+            "project": ProjectRepository(self.database['users'], self.database['analyses']),
             "bucket": GridFSBucketCollection(gridfs_bucket),
         }
 

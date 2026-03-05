@@ -12,6 +12,7 @@ from src.repository.analysis_collection import AnalysisCollection
 from src.repository.annotation_config_collection import AnnotationConfigCollection
 from src.repository.genomic_unit_collection import GenomicUnitCollection
 from src.repository.gridfs_bucket_collection import GridFSBucketCollection
+from src.repository.user_collection import UserCollection
 
 from ..test_utils import read_test_fixture, mock_mongo_collection
 
@@ -290,6 +291,14 @@ def fixture_rosalution_settings(settings_json):
 def fixture_users_json():
     """Returns the JSON for the users collection used to seed the MongoDB database"""
     return read_test_fixture("users-test-fixture.json")
+
+
+@pytest.fixture(name="user_collection")
+def fixture_users_collection(users_json):
+    """Returns the annotation collection for the datasets to be mocked"""
+    mock_collection = mock_mongo_collection()
+    mock_collection.find_one = Mock(return_value=users_json[0])
+    return UserCollection(mock_collection)
 
 
 @pytest.fixture(name="hgvs_variant_genomic_unit_for_annotation_tasks")

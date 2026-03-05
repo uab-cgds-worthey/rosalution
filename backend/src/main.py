@@ -14,7 +14,7 @@ from fastapi import FastAPI
 
 from .config import get_settings
 from .profiler_middleware import register_profiler_middleware
-from .routers import analysis_router, annotation_router, auth_router
+from .routers import analysis_router, annotation_router, auth_router, project_router
 
 urllib3.disable_warnings()
 
@@ -26,6 +26,10 @@ ultra-rare diseases.
 """
 
 tags_metadata = [
+    {
+        "name": "project",
+        "description": "Projects the user is a tenant of.",
+    },
     {
         "name": "analysis",
         "description": "Analyses of cases with information such as target gene, variation, phenotyping, and more.",
@@ -72,6 +76,7 @@ app = FastAPI(title="rosalution API", description=DESCRIPTION, openapi_tags=tags
 app.include_router(analysis_router.router)
 app.include_router(annotation_router.router)
 app.include_router(auth_router.router)
+app.include_router(project_router.router)
 
 if __debug__:
     from .routers import dev_router

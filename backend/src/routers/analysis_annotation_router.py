@@ -1,13 +1,15 @@
 """ Analysis endpoint routes that provide an interface to interact with an Analysis' discussions """
-from fastapi import (APIRouter, Depends, HTTPException)
+from fastapi import (APIRouter, Depends, HTTPException, Security)
+
+from ..security.security import get_project_authorization
 
 from ..dependencies import database
 from ..enums import GenomicUnitType
 
-router = APIRouter(tags=["analysis annotations"], dependencies=[Depends(database)])
+router = APIRouter(tags=["analysis annotations"])
 
 
-@router.get("/{analysis_name}/gene/{gene}")
+@router.get("/{analysis_name}/gene/{gene}", dependencies=[Security(get_project_authorization)])
 def get_annotations_by_gene(analysis_name, gene, repositories=Depends(database)):
     """Returns annotations data by calling method to find annotations by gene"""
 
@@ -28,7 +30,7 @@ def get_annotations_by_gene(analysis_name, gene, repositories=Depends(database))
     return annotations
 
 
-@router.get("/{analysis_name}/hgvsVariant/{variant}")
+@router.get("/{analysis_name}/hgvsVariant/{variant}", dependencies=[Security(get_project_authorization)])
 def get_annotations_by_hgvs_variant(analysis_name: str, variant: str, repositories=Depends(database)):
     """Returns annotations data by calling method to find annotations for variant and relevant transcripts
     by HGVS Variant"""

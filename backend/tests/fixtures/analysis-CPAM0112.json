@@ -1,6 +1,7 @@
 {
   "name": "CPAM0112",
   "description": "",
+  "project_id": { "$oid": "695d5b157709ebcd1c7325c1" },
   "nominated_by": "",
   "manifest": [{
     "unit": "VMA21",

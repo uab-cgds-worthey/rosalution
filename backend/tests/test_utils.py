@@ -43,6 +43,7 @@ def mock_mongo_collection():
     annotation tasks are created according to the configuration
     """
     mock_collection = Mock()
+    mock_collection.aggregate = Mock()
     mock_collection.find = Mock()
     mock_collection.find_one = Mock()
     mock_collection.update_one = Mock()
@@ -58,6 +59,7 @@ def magic_mock_mongo_collection():
     annotation tasks are created according to the configuration
     """
     mock_collection = MagicMock()
+    mock_collection.aggregate = MagicMock()
     mock_collection.find = MagicMock()
     mock_collection.find_one = MagicMock()
     mock_collection.update_one = MagicMock()

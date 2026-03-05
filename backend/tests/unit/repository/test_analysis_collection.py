@@ -1,6 +1,7 @@
 """Tests analysis collection"""
 from unittest.mock import patch
 import datetime
+from bson import ObjectId
 import pytest
 
 from pymongo import ReturnDocument
@@ -90,16 +91,20 @@ def test_get_genomic_units_with_no_p_dot(analysis_collection, analysis_with_no_p
 def test_create_analysis(analysis_collection, cpam0002_analysis_json):
     """Tests the create_analysis function"""
     analysis_collection.collection.find_one.return_value = None
+
+    project_id = "695d5b157709ebcd1c7325c0"
     new_analysis = cpam0002_analysis_json
     new_analysis["name"] = "CPAM1234"
-    analysis_collection.create_analysis(new_analysis)
+    new_analysis["project_id"] = ObjectId(project_id)
+    analysis_collection.create_analysis(project_id, new_analysis)
     analysis_collection.collection.insert_one.assert_called_once_with(new_analysis)
 
 
 def test_create_analysis_already_exists(analysis_collection, cpam0002_analysis_json):
     """Tests the create_analysis function"""
     try:
-        analysis_collection.create_analysis(cpam0002_analysis_json)
+        project_id = "695d5b157709ebcd1c7325c0"
+        analysis_collection.create_analysis(project_id, cpam0002_analysis_json)
     except ValueError as error:
         assert isinstance(error, ValueError)
         assert str(error) == "Analysis with name CPAM0002 already exists"

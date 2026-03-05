@@ -1,6 +1,3 @@
-# pylint: disable=too-many-arguments
-# Due to adding scope checks, it's adding too many arguments (7/6) to functions, so diabling this for now.
-# Need to refactor later.
 """ Annotation endpoint routes that handle all things annotation within the application """
 import logging
 
@@ -14,33 +11,30 @@ from ..core.annotation import AnnotationService
 from ..dependencies import database, annotation_queue
 from ..models.analysis import Analysis
 
-from ..security.security import get_authorization
+from ..security.security import get_authorization, get_write_project_authorization
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(
-    prefix="/annotation",
-    tags=["annotation"],
-    dependencies=[Depends(database), Depends(annotation_queue)],
+router = APIRouter(prefix="/annotation", tags=["annotation"])
+
+
+@router.post(
+    "/{analysis_name}", status_code=status.HTTP_202_ACCEPTED, dependencies=[Security(get_write_project_authorization)]
 )
-
-
-@router.post("/{name}", status_code=status.HTTP_202_ACCEPTED)
 def annotate_analysis(
-    name: str,
+    analysis_name: str,
     background_tasks: BackgroundTasks,
     repositories=Depends(database),
-    annotation_task_queue=Depends(annotation_queue),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+    annotation_task_queue=Depends(annotation_queue)
 ):
     """
     Placeholder to initiate annotations for an analysis. This queueing/running
     annotations for a sample will be moved to the analysis creation endpoint
     when it is created in an upcomming update.
     """
-    analysis_json = repositories["analysis"].find_by_name(name)
+    analysis_json = repositories["analysis"].find_by_name(analysis_name)
     if analysis_json is None:
-        raise HTTPException(status_code=404, detail=f"'{name}' Analysis not found.")
+        raise HTTPException(status_code=404, detail=f"'{analysis_name}' Analysis not found.")
 
     analysis = Analysis(**analysis_json)
     annotation_service = AnnotationService(repositories["annotation_config"])
@@ -49,18 +43,21 @@ def annotate_analysis(
         AnnotationService.process_tasks, annotation_task_queue, repositories['genomic_unit'], repositories["analysis"]
     )
 
-    return {"name": f"{name} annotations queued."}
+    return {"name": f"{analysis_name} annotations queued."}
 
 
-@router.post("/{genomic_unit}/{data_set_name}/attachment", response_model=List)
+@router.post(
+    "/{genomic_unit}/{data_set_name}/attachment",
+    response_model=List,
+    dependencies=[Security(get_authorization, scopes=["write"])]
+)
 def upload_annotation_section(
     response: Response,
     genomic_unit: str,
     data_set_name: str,
     genomic_unit_type: GenomicUnitType,
     upload_file: UploadFile = File(...),
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+    repositories=Depends(database)
 ):
     """ This endpoint specifically handles annotation section image uploads """
 
@@ -102,15 +99,18 @@ def upload_annotation_section(
     return updated_annotation[data_set_name][0]['value']
 
 
-@router.put("/{genomic_unit}/{data_set_name}/attachment/{old_file_id}", response_model=List)
+@router.put(
+    "/{genomic_unit}/{data_set_name}/attachment/{old_file_id}",
+    response_model=List,
+    dependencies=[Security(get_authorization, scopes=["write"])]
+)
 def update_annotation_image(
     genomic_unit: str,
     data_set_name: str,
     old_file_id: str,
     genomic_unit_type: GenomicUnitType,
     upload_file: UploadFile = File(...),
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+    repositories=Depends(database)
 ):
     """ Updates and replaces an annotation image with a new image  """
     try:
@@ -147,14 +147,17 @@ def update_annotation_image(
     return updated_annotation[data_set_name][0]['value']
 
 
-@router.delete("/{genomic_unit}/{data_set_name}/attachment/{file_id}", response_model=List)
+@router.delete(
+    "/{genomic_unit}/{data_set_name}/attachment/{file_id}",
+    response_model=List,
+    dependencies=[Security(get_authorization, scopes=["write"])]
+)
 def remove_annotation_image(
     genomic_unit: str,
     data_set_name: str,
     file_id: str,
     genomic_unit_type: GenomicUnitType,
-    repositories=Depends(database),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+    repositories=Depends(database)
 ):
     """ This endpoint handles removing an annotation image for specified genomic unit """
     genomic_unit_json = {'unit': genomic_unit, 'type': genomic_unit_type}
