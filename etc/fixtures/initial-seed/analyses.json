@@ -757,6 +757,312 @@
               "data_source": "Ensembl",
               "version": 112
             }
+          },
+          {
+            "hgvs_variant_without_transcript_version": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "gnomAD_variant_url": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "SpliceAI_variant_linkout": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "protvar_protein_linkout": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "transcript_without_version": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Ensembl_Transcript_Id": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "ENSEMBL_VARIANT_HGVS_VARIANT_CALL_CACHE": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "ENSEMBL_VARIANT_TRANSCRIPT_IDS_CALL_CACHE": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "UNIPROT_PROTEIN_IDS_SEARCH_CACHE": {
+              "data_source": "Uniprot",
+              "version": "2026-03-04"
+            }
+          },
+          {
+            "PROTVAR_HGVS_VARIANT_MAPPINGS_CACHE": {
+              "data_source": "ProtVar",
+              "version": "2025_01"
+            }
+          },
+          {
+            "ensembl_vep_vcf_string": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "Ensembl Gene Id": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "ClinVar_Variant_Id": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "alphamissense_pathogenicity": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "alphamissense_classification": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "revel": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "opencravat_search_variant_vcf_string": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "chrom": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "pos": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "ensembl_protein_id": {
+              "data_source": "Uniprot",
+              "version": "2026-03-04"
+            }
+          },
+          {
+            "ensembl_protein_id_without_version": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "uniprot_isoform_id": {
+              "data_source": "Uniprot",
+              "version": "2026-03-04"
+            }
+          },
+          {
+            "protvar_protein_hgvs_variant_mapping_messages": {
+              "data_source": "ProtVar",
+              "version": "2025_01"
+            }
+          },
+          {
+            "protvar_variant_in_pockets_annotations_exist": {
+              "data_source": "ProtVar",
+              "version": "2025_01"
+            }
+          },
+          {
+            "paxdb_protein_abundance_linkout": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "stringdb_interactions_linkout": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "uniprot_id": {
+              "data_source": "Uniprot",
+              "version": "2026-03-04"
+            }
+          },
+          {
+            "DITTO": {
+              "data_source": "cgds",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "spliceai_acceptor_loss": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "spliceai_donor_loss": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "spliceai_acceptor_gain": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "spliceai_donor_gain": {
+              "data_source": "Ensembl",
+              "version": 115
+            }
+          },
+          {
+            "UNIPROT_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE": {
+              "data_source": "Uniprot",
+              "version": "2026-03-04"
+            }
+          },
+          {
+            "protvar_protein_api_reference_function_uri": {
+              "data_source": "ProtVar",
+              "version": "2025_01"
+            }
+          },
+          {
+            "uniprot_protein_linkout": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "interpro_domain_protein_linkout": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "alphafold_protein_linkout": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "Protein_EBI_Interaction_Id": {
+              "data_source": "ProtVar",
+              "version": "2026-03-04"
+            }
+          },
+          {
+            "Protein_EBI_Interaction_Network": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "UniProt_Protein_Subcellular_Location_Topologies": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "IntAct_Protein_Gene_Interactions": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "IntAct_Protein_Gene_Interactions_linkout": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
+          },
+          {
+            "PROTVAR_PROTEIN_REFERENCE_FUNCTION_CALL_CACHE": {
+              "data_source": "ProtVar",
+              "version": "2025_01"
+            }
+          },
+          {
+            "foldx_5_0_stability_change": {
+              "data_source": "ProtVar foldX",
+              "version": "2025_01"
+            }
+          },
+          {
+            "foldx_5_0_stability_change_state": {
+              "data_source": "ProtVar foldX",
+              "version": "2025_01"
+            }
+          },
+          {
+            "variant_in_pocket_prediction_pocket": {
+              "data_source": "ProtVar",
+              "version": "2025_01"
+            }
+          },
+          {
+            "variant_in_pocket_prediction_confidence_level_score": {
+              "data_source": "ProtVar",
+              "version": "2025_01"
+            }
+          },
+          {
+            "variant_in_pocket_prediction_confidence_level_score_confidence": {
+              "data_source": "ProtVar",
+              "version": "2025_01"
+            }
+          },
+          {
+            "variant_in_pocket_prediction_mean_per_residue_model_form_pocket": {
+              "data_source": "ProtVar",
+              "version": "2025_01"
+            }
+          },
+          {
+            "variant_in_pocket_prediction_mean_per_residue_model_form_pocket_confidence": {
+              "data_source": "ProtVar",
+              "version": "2025_01"
+            }
+          },
+          {
+            "ProtVar_Protein_Subcellular_Location_Topologies": {
+              "data_source": "Rosalution",
+              "version": "rosalution-manifest-00"
+            }
           }
         ]
       }
@@ -4382,8 +4688,7 @@
           {
             "type": "section-text",
             "field": "Additional Details",
-            "value": [
-            ]
+            "value": []
           }
         ]
       },
@@ -4486,21 +4791,17 @@
           {
             "type": "section-text",
             "field": "Model of Interest",
-            "value": [
-            ]
+            "value": []
           },
           {
             "type": "section-text",
             "field": "Goals",
-            "value": [
-
-            ]
+            "value": []
           },
           {
             "type": "section-text",
             "field": "Proposed Model/Project",
-            "value": [
-            ]
+            "value": []
           },
           {
             "type": "section-text",
@@ -4515,8 +4816,7 @@
           {
             "type": "section-text",
             "field": "Existing Funding",
-            "value": [
-            ]
+            "value": []
           }
         ]
       }

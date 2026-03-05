@@ -1,12 +1,14 @@
 <template>
   <aside>
-    <a v-for="(anchor,index) in this.sectionAnchors"
-      :href="`#${anchor}`"
+    <router-link
+      v-for="(anchor,index) in this.sectionAnchors"
+      :to="{hash: `#${anchor}` }"
       :key="`${anchor}-${index}`"
       class="menu-button"
+      @click.prevent=""
     >
       {{ toAnchorText(anchor) }}
-    </a>
+    </router-link>
   </aside>
 </template>
 

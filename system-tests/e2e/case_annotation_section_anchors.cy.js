@@ -1,11 +1,13 @@
 describe('case_annotation_display_transcripts.cy.js', () => {
   beforeEach(() => {
     cy.resetDatabase();
+    cy.intercept('/rosalution/api/analysis/CPAM0002/summary').as('analysisSummaryLoad');
     cy.visit('analysis/CPAM0002/annotation/');
+    cy.wait('@analysisSummaryLoad');
   });
 
   it('navigates to the annotation sections via anchor links', () => {
-    const anchorLinks = ['Gene', 'Variant', 'Chromosomal Localization', 'Secondary Structure', 'Causal Variant',
+    const anchorLinks = ['Gene', 'Variant', 'Protein', 'Chromosomal Localization', 'Secondary Structure', 'Causal Variant',
       'Variant Publications', 'Gene Homology', 'Human Gene Expression', 'Human Gene versus Protein Expression',
       'Expression Profiles', 'Orthology', 'Rattus norvegicus Model System', 'Mus musculus Model System',
       'Danio rerio Model System', 'C elegans Model System', 'Modelability', 'Druggability'];
@@ -16,7 +18,7 @@ describe('case_annotation_display_transcripts.cy.js', () => {
         if (anchorLinks.includes(text)) {
           const anchorLink = `#${text.replace(/ /g, '_')}`;
           cy.wrap($el).click();
-          cy.url().should('contain', `analysis/CPAM0002/annotation/${anchorLink}`);
+          cy.url().should('contain', `analysis/CPAM0002/annotation${anchorLink}`);
           cy.get(anchorLink);
         }
       });
