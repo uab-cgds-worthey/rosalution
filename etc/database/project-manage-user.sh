@@ -1,5 +1,5 @@
 #! /bin/bash
-# ./project-add-user.sh
+# ./project-manage-user.sh
 
 usage() {
   echo "usage: $0 -c <docker-container> -h"
