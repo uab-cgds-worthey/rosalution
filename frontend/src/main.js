@@ -60,7 +60,7 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   scrollBehavior(to, from, savedPosition) {
-    if(to.hash) {
+    if (to.hash) {
       return {
         el: to.hash,
         behavior: 'smooth',
@@ -68,7 +68,7 @@ const router = createRouter({
       };
     }
 
-    return { x:0, y: 0};
+    return {x: 0, y: 0};
   },
   routes,
 });
