@@ -12,14 +12,14 @@ describe('upload_images_to_case_annotations.cy.js', () => {
     cy.login('researcher');
     cy.visit('/analysis/CPAM0047/annotation/');
     cy.wait('@analysisSummaryLoad');
-    cy.get('[href="/rosalution/analysis/CPAM0047/annotation/#Gene_Homology"]').click();
+    cy.get('[href="/rosalution/analysis/CPAM0047/annotation#Gene_Homology"]').click();
     cy.get('[data-test="Gene Homology/Multi-Sequence Alignment"]').should('not.have.descendants', 'button');
 
     // Test uploading a single image
     cy.login('vrr-prep')
     cy.visit('/analysis/CPAM0047/annotation/');
     cy.wait('@analysisSummaryLoad');
-    cy.get('[href="/rosalution/analysis/CPAM0047/annotation/#Gene_Homology"]').click();
+    cy.get('[href="/rosalution/analysis/CPAM0047/annotation#Gene_Homology"]').click();
     cy.get('#Gene_Homology > .rosalution-section-header > [data-test="attach-logo"]').click();
     cy.get('.drop-file-box-content').selectFile('@sectionImage1', {
       action: 'drag-drop',
@@ -28,7 +28,7 @@ describe('upload_images_to_case_annotations.cy.js', () => {
     cy.get('[data-test="annotation-image"]').should('exist');
 
     // Test uploading a second image to the same section
-    cy.get('[href="/rosalution/analysis/CPAM0047/annotation/#Gene_Homology"]').click();
+    cy.get('[href="/rosalution/analysis/CPAM0047/annotation#Gene_Homology"]').click();
     cy.get('#Gene_Homology > .rosalution-section-header > [data-test="attach-logo"]').click();
     cy.get('.drop-file-box-content').selectFile('@sectionImage1', {
       action: 'drag-drop',
@@ -38,7 +38,7 @@ describe('upload_images_to_case_annotations.cy.js', () => {
     cy.get('[data-test="annotation-image"]').should('have.length', 2);
 
     // Test Editing an Image
-    cy.get('[href="/rosalution/analysis/CPAM0047/annotation/#Modelability"]').click();
+    cy.get('[href="/rosalution/analysis/CPAM0047/annotation#Modelability"]').click();
     cy.get('#Modelability > .rosalution-section-header > [data-test="attach-logo"]').click();
     cy.get('.drop-file-box-content').selectFile('@sectionImage1', {
       action: 'drag-drop',
@@ -58,7 +58,7 @@ describe('upload_images_to_case_annotations.cy.js', () => {
     });
 
     // Testing Removing an Image
-    cy.get('[href="/rosalution/analysis/CPAM0047/annotation/#Druggability"]').click();
+    cy.get('[href="/rosalution/analysis/CPAM0047/annotation#Druggability"]').click();
     cy.get('#Druggability > .rosalution-section-header > [data-test="attach-logo"]').click();
     cy.get('.drop-file-box-content').selectFile('@sectionImage1', {
       action: 'drag-drop',
