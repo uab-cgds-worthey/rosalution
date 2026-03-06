@@ -88,6 +88,21 @@ class AnalysisCollection:
             genomic_units_return["variants"].extend(variants)
 
         return genomic_units_return
+    
+    def add_genomic_units(self, analysis_name: str, genomic_unit: str):
+        """Adds a new omic unit to an analysis by Analysis Name"""
+        print("analysis collection")
+
+        analysis = self.collection.find_one({"name": analysis_name})
+        if not analysis:
+            raise ValueError(f"Analysis with name {analysis_name} does not exist")
+        
+        print("RECEIVED THE OMIC UNIT FORM IN ANALYSIS COLLECTIONS")
+        print(genomic_unit)
+        
+        return ""
+    
+    
 
     def add_dataset_to_manifest(self, analysis_name: str, annotation_unit: AnnotationUnit):
         """Adds this dataset and its version to this Analysis."""

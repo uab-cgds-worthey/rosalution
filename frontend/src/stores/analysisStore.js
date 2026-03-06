@@ -242,6 +242,8 @@ export const analysisStore = reactive({
   // -----------------------------------
 
   async addOmicUnit(omicUnit) {
+    console.log('received omic unit in analysis store');
+    console.log(omicUnit.data);
     const omicUnitAdded = await Analyses.addOmicUnit(
         this.analysisName,
         omicUnit,
