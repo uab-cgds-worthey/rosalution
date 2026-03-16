@@ -89,18 +89,64 @@ class AnalysisCollection:
 
         return genomic_units_return
     
-    def add_genomic_units(self, analysis_name: str, genomic_unit: str):
+    def add_genomic_units(self, analysis_name: str, new_genomic_unit: dict):
         """Adds a new omic unit to an analysis by Analysis Name"""
-        print("analysis collection")
+        
+        print("RECEIVED THE OMIC UNIT FORM IN ANALYSIS COLLECTIONS")
+        print(new_genomic_unit)
+        # new_genomic_unit = {
+        #     'gene': "JAK2",
+        #     'transcripts': "NM_004972.3",
+        #     'cdna': "c.1694G>C",
+        #     'protein': "p.Arg565Thr",
+        #     'reason_of_interest': "Find this variant interesting to explore.",
+        # }
 
         analysis = self.collection.find_one({"name": analysis_name})
         if not analysis:
             raise ValueError(f"Analysis with name {analysis_name} does not exist")
         
-        print("RECEIVED THE OMIC UNIT FORM IN ANALYSIS COLLECTIONS")
-        print(genomic_unit)
+        # if 'genomic_units' not in analysis:
+        #     raise ValueError(f"Analysis {analysis_name} does not have genomic units")
+
+        self.collection.find_one_and_update({
+            "name": analysis_name, "genomic_units.gene": {"$ne": new_genomic_unit["gene"]}
+        }, {'$addToSet': { "genomic_units":
+                          { "gene": new_genomic_unit["gene"], "transcripts": [],
+                           "variants": []
+                          }
+                          }
+            }
+        )                               
+
+        updated_analysis = self.collection.find_one_and_update({
+            "name": analysis_name, "genomic_units.gene": new_genomic_unit["gene"]
+        }, {'$addToSet': { 
+            "genomic_units.$[unit].transcripts": {"transcript": new_genomic_unit["transcript"]},
+            "genomic_units.$[unit].variants": {
+                    "hgvs_variant": new_genomic_unit["transcript"] + ":" + new_genomic_unit["cdna"],
+                    "c_dot": new_genomic_unit["cdna"],
+                    "p_dot": new_genomic_unit["protein"],
+                    "build": "GRCh38",
+                    "case": [
+                                {
+                                    "field": "Reason of Interest",
+                                    "value": [
+                                        new_genomic_unit["reason_of_interest"],
+                                    ]
+                                }
+                            ]
+                }
+            }
+        },
+        array_filters = [{"unit.gene": new_genomic_unit["gene"]}],
+        return_document=ReturnDocument.AFTER
+        )
+
+        print("!!!!!!!!!!!!!!")
+        print(updated_analysis)
         
-        return ""
+        return updated_analysis
     
     
 
