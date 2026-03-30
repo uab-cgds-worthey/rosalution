@@ -35,7 +35,7 @@ def get_all_analyses(repositories=Depends(database), client_id: VerifyUser = Sec
 async def get_all_analyses_summaries(
     repositories=Depends(database), client_id: VerifyUser = Security(get_current_user)
 ):
-    """Returns a summary of all analyes available to the user"""
+    """Returns a summary for each analysis available to the user"""
     return repositories["project"].all_summaries(client_id)
 
 
