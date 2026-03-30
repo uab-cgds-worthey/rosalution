@@ -28,9 +28,9 @@ def annotate_analysis(
     annotation_task_queue=Depends(annotation_queue)
 ):
     """
-    Placeholder to initiate annotations for an analysis. This queueing/running
-    annotations for a sample will be moved to the analysis creation endpoint
-    when it is created in an upcomming update.
+    Initiates annotation for all genomic units within the analysis. Existing annotations for genomic units that are
+    determined to exist are not re-annotated.  New annotations are queued according to the latest annotation
+    configuration.
     """
     analysis_json = repositories["analysis"].find_by_name(analysis_name)
     if analysis_json is None:

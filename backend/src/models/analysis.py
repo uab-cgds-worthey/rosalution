@@ -49,6 +49,7 @@ class Section(BaseModel, frozen=True):
 
 class BaseAnalysis(BaseModel):
     """The share parts of an analysis and it's summary"""
+    model_config = ConfigDict(arbitary_types_allowed=True)
 
     name: str
     description: Optional[str] = None
@@ -56,8 +57,6 @@ class BaseAnalysis(BaseModel):
     project_name: str
     timeline: List[Event] = []
     third_party_links: Optional[List] = []
-
-    model_config = ConfigDict(arbitary_types_allowed=True)
 
     @computed_field
     @property

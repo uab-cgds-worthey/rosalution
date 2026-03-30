@@ -35,7 +35,7 @@ def get_all_analyses(repositories=Depends(database), client_id: VerifyUser = Sec
 async def get_all_analyses_summaries(
     repositories=Depends(database), client_id: VerifyUser = Security(get_current_user)
 ):
-    """Returns a summary of every analysis within the application"""
+    """Returns a summary of all analyes available to the user"""
     return repositories["project"].all_summaries(client_id)
 
 
@@ -48,7 +48,7 @@ def get_analysis_by_name(
     found_analysis = repositories["analysis"].find_by_name(analysis_name)
 
     if found_analysis is None:
-        raise HTTPException(status_code=404, detail=f"{analysis_name} does not exist.")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"{analysis_name} does not exist.")
 
     analysis = Analysis(**found_analysis)
     user = ProjectUser(**current_user)
@@ -78,7 +78,7 @@ def get_analysis_summary_by_name(
     analysis_name: str,
     repositories=Depends(database),
 ):
-    """Returns a summary of every analysis within the application"""
+    """Returns a summary of the analysis"""
 
     return repositories["analysis"].summary_by_name(analysis_name)
 

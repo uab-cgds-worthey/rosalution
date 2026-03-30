@@ -12,15 +12,15 @@ usage() {
   echo "  -f  Specify the CSV file path for bulk add users"
   echo "  -h  Display this help message"
   echo ""
-  echo "Scopes available for Users arƒe: read, write"
+  echo "Scopes available for Users are: read, write"
   echo ""
   echo "CSV Document Format with Example"
   echo "-------"
-  echo "name,username,email,clientid,project,scope"
+  echo "name,username,email,clientid,project_id,scope"
   echo "John Doe,jdoe,jdoe@site.com,695d5b157709ebcd1c7325c0,read"
   echo ""
   echo " "
-  echo "Please ensure 'opensll' CLI application is installed for this script to work."
+  echo "Please ensure 'openssl' CLI application is installed for this script to work."
   echo " "
 }
 
@@ -113,7 +113,7 @@ function add_user() {
     return 1 # Exit code indicating user exists
   fi
 
-  # Intentionally using signel quotes so that the string does not attempt to expand
+  # Intentionally using single quotes so the string does not attempt to expand
   # shellcheck disable=SC2016
   hashed_password='$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm'
   client_id=$(openssl rand -hex 16)
