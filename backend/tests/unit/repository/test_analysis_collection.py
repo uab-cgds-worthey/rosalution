@@ -109,7 +109,7 @@ def test_create_analysis_already_exists(analysis_collection, cpam0002_analysis_j
         analysis_collection.create_analysis(project_id, project_name, cpam0002_analysis_json)
     except ValueError as error:
         assert isinstance(error, ValueError)
-        assert str(error) == "Analysis with name CPAM0002 already exists within Project 'CPAM'"
+        assert str(error) == "Analysis 'CPAM0002' already exists within Project 'CPAM'"
 
 
 def test_attach_third_party_link_monday(analysis_collection, cpam0002_analysis_json):
@@ -139,7 +139,7 @@ def test_attach_third_party_link_analysis_does_not_exist(analysis_collection):
         analysis_collection.attach_third_party_link("CPAM02222", "MONDAY_COM", "https://monday.com")
     except ValueError as error:
         assert isinstance(error, ValueError)
-        assert str(error) == "Analysis with name CPAM02222 does not exist"
+        assert str(error) == "Analysis 'CPAM02222' does not exist"
 
 
 def test_attach_third_party_link_unsupported_enum(analysis_collection, cpam0002_analysis_json):

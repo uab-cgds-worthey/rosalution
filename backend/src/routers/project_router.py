@@ -24,9 +24,7 @@ def get_projects(repositories=Depends(database), client_id: VerifyUser = Securit
     return repositories["project"].all_projects(client_id)
 
 
-@router.post(
-    "/{project_id}/analysis", response_model=Analysis
-)
+@router.post("/{project_id}/analysis", response_model=Analysis)
 async def create_analysis(
     project_id: str,
     phenotips_file: Annotated[bytes, File()],

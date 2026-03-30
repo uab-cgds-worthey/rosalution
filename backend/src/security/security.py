@@ -194,8 +194,12 @@ def get_create_project_authorization(
 
     if not write_authorized:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User authorization failed for operation")
-    
-    if not user.by_project:
-        raise HTTPException(status_code=404, detail="Unable to retrieve project name with user's client ID and project's ID")
 
-    return (client_id, user.by_project['name'])
+    if user.by_project is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Unable to retrieve project name with user's client and project ID"
+        )
+
+    project = user.by_project
+    return (client_id, project.get("name"))

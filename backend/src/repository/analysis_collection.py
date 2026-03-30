@@ -157,7 +157,7 @@ class AnalysisCollection:
         analysis_data['project_name'] = project_name
 
         if self.collection.find_one({"name": analysis_data["name"], "project_name": project_name}) is not None:
-            raise ValueError(f"Analysis with name {analysis_data['name']} already exists within Project '{project_name}'")
+            raise ValueError(f"Analysis '{analysis_data['name']}' already exists within Project '{project_name}'")
 
         return self.collection.insert_one(analysis_data)
 
@@ -165,7 +165,7 @@ class AnalysisCollection:
         """ Returns an analysis with a third party link attached to it """
         analysis = self.collection.find_one({"name": analysis_name})
         if not analysis:
-            raise ValueError(f"Analysis with name {analysis_name} does not exist")
+            raise ValueError(f"Analysis '{analysis_name}' does not exist")
 
         if 'third_party_links' not in analysis:
             analysis['third_party_links'] = []
