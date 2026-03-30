@@ -24,6 +24,8 @@ usage() {
   echo " "
 }
 
+bold=$(tput bold)
+normal=$(tput sgr0)
 
 database="rosalution_db"
 touch_csv_template_file=false
@@ -83,7 +85,7 @@ function prompt_confirmation() {
   name=$1
   username=$2
 
-  echo "Are you sure you want to add '$name' as user '$username' to Rosalution? (yes/no): "
+  echo "Are you sure you want to add '$name' as user '$username' to Rosalution? (yes/${bold}No${normal}): "
   read -r confirmation < /dev/tty
 
   if [ "$confirmation" != "yes" ]; then
