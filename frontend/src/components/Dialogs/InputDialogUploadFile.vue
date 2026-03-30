@@ -2,6 +2,7 @@
   <div v-if="'projectSelect' in userInput" class="project-select-row">
     <label for="project-select" class="project-select-label">Project</label>
     <select id="project-select" class="project-select-content" v-model="selectedProject">
+      <option value="">-- choose a project --</option>
       <option v-for="option in userInput['projectSelect'].options" :key="option.value" :value="option.value">
         {{ option.text }}
       </option>

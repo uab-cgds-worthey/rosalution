@@ -10,6 +10,7 @@
       </div>
       <div class="case-name card-header-text">{{ name }}</div>
       <div class="nominated content-text hide-overflow-text">{{ nominated_by }}</div>
+      <!-- <div class="project-name content-text italic-content-text hide-overflow-text">{{ project_name }}</div> -->
     </div>
     <div class="dates-section">
       <span class="dates-item">
@@ -46,6 +47,7 @@
         <img :src="getLogoSrc(link.type)"/>
       </a>
     </div>
+    <div class="content-text italic-content-text"> {{ project_name }}</div>
   </router-link>
 </template>
 
@@ -69,6 +71,10 @@ export default {
       type: String,
     },
     nominated_by: {
+      type: String,
+      required: true,
+    },
+    project_name: {
       type: String,
       required: true,
     },
@@ -149,6 +155,11 @@ export default {
   font-size: var(--p-10);
 }
 
+.italic-content-text {
+  font-style: italic;
+  text-align: center;
+}
+
 .hide-overflow-text {
   text-overflow: ellipsis;
   overflow: hidden;
@@ -181,6 +192,11 @@ export default {
 }
 
 .nominated {
+  grid-row: -2;
+  grid-column: 1 / -1;
+}
+
+.project-name {
   grid-row: -1;
   grid-column: 1 / -1;
 }

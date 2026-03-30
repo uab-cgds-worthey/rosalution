@@ -1,6 +1,7 @@
 """
 Manages the user collection of the users registered to rosalution
 """
+from bson import ObjectId
 from pymongo import ReturnDocument
 
 
@@ -22,7 +23,6 @@ class UserCollection:
         if user is None:
             return None
 
-        user.pop("_id", None)
         return user
 
     def find_by_client_id(self, client_id: str):
@@ -33,6 +33,46 @@ class UserCollection:
             return None
 
         user.pop("_id", None)
+        return user
+
+    def find_by_client_id_with_project_name(self, client_id: str, project_id: str) -> dict:
+        """ Returns user by searching for a user's client id """
+
+        pipeline = [
+            {"$match": {"client_id": client_id}},
+            {
+                "$lookup": 
+                    {
+                        "from": "projects",
+                        "localField": "project_ids",
+                        "foreignField": "_id",
+                        "as": "projects"
+                    }
+            },
+            {
+                "$addFields": {
+                    "by_project": {
+                        "$first": {
+                            "$filter": {
+                                "input": "$projects",
+                                "as": "for_project",
+                                "cond": { "$eq": ["$$for_project._id", ObjectId(project_id)] }
+                            }
+                        }
+                    }
+                }
+            }
+        ]
+
+        userFound = self.collection.aggregate(pipeline)
+        user = next(userFound, None)
+
+        if user is None:
+            return None
+
+        if "_id" in user:
+            user.pop("_id", None)
+        
         return user
 
     def update_client_secret(self, client_id: str, client_secret: str):

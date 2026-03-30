@@ -76,10 +76,10 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
   it('should render the content visible within a desktop viewport', () => {
     cy.login('lw-researcher');
     cy.visit('/analysis/CPAM0178%20(ITGA3)');
-    cy.get('[data-test="header-title-text"]').contains('CPAM0178 (ITGA3)')
+    cy.get('[data-test="header-title-text"]').contains('CPAM0178 (ITGA3)');
 
     // Using the far right most menu item in the header is visible to verify the content width of
     // the CSS grid does not exceed the viewport.
-    cy.get('[data-test="user-menu"]').should('exist').and('be.visible')
+    cy.get('[data-test="user-menu"]').should('exist').and('be.visible');
   });
 });

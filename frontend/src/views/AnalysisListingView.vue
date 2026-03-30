@@ -21,6 +21,7 @@
       :description="analysis.description"
       :genomic_units="analysis.genomic_units"
       :nominated_by="analysis.nominated_by"
+      :project_name="analysis.project_name"
       :latest_status="analysis.latest_status"
       :created_date="analysis.created_date"
       :last_modified_date="analysis.last_modified_date"
@@ -88,6 +89,7 @@ export default {
           analysis.created_date,
           analysis.last_modified_date,
           analysis.nominated_by,
+          analysis.project_name,
         ].some((content) => content.toLowerCase().includes(lowerCaseSearchText)) ||
           analysis.genomic_units.some((unit) => {
             return (unit.gene && unit.gene.toLowerCase().includes(lowerCaseSearchText)) ||
@@ -139,7 +141,7 @@ export default {
       const fileTypesAccept = '.json';
 
       const includeProjects = {
-        selected: this.projectsAvailable[0]['value'],
+        selected: '',
         options: this.projectsAvailable,
       };
 
@@ -153,6 +155,33 @@ export default {
           .prompt('Temp for file upload');
 
       if (!importFile) {
+        return;
+      }
+
+      if ( '' == importFile.data ) {
+        await notificationDialog.title('Missing Analysis Json')
+            .alert('An uploaded analysis json is required to import an analysis.');
+        return;
+      }
+
+      if ( '' == importFile.projectSelect.selected) {
+        await notificationDialog.title('Missing Selected Project')
+            .alert('A Rosalution project must be selected to proceed with the import.');
+        return;
+      }
+
+      const selectedProject =
+        this.projectsAvailable.find((project) => project.value == importFile.projectSelect.selected);
+
+      const confirmedImport = await notificationDialog
+          .title(`Confirm Analysis Import into Project '${selectedProject.text}'`)
+          .confirmText('Confirm')
+          .cancelText('Cancel')
+          .confirm(
+              `This will import the uploaded json '${importFile.name}' into the ${selectedProject.text} project.`,
+          );
+
+      if (!confirmedImport) {
         return;
       }
 

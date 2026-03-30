@@ -86,12 +86,11 @@ def mock_get_project_authorization():
 
 
 @pytest.fixture(name="mock_security_get_create_project_authorization")
-@pytest.mark.usefixtures("mock_security_get_current_user")
-def mock_get_create_project_authorization():
+def mock_get_create_project_authorization(mock_security_get_current_user):
     """Mocks user successfully authorizing the user has write permissions to the project"""
 
     def mock_create_analysis_authorized():
-        return True
+        return (mock_security_get_current_user, "CPAM")
 
     app.dependency_overrides[get_create_project_authorization] = mock_create_analysis_authorized
     yield

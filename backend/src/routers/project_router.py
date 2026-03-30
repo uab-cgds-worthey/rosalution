@@ -25,7 +25,7 @@ def get_projects(repositories=Depends(database), client_id: VerifyUser = Securit
 
 
 @router.post(
-    "/{project_id}/analysis", response_model=Analysis, dependencies=[Security(get_create_project_authorization)]
+    "/{project_id}/analysis", response_model=Analysis
 )
 async def create_analysis(
     project_id: str,
@@ -33,16 +33,19 @@ async def create_analysis(
     background_tasks: BackgroundTasks,
     repositories=Depends(database),
     annotation_task_queue=Depends(annotation_queue),
-    client_id: VerifyUser = Security(get_current_user)
+    user_project: VerifyUser = Security(get_create_project_authorization)
 ):
     """Create an analysis within a project from an uploaded JSON file and queue annotation tasks by genomic units."""
+
+    client_id, project_name = user_project
+
     phenotips_input = BasePhenotips(**json.loads(phenotips_file))
     phenotips_importer = PhenotipsImporter(repositories["analysis"], repositories["genomic_unit"])
 
     try:
         new_analysis = phenotips_importer.import_phenotips_json(phenotips_input.model_dump())
         new_analysis['timeline'].append(Event.timestamp_create_event(client_id).model_dump())
-        repositories['analysis'].create_analysis(project_id, new_analysis)
+        repositories['analysis'].create_analysis(project_id, project_name, new_analysis)
 
     except ValueError as exception:
         raise HTTPException(status_code=409) from exception

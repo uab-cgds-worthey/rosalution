@@ -33,6 +33,7 @@ class VerifyUser(User):
 class ProjectUser(User):
     """ This extends the use class to include project_id """
     project_ids: List[PyObjectId] = []
+    by_project: dict | None = None
 
     def is_authorized(self, project_id: PyObjectId):
         """Returns true if user is authorized to access content by a project's ID"""

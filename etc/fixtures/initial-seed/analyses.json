@@ -5,6 +5,7 @@
     "project_id": {
       "$oid": "695d5b157709ebcd1c7325c1"
     },
+    "project_name": "CPAM",
     "nominated_by": "Dr. Person One",
     "genomic_units": [
       {
@@ -771,6 +772,7 @@
     "project_id": {
       "$oid": "695d5b157709ebcd1c7325c1"
     },
+    "project_name": "CPAM",
     "nominated_by": "Dr. Person Two",
     "genomic_units": [
       {
@@ -1374,6 +1376,7 @@
     "project_id": {
       "$oid": "695d5b157709ebcd1c7325c1"
     },
+    "project_name": "CPAM",
     "genomic_units": [
       {
         "gene": "SBF1",
@@ -2009,6 +2012,7 @@
     "project_id": {
       "$oid": "695d5b157709ebcd1c7325c1"
     },
+    "project_name": "CPAM",
     "nominated_by": "Precision Medicine Institute",
     "genomic_units": [
       {
@@ -2689,6 +2693,7 @@
     "project_id": {
       "$oid": "695d5b157709ebcd1c7325c1"
     },
+    "project_name": "CPAM",
     "genomic_units": [
       {
         "gene": "FOXG1",
@@ -3292,6 +3297,7 @@
     "project_id": {
       "$oid": "695d5b157709ebcd1c7325c1"
     },
+    "project_name": "CPAM",
     "nominated_by": "",
     "timeline": [
       {
@@ -4208,6 +4214,7 @@
     "project_id": {
       "$oid": "695d5b157709ebcd1c7325c4"
     },
+    "project_name": "LW",
     "nominated_by": "Local Medical Genetecist",
     "genomic_units": [
       {

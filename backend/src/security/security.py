@@ -186,7 +186,7 @@ def get_create_project_authorization(
     """
     Verify current user by client_id is a member of the project associated with then given analysis_name in the path.
     """
-    user_json = repositories["user"].find_by_client_id(client_id)
+    user_json = repositories["user"].find_by_client_id_with_project_name(client_id, project_id)
     user = ProjectUser(**user_json)
 
     if not user.is_authorized(project_id):
@@ -194,5 +194,8 @@ def get_create_project_authorization(
 
     if not write_authorized:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User authorization failed for operation")
+    
+    if not user.by_project:
+        raise HTTPException(status_code=404, detail="Unable to retrieve project name with user's client ID and project's ID")
 
-    return True
+    return (client_id, user.by_project['name'])

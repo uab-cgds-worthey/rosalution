@@ -53,6 +53,7 @@ class BaseAnalysis(BaseModel):
     name: str
     description: Optional[str] = None
     nominated_by: str
+    project_name: str
     timeline: List[Event] = []
     third_party_links: Optional[List] = []
 

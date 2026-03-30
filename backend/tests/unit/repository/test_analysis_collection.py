@@ -93,10 +93,11 @@ def test_create_analysis(analysis_collection, cpam0002_analysis_json):
     analysis_collection.collection.find_one.return_value = None
 
     project_id = "695d5b157709ebcd1c7325c0"
+    project_name = "CPAM"
     new_analysis = cpam0002_analysis_json
     new_analysis["name"] = "CPAM1234"
     new_analysis["project_id"] = ObjectId(project_id)
-    analysis_collection.create_analysis(project_id, new_analysis)
+    analysis_collection.create_analysis(project_id, project_name, new_analysis)
     analysis_collection.collection.insert_one.assert_called_once_with(new_analysis)
 
 
@@ -104,10 +105,11 @@ def test_create_analysis_already_exists(analysis_collection, cpam0002_analysis_j
     """Tests the create_analysis function"""
     try:
         project_id = "695d5b157709ebcd1c7325c0"
-        analysis_collection.create_analysis(project_id, cpam0002_analysis_json)
+        project_name = "CPAM"
+        analysis_collection.create_analysis(project_id, project_name, cpam0002_analysis_json)
     except ValueError as error:
         assert isinstance(error, ValueError)
-        assert str(error) == "Analysis with name CPAM0002 already exists"
+        assert str(error) == "Analysis with name CPAM0002 already exists within Project 'CPAM'"
 
 
 def test_attach_third_party_link_monday(analysis_collection, cpam0002_analysis_json):

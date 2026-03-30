@@ -150,13 +150,14 @@ class AnalysisCollection:
 
         return analysis['manifest']
 
-    def create_analysis(self, project_id: str, analysis_data: dict):
+    def create_analysis(self, project_id: str, project_name: str, analysis_data: dict):
         """Creates a new analysis if the name does not already exist"""
 
         analysis_data['project_id'] = ObjectId(project_id)
+        analysis_data['project_name'] = project_name
 
-        if self.collection.find_one({"name": analysis_data["name"]}) is not None:
-            raise ValueError(f"Analysis with name {analysis_data['name']} already exists")
+        if self.collection.find_one({"name": analysis_data["name"], "project_name": project_name}) is not None:
+            raise ValueError(f"Analysis with name {analysis_data['name']} already exists within Project '{project_name}'")
 
         return self.collection.insert_one(analysis_data)
 

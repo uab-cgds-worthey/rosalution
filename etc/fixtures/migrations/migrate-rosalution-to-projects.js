@@ -78,7 +78,13 @@ try {
                 const rosalutionProject = projectAbbreviationMapping[abbreviation];
                 const projectDocument = projectsObjectId[rosalutionProject];
 
-                db.analyses.updateOne({_id: analysis["_id"]}, {$set: {project_id: projectDocument["_id"]}});
+                db.analyses.updateOne(
+                    {_id: analysis["_id"]},
+                    {$set: {
+                        project_id: projectDocument["_id"],
+                        project_name: rosalutionProject
+                    }}
+                );
 
                 print(`Rosalution Project '${analysis['name']}' to project ${rosalutionProject}}`)
 
