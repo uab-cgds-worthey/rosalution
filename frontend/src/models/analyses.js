@@ -41,7 +41,6 @@ export default {
   async addOmicUnit(analysisName, omicUnit) {
     const url = `/rosalution/api/analysis/${analysisName}/genomic_unit`;
 
-    // structure omic unit to add to db
     const newOmicUnit = {
       'gene': omicUnit.data['geneSymbol'],
       'transcript': omicUnit.data['refSeqTranscript'],
@@ -49,9 +48,6 @@ export default {
       'protein': omicUnit.data['protein'],
       'reason_of_interest': omicUnit.data['ROI'],
     };
-
-    console.log('About to make request to post to endpoint');
-    console.log(newOmicUnit);
 
     return await Requests.post(url, newOmicUnit);
   },

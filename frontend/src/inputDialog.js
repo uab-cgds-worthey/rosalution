@@ -126,8 +126,6 @@ export default {
     };
     state.tabs.push(omicUnitInput);
     state.activeTabName = omicUnitInput.name;
-    console.log('checking if receiving the entered input');
-    console.log(omicUnitInput.input);
     return this;
   },
   edit(attachmentInput) {

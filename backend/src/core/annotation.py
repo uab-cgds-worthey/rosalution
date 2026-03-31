@@ -96,7 +96,22 @@ class AnnotationService:
         """
         Uses the list of genomic units and the list of types to queue annotation operations.
         """
-        units_to_annotate = analysis.units_to_annotate()
+        units_to_annotate = analysis.get_all_units_to_annotate()
+
+        annotation_configuration = self.annotation_config_collection.datasets_to_annotate_for_units(units_to_annotate)
+
+        for genomic_unit in units_to_annotate:
+            genomic_unit_type = genomic_unit["type"].value
+            for dataset in annotation_configuration[genomic_unit_type]:
+                annotation_unit_queued = AnnotationUnit(genomic_unit, dataset, analysis_name=analysis.name)
+                annotation_task_queue.put(annotation_unit_queued)
+
+    def queue_annotation_tasks_by_unit(
+        self, analysis: Analysis, units_to_annotate: list, annotation_task_queue: AnnotationQueue
+    ):
+        """
+        Uses the list of genomic units and the list of types to queue annotation operations.
+        """
 
         annotation_configuration = self.annotation_config_collection.datasets_to_annotate_for_units(units_to_annotate)
 

@@ -242,14 +242,10 @@ export const analysisStore = reactive({
   // -----------------------------------
 
   async addOmicUnit(omicUnit) {
-    console.log('received omic unit in analysis store');
-    console.log(omicUnit.data);
     const genomicUnits = await Analyses.addOmicUnit(
         this.analysisName(),
         omicUnit,
     );
-    console.log('Am I able to receive a response from the request to add to the endpoint?');
-    console.log(genomicUnits);
     this.analysis.genomic_units = genomicUnits;
   },
 

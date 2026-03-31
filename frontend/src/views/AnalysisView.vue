@@ -497,10 +497,6 @@ function onLogout() {
  * Links an 'omic unit to the Analysis
  */
 async function addOmicUnit() {
-  console.log('Adding an omic unit to this Analysis');
-
-  // on Click pops up an input dialog
-  // call InputDialogAddOmicUnit
   const omicUnit = await inputDialog
       .confirmText('Add')
       .cancelText('Cancel')
@@ -511,8 +507,6 @@ async function addOmicUnit() {
   if (!omicUnit) {
     return;
   }
-  console.log('This is the added Omic Unit');
-  console.log(omicUnit);
 
   try {
     await analysisStore.addOmicUnit(omicUnit);
