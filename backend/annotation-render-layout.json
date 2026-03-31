@@ -55,7 +55,8 @@
           {
             "dataset": "OMIM",
             "type": "text-dataset",
-            "linkout_dataset": "OMIM_gene_search_url",
+            "extra_annotation": "linkout",
+            "linkout": "OMIM_gene_search_url",
             "props": {
               "label": "OMIM"
             }
@@ -68,7 +69,8 @@
           {
             "dataset": "HPO",
             "type": "tag-dataset",
-            "linkout_dataset": "HPO_gene_search_url",
+            "extra_annotation": "linkout",
+            "linkout": "HPO_gene_search_url",
             "props": {
               "label": "HPO"
             }
@@ -142,9 +144,7 @@
       },
       {
         "class": "",
-        "datasets": [
-
-        ]
+        "datasets": []
       },
       {
         "class": "grid-row-horizontal",
@@ -193,8 +193,9 @@
         "datasets": [
           {
             "dataset": "SpliceAI_variant_linkout",
-            "type": "clinvar-dataset",
-            "linkout_dataset": "SpliceAI_variant_linkout",
+            "type": "subheader-dataset",
+            "extra_annotation": "linkout",
+            "linkout": "SpliceAI_variant_linkout",
             "props": {
               "label": "SpliceAI"
             }
@@ -217,7 +218,8 @@
               },
               "cutoff": 1
             }
-          },          {
+          },
+          {
             "dataset": "spliceai_donor_loss",
             "type": "score-dataset",
             "props": {
@@ -244,7 +246,8 @@
               },
               "cutoff": 1
             }
-          },          {
+          },
+          {
             "dataset": "spliceai_donor_gain",
             "type": "score-dataset",
             "props": {
@@ -265,7 +268,8 @@
           {
             "dataset": "ClinVar",
             "type": "clinvar-dataset",
-            "linkout_dataset": "ClinVar_variant_url",
+            "extra_annotation": "linkout",
+            "linkout": "ClinVar_variant_url",
             "props": {
               "label": "ClinVar"
             }
@@ -278,6 +282,182 @@
             "dataset": "transcripts",
             "genomicType": "hgvs_variant",
             "type": "transcript-datasets"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "section",
+    "class": "",
+    "header": "protein",
+    "anchor": "Protein",
+    "header_datasets": [
+      {
+        "dataset": "uniprot_protein_linkout",
+        "type": "icon-linkout-dataset",
+        "props": {
+          "imageFilename": "uniprot_logo.png",
+          "altText": "The Universal Protein Resource, UniProt "
+        }
+      },
+      {
+        "dataset": "stringdb_interactions_linkout",
+        "type": "icon-linkout-dataset",
+        "props": {
+          "imageFilename": "stringdb_logo.png",
+          "altText": "Protein-Protein Interaction Networks Functional Enrichment Analysis, STRING"
+        }
+      },
+      {
+        "dataset": "protvar_protein_linkout",
+        "type": "icon-linkout-dataset",
+        "props": {
+          "imageFilename": "protvar_logo.jpg",
+          "altText": "ProtVar, Contexulatizing human missense variation"
+        }
+      },
+      {
+        "dataset": "alphafold_protein_linkout",
+        "type": "icon-linkout-dataset",
+        "props": {
+          "imageFilename": "alphafold_logo.png",
+          "altText": "AlphaFold Protein Structure Database"
+        }
+      },
+      {
+        "dataset": "interpro_domain_protein_linkout",
+        "type": "icon-linkout-dataset",
+        "props": {
+          "imageFilename": "interpro_logo.png",
+          "altText": "InterPro, Classification of protein families"
+        }
+      },
+      {
+        "dataset": "paxdb_protein_abundance_linkout",
+        "type": "icon-linkout-dataset",
+        "props": {
+          "imageFilename": "paxdb_logo.png",
+          "altText": "Protein Abundance Database: PaxDb"
+        }
+      }
+    ],
+    "rows": [
+      {
+        "class": "",
+        "datasets": [
+          {
+            "dataset": "UniProt_Protein_Subcellular_Location_Topologies",
+            "type": "text-dataset",
+            "props": {
+              "label": "Sub cellular Location & Topologies"
+            }
+          }
+        ]
+      },
+      {
+        "class": "grid-row-horizontal",
+        "datasets": [
+          {
+            "dataset": "foldx_5_0_stability_change_state",
+            "type": "set-dataset",
+            "props": {
+              "label": "Stability change ΔΔG",
+              "set": [
+                {
+                  "value": "unlikely destabilising",
+                  "classification": "unlikely destabilising",
+                  "colour": "Blue"
+                },
+                {
+                  "value": "likely destabilising",
+                  "classification": "likely destabilising",
+                  "colour": "Red"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "class": "",
+        "datasets": [
+          {
+            "dataset": "pockets_containing_variant",
+            "type": "subheader-dataset",
+            "extra_annotation": "enabled",
+            "enabled": "protvar_variant_in_pockets_annotations_exist",
+            "props": {
+              "label": "Pockets Containing Variant"
+            }
+          }
+        ]
+      },
+      {
+        "class": "grid-row-horizontal",
+        "datasets": [
+          {
+            "dataset": "variant_in_pocket_prediction_confidence_level_score_confidence",
+            "type": "set-dataset",
+            "props": {
+              "label": "Combined Score",
+              "set": [
+                {
+                  "value": "low confidence",
+                  "classification": "low confidence",
+                  "colour": "Blue"
+                },
+                {
+                  "value": "high confidence",
+                  "classification": "high confidence",
+                  "colour": "Yellow"
+                },
+                {
+                  "value": "very high confidence",
+                  "classification": "very high confidence",
+                  "colour": "Red"
+                }
+              ]
+            }
+          },
+          {
+            "dataset": "variant_in_pocket_prediction_mean_per_residue_model_form_pocket_confidence",
+            "type": "set-dataset",
+            "props": {
+              "label": "Pocket pLDD mean",
+              "set": [
+                {
+                  "value": "low confidence",
+                  "classification": "low confidence",
+                  "colour": "Blue"
+                },
+                {
+                  "value": "high confidence",
+                  "classification": "high confidence",
+                  "colour": "Yellow"
+                },
+                {
+                  "value": "very high confidence",
+                  "classification": "very high confidence",
+                  "colour": "Red"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "class": "",
+        "datasets": [
+          {
+            "dataset": "IntAct_Protein_Gene_Interactions",
+            "type": "text-dataset",
+            "extra_annotation": "linkout",
+            "linkout": "IntAct_Protein_Gene_Interactions_linkout",
+            "props": {
+              "label": "IntAct Protein Gene Interactions",
+              "enableCopy": true
+            }
           }
         ]
       }

@@ -23,6 +23,19 @@ class Project(BaseModel):
     name: str
 
 
+def normalize_hgvs_protein_notation(p_dot: str) -> str:
+    """Takes an HGVS protein string, aka, a p_dot value, and formats it in proper HGVS notation"""
+    is_valid_match = re.fullmatch(r"p\.\((.+)\)", p_dot)
+    if is_valid_match:
+        return p_dot
+
+    normalized_match = re.fullmatch(r"\(?(?:p\.)?\(?(\w+)\)?\)?", p_dot)
+    if not normalized_match:
+        return None
+
+    return f"p.({normalized_match.group(1)})"
+
+
 class GenomicUnit(BaseModel):
     """The basic units within an analysis"""
 
@@ -118,11 +131,13 @@ class Analysis(BaseAnalysis):
                 if "hgvs_variant" in variant and variant["hgvs_variant"]:
                     transcript = variant["hgvs_variant"].split(':')[0]
                     transcript_without_version = re.sub(r'\..*', '', transcript)
+
+                    hgvs_protein = normalize_hgvs_protein_notation(variant["p_dot"]) if "p_dot" in variant else None
+
                     units.append({
-                        "unit": variant["hgvs_variant"],
-                        "type": GenomicUnitType.HGVS_VARIANT,
-                        "genomic_build": variant["build"],
-                        "transcript": transcript_without_version,
+                        "unit": variant["hgvs_variant"], "type": GenomicUnitType.HGVS_VARIANT,
+                        "genomic_build": variant["build"], "transcript": transcript_without_version,
+                        **({"protein": hgvs_protein} if hgvs_protein else {})
                     })
 
         return units
