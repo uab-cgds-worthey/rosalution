@@ -22,6 +22,7 @@ function getMountedComponent(props) {
       },
     ],
     nominated_by: 'Dr. Person Two',
+    project_name: 'CPAM',
     latest_status: 'Approved',
     created_date: '2021-09-30',
     last_modified_date: '2021-10-01',

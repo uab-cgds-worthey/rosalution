@@ -12,18 +12,20 @@ usage() {
   echo "  -f  Specify the CSV file path for bulk add users"
   echo "  -h  Display this help message"
   echo ""
-  echo "Scopes available for Users arƒe: read, write"
+  echo "Scopes available for Users are: read, write"
   echo ""
   echo "CSV Document Format with Example"
   echo "-------"
-  echo "name,username,email,clientid,scope"
-  echo "John Doe,jdoe,jdoe@site.com,read"
+  echo "name,username,email,clientid,project_id,scope"
+  echo "John Doe,jdoe,jdoe@site.com,695d5b157709ebcd1c7325c0,read"
   echo ""
   echo " "
-  echo "Please ensure 'opensll' CLI application is installed for this script to work."
+  echo "Please ensure 'openssl' CLI application is installed for this script to work."
   echo " "
 }
 
+bold=$(tput bold)
+normal=$(tput sgr0)
 
 database="rosalution_db"
 touch_csv_template_file=false
@@ -56,8 +58,8 @@ if $touch_csv_template_file; then
     echo "ℹ️ Template '$add_user_template_filename' already exists."
   else
     cat >> "$add_user_template_filename" << END
-name,username,email,clientid,scope
-John Doe,jdoe,jdoe@site.com,read
+name,username,email,clientid,project_id,scope
+John Doe,jdoe,jdoe@site.com,695d5b157709ebcd1c7325c0,read
 
 END
   fi
@@ -83,7 +85,7 @@ function prompt_confirmation() {
   name=$1
   username=$2
 
-  echo "Are you sure you want to add '$name' as user '$username' to Rosalution? (yes/no): "
+  echo "Are you sure you want to add '$name' as user '$username' to Rosalution? (yes/${bold}No${normal}): "
   read -r confirmation < /dev/tty
 
   if [ "$confirmation" != "yes" ]; then
@@ -98,6 +100,7 @@ function add_user() {
   username=$2
   email=$3
   scope=$4
+  project=$5
 
   exists_query="db.users.countDocuments({username: \"${username}\"});"
   exists_result=$(docker exec "$docker_container" mongosh "$database" --quiet --eval "'${exists_query}'" )
@@ -112,7 +115,7 @@ function add_user() {
     return 1 # Exit code indicating user exists
   fi
 
-  # Intentionally using signel quotes so that the string does not attempt to expand
+  # Intentionally using single quotes so the string does not attempt to expand
   # shellcheck disable=SC2016
   hashed_password='$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm'
   client_id=$(openssl rand -hex 16)
@@ -125,7 +128,8 @@ function add_user() {
   "hashed_password":"${hashed_password}",
   "disabled":false,
   "client_id": "${client_id}",
-  "client_secret": ""
+  "client_secret": "",
+  "project_ids": [ObjectId("$project")]
 }
 EOF
 )
@@ -138,17 +142,20 @@ EOF
 
 if [[ "$csv_filepath" != "" ]]; then
   echo "Adding users from '$csv_filepath'"
-  while IFS=',' read -r name username email scope; do
+  while IFS=',' read -r name username email project scope; do
     if [[ "$name" == "name" || "$name" == "" ]]; then
       continue 1
     fi
 
-  add_user "$name" "$username" "$email" "$scope" 
+  add_user "$name" "$username" "$email" "$scope" "$project"
 
   done < "$csv_filepath"
 fi
 
 if $prompt_for_user; then
+  projects_query="db.projects.find({}, { _id: { \$toString: \"\$_id\" }, name: 1 }).map( entry => entry.name + '(' + entry._id + ')')"
+  projects_result=$(docker exec "$docker_container" mongosh "$database" --quiet --eval "'${projects_query}'" )
+
   echo "Input in the upcomming prompts for add user information: "
   echo "Full Name: "
   read -r name < /dev/tty
@@ -156,10 +163,12 @@ if $prompt_for_user; then
   read -r username < /dev/tty
   echo "Email: "
   read -r email < /dev/tty
+  echo "Project ID $projects_result: "
+  read -r project < /dev/tty
   echo "Scope: read,write"
   read -r scope < /dev/tty
 
-  add_user "$name" "$username" "$email" "$scope" 
+  add_user "$name" "$username" "$email" "$scope" "$project" 
 fi
 
 

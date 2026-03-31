@@ -12,7 +12,7 @@ describe('status_filter_case_cards.cy.js', () => {
     cy.get('.legend > [data-test="Declined"]').as('DeclinedStatus');
   });
   it('filters cases by status', () => {
-    cy.get('[data-test="analysis-card"]').should('have.length', 7);
+    cy.get('[data-test="analysis-card"]').should('have.length', 6);
 
     cy.get('@PreparationStatus').click();
     cy.get('[data-test="analysis-card"]')
@@ -22,7 +22,7 @@ describe('status_filter_case_cards.cy.js', () => {
     cy.get('@ReadyStatus').click();
     cy.get('@ActiveStatus').click();
     cy.get('[data-test="analysis-card"]')
-        .should('have.length', 3)
+        .should('have.length', 2)
         .should('contain', 'CPAM0053');
 
     cy.get('@ActiveStatus').click();
@@ -50,7 +50,7 @@ describe('status_filter_case_cards.cy.js', () => {
   });
 
   it('filters cases by multiple statuses', () => {
-    cy.get('[data-test="analysis-card"]').should('have.length', 7);
+    cy.get('[data-test="analysis-card"]').should('have.length', 6);
     cy.get('@PreparationStatus').click();
     cy.get('@ReadyStatus').click();
     cy.get('[data-test="analysis-card"]')
@@ -60,19 +60,19 @@ describe('status_filter_case_cards.cy.js', () => {
   });
 
   it('resets the filters if all are selected', () => {
-    cy.get('[data-test="analysis-card"]').should('have.length', 7);
+    cy.get('[data-test="analysis-card"]').should('have.length', 6);
     cy.get('@PreparationStatus').click();
     cy.get('[data-test="analysis-card"]').should('have.length', 1);
     cy.get('@ReadyStatus').click();
     cy.get('[data-test="analysis-card"]').should('have.length', 2);
     cy.get('@ActiveStatus').click();
-    cy.get('[data-test="analysis-card"]').should('have.length', 3);
+    cy.get('[data-test="analysis-card"]').should('have.length', 2);
     cy.get('@ApprovedStatus').click();
-    cy.get('[data-test="analysis-card"]').should('have.length', 5);
+    cy.get('[data-test="analysis-card"]').should('have.length', 4);
     cy.get('@OnHoldStatus').click();
-    cy.get('[data-test="analysis-card"]').should('have.length', 5);
+    cy.get('[data-test="analysis-card"]').should('have.length', 4);
     cy.get('@DeclinedStatus').click();
-    cy.get('[data-test="analysis-card"]').should('have.length', 7);
+    cy.get('[data-test="analysis-card"]').should('have.length', 6);
     cy.get('.legend > :nth-child(2)').click();
     cy.get('[data-test="analysis-card"]').should('have.length', 1);
   });

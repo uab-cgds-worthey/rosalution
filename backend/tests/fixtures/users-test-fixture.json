@@ -6,6 +6,8 @@
     "email": "johndoe@example.com",
     "scope": "modify",
     "hashed_password": "$2b$12$xmKVVuGh6e0wP1fKellxMuOZ8HwVoogJ6W/SZpCbk0EEOA8xAsXYm",
-    "disabled": false
+    "disabled": false,
+    "client_id": "johndoe-client-id",
+    "project_ids": [{ "$oid": "695d5b157709ebcd1c7325c1" }]
   }
 ]

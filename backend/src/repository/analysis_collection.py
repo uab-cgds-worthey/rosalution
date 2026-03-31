@@ -4,6 +4,7 @@ Collection with retrieves, creates, and modify analyses.
 from typing import List
 from uuid import uuid4
 
+from bson import ObjectId
 from pymongo import ReturnDocument
 
 from ..core.annotation_unit import AnnotationUnit
@@ -11,6 +12,7 @@ from ..core.annotation_unit import AnnotationUnit
 from ..models.analysis import Section
 from ..models.event import Event
 from ..enums import EventType
+from .analysis_collection_summary import AnalysisCollectionSummary
 
 # pylint: disable=too-many-public-methods
 # Disabling due to pushing a refactor of Analysis Collection to a later time.
@@ -27,65 +29,20 @@ class AnalysisCollection:
         """Returns all analyses within the system"""
         return list(self.collection.find())
 
-    def all_summaries(self):
-        """Returns all of the summaries for all of the analyses within the system"""
-
-        query_result = self.collection.find({}, {
-            "name": 1,
-            "description": 1,
-            "genomic_units": 1,
-            "nominated_by": 1,
-            "timeline": 1,
-            "third_party_links": 1,
-        })
-
-        summaries = []
-        for analysis in query_result:
-            genomic_unit_summaries = []
-            for unit in analysis['genomic_units']:
-                genomic_unit_summary = {}
-                if unit.get('gene'):
-                    genomic_unit_summary['gene'] = unit['gene']
-                genomic_unit_summary['variants'] = []
-                for variant in unit['variants']:
-                    summary_variant = variant['hgvs_variant']
-                    if variant['p_dot'] is not None:
-                        summary_variant = f"{summary_variant}({variant['p_dot']})"
-                    genomic_unit_summary['variants'].append(summary_variant)
-                genomic_unit_summaries.append(genomic_unit_summary)
-            analysis['genomic_units'] = genomic_unit_summaries
-            summaries.append(analysis)
-
-        return summaries
-
     def summary_by_name(self, name: str):
         """Returns the summary of an analysis by name"""
 
-        query_result = self.collection.find_one({"name": name}, {
-            "name": 1,
-            "description": 1,
-            "genomic_units": 1,
-            "nominated_by": 1,
-            "timeline": 1,
-            "third_party_links": 1,
-        })
+        query_result = self.collection.find_one({"name": name}, AnalysisCollectionSummary.query_projection())
 
         if query_result:
-            genomic_unit_summaries = []
-            for unit in query_result['genomic_units']:
-                genomic_unit_summary = {}
-                if unit.get('gene'):
-                    genomic_unit_summary['gene'] = unit['gene']
-                genomic_unit_summary['variants'] = []
-                for variant in unit['variants']:
-                    summary_variant = variant['hgvs_variant']
-                    if variant['p_dot'] is not None:
-                        summary_variant = f"{summary_variant}({variant['p_dot']})"
-                    genomic_unit_summary['variants'].append(summary_variant)
-                genomic_unit_summaries.append(genomic_unit_summary)
+            genomic_unit_summaries = AnalysisCollectionSummary.omic_unit_json_summary(query_result['genomic_units'])
             query_result['genomic_units'] = genomic_unit_summaries
 
         return query_result
+
+    def project_id_by_name(self, name: str) -> str:
+        """Returns analysis by searching for name"""
+        return str(self.collection.find_one({"name": name}, {"project_id": 1, "_id": 0})['project_id'])
 
     def find_by_name(self, name: str):
         """Returns analysis by searching for name"""
@@ -193,10 +150,14 @@ class AnalysisCollection:
 
         return analysis['manifest']
 
-    def create_analysis(self, analysis_data: dict):
+    def create_analysis(self, project_id: str, project_name: str, analysis_data: dict):
         """Creates a new analysis if the name does not already exist"""
-        if self.collection.find_one({"name": analysis_data["name"]}) is not None:
-            raise ValueError(f"Analysis with name {analysis_data['name']} already exists")
+
+        analysis_data['project_id'] = ObjectId(project_id)
+        analysis_data['project_name'] = project_name
+
+        if self.collection.find_one({"name": analysis_data["name"], "project_name": project_name}) is not None:
+            raise ValueError(f"Analysis '{analysis_data['name']}' already exists within Project '{project_name}'")
 
         return self.collection.insert_one(analysis_data)
 
@@ -204,7 +165,7 @@ class AnalysisCollection:
         """ Returns an analysis with a third party link attached to it """
         analysis = self.collection.find_one({"name": analysis_name})
         if not analysis:
-            raise ValueError(f"Analysis with name {analysis_name} does not exist")
+            raise ValueError(f"Analysis '{analysis_name}' does not exist")
 
         if 'third_party_links' not in analysis:
             analysis['third_party_links'] = []

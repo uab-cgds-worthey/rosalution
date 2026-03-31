@@ -45,6 +45,7 @@ class PhenotipsImporter:
         analysis_data['discussions'] = []
         analysis_data['attachments'] = []
         analysis_data['timeline'] = []
+        analysis_data['project_id'] = ""
         return analysis_data
 
     @staticmethod

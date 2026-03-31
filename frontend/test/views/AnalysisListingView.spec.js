@@ -20,6 +20,7 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 describe('AnalysisListingView', () => {
   let mockedData;
+  let mockProjectsList;
   let mockedImport;
   let mockAuthWritePermissions;
   let wrapper;
@@ -29,6 +30,22 @@ describe('AnalysisListingView', () => {
     sandbox = sinon.createSandbox();
     mockedData = sandbox.stub(Analyses, 'all');
     mockedData.returns(fixtureData());
+
+    mockProjectsList = sandbox.stub(Analyses, 'getProjects');
+    mockProjectsList.returns([
+      {
+        '_id': '695d5b157709ebcd1c7325c0',
+        'name': 'Ciliopathies',
+      },
+      {
+        '_id': '695d5b157709ebcd1c7325c1',
+        'name': 'CPAM',
+      },
+      {
+        '_id': '695d5b157709ebcd1c7325c4',
+        'name': 'LW',
+      },
+    ]);
 
     mockedImport = sandbox.stub(Analyses, 'importNewAnalysis');
     mockAuthWritePermissions = sandbox.stub(authStore, 'hasWritePermissions');
@@ -69,7 +86,7 @@ describe('AnalysisListingView', () => {
       expect(createCard.exists()).to.be.true;
     });
 
-    it('should allow file upload to import a new analysis json on prompt', async ()=> {
+    it('should provide a confirmation prompt before importing analysis', async ()=> {
       const createCard = wrapper.findComponent(AnalysisCreateCard);
       await createCard.trigger('click');
 
@@ -77,8 +94,35 @@ describe('AnalysisListingView', () => {
         data: {
           name: 'fake-analysis-import.json',
         },
+        projectSelect: {
+          selected: '695d5b157709ebcd1c7325c0',
+        },
       };
       inputDialog.confirmation(attachmentData);
+
+      await wrapper.vm.$nextTick();
+
+      const confirmationDialog = wrapper.findComponent(NotificationDialog);
+      expect(confirmationDialog.exists()).to.be.true;
+    });
+
+    it('should allow file upload to import a new analysis json after confirmation', async ()=> {
+      const createCard = wrapper.findComponent(AnalysisCreateCard);
+      await createCard.trigger('click');
+
+      const attachmentData = {
+        data: {
+          name: 'fake-analysis-import.json',
+        },
+        projectSelect: {
+          selected: '695d5b157709ebcd1c7325c0',
+        },
+      };
+
+      inputDialog.confirmation(attachmentData);
+      await wrapper.vm.$nextTick();
+
+      notificationDialog.confirmation();
       await wrapper.vm.$nextTick();
 
       expect(mockedImport.called).to.be.true;
@@ -92,12 +136,20 @@ describe('AnalysisListingView', () => {
         data: {
           name: 'fake-analysis-import.json',
         },
+        projectSelect: {
+          selected: '695d5b157709ebcd1c7325c0',
+        },
       };
       inputDialog.confirmation(attachmentData);
       await wrapper.vm.$nextTick();
 
+      notificationDialog.confirmation();
+      await wrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick();
+
       const dialogComponent = wrapper.findComponent(NotificationDialog);
       expect(dialogComponent.exists()).to.be.true;
+      expect(notificationDialog.state.title).to.equal('Successful import');
     });
 
     it('should render notification for a failed upload', async () => {
@@ -109,9 +161,16 @@ describe('AnalysisListingView', () => {
         data: {
           name: 'fake-analysis-import.json',
         },
+        projectSelect: {
+          selected: '695d5b157709ebcd1c7325c0',
+        },
       };
 
       inputDialog.confirmation(attachmentData);
+      await wrapper.vm.$nextTick();
+
+      notificationDialog.confirmation();
+      await wrapper.vm.$nextTick();
       await wrapper.vm.$nextTick();
 
       const dialogComponent = wrapper.findComponent(NotificationDialog);
@@ -195,6 +254,7 @@ function fixtureData() {
       variants: [],
     }],
     nominated_by: 'Dr. Person Two',
+    project_name: 'CPAM',
     latest_status: 'Approved',
     created_date: '2021-09-30',
     last_modified_date: '2021-10-01',
@@ -207,6 +267,7 @@ function fixtureData() {
       variants: [],
     }],
     nominated_by: 'CMT4B3 Foundation',
+    project_name: 'CPAM',
     latest_status: 'Declined',
     created_date: '2020-12-03',
     last_modified_date: '2021-12-12',
@@ -218,6 +279,7 @@ function fixtureData() {
       transcripts: ['NM_153818.2'],
     }],
     nominated_by: 'N/A',
+    project_name: 'CPAM',
     latest_status: 'Ready',
     created_date: '2021-11-02',
     last_modified_date: '2021-11-23',
