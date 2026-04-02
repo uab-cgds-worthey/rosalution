@@ -1,8 +1,6 @@
+# pylint: disable=duplicate-code
 """Analysis Routes Integration test"""
 
-# pylint: disable=duplicate-code
-
-import json
 import datetime
 
 import pytest

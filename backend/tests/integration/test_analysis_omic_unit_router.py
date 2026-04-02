@@ -1,3 +1,4 @@
+# pylint: disable=duplicate-code
 """Testing endpoints for adding/updating/removing omic units to an analysis."""
 from unittest.mock import patch
 
