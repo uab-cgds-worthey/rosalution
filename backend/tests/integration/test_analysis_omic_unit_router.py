@@ -61,6 +61,8 @@ def fixture_success_adding_genomic_units():
         "_id": "fake-mongo-object-id",
         "name": 'CPAM0002',
         "description": 'Vacuolar myopathy with autophagy, X-linked vacuolar myopathy with autophagy',
+        "project_id": {"$oid": "695d5b157709ebcd1c7325c1"},
+        "project_name": "CPAM",
         "nominated_by": 'Dr. Person One',
         "genomic_units": [{
             "gene": 'VMA21', "transcripts": [{"transcript": 'NM_001017980.3'}], "variants": [{
