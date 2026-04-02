@@ -9,31 +9,7 @@ from fastapi import BackgroundTasks
 from src.core.annotation import AnnotationService
 
 
-def test_adding_omic_unit_to_analysis(client, mock_access_token, mock_repositories, successfully_added_genomic_units):
-    """Test adding an omic unit to the analysis"""
-
-    new_genomic_unit = {
-        'transcript': "NM_004972.3",
-        'gene': "JAK2",
-        'cdna': "c.1694G>C",
-        'protein': "p.Arg565Thr",
-        'reason_of_interest': "Find this variant interesting to explore.",
-    }
-
-    mock_repositories["analysis"].collection.find_one_and_update.return_value = successfully_added_genomic_units
-
-    response = client.post(
-        "/analysis/CPAM0002/genomic_unit",
-        headers={"Authorization": "Bearer " + mock_access_token},
-        content=json.dumps(new_genomic_unit)
-    )
-
-    assert response.status_code == 200
-    actual_genomic_units = json.loads(response.text)
-    assert len(actual_genomic_units) == 2
-
-
-def test_annotating_new_omic_unit_to_analysis( # pylint: disable=too-many-arguments
+def test_adding_and_annotating_new_omic_unit_to_analysis( # pylint: disable=too-many-arguments
       client,
       mock_access_token,
       mock_repositories,
@@ -41,7 +17,7 @@ def test_annotating_new_omic_unit_to_analysis( # pylint: disable=too-many-argume
       mock_annotation_queue,
       annotations_config_collection_json,
       genomic_units_collection_json):
-    """Test annotating an added omic unit to the analysis"""
+    """Test adding and annotating an added omic unit to the analysis"""
 
     new_genomic_unit = {
         'transcript': "NM_004972.3",
