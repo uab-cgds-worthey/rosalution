@@ -38,6 +38,20 @@ export default {
     return genomicUnits;
   },
 
+  async addOmicUnit(analysisName, omicUnit) {
+    const url = `/rosalution/api/analysis/${analysisName}/genomic_unit`;
+
+    const newOmicUnit = {
+      'gene': omicUnit.data['geneSymbol'],
+      'transcript': omicUnit.data['refSeqTranscript'],
+      'cdna': omicUnit.data['cdna'],
+      'protein': omicUnit.data['protein'],
+      'reason_of_interest': omicUnit.data['ROI'],
+    };
+
+    return await Requests.post(url, newOmicUnit);
+  },
+
   async pushAnalysisEvent(analysisName, eventType) {
     const url = `/rosalution/api/analysis/${analysisName}/event/${eventType}`;
     return await Requests.put(url);

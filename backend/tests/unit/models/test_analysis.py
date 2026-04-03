@@ -163,10 +163,10 @@ def fixture_units_to_annotate_variant_without_protein(cpam0002_analysis):
             if variant['hgvs_variant'] == "NM_001017980.3:c.164G>T":
                 del variant['p_dot']
 
-    return cpam0002_analysis.units_to_annotate()
+    return cpam0002_analysis.get_all_units_to_annotate()
 
 
 @pytest.fixture(name="units_to_annotate")
 def fixture_units_to_annotate(cpam0002_analysis):
     """Fixture for the units to annotate for the CPAM0002 Analysis"""
-    return cpam0002_analysis.units_to_annotate()
+    return cpam0002_analysis.get_all_units_to_annotate()

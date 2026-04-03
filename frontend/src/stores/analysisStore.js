@@ -238,6 +238,18 @@ export const analysisStore = reactive({
   },
 
   // -----------------------------------
+  // Omic Units
+  // -----------------------------------
+
+  async addOmicUnit(omicUnit) {
+    const genomicUnits = await Analyses.addOmicUnit(
+        this.analysisName(),
+        omicUnit,
+    );
+    this.analysis.genomic_units = genomicUnits;
+  },
+
+  // -----------------------------------
   // Analysis Operations
   // -----------------------------------
 

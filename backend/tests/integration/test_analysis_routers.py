@@ -1,3 +1,4 @@
+# pylint: disable=duplicate-code
 """Analysis Routes Integration test"""
 
 import datetime
