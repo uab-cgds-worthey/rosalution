@@ -12,6 +12,7 @@
   transcript and p dot value.
 - TextDataset components support enabling a copy text button via the annotation rendering layout configuration.
 - Introduced new keyword in annotation configuration for 'protein' allowing use of an HGVS variant’s p.dot value.
+- Add and annotare new omic units to existing analyses, with a reason of interest.
 
 ## 0.8.8-er
 
