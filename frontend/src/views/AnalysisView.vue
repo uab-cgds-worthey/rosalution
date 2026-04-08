@@ -6,6 +6,7 @@
         :sectionAnchors="sectionsHeaders"
         :username="username"
         :workflow_status="latestStatus"
+        @logout="onLogout"
         :third_party_links="thirdPartyLinks"
         data-test="analysis-view-header"
       >
