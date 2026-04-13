@@ -166,7 +166,7 @@ def fixture_genomic_units_with_types(analysis_collection_json):
 
     def get_units(analysis_json):
         analysis = Analysis(**analysis_json)
-        return analysis.units_to_annotate()
+        return analysis.get_all_units_to_annotate()
 
     genomic_units_lists = list(map(get_units, analysis_collection_json))
     flattened_list = [unit for analysis_units in genomic_units_lists for unit in analysis_units]

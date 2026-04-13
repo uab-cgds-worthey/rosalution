@@ -89,6 +89,43 @@ class AnalysisCollection:
 
         return genomic_units_return
 
+    def add_genomic_units(self, analysis_name: str, new_genomic_unit: dict):
+        """
+        Adds a new omic unit to an analysis by Analysis Name
+            new_genomic_unit = {
+                'transcript': "NM_004972.3",
+                'gene': "JAK2",
+                'cdna': "c.1694G>C",
+                'protein': "p.Arg565Thr",
+                'reason_of_interest': "Find this variant interesting to explore.",
+            }
+        """
+
+        analysis = self.collection.find_one({"name": analysis_name})
+        if not analysis:
+            raise ValueError(f"Analysis with name {analysis_name} does not exist")
+
+        self.collection.find_one_and_update({
+            "name": analysis_name, "genomic_units.gene": {"$ne": new_genomic_unit["gene"]}
+        }, {'$addToSet': {"genomic_units": {"gene": new_genomic_unit["gene"], "transcripts": [], "variants": []}}})
+
+        updated_analysis = self.collection.find_one_and_update({
+            "name": analysis_name, "genomic_units.gene": new_genomic_unit["gene"]
+        }, {
+            '$addToSet': {
+                "genomic_units.$[unit].transcripts": {"transcript": new_genomic_unit["transcript"]},
+                "genomic_units.$[unit].variants": {
+                    "hgvs_variant": new_genomic_unit["transcript"] + ":" + new_genomic_unit["cdna"], "c_dot":
+                        new_genomic_unit["cdna"], "p_dot": new_genomic_unit["protein"], "build": "GRCh38",
+                    "case": [{"field": "Reason of Interest", "value": [new_genomic_unit["reason_of_interest"],]}]
+                }
+            }
+        },
+                                                               array_filters=[{"unit.gene": new_genomic_unit["gene"]}],
+                                                               return_document=ReturnDocument.AFTER)
+
+        return updated_analysis
+
     def add_dataset_to_manifest(self, analysis_name: str, annotation_unit: AnnotationUnit):
         """Adds this dataset and its version to this Analysis."""
         dataset = {

@@ -116,10 +116,10 @@ class Analysis(BaseAnalysis):
     attachments: List = []
     manifest: object = {}
 
-    def units_to_annotate(self):
-        """Returns the types of genomic units within the analysis"""
+    def units_to_annotate(self, genomic_units_to_annotate: List):
+        """Returns the types of genomic units within the given genomic_units_to_annotate list"""
         units = []
-        for unit in self.genomic_units:
+        for unit in genomic_units_to_annotate:
             if hasattr(unit, "gene"):
                 units.append({"unit": unit.gene, "type": GenomicUnitType.GENE})
             for transcript in unit.transcripts:
@@ -141,6 +141,10 @@ class Analysis(BaseAnalysis):
                     })
 
         return units
+
+    def get_all_units_to_annotate(self):
+        """Returns the types of genomic units within the analysis"""
+        return self.units_to_annotate(self.genomic_units)
 
     def find_section_field_by_attachment_id(self, attachment_id):
         """

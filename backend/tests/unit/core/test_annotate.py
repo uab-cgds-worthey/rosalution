@@ -80,7 +80,7 @@ def test_processing_cpam0002_version_annotation_tasks(process_cpam0002_tasks):
 @pytest.fixture(name="cpam0046_hgvs_variant_json")
 def fixture_cpam0046_hgvs_variant(cpam0046_analysis):
     """Returns the HGVS variant within the CPAM0046 analysis."""
-    genomic_units = cpam0046_analysis.units_to_annotate()
+    genomic_units = cpam0046_analysis.get_all_units_to_annotate()
     unit = {}
     for genomic_unit in genomic_units:
         if genomic_unit["type"] == GenomicUnitType.HGVS_VARIANT:

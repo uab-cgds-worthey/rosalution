@@ -17,12 +17,14 @@ from . import analysis_annotation_router
 from . import analysis_attachment_router
 from . import analysis_discussion_router
 from . import analysis_section_router
+from . import analysis_omic_unit_router
 
 router = APIRouter(prefix="/analysis")
 router.include_router(analysis_annotation_router.router)
 router.include_router(analysis_attachment_router.router)
 router.include_router(analysis_discussion_router.router)
 router.include_router(analysis_section_router.router)
+router.include_router(analysis_omic_unit_router.router)
 
 
 @router.get("", tags=["analysis"], response_model=List[Analysis])
