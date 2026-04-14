@@ -9,20 +9,11 @@
   it('adds, edits, and removes new omic units to an analysis', () => {
     cy.get('[data-test="user-menu"]')
         .find('.grey-rounded-menu')
-        .as('userActionMenu')
-        .invoke('attr', 'style', 'display: block; visibility: visible; opacity: 1;');
-    cy.get('@userActionMenu').contains('Add Unit').click();
-    // cy.get('@userActionMenu').invoke('attr', 'style', 'display: block; visibility: hidden; opacity: 0;');
+        .invoke('attr', 'style', 'display: block; visibility: visible; opacity: 1;')
+        .as('openActionMenu')
 
-    //     # new_genomic_unit_dict = {
-    // #     'transcript': "NM_004972.3",
-    // #     'gene': "JAK2",
-    // #     'cdna': "c.1694G>C",
-    // #     'protein': "p.Arg565Thr",
-    // #     'reason_of_interest': "Find this variant interesting to explore.",
-    // # }
-
-    // cy.intercept('/rosalution/api/analysis/CPAM0002/genomic_unit').as('omicUnitChange');
+    // Adding First Linked Omic Unit
+    cy.get('@openActionMenu').within(() => { cy.contains('Add Unit').click() }).invoke('hide');
 
     cy.get('[data-test="gene-symbol-input"]').type('G6PD')
     cy.get('[data-test="refseq-transcript-input"]').type('NM_001360016.2')
@@ -31,7 +22,6 @@
     cy.get('[data-test="reason-of-interest-input"]').type('Interested in manually adding new omic unit')
     
     cy.get('.primary-button').contains('Add').click();
-    // cy.wait('@omicUnitChange')
     cy.get('[data-test="header-title-text"]').click();
 
     cy.get('[data-test="G6PD-variant-0"]').as('variantRowG6PD')
@@ -39,51 +29,47 @@
     cy.get('@variantRowG6PD').find('.variant-name-row > .variant-name-line')
         .should('have.text', 'NM_001360016.2:c.563C>T(p.Ser188Phe)')
 
-    cy.get('@userActionMenu').contains('Edit').click();
-    cy.get('@userActionMenu').invoke('attr', 'style', 'display: block; visibility: hidden; opacity: 0;');
+    // // Editing First Linked Omic Unit, Must enable Edit Mode to Make omic unit editable
+    cy.get('@openActionMenu').within(() => { cy.contains('Edit').click() }).invoke('hide');
 
     cy.get('@variantRowG6PD').should('have.class', 'editable');
     cy.get('@variantRowG6PD').find('[data-test="edit-button"]').click();
-
-    cy.get('[data-test="reason-of-interest-input"]').type('Editing the omic unit of interest')
+    cy.get('[data-test="reason-of-interest-input"]').clear().type('Editing the omic unit of interest')
     cy.get('.primary-button').contains('Edit').click();
 
     cy.get('@variantRowG6PD').find('.variant-case-information')
-        .should('have.text', 'Editing the omic unit of interest')
+        .should('contain.text', 'Editing the omic unit of interest')
 
-    // cy.get('[data-test="user-menu"]')
-    //     .find('.grey-rounded-menu')
-    //     .as('userActionMenu')
-    //     .invoke('attr', 'style', 'display: block; visibility: visible; opacity: 1;');
-    // cy.get('@userActionMenu').contains('Edit').click();
-    // cy.get('@userActionMenu').invoke('attr', 'style', 'display: block; visibility: hidden; opacity: 0;');
+    // // Adding Second Linked Omic Unit
+    cy.get('@openActionMenu').within(() => { cy.contains('Add Unit').click() }).invoke('hide');
 
-    // cy.get('[href="#Brief"]').click();
-    // cy.get('#Brief > div > [data-test="Phenotype"] > .section-content > [data-test="editable-value"]')
-    //     .as('editablePhenotype')
-    //     .click();
-    // cy.get('@editablePhenotype').type('test');
-    // cy.get('@editablePhenotype').should('contain', 'test');
+    cy.get('[data-test="gene-symbol-input"]').type('JAK2')
+    cy.get('[data-test="refseq-transcript-input"]').type('NM_004972.3')
+    cy.get('[data-test="hgvs-cdna-input"]').type('c.1694G>C')
+    cy.get('[data-test="hgvs-protein-input"]').type('p.Arg565Thr')
+    cy.get('[data-test="reason-of-interest-input"]').type('Second linked omic unit to this other gene')
 
-    // // Save the changes to persist the analysis
-    // cy.get('[data-test="save-edit-button"]').should('exist');
-    // cy.get('[data-test="save-edit-button"]').click();
-    // cy.get('[data-test="save-edit-button"]').should('not.exist');
+    cy.get('.primary-button').contains('Add').click();
+    cy.get('[data-test="header-title-text"]').click();
 
-    // // Verify that the changes persist once the save is complete
-    // cy.get('[href="#Brief"]').click();
-    // cy.get('#Brief > div > [data-test="Phenotype"] > .section-content').as('phenotypeField').should('contain', 'test');
+    cy.get('[data-test="JAK2-variant-0"]').as('variantRowJAK2')
+    cy.get('@variantRowJAK2').find('.variant-name-row > .variant-name-line')
+        .should('have.text', 'NM_004972.3:c.1694G>C(p.Arg565Thr)')
+    
+    // Editing the first linked omic unit again
+    cy.get('@variantRowG6PD').should('have.class', 'editable');
+    cy.get('@variantRowG6PD').find('[data-test="edit-button"]').click();
+    cy.get('[data-test="reason-of-interest-input"]').clear().type('Unicorns really eat rainbows.')
+    cy.get('.primary-button').contains('Edit').click();
+    cy.get('@variantRowG6PD').find('.variant-case-information')
+        .should('contain.text', 'Unicorns really eat rainbows.')
 
-    // // Visit CPAM0046 analysis to verify the updated field in CPAM0002 does not appear
-    // cy.visit('analysis/CPAM0046');
-    // cy.wait('@analysisLoad');
-    // cy.get('[href="#Brief"]').click();
-    // cy.get('@phenotypeField').contains('test').should('not.exist');
-
-    // // Return to CPAM0002 analysis and verify the updated field is persisted
-    // cy.visit('analysis/CPAM0002');
-    // cy.wait('@analysisLoad');
-    // cy.get('[href="#Brief"]').click();
-    // cy.get('@phenotypeField').contains('test').should('exist');
+    // Editing the 2nd linked omic unit again
+    cy.get('@variantRowJAK2').should('have.class', 'editable');
+    cy.get('@variantRowJAK2').find('[data-test="edit-button"]').click();
+    cy.get('[data-test="reason-of-interest-input"]').clear().type('Its import to link this one and edit the second one only now.')
+    cy.get('.primary-button').contains('Edit').click();
+    cy.get('@variantRowJAK2').find('.variant-case-information')
+        .should('contain.text', 'Its import to link this one and edit the second one only now.')
   });
 });

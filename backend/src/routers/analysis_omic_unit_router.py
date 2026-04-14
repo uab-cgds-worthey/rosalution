@@ -27,14 +27,13 @@ class IncomingEditGenomicUnit(BaseModel):
     """Editing the reason of interest for a genomic unit"""
     reason_of_interest: list[str]
 
-@router.post("/{analysis_name}/genomic_unit", tags=["analysis genomic units"])
+@router.post("/{analysis_name}/genomic_unit", tags=["analysis genomic units"],dependencies=[Security(get_write_project_authorization)])
 def add_genomic_units(
     background_tasks: BackgroundTasks,
     analysis_name: str,
     new_genomic_unit: IncomingGenomicUnit,
     repositories=Depends(database),
-    annotation_task_queue=Depends(annotation_queue),
-    dependencies=[Security(get_project_authorization)]
+    annotation_task_queue=Depends(annotation_queue)
 ):
     """Adding a new genomic unit to an analysis by Analysis Name"""
 
@@ -72,10 +71,9 @@ def add_genomic_units(
 
     return updated_analysis_json["genomic_units"]
 
-@router.put("/{analysis_name}/genomic_unit/{gene}/{variant}",dependencies=[Security(get_write_project_authorization)])
-def edit_genomic_unit_reason_of_interest(analysis_name: str, gene: str, variant: str, edit_unit: IncomingEditGenomicUnit, repositories=Depends(database)):
-    print(analysis_name)
-    print(gene)
-    print(variant)
-    print(edit_unit)
-    print('calling endpoint to edit the omic units reason of interest')
+@router.put("/{analysis_name}/genomic_unit/{gene}/{hgvs_variant}",dependencies=[Security(get_write_project_authorization)])
+def edit_genomic_unit_reason_of_interest(analysis_name: str, gene: str, hgvs_variant: str, edit_unit: IncomingEditGenomicUnit, repositories=Depends(database)):
+    
+    updated_analysis_json = repositories["analysis"].edit_genomic_unit_reason_of_interest(analysis_name, gene, hgvs_variant, edit_unit.reason_of_interest)
+
+    return updated_analysis_json["genomic_units"]

@@ -126,6 +126,28 @@ class AnalysisCollection:
 
         return updated_analysis
 
+    def edit_genomic_unit_reason_of_interest(self, analysis_name: str, gene: str, hgvs_variant: str, reason_of_interest: list[str]):
+        """
+        Edits the reason of interest for linked genomic unit by analysis name, gene, and variant information.
+        """
+        updated_analysis = self.collection.find_one_and_update({
+            "name": analysis_name,
+            "genomic_units.gene": gene
+        }, {
+            '$set': {
+                "genomic_units.$[unit].variants.$[variant].case": [{
+                    "field": "Reason of Interest", "value": reason_of_interest
+                }]
+            }
+        },
+        array_filters=[
+            {"unit.gene": gene},
+            {"variant.hgvs_variant": hgvs_variant}
+        ],
+        return_document=ReturnDocument.AFTER)
+
+        return updated_analysis
+
     def add_dataset_to_manifest(self, analysis_name: str, annotation_unit: AnnotationUnit):
         """Adds this dataset and its version to this Analysis."""
         dataset = {

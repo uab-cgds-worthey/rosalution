@@ -254,7 +254,7 @@ async editOmicUnit(omicUnit) {
       this.analysisName(),
       omicUnit,
   );
-  // this.analysis.genomic_units = genomicUnits;
+  this.analysis.genomic_units = genomicUnits;
 },
 
   // -----------------------------------
