@@ -97,7 +97,7 @@ class AnalysisCollection:
                 'gene': "JAK2",
                 'cdna': "c.1694G>C",
                 'protein': "p.Arg565Thr",
-                'reason_of_interest': "Find this variant interesting to explore.",
+                'reason_of_interest': ["Find this variant interesting to explore."],
             }
         """
 
@@ -117,7 +117,7 @@ class AnalysisCollection:
                 "genomic_units.$[unit].variants": {
                     "hgvs_variant": new_genomic_unit["transcript"] + ":" + new_genomic_unit["cdna"], "c_dot":
                         new_genomic_unit["cdna"], "p_dot": new_genomic_unit["protein"], "build": "GRCh38",
-                    "case": [{"field": "Reason of Interest", "value": [new_genomic_unit["reason_of_interest"],]}]
+                    "case": [{"field": "Reason of Interest", "value": new_genomic_unit["reason_of_interest"]}]
                 }
             }
         },

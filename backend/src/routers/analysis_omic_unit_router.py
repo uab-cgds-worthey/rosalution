@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, Security, BackgroundTasks
 from pydantic import BaseModel
 
 from ..dependencies import database, annotation_queue
-from ..security.security import get_authorization
+from ..security.security import get_project_authorization, get_write_project_authorization
 
 from ..models.analysis import Analysis
 from ..core.phenotips_importer import PhenotipsImporter
@@ -21,8 +21,11 @@ class IncomingGenomicUnit(BaseModel):
     transcript: str | None = None
     cdna: str | None = None
     protein: str | None = None
-    reason_of_interest: str
+    reason_of_interest: list[str]
 
+class IncomingEditGenomicUnit(BaseModel):
+    """Editing the reason of interest for a genomic unit"""
+    reason_of_interest: list[str]
 
 @router.post("/{analysis_name}/genomic_unit", tags=["analysis genomic units"])
 def add_genomic_units(
@@ -31,18 +34,12 @@ def add_genomic_units(
     new_genomic_unit: IncomingGenomicUnit,
     repositories=Depends(database),
     annotation_task_queue=Depends(annotation_queue),
-    authorized=Security(get_authorization, scopes=["write"])  #pylint: disable=unused-argument
+    dependencies=[Security(get_project_authorization)]
 ):
     """Adding a new genomic unit to an analysis by Analysis Name"""
 
     new_genomic_unit_dict = new_genomic_unit.model_dump()
-    # new_genomic_unit_dict = {
-    #     'transcript': "NM_004972.3",
-    #     'gene': "JAK2",
-    #     'cdna': "c.1694G>C",
-    #     'protein': "p.Arg565Thr",
-    #     'reason_of_interest': "Find this variant interesting to explore.",
-    # }
+
 
     updated_analysis_json = repositories["analysis"].add_genomic_units(analysis_name, new_genomic_unit_dict)
 
@@ -74,3 +71,11 @@ def add_genomic_units(
     )
 
     return updated_analysis_json["genomic_units"]
+
+@router.put("/{analysis_name}/genomic_unit/{gene}/{variant}",dependencies=[Security(get_write_project_authorization)])
+def edit_genomic_unit_reason_of_interest(analysis_name: str, gene: str, variant: str, edit_unit: IncomingEditGenomicUnit, repositories=Depends(database)):
+    print(analysis_name)
+    print(gene)
+    print(variant)
+    print(edit_unit)
+    print('calling endpoint to edit the omic units reason of interest')

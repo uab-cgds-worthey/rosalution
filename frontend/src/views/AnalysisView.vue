@@ -21,7 +21,9 @@
         :gene="genomicUnit.gene"
         :transcripts="genomicUnit.transcripts"
         :variants="genomicUnit.variants"
+        :edit="edit"
         @clipboard-copy="copyToClipboard"
+        @edit-omic-unit="editOmicUnit"
       />
       <SectionBox
         v-for="(section) in sectionsList"
@@ -516,6 +518,36 @@ async function addOmicUnit() {
   }
 }
 
+async function editOmicUnit(gene, variant) {
+  console.log(gene)
+  console.log(variant)
+  console.log('omic unit above')
+
+  const omicUnitData = {
+    refSeqTranscript: variant.hgvs_variant.split(":")[0],
+    geneSymbol: gene,
+    cdna: variant.c_dot,
+    protein: variant.p_dot,
+    ROI: variant.case.find(item => item.field === "Reason of Interest")['value']
+  }
+
+  const omicUnit = await inputDialog
+    .confirmText('Edit')
+    .cancelText('Cancel')
+    .message('Please edit reason of interest for' + analysisName.value)
+    .editOmicUnit(analysisName, omicUnitData)
+    .prompt();
+
+  if (!omicUnit) {
+    return;
+  }
+
+  try {
+    await analysisStore.editOmicUnit(omicUnit);
+  } catch (error) {
+    await notificationDialog.title('Failure').confirmText('Ok').alert(error);
+  }
+}
 /**
  * Attaches Monday 3rd Party linkout for C-PAM Case management
  */
