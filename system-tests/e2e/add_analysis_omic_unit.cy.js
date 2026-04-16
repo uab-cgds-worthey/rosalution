@@ -1,6 +1,7 @@
 (Cypress.config('isInteractive') ? describe : describe.skip)('edit_case_analysis.cy.js', () => {
   beforeEach(() => {
     cy.resetDatabase();
+    cy.viewport(1400, 900);
     cy.intercept('/rosalution/api/analysis/CPAM0002').as('analysisLoad');
     cy.visit('analysis/CPAM0002');
     cy.wait('@analysisLoad');
@@ -31,7 +32,7 @@
         .should('have.text', 'NM_001360016.2:c.563C>T(p.Ser188Phe)');
 
     // Editing First Manual Omic Unit, Must enable Edit Mode to Make omic unit editable
-    cy.get('@openActionMenu').contains('Add Unit').click();
+    cy.get('@openActionMenu').contains('Edit').click();
     cy.get('@openActionMenu').invoke('hide'); ;
 
     cy.get('@variantRowG6PD').should('have.class', 'editable');
