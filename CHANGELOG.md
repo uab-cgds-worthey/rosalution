@@ -13,6 +13,8 @@
 - TextDataset components support enabling a copy text button via the annotation rendering layout configuration.
 - Introduced new keyword in annotation configuration for 'protein' allowing use of an HGVS variant’s p.dot value.
 - Add and annotate new omic units to existing analyses, with a reason of interest.
+    - Reason of interest is editable for manually added variants when an analysis is in 'Edit Mode'. Manually added
+      variants are also removable when an analysis is in 'Edit Mode'.
 
 ## 0.8.8-er
 

@@ -107,44 +107,89 @@ class AnalysisCollection:
 
         self.collection.find_one_and_update({
             "name": analysis_name, "genomic_units.gene": {"$ne": new_genomic_unit["gene"]}
-        }, {'$addToSet': {"genomic_units": {"gene": new_genomic_unit["gene"], "transcripts": [], "variants": []}}})
-
-        updated_analysis = self.collection.find_one_and_update({
-            "name": analysis_name, "genomic_units.gene": new_genomic_unit["gene"]
         }, {
             '$addToSet': {
-                "genomic_units.$[unit].transcripts": {"transcript": new_genomic_unit["transcript"]},
-                "genomic_units.$[unit].variants": {
-                    "hgvs_variant": new_genomic_unit["transcript"] + ":" + new_genomic_unit["cdna"], "c_dot":
-                        new_genomic_unit["cdna"], "p_dot": new_genomic_unit["protein"], "build": "GRCh38",
-                    "case": [{"field": "Reason of Interest", "value": new_genomic_unit["reason_of_interest"]}]
+                "genomic_units": {"gene": new_genomic_unit["gene"], "transcripts": [], "variants": [], "manual": True}
+            }
+        })
+
+        hgvs_variant = new_genomic_unit["transcript"] + ":" + new_genomic_unit["cdna"]
+        find_filter = {
+            "name": analysis_name,
+        }
+
+        updated_analysis = self.collection.find_one_and_update(
+            find_filter, {
+                '$addToSet': {
+                    "genomic_units.$[unit].transcripts": {"transcript": new_genomic_unit["transcript"]},
+                    "genomic_units.$[unit].variants": {
+                        "hgvs_variant": hgvs_variant, "c_dot": new_genomic_unit["cdna"], "p_dot":
+                            new_genomic_unit["protein"], "build": "GRCh38",
+                        "case": [{"field": "Reason of Interest", "value": new_genomic_unit["reason_of_interest"]}]
+                    }
                 }
+            },
+            array_filters=[{
+                "unit.gene": new_genomic_unit["gene"],
+                "unit.variants": {"$not": {"$elemMatch": {'hgvs_variant': hgvs_variant}}}
+            }],
+            return_document=ReturnDocument.AFTER
+        )
+
+        return updated_analysis
+
+    def edit_genomic_unit_reason_of_interest(
+        self, analysis_name: str, gene: str, hgvs_variant: str, reason_of_interest: list[str]
+    ):
+        """
+        Edits the reason of interest for manually added genomic unit by analysis name, gene, and variant.
+        """
+        updated_analysis = self.collection.find_one_and_update({"name": analysis_name, "genomic_units.gene": gene}, {
+            '$set': {
+                "genomic_units.$[unit].variants.$[variant].case":
+                    [{"field": "Reason of Interest", "value": reason_of_interest}]
             }
         },
-                                                               array_filters=[{"unit.gene": new_genomic_unit["gene"]}],
+                                                               array_filters=[{"unit.gene": gene},
+                                                                              {"variant.hgvs_variant": hgvs_variant}],
                                                                return_document=ReturnDocument.AFTER)
 
         return updated_analysis
 
-    def edit_genomic_unit_reason_of_interest(self, analysis_name: str, gene: str, hgvs_variant: str, reason_of_interest: list[str]):
+    def delete_manual_omic_unit(self, analysis_name: str, gene: str, hgvs_variant: str):
         """
-        Edits the reason of interest for linked genomic unit by analysis name, gene, and variant information.
+        Deletes a manually added omic unit from an analysis. Raises ValueError if the genomic unit is not a
+        manually added unit.
         """
-        updated_analysis = self.collection.find_one_and_update({
-            "name": analysis_name,
-            "genomic_units.gene": gene
-        }, {
-            '$set': {
-                "genomic_units.$[unit].variants.$[variant].case": [{
-                    "field": "Reason of Interest", "value": reason_of_interest
-                }]
+
+        is_manually_added_omic_unit = self.collection.count_documents({
+            "name": analysis_name, "genomic_units": {
+                "$elemMatch": {
+                    "gene": gene,
+                    "variants": {"$elemMatch": {"hgvs_variant": hgvs_variant, "case.field": "Reason of Interest"}}
+                }
             }
-        },
-        array_filters=[
-            {"unit.gene": gene},
-            {"variant.hgvs_variant": hgvs_variant}
-        ],
-        return_document=ReturnDocument.AFTER)
+        })
+
+        if not is_manually_added_omic_unit:
+            raise ValueError(f"{gene} {hgvs_variant} is not a manually added unit within analysis {analysis_name}")
+
+        self.collection.update_one({
+            "name": analysis_name, "genomic_units": {
+                "$elemMatch": {
+                    "gene": gene,
+                    "variants": {"$elemMatch": {"hgvs_variant": hgvs_variant, "case.field": "Reason of Interest"}}
+                }
+            }
+        }, {"$pull": {"genomic_units.$[unit].variants": {"hgvs_variant": hgvs_variant}}},
+                                   array_filters=[{'unit.gene': gene}])
+
+        self.collection.update_one({
+            "name": analysis_name,
+            "genomic_units": {"$elemMatch": {"gene": gene, "manual": True, "variants.0": {"$exists": False}}},
+        }, {"$pull": {"genomic_units": {"gene": gene}}})
+
+        updated_analysis = self.collection.find_one({"name": analysis_name})
 
         return updated_analysis
 

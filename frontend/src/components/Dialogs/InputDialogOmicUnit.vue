@@ -80,12 +80,11 @@ const props = defineProps({
 
 const isEditing = props.userInput.edit !== undefined;
 
-console.log(props.userInput)
 const emit = defineEmits(['update:userInput']);
 
 const omicUnit = ref({
   refSeqTranscript: props.userInput.data['refSeqTranscript'],
-  geneSymbol:  props.userInput.data['geneSymbol'],
+  geneSymbol: props.userInput.data['geneSymbol'],
   cdna: props.userInput.data['cdna'],
   protein: props.userInput.data['protein'],
   ROI: props.userInput.data['ROI'],
@@ -141,17 +140,11 @@ const ROI = computed({
   },
 });
 
-const editingOmicUnit = computed({
-
-});
-
 function omicUnitUpdated() {
   const input = props.userInput;
   input['data'] = omicUnit.value;
   emit('update:userInput', toRaw(input));
 }
-
-
 </script>
 
 <style scoped>

@@ -54,7 +54,7 @@ export default {
 
   async editOmicUnit(analysisName, omicUnit) {
     const gene = omicUnit.data['geneSymbol'];
-    const variant = `${omicUnit.data['refSeqTranscript']}:${omicUnit.data['cdna']}`
+    const variant = `${omicUnit.data['refSeqTranscript']}:${omicUnit.data['cdna']}`;
     const url = `/rosalution/api/analysis/${analysisName}/genomic_unit/${gene}/${variant}`;
 
     const editOmicUnit = {
@@ -62,6 +62,14 @@ export default {
     };
 
     return await Requests.put(url, editOmicUnit);
+  },
+
+  async deleteOmicUnit(analysisName, omicUnit) {
+    const gene = omicUnit['geneSymbol'];
+    const variant = `${omicUnit['refSeqTranscript']}:${omicUnit['cdna']}`;
+    const url = `/rosalution/api/analysis/${analysisName}/genomic_unit/${gene}/${variant}`;
+
+    return await Requests.delete(url);
   },
 
   async pushAnalysisEvent(analysisName, eventType) {

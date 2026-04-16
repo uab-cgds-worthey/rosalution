@@ -24,6 +24,7 @@
         :edit="edit"
         @clipboard-copy="copyToClipboard"
         @edit-omic-unit="editOmicUnit"
+        @delete-omic-unit="deleteOmicUnit"
       />
       <SectionBox
         v-for="(section) in sectionsList"
@@ -519,24 +520,20 @@ async function addOmicUnit() {
 }
 
 async function editOmicUnit(gene, variant) {
-  console.log(gene)
-  console.log(variant)
-  console.log('omic unit above')
-
   const omicUnitData = {
-    refSeqTranscript: variant.hgvs_variant.split(":")[0],
+    refSeqTranscript: variant.hgvs_variant.split(':')[0],
     geneSymbol: gene,
     cdna: variant.c_dot,
     protein: variant.p_dot,
-    ROI: variant.case.find(item => item.field === "Reason of Interest")['value']
-  }
+    ROI: variant.case.find((item) => item.field === 'Reason of Interest')['value'],
+  };
 
   const omicUnit = await inputDialog
-    .confirmText('Edit')
-    .cancelText('Cancel')
-    .message('Please edit reason of interest for' + analysisName.value)
-    .editOmicUnit(analysisName, omicUnitData)
-    .prompt();
+      .confirmText('Edit')
+      .cancelText('Cancel')
+      .message('Please edit reason of interest for' + analysisName.value)
+      .editOmicUnit(analysisName, omicUnitData)
+      .prompt();
 
   if (!omicUnit) {
     return;
@@ -548,6 +545,36 @@ async function editOmicUnit(gene, variant) {
     await notificationDialog.title('Failure').confirmText('Ok').alert(error);
   }
 }
+
+/**
+ * Delete the linked omic unit from the analysis.
+ */
+async function deleteOmicUnit(gene, variant) {
+  const protein = variant?.p_dot ? ` (${variant?.p_dot})` : '';
+  const variantText = `${gene} ${variant.hgvs_variant}${protein}`;
+  const confirmedDelete = await notificationDialog
+      .title(`Delete Linked Unit`)
+      .confirmText('Delete')
+      .cancelText('Cancel')
+      .confirm(`Are you sure you want to delete ${variantText} from this analysis?`);
+  if (!confirmedDelete) {
+    return;
+  }
+
+  const omicUnit = {
+    refSeqTranscript: variant.hgvs_variant.split(':')[0],
+    geneSymbol: gene,
+    cdna: variant.c_dot,
+    protein: variant.p_dot,
+  };
+
+  try {
+    await analysisStore.deleteOmicUnit(omicUnit);
+  } catch (error) {
+    await notificationDialog.title('Failure').confirmText('Ok').alert(error);
+  }
+}
+
 /**
  * Attaches Monday 3rd Party linkout for C-PAM Case management
  */

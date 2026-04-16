@@ -4,7 +4,6 @@ describe('upload_images_to_case_annotations.cy.js', () => {
     cy.fixture('section-image-1.jpg', {encoding: null}).as('sectionImage1');
     cy.fixture('section-image-2.png', {encoding: null}).as('sectionImage2');
     cy.intercept('/rosalution/api/analysis/CPAM0047/summary').as('analysisSummaryLoad');
-
   });
 
   it('manages successully and failed attempts to upload images for users', () => {
@@ -16,7 +15,7 @@ describe('upload_images_to_case_annotations.cy.js', () => {
     cy.get('[data-test="Gene Homology/Multi-Sequence Alignment"]').should('not.have.descendants', 'button');
 
     // Test uploading a single image
-    cy.login('vrr-prep')
+    cy.login('vrr-prep');
     cy.visit('/analysis/CPAM0047/annotation/');
     cy.wait('@analysisSummaryLoad');
     cy.get('[href="/rosalution/analysis/CPAM0047/annotation#Gene_Homology"]').click();

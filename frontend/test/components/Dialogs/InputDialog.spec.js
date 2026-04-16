@@ -4,6 +4,7 @@ import {shallowMount} from '@vue/test-utils';
 import InputDialog from '@/components/Dialogs/InputDialog.vue';
 import InputDialogAttachUrl from '@/components/Dialogs/InputDialogAttachUrl.vue';
 import InputDialogUploadFile from '@/components/Dialogs/InputDialogUploadFile.vue';
+import InputDialogOmicUnit from '@/components/Dialogs/InputDialogOmicUnit.vue';
 
 import inputDialog from '@/inputDialog.js';
 
@@ -23,7 +24,7 @@ describe('InputDialog.vue', () => {
     });
   });
 
-  describe('when prompting to input a URL and File', () => {
+  describe('when prompting and interacting with dialog actions', () => {
     beforeEach(() => {
       const includeComments = true;
       const includeName = true;
@@ -66,25 +67,6 @@ describe('InputDialog.vue', () => {
       confirmButton.trigger('click');
     });
 
-    it('Should show the attach url tab when clicking on the link tab', async () => {
-      await wrapper.find('[data-test=button-input-dialog-attach-url]').trigger('click');
-      const attachUrlComponent = wrapper.findComponent(InputDialogAttachUrl);
-      expect(attachUrlComponent.exists()).to.be.true;
-    });
-
-    it('Should show the upload file tab when clicking the file tab', async () => {
-      await wrapper.find('[data-test=button-input-dialog-upload-file]').trigger('click');
-      const uploadFileComponent = wrapper.findComponent(InputDialogUploadFile);
-      expect(uploadFileComponent.exists()).to.be.true;
-    });
-
-    it('Should show the rosalution existing attachment tab when clicking the Rosalution tab', async () => {
-      const inputDialogRosalutionTab = wrapper.find('[data-test=button-input-dialog-existing-attachments]');
-      await inputDialogRosalutionTab.trigger('click');
-      const existingAttachmentsComponent = wrapper.findComponent(InputDialogExistingAttachments);
-      expect(existingAttachmentsComponent.exists()).to.be.true;
-    });
-
     it('Should show the warning message when one is set', async () => {
       const warningMessageElement = wrapper.find('[data-test=warning-message]');
       expect(warningMessageElement.exists()).to.be.true;
@@ -107,6 +89,55 @@ describe('InputDialog.vue', () => {
       expect(warningMessageElement.exists()).to.be.true;
       expect(warningMessageElement.text()).to.equal('Bolded Text');
       expect(warningMessageElement.html()).to.contain('<b>Bolded Text</b>');
+    });
+  });
+
+  describe('when prompting to input a URL and File', () => {
+    beforeEach(() => {
+      const includeComments = true;
+      const includeName = true;
+
+      inputDialog
+          .confirmText('Add')
+          .cancelText('Cancel')
+          .file(includeComments, 'file', '.pdf, .jpg, .jpeg, .png, .gb')
+          .url(includeComments, includeName)
+          .existing()
+          .message('Warning message')
+          .prompt();
+    });
+    it('Should show the attach url tab when clicking on the link tab', async () => {
+      await wrapper.find('[data-test=button-input-dialog-attach-url]').trigger('click');
+      const attachUrlComponent = wrapper.findComponent(InputDialogAttachUrl);
+      expect(attachUrlComponent.exists()).to.be.true;
+    });
+
+    it('Should show the upload file tab when clicking the file tab', async () => {
+      await wrapper.find('[data-test=button-input-dialog-upload-file]').trigger('click');
+      const uploadFileComponent = wrapper.findComponent(InputDialogUploadFile);
+      expect(uploadFileComponent.exists()).to.be.true;
+    });
+
+    it('Should show the rosalution existing attachment tab when clicking the Rosalution tab', async () => {
+      const inputDialogRosalutionTab = wrapper.find('[data-test=button-input-dialog-existing-attachments]');
+      await inputDialogRosalutionTab.trigger('click');
+      const existingAttachmentsComponent = wrapper.findComponent(InputDialogExistingAttachments);
+      expect(existingAttachmentsComponent.exists()).to.be.true;
+    });
+  });
+
+  describe('when prompting to manually add a variant', () => {
+    beforeEach(() => {
+      inputDialog
+          .confirmText('Add')
+          .cancelText('Cancel')
+          .message('Please enter unti of interest for CPAM0002')
+          .omicUnit('CPAM0002')
+          .prompt();
+    });
+    it('Should show the add omic unit tab', async () => {
+      const omicunitComponent = wrapper.findComponent(InputDialogOmicUnit);
+      expect(omicunitComponent.exists()).to.be.true;
     });
   });
 });
