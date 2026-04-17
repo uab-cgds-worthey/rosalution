@@ -8,6 +8,8 @@
         class="input-area"
         placeholder="Enter Transcript"
         v-model="refSeqTranscript"
+        data-test="refseq-transcript-input"
+        :readonly="isEditing"
       />
     </div>
     <div class="input-row">
@@ -18,6 +20,8 @@
         class="input-area"
         placeholder="Enter Gene Symbol"
         v-model="geneSymbol"
+        data-test="gene-symbol-input"
+        :readonly="isEditing"
       />
     </div>
     <div class="input-row">
@@ -28,6 +32,8 @@
         class="input-area"
         placeholder="Enter cDNA"
         v-model="cdna"
+        data-test="hgvs-cdna-input"
+        :readonly="isEditing"
       />
     </div>
     <div class="input-row">
@@ -38,24 +44,28 @@
         class="input-area"
         placeholder="Enter Protein"
         v-model="protein"
+        data-test="hgvs-protein-input"
+        :readonly="isEditing"
       />
     </div>
     <div class="input-row">
       <span class="input-field">
         Reason of Interest
       </span>
-      <textarea
+      <MultilineEditableTextarea
         class="input-area"
         placeholder="Enter Reason of Interest."
-        v-model="ROI"
-      >
-      </textarea>
+        v-model:content="ROI"
+        data-test="reason-of-interest-input"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
 import {ref, toRaw, computed} from 'vue';
+
+import MultilineEditableTextarea from '@/components/AnalysisView/MultilineEditableTextarea.vue';
 
 defineOptions({
   name: 'input-dialog-omic-unit',
@@ -68,14 +78,16 @@ const props = defineProps({
   },
 });
 
+const isEditing = props.userInput.edit !== undefined;
+
 const emit = defineEmits(['update:userInput']);
 
 const omicUnit = ref({
-  refSeqTranscript: '',
-  geneSymbol: '',
-  cdna: '',
-  protein: '',
-  ROI: '',
+  refSeqTranscript: props.userInput.data['refSeqTranscript'],
+  geneSymbol: props.userInput.data['geneSymbol'],
+  cdna: props.userInput.data['cdna'],
+  protein: props.userInput.data['protein'],
+  ROI: props.userInput.data['ROI'],
 });
 
 const refSeqTranscript = computed({
@@ -133,8 +145,6 @@ function omicUnitUpdated() {
   input['data'] = omicUnit.value;
   emit('update:userInput', toRaw(input));
 }
-
-
 </script>
 
 <style scoped>

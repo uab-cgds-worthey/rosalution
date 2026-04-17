@@ -7,10 +7,12 @@ describe('case_annotation_display_transcripts.cy.js', () => {
   });
 
   it('navigates to the annotation sections via anchor links', () => {
-    const anchorLinks = ['Gene', 'Variant', 'Protein', 'Chromosomal Localization', 'Secondary Structure', 'Causal Variant',
-      'Variant Publications', 'Gene Homology', 'Human Gene Expression', 'Human Gene versus Protein Expression',
-      'Expression Profiles', 'Orthology', 'Rattus norvegicus Model System', 'Mus musculus Model System',
-      'Danio rerio Model System', 'C elegans Model System', 'Modelability', 'Druggability'];
+    const anchorLinks = ['Gene', 'Variant', 'Protein', 'Chromosomal Localization', 'Secondary Structure',
+      'Causal Variant', 'Variant Publications', 'Gene Homology', 'Human Gene Expression',
+      'Human Gene versus Protein Expression', 'Expression Profiles', 'Orthology', 'Rattus norvegicus Model System',
+      'Mus musculus Model System', 'Danio rerio Model System', 'C elegans Model System', 'Modelability',
+      'Druggability',
+    ];
     const expectedSidebarLinks = [...anchorLinks];
 
     cy.get('.sidebar').find('a').each(($el) => {

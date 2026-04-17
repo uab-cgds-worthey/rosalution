@@ -52,6 +52,26 @@ export default {
     return await Requests.post(url, newOmicUnit);
   },
 
+  async editOmicUnit(analysisName, omicUnit) {
+    const gene = omicUnit.data['geneSymbol'];
+    const variant = `${omicUnit.data['refSeqTranscript']}:${omicUnit.data['cdna']}`;
+    const url = `/rosalution/api/analysis/${analysisName}/genomic_unit/${gene}/${variant}`;
+
+    const editOmicUnit = {
+      'reason_of_interest': omicUnit.data['ROI'],
+    };
+
+    return await Requests.put(url, editOmicUnit);
+  },
+
+  async deleteOmicUnit(analysisName, omicUnit) {
+    const gene = omicUnit['geneSymbol'];
+    const variant = `${omicUnit['refSeqTranscript']}:${omicUnit['cdna']}`;
+    const url = `/rosalution/api/analysis/${analysisName}/genomic_unit/${gene}/${variant}`;
+
+    return await Requests.delete(url);
+  },
+
   async pushAnalysisEvent(analysisName, eventType) {
     const url = `/rosalution/api/analysis/${analysisName}/event/${eventType}`;
     return await Requests.put(url);

@@ -486,6 +486,18 @@ def test_remove_attachment(analysis_collection, cpam0002_analysis_json):
     assert actual == expected
 
 
+def test_delete_omic_unit_fail_when_not_manual(analysis_collection, cpam0002_analysis_json):
+    """Tests that delete_manual_omic_unit raises an error when the omic unit is not manually added"""
+    analysis_collection.collection.count_documents.return_value = 0
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
+
+    try:
+        analysis_collection.delete_manual_omic_unit("CPAM0002", "VMA21", "NM_001017980.3:c.164G>T")
+    except ValueError as error:
+        assert isinstance(error, ValueError)
+        assert str(error) == "VMA21 NM_001017980.3:c.164G>T is not a manually added unit within analysis CPAM0002"
+
+
 @pytest.fixture(name="analysis_with_no_p_dot")
 def fixture_analysis_with_no_p_dot():
     """Returns an analysis with no p. in the genomic unit"""

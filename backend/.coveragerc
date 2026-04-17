@@ -8,4 +8,5 @@ omit =
        src/models/user.py
        src/models/phenotips_json.py
        src/security/oauth2.py
+       src/profiler_middleware.py
        *__init__.py

@@ -119,7 +119,7 @@ export default {
           geneSymbol: '',
           cdna: '',
           protein: '',
-          ROI: '',
+          ROI: [''],
         },
         type: 'omicUnit',
       },
@@ -139,6 +139,27 @@ export default {
     };
     state.tabs.push(attachUrlInput);
     state.activeTabName = attachUrlInput.name;
+    return this;
+  },
+  editOmicUnit(analysisName, omicUnit) {
+    const omicUnitInput = {
+      name: 'input-dialog-omic-unit',
+      icon: 'dna',
+      analysis: analysisName,
+      input: {
+        data: {
+          refSeqTranscript: omicUnit['refSeqTranscript'],
+          geneSymbol: omicUnit['geneSymbol'],
+          cdna: omicUnit['cdna'],
+          protein: omicUnit['protein'],
+          ROI: omicUnit['ROI'],
+        },
+        type: 'omicUnit',
+        edit: true,
+      },
+    };
+    state.tabs.push(omicUnitInput);
+    state.activeTabName = omicUnitInput.name;
     return this;
   },
   prompt() {

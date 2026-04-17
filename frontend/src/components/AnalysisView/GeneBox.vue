@@ -1,31 +1,32 @@
 <template>
   <div class="rosalution-section-container">
-    <div>
-      <div class="gene-box-header">
-        <router-link class="gene-link" :to="{
-            name: 'annotation',
-            params: {
-              analysis_name: this.name,
-            },
-            query: {
-              gene: this.gene,
-              ...(variants.length > 0 ? { variant: getCompleteHgvsVariantName(variants[0]) } : {}),
-            },
-            state: {
-              gene: this.gene,
-              ...(variants.length > 0 ? { variant: getCompleteHgvsVariantName(variants[0]) } : {}),
-            }
-          }"
-          data-test="gene-route"
-        >
-          <font-awesome-icon icon="angles-right" size="sm" />
-          <h2 data-test="gene-name"> {{ gene }} </h2>
-        </router-link>
-      </div>
-      <div class="seperator-gene"></div>
-      <div v-for="variant, index in variants" :key="variant">
-        <div class="variant-sub-section"
-          v-if="variant.c_dot && variant.c_dot.length > 0 || variant.p_dot && variant.p_dot.length > 0">
+    <div class="gene-box-header">
+      <router-link class="gene-link" :to="{
+          name: 'annotation',
+          params: {
+            analysis_name: this.name,
+          },
+          query: {
+            gene: this.gene,
+            ...(variants.length > 0 ? { variant: getCompleteHgvsVariantName(variants[0]) } : {}),
+          },
+          state: {
+            gene: this.gene,
+            ...(variants.length > 0 ? { variant: getCompleteHgvsVariantName(variants[0]) } : {}),
+          }
+        }"
+        data-test="gene-route"
+      >
+        <font-awesome-icon icon="angles-right" size="sm" />
+        <h2 data-test="gene-name"> {{ gene }} </h2>
+      </router-link>
+    </div>
+    <div class="seperator-gene"></div>
+    <div v-for="variant, index in variants" :key="variant">
+      <div class="variant-sub-section" :class="this.edit && this.isVariantEditable(variant)? 'editable' : ''"
+        v-if="variant.c_dot && variant.c_dot.length > 0 || variant.p_dot && variant.p_dot.length > 0"
+        :id="`#${this.gene}-variant-${index}`" :data-test="`${this.gene}-variant-${index}`">
+        <div class="variant-name-row">
           <div class="variant-name-line">
             <router-link class="variant" :to="{
                 name: 'annotation',
@@ -56,16 +57,26 @@
             />
             <span class="genomic-build"> {{ getBuild(variant.build) }} </span>
           </div>
-          <div class="seperator-variant"></div>
-          <div class="variant-case-information">
-            <div v-for="caseInfo in variant.case" :key="caseInfo">
-              <span class="case-field">
-                {{ caseInfo.field }}:
-              </span>
-              <span v-if="caseInfo.value.length > 0">
-                {{ caseInfo.value.join(', ') }}
-              </span>
-            </div>
+          <div v-if="this.edit && this.isVariantEditable(variant)">
+            <button class="icon-button" data-test="edit-button" @click="$emit('edit-omic-unit', this.gene, variant)">
+              <font-awesome-icon icon="pencil" size="lg"/>
+            </button>
+            <button class="icon-button" data-test="delete-button"
+              @click="$emit('delete-omic-unit', this.gene, variant)"
+            >
+              <font-awesome-icon icon="xmark" size="lg"/>
+            </button>
+          </div>
+        </div>
+        <div class="seperator-variant"></div>
+        <div class="variant-case-information">
+          <div v-for="caseInfo in variant.case" :key="caseInfo">
+            <span class="case-field">
+              {{ caseInfo.field }}:
+            </span>
+            <span v-if="caseInfo.value.length > 0">
+              {{ caseInfo.value.join(', ') }}
+            </span>
           </div>
         </div>
       </div>
@@ -78,7 +89,7 @@ import CopyToClipboard from '@/components/CopyToClipboard.vue';
 
 export default {
   name: 'gene-box',
-  emits: ['clipboard-copy'],
+  emits: ['clipboard-copy', 'edit-omic-unit', 'delete-omic-unit'],
   components: {
     CopyToClipboard,
   },
@@ -95,8 +106,14 @@ export default {
     variants: {
       type: Array,
     },
+    edit: {
+      default: false,
+    },
   },
   methods: {
+    isVariantEditable(variant) {
+      return variant.case?.some((data) => data.field == 'Reason of Interest');
+    },
     getBuild(build) {
       if (build == 'hg19') {
         return 'grch37';
@@ -136,11 +153,16 @@ export default {
   margin-top: var(--p-10);
 }
 
+.variant-name-row {
+  display:flex;
+}
+
 .variant-name-line {
   display: inline-flex;
   align-items: center;
   padding: var(--p-05);
   gap: var(--p-5);
+  flex-grow: 1;
 }
 
 .variant {
@@ -167,7 +189,6 @@ export default {
   border: solid var(--p-005) var(--rosalution-grey-200);
 }
 
-
 .variant-case-information {
   display: flex;
   gap: var(--p-16);
@@ -177,5 +198,12 @@ export default {
 
 .case-field {
   font-weight: 600;
+}
+
+.editable {
+  background: var(--rosalution-grey-50);
+  padding-top: var(--p-5);
+  padding-bottom: var(--p-5);
+  border-radius: var(--content-border-radius);
 }
 </style>
