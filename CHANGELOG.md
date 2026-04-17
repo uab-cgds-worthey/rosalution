@@ -3,7 +3,7 @@
 
 ## 0.9.0
 
-### Features - In Progress
+### Features
 
 - Introducing Projects as a core feature, enabling analyses to be grouped and access-controlled by project membership.
     - Updated both the frontend and REST API so users only see and access analyses belonging to Projects they are
@@ -15,6 +15,14 @@
 - Add and annotate new omic units to existing analyses, with a reason of interest.
     - Reason of interest is editable for manually added variants when an analysis is in 'Edit Mode'. Manually added
       variants are also removable when an analysis is in 'Edit Mode'.
+
+### Chores
+
+- REST API Benchmarking with [Grafana Lab's k6](https://k6.io/) and Python stack profiler [PyInstrument](https://pyinstrument.readthedocs.io/en/stable/)
+- FastAPI version uptick to `0.128.0` to incorporate performance improvements to framework
+- Local deployemnt Traefik reverse proxy to `3.6.8` for compatability with most recent versions of Docker Desktop
+- `vuejs-test-utils` package version uptick to `2.4.6` remove the packages invalid warnings regarding Vue3
+  transition components
 
 ## 0.8.8-er
 
