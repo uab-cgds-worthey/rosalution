@@ -1,4 +1,4 @@
-(Cypress.config('isInteractive') ? describe : describe.skip)('import_new_case.cy.js', () => {
+(Cypress.config('isInteractive') ? describe : describe.skip)('import_new_analysis_failure.cy.js', () => {
   beforeEach(() => {
     cy.resetDatabase();
     cy.intercept('/rosalution/api/analysis/summary').as('summaryLoad');
@@ -10,7 +10,7 @@
     cy.get('[data-test="create-card"]').click();
 
     cy.get('.project-select-content').select('CPAM');
-    cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/new-analysis-import.json', {
+    cy.get('.drop-file-box-content').selectFile('fixtures/successful-new-analysis-import.json', {
       action: 'drag-drop',
     });
     cy.get('[data-test="confirm"]').click();
@@ -30,7 +30,7 @@
 
     cy.get('[data-test="create-card"]').click();
     cy.get('.project-select-content').select('CPAM');
-    cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/new-analysis-import.json', {
+    cy.get('.drop-file-box-content').selectFile('fixtures/successful-new-analysis-import.json', {
       action: 'drag-drop',
     });
     cy.get('[data-test="confirm"]').click();
@@ -49,7 +49,7 @@
   it('tries to import a new case with a file that isn\'t a JSON file', () => {
     cy.get('[data-test="create-card"]').click();
     cy.get('.project-select-content').select('CPAM');
-    cy.get('.drop-file-box-content').selectFile('../backend/tests/fixtures/example_file_to_upload.txt', {
+    cy.get('.drop-file-box-content').selectFile('fixtures/example-file-to-upload.txt', {
       action: 'drag-drop',
     });
     cy.get('[data-test="confirm"]').click();
