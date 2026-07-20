@@ -81,7 +81,6 @@ def test_remove_link_attachment(
 
 
 @pytest.fixture(name="cpam0002_analysis_json_with_link_attachment")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
 def fixture_attachment_link_json(cpam0002_analysis_json):
     """The JSON that is being returned to the endpoint with a link in the attachments"""
     cpam0002_analysis_json["attachments"] = [{

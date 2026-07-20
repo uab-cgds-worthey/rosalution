@@ -70,7 +70,7 @@ logging.config.fileConfig(log_file_path, disable_existing_loggers=False)
 
 # create logger
 logger = logging.getLogger("uvicorn.error")
-logger.info(f"Configured application logging level: {logging.getLevelName(logger.level)}")
+logger.info("Configured application logging level: %s", logging.getLevelName(logger.level))
 
 app = FastAPI(title="rosalution API", description=DESCRIPTION, openapi_tags=tags_metadata, root_path="/rosalution/api/")
 
