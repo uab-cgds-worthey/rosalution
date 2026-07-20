@@ -11,7 +11,7 @@ from src.core.annotation import AnnotationService
 
 
 @pytest.mark.usefixtures("mock_security_get_project_authorization")
-def test_adding_and_annotating_new_omic_unit_to_analysis( # pylint: disable=too-many-arguments
+def test_adding_and_annotating_new_omic_unit_to_analysis( # pylint: disable=too-many-positional-arguments, too-many-arguments)
       client,
       mock_access_token,
       mock_repositories,
