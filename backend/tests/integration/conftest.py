@@ -75,6 +75,7 @@ def mock_get_current_user(mock_user):
 @pytest.fixture(name="mock_security_get_project_authorization")
 def mock_get_project_authorization():
     """Mocks user successfully authroizing access to project"""
+
     def mock_project_authorized():
         return True
 
