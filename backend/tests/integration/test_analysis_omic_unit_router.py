@@ -36,7 +36,7 @@ def test_adding_and_annotating_new_omic_unit_to_analysis( # pylint: disable=too-
     with patch.object(BackgroundTasks, "add_task", return_value=None) as mock_background_add_task:
         response = client.post(
             "/analysis/CPAM0002/genomic_unit",
-            headers={"Authorization": "Bearer " + mock_access_token},
+            headers={"Authorization": "Bearer " + mock_access_token, "Content-Type": "application/json"},
             content=json.dumps(new_genomic_unit)
         )
 
@@ -66,7 +66,7 @@ def test_editing_manual_omic_unit_in_analysis(
 
     response = client.put(
         "/analysis/CPAM0002/genomic_unit/JAK2/NM_004972.3:c.1694G>C",
-        headers={"Authorization": "Bearer " + mock_access_token},
+        headers={"Authorization": "Bearer " + mock_access_token, "Content-Type": "application/json"},
         content=json.dumps(updated_genomic_unit)
     )
 

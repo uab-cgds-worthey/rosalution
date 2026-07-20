@@ -15,3 +15,4 @@ pylint==3.0.0
 requests==2.34.2
 yapf==0.40.2
 itsdangerous==2.2.0
+httpx2==2.7.0
