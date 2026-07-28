@@ -1,6 +1,6 @@
 fastapi[all]==0.139.2
 python-cas==1.7.2
-pymongo==4.6.3
+pymongo==4.17.0
 jq==1.12.0
 pyinstrument==5.1.2
 
