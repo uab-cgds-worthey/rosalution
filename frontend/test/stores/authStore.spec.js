@@ -33,7 +33,7 @@ describe('user.js', () => {
     Object.defineProperty(window.document, 'cookie', {
       writable: true,
 
-      /* eslint-disable-next-line  @stylistic/js/max-len */
+      /* eslint-disable-next-line  @stylistic/max-len */
       value: '_gcl_au=gcl-au-fake; _ga_35R7WJH7GD=GS1.1.111111111.1.1.1111111111.0.0.0; screenResolution=1000x1000; rosalution_TOKEN=cookieomnomnom',
     });
 
