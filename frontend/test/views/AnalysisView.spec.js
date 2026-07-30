@@ -648,7 +648,7 @@ describe('AnalysisView', () => {
         };
 
         attachSectionAttachmentMock.returns(addFieldValue(sectionName, fieldName, newAttachmentData));
-        const mouseSectionSelector=`[id="${sectionId}"]`
+        const mouseSectionSelector=`[id="${sectionId}"]`;
         const mouseSection = wrapper.getComponent(mouseSectionSelector);
         const mouseFieldToUpdate = mouseSection.props('content').find((row) => {
           return row.field == fieldName;
@@ -685,7 +685,7 @@ describe('AnalysisView', () => {
 
         removeSectionAttachmentMock.resolves(removeFieldValue(sectionName, fieldName));
 
-        const mouseSectionSelector=`[id="${sectionId}"]`
+        const mouseSectionSelector=`[id="${sectionId}"]`;
         const mouseSection = wrapper.getComponent(mouseSectionSelector);
         const mouseFieldToUpdate = mouseSection.props('content').find((row) => {
           return row.field == fieldName;
