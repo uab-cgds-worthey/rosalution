@@ -1,7 +1,7 @@
 # Local Development Stage
-FROM python:3.11-slim-bookworm AS development-stage
+FROM python:3.11-slim-trixie AS development-stage
 WORKDIR /app
-RUN apt-get update && apt-get install -y --no-install-recommends samtools=1.16.1-1 tabix=1.16+ds-3
+RUN apt-get update && apt-get install -y --no-install-recommends samtools=1.21-1 tabix=1.21+ds-1
 COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 COPY etc/entrypoint-init.sh /app/etc/entrypoint-init.sh
@@ -12,9 +12,9 @@ ENTRYPOINT [ "./etc/entrypoint-init.sh" ]
 CMD [ "--reload"]
 
 # Production Build Stage
-FROM python:3.11-slim-bookworm AS production-stage
+FROM python:3.11-slim-trixie AS production-stage
 WORKDIR /app
-RUN apt-get update && apt-get install -y --no-install-recommends samtools=1.16.1-1 tabix=1.16+ds-3 \
+RUN apt-get update && apt-get install -y --no-install-recommends samtools=1.21-1 tabix=1.21+ds-1\
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 COPY requirements.txt /app/requirements.txt
