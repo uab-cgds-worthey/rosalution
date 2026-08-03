@@ -58,11 +58,11 @@ the respective installation instructions for your target environment.
 
 - [Node.js 26.3+](https://nodejs.org/en/) & [pnpm](https://pnpm.io/)
     - Node.js recommends managing Node.js installations with [nvm](https://github.com/nvm-sh/nvm) - [install](https://nodejs.org/en/download)
-      - Use following dropdown menu options on the Node.js and nvm install page:  
-        ___Get Node.js `26.3+` for `<your target os> ex. macOS` using `nvm` with `npm`___
+        - Use following dropdown menu options on the Node.js and nvm install page:  
+          *Get Node.js `26.3+` for `<your target os> ex. macOS` using `nvm` with `npm`*
     - Use *npm* to install *pnpm* - [install](https://pnpm.io/installation#using-npm)
-      - ex. `npm install -g pnpm@l@11.20.0`
-      - Warning, do **not install** *pnpm* using *Corepack*.
+        - ex. `npm install -g pnpm@l@11.20.0`
+        - Warning, do **not install** *pnpm* using *Corepack*.
 - [Python 3.11+](https://www.python.org/) - [Install](https://www.python.org/downloads/)
     - `pip3` to install the required packages for development within a virtual environment
     - `python venv` Some system installations of Python 3+ do not include python virtual environments that were added
