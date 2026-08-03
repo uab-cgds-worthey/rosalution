@@ -19,7 +19,7 @@ jobs:
     steps:
     - uses: actions/checkout@v7
     - name: Install pnpm
-      uses: pnpm/action-setup@6
+      uses: pnpm/action-setup@v6
       with:
         version: 11
     - name: Use Node.js ${{ matrix.node-version }}
