@@ -7,7 +7,7 @@ Preliminary effort to programatically execute basic benchmarking Rosalution's' p
 - [Node.js 26.3+](https://nodejs.org/en/)
     - Node.js recommends managing Node.js installations with [nvm](https://github.com/nvm-sh/nvm) - [install](https://nodejs.org/en/download)
         - Use following dropdown menu options on the Node.js and nvm install page:  
-          ___Get Node.js `26.3+` for `<your target os> ex. macOS` using `nvm` with `npm`___
+          *Get Node.js `26.3+` for `<your target os> ex. macOS` using `nvm` with `npm`*
 - [Docker 17.12.0+](https://www.docker.com/) with `docker-compose` CLI or `docker compose` from Docker Desktop - [Install](https://www.docker.com/)
 
 ## Environment Setup
