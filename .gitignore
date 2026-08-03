@@ -15,7 +15,10 @@ DITTO_chr*.tsv.gz.tbi
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+logs
+*.log
 rosalution-annotation-log.txt*
+npm-debug.log*
 
 # local data files
 *.vcf
@@ -87,3 +90,7 @@ profile.html
 **benchmark-run**.tar.gz
 *speedscope.json
 k6-summary*
+
+#pnpm
+.pnp.cjs
+yarn.lock

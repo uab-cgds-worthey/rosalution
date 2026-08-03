@@ -8,9 +8,14 @@ for analysis.
 
 ### Dependencies
 
-- [Node.JS 23.4.0+](https://nodejs.org/en/)
-    - Recommended to manageNode.JS versions with [nvm](https://www.npmjs.com/package/npx) - [install](https://github.com/nvm-sh/nvm#install--update-script)
-- [Yarn - Classic](https://classic.yarnpkg.com/en/docs/getting-started) - [install](https://classic.yarnpkg.com/en/docs/install#windows-stable)
+- [Node.js 26.3+](https://nodejs.org/en/)
+    - Node.js recommends managing Node.js installations with [nvm](https://github.com/nvm-sh/nvm) - [install](https://nodejs.org/en/download)
+      - Use following dropdown menu options on the Node.js and nvm install page:  
+        ___Get Node.js `26.3+` for `<your target os> ex. macOS` using `nvm` with `npm`___
+- [pnpm](https://pnpm.io/) - [install](https://pnpm.io/installation#using-npm)
+    - Use *npm* to install *pnpm* 
+      - ex. `npm install -g pnpm@l@11.20.0`
+    - Warning, do **not install** *pnpm* using *Corepack*.
 
 ### Requirements
 
@@ -19,10 +24,10 @@ the `package.json` file in the project's frontend root structure.
 
 ### Local Development
 
-Run the following to setup application and development dependencies using Yarn.
+Run the following to setup application and development dependencies using pnpm.
 
 ```bash
-yarn install
+pnpm install
 ```
 
 ## Deployment
@@ -45,7 +50,7 @@ in support of rapid development.
 Builds Rosalution frontend for production.
 
 ```bash
-yarn build
+pnpm run build
 ```
 
 ## Testing
@@ -66,14 +71,14 @@ in the project directory. Configuration for unit testing is managed in the
 ```bash
 
 # Running Unit Testing - Basic
-yarn test:unit
+pnpm run test:unit
 
 # Running Unit Testing - with Watch and Hot Module Reloading
-yarn test:unit:watch
+pnpm run test:unit:watch
 
 # Running Unit Testing - Code Coverage
 
-yarn test:coverage
+pnpm run test:coverage
 ```
 
 #### Code Coverage
@@ -93,8 +98,8 @@ Rosalution uses the ESLint shareable config for Google's JavaScript style guide
 
 ```bash
 # Linting
-yarn lint
+pnpm run lint
 
 # Auto-Fix Linting
-yarn lint:auto
+pnpm run lint:auto
 ```

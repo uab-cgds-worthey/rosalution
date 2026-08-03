@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends samtools=1.16.1
 COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 COPY annotation-render-layout.json /app/annotation-render-layout.json
-COPY etc/entrypoint-init.sh /app/entrypoint-init.
+COPY etc/entrypoint-init.sh /app/entrypoint-init.sh
 COPY logging.conf /app/logging.conf
 COPY ./src /app/src
 RUN rm /app/src/routers/dev_router.py

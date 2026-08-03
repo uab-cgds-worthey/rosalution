@@ -3,9 +3,9 @@
 
 install() {
     local directory=$1
-    echo "Running yarn install in $directory directory."
+    echo "Running pnpm install in $directory directory."
     cd "$directory" || { echo "Unable to change to $directory project directory"; exit 1; }
-    yarn install
+    pnpm install
     cd - || { echo "Unable to change return to root directory"; exit 1; }
 }
 

@@ -12,26 +12,26 @@ Our system tests uses Cypress to end to end test the application.
 
 ## Setup
 
-Before running system tests, you must first install cypress with yarn
+Before running system tests, you must first install cypress with pnpm
 
 This can be accomplished by running the following command in the system-tests folder of this project:
 
 ```bash
-yarn install
+pnpm install
 ```
 
 ## Running system tests
 
-To run the system tests, you need to have rosalution running locally in a docker container.
+To run the system tests, Rosalution must be running locally in a docker container.
 
-Once you have rosalution running, you can run the system tests by running the following command:
+Once Rosalution is running, you can run the system tests by running the following command:
 
 ```bash
-yarn test:e2e
+pnpm run test:e2e
 ```
 
 To watch the system tests run in your Google Chrome browser, run the following command:
 
 ```bash
-yarn test:e2e:open
+pnpm run test:e2e:open
 ```

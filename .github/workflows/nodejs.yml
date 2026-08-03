@@ -14,16 +14,15 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [23.4]
+        node-version: [26.3]
 
     steps:
     - uses: actions/checkout@v7
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v7
+    - name: Use Node.js ${{ matrix.node-version }} with pnpm 
+      uses: pnpm/setup@v1
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'yarn'
-        cache-dependency-path: frontend/yarn.lock
-    - run: yarn install --frozen-lockfile
-    - run: yarn lint
-    - run: yarn test:coverage
+        runtime: node@${{ matrix.node-version }}
+        cache: true
+        cache-dependency-path: frontend/pnpm-lock.yaml
+    - run: pnpm lint
+    - run: pnpm test:coverage

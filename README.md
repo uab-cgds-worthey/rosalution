@@ -56,9 +56,13 @@ The following pre-requisites are required to be installed in the target *NIX env
 deploying and testing Rosalution. Install environment dependencies below using
 the respective installation instructions for your target environment.
 
-- [Node.JS 23.4+](https://nodejs.org/en/) & [Classic Yarn](https://classic.yarnpkg.com/en/)
-    - Node.JS recommends managing Node.JS installations with [nvm](https://www.npmjs.com/package/npx) - [install](https://github.com/nvm-sh/nvm#install--update-script)
-    - Yarn is not included with Node.JS with `nvm`. Run `npm install --global yarn` once Node.JS is installed. - [install](https://classic.yarnpkg.com/en/docs/install)
+- [Node.js 26.3+](https://nodejs.org/en/) & [pnpm](https://pnpm.io/)
+    - Node.js recommends managing Node.js installations with [nvm](https://github.com/nvm-sh/nvm) - [install](https://nodejs.org/en/download)
+      - Use following dropdown menu options on the Node.js and nvm install page:  
+        ___Get Node.js `26.3+` for `<your target os> ex. macOS` using `nvm` with `npm`___
+    - Use *npm* to install *pnpm* - [install](https://pnpm.io/installation#using-npm)
+      - ex. `npm install -g pnpm@l@11.20.0`
+      - Warning, do **not install** *pnpm* using *Corepack*.
 - [Python 3.11+](https://www.python.org/) - [Install](https://www.python.org/downloads/)
     - `pip3` to install the required packages for development within a virtual environment
     - `python venv` Some system installations of Python 3+ do not include python virtual environments that were added
@@ -110,7 +114,7 @@ cd rosalution
 `setup.sh` provisions your local environment for developing Rosalution.
 The script will
 
-- `yarn install` within each subdirectory
+- `pnpm install` within each subdirectory
 - Updates your local `/etc/hosts` to support the local DNS redirect of localhost to 'local.rosalution.cgds'.
 - Creates a Python virtual environment for called **"rosalution_env"** within the backend directory
 - Installs Python dependencies within the virtual environment
@@ -424,13 +428,13 @@ so running system testing in WSL2 is not supported.
 ```bash
 # Run System Testing with report displayed in terminal
 cd system-tests
-yarn test:e2e
+pnpm run test:e2e
 ```
 
 ```bash
 # Run System Testing with Cypress UI to visualize and run system testing
 cd system-tests
-yarn test:e2e:open
+pnpm run test:e2e:open
 ```
 
 ### Static Analysis
