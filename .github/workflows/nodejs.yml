@@ -24,5 +24,6 @@ jobs:
         runtime: node@${{ matrix.node-version }}
         cache: true
         cache-dependency-path: frontend/pnpm-lock.yaml
+        package-json-file: frontend/package.json
     - run: pnpm lint
     - run: pnpm test:coverage
