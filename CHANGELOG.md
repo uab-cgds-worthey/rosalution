@@ -15,6 +15,9 @@
     - Update local development and workflow documentation.
     - Update javascript GitHub Actions workflows to use pnpm.
     - Update Docker build configurations local and production builds.
+- Refactored python Docker container startup by moving backend service initialization from the docker compose yaml
+  deployment files into the Python backend Dockerfile. The Dockerfile explicitly uses the entrypoint-init.sh as the
+  image entrypoint and defines default startup arguments in the images CMD.
 - Raise the minimum supported Node.js version to 26.4.
 - Standardize Node.js Docker images on trixie-slim to align with Python base container images.
 - Upgrade the frontend base image to nginx:1.31.3-alpine3.24.
