@@ -1,6 +1,26 @@
 <!-- markdownlint-disable-file MD024 -->
 # Changelog
 
+## 0.9.1
+
+### Chores
+
+- Bump all backend python-package dependencies to their latest supported versions for framework improvements and
+  security vulnerability resolutions.
+    - FastApi updates include improvements for performance of speed and memory efficiency.
+    - 'jq' python wrapper updates to jq version 1.8.2.
+- Bump all frontend and system testing javascript-package dependencies.
+    - Updating Cypress to 15.19.0 for system testing.
+- Migrate javascript package management from Classic Yarn to pnpm 11.20.0.
+    - Update local development and workflow documentation.
+    - Update javascript GitHub Actions workflows to use pnpm.
+    - Update Docker build configurations local and production builds.
+- Raise the minimum supported Node.js version to 26.4.
+- Standardize Node.js Docker images on trixie-slim to align with Python base container images.
+- Upgrade the frontend base image to nginx:1.31.3-alpine3.24.
+- Upgrade Traefik to 3.7.10 for local reverse-proxy deployments.
+- Upgrade GitHub Actions to the latest supported versions across all workflows.
+
 ## 0.9.0
 
 ### Features
