@@ -61,7 +61,7 @@ the respective installation instructions for your target environment.
         - Use following dropdown menu options on the Node.js and nvm install page:  
           *Get Node.js `26.3+` for `<your target os> ex. macOS` using `nvm` with `npm`*
     - Use *npm* to install *pnpm* - [install](https://pnpm.io/installation#using-npm)
-        - ex. `npm install -g pnpm@l@11.20.0`
+        - ex. `npm install -g pnpm@11.20.0`
         - Warning, do **not install** *pnpm* using *Corepack*.
 - [Python 3.11+](https://www.python.org/) - [Install](https://www.python.org/downloads/)
     - `pip3` to install the required packages for development within a virtual environment

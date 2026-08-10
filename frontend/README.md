@@ -14,7 +14,7 @@ for analysis.
           *Get Node.js `26.3+` for `<your target os> ex. macOS` using `nvm` with `npm`*
 - [pnpm](https://pnpm.io/) - [install](https://pnpm.io/installation#using-npm)
     - Use *npm* to install *pnpm*
-        - ex. `npm install -g pnpm@l@11.20.0`
+        - ex. `npm install -g pnpm@11.20.0`
     - Warning, do **not install** *pnpm* using *Corepack*.
 
 ### Requirements
