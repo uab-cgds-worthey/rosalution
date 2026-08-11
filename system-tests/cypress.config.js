@@ -2,6 +2,7 @@ import {defineConfig} from 'cypress';
 
 export default defineConfig({
   e2e: {
+    allowCypressEnv: false,
     video: false,
     baseUrl: 'https://local.rosalution.cgds/rosalution',
     fixturesFolder: './fixtures',

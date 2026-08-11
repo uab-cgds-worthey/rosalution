@@ -1,37 +1,39 @@
+import globals from 'globals';
+import {defineConfig} from 'eslint/config';
 import js from '@eslint/js';
 import pluginVue from 'eslint-plugin-vue';
-import globals from 'globals';
 import cgds from './eslint-config-cgds.js';
 
 
-export default [
+export default defineConfig([
   {
+    name: 'rosalution-frontend',
+    plugins: {js},
+    extends: [
+      'js/recommended',
+      cgds,
+    ],
     ignores: [
       'node_modules/**',
       'dist/**',
       'test/__mocks__/**',
     ],
-  },
-  js.configs.recommended,
-  // {
-  ...cgds,
-  // Temporarily setting only essential rules; will make update after team discussion
-  // as to which level to increase vuejs linting rules too.
-  ...pluginVue.configs['flat/essential'],
-  //   files: ['src/**/*.js', 'src/**/*.vue', 'test/**/*.spec.js'],
-  {
     languageOptions: {
       sourceType: 'module',
       ecmaVersion: 2022,
       globals: {
         ...globals.browser,
         ...globals.node,
-        process: 'readonly',
       },
     },
   },
   {
+    name: 'rosalution-frontend/vue',
+    extends: [
+      pluginVue.configs['flat/essential'],
+    ],
     rules: {
+      'no-useless-assignment': 'off',
       'vue/prop-name-casing': 'off',
       'vue/require-default-prop': 'off',
       'vue/max-attributes-per-line': ['error', {
@@ -68,4 +70,4 @@ export default [
       //   },
     },
   },
-];
+]);

@@ -1,6 +1,6 @@
 services:
   reverse-proxy:
-    image: traefik
+    image: traefik:3.7.10
     command:
       - "--log.level=DEBUG"
       - "--api.insecure=true"
@@ -61,7 +61,6 @@ services:
     environment:
       - ROSALUTION_ENV=production
       - MONGODB_HOST=rosalution-db
-    command: ['./entrypoint-init.sh']
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=rosalution-network"

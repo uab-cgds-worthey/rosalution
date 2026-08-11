@@ -22,7 +22,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: Deploy Production Rosalution Build to Developer DevOps Server
         run: sudo -E docker stack deploy --with-registry-auth --compose-file docker-compose.staging.yml rosalution-prod

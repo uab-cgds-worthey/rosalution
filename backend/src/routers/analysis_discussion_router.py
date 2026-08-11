@@ -192,7 +192,7 @@ def delete_analysis_discussion(
 @router.post(
     "/{analysis_name}/discussions/{discussion_post_id}/thread/", dependencies=[Security(get_project_authorization)]
 )
-async def add_analysis_discussion_reply(    #pylint: disable=too-many-arguments, too-many-locals
+async def add_analysis_discussion_reply( #pylint: disable=too-many-arguments, too-many-positional-arguments, too-many-locals
     analysis_name: str,
     discussion_post_id: str,
     discussion_reply_content: list[str],

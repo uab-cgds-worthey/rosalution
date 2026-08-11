@@ -10,8 +10,8 @@ from .database import Database
 from .config import get_settings
 
 settings = get_settings()
-mongodb_connection_uri = f"mongodb://{settings.mongodb_host}/{settings.mongodb_db}"
-mongodb_client = MongoClient(mongodb_connection_uri)
+MONGODB_CONNECTION_URI = f"mongodb://{settings.mongodb_host}/{settings.mongodb_db}"
+mongodb_client = MongoClient(MONGODB_CONNECTION_URI)
 bucket = gridfs.GridFS(mongodb_client.rosalution_db)
 
 # Database/Repositories

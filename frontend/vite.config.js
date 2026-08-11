@@ -7,6 +7,9 @@ import * as path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    allowedHosts: ['local.rosalution.cgds'],
+  },
   test: {
     environment: 'happy-dom',
     coverage: {
@@ -29,7 +32,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(import.meta.dirname, './src'),
     },
   },
   plugins: [

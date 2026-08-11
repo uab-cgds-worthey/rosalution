@@ -6,19 +6,20 @@
   "author": "CGDS",
   "license": "UNLICENSED",
   "private": true,
+  "allowScripts": {
+    "cypress": true
+  },
   "devDependencies": {
-    "@stylistic/eslint-plugin-js": "2.12.1",
-    "cypress": "13.8.1",
-    "eslint": "9.16.0",
-    "eslint-plugin-cypress": "4.1.0"
+    "@eslint/js": "10.0.1",
+    "@stylistic/eslint-plugin": "5.10.0",
+    "cypress": "15.19.0",
+    "eslint": "10.8.0",
+    "eslint-plugin-cypress": "7.0.0"
   },
   "scripts": {
     "test:e2e": "cypress run --browser chrome",
     "test:e2e:open": "cypress open --e2e",
     "lint": "eslint ./",
     "lint:auto": "eslint --fix"
-  },
-  "resolutions": {
-    "cross-spawn": "7.0.5"
   }
 }

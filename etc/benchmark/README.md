@@ -4,9 +4,10 @@ Preliminary effort to programatically execute basic benchmarking Rosalution's' p
 
 ## Prerequisites
 
-- [Node.JS 23.4+](https://nodejs.org/en/) & [Classic Yarn](https://classic.yarnpkg.com/en/)
-    - Node.JS recommends managing Node.JS installations with [nvm](https://www.npmjs.com/package/npx) - [install](https://github.com/nvm-sh/nvm#install--update-script)
-    - Yarn is not included with Node.JS with `nvm`. Run `npm install --global yarn` once Node.JS is installed. - [install](https://classic.yarnpkg.com/en/docs/install)
+- [Node.js 26.3+](https://nodejs.org/en/)
+    - Node.js recommends managing Node.js installations with [nvm](https://github.com/nvm-sh/nvm) - [install](https://nodejs.org/en/download)
+        - Use following dropdown menu options on the Node.js and nvm install page:  
+          *Get Node.js `26.3+` for `<your target os> ex. macOS` using `nvm` with `npm`*
 - [Docker 17.12.0+](https://www.docker.com/) with `docker-compose` CLI or `docker compose` from Docker Desktop - [Install](https://www.docker.com/)
 
 ## Environment Setup

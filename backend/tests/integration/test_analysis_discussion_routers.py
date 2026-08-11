@@ -89,12 +89,13 @@ def test_update_discussion_post_in_analysis(client, mock_access_token, mock_repo
 
     response = client.put(
         "/analysis/" + cpam_analysis + "/discussions/" + discussion_post_id,
-        headers={"Authorization": "Bearer " + mock_access_token},
+        headers={"Authorization": "Bearer " + mock_access_token, "Content-Type": "application/json"},
         content=json.dumps(discussion_content)
     )
 
-    actual_post = None
+    assert response.status_code == 200
 
+    actual_post = None
     for d in response.json():
 
         if d['post_id'] == discussion_post_id:
@@ -115,7 +116,7 @@ def test_update_post_in_analysis_author_mismatch(client, mock_access_token, mock
 
     response = client.put(
         "/analysis/" + cpam_analysis + "/discussions/" + discussion_post_id,
-        headers={"Authorization": "Bearer " + mock_access_token},
+        headers={"Authorization": "Bearer " + mock_access_token, "Content-Type": "application/json"},
         content=json.dumps(discussion_content)
     )
 
@@ -324,7 +325,7 @@ def test_update_discussion_reply_in_analysis(client, mock_access_token, mock_rep
 
     response = client.post(
         "/analysis/" + cpam_analysis + "/discussions/" + discussion_post_id + "/thread/" + discussion_reply_id,
-        headers={"Authorization": "Bearer " + mock_access_token},
+        headers={"Authorization": "Bearer " + mock_access_token, "Content-Type": "application/json"},
         content=json.dumps(edit_reply_content)
     )
     assert response.status_code == 200

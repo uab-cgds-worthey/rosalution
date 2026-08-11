@@ -34,7 +34,7 @@ GitHub Actions are configured to automate these operations upon a git push into 
 - To run linting in `./frontend/`
 
   ``` bash
-  yarn lint:auto
+  pnpm run lint:auto
   ```
   
 - To run linting in `./backend/`

@@ -648,8 +648,8 @@ describe('AnalysisView', () => {
         };
 
         attachSectionAttachmentMock.returns(addFieldValue(sectionName, fieldName, newAttachmentData));
-
-        const mouseSection = wrapper.getComponent(`[id=${sectionId}]`);
+        const mouseSectionSelector=`[id="${sectionId}"]`;
+        const mouseSection = wrapper.getComponent(mouseSectionSelector);
         const mouseFieldToUpdate = mouseSection.props('content').find((row) => {
           return row.field == fieldName;
         });
@@ -671,7 +671,7 @@ describe('AnalysisView', () => {
         await wrapper.vm.$nextTick();
         await wrapper.vm.$nextTick();
 
-        const updatedMouseSection = wrapper.getComponent(`[id=${sectionId}]`);
+        const updatedMouseSection = wrapper.getComponent(mouseSectionSelector);
         const mouseFieldUpdated = updatedMouseSection.props('content').find((row) => {
           return row.field == fieldName;
         });
@@ -685,7 +685,8 @@ describe('AnalysisView', () => {
 
         removeSectionAttachmentMock.resolves(removeFieldValue(sectionName, fieldName));
 
-        const mouseSection = wrapper.getComponent(`[id=${sectionId}]`);
+        const mouseSectionSelector=`[id="${sectionId}"]`;
+        const mouseSection = wrapper.getComponent(mouseSectionSelector);
         const mouseFieldToUpdate = mouseSection.props('content').find((row) => {
           return row.field == fieldName;
         });
@@ -708,7 +709,7 @@ describe('AnalysisView', () => {
         await wrapper.vm.$nextTick();
         await wrapper.vm.$nextTick();
 
-        const updatedMouseSection = wrapper.getComponent(`[id=${sectionId}]`);
+        const updatedMouseSection = wrapper.getComponent(mouseSectionSelector);
         const mouseFieldUpdated = updatedMouseSection.props('content').find((row) => {
           return row.field == fieldName;
         });

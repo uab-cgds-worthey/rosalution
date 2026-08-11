@@ -1,28 +1,24 @@
-import js from '@eslint/js';
-import globals from 'globals';
+import {defineConfig} from 'eslint/config';
 
-import pluginCypress from 'eslint-plugin-cypress/flat';
+import js from '@eslint/js';
+
+import pluginCypress from 'eslint-plugin-cypress';
 import cgds from './eslint-config-cgds.js';
 
 
-export default [
+export default defineConfig([
   {
-    ignores: [
-      'node_modules/**',
+    name: 'system-test-project',
+    files: ['**/*.js'],
+    plugins: {js},
+    extends: [
+      'js/recommended',
+      cgds,
+      pluginCypress.configs.recommended,
     ],
-  },
-  js.configs.recommended,
-  ...cgds,
-  pluginCypress.configs.recommended,
-  pluginCypress.configs.globals,
-  {
     languageOptions: {
       sourceType: 'module',
       ecmaVersion: 2022,
-      globals: {
-        ...globals.node,
-        ...globals.browser,
-      },
     },
   },
-];
+]);

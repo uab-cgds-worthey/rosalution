@@ -89,10 +89,6 @@ py-version=3.10
 # Discover python modules and packages in the file system subtree.
 recursive=no
 
-# When enabled, pylint would attempt to guess common misconfiguration and emit
-# user-friendly hints instead of false-positive error messages.
-suggestion-mode=yes
-
 # Allow loading of arbitrary C extensions. Extensions are imported into the
 # active Python interpreter and may run arbitrary code.
 unsafe-load-any-extension=no
@@ -275,6 +271,9 @@ exclude-too-few-public-methods=json.*,^.*BaseModel$
 # List of qualified class names to ignore when counting class parents (see
 # R0901)
 ignored-parents=
+
+# Maximum number of positional arguments
+max-positional-arguments=6
 
 # Maximum number of arguments for function / method.
 max-args=6

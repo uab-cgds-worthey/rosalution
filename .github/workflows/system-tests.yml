@@ -8,12 +8,22 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
     
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
+    - name: Install pnpm
+      uses: pnpm/action-setup@v6
+      with:
+        version: 11
+    - name: Install Node.js
+      uses: actions/setup-node@v7
+      with:
+        node-version: 26
+        cache: 'pnpm'
+        cache-dependency-path: system-tests/pnpm-lock.yaml
     - name: Running the setup.sh script
       run: |
         sh setup.sh
     - name: Cypress tests
-      uses: cypress-io/github-action@v6
+      uses: cypress-io/github-action@v7
       with:
         working-directory: system-tests
         browser: chrome
