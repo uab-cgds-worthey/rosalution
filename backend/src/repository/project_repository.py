@@ -13,7 +13,7 @@ class ProjectRepository:
         self.user_collection = user_collection
         self.analysis_collection = analysis_collection
 
-    def all_projects(self, client_id: str):
+    async def all_projects(self, client_id: str) -> list:
         """Returns all projects available to the user by client id"""
         pipeline = [{"$match": {"client_id": client_id}}, {
             "$lookup": {
@@ -22,11 +22,11 @@ class ProjectRepository:
             }
         }, {"$unwind": "$projects"}, {"$replaceRoot": {"newRoot": "$projects"}}]
 
-        query_result = self.user_collection.aggregate(pipeline)
+        query_result = await self.user_collection.aggregate(pipeline)
 
-        return list(query_result)
+        return await query_result.to_list()
 
-    def all_analyses(self, client_id: str):
+    async def all_analyses(self, client_id: str) -> list:
         """Returns all analyses available to the user by client id"""
         pipeline = [{"$match": {"client_id": client_id}}, {
             "$lookup": {
@@ -36,11 +36,11 @@ class ProjectRepository:
         }, {"$unwind": "$analyses"}, {"$replaceRoot": {"newRoot": "$analyses"}},
                     {"$project": AnalysisCollectionSummary.query_projection()}]
 
-        query_result = self.user_collection.aggregate(pipeline)
+        query_result = await self.user_collection.aggregate(pipeline)
 
-        return list(query_result)
+        return await query_result.to_list()
 
-    def all_summaries(self, client_id: str):
+    async def all_summaries(self, client_id: str) -> list:
         """Returns all of the summaries for all of the analyses within the system"""
 
         pipeline = [{"$match": {"client_id": client_id}}, {
@@ -51,12 +51,12 @@ class ProjectRepository:
         }, {"$unwind": "$analyses"}, {"$replaceRoot": {"newRoot": "$analyses"}},
                     {"$project": AnalysisCollectionSummary.query_projection()}]
 
-        query_result = self.user_collection.aggregate(pipeline)
-
         summaries = []
-        for analysis in query_result:
-            genomic_unit_summaries = AnalysisCollectionSummary.omic_unit_json_summary(analysis['genomic_units'])
-            analysis['genomic_units'] = genomic_unit_summaries
-            summaries.append(analysis)
+
+        async with await self.user_collection.aggregate(pipeline) as cursor:
+            async for analysis in cursor:
+                genomic_unit_summaries = AnalysisCollectionSummary.omic_unit_json_summary(analysis['genomic_units'])
+                analysis['genomic_units'] = genomic_unit_summaries
+                summaries.append(analysis)
 
         return summaries

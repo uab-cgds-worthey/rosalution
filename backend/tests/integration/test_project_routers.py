@@ -6,6 +6,7 @@ from unittest.mock import patch
 import pytest
 
 from fastapi import BackgroundTasks
+from fastapi.testclient import TestClient
 
 from src.core.annotation import AnnotationService
 
@@ -14,8 +15,8 @@ from ..test_utils import fixture_filepath
 
 @pytest.mark.usefixtures("mock_security_get_create_project_authorization")
 def test_import_with_new_analysis_json(
-    client, mock_access_token, mock_repositories, mock_annotation_queue, annotations_config_collection_json,
-    genomic_units_collection_json
+    client: TestClient, mock_access_token, mock_repositories: dict, mock_annotation_queue,
+    annotations_config_collection_json, genomic_units_collection_json
 ):
     """ Testing if the create analysis function works with file upload """
     mock_repositories["analysis"].collection.insert_one.return_value = True

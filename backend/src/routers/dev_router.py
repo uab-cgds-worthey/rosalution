@@ -1,11 +1,12 @@
 """ Collection of FastAPI routes used for development and debugging the application """
 
+from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordRequestForm
 
 from ..config import Settings, get_settings
-from ..dependencies import database
+from ..dependencies import DatabaseDepends, get_db
 from ..security.oauth2 import HTTPBasicClientCredentials
 from ..security.security import (authenticate_password, create_access_token)
 
@@ -15,16 +16,16 @@ token_scheme = HTTPBasicClientCredentials(auto_error=False, scheme_name="oAuth2C
 
 
 @router.post("/loginDev")
-def login_local_developer(
+async def login_local_developer(
     response: Response,
-    form_data: OAuth2PasswordRequestForm = Depends(),
-    repositories=Depends(database),
-    settings: Settings = Depends(get_settings),
+    repositories: Annotated[dict, Depends(get_db)],
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+    settings: Annotated[Settings, Depends(get_settings)],
 ):
     """
     OAuth2 compatible token login, get an access token for future requests.
     """
-    user = repositories["user"].find_by_username(form_data.username)
+    user = await repositories["user"].find_by_username(form_data.username)
     user_authenticated = authenticate_password(user, form_data.password)
 
     if not user_authenticated:

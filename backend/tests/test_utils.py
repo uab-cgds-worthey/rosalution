@@ -2,7 +2,7 @@
 import json
 import os
 
-from unittest.mock import Mock, MagicMock
+from unittest.mock import AsyncMock, Mock, MagicMock
 
 DATABSE_FIXTURE_PATH = "../../etc/fixtures/initial-seed/"
 UNIT_TEST_FIXTURE_PATH = "./fixtures/"
@@ -42,14 +42,14 @@ def mock_mongo_collection():
     Returns the annotation collection for the configuration to verify
     annotation tasks are created according to the configuration
     """
-    mock_collection = Mock()
-    mock_collection.aggregate = Mock()
-    mock_collection.find = Mock()
-    mock_collection.find_one = Mock()
-    mock_collection.update_one = Mock()
-    mock_collection.insert_one = Mock()
-    mock_collection.find_one_and_update = Mock()
-    mock_collection.count_documents = Mock()
+    mock_collection = AsyncMock()
+    mock_collection.aggregate = AsyncMock()
+    mock_collection.find = AsyncMock()
+    mock_collection.find_one = AsyncMock()
+    mock_collection.update_one = AsyncMock()
+    mock_collection.insert_one = AsyncMock()
+    mock_collection.find_one_and_update = AsyncMock()
+    mock_collection.count_documents = AsyncMock()
     return mock_collection
 
 
@@ -71,14 +71,14 @@ def magic_mock_mongo_collection():
 
 def mock_gridfs_bucket():
     """Returns a mocked GridFS bucket"""
-    mock_bucket = Mock()
-    mock_bucket.open_download_stream = Mock()
-    mock_bucket.open_upload_stream = Mock()
-    mock_bucket.put = Mock()
-    mock_bucket.get = Mock()
-    mock_bucket.list = Mock()
-    mock_bucket.exists = Mock()
-    mock_bucket.delete = Mock()
+    mock_bucket = AsyncMock()
+    mock_bucket.open_download_stream = AsyncMock()
+    mock_bucket.open_upload_stream = AsyncMock()
+    mock_bucket.put = AsyncMock()
+    mock_bucket.get = AsyncMock()
+    mock_bucket.list = AsyncMock()
+    mock_bucket.exists = AsyncMock()
+    mock_bucket.delete = AsyncMock()
     return mock_bucket
 
 

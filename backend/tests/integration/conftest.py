@@ -2,22 +2,64 @@
 import os
 from unittest.mock import Mock
 import pytest
+from fastapi.security import OAuth2PasswordBearer
 from fastapi.testclient import TestClient
+from cas import CASClient
 
+from src.routers.auth_router import get_cas_client
 from src.main import app
 from src.database import Database
 from src.config import get_settings, Settings
-from src.dependencies import database, annotation_queue
+from src.dependencies import get_db, annotation_queue, get_oauth_credentials
 from src.security.security import create_access_token, get_current_user, get_project_authorization,\
     get_create_project_authorization
 
 from ..test_utils import mock_mongo_collection, mock_gridfs_bucket, read_test_fixture
 
 
-@pytest.fixture(name="client", scope="class")
-def test_application_client():
+@pytest.fixture(name="client")
+def test_application_client(mock_settings):
     """A class scoped FastApi Test Client"""
-    return TestClient(app)
+
+    def mock_get_settings():
+        return mock_settings
+
+    mock_oauth_scheme = OAuth2PasswordBearer(tokenUrl=mock_settings.openapi_api_token_route)
+    app.state.oauth2_scheme = mock_oauth_scheme
+
+    app.dependency_overrides[get_settings] = mock_get_settings
+    app.dependency_overrides[get_oauth_credentials] = mock_oauth_scheme
+    yield TestClient(app)
+    app.dependency_overrides.clear()
+    app.state.oauth2_scheme = None
+
+
+@pytest.fixture(name="disabled_cas_client")
+def mock_get_disabled_cas_client(mock_settings_cas_disabled):
+    """Mock settings for the CAS client to disable them."""
+    mock_cas_client = get_cas_client(mock_settings_cas_disabled)
+
+    def mock_get() -> CASClient:
+        return mock_cas_client
+
+    app.dependency_overrides[get_cas_client] = mock_get
+    yield mock_cas_client
+    app.dependency_overrides.clear()
+    return
+
+
+@pytest.fixture(name="cas_client")
+def mock_get_cas_client(mock_settings):
+    """Mock settings for enabling teh CAS client mocking for authentication in testing"""
+    mock_cas_client = get_cas_client(mock_settings)
+
+    def mock_get() -> CASClient:
+        return mock_cas_client
+
+    app.dependency_overrides[get_cas_client] = mock_get
+    yield mock_cas_client
+    app.dependency_overrides.clear()
+    return
 
 
 @pytest.fixture(name="mock_annotation_queue", scope="class")
@@ -42,8 +84,26 @@ def mock_database_collections():
     }
 
     mock_database = Database(mock_database_client, mock_gridfs_client)
-    app.dependency_overrides[database] = mock_database
+
+    def mock_get_db() -> dict:
+        return mock_database()
+
+    app.dependency_overrides[get_db] = mock_get_db
     yield mock_database.collections
+    app.dependency_overrides.clear()
+
+
+@pytest.fixture(name="mock_settings_cas_disabled")
+def mock_cas_disabled_application_settings(settings_json):
+    """The mocked settings which overrides the applications need for environment variables or .env file"""
+    settings_json["cas_login_enable"] = False
+    fake_settings = Settings(**settings_json)
+
+    def mock_get_settings():
+        return fake_settings
+
+    app.dependency_overrides[get_settings] = mock_get_settings
+    yield fake_settings
     app.dependency_overrides.clear()
 
 
@@ -102,8 +162,14 @@ def test_auth_user():
     return {"sub": "johndoe-client-id", "scopes": ["read", "write"]}
 
 
+@pytest.fixture(name="mock_access_token_header")
+def mock_access_token_header(mock_access_token: str) -> dict[str, str]:
+    """Mocks a valid access token for the tests to properly execute"""
+    return {"Authorization": f"Bearer {mock_access_token}"}
+
+
 @pytest.fixture(name="mock_access_token")
-def mock_access_token(mock_user, mock_settings):
+def mock_access_token_str(mock_user, mock_settings):
     """Mocks a valid access token for the tests to properly execute"""
     user_data_to_encode = mock_user
     return create_access_token(

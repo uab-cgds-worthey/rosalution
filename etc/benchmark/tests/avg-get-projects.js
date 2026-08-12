@@ -24,9 +24,8 @@ export async function setup() {
   const clientSecret = await secrets.get('CLIENT_SECRET')
 
   const authToken = rosalutionAuth(BASE_URL, clientId, clientSecret)
-
   return {
-    auth_token: authToken
+    "auth_token": authToken
   }
 }
 
