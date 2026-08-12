@@ -3,9 +3,9 @@
 import logging
 
 from typing import List
-from fastapi import APIRouter, Depends, File, Form, HTTPException, Response, Security, status, UploadFile
+from fastapi import APIRouter, File, Form, HTTPException, Response, Security, status, UploadFile
 
-from ..dependencies import database
+from ..dependencies import DatabaseDepends
 from ..enums import SectionRowType
 from ..models.analysis import Analysis, Section
 from ..security.security import get_write_project_authorization
@@ -25,7 +25,7 @@ def add_file_to_bucket_repository(file_to_save, bucket_repository):
     response_model=List[Section],
     dependencies=[Security(get_write_project_authorization)]
 )
-def update_many_analysis_sections(analysis_name: str, updated_sections: List[Section], repositories=Depends(database)):
+def update_many_analysis_sections(analysis_name: str, updated_sections: List[Section], repositories: DatabaseDepends):
     """Updates the sections that have changes"""
 
     repositories["analysis"].update_analysis_sections(analysis_name, updated_sections)
@@ -41,9 +41,9 @@ def update_analysis_section(
     response: Response,
     analysis_name: str,
     row_type: SectionRowType,
+    repositories: DatabaseDepends,
     updated_section: Section = Form(...),
     upload_file: UploadFile = File(None),
-    repositories=Depends(database)
 ):
     """Updates a section with the changed fields"""
     if row_type not in (SectionRowType.TEXT, SectionRowType.IMAGE, SectionRowType.DOCUMENT, SectionRowType.LINK):
@@ -96,7 +96,7 @@ def update_analysis_section(
     status_code=status.HTTP_200_OK,
     dependencies=[Security(get_write_project_authorization)]
 )
-def remove_section_attachment_from_field(analysis_name: str, attachment_id: str, repositories=Depends(database)):
+def remove_section_attachment_from_field(analysis_name: str, attachment_id: str, repositories: DatabaseDepends):
     """ Removes the attachment from the analysis section """
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
 
@@ -133,9 +133,9 @@ def update_analysis_section_image(
     analysis_name: str,
     attachment_id: str,
     row_type: SectionRowType,
+    repositories: DatabaseDepends,
     updated_section: Section = Form(...),
     upload_file: UploadFile = File(None),
-    repositories=Depends(database)
 ):
     """
     Replaces the existing image by the file identifier with the uploaded one or updates a section with changed field.

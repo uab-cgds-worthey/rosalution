@@ -5,7 +5,7 @@ import pytest
 
 
 @pytest.mark.usefixtures("mock_security_get_project_authorization")
-def test_add_new_discussion_to_analysis(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
+def test_add_new_discussion_to_analysis(client, mock_access_token_header, mock_repositories, cpam0002_analysis_json):
     """ Testing that a discussion was added and returned properly """
     cpam_analysis = "CPAM0002"
     new_post_user = "John Doe"
@@ -24,7 +24,7 @@ def test_add_new_discussion_to_analysis(client, mock_access_token, mock_reposito
 
     response = client.post(
         "/analysis/" + cpam_analysis + "/discussions",
-        headers={"Authorization": "Bearer " + mock_access_token},
+        headers=mock_access_token_header,
         data={
             "discussion_content": new_post_content,
             "attachments":

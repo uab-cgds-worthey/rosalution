@@ -49,7 +49,9 @@ def test_authorization_successful(settings):
     payload = {"sub": "johndoe", "scopes": ["read"]}
     jwt.decode = Mock(return_value=payload)
 
-    authorization = get_authorization(security_scopes, settings=settings)
+    mock_token = "6c5a306e-c42a-49f4-8b94-58fe00b49233-fake-token"
+
+    authorization = get_authorization(security_scopes, mock_token, settings=settings)
 
     assert authorization is True
 
@@ -58,10 +60,11 @@ def test_authorization_unsuccessful_no_user(settings):
     """Fails to authenticate user in the system due to there not being a valid user decoded from the token"""
     security_scopes = SecurityScopes()
     payload = {"sub": None}
+    mock_token = "6c5a306e-c42a-49f4-8b94-58fe00b49233-fake-token"
 
     jwt.decode = Mock(return_value=payload)
     with pytest.raises(HTTPException) as authorization_error:
-        get_authorization(security_scopes, settings=settings)
+        get_authorization(security_scopes, mock_token, settings=settings)
         assert authorization_error.status_code == 401
 
 
@@ -71,11 +74,12 @@ def test_authorization_unsuccessful_not_in_scope(settings):
     security_scopes.scopes = ["write"]
     security_scopes.scope_str = "write"
     payload = {"sub": "johndoe", "scopes": ["read"]}
+    mock_token = "6c5a306e-c42a-49f4-8b94-58fe00b49233-fake-token"
 
     jwt.decode = Mock(return_value=payload)
 
     with pytest.raises(HTTPException) as authorization_error:
-        get_authorization(security_scopes, settings=settings)
+        get_authorization(security_scopes, mock_token, settings=settings)
         assert authorization_error.status_code == 401
 
 
@@ -84,24 +88,26 @@ def test_current_user_existing_user(settings):
     payload = {
         "sub": "fake-client-id",
     }
+    mock_token = "6c5a306e-c42a-49f4-8b94-58fe00b49233-fake-token"
     jwt.decode = Mock(return_value=payload)
 
     response = Response("fake response", media_type="text/plain")
 
-    client_id = get_current_user(response, settings=settings)
+    client_id = get_current_user(response, mock_token, settings=settings)
     assert client_id == "fake-client-id"
 
 
 def test_current_non_existing_user(settings):
     """ Handles when no user is encoded in the access token, providing an unauthorized """
     payload = {"sub": None}
+    mock_token = "6c5a306e-c42a-49f4-8b94-58fe00b49233-fake-token"
 
     jwt.decode = Mock(return_value=payload)
 
     response = Response("fake response", media_type="text/plain")
 
     with pytest.raises(HTTPException) as exc_info:
-        get_current_user(response=response, settings=settings)
+        get_current_user(response=response, token=mock_token, settings=settings)
 
     assert exc_info.value.status_code == 401
     assert exc_info.value.detail == "Could not validate credentials"
@@ -140,15 +146,12 @@ def test_project_authorization_successful(
     user_collection, analysis_collection, cpam0002_analysis_json, client_id_from_get_current_user
 ):
     """Shows a completely successful authentication process and what is required"""
-
     analysis_collection.project_id_by_name = Mock(return_value=str(cpam0002_analysis_json["project_id"]))
 
     database = {'user': user_collection, 'analysis': analysis_collection}
 
     analysis_name = "CPAM0002"
-    authorization = get_project_authorization(
-        analysis_name, repositories=database, client_id=client_id_from_get_current_user
-    )
+    authorization = get_project_authorization(analysis_name, database, client_id_from_get_current_user)
 
     assert authorization is True
 
@@ -156,7 +159,8 @@ def test_project_authorization_successful(
 @pytest.fixture(name="client_id_from_get_current_user")
 def fixture_client_id_from_get_current_user(response_with_fake_client_id_pyaload, settings):
     """Fixture for retrieving the client_id from the response fixture according to the settings fixture"""
-    client_id = get_current_user(response_with_fake_client_id_pyaload, settings=settings)
+    mock_token = "6c5a306e-c42a-49f4-8b94-58fe00b49233-fake-token"
+    client_id = get_current_user(response_with_fake_client_id_pyaload, mock_token, settings=settings)
     return client_id
 
 

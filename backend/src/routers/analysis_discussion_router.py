@@ -6,10 +6,9 @@ import json
 from typing import Annotated
 from pydantic import BaseModel, model_validator
 
-from fastapi import (APIRouter, Depends, Form, Security, HTTPException, status, File, UploadFile)
+from fastapi import (APIRouter, Form, Security, HTTPException, status, File, UploadFile)
 
-from ..dependencies import database
-from ..models.user import VerifyUser
+from ..dependencies import DatabaseDepends
 from ..models.analysis import Analysis
 from ..security.security import get_current_user, get_project_authorization
 
@@ -53,7 +52,7 @@ class IncomingDiscussionFormData(BaseModel):
 
 
 @router.get("/{analysis_name}/discussions", dependencies=[Security(get_project_authorization)])
-def get_analysis_discussions(analysis_name: str, repositories=Depends(database)):
+def get_analysis_discussions(analysis_name: str, repositories: DatabaseDepends):
     """ Returns a list of discussion posts for a given analysis """
 
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
@@ -73,10 +72,10 @@ async def add_analysis_discussion(
     analysis_name: str,
     discussion_content: Annotated[list[str], Form()],
     attachments: Annotated[IncomingDiscussionFormData, Form()],
+    repositories: DatabaseDepends,
+    client_id: Annotated[str, Security(get_current_user)],
     attachment_files: Annotated[list[UploadFile] | None,
                                 File(description="Multiple files as File")] = None,
-    repositories=Depends(database),
-    client_id: VerifyUser = Security(get_current_user)
 ):
     """ Adds a new analysis discussion post """
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
@@ -119,11 +118,8 @@ async def add_analysis_discussion(
 
 @router.put("/{analysis_name}/discussions/{discussion_post_id}", dependencies=[Security(get_project_authorization)])
 def update_analysis_discussion_post(
-    analysis_name: str,
-    discussion_post_id: str,
-    discussion_content: list[str],
-    repositories=Depends(database),
-    client_id: VerifyUser = Security(get_current_user)
+    analysis_name: str, discussion_post_id: str, discussion_content: list[str], repositories: DatabaseDepends,
+    client_id: Annotated[str, Security(get_current_user)]
 ):
     """ Updates a discussion post's content in an analysis by the discussion post id """
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
@@ -151,10 +147,8 @@ def update_analysis_discussion_post(
 
 @router.delete("/{analysis_name}/discussions/{discussion_post_id}", dependencies=[Security(get_project_authorization)])
 def delete_analysis_discussion(
-    analysis_name: str,
-    discussion_post_id: str,
-    repositories=Depends(database),
-    client_id: VerifyUser = Security(get_current_user)
+    analysis_name: str, discussion_post_id: str, repositories: DatabaseDepends,
+    client_id: Annotated[str, Security(get_current_user)]
 ):
     """ Deletes a discussion post in an analysis by the discussion post id """
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
@@ -197,10 +191,10 @@ async def add_analysis_discussion_reply( #pylint: disable=too-many-arguments, to
     discussion_post_id: str,
     discussion_reply_content: list[str],
     reply_attachments: Annotated[IncomingDiscussionFormData, Form()],
+    repositories: DatabaseDepends,
+    client_id: Annotated[str, Security(get_current_user)],
     reply_attachment_files: Annotated[list[UploadFile] | None,
                                       File(description="Multiple files as File")] = None,
-    repositories=Depends(database),
-    client_id: VerifyUser = Security(get_current_user)
 ):
     """Adds a new reply to a discussion post"""
     found_analysis = repositories['analysis'].find_by_name(analysis_name)
@@ -246,12 +240,8 @@ async def add_analysis_discussion_reply( #pylint: disable=too-many-arguments, to
     dependencies=[Security(get_project_authorization)]
 )
 async def edit_analysis_discussion_reply(
-    analysis_name: str,
-    discussion_post_id: str,
-    discussion_reply_id: str,
-    discussion_reply_content: list[str],
-    repositories=Depends(database),
-    client_id: VerifyUser = Security(get_current_user)
+    analysis_name: str, discussion_post_id: str, discussion_reply_id: str, discussion_reply_content: list[str],
+    repositories: DatabaseDepends, client_id: Annotated[str, Security(get_current_user)]
 ):
     """Edits a reply in a discussion post"""
 
@@ -285,11 +275,8 @@ async def edit_analysis_discussion_reply(
     dependencies=[Security(get_project_authorization)]
 )
 async def delete_analysis_discussion_reply(
-    analysis_name: str,
-    discussion_post_id: str,
-    discussion_reply_id: str,
-    repositories=Depends(database),
-    client_id: VerifyUser = Security(get_current_user)
+    analysis_name: str, discussion_post_id: str, discussion_reply_id: str, repositories: DatabaseDepends,
+    client_id: Annotated[str, Security(get_current_user)]
 ):
     """Deletes reply from a discussion post's thread"""
 

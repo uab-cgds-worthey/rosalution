@@ -1,38 +1,36 @@
 """ FastAPI Authentication router file that handles the auth lifecycle of the application """
+from functools import lru_cache
 import logging
 
-from typing import Optional
+from typing import Annotated, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Security, Response, status
 from fastapi.responses import JSONResponse, RedirectResponse
 
 from starlette.requests import Request
 
+from src.dependencies import get_db
 from cas import CASClient
 
 from ..config import Settings, get_settings
-from ..dependencies import database
-from ..models.user import User, VerifyUser, AccessUserAPI
+from ..models.user import User, AccessUserAPI
 from ..security.oauth2 import OAuth2ClientCredentialsRequestForm, HTTPClientCredentials, HTTPBasicClientCredentials
 from ..security.security import (create_access_token, get_authorization, get_current_user, generate_client_secret)
 
-router = APIRouter(
-    prefix="/auth",
-    tags=["auth"],
-    dependencies=[Depends(database)],
-)
+router = APIRouter( prefix="/auth", tags=["auth"] )
 
 logger = logging.getLogger(__name__)
 
-# URLs for interacting with UAB CAS Padlock system for BlazerID
-cas_client = CASClient(
-    version=3,
-    service_url=get_settings().cas_api_service_url,
-    server_url=get_settings().cas_server_url,
-)
+@lru_cache
+def get_cas_client(settings: Annotated[Settings, Depends(get_settings)]) -> CASClient:
+    """ Return a cached CAS client configured for the UAB CAS Padlock service. """
+    return CASClient(
+        version=3,
+        service_url=settings.cas_api_service_url,
+        server_url=settings.cas_server_url,
+    )
 
 token_scheme = HTTPBasicClientCredentials(auto_error=False, scheme_name="oAuth2ClientCredentials")
-
 
 ## Test Route ##
 @router.get("/write_only_test")
@@ -49,10 +47,11 @@ def test(authorized=Security(get_authorization, scopes=["write"])):
 @router.get("/login", include_in_schema=False)
 async def login(
     response: Response,
+    repositories: Annotated[dict, Depends(get_db)],
+    cas_client: Annotated[CASClient, Depends(get_cas_client)],
+    settings: Annotated[Settings, Depends(get_settings)],
     nexturl: Optional[str] = None,  # CAS Nexturl
     ticket: Optional[str] = None,
-    repositories=Depends(database),
-    settings: Settings = Depends(get_settings),
 ):
     """Rosalution Login Method"""
     if not ticket:
@@ -72,7 +71,7 @@ async def login(
         return RedirectResponse(redirect_frontend_route_response)
 
     # Login was successful, redirect to the 'nexturl' query parameter
-    user = repositories["user"].find_by_username(cas_user)
+    user = await repositories["user"].find_by_username(cas_user)
 
     if not user:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
@@ -91,14 +90,13 @@ async def login(
 
     return response
 
-
 @router.post("/token")
-def issue_oauth2_token(
-    form_data: OAuth2ClientCredentialsRequestForm = Depends(),
-    basic_credentials: Optional[HTTPClientCredentials] = Depends(token_scheme),
-    repositories=Depends(database),
-    settings: Settings = Depends(get_settings),
-):
+async def issue_oauth2_token(
+    form_data: Annotated[OAuth2ClientCredentialsRequestForm, Depends()],
+    basic_credentials: Annotated[HTTPClientCredentials | None, Depends(token_scheme)],
+    repositories: Annotated[dict, Depends(get_db)],
+    settings: Annotated[Settings, Depends(get_settings)],
+) -> dict:
     """
     Issues a valid OAuth2 token upon recieving valid client_id and client_secret
     """
@@ -111,7 +109,7 @@ def issue_oauth2_token(
     else:
         raise HTTPException(status_code=400, detail="Client credentials not provided")
 
-    user = repositories["user"].find_by_client_id(client_id)
+    user = await repositories["user"].find_by_client_id(client_id)
 
     if not user:
         raise HTTPException(status_code=401, detail="Unauthorized Rosalution user")
@@ -125,6 +123,7 @@ def issue_oauth2_token(
         "sub": user['client_id'],
         "scopes": [user['scope']],
     }
+
     access_token = create_access_token(
         data_to_encode, settings.oauth2_access_token_expire_minutes, settings.rosalution_key, settings.oauth2_algorithm
     )
@@ -135,12 +134,11 @@ def issue_oauth2_token(
 
 
 @router.get("/verify_token", response_model=User)
-def verify_token(
-    repositories=Depends(database),
-    client_id: VerifyUser = Security(get_current_user),
+async def verify_token(
+    repositories: Annotated[dict, Depends(get_db)], client_id: Annotated[str, Security(get_current_user)]
 ):
     """This function issues the authentication token for the frontend to make requests"""
-    user = repositories["user"].find_by_client_id(client_id)
+    user = await repositories["user"].find_by_client_id(client_id)
 
     if not user:
         raise HTTPException(status_code=401, detail="Unauthorized")
@@ -154,11 +152,13 @@ def verify_token(
 
 
 @router.get("/generate_secret", status_code=status.HTTP_201_CREATED)
-def generate_secret(client_id: VerifyUser = Security(get_current_user), repositories=Depends(database)):
+async def generate_secret(
+    client_id: Annotated[str, Security(get_current_user)], repositories: Annotated[dict, Depends(get_db)]
+):
     """ Generates and saves a client secret to a user upon request """
 
     client_secret = generate_client_secret()
-    user = repositories["user"].update_client_secret(client_id, client_secret)
+    user = await repositories["user"].update_client_secret(client_id, client_secret)
 
     if not user:
         raise HTTPException(status_code=500, detail="Something went wrong. Unable to create client secret.")
@@ -169,9 +169,11 @@ def generate_secret(client_id: VerifyUser = Security(get_current_user), reposito
 
 
 @router.get('/get_user_credentials')
-def fetch_user_api_creds(client_id: VerifyUser = Security(get_current_user), repositories=Depends(database)):
+async def fetch_user_api_creds(
+    client_id: Annotated[str, Security(get_current_user)], repositories: Annotated[dict, Depends(get_db)]
+):
     """ Returns a special pydantic object including the user's client id and client secret """
-    user = repositories['user'].find_by_client_id(client_id)
+    user = await repositories['user'].find_by_client_id(client_id)
 
     if not user:
         raise HTTPException(status_code=500, detail="Something went wrong. Unable to create client secret.")
@@ -182,7 +184,12 @@ def fetch_user_api_creds(client_id: VerifyUser = Security(get_current_user), rep
 
 
 @router.get("/logout")
-def logout_oauth(request: Request, response: Response, settings: Settings = Depends(get_settings)):
+def logout_oauth(
+    request: Request,
+    response: Response,
+    settings: Annotated[Settings, Depends(get_settings)],
+    cas_client: Annotated[CASClient, Depends(get_cas_client)]
+):
     """ Destroys the session and determines if the request was local or production and returns the proper url """
 
     content = {"access_token": ""}
@@ -199,7 +206,7 @@ def logout_oauth(request: Request, response: Response, settings: Settings = Depe
 
 
 @router.get('/logout_callback', include_in_schema=False)
-def logout_callback(settings: Settings = Depends(get_settings)):
+def logout_callback(settings: Annotated[Settings, Depends(get_settings)]):
     """
     The endpoint that gets called after the production logout function is called and redirects
     back to the login page

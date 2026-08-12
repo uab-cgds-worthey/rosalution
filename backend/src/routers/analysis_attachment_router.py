@@ -2,10 +2,10 @@
 
 import json
 from typing import Annotated, List
-from fastapi import APIRouter, Depends, File, Form, HTTPException, Security, UploadFile
+from fastapi import APIRouter, File, Form, HTTPException, Security, UploadFile
 from pydantic import BaseModel, model_validator
 
-from ..dependencies import database
+from ..dependencies import DatabaseDepends
 from ..security.security import get_write_project_authorization
 
 router = APIRouter(tags=["analysis attachments"])
@@ -52,8 +52,8 @@ class IncommingUpdatedAttachment(BaseModel, frozen=True):
 def attach_file(
     analysis_name: str,
     new_attachment: Annotated[IncomingNewAttachment, Form()],
+    repositories: DatabaseDepends,
     upload_file: UploadFile = File(None),
-    repositories=Depends(database)
 ):
     """Uploads a file to GridFS and adds it to the analysis"""
     updated_analysis_json = None
@@ -80,10 +80,8 @@ def attach_file(
     dependencies=[Security(get_write_project_authorization)]
 )
 def update_attachment(
-    analysis_name: str,
-    attachment_id: str,
-    updated_attachment: Annotated[IncommingUpdatedAttachment, Form()],
-    repositories=Depends(database),
+    analysis_name: str, attachment_id: str, updated_attachment: Annotated[IncommingUpdatedAttachment,
+                                                                          Form()], repositories: DatabaseDepends
 ):
     """ Updates the attachment in the analysis """
     content = {
@@ -104,7 +102,7 @@ def update_attachment(
     response_model=List,
     dependencies=[Security(get_write_project_authorization)]
 )
-def remove_attachment(analysis_name: str, attachment_id: str, repositories=Depends(database)):
+def remove_attachment(analysis_name: str, attachment_id: str, repositories: DatabaseDepends):
     """ Removes attachment from the analysis """
     if repositories["bucket"].id_exists(attachment_id):
         repositories["bucket"].delete_file(attachment_id)

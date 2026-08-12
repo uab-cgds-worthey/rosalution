@@ -12,22 +12,22 @@ class UserCollection:
         """Initializes with the 'PyMongo' Collection object for the users collection"""
         self.collection = users_collection
 
-    def all(self):
+    async def all(self):
         """Returns all users"""
-        return self.collection.find()
+        return await self.collection.find()
 
-    def find_by_username(self, username: str):
+    async def find_by_username(self, username: str):
         """Returns user by searching for a user's name"""
-        user = self.collection.find_one({"username": username})
+        user = await self.collection.find_one({"username": username})
 
         if user is None:
             return None
 
         return user
 
-    def find_by_client_id(self, client_id: str):
+    async def find_by_client_id(self, client_id: str):
         """ Returns user by searching for a user's client id """
-        user = self.collection.find_one({"client_id": client_id})
+        user = await self.collection.find_one({"client_id": client_id})
 
         if user is None:
             return None
@@ -35,7 +35,7 @@ class UserCollection:
         user.pop("_id", None)
         return user
 
-    def find_by_client_id_with_project_name(self, client_id: str, project_id: str) -> dict:
+    async def find_by_client_id_with_project_name(self, client_id: str, project_id: str) -> dict:
         """ Returns user by searching for a user's client id """
 
         pipeline = [{"$match": {"client_id": client_id}}, {
@@ -53,20 +53,20 @@ class UserCollection:
             }
         }]
 
-        found_user = self.collection.aggregate(pipeline)
-        user = next(found_user, None)
+        async with await self.collection.aggregate(pipeline) as found_user_cursor:
+            user = found_user_cursor.try_next()
 
-        if user is None:
-            return None
+            if user is None:
+                return None
 
-        if "_id" in user:
-            user.pop("_id", None)
+            if "_id" in user:
+                user.pop("_id", None)
 
-        return user
+            return user
 
-    def update_client_secret(self, client_id: str, client_secret: str):
+    async def update_client_secret(self, client_id: str, client_secret: str):
         """ Takes a generated client secret and saves it the user with the associated client id """
-        user = self.collection.find_one_and_update({'client_id': client_id}, {'$set': {'client_secret': client_secret}},
+        user = await self.collection.find_one_and_update({'client_id': client_id}, {'$set': {'client_secret': client_secret}},
                                                    return_document=ReturnDocument.AFTER)
 
         if user is None:
