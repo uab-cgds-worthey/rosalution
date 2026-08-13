@@ -50,7 +50,7 @@ def test_login_successful(client, mock_repositories, cas_client: CASClient, monk
     assert response.url == "http://api.fake.cgds.uab.edu/"
 
 
-@pytest.mark.usefixtures("disabled_cas_client")
+@pytest.mark.usefixtures("mock_settings_cas_disabled")
 def test_logout(client):
     """ This tests functionality of the local logout function """
     response = client.get("/auth/logout",)

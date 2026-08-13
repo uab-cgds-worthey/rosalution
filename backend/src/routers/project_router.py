@@ -40,16 +40,16 @@ async def create_analysis(
     phenotips_importer = PhenotipsImporter(repositories["analysis"], repositories["genomic_unit"])
 
     try:
-        new_analysis = phenotips_importer.import_phenotips_json(phenotips_input.model_dump())
+        new_analysis = await phenotips_importer.import_phenotips_json(phenotips_input.model_dump())
         new_analysis['timeline'].append(Event.timestamp_create_event(client_id).model_dump())
-        repositories['analysis'].create_analysis(project_id, project_name, new_analysis)
+        await repositories['analysis'].create_analysis(project_id, project_name, new_analysis)
 
     except ValueError as exception:
         raise HTTPException(status_code=409) from exception
 
     analysis = Analysis(**new_analysis)
     annotation_service = AnnotationService(repositories["annotation_config"])
-    annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
+    await annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
     background_tasks.add_task(
         AnnotationService.process_tasks, annotation_task_queue, repositories['genomic_unit'], repositories["analysis"]
     )

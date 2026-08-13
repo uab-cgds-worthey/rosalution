@@ -10,42 +10,32 @@ from src.routers.auth_router import get_cas_client
 from src.main import app
 from src.database import Database
 from src.config import get_settings, Settings
-from src.dependencies import get_db, annotation_queue, get_oauth_credentials
+from src.dependencies import get_db, annotation_queue
 from src.security.security import create_access_token, get_current_user, get_project_authorization,\
-    get_create_project_authorization
+    get_create_project_authorization, get_oauth2_scheme
 
 from ..test_utils import mock_mongo_collection, mock_gridfs_bucket, read_test_fixture
 
 
 @pytest.fixture(name="client")
-def test_application_client(mock_settings):
+def test_application_client():
     """A class scoped FastApi Test Client"""
 
-    def mock_get_settings():
-        return mock_settings
-
-    mock_oauth_scheme = OAuth2PasswordBearer(tokenUrl=mock_settings.openapi_api_token_route)
-    app.state.oauth2_scheme = mock_oauth_scheme
-
-    app.dependency_overrides[get_settings] = mock_get_settings
-    app.dependency_overrides[get_oauth_credentials] = mock_oauth_scheme
     yield TestClient(app)
-    app.dependency_overrides.clear()
-    app.state.oauth2_scheme = None
 
 
-@pytest.fixture(name="disabled_cas_client")
-def mock_get_disabled_cas_client(mock_settings_cas_disabled):
-    """Mock settings for the CAS client to disable them."""
-    mock_cas_client = get_cas_client(mock_settings_cas_disabled)
+# @pytest.fixture(name="disabled_cas_client")
+# def mock_get_disabled_cas_client(mock_settings_cas_disabled):
+#     """Mock settings for the CAS client to disable them."""
+#     mock_cas_client = get_cas_client(mock_settings_cas_disabled)
 
-    def mock_get() -> CASClient:
-        return mock_cas_client
+#     def mock_get() -> CASClient:
+#         return mock_cas_client
 
-    app.dependency_overrides[get_cas_client] = mock_get
-    yield mock_cas_client
-    app.dependency_overrides.clear()
-    return
+#     app.dependency_overrides[get_cas_client] = mock_get
+#     yield mock_cas_client
+#     app.dependency_overrides.clear()
+#     return
 
 
 @pytest.fixture(name="cas_client")
@@ -59,8 +49,6 @@ def mock_get_cas_client(mock_settings):
     app.dependency_overrides[get_cas_client] = mock_get
     yield mock_cas_client
     app.dependency_overrides.clear()
-    return
-
 
 @pytest.fixture(name="mock_annotation_queue", scope="class")
 def mock_queue():
@@ -107,7 +95,7 @@ def mock_cas_disabled_application_settings(settings_json):
     app.dependency_overrides.clear()
 
 
-@pytest.fixture(name="mock_settings")
+@pytest.fixture(name="mock_settings", autouse=True)
 def mock_application_settings(settings_json):
     """The mocked settings which overrides the applications need for environment variables or .env file"""
     fake_settings = Settings(**settings_json)
