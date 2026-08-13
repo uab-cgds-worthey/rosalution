@@ -120,11 +120,11 @@ class GenomicUnitCollection:
         """Initializes with the 'PyMongo' Collection object for the 'genomic_units' collection"""
         self.collection = genomic_units_collection
 
-    def all(self):
+    async def all(self):
         """ Returns all genomic units that are stored """
-        return self.collection.find()
+        return await self.collection.find().to_list()
 
-    def annotation_exist(self, annotation_unit: AnnotationUnit):
+    async def annotation_exist(self, annotation_unit: AnnotationUnit):
         """ 
         Returns True if the the genomic unit is annotated by a genomic unit's name, dataset, data source, and
         calculated version, otherwise returns False.
@@ -136,9 +136,9 @@ class GenomicUnitCollection:
         annotation_query_adapter = AnnotationUnitQuery(annotation_unit)
         find_query = annotation_query_adapter.find_annotation_query()
 
-        return bool(self.collection.count_documents(find_query, limit=1))
+        return bool(await self.collection.count_documents(find_query, limit=1))
 
-    def find_genomic_unit_annotation_value(self, annotation_unit: AnnotationUnit):
+    async def find_genomic_unit_annotation_value(self, annotation_unit: AnnotationUnit):
         """
         Returns the annotation value for a genomic unit according the the dataset, datasource, and calculated version.
         Returns None if the annotation does not exist for the genomic unit.
@@ -148,7 +148,7 @@ class GenomicUnitCollection:
 
         find_query = annotation_query_adapter.find_annotation_query()
         projection = annotation_query_adapter.find_annotation_value_projection()
-        result = self.collection.find_one(find_query, projection)
+        result = await self.collection.find_one(find_query, projection)
 
         if result is None:
             return None
@@ -165,21 +165,21 @@ class GenomicUnitCollection:
             if annotation_unit.does_source_and_version_match(annotation['data_source'], annotation['version'])
         ), None)
 
-    def find_genomic_unit(self, genomic_unit):
+    async def find_genomic_unit(self, genomic_unit):
         """ Returns the given genomic unit from the genomic unit collection """
-        return self.collection.find_one({
+        return await self.collection.find_one({
             genomic_unit['type'].value: genomic_unit['unit'],
         })
 
-    def update_genomic_unit_by_mongo_id(self, genomic_unit_document):
+    async def update_genomic_unit_by_mongo_id(self, genomic_unit_document):
         """ Takes a genomic unit and overwrites the existing object based on the object's id """
         genomic_unit_id = genomic_unit_document['_id']
 
-        return self.collection.find_one_and_update({'_id': ObjectId(str(genomic_unit_id))},
+        return await self.collection.find_one_and_update({'_id': ObjectId(str(genomic_unit_id))},
                                                    {'$set': genomic_unit_document},
                                                    return_document=ReturnDocument.AFTER)
 
-    def annotate_genomic_unit(self, genomic_unit, genomic_annotation):
+    async def annotate_genomic_unit(self, genomic_unit, genomic_annotation):
         """
         Annotates a genomic unit with the dataset value from an annotation task. Saves annotation as the
         following example.
@@ -201,13 +201,13 @@ class GenomicUnitCollection:
         genomic_unit_query = GenomicUnitQuery(genomic_unit, genomic_annotation)
 
         provision_dataset, update_operation = genomic_unit_query.provision_dataset_query_and_update()
-        genomic_unit = self.collection.update_one(provision_dataset, update_operation)
+        genomic_unit = await self.collection.update_one(provision_dataset, update_operation)
 
         add_annotation_query, add_annotation_update_operation, add_annotation_array_filters = \
             genomic_unit_query.annotate_dataset_query_and_update()
 
         try:
-            self.collection.update_one(
+            await self.collection.update_one(
                 add_annotation_query, add_annotation_update_operation, array_filters=add_annotation_array_filters
             )
         except ValueError as error:
@@ -215,9 +215,9 @@ class GenomicUnitCollection:
 
         return True
 
-    def annotate_genomic_unit_with_file(self, genomic_unit, genomic_annotation):
+    async def annotate_genomic_unit_with_file(self, genomic_unit, genomic_annotation):
         """ Ensures that an annotation is created for the annotation image upload and only one image is allowed """
-        genomic_unit_document = self.find_genomic_unit(genomic_unit)
+        genomic_unit_document = await self.find_genomic_unit(genomic_unit)
         data_set = genomic_annotation['data_set']
 
         for annotation in genomic_unit_document['annotations']:
@@ -236,9 +236,9 @@ class GenomicUnitCollection:
         genomic_unit_document['annotations'].append(annotation_data_set)
         return self.update_genomic_unit_by_mongo_id(genomic_unit_document)
 
-    def update_genomic_unit_file_annotation(self, genomic_unit, data_set, annotation_value, file_id_old):
+    async def update_genomic_unit_file_annotation(self, genomic_unit, data_set, annotation_value, file_id_old):
         """ Replaces existing annotation image with new image """
-        genomic_unit_document = self.find_genomic_unit(genomic_unit)
+        genomic_unit_document = await self.find_genomic_unit(genomic_unit)
 
         for annotation in genomic_unit_document['annotations']:
             if data_set in annotation:
@@ -250,10 +250,10 @@ class GenomicUnitCollection:
 
         self.update_genomic_unit_by_mongo_id(genomic_unit_document)
 
-    def remove_genomic_unit_file_annotation(self, genomic_unit, data_set, file_id):
+    async def remove_genomic_unit_file_annotation(self, genomic_unit, data_set, file_id):
         """ Removes a file that has been added as an annotation to a genomic unit """
 
-        genomic_unit_document = self.find_genomic_unit(genomic_unit)
+        genomic_unit_document = await self.find_genomic_unit(genomic_unit)
 
         for annotation in genomic_unit_document['annotations']:
             if data_set in annotation:
@@ -264,7 +264,7 @@ class GenomicUnitCollection:
 
         return self.update_genomic_unit_by_mongo_id(genomic_unit_document)
 
-    def create_genomic_unit(self, genomic_unit):
+    async def create_genomic_unit(self, genomic_unit):
         """
         Takes a genomic_unit and adds it to the collection if it doesn't already exist (exact match).
         """
@@ -279,8 +279,8 @@ class GenomicUnitCollection:
         genomic_unit_type = type_to_save.pop()
         find_query = {genomic_unit_type: genomic_unit[genomic_unit_type]}
 
-        if self.collection.find_one(find_query):
+        if await self.collection.find_one(find_query):
             logger.info("Genomic unit already exists, skipping creation")
             return
 
-        self.collection.insert_one(genomic_unit)
+        await self.collection.insert_one(genomic_unit)

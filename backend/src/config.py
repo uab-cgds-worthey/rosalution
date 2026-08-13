@@ -30,6 +30,8 @@ class Settings(BaseSettings):
     profiler_enabled: bool = False
     profiler_renderer: str = "html"
 
+    model_config = SettingsConfigDict(frozen=True) 
+
 
 @lru_cache()
 def get_settings():

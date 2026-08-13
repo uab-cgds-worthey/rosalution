@@ -25,14 +25,14 @@ class AnalysisCollection:
         """Initializes with the 'PyMongo' Collection object for the analyses collection"""
         self.collection = analysis_collection
 
-    def all(self):
+    async def all(self):
         """Returns all analyses within the system"""
-        return list(self.collection.find())
+        return await self.collection.find().to_list()
 
-    def summary_by_name(self, name: str):
+    async def summary_by_name(self, name: str):
         """Returns the summary of an analysis by name"""
 
-        query_result = self.collection.find_one({"name": name}, AnalysisCollectionSummary.query_projection())
+        query_result = await self.collection.find_one({"name": name}, AnalysisCollectionSummary.query_projection())
 
         if query_result:
             genomic_unit_summaries = AnalysisCollectionSummary.omic_unit_json_summary(query_result['genomic_units'])
@@ -40,13 +40,13 @@ class AnalysisCollection:
 
         return query_result
 
-    def project_id_by_name(self, name: str) -> str:
+    async def project_id_by_name(self, name: str) -> str:
         """Returns analysis by searching for name"""
-        return str(self.collection.find_one({"name": name}, {"project_id": 1, "_id": 0})['project_id'])
+        return str(await self.collection.find_one({"name": name}, {"project_id": 1, "_id": 0})['project_id'])
 
-    def find_by_name(self, name: str):
+    async def find_by_name(self, name: str):
         """Returns analysis by searching for name"""
-        return self.collection.find_one({"name": name})
+        return await self.collection.find_one({"name": name})
 
     def find_file_by_name(self, analysis_name: str, file_name: str):
         """ Returns an attached file metadata attached to an analysis if it exists by name """
@@ -254,16 +254,16 @@ class AnalysisCollection:
 
         return analysis['manifest']
 
-    def create_analysis(self, project_id: str, project_name: str, analysis_data: dict):
+    async def create_analysis(self, project_id: str, project_name: str, analysis_data: dict):
         """Creates a new analysis if the name does not already exist"""
 
         analysis_data['project_id'] = ObjectId(project_id)
         analysis_data['project_name'] = project_name
 
-        if self.collection.find_one({"name": analysis_data["name"], "project_name": project_name}) is not None:
+        if await self.collection.find_one({"name": analysis_data["name"], "project_name": project_name}) is not None:
             raise ValueError(f"Analysis '{analysis_data['name']}' already exists within Project '{project_name}'")
 
-        return self.collection.insert_one(analysis_data)
+        return await self.collection.insert_one(analysis_data)
 
     def attach_third_party_link(self, analysis_name: str, third_party_enum: str, link: str):
         """ Returns an analysis with a third party link attached to it """
