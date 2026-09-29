@@ -1,10 +1,16 @@
 """Test Fixtures for integration tests"""
 import os
 from unittest.mock import Mock
+from httpx import ASGITransport, AsyncClient
 import pytest
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.testclient import TestClient
 from cas import CASClient
+from testcontainers.compose import DockerCompose
+from pymongo import AsyncMongoClient
+from pymongo.errors import ConnectionFailure
+import gridfs
+import pytest_asyncio
 
 from src.routers.auth_router import get_cas_client
 from src.main import app
@@ -12,16 +18,19 @@ from src.database import Database
 from src.config import get_settings, Settings
 from src.dependencies import get_db, annotation_queue
 from src.security.security import create_access_token, get_current_user, get_project_authorization,\
-    get_create_project_authorization, get_oauth2_scheme
+    get_create_project_authorization
 
-from ..test_utils import mock_mongo_collection, mock_gridfs_bucket, read_test_fixture
+from ..test_utils import mock_mongo_collection, mock_gridfs_bucket, read_test_fixture, rosalution_filepath
 
+# import pytest
 
 @pytest.fixture(name="client")
-def test_application_client():
+async def test_application_client():
     """A class scoped FastApi Test Client"""
-
-    yield TestClient(app)
+    async with AsyncClient(
+        transport=ASGITransport(app=app), base_url="http://test"
+    ) as async_client:
+        yield async_client
 
 
 # @pytest.fixture(name="disabled_cas_client")
@@ -56,29 +65,33 @@ def mock_queue():
     annotation_queue.annotation_queue = Mock()
     return annotation_queue.annotation_queue
 
+@pytest.fixture(name="async_db_client")
+async def async_db_client(scope="session"):
+    services=['rosalution-db']
+    with DockerCompose(rosalution_filepath(), compose_file_name="docker-compose.yml", services=services) as compose:
+        mongodb_connection_uri = f"mongodb://localhost:27017/rosalution_db"
+        async with AsyncMongoClient(mongodb_connection_uri) as mongodb_async_client:
+            bucket = gridfs.asynchronous.AsyncGridFS(mongodb_async_client.rosalution_db)
+            live_database = Database(mongodb_async_client, bucket)
+            yield live_database
 
-@pytest.fixture(name="mock_repositories", scope="class")
-def mock_database_collections():
+@pytest.fixture(name="mock_repositories")
+async def mock_database_collections(async_db_client):
     """A mocked database client which overrides the database depedency injected"""
-    mock_database_client = Mock()
-    mock_gridfs_client = Mock()
-
-    mock_database_client.rosalution_db = {
-        "analyses": mock_mongo_collection(),
-        "annotations_config": mock_mongo_collection(),
-        "genomic_units": mock_mongo_collection(),
-        "users": mock_mongo_collection(),
-        "bucket": mock_gridfs_bucket(),
-    }
-
-    mock_database = Database(mock_database_client, mock_gridfs_client)
 
     def mock_get_db() -> dict:
-        return mock_database()
+        return async_db_client()
 
     app.dependency_overrides[get_db] = mock_get_db
-    yield mock_database.collections
-    app.dependency_overrides.clear()
+    async with async_db_client.database_client.start_session() as session:
+        async with session.bind():   
+            try:
+                await session.start_transaction()
+                yield async_db_client.collections
+            finally:
+                await session.abort_transaction()
+        app.dependency_overrides.clear()
+
 
 
 @pytest.fixture(name="mock_settings_cas_disabled")
@@ -147,7 +160,7 @@ def mock_get_create_project_authorization(mock_security_get_current_user):
 @pytest.fixture(name="mock_user")
 def test_auth_user():
     """A mocked user that can be used to generate an OAuth2 access token"""
-    return {"sub": "johndoe-client-id", "scopes": ["read", "write"]}
+    return {"sub": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt", "scopes": ["read", "write"]}
 
 
 @pytest.fixture(name="mock_access_token_header")

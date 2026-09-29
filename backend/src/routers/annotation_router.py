@@ -2,9 +2,11 @@
 import logging
 
 from datetime import date, datetime
-from typing import List
+from typing import Annotated, List
 
 from fastapi import (APIRouter, Depends, BackgroundTasks, HTTPException, status, UploadFile, File, Response, Security)
+
+from ..config import Settings, get_settings
 
 from ..enums import GenomicUnitType
 from ..core.annotation import AnnotationService
@@ -21,10 +23,11 @@ router = APIRouter(prefix="/annotation", tags=["annotation"])
 @router.post(
     "/{analysis_name}", status_code=status.HTTP_202_ACCEPTED, dependencies=[Security(get_write_project_authorization)]
 )
-def annotate_analysis(
+async def annotate_analysis(
     analysis_name: str,
     background_tasks: BackgroundTasks,
     repositories: DatabaseDepends,
+    settings: Annotated[Settings, Depends(get_settings)],
     annotation_task_queue=Depends(annotation_queue)
 ):
     """
@@ -32,16 +35,14 @@ def annotate_analysis(
     determined to exist are not re-annotated.  New annotations are queued according to the latest annotation
     configuration.
     """
-    analysis_json = repositories["analysis"].find_by_name(analysis_name)
+    analysis_json = await repositories["analysis"].find_by_name(analysis_name)
     if analysis_json is None:
         raise HTTPException(status_code=404, detail=f"'{analysis_name}' Analysis not found.")
 
     analysis = Analysis(**analysis_json)
     annotation_service = AnnotationService(repositories["annotation_config"])
-    annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
-    background_tasks.add_task(
-        AnnotationService.process_tasks, annotation_task_queue, repositories['genomic_unit'], repositories["analysis"]
-    )
+    await annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
+    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, settings)
 
     return {"name": f"{analysis_name} annotations queued."}
 
@@ -51,7 +52,7 @@ def annotate_analysis(
     response_model=List,
     dependencies=[Security(get_authorization, scopes=["write"])]
 )
-def upload_annotation_section(
+async def upload_annotation_section(
     response: Response,
     genomic_unit: str,
     data_set_name: str,
@@ -65,7 +66,7 @@ def upload_annotation_section(
         raise HTTPException(status_code=404, detail="Invalid Genomic Unit Type")
 
     try:
-        new_file_object_id = repositories["bucket"].save_file(
+        new_file_object_id = await repositories["bucket"].save_file(
             upload_file.file, upload_file.filename, upload_file.content_type
         )
     except Exception as exception:
@@ -84,7 +85,7 @@ def upload_annotation_section(
     }
 
     try:
-        updated_genomic_unit = repositories['genomic_unit'].annotate_genomic_unit_with_file(
+        updated_genomic_unit = await repositories['genomic_unit'].annotate_genomic_unit_with_file(
             genomic_unit_json, annotation_unit
         )
     except Exception as exception:
@@ -104,7 +105,7 @@ def upload_annotation_section(
     response_model=List,
     dependencies=[Security(get_authorization, scopes=["write"])]
 )
-def update_annotation_image(
+async def update_annotation_image(
     genomic_unit: str,
     data_set_name: str,
     old_file_id: str,
@@ -114,7 +115,7 @@ def update_annotation_image(
 ):
     """ Updates and replaces an annotation image with a new image  """
     try:
-        new_file_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_type)
+        new_file_id = await repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_type)
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 

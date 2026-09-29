@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="{ name: 'analysis', params: { analysis_name: this.name } }"
+    :to="{ name: 'analysis', params: { analysis_name: name } }"
     class="analysis-card"
     :style="cardBorderColorStyle"
   >
@@ -44,94 +44,65 @@
         rel="noopener noreferrer"
         @click.stop
       >
-        <img :src="getLogoSrc(link.type)"/>
+        <img :src="thirdPartyLogoAsset(link.type)"/>
       </a>
     </div>
     <div class="content-text italic-content-text"> {{ project_name }}</div>
   </router-link>
 </template>
 
-<script>
+<script setup>
 import {StatusType} from '@/config.js';
-
 import {useThirdPartyAsset} from '@/composables/useThirdPartyAsset.js';
 
-export default {
-  name: 'analysis-card',
-  setup() {
-    const {thirdPartyLogoAsset} = useThirdPartyAsset();
+const props = defineProps({
+  status_icon: {
+    type: String,
+  },
+  latest_status: {
+    type: String,
+  },
+  name: {
+    type: String,
+  },
+  description: {
+    type: String,
+  },
+  nominated_by: {
+    type: String,
+    required: true,
+  },
+  project_name: {
+    type: String,
+    required: true,
+  },
+  created_date: {
+    type: String,
+  },
+  last_modified_date: {
+    type: String,
+  },
+  genomic_units: {
+    type: Array,
+  },
+  third_party_links: {
+    type: Array,
+    default: () => [],
+  },
+});
 
-    return {thirdPartyLogoAsset};
-  },
-  components: {},
-  props: {
-    status_icon: {
-      type: String,
-    },
-    latest_status: {
-      type: String,
-    },
-    name: {
-      type: String,
-    },
-    description: {
-      type: String,
-    },
-    nominated_by: {
-      type: String,
-      required: true,
-    },
-    project_name: {
-      type: String,
-      required: true,
-    },
-    created_date: {
-      type: String,
-    },
-    last_modified_date: {
-      type: String,
-    },
-    genomic_units: {
-      type: Array,
-    },
-    third_party_links: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  computed: {
-    workflowIcon: function() {
-      if ( !(this.latest_status in StatusType) ) {
-        return 'question';
-      }
+const {thirdPartyLogoAsset} = useThirdPartyAsset();
 
-      return StatusType[this.latest_status].icon;
-    },
-    workflowColor: function() {
-      if ( !(this.latest_status in StatusType) ) {
-        return '--rosalution-white';
-      }
+const isLatestStatusValid = props.latest_status in StatusType;
 
-      return StatusType[this.latest_status].color;
-    },
-    workflowColorStyle: function() {
-      return {
-        color: `var(${this.workflowColor})`,
-      };
-    },
-    cardBorderColorStyle: function() {
-      return {
-        'border-color': `var(${this.workflowColor})`,
-        'color': `var(${this.workflowColor})`,
-      };
-    },
-  },
-  methods: {
-    getLogoSrc(type) {
-      return this.thirdPartyLogoAsset(type);
-    },
-  },
+const workflowIcon = isLatestStatusValid ? StatusType[props.latest_status].icon : 'question';
+const workflowColor =  isLatestStatusValid ? StatusType[props.latest_status].color : '--rosalution-white';
+const workflowColorStyle = {color: `var(${workflowColor})`};
+const cardBorderColorStyle = {
+  'border-color': `var(${workflowColor})`,
+  'color': `var(${workflowColor})`,
 };
+
 </script>
 
 <style scoped>

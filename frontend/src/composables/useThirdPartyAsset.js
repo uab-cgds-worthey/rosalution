@@ -1,21 +1,21 @@
+import {ThirdPartyIconUrl} from '@/config.js';
+
+let preloadedIconAssets = null;
+
 export function useThirdPartyAsset(incomingInputDialog = null) {
   const inputDialog = incomingInputDialog;
 
   function thirdPartyLogoAsset(thirdPartyType) {
-    switch (thirdPartyType) {
-      case 'monday_com':
-        return new URL('/src/assets/monday-avatar-logo.svg', import.meta.url);
-      case 'phenotips_com':
-        return new URL('/src/assets/phenotips-favicon-96x96.png', import.meta.url);
-      case 'wrike_com':
-        return new URL('/src/assets/wrike_com.svg', import.meta.url);
-      case 'varsome_com':
-        return new URL('/src/assets/varsome_logo.png', import.meta.url);
-      case 'onedrive_com':
-        return new URL('/src/assets/microsoft-onedrive-logo.svg', import.meta.url);
-      default:
-        return '';
+    if ( null == preloadedIconAssets ) {
+      preloadedIconAssets = Object.fromEntries(
+          Object.entries(ThirdPartyIconUrl).map(([key, path]) => [
+            key,
+            new URL(path, import.meta.url).href,
+          ]),
+      );
     }
+    
+    return  thirdPartyType in preloadedIconAssets ? preloadedIconAssets[preloadedIconAssets] : '';
   }
 
   function thirdPartyLogoStyle(thirdPartyType) {

@@ -2,14 +2,6 @@ import {createApp} from 'vue';
 import {createRouter, createWebHistory} from 'vue-router';
 
 import App from './App.vue';
-import LoginView from './views/LoginView.vue';
-import LogoutView from './views/LogoutView.vue';
-import AnalysisListingView from './views/AnalysisListingView.vue';
-import FileView from './views/FileView.vue';
-import NotFoundView from './views/NotFound.vue';
-import AccountView from './views/AccountView.vue';
-import AnalysisView from './views/AnalysisView.vue';
-import AnnotationView from './views/AnnotationView.vue';
 
 import './styles/main.css';
 import './styles/rosalution.css';
@@ -43,35 +35,48 @@ library.add(
 // The NotFoundView should always be last because it's an ordered array.
 /* Placeholder route, name subject to change */
 const routes = [
-  {path: '/rosalution/login', name: 'login', component: LoginView},
-  {path: '/rosalution', component: AnalysisListingView},
-  {path: '/rosalution/account', name: 'account', component: AccountView},
-  {path: '/rosalution/analysis/:analysis_name', name: 'analysis', component: AnalysisView, props: true},
-  {path: '/rosalution/analysis/file/:file_id', name: 'file', component: FileView, props: true},
-  {path: '/rosalution/analysis/:analysis_name/annotation', name: 'annotation', component: AnnotationView, props:
-    (route) => ({
-      analysis_name: route.params.analysis_name,
-      ...(route.query.gene ? {gene: route.query.gene} : {}),
-      ...(route.query.variant ? {variant: route.query.variant} : {}),
-    }),
+  {path: '/rosalution/login', name: 'login', component: () => import('./views/LoginView.vue')},
+  {path: '/rosalution', component: () => import('./views/AnalysisListingView.vue')},
+  {path: '/rosalution/account', name: 'account', component: () => import('./views/AccountView.vue')},
+  {
+    path: '/rosalution/analysis/:analysis_name',
+    name: 'analysis',
+    component: () => import('./views/AnalysisView.vue'),
+    props: true,
   },
-  {path: '/rosalution/logout', name: 'logout', component: LogoutView},
-  {path: '/:pathMatch(.*)', component: NotFoundView},
+  {
+    path: '/rosalution/analysis/file/:file_id',
+    name: 'file',
+    component: () => import('./views/FileView.vue'),
+    props: true,
+  },
+  {
+    path: '/rosalution/analysis/:analysis_name/annotation', name: 'annotation',
+    component: () => import('./views/AnnotationView.vue'),
+    props:
+      (route) => ({
+        analysis_name: route.params.analysis_name,
+        ...(route.query.gene ? {gene: route.query.gene} : {}),
+        ...(route.query.variant ? {variant: route.query.variant} : {}),
+      }),
+  },
+  {path: '/rosalution/logout', name: 'logout', component: () => import('./views/LogoutView.vue')},
+  {path: '/:pathMatch(.*)', component: () => import('./views/NotFound.vue')},
 ];
 
 const router = createRouter({
   history: createWebHistory(),
-  scrollBehavior(to, from, savedPosition) {
-    if (to.hash) {
-      return {
-        el: to.hash,
-        behavior: 'smooth',
-        top: 60,
-      };
-    }
+  // scrollBehavior(to, from, savedPosition) {
+  //   if (to.hash) {
+  //     return {
+  //       el: to.hash,
+  //       behavior: 'smooth',
+  //       top: 60,
+  //     };
+  //   }
 
-    return {x: 0, y: 0};
-  },
+  //   return {x: 0, y: 0};
+  // },
   routes,
 });
 
@@ -110,6 +115,7 @@ router.beforeEach(async (to) => {
 });
 
 const app = createApp(App);
+// app.config.performance = true;
 
 app.use(router);
 app.component('font-awesome-icon', FontAwesomeIcon);

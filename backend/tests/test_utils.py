@@ -7,6 +7,10 @@ from unittest.mock import AsyncMock, Mock, MagicMock
 DATABSE_FIXTURE_PATH = "../../etc/fixtures/initial-seed/"
 UNIT_TEST_FIXTURE_PATH = "./fixtures/"
 
+def rosalution_filepath():
+    path_to_current_file = os.path.realpath(__file__)
+    current_directory = os.path.split(path_to_current_file)[0]
+    return os.path.join(current_directory, '../../')
 
 def fixture_filepath(filename):
     """Returns the fixture data binary"""

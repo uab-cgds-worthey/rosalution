@@ -10,7 +10,7 @@ router = APIRouter(tags=["analysis annotations"])
 
 
 @router.get("/{analysis_name}/gene/{gene}", dependencies=[Security(get_project_authorization)])
-def get_annotations_by_gene(analysis_name, gene, repositories: DatabaseDepends):
+async def get_annotations_by_gene(analysis_name, gene, repositories: DatabaseDepends):
     """Returns annotations data by calling method to find annotations by gene"""
 
     genomic_unit = {
@@ -18,8 +18,8 @@ def get_annotations_by_gene(analysis_name, gene, repositories: DatabaseDepends):
         'unit': gene,
     }
 
-    dataset_manifest = repositories["analysis"].get_dataset_manifest(analysis_name)
-    genomic_unit_json = repositories["genomic_unit"].find_genomic_unit(genomic_unit)
+    dataset_manifest = await repositories["analysis"].get_dataset_manifest(analysis_name)
+    genomic_unit_json = await repositories["genomic_unit"].find_genomic_unit(genomic_unit)
 
     if genomic_unit_json is None:
         raise HTTPException(status_code=404, detail=f"Gene'{gene}' annotations not found.")
@@ -31,7 +31,7 @@ def get_annotations_by_gene(analysis_name, gene, repositories: DatabaseDepends):
 
 
 @router.get("/{analysis_name}/hgvsVariant/{variant}", dependencies=[Security(get_project_authorization)])
-def get_annotations_by_hgvs_variant(analysis_name: str, variant: str, repositories: DatabaseDepends):
+async def get_annotations_by_hgvs_variant(analysis_name: str, variant: str, repositories: DatabaseDepends):
     """Returns annotations data by calling method to find annotations for variant and relevant transcripts
     by HGVS Variant"""
 
@@ -40,8 +40,8 @@ def get_annotations_by_hgvs_variant(analysis_name: str, variant: str, repositori
         'unit': variant,
     }
 
-    dataset_manifest = repositories["analysis"].get_dataset_manifest(analysis_name)
-    genomic_unit_json = repositories["genomic_unit"].find_genomic_unit(genomic_unit)
+    dataset_manifest = await repositories["analysis"].get_dataset_manifest(analysis_name)
+    genomic_unit_json = await repositories["genomic_unit"].find_genomic_unit(genomic_unit)
 
     if genomic_unit_json is None:
         raise HTTPException(status_code=404, detail=f"Variant'{variant}' annotations not found.")

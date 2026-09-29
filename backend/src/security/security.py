@@ -12,7 +12,7 @@ import jwt
 from pydantic import ValidationError
 from jwt.exceptions import InvalidTokenError
 
-from fastapi import Depends, HTTPException, Path, Request, Response, Security, status
+from fastapi import Depends, HTTPException, Path, Response, Security, status
 from fastapi.security import SecurityScopes
 
 import bcrypt
@@ -23,9 +23,8 @@ from ..dependencies import get_db
 
 from ..config import Settings, get_settings
 
-def get_oauth2_scheme(settings: Annotated[Settings, Depends(get_settings)]):
-    oauth2_scheme = OAuth2ClientCredentials(tokenUrl=settings.openapi_api_token_route)
-    return oauth2_scheme
+settings = get_settings()
+oauth2_scheme = OAuth2ClientCredentials(tokenUrl=settings.openapi_api_token_route)
 
 
 SECURITY_SCOPES = {
@@ -90,7 +89,7 @@ def generate_client_secret():
     return client_secret
 
 
-def get_current_user(response: Response, token: Annotated[str, Depends(get_oauth2_scheme)], settings: Annotated[Settings, Depends(get_settings)]):
+def get_current_user(response: Response, token: Annotated[str, Depends(oauth2_scheme)], settings: Annotated[Settings, Depends(get_settings)]):
     """Extracts the client_id from the token, this is useful to ensure the user is who they say they are"""
     authenticate_value = "Bearer"
     try:
@@ -116,7 +115,7 @@ def get_current_user(response: Response, token: Annotated[str, Depends(get_oauth
 
 def get_authorization(
     security_scopes: SecurityScopes,
-    token: Annotated[str, Depends(get_oauth2_scheme)],
+    token: Annotated[str, Depends(oauth2_scheme)],
     settings: Annotated[Settings, Depends(get_settings)]
 ):
     """

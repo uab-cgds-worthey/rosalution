@@ -1,21 +1,21 @@
 <template>
 <app-header>
   <AnalysisListingHeader
-    :username="auth.getUsername()"
+    :username="username"
     v-model:searchText="searchText"
-    @logout="this.onLogout"
+    @logout="logout"
   />
 </app-header>
 <app-content>
-  <div class="card-feed">
+  <div class="card-feed" v-if="isLoaded">
     <AnalysisCreateCard
-      @click="this.importNewAnalysis"
-      v-if="auth.hasWritePermissions()"
+      @click="importNewAnalysis"
+      v-if="hasWritePermissions"
       class="first-card"
       data-test="create-card"
     />
     <AnalysisCard
-      v-for="analysis in searchedAnalysisListing"
+      v-for="analysis in renderedAnalysisList"
       :key="analysis.id"
       :name="analysis.name"
       :description="analysis.description"
@@ -31,14 +31,16 @@
   </div>
 </app-content>
 <app-footer>
-  <div class="center-legend"><AnalysisListingLegend @filtered-changed="filteredUpdated"/></div>
+  <div class="center-legend"><AnalysisListingLegend  v-if="isLoaded"  @filtered-changed="filteredStatusUpdate"/></div>
   <InputDialog data-test="phenotips-import-dialog"/>
   <NotificationDialog data-test="notification-dialog" />
   <RosalutionFooter />
 </app-footer>
 </template>
 
-<script>
+<script setup>
+import {onMounted, ref, computed, shallowRef, watch} from 'vue';
+
 import Analyses from '@/models/analyses.js';
 import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
 import AnalysisCreateCard from '@/components/AnalysisListing/AnalysisCreateCard.vue';
@@ -52,159 +54,203 @@ import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
 
-import {authStore} from '@/stores/authStore.js';
+import {useAuth} from '@/composables/useAuth.js';
 
-export default {
-  name: 'analysis-listing-view',
-  components: {
-    AnalysisCard,
-    AnalysisCreateCard,
-    AnalysisListingHeader,
-    AnalysisListingLegend,
-    InputDialog,
-    NotificationDialog,
-    RosalutionFooter,
-  },
-  data: function() {
-    return {
-      auth: authStore,
-      searchText: '',
-      analysisList: [],
-      filteredChanged: [],
-      projects: [],
-    };
-  },
-  computed: {
-    filteredAnalysisListing() {
-      return this.analysisList.filter((analysis) => {
-        return this.filteredChanged.length === 0 ||
-          this.filteredChanged.includes(analysis.latest_status);
-      });
-    },
-    searchedAnalysisListing() {
-      const lowerCaseSearchText = this.searchText.toLowerCase();
+const {username, hasWritePermissions, logout} = useAuth();
 
-      return this.searchText === '' ? this.filteredAnalysisListing : this.filteredAnalysisListing.filter((analysis) => {
-        return [analysis.name,
-          analysis.created_date,
-          analysis.last_modified_date,
-          analysis.nominated_by,
-          analysis.project_name,
-        ].some((content) => content.toLowerCase().includes(lowerCaseSearchText)) ||
-          analysis.genomic_units.some((unit) => {
-            return (unit.gene && unit.gene.toLowerCase().includes(lowerCaseSearchText)) ||
-              (unit.transcripts &&
-                unit.transcripts.some((transcript) => transcript.toLowerCase().includes(lowerCaseSearchText))) ||
-              (unit.variants && unit.variants.some((variant) => variant.toLowerCase().includes(lowerCaseSearchText)));
-          });
-      });
-    },
-    projectsAvailable() {
-      return this.projects.map((project) => {
-        return {
-          'value': project._id,
-          'text': project.name,
-        };
-      });
-    },
-  },
-  async created() {
-    await Promise.all([this.getProjects(), this.getListing()]);
-  },
-  methods: {
-    filteredUpdated(filteredChanged) {
-      this.filteredChanged = filteredChanged;
-    },
-    async getProjects() {
-      this.projects.length = 0;
-      const projects = await Analyses.getProjects();
-      this.projects.push(...projects);
-    },
-    async getListing() {
-      this.analysisList.length = 0;
-      const analyses = await Analyses.all();
+const analysisList = shallowRef([]);
+const renderedAnalysisList = ref([]);
 
-      // TODO: Handle Unauthorized error
-      // Right now this is how we're handling unauthorization errors
-      // There needs to be a proper way to manage these errors, otherwise each function will
-      // have their own error message
-      if (analyses.error) {
-        console.warn('Cannot retrieve Analyses. User is not authorized or token is expired.');
-        return;
-      }
+const projects = ref([]);
 
-      this.analysisList.push(...analyses);
-    },
-    async importNewAnalysis() {
-      const includeComments = false;
-      const includeIcon = 'phenotips';
-      const fileTypesAccept = '.json';
+const searchText = ref('');
+const workflowStatusFilters = ref([]);
 
-      const includeProjects = {
-        selected: '',
-        options: this.projectsAvailable,
-      };
+const isLoaded = ref(false);
 
-      const importFile = await inputDialog
-          .confirmText('Upload')
-          .cancelText('Cancel')
-          .message(`Rosalution is <span style="color: var(--rosalution-red-200)">not authorized to store any
-             Protected Health Information (PHI).</span> Double check the *.json files before importing them to create
-             a new analysis.`)
-          .file(includeComments, includeIcon, fileTypesAccept, includeProjects)
-          .prompt('Temp for file upload');
+const workflowFilteredAnalysisList = computed(() => {
+  // console.log("COMPUTED-workflowFilteredAnalysisList ---")
+  return analysisList.value.filter((analysis) => {
+    return workflowStatusFilters.value.length === 0 || workflowStatusFilters.value.includes(analysis.latest_status);
+  });
+});
 
-      if (!importFile) {
-        return;
-      }
+const searchedAnalysisListing = computed(() => {
+  // console.log("COMPUTED-searchedAnalysisListing ---")
+  // console.log('SearchString: ', searchText.value)
+  const lowerCaseSearchText = searchText.value.toLowerCase();
+  // console.log('SearchString(lower): ',lowerCaseSearchText)
+  const hasSearchText = searchText.value === '';
+  // console.log('Has search text: ', !hasSearchText);
+  // console.log('workflow filtered list: ', workflowFilteredAnalysisList.value)
 
-      if ( '' == importFile.data ) {
-        await notificationDialog.title('Missing Analysis Json')
-            .alert('An uploaded analysis json is required to import an analysis.');
-        return;
-      }
+  if ( hasSearchText ) {
+    return workflowFilteredAnalysisList.value;
+  }
+  const filteredList = workflowFilteredAnalysisList.value.filter((analysis) => {
+    const analysisContent = [analysis.name,
+      analysis.created_date,
+      analysis.last_modified_date,
+      analysis.nominated_by,
+      analysis.project_name,
+    ];
+    // console.log('SEARCH ANALYSIT LISTING FILTERING')
+    // console.log(analysisContent);
+    const wasFound = analysisContent.some((content) => {
+      const individFOund = content.toLowerCase().includes(lowerCaseSearchText);
+      // console.log('SEARCH ANALYSIT LISTING FILTERING: the count found? ', individFOund, lowerCaseSearchText, content);
+      return individFOund;
+    });
+    // console.log('SEARCH ANALYSIT LISTING FILTERING: FOUND? ', wasFound)
+    return wasFound;
+  });
+  // console.log('Filtered list: ', workflowFilteredAnalysisList.value)
 
-      if ( '' == importFile.projectSelect.selected) {
-        await notificationDialog.title('Missing Selected Project')
-            .alert('A Rosalution project must be selected to proceed with the import.');
-        return;
-      }
+  return filteredList;
+});
+  // return !hasSearchText ? workflowFilteredAnalysisList.value : workflowFilteredAnalysisList.value.filter((analysis) => {
+  //   return [analysis.name,
+  //     analysis.created_date,
+  //     analysis.last_modified_date,
+  //     analysis.nominated_by,
+  //     analysis.project_name,
+  //   ].some((content) => content.toLowerCase().includes(lowerCaseSearchText)) ||
+  //     analysis.genomic_units.some((unit) => {
+  //       return (unit.gene && unit.gene.toLowerCase().includes(lowerCaseSearchText)) ||
+  //         (unit.transcripts &&
+  //           unit.transcripts.some((transcript) => transcript.toLowerCase().includes(lowerCaseSearchText))) ||
+  //         (unit.variants && unit.variants.some((variant) => variant.toLowerCase().includes(lowerCaseSearchText)));
+  //     });
+  // });
 
-      const selectedProject =
-        this.projectsAvailable.find((project) => project.value == importFile.projectSelect.selected);
-
-      const confirmedImport = await notificationDialog
-          .title(`Confirm Analysis Import into Project '${selectedProject.text}'`)
-          .confirmText('Confirm')
-          .cancelText('Cancel')
-          .confirm(
-              `This will import the uploaded json '${importFile.name}' into the ${selectedProject.text} project.`,
-          );
-
-      if (!confirmedImport) {
-        return;
-      }
-
-      try {
-        await Analyses.importNewAnalysis(importFile.projectSelect.selected, importFile.data);
-        await notificationDialog
-            .title('Successful import')
-            .alert('');
-        await this.getListing();
-      } catch (error) {
-        await notificationDialog
-            .title('Failed to import analysis')
-            .alert(error);
-      }
-    },
-    async onLogout() {
-      this.$router.push({name: 'logout'});
-    },
-  },
-  async beforeMount() {
-    document.title = 'rosalution';
-  },
+const RENDER_LISTING_BATCH_SIZE = 5;
+const renderNextBatch = () => {
+  const currentLength = renderedAnalysisList.value.length;
+  // console.log('RENDER NEXT BATCH--- next batch ', currentLength);
+  if (currentLength < searchedAnalysisListing.value.length) {
+    const nextBatch = searchedAnalysisListing.value.slice(currentLength, currentLength + RENDER_LISTING_BATCH_SIZE);
+    renderedAnalysisList.value.push(...nextBatch);
+    // console.log('RENDER NEXT BATCH--- next pushed done ', renderedAnalysisList.value.length);
+    renderNextBatch();
+  }
+  // console.log('searched analyses next complete ', searchedAnalysisListing.value.length);
 };
+
+watch(searchedAnalysisListing, () => {
+  renderedAnalysisList.value = [];
+})
+
+watch([workflowFilteredAnalysisList, renderedAnalysisList, searchedAnalysisListing, searchText], () => {
+  // console.log("WATCHER-Calling RenderNextBatch ---");
+  renderNextBatch();
+  // console.log("WATCHER-Calling RenderNextBatch --- DONE");
+}, {flush: 'post'});
+
+const projectsAvailable = computed(() => {
+  return projects.value.map((project) => {
+    return {
+      'value': project._id,
+      'text': project.name,
+    };
+  });
+});
+
+function filteredStatusUpdate(newFilteredStatus) {
+  workflowStatusFilters.value = newFilteredStatus;
+}
+
+Analyses.getProjects().then((data) => {
+  projects.value.length = 0;
+  projects.value.push(...data);
+});
+
+async function getListing() {
+  Analyses.all().then((data)=> {
+    // TODO: Handle Unauthorized error
+    // Right now this is how we're handling unauthorization errors
+    // There needs to be a proper way to manage these errors, otherwise each function will
+    // have their own error message
+    if (data.error) {
+      console.warn('Cannot retrieve Analyses. User is not authorized or token is expired.');
+      return;
+    }
+    analysisList.value = data;
+    isLoaded.value = true;
+  });
+};
+
+getListing();
+
+async function importNewAnalysis() {
+  const includeComments = false;
+  const includeIcon = 'phenotips';
+  const fileTypesAccept = '.json';
+
+  const includeProjects = {
+    selected: '',
+    options: projectsAvailable.value,
+  };
+
+  const importFile = await inputDialog
+      .confirmText('Upload')
+      .cancelText('Cancel')
+      .message(`Rosalution is <span style="color: var(--rosalution-red-200)">not authorized to store any
+          Protected Health Information (PHI).</span> Double check the *.json files before importing them to create
+          a new analysis.`)
+      .file(includeComments, includeIcon, fileTypesAccept, includeProjects)
+      .prompt('Temp for file upload');
+
+  if (!importFile) {
+    return;
+  }
+
+  if ( '' == importFile.data ) {
+    await notificationDialog.title('Missing Analysis Json')
+        .alert('An uploaded analysis json is required to import an analysis.');
+    return;
+  }
+
+  if ( '' == importFile.projectSelect.selected) {
+    await notificationDialog.title('Missing Selected Project')
+        .alert('A Rosalution project must be selected to proceed with the import.');
+    return;
+  }
+
+  const selectedProject = projectsAvailable.value.find((project) => project.value == importFile.projectSelect.selected);
+
+  const confirmedImport = await notificationDialog
+      .title(`Confirm Analysis Import into Project '${selectedProject.text}'`)
+      .confirmText('Confirm')
+      .cancelText('Cancel')
+      .confirm(
+          `This will import the uploaded json '${importFile.name}' into the ${selectedProject.text} project.`,
+      );
+
+  if (!confirmedImport) {
+    return;
+  }
+
+  try {
+    await Analyses.importNewAnalysis(importFile.projectSelect.selected, importFile.data);
+    await notificationDialog
+        .title('Successful import')
+        .alert('');
+    await getListing();
+  } catch (error) {
+    await notificationDialog
+        .title('Failed to import analysis')
+        .alert(error);
+  }
+}
+
+document.title = 'rosalution';
+
+onMounted(async () => {
+  // console.log("FROM ON MOUNTED: ")
+  renderNextBatch();
+  // console.log("FROM ON MOUNTED: done")
+});
+
 </script>
 
 <style scoped>

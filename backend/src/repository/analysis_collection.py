@@ -42,7 +42,8 @@ class AnalysisCollection:
 
     async def project_id_by_name(self, name: str) -> str:
         """Returns analysis by searching for name"""
-        return str(await self.collection.find_one({"name": name}, {"project_id": 1, "_id": 0})['project_id'])
+        analysis_json = await self.collection.find_one({"name": name}, {"project_id": 1, "_id": 0})
+        return str(analysis_json['project_id'])
 
     async def find_by_name(self, name: str):
         """Returns analysis by searching for name"""
@@ -64,11 +65,11 @@ class AnalysisCollection:
 
         return None
 
-    def get_genomic_units(self, analysis_name: str):
+    async def get_genomic_units(self, analysis_name: str):
         """ Returns the genomic units for an analysis with variants displayed in the HGVS Nomenclature """
         genomic_units_return = {"genes": {}, "variants": []}
 
-        analysis = self.collection.find_one({"name": analysis_name})
+        analysis = await self.collection.find_one({"name": analysis_name})
         if not analysis:
             raise ValueError(f"Analysis with name {analysis_name} does not exist")
 
@@ -193,7 +194,7 @@ class AnalysisCollection:
 
         return updated_analysis
 
-    def add_dataset_to_manifest(self, analysis_name: str, annotation_unit: AnnotationUnit):
+    async def add_dataset_to_manifest(self, analysis_name: str, annotation_unit: AnnotationUnit):
         """Adds this dataset and its version to this Analysis."""
         dataset = {
             annotation_unit.get_dataset_name(): {
@@ -201,11 +202,11 @@ class AnalysisCollection:
             }
         }
 
-        self.collection.find_one_and_update({
+        await self.collection.find_one_and_update({
             "name": analysis_name, "manifest.unit": {"$ne": annotation_unit.get_genomic_unit()}
         }, {'$addToSet': {'manifest': {'unit': annotation_unit.get_genomic_unit(), 'manifest': []}}})
 
-        updated_document = self.collection.find_one_and_update({
+        updated_document = await self.collection.find_one_and_update({
             "name": analysis_name, "manifest.unit": annotation_unit.get_genomic_unit()
         }, {"$addToSet": {"manifest.$[entry].manifest": dataset}},
                                                                array_filters=[{
@@ -215,7 +216,7 @@ class AnalysisCollection:
 
         return updated_document['manifest']
 
-    def get_manifest_dataset_config(self, analysis_name: str, omic_unit: str, dataset_name: str):
+    async def get_manifest_dataset_config(self, analysis_name: str, omic_unit: str, dataset_name: str):
         """ Returns an individual dataset manifest """
 
         dataset_field = f"manifest.{dataset_name}"
@@ -226,7 +227,7 @@ class AnalysisCollection:
 
         projection = {"manifest.manifest": 1, "manifest.unit.$": 1}
 
-        analysis = self.collection.find_one(query, projection)
+        analysis = await self.collection.find_one(query, projection)
 
         if not analysis:
             return None
@@ -246,9 +247,9 @@ class AnalysisCollection:
             "version": manifest_entry[dataset_name]['version']
         }
 
-    def get_dataset_manifest(self, analysis_name):
+    async def get_dataset_manifest(self, analysis_name):
         """Returns the analysis' dataset manifest for annotation versions and sources"""
-        analysis = self.find_by_name(analysis_name)
+        analysis = await self.find_by_name(analysis_name)
         if analysis is None:
             return None
 
@@ -265,9 +266,9 @@ class AnalysisCollection:
 
         return await self.collection.insert_one(analysis_data)
 
-    def attach_third_party_link(self, analysis_name: str, third_party_enum: str, link: str):
+    async def attach_third_party_link(self, analysis_name: str, third_party_enum: str, link: str):
         """ Returns an analysis with a third party link attached to it """
-        analysis = self.collection.find_one({"name": analysis_name})
+        analysis = await self.collection.find_one({"name": analysis_name})
         if not analysis:
             raise ValueError(f"Analysis '{analysis_name}' does not exist")
 
@@ -279,14 +280,14 @@ class AnalysisCollection:
 
         if existing_link:
             # Update the existing link
-            updated_document = self.collection.find_one_and_update(
+            updated_document = await self.collection.find_one_and_update(
                 {"name": analysis_name, "third_party_links.type": third_party_enum},
                 {"$set": {"third_party_links.$.link": link}},
                 return_document=ReturnDocument.AFTER,
             )
         else:
             # Add a new link to the list
-            updated_document = self.collection.find_one_and_update(
+            updated_document = await self.collection.find_one_and_update(
                 {"name": analysis_name},
                 {"$push": {"third_party_links": {"type": third_party_enum, "link": link}}},
                 return_document=ReturnDocument.AFTER,
@@ -297,14 +298,14 @@ class AnalysisCollection:
 
         return updated_document
 
-    def update_event(self, analysis_name: str, username: str, event_type: EventType):
+    async def update_event(self, analysis_name: str, username: str, event_type: EventType):
         """ Updates analysis status """
-        analysis = self.collection.find_one({"name": analysis_name})
+        analysis = await self.collection.find_one({"name": analysis_name})
         if not analysis:
             raise ValueError(f"Analysis with name {analysis_name} does not exist.")
         analysis['timeline'].append(Event.timestamp_event(username, event_type).model_dump())
 
-        updated_document = self.collection.find_one_and_update(
+        updated_document = await self.collection.find_one_and_update(
             {"name": analysis_name},
             {"$set": {"timeline": analysis["timeline"]}},
             return_document=ReturnDocument.AFTER,
@@ -313,9 +314,9 @@ class AnalysisCollection:
         updated_document.pop("_id", None)
         return updated_document
 
-    def update_analysis_nominator(self, analysis_name: str, nominator: str):
+    async def update_analysis_nominator(self, analysis_name: str, nominator: str):
         """Updates the Nominator field within an analysis"""
-        updated_analysis_document = self.collection.find_one_and_update(
+        updated_analysis_document = await self.collection.find_one_and_update(
             {"name": analysis_name},
             {"$set": {"nominated_by": nominator,}},
             return_document=ReturnDocument.AFTER,
@@ -323,32 +324,32 @@ class AnalysisCollection:
         updated_analysis_document.pop("_id", None)
         return updated_analysis_document
 
-    def update_analysis_section(self, name: str, section_header: str, field_name: str, updated_value: dict):
+    async def update_analysis_section(self, name: str, section_header: str, field_name: str, updated_value: dict):
         """Updates an existing analysis section by name, section header, and field name"""
-        query_results_to_update = self.collection.find_one({"name": name})
+        query_results_to_update = await self.collection.find_one({"name": name})
         for section in query_results_to_update["sections"]:
             if section["header"] == section_header:
                 for content in section["content"]:
                     if content["field"] == field_name:
                         content["value"] = updated_value["value"]
-        self.collection.update_one({"name": name}, {"$set": query_results_to_update})
+        await self.collection.update_one({"name": name}, {"$set": query_results_to_update})
 
-    def update_analysis_sections(self, analysis_name: str, updated_sections: List[Section]):
+    async def update_analysis_sections(self, analysis_name: str, updated_sections: List[Section]):
         """Updates each of the sections and fields within the sections if they exist in the database"""
         for section in updated_sections:
             for field in section.content:
                 field_name, field_value = field["fieldName"], field["value"]
                 if "Nominator" == field_name:
-                    self.update_analysis_nominator(analysis_name, '; '.join(field_value))
-                self.update_analysis_section(analysis_name, section.header, field_name, {"value": field_value})
+                    await self.update_analysis_nominator(analysis_name, '; '.join(field_value))
+                await self.update_analysis_section(analysis_name, section.header, field_name, {"value": field_value})
 
-    def attach_section_attachment_file(
+    async def attach_section_attachment_file(
         self, analysis_name: str, section_name: str, field_name: str, field_value_file: object
     ):
         """
         Attaches a file to a field within an analysis section and returns only the updated field within that section
         """
-        updated_document = self.collection.find_one({"name": analysis_name})
+        updated_document = await self.collection.find_one({"name": analysis_name})
         if "_id" in updated_document:
             updated_document.pop("_id", None)
         updated_section = None
@@ -365,15 +366,15 @@ class AnalysisCollection:
             if field['field'] == field_name:
                 field['value'] = [field_value_file]
 
-        self.collection.update_one({"name": analysis_name}, {'$set': updated_document})
+        await self.collection.update_one({"name": analysis_name}, {'$set': updated_document})
 
-    def attach_section_attachment_link(
+    async def attach_section_attachment_link(
         self, analysis_name: str, section_name: str, field_name: str, field_value_link: object
     ):
         """
         Attaches a link to a section field within an analysis and returns only the updated field for that section
         """
-        updated_document = self.collection.find_one({"name": analysis_name})
+        updated_document = await self.collection.find_one({"name": analysis_name})
 
         if "_id" in updated_document:
             updated_document.pop("_id", None)
@@ -398,7 +399,7 @@ class AnalysisCollection:
                 field['value'] = [field_value_link]
                 updated_field = field
 
-        self.collection.find_one_and_update(
+        await self.collection.find_one_and_update(
             {"name": analysis_name},
             {'$set': updated_document},
             return_document=ReturnDocument.AFTER,
@@ -408,11 +409,11 @@ class AnalysisCollection:
 
         return return_updated_field
 
-    def add_section_image(self, analysis_name: str, section_name: str, field_name: str, file_id: str):
+    async def add_section_image(self, analysis_name: str, section_name: str, field_name: str, file_id: str):
         """
         Adds an image to a section within an analysis specified by the the name of the section (the header) and
         """
-        updated_document = self.collection.find_one({"name": analysis_name})
+        updated_document = await self.collection.find_one({"name": analysis_name})
         if "_id" in updated_document:
             updated_document.pop("_id", None)
 
@@ -431,14 +432,14 @@ class AnalysisCollection:
             if content_row["field"] and content_row["field"] == field_name:
                 content_row["value"].append({'file_id': str(file_id)})
 
-        return self.collection.find_one_and_update({"name": analysis_name}, {'$set': updated_document},
+        return await self.collection.find_one_and_update({"name": analysis_name}, {'$set': updated_document},
                                                    return_document=ReturnDocument.AFTER)
 
-    def update_section_image(
+    async def update_section_image(
         self, analysis_name: str, section_name: str, field_name: str, file_id: str, file_id_old: str
     ):
         """ Accepts a new and old file id then updates the section image """
-        updated_document = self.collection.find_one({"name": analysis_name})
+        updated_document = await self.collection.find_one({"name": analysis_name})
 
         if "_id" in updated_document:
             updated_document.pop("_id", None)
@@ -462,15 +463,15 @@ class AnalysisCollection:
                         content_row["value"].append({'file_id': str(file_id)})
                         break
 
-        updated_analysis_json = self.collection.find_one_and_update({'name': analysis_name}, {'$set': updated_document},
+        updated_analysis_json = await self.collection.find_one_and_update({'name': analysis_name}, {'$set': updated_document},
                                                                     return_document=ReturnDocument.AFTER)
 
         return updated_analysis_json['sections']
 
-    def remove_section_attachment(self, analysis_name: str, section_name: str, field_name: str, attachment_id: str):
+    async def remove_section_attachment(self, analysis_name: str, section_name: str, field_name: str, attachment_id: str):
         """ Accepts a file id and removes the reference from corresponding analysis section, returns all of the sections
          with an analysis """
-        updated_document = self.collection.find_one({"name": analysis_name})
+        updated_document = await self.collection.find_one({"name": analysis_name})
 
         updated_section = None
         for section in updated_document['sections']:
@@ -494,7 +495,7 @@ class AnalysisCollection:
                             content_row['value'].pop(i)
                             break
 
-        updated_analysis_json = self.collection.find_one_and_update({'name': analysis_name}, {'$set': updated_document},
+        updated_analysis_json = await self.collection.find_one_and_update({'name': analysis_name}, {'$set': updated_document},
                                                                     return_document=ReturnDocument.AFTER)
         return updated_analysis_json['sections']
 
