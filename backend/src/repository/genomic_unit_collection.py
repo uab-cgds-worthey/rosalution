@@ -131,12 +131,14 @@ class GenomicUnitCollection:
         """
         if annotation_unit.is_transcript_dataset():
             collection_for_transcripts = GenomicUnitCollectionForTranscripts(self)
-            return collection_for_transcripts.annotation_exist(annotation_unit)
+            return await collection_for_transcripts.annotation_exist(annotation_unit)
 
         annotation_query_adapter = AnnotationUnitQuery(annotation_unit)
         find_query = annotation_query_adapter.find_annotation_query()
-
-        return bool(await self.collection.count_documents(find_query, limit=1))
+        # print(find_query)
+        result = await self.collection.count_documents(find_query, limit=1)
+        # print(result)
+        return bool(result)
 
     async def find_genomic_unit_annotation_value(self, annotation_unit: AnnotationUnit):
         """
@@ -196,7 +198,7 @@ class GenomicUnitCollection:
 
         if 'transcript_id' in genomic_annotation:
             collection_for_transcripts = GenomicUnitCollectionForTranscripts(self)
-            return collection_for_transcripts.annotate_transcript_dataset(genomic_unit, genomic_annotation)
+            return await collection_for_transcripts.annotate_transcript_dataset(genomic_unit, genomic_annotation)
 
         genomic_unit_query = GenomicUnitQuery(genomic_unit, genomic_annotation)
 
@@ -223,7 +225,7 @@ class GenomicUnitCollection:
         for annotation in genomic_unit_document['annotations']:
             if data_set in annotation:
                 annotation[data_set][0]['value'].append(genomic_annotation['value'])
-                return self.update_genomic_unit_by_mongo_id(genomic_unit_document)
+                return await self.update_genomic_unit_by_mongo_id(genomic_unit_document)
 
         annotation_data_set = {
             genomic_annotation['data_set']: [{
@@ -234,7 +236,7 @@ class GenomicUnitCollection:
         }
 
         genomic_unit_document['annotations'].append(annotation_data_set)
-        return self.update_genomic_unit_by_mongo_id(genomic_unit_document)
+        return await self.update_genomic_unit_by_mongo_id(genomic_unit_document)
 
     async def update_genomic_unit_file_annotation(self, genomic_unit, data_set, annotation_value, file_id_old):
         """ Replaces existing annotation image with new image """

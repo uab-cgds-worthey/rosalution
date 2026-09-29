@@ -4,7 +4,9 @@ import json
 from typing import Annotated, List
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, File, Security
-1
+
+from ..config import Settings, get_settings
+
 from ..core.annotation import AnnotationService
 from ..core.phenotips_importer import PhenotipsImporter
 from ..dependencies import DatabaseDepends, annotation_queue
@@ -30,6 +32,7 @@ async def create_analysis(
     background_tasks: BackgroundTasks,
     repositories: DatabaseDepends,
     user_project: Annotated[str, Security(get_create_project_authorization)],
+    settings: Annotated[Settings, Depends(get_settings)],
     annotation_task_queue=Depends(annotation_queue),
 ):
     """Create an analysis within a project from an uploaded JSON file and queue annotation tasks by genomic units."""
@@ -50,8 +53,6 @@ async def create_analysis(
     analysis = Analysis(**new_analysis)
     annotation_service = AnnotationService(repositories["annotation_config"])
     await annotation_service.queue_annotation_tasks(analysis, annotation_task_queue)
-    background_tasks.add_task(
-        AnnotationService.process_tasks, annotation_task_queue, repositories['genomic_unit'], repositories["analysis"]
-    )
+    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, settings)
 
     return new_analysis

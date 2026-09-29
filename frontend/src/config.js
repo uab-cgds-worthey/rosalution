@@ -55,4 +55,16 @@ function getWorkflowStatusIcon(status) {
   return 'question';
 }
 
-export {StatusType, getWorkflowStatusIcon};
+const ThirdPartyIconUrl = {
+  'monday_com': '/src/assets/monday-avatar-logo.svg',
+  'phenotips_com': '/src/assets/phenotips-favicon-96x96.png',
+};
+
+const PreloadedThirdPartyIconUrl = Object.fromEntries(
+    Object.entries(ThirdPartyIconUrl).map(([key, path]) => [
+      key,
+      new URL(path, import.meta.url).href,
+    ]),
+);
+
+export {StatusType, getWorkflowStatusIcon, PreloadedThirdPartyIconUrl};

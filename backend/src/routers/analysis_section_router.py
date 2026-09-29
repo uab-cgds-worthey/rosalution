@@ -15,9 +15,9 @@ router = APIRouter(tags=["analysis sections"])
 logger = logging.getLogger(__name__)
 
 
-def add_file_to_bucket_repository(file_to_save, bucket_repository):
+async def add_file_to_bucket_repository(file_to_save, bucket_repository):
     """Saves the 'file_to_save' within the bucket repository and returns the files new uuid."""
-    return bucket_repository.save_file(file_to_save.file, file_to_save.filename, file_to_save.content_type)
+    return await bucket_repository.save_file(file_to_save.file, file_to_save.filename, file_to_save.content_type)
 
 
 @router.post(
@@ -25,11 +25,11 @@ def add_file_to_bucket_repository(file_to_save, bucket_repository):
     response_model=List[Section],
     dependencies=[Security(get_write_project_authorization)]
 )
-def update_many_analysis_sections(analysis_name: str, updated_sections: List[Section], repositories: DatabaseDepends):
+async def update_many_analysis_sections(analysis_name: str, updated_sections: List[Section], repositories: DatabaseDepends):
     """Updates the sections that have changes"""
 
-    repositories["analysis"].update_analysis_sections(analysis_name, updated_sections)
-    updated_analysis = repositories["analysis"].find_by_name(analysis_name)
+    await repositories["analysis"].update_analysis_sections(analysis_name, updated_sections)
+    updated_analysis = await repositories["analysis"].find_by_name(analysis_name)
     updated_analysis_model = Analysis(**updated_analysis)
     return updated_analysis_model.sections
 
@@ -37,7 +37,7 @@ def update_many_analysis_sections(analysis_name: str, updated_sections: List[Sec
 @router.post(
     "/{analysis_name}/sections", response_model=List[Section], dependencies=[Security(get_write_project_authorization)]
 )
-def update_analysis_section(
+async def update_analysis_section(
     response: Response,
     analysis_name: str,
     row_type: SectionRowType,
@@ -53,8 +53,8 @@ def update_analysis_section(
         for field in updated_section.content:
             field_name, field_value = field["fieldName"], field["value"]
             if "Nominator" == field_name:
-                repositories["analysis"].update_analysis_nominator(analysis_name, '; '.join(field_value))
-            repositories["analysis"].update_analysis_section(
+                await repositories["analysis"].update_analysis_nominator(analysis_name, '; '.join(field_value))
+            await repositories["analysis"].update_analysis_section(
                 analysis_name, updated_section.header, field_name, {"value": field_value}
             )
 
@@ -62,12 +62,12 @@ def update_analysis_section(
 
     if row_type in (SectionRowType.IMAGE, SectionRowType.DOCUMENT):
         try:
-            new_file_object_id = add_file_to_bucket_repository(upload_file, repositories["bucket"])
+            new_file_object_id = await add_file_to_bucket_repository(upload_file, repositories["bucket"])
         except Exception as exception:
             raise HTTPException(status_code=500, detail=str(exception)) from exception
 
         if row_type == SectionRowType.DOCUMENT:
-            repositories["analysis"].attach_section_attachment_file(
+            await repositories["analysis"].attach_section_attachment_file(
                 analysis_name, updated_section.header, updated_field["fieldName"], {
                     "name": upload_file.filename, "attachment_id": str(new_file_object_id), "type": "file", "comments":
                         ""
@@ -75,18 +75,18 @@ def update_analysis_section(
             )
 
         if row_type == SectionRowType.IMAGE:
-            repositories["analysis"].add_section_image(
+            await repositories["analysis"].add_section_image(
                 analysis_name, updated_section.header, updated_field["fieldName"], new_file_object_id
             )
 
     if row_type in (SectionRowType.LINK):
-        repositories["analysis"].attach_section_attachment_link(
+        await repositories["analysis"].attach_section_attachment_link(
             analysis_name, updated_section.header, updated_field["fieldName"],
             {"name": updated_field["linkName"], "data": updated_field["link"], "type": "link", "comments": ""}
         )
 
     response.status_code = status.HTTP_201_CREATED
-    updated_analysis_model = Analysis(**repositories["analysis"].find_by_name(analysis_name))
+    updated_analysis_model = Analysis(**await repositories["analysis"].find_by_name(analysis_name))
     return updated_analysis_model.sections
 
 
@@ -96,9 +96,9 @@ def update_analysis_section(
     status_code=status.HTTP_200_OK,
     dependencies=[Security(get_write_project_authorization)]
 )
-def remove_section_attachment_from_field(analysis_name: str, attachment_id: str, repositories: DatabaseDepends):
+async def remove_section_attachment_from_field(analysis_name: str, attachment_id: str, repositories: DatabaseDepends):
     """ Removes the attachment from the analysis section """
-    found_analysis = repositories['analysis'].find_by_name(analysis_name)
+    found_analysis = await repositories['analysis'].find_by_name(analysis_name)
 
     if not found_analysis:
         raise HTTPException(
@@ -116,10 +116,10 @@ def remove_section_attachment_from_field(analysis_name: str, attachment_id: str,
             detail=f"No section or field contains '{attachment_id}' attachment.'"
         )
 
-    if repositories["bucket"].id_exists(attachment_id):
-        repositories["bucket"].delete_file(attachment_id)
+    if await repositories["bucket"].id_exists(attachment_id):
+        await repositories["bucket"].delete_file(attachment_id)
 
-    return repositories['analysis'].remove_section_attachment(
+    return await repositories['analysis'].remove_section_attachment(
         analysis_name, section.header, field['field'], attachment_id
     )
 
@@ -129,7 +129,7 @@ def remove_section_attachment_from_field(analysis_name: str, attachment_id: str,
     response_model=List[Section],
     dependencies=[Security(get_write_project_authorization)]
 )
-def update_analysis_section_image(
+async def update_analysis_section_image(
     analysis_name: str,
     attachment_id: str,
     row_type: SectionRowType,
@@ -152,18 +152,18 @@ def update_analysis_section_image(
     updated_analysis_sections = None
 
     if row_type is SectionRowType.IMAGE:
-        new_file_id = repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_type)
-        updated_analysis_sections = repositories['analysis'].update_section_image(
+        new_file_id = await repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_type)
+        updated_analysis_sections = await repositories['analysis'].update_section_image(
             analysis_name, section_name, field_name, new_file_id, attachment_id
         )
     elif row_type is SectionRowType.TEXT:
         new_field_value = updated_field['value']
         if "Nominator" == field_name:
-            repositories["analysis"].update_analysis_nominator(analysis_name, '; '.join(new_field_value))
-        repositories["analysis"].update_analysis_section(
+            await repositories["analysis"].update_analysis_nominator(analysis_name, '; '.join(new_field_value))
+        await repositories["analysis"].update_analysis_section(
             analysis_name, updated_section.header, field_name, {"value": new_field_value}
         )
-        updated_analysis = repositories["analysis"].find_by_name(analysis_name)
+        updated_analysis = await repositories["analysis"].find_by_name(analysis_name)
         updated_analysis_model = Analysis(**updated_analysis)
         updated_analysis_sections = updated_analysis_model.sections
 

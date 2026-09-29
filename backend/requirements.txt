@@ -16,3 +16,4 @@ requests==2.34.2
 yapf==0.43.0
 itsdangerous==2.2.0
 httpx2==2.9.1
+testcontainers==4.15.0

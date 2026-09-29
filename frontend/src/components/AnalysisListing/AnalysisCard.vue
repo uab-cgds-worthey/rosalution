@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="{ name: 'analysis', params: { analysis_name: this.name } }"
+    :to="{ name: 'analysis', params: { analysis_name: name } }"
     class="analysis-card"
     :style="cardBorderColorStyle"
   >
@@ -35,7 +35,7 @@
     </div>
     <div class="linkout-section" data-test="linkout-section">
       <a
-        v-for="link in third_party_links"
+        v-for="link in renderThirdPartyLinks"
         :key="link.type"
         :href="link.link"
         target="_blank"
@@ -44,94 +44,74 @@
         rel="noopener noreferrer"
         @click.stop
       >
-        <img :src="getLogoSrc(link.type)"/>
+        <img :src="PreloadedThirdPartyIconUrl[link.type]"/>
       </a>
     </div>
     <div class="content-text italic-content-text"> {{ project_name }}</div>
   </router-link>
 </template>
 
-<script>
-import {StatusType} from '@/config.js';
+<script setup>
+import {StatusType, PreloadedThirdPartyIconUrl} from '@/config.js';
 
-export default {
-  name: 'analysis-card',
-  components: {},
-  props: {
-    status_icon: {
-      type: String,
-    },
-    latest_status: {
-      type: String,
-    },
-    name: {
-      type: String,
-    },
-    description: {
-      type: String,
-    },
-    nominated_by: {
-      type: String,
-      required: true,
-    },
-    project_name: {
-      type: String,
-      required: true,
-    },
-    created_date: {
-      type: String,
-    },
-    last_modified_date: {
-      type: String,
-    },
-    genomic_units: {
-      type: Array,
-    },
-    third_party_links: {
-      type: Array,
-      default: () => [],
-    },
+const props = defineProps({
+  status_icon: {
+    type: String,
   },
-  computed: {
-    workflowIcon: function() {
-      if ( !(this.latest_status in StatusType) ) {
-        return 'question';
-      }
+  latest_status: {
+    type: String,
+  },
+  name: {
+    type: String,
+  },
+  description: {
+    type: String,
+  },
+  nominated_by: {
+    type: String,
+    required: true,
+  },
+  project_name: {
+    type: String,
+    required: true,
+  },
+  created_date: {
+    type: String,
+  },
+  last_modified_date: {
+    type: String,
+  },
+  genomic_units: {
+    type: Array,
+  },
+  third_party_links: {
+    type: Array,
+    default: () => [],
+  },
+});
 
-      return StatusType[this.latest_status].icon;
-    },
-    workflowColor: function() {
-      if ( !(this.latest_status in StatusType) ) {
-        return '--rosalution-white';
-      }
+const isLatestStatusValid = props.latest_status in StatusType;
 
-      return StatusType[this.latest_status].color;
-    },
-    workflowColorStyle: function() {
-      return {
-        color: `var(${this.workflowColor})`,
-      };
-    },
-    cardBorderColorStyle: function() {
-      return {
-        'border-color': `var(${this.workflowColor})`,
-        'color': `var(${this.workflowColor})`,
-      };
-    },
-  },
-  methods: {
-    getLogoSrc(type) {
-      switch (type) {
-        case 'monday_com':
-          return new URL('/src/assets/monday-avatar-logo.svg', import.meta.url);
-        case 'phenotips_com':
-          return new URL('/src/assets/phenotips-favicon-96x96.png', import.meta.url);
-        default:
-          return '';
-      }
-    },
-  },
+const workflowIcon = isLatestStatusValid ? StatusType[props.latest_status].icon : 'question';
+const workflowColor =  isLatestStatusValid ? StatusType[props.latest_status].color : '--rosalution-white';
+const workflowColorStyle = {color: `var(${workflowColor})`};
+const cardBorderColorStyle = {
+  'border-color': `var(${workflowColor})`,
+  'color': `var(${workflowColor})`,
 };
+
+const thirdPartyImageMapping = {
+  'monday_com': '/src/assets/monday-avatar-logo.svg',
+  'phenotips_com': '/src/assets/phenotips-favicon-96x96.png',
+};
+
+const renderThirdPartyLinks = props.third_party_links.map((link) => {
+  return {
+    ...link,
+    iconUrl: link.type in thirdPartyImageMapping ? thirdPartyImageMapping[link.type] : '',
+  };
+});
+
 </script>
 
 <style scoped>

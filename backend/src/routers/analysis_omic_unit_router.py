@@ -2,8 +2,10 @@
 
 # pylint: disable=duplicate-code
 
+from typing import Annotated
 from fastapi import APIRouter, Depends, Security, BackgroundTasks, HTTPException, status
 from pydantic import BaseModel
+
 
 from ..dependencies import DatabaseDepends, annotation_queue
 from ..security.security import get_write_project_authorization
@@ -11,6 +13,7 @@ from ..security.security import get_write_project_authorization
 from ..models.analysis import Analysis
 from ..core.phenotips_importer import PhenotipsImporter
 from ..core.annotation import AnnotationService
+from ..config import Settings, get_settings
 
 router = APIRouter(tags=["analysis genomic units"])
 
@@ -39,6 +42,7 @@ def add_genomic_units(
     analysis_name: str,
     new_genomic_unit: IncomingGenomicUnit,
     repositories: DatabaseDepends,
+    settings: Annotated[Settings, Depends(get_settings)],
     annotation_task_queue=Depends(annotation_queue)
 ):
     """Adding a new genomic unit to an analysis by Analysis Name"""
@@ -68,9 +72,8 @@ def add_genomic_units(
     # Calling AnnotationService to queue annotation tasks by given unit
     annotation_service = AnnotationService(repositories["annotation_config"])
     annotation_service.queue_annotation_tasks_by_unit(analysis, new_genomic_unit_to_annotate, annotation_task_queue)
-    background_tasks.add_task(
-        AnnotationService.process_tasks, annotation_task_queue, repositories['genomic_unit'], repositories["analysis"]
-    )
+    
+    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, settings)
 
     return updated_analysis_json["genomic_units"]
 
