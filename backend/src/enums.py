@@ -86,3 +86,5 @@ class ThirdPartyLinkType(str, Enum):
 
     MONDAY_COM = "monday_com"
     PHENOTIPS_COM = "phenotips_com"
+    WRIKE_COM = "wrike_com"
+    VARSOME_COM = "varsome_com"

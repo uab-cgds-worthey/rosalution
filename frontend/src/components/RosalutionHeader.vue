@@ -43,11 +43,17 @@
 <script>
 import DropDownMenu from '@/components/DropDownMenu.vue';
 import {StatusType} from '@/config.js';
+import {useThirdPartyAsset} from '@/composables/useThirdPartyAsset.js';
 
 export default {
   name: 'rosalution-header-component',
   components: {
     DropDownMenu,
+  },
+  setup() {
+    const {thirdPartyLogoAsset} = useThirdPartyAsset();
+
+    return {thirdPartyLogoAsset};
   },
   data: function() {
     return {
@@ -118,11 +124,7 @@ export default {
   },
   methods: {
     getIconSrc(linkType) {
-      if (linkType === 'monday_com') {
-        return new URL('/src/assets/monday-avatar-logo.svg', import.meta.url);
-      } else if (linkType === 'phenotips_com') {
-        return new URL('/src/assets/phenotips-favicon-96x96.png', import.meta.url);
-      }
+      return this.thirdPartyLogoAsset(linkType);
     },
     getIconClass(linkType) {
       if (linkType === 'monday_com') {
