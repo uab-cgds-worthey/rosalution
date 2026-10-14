@@ -3,6 +3,12 @@
 
 ## 0.9.1
 
+### Features
+
+- Users with Edit permissions can attach and update additional external resource links on an analysis; such as
+  Microsoft OneDrive, Varsome sample, and a Wrike task. These new analysis attachable links are available alongside the
+  existing PhenoTips and Monday.com attachment links.
+
 ### Chores
 
 - Bump all backend python-package dependencies to their latest supported versions for framework improvements and
