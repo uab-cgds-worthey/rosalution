@@ -24,8 +24,8 @@ describe('As a Clinical Analyst using Rosalution for analysis', () => {
     cy.visit('analysis/CPAM0046');
 
     const thirdPartyLinks = [
-      'https://not.a.real.varsome.link.com',
-      'https://not.a.real.wrike.link.com',
+      'https://www.wrike.com/open.htm?id=4584207732',
+      'https://www.wrike.com/open.htm?id=4584206752',
     ];
 
     cy.get('[data-test="analysis-view-header"]').find('[data-test="third-party-link"]').each(($el) => {
