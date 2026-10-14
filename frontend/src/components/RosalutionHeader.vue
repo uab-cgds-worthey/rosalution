@@ -20,7 +20,7 @@
         data-test="third-party-link"
         rel="noopener noreferrer"
       >
-        <img :src="getIconSrc(link.type)" :class="getIconClass(link.type)" />
+        <img :src="getIconSrc(link.type)" :style="getIconImageStyle(link.type)" />
       </a>
       <slot></slot>
       <ul class="actions-menu">
@@ -51,9 +51,9 @@ export default {
     DropDownMenu,
   },
   setup() {
-    const {thirdPartyLogoAsset} = useThirdPartyAsset();
+    const {thirdPartyLogoAsset, thirdPartyLogoStyle} = useThirdPartyAsset();
 
-    return {thirdPartyLogoAsset};
+    return {thirdPartyLogoAsset, thirdPartyLogoStyle};
   },
   data: function() {
     return {
@@ -126,12 +126,8 @@ export default {
     getIconSrc(linkType) {
       return this.thirdPartyLogoAsset(linkType);
     },
-    getIconClass(linkType) {
-      if (linkType === 'monday_com') {
-        return 'monday-icon';
-      } else if (linkType === 'phenotips_com') {
-        return 'phenotips-icon';
-      }
+    getIconImageStyle(linkType) {
+      return this.thirdPartyLogoStyle(linkType);
     },
   },
 };
@@ -210,18 +206,6 @@ header .left-content {
   background-color: transparent;
   padding: 0;
   transform: translate(0, 4px);
-}
-
-.monday-icon {
-  width: 1.875rem; /* 30px */
-  height: 1.875rem; /* 30px */
-  transform: translate(-8px, 0);
-}
-
-.phenotips-icon {
-  width: 1.25rem; /* 20px */
-  height: 1.25rem; /* 20px */
-  transform: translate(-16px, 0);
 }
 
 .auth-menu {

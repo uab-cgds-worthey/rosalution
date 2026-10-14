@@ -170,9 +170,10 @@ watch([hasWritePermissions, latestStatus], () => {
     ['Attach Monday.com', 'monday_com'],
     ['Attach Wrike Link', 'wrike_com'],
     ['Connect PhenoTips', 'phenotips_com'],
+    ['Attach Microsoft OneDrive Folder', 'onedrive_com'],
     ['Attach Varsome Case', 'varsome_com'],
   ].forEach(([label, type]) => {
-    builder.addMenuAction(label, null, () => promptAddLinkout(type, analysisStore.attachThirdPartyLink));
+    builder.addMenuAction(label, null, () => promptAddLinkout(type, saveThirdPartyLink));
   });
 
   builder.addMenuAction('Account', null, null);
@@ -503,6 +504,10 @@ function downloadSectionAttachment(attachmentToDownload) {
  */
 function onLogout() {
   router.push({name: 'logout'});
+}
+
+async function saveThirdPartyLink(thirdPartyType, linkData) {
+  await analysisStore.attachThirdPartyLink(thirdPartyType, linkData);
 }
 
 /**

@@ -88,3 +88,4 @@ class ThirdPartyLinkType(str, Enum):
     PHENOTIPS_COM = "phenotips_com"
     WRIKE_COM = "wrike_com"
     VARSOME_COM = "varsome_com"
+    ONEDRIVE_COM = "onedrive_com"
