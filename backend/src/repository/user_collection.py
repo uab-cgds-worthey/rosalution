@@ -52,7 +52,7 @@ class UserCollection:
                 }
             }
         }]
-
+        
         async with await self.collection.aggregate(pipeline) as found_user_cursor:
             user = found_user_cursor.try_next()
 

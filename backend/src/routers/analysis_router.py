@@ -110,10 +110,10 @@ async def download_file_by_id(file_id: str, repositories: DatabaseDepends):
 @router.get(
     "/{analysis_name}/download/{file_name}", tags=["analysis"], dependencies=[Security(get_project_authorization)]
 )
-def download(analysis_name: str, file_name: str, repositories: DatabaseDepends):
+async def download(analysis_name: str, file_name: str, repositories: DatabaseDepends):
     """ Returns a file saved to an analysis from GridFS by file name """
     # Does file exist by name in the given analysis?
-    file = repositories['analysis'].find_file_by_name(analysis_name, file_name)
+    file = await repositories['analysis'].find_file_by_name(analysis_name, file_name)
 
     if not file:
         raise HTTPException(status_code=404, detail="File not found.")
