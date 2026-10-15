@@ -49,9 +49,9 @@ class AnalysisCollection:
         """Returns analysis by searching for name"""
         return await self.collection.find_one({"name": name})
 
-    def find_file_by_name(self, analysis_name: str, file_name: str):
+    async def find_file_by_name(self, analysis_name: str, file_name: str):
         """ Returns an attached file metadata attached to an analysis if it exists by name """
-        analysis = self.collection.find_one({"name": analysis_name})
+        analysis = await self.collection.find_one({"name": analysis_name})
 
         if not analysis:
             return None

@@ -20,7 +20,7 @@ from src.dependencies import get_db, annotation_queue
 from src.security.security import create_access_token, get_current_user, get_project_authorization,\
     get_create_project_authorization
 
-from ..test_utils import mock_mongo_collection, mock_gridfs_bucket, read_test_fixture, rosalution_filepath
+from ..test_utils import mock_mongo_collection, mock_gridfs_bucket, read_test_fixture, rosalution_filepath, fixture_path
 
 # import pytest
 
@@ -67,9 +67,9 @@ def mock_queue():
 
 @pytest.fixture(name="async_db_client")
 async def async_db_client(scope="session"):
-    services=['rosalution-db']
-    with DockerCompose(rosalution_filepath(), compose_file_name="docker-compose.yml", services=services) as compose:
-        mongodb_connection_uri = f"mongodb://localhost:27017/rosalution_db"
+    services=['rosalution-integration-db']
+    with DockerCompose(fixture_path(), compose_file_name="docker-compose.mongodb.yml", services=services) as compose:
+        mongodb_connection_uri = f"mongodb://localhost:27017/rosalution_db?replicaSet=rs0&directConnection=true"
         async with AsyncMongoClient(mongodb_connection_uri) as mongodb_async_client:
             bucket = gridfs.asynchronous.AsyncGridFS(mongodb_async_client.rosalution_db)
             live_database = Database(mongodb_async_client, bucket)
@@ -87,8 +87,10 @@ async def mock_database_collections(async_db_client):
         async with session.bind():   
             try:
                 await session.start_transaction()
+                print("STARTING TRANSACTIONS TO QUERY THINGS")
                 yield async_db_client.collections
             finally:
+                print("FINISHING TRANSACTIONS TO QUERY THINGS")
                 await session.abort_transaction()
         app.dependency_overrides.clear()
 
@@ -129,6 +131,7 @@ def mock_get_current_user(mock_user):
         return mock_user["sub"]
 
     app.dependency_overrides[get_current_user] = mock_current_user
+    print("MOCKING USER")
     yield mock_user["sub"]
     app.dependency_overrides.clear()
 

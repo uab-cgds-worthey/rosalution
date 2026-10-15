@@ -12,6 +12,12 @@ def rosalution_filepath():
     current_directory = os.path.split(path_to_current_file)[0]
     return os.path.join(current_directory, '../../')
 
+def fixture_path():
+    """Returns the fixture data binary"""
+    path_to_current_file = os.path.realpath(__file__)
+    current_directory = os.path.split(path_to_current_file)[0]
+    return os.path.join(current_directory, UNIT_TEST_FIXTURE_PATH)
+
 def fixture_filepath(filename):
     """Returns the fixture data binary"""
     path_to_current_file = os.path.realpath(__file__)
