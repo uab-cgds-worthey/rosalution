@@ -78,7 +78,7 @@ async def add_analysis_discussion(
                                 File(description="Multiple files as File")] = None,
 ):
     """ Adds a new analysis discussion post """
-    found_analysis = repositories['analysis'].find_by_name(analysis_name)
+    found_analysis = await repositories['analysis'].find_by_name(analysis_name)
 
     if not found_analysis:
         raise HTTPException(
@@ -86,7 +86,7 @@ async def add_analysis_discussion(
         )
 
     analysis = Analysis(**found_analysis)
-    current_user = repositories["user"].find_by_client_id(client_id)
+    current_user = await repositories["user"].find_by_client_id(client_id)
 
     attachments_as_json = []
 
@@ -98,7 +98,7 @@ async def add_analysis_discussion(
             if not file:
                 attachment_error = f"'{attachment.name}' file failed to upload."
                 raise HTTPException(status_code=400, detail=attachment_error)
-            new_file_object_id = repositories['bucket'].save_file(file.file, file.filename, file.content_type)
+            new_file_object_id = await repositories['bucket'].save_file(file.file, file.filename, file.content_type)
             attachment.attachment_id = str(new_file_object_id)
 
         attachments_as_json.append(attachment.model_dump(exclude_none=True))
@@ -113,16 +113,16 @@ async def add_analysis_discussion(
         "thread": [],
     }
 
-    return repositories['analysis'].add_discussion_post(analysis.name, new_discussion_post)
+    return await repositories['analysis'].add_discussion_post(analysis.name, new_discussion_post)
 
 
 @router.put("/{analysis_name}/discussions/{discussion_post_id}", dependencies=[Security(get_project_authorization)])
-def update_analysis_discussion_post(
+async def update_analysis_discussion_post(
     analysis_name: str, discussion_post_id: str, discussion_content: list[str], repositories: DatabaseDepends,
     client_id: Annotated[str, Security(get_current_user)]
 ):
     """ Updates a discussion post's content in an analysis by the discussion post id """
-    found_analysis = repositories['analysis'].find_by_name(analysis_name)
+    found_analysis = await repositories['analysis'].find_by_name(analysis_name)
 
     if not found_analysis:
         raise HTTPException(
@@ -142,16 +142,16 @@ def update_analysis_discussion_post(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot update post they did not author."
         )
 
-    return repositories['analysis'].updated_discussion_post(valid_post['post_id'], discussion_content, analysis.name)
+    return await repositories['analysis'].updated_discussion_post(valid_post['post_id'], discussion_content, analysis.name)
 
 
 @router.delete("/{analysis_name}/discussions/{discussion_post_id}", dependencies=[Security(get_project_authorization)])
-def delete_analysis_discussion(
+async def delete_analysis_discussion(
     analysis_name: str, discussion_post_id: str, repositories: DatabaseDepends,
     client_id: Annotated[str, Security(get_current_user)]
 ):
     """ Deletes a discussion post in an analysis by the discussion post id """
-    found_analysis = repositories['analysis'].find_by_name(analysis_name)
+    found_analysis = await repositories['analysis'].find_by_name(analysis_name)
 
     if not found_analysis:
         raise HTTPException(
@@ -174,13 +174,13 @@ def delete_analysis_discussion(
     file_attachments = [attachment for attachment in valid_post['attachments'] if attachment['type'] == 'file']
     for attachment in file_attachments:
         attachment_id = attachment['attachment_id']
-        if not analysis.is_file_attached(attachment_id) and repositories["bucket"].id_exists(attachment_id):
-            repositories["bucket"].delete_file(attachment_id)
+        if not analysis.is_file_attached(attachment_id) and await repositories["bucket"].id_exists(attachment_id):
+            await repositories["bucket"].delete_file(attachment_id)
 
     if len(valid_post['thread']) > 0:
-        return repositories['analysis'].clear_discussion_post_content(valid_post['post_id'], analysis.name)
+        return await repositories['analysis'].clear_discussion_post_content(valid_post['post_id'], analysis.name)
 
-    return repositories['analysis'].delete_discussion_post(valid_post['post_id'], analysis.name)
+    return await repositories['analysis'].delete_discussion_post(valid_post['post_id'], analysis.name)
 
 
 @router.post(
@@ -197,7 +197,7 @@ async def add_analysis_discussion_reply( #pylint: disable=too-many-arguments, to
                                       File(description="Multiple files as File")] = None,
 ):
     """Adds a new reply to a discussion post"""
-    found_analysis = repositories['analysis'].find_by_name(analysis_name)
+    found_analysis = await repositories['analysis'].find_by_name(analysis_name)
 
     if not found_analysis:
         raise HTTPException(
@@ -206,7 +206,7 @@ async def add_analysis_discussion_reply( #pylint: disable=too-many-arguments, to
         )
 
     analysis = Analysis(**found_analysis)
-    current_user = repositories["user"].find_by_client_id(client_id)
+    current_user = await repositories["user"].find_by_client_id(client_id)
 
     reply_attachments_as_json = []
 
@@ -218,7 +218,7 @@ async def add_analysis_discussion_reply( #pylint: disable=too-many-arguments, to
             if not file:
                 attachment_error = f"'{attachment.name}' file failed to upload."
                 raise HTTPException(status_code=400, detail=attachment_error)
-            new_file_object_id = repositories['bucket'].save_file(file.file, file.filename, file.content_type)
+            new_file_object_id = await repositories['bucket'].save_file(file.file, file.filename, file.content_type)
             attachment.attachment_id = str(new_file_object_id)
 
         reply_attachments_as_json.append(attachment.model_dump(exclude_none=True))
@@ -232,7 +232,7 @@ async def add_analysis_discussion_reply( #pylint: disable=too-many-arguments, to
         "reply_attachments": reply_attachments_as_json,
     }
 
-    return repositories['analysis'].add_discussion_reply(discussion_post_id, analysis.name, new_discussion_reply)
+    return await repositories['analysis'].add_discussion_reply(discussion_post_id, analysis.name, new_discussion_reply)
 
 
 @router.post(
@@ -245,7 +245,7 @@ async def edit_analysis_discussion_reply(
 ):
     """Edits a reply in a discussion post"""
 
-    found_analysis = repositories['analysis'].find_by_name(analysis_name)
+    found_analysis = await repositories['analysis'].find_by_name(analysis_name)
 
     if not found_analysis:
         raise HTTPException(
@@ -265,7 +265,7 @@ async def edit_analysis_discussion_reply(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot update reply they did not author."
         )
 
-    return repositories['analysis'].updated_discussion_reply(
+    return await repositories['analysis'].updated_discussion_reply(
         discussion_post_id, analysis.name, valid_reply['reply_id'], discussion_reply_content
     )
 
@@ -280,7 +280,7 @@ async def delete_analysis_discussion_reply(
 ):
     """Deletes reply from a discussion post's thread"""
 
-    found_analysis = repositories['analysis'].find_by_name(analysis_name)
+    found_analysis = await repositories['analysis'].find_by_name(analysis_name)
 
     if not found_analysis:
         raise HTTPException(
@@ -300,4 +300,4 @@ async def delete_analysis_discussion_reply(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="User cannot delete reply they did not author."
         )
 
-    return repositories['analysis'].delete_discussion_reply(discussion_post_id, analysis.name, valid_reply['reply_id'])
+    return await repositories['analysis'].delete_discussion_reply(discussion_post_id, analysis.name, valid_reply['reply_id'])

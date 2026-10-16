@@ -499,10 +499,10 @@ class AnalysisCollection:
                                                                     return_document=ReturnDocument.AFTER)
         return updated_analysis_json['sections']
 
-    def add_discussion_post(self, analysis_name: str, discussion_post: object):
+    async def add_discussion_post(self, analysis_name: str, discussion_post: object):
         """ Appends a new discussion post to an analysis """
 
-        updated_document = self.collection.find_one_and_update({"name": analysis_name},
+        updated_document = await self.collection.find_one_and_update({"name": analysis_name},
                                                                {"$push": {"discussions": discussion_post}},
                                                                return_document=ReturnDocument.AFTER)
 
@@ -510,10 +510,10 @@ class AnalysisCollection:
 
         return updated_document['discussions']
 
-    def updated_discussion_post(self, discussion_post_id: str, discussion_content: list, analysis_name: str):
+    async def updated_discussion_post(self, discussion_post_id: str, discussion_content: list, analysis_name: str):
         """ Edits a discussion post from an analysis to update the discussion post's content """
 
-        updated_document = self.collection.find_one_and_update({"name": analysis_name}, {
+        updated_document = await self.collection.find_one_and_update({"name": analysis_name}, {
             "$set": {"discussions.$[item].content": discussion_content}
         },
                                                                array_filters=[{"item.post_id": discussion_post_id}],
@@ -522,10 +522,10 @@ class AnalysisCollection:
         updated_document.pop("_id", None)
         return updated_document['discussions']
 
-    def clear_discussion_post_content(self, discussion_post_id: str, analysis_name: str):
+    async def clear_discussion_post_content(self, discussion_post_id: str, analysis_name: str):
         """ Removes a discussion post from an analysis """
 
-        updated_document = self.collection.find_one_and_update({"name": analysis_name}, {
+        updated_document = await self.collection.find_one_and_update({"name": analysis_name}, {
             "$set": {
                 "discussions.$[item].author_id": "", "discussions.$[item].author_fullname": "",
                 "discussions.$[item].content": [], "discussions.$[item].attachments": [], "discussions.$[item].deleted":
@@ -539,10 +539,10 @@ class AnalysisCollection:
 
         return updated_document['discussions']
 
-    def delete_discussion_post(self, discussion_post_id: str, analysis_name: str):
+    async def delete_discussion_post(self, discussion_post_id: str, analysis_name: str):
         """ Removes a discussion post from an analysis """
 
-        updated_document = self.collection.find_one_and_update({"name": analysis_name}, {
+        updated_document = await self.collection.find_one_and_update({"name": analysis_name}, {
             "$pull": {"discussions": {"post_id": discussion_post_id}}
         },
                                                                return_document=ReturnDocument.AFTER)
@@ -551,10 +551,10 @@ class AnalysisCollection:
 
         return updated_document['discussions']
 
-    def add_discussion_reply(self, discussion_post_id: str, analysis_name: str, discussion_reply: object):
+    async def add_discussion_reply(self, discussion_post_id: str, analysis_name: str, discussion_reply: object):
         """ Appends a new discussion reply to an existing discussion post to an analysis """
 
-        updated_document = self.collection.find_one_and_update({"name": analysis_name}, {
+        updated_document = await self.collection.find_one_and_update({"name": analysis_name}, {
             "$push": {"discussions.$[item].thread": discussion_reply}
         },
                                                                array_filters=[{"item.post_id": discussion_post_id}],
@@ -564,12 +564,12 @@ class AnalysisCollection:
 
         return updated_document['discussions']
 
-    def updated_discussion_reply(
+    async def updated_discussion_reply(
         self, discussion_post_id: str, analysis_name: str, discussion_reply_id: str, discussion_reply_content: list
     ):
         """ Edits a discussion reply from an analysis to update the discussion reply's content """
 
-        updated_document = self.collection.find_one_and_update({"name": analysis_name}, {
+        updated_document = await self.collection.find_one_and_update({"name": analysis_name}, {
             "$set": {"discussions.$[post].thread.$[reply].content": discussion_reply_content}
         },
                                                                array_filters=[{"post.post_id": discussion_post_id},
@@ -580,10 +580,10 @@ class AnalysisCollection:
 
         return updated_document['discussions']
 
-    def delete_discussion_reply(self, discussion_post_id: str, analysis_name: str, discussion_reply_id: str):
+    async def delete_discussion_reply(self, discussion_post_id: str, analysis_name: str, discussion_reply_id: str):
         """ Removes a Discussion Reply from a Discussion Post's Thread"""
 
-        updated_document = self.collection.find_one_and_update({"name": analysis_name}, {
+        updated_document = await self.collection.find_one_and_update({"name": analysis_name}, {
             "$pull": {"discussions.$[post].thread": {"reply_id": discussion_reply_id}}
         },
                                                                array_filters=[{"post.post_id": discussion_post_id}],
@@ -593,7 +593,7 @@ class AnalysisCollection:
 
         return updated_document['discussions']
 
-    def attach_file(self, analysis_name: str, file_id: str, filename: str, comments: str):
+    async def attach_file(self, analysis_name: str, file_id: str, filename: str, comments: str):
         """Adds documents and comments to an analysis"""
         new_uuid = str(file_id)
         new_attachment = {
@@ -602,20 +602,20 @@ class AnalysisCollection:
             "type": "file",
             "comments": comments,
         }
-        updated_document = self.collection.find_one_and_update(
+        updated_document = await self.collection.find_one_and_update(
             {"name": analysis_name},
             {"$push": {"attachments": new_attachment}},
             return_document=ReturnDocument.AFTER,
         )
         return updated_document
 
-    def attach_link(self, analysis_name: str, link_name: str, link: str, comments: str):
+    async def attach_link(self, analysis_name: str, link_name: str, link: str, comments: str):
         """Adds a URL and comments to an analysis"""
         new_uuid = str(uuid4())
         new_attachment = {
             "name": link_name, "data": link, "attachment_id": new_uuid, "type": "link", "comments": comments
         }
-        updated_document = self.collection.find_one_and_update(
+        updated_document = await self.collection.find_one_and_update(
             {"name": analysis_name},
             {"$push": {"attachments": new_attachment}},
             return_document=ReturnDocument.AFTER,
@@ -646,14 +646,15 @@ class AnalysisCollection:
 
         return updated_document
 
-    def remove_attachment(self, analysis_name: str, attachment_id: str):
+    async def remove_attachment(self, analysis_name: str, attachment_id: str):
         """ Removes an attachment from the analysis """
-        analysis_attachments = self.collection.find_one({"name": analysis_name})["attachments"]
+        analysis = await self.collection.find_one({"name": analysis_name})
+        analysis_attachments = analysis["attachments"]
         index_to_remove = analysis_attachments.index(
             next(filter(lambda x: x["attachment_id"] == attachment_id, analysis_attachments), None)
         )
         del analysis_attachments[index_to_remove]
-        updated_document = self.collection.find_one_and_update(
+        updated_document = await self.collection.find_one_and_update(
             {"name": analysis_name},
             {"$set": {"attachments": analysis_attachments}},
             return_document=ReturnDocument.AFTER,
