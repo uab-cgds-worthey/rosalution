@@ -21,11 +21,16 @@ from src.security.security import create_access_token, get_current_user, get_pro
     get_create_project_authorization
 
 from ..test_utils import mock_mongo_collection, mock_gridfs_bucket, read_test_fixture, rosalution_filepath, fixture_path
+from fastapi.testclient import TestClient
 
 # import pytest
 
-@pytest.fixture(name="client")
-async def test_application_client():
+@pytest.fixture(scope='session')
+def anyio_backend():
+    return 'asyncio'
+
+@pytest.fixture(name="client", scope='session')
+async def test_application_client(anyio_backend):
     """A class scoped FastApi Test Client"""
     async with AsyncClient(
         transport=ASGITransport(app=app), base_url="http://test"
@@ -65,15 +70,17 @@ def mock_queue():
     annotation_queue.annotation_queue = Mock()
     return annotation_queue.annotation_queue
 
-@pytest.fixture(name="async_db_client")
-async def async_db_client(scope="session"):
+@pytest.fixture(name="async_db_client", scope="session")
+async def async_db_client(anyio_backend):
     services=['rosalution-integration-db']
     with DockerCompose(fixture_path(), compose_file_name="docker-compose.mongodb.yml", services=services) as compose:
         mongodb_connection_uri = f"mongodb://localhost:27017/rosalution_db?replicaSet=rs0&directConnection=true"
         async with AsyncMongoClient(mongodb_connection_uri) as mongodb_async_client:
             bucket = gridfs.asynchronous.AsyncGridFS(mongodb_async_client.rosalution_db)
             live_database = Database(mongodb_async_client, bucket)
+            print("\nYIELDING LIVE DATABSE")
             yield live_database
+            print("YIELDING COMPLETED - LIVE DATABASE")
 
 @pytest.fixture(name="mock_repositories")
 async def mock_database_collections(async_db_client):
@@ -87,10 +94,10 @@ async def mock_database_collections(async_db_client):
         async with session.bind():   
             try:
                 await session.start_transaction()
-                print("STARTING TRANSACTIONS TO QUERY THINGS")
+                print("\tSTARTING TRANSACTION")
                 yield async_db_client.collections
             finally:
-                print("FINISHING TRANSACTIONS TO QUERY THINGS")
+                print("\tSTOPPING TRANSACTION - RESETING DATABASE STATE")
                 await session.abort_transaction()
         app.dependency_overrides.clear()
 
