@@ -1,0 +1,695 @@
+[
+{
+  "name": "CPAM0002",
+  "description": "Vacuolar myopathy with autophagy, X-linked vacuolar myopathy with autophagy",
+  "project_id": { "$oid": "695d5b157709ebcd1c7325c1" },
+  "project_name": "CPAM",
+  "nominated_by": "Dr. Person One",
+  "manifest": [
+    {
+      "unit": "NM_001017980.3:c.164G>T",
+      "manifest": [
+        {
+          "Polyphen Prediction": {
+            "data_source": "Ensembl",
+            "version": "112"
+          }
+        },
+        {
+          "Polyphen Score": {
+            "data_source": "Ensembl",
+            "version": "112"
+          }
+        },
+        {
+          "ClinVar_Variantion_Id": {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00"
+          }
+        },
+        {
+          "ClinVar_variant_url": {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00"
+          }
+        },
+        {
+          "SIFT Score": {
+            "data_source": "Ensembl",
+            "version": "112"
+          }
+        },
+        {
+          "Consequences": {
+            "data_source": "Ensembl",
+            "version": "112"
+          }
+        },
+        {
+          "SIFT Prediction": {
+            "data_source": "Ensembl",
+            "version": "112"
+          }
+        },
+        {
+          "transcript_id": {
+            "data_source": "Ensembl",
+            "version": "112"
+          }
+        }
+      ]
+    },
+    {
+      "unit": "VMA21",
+      "manifest": [
+      {
+        "Entrez Gene Id": {
+          "data_source": "Rosalution",
+          "version": "rosalution-manifest-00"
+        }
+      },
+      {
+        "HPO_NCBI_GENE_ID": {
+          "data_source": "HPO",
+          "version": "2024-09-06"
+        }
+      },
+      {
+        "Ensembl Gene Id": {
+          "data_source": "Ensembl",
+          "version": "112"
+        }
+      },
+      {
+        "ClinGen_gene_url": {
+          "data_source": "Rosalution",
+          "version": "rosalution-manifest-00"
+        }
+      },
+      {
+        "OMIM": {
+          "data_source": "HPO",
+          "version": "2024-09-06"
+        }
+      },
+      {
+        "HGNC_ID": {
+          "data_source": "Ensembl",
+          "version": "112"
+        }
+      }
+      ]
+    }
+  ],
+  "genomic_units": [
+    {
+      "gene": "VMA21",
+      "transcripts": [
+        {
+          "transcript": "NM_001017980.3"
+        }
+      ],
+      "variants": [
+        {
+          "hgvs_variant": "NM_001017980.3:c.164G>T",
+          "c_dot": "c.164G>T",
+          "p_dot": "p.Gly55Val",
+          "build": "hg19",
+          "case": [
+            {
+              "field": "Evidence",
+              "value": [
+                "PVS1",
+                "PM2"
+              ]
+            },
+            {
+              "field": "Other Datasource",
+              "value": [
+                "PVS1",
+                "PM2"
+              ]
+            },
+            {
+              "field": "Interpretation",
+              "value": [
+                "Likely Pathogenic"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "header": "Brief",
+      "content": [
+        {
+          "type": "section-text",
+          "field": "Nominated",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Reason",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Desired Outcomes",
+          "value": [
+            "Review of ACMG classification",
+            "Functional impact study (in silico/animal/cell modeling)",
+            "Therapeutic predictions (in silico predictions)"
+          ]
+        }
+      ]
+    },
+    {
+      "header": "Mus musculus (Mouse) Model System",
+      "content": [
+        {
+          "type": "section-text",
+          "field": "Mutation",
+          "value": [
+            "NF1 c.2970-2972del (p.Met992del)"
+          ]
+        },
+        {
+          "type": "section-text",
+          "field": "Pathogenicity Test",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Design",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Founder Screening/Expansion",
+          "value": [
+            "Mice during embryogenesis P1 and E16.5 animals exhibit a double-outlet right ventricle VSD. The surviving mice with this genotype are suspected to not have the VSD. "
+          ]
+        },
+        {
+          "type": "section-text",
+          "field": "Screening",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "History",
+          "value": [
+            "Animals were submitted for a full pathology screen of the heart and other tissues as a part of CPAM workup to confirm this phenotype and develop a more thorough characterization of this mutation. Submitted 3 homozygous males 4-6 months old and a littermate control for necropsy and histopathology."
+          ]
+        },
+        {
+          "type": "section-text",
+          "field": "Diagnoses",
+          "value": [
+            "Lungs, pyogranulomatous bronchopneumonia, chronic, multifocal, moderate to marked (suggestive of an aspiration pneumonia) Ear canal, suppurative otitis media, chronic, bilateral, severe"
+          ]
+        },
+        {
+          "type": "section-text",
+          "field": "Remarks",
+          "value": [
+            "Findings in mutant mice are consistent in all 3 animals examined. Dilation of proximal esophagus was noted in 2/3 animals examined with minimal evidence of inflammation. Overall the etiology is unclear, but I suspect the cause of aspiration pneumonia was a result of dysphagia (Oropharyngeal dysphagia), possibly involving innervation and normal function of the esophagus.",
+            "NF1 patients do exhibit dysphagia and alterations in vocal quality, however, these changes are secondary to neurofibromas involving the innervation at these sites (esophagus and layrnx). There was no evidence of peripheral neurofibromas were noted in innervation to the esophagus or other organs or spinal plexiform ganglia or within the central nervous system.",
+            "Additional characterization of the cause of aspiration pneumonia is recommended, specifically functional assessment of swallowing to determine if dysphagia is present.",
+            "The etiology of bilateral middle ear infections seen in 2/3 animals with NF1 mutation, is uncertain."
+          ]
+        },
+        {
+          "type": "section-attachment",
+          "field": "Veterinary Histology Report",
+          "value": [
+            {
+              "name": "The Offical Inuyasha Website",
+              "data": "https://www.viz.com/inuyasha",
+              "type": "link",
+              "comments": "",
+              "attachment_id": "603dc3c1-c816-48ba-9f69-8fb34f173ecd"
+            }
+          ]
+        },
+        {
+          "type": "section-attachment",
+          "field": "Veterinary Pathology Imaging",
+          "value": [
+            {
+              "name": "The Art of Inuyasha",
+              "data": "https://m.media-amazon.com/images/I/51HYF05VDSL.jpg",
+              "type": "link",
+              "comments": "",
+              "attachment_id": "601d43243c1-c326-48ba-9f69-8fb3fds17"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "header": "Medical Summary",
+      "content": [
+        {
+          "field": "Clinical Diagnosis",
+          "value": [
+            "Vacuolor myopathy with autophagy, X-linked vacuolor myopathy with autophagy"
+          ]
+        },
+        {
+          "field": "Affected Individuals Identified",
+          "value": [
+            "1 patient, carrier mother"
+          ]
+        },
+        {
+          "field": "Pedigree",
+          "value": [
+            "Maternal grandfather with myopathy.",
+            "Mother has muscle signal changes on MRI",
+            "Thus presumed to be an X-linked myopathy"
+          ]
+        }
+      ]
+    },
+    {
+      "header": "Pedigree",
+      "attachment_field": "Pedigree",
+      "content": [
+        {
+          "type": "images-dataset",
+          "field": "Pedigree",
+          "value": [
+            {
+              "file_id": "63505be22888347cf1c275db"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "header": "Case Information",
+      "content": [
+        {
+          "field": "Systems",
+          "value": [
+            "Musculoskeletal and orthopedics"
+          ]
+        },
+        {
+          "field": "HPO Terms",
+          "value": [
+            "HP:0003198; HP:0003797; HP:0003325; HP:0008997; HP:0008994; HP:0001288; HP:0009060; HP:0004303; HP:0012103; HP:0003736"
+          ]
+        },
+        {
+          "field": "Additional Details",
+          "value": [
+            "8 yo male at time of testing. Ambulatory. Myopathy starting from 2 years of age with falls, elevated CK, and myopathic muscle biopsy. Clinical course is slowly progressive.",
+            "Exam showed proximal limb girdle pattern of weakness. Proximal upper and lower extremity weakness. Myopathy Congenital myopathy. Diminished muscle bulk / eps. scapular, Lordotic gait.",
+            "Muscle biopsy (2014) showed fiber size variability with prominent perimysial fibrous tissue; scattered myofibers with vacuoles staining dark blue with trichome and positive PAS staining; normal enzyme activity for phosphorylase, myoadenylase and phosphofructokinase.",
+            "Electron microscopy (2014) showed membrane bound vacuoles which contain glycogen and degenerated mitochondria; some of these vacuoles contain secondary lysosomes.",
+            "CK level 1121U/L."
+          ]
+        },
+        {
+          "field": "Experimental Design",
+          "value": []
+        },
+        {
+          "field": "Prior Testing",
+          "value": [
+            "DMD, LAMP2, myofibrillar myopathy panel performed testing for BAG3, crystalline B, desmin, DNAJB6, FLH1, LDB3, and myotilin. Non diagnostic.",
+            "DMD testing revealed a hemizygous variant of unknown significance in the DMD gene.",
+            "Fulgent Diagnostics identified a hemizygous VUS in the VMA21(XMEA); c.164G>T (p.Gly55Val). His mother also carried this variant."
+          ]
+        }
+      ]
+    }
+  ],
+  "discussions": [
+    {
+      "post_id": "9027ec8d-6298-4afb-add5-6ef710eb5e98",
+      "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
+      "author_fullname": "Developer Person",
+      "publish_timestamp": "2023-10-09T21:13:22.687000",
+      "content": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum."],
+      "attachments": [{
+        "name": "not-a-real-image.jpg",
+        "attachment_id": "68a761c9bd16bc0a0c98062e",
+        "type": "file"
+      },{
+        "name": "test.txt",
+        "attachment_id": "633afb87fb250a6ea1569555",
+        "type": "file"
+      }],
+      "thread": []
+    },
+    {
+      "post_id": "a677bb36-acf8-4ff9-a406-b113a7952f7e",
+      "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
+      "author_fullname": "Researcher Person",
+      "publish_timestamp": "2023-10-10T21:13:22.687000",
+      "content": ["Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum."],
+      "attachments": [],
+      "thread": [
+        {
+          "reply_id": "6905754b-554e-44f7-9553-8d622710e303",
+          "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
+          "author_fullname": "Developer Person",
+          "publish_timestamp": "2024-10-09T21:13:22.687000",
+          "content": ["Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."]
+        },
+        {
+          "reply_id": "79057545a-554e-44f7-9553-8d622710e303",
+          "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
+          "author_fullname": "Developer",
+          "publish_timestamp": "2024-10-09T21:15:22.687000",
+          "content": ["Yes."]
+        }
+      ]
+    },
+    {
+      "post_id": "e6023fa7-b598-416a-9f42-862c826255ef",
+      "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
+      "author_fullname": "Variant Review Report Preparer Person",
+      "publish_timestamp": "2023-10-13T21:13:22.687000",
+      "content": ["Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also."],
+      "attachments": [],
+      "thread": []
+    }
+  ],
+  "attachments": [
+    {
+      "name": "test.txt",
+      "attachment_id": "633afb87fb250a6ea1569555",
+      "comments": "hello world"
+    }
+  ],
+  "timeline": [
+    {
+      "event": "create",
+      "timestamp": "2022-10-09T21:13:22.687000",
+      "username": "vrr-prep"
+    }
+  ]
+},
+{
+  "name": "CPAM0047",
+  "description": "Congenital variant of Rett syndrome",
+  "project_id": { "$oid": "695d5b157709ebcd1c7325c1" },
+  "project_name": "CPAM",
+  "nominated_by": "CMT4B3 Foundation",
+  "manifest": {
+    "NM_002972.2:c.3493_3494dupTA": [
+      {
+        "Polyphen Prediction": {
+          "data_source": "Ensembl",
+          "version": "112"
+        }
+      },
+      {
+        "ClinVar_Variantion_Id": {
+          "data_source": "Ensembl",
+          "version": "rosalution-manifest-00"
+        }
+      }
+    ],
+    "NM_002972.2:c.5474_5475delTG": [
+      {
+        "Polyphen Prediction": {
+          "data_source": "Ensembl",
+          "version": "112"
+        }
+      },
+      {
+        "ClinVar_Variantion_Id": {
+          "data_source": "Ensembl",
+          "version": "rosalution-manifest-00"
+        }
+      }
+    ],
+    "SBF1": [
+      {
+        "Entrez Gene Id": {
+          "data_source": "Ensembl",
+          "version": "rosalution-manifest-00"
+        }
+      },
+      {
+        "HPO_NCBI_GENE_ID": {
+          "data_source": "Ensembl",
+          "version": "2024-09-06"
+        }
+      },
+      {
+        "Ensembl Gene Id": {
+          "data_source": "Ensembl",
+          "version": "112"
+        }
+      },
+      {
+        "ClinGen_gene_url": {
+          "data_source": "Ensembl",
+          "version": "rosalution-manifest-00"
+        }
+      },
+      {
+        "OMIM": {
+          "data_source": "Ensembl",
+          "version": "2024-09-06"
+        }
+      },
+      {
+        "HGNC_ID": {
+          "data_source": "Ensembl",
+          "version": "rosalution-manifest-00"
+        }
+      }
+    ]
+  },
+  "genomic_units": [
+    {
+      "gene": "SBF1",
+      "transcripts": [
+        {
+          "transcript": "NM_002972.2"
+        }
+      ],
+      "variants": [
+        {
+          "hgvs_variant": "NM_002972.2:c.3493_3494dupTA",
+          "c_dot": "c.3493_3494dupTA",
+          "p_dot": "Pro1166ThrfsX5",
+          "build": "hg19",
+          "case": []
+        },
+        {
+          "hgvs_variant": "NM_002972.2:c.5474_5475delTG",
+          "c_dot": "c.5474_5475delTG",
+          "p_dot": "Val1825GlyfsX27",
+          "build": "hg19",
+          "case": []
+        }
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "header": "Brief",
+      "content": [
+        {
+          "type": "section-text",
+          "field": "Nominator",
+          "value": [
+            "CMT4B3 Foundation"
+          ]
+        },
+        {
+          "type": "section-text",
+          "field": "Participant",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Phenotype",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "ACMG Classification",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "ACMG Classification Criteria",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "ACMG Criteria To Add",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Decision",
+          "value": []
+        }
+      ]
+    },
+    {
+      "header": "Clinical History",
+      "content": [
+        {
+          "type": "section-text",
+          "field": "Clinical Diagnosis",
+          "value": [
+            "Mild Zellweger Spectrum Disorder (a Peroxisome Biogenesis Disorder)",
+            "Current clinical manifestation is cerebellar ataxia that has impeded gross motor development."
+          ]
+        },
+        {
+          "type": "section-text",
+          "field": "Affected Individuals Identified",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Sequencing",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Testing",
+          "value": [
+            " - Invitae Boosted Exome in 2019"
+          ]
+        },
+        {
+          "type": "section-text",
+          "field": "Systems",
+          "value": [
+            "Craniofacial, Eye Defects, Cutaneous, Musculoskeletal, Behavior, Cognition and Development, Neurological"
+          ]
+        },
+        {
+          "type": "section-text",
+          "field": "Additional Details",
+          "value": [
+            "Symptoms: postural instability, delayed gross motor development, generalized hypotonia, generalized hypotonia due to defect at the neuromuscular junction, motor delay, abnormality of the dentate nucleus, abnormality of the periventricular white matter, poor motor coordination, and congenital nystagmus "
+          ]
+        }
+      ]
+    },
+    {
+      "header": "Pedigree",
+      "attachment_field": "Pedigree",
+      "content": [
+        {
+          "type": "images-dataset",
+          "field": "Pedigree",
+          "value": []
+        }
+      ]
+    },
+    {
+      "header": "SBF1 Gene To Phenotype",
+      "attachment_field": "SBF1 Gene To Phenotype",
+      "content": [
+        {
+          "type": "images-dataset",
+          "field": "SBF1 Gene To Phenotype",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "HPO Terms",
+          "value": []
+        }
+      ]
+    },
+    {
+      "header": "SBF1 Molecular Mechanism",
+      "content": [
+        {
+          "type": "section-text",
+          "field": "Function Overview",
+          "value": []
+        }
+      ]
+    },
+    {
+      "header": "SBF1 Function",
+      "attachment_field": "SBF1 Function",
+      "content": [
+        {
+          "type": "images-dataset",
+          "field": "SBF1 Function",
+          "value": []
+        }
+      ]
+    },
+    {
+      "header": "Model Goals",
+      "content": [
+        {
+          "type": "section-text",
+          "field": "Model of Interest",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Goals",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Proposed Model/Project",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Existing Collaborations",
+          "value": []
+        },
+        {
+          "type": "section-text",
+          "field": "Existing Funding",
+          "value": []
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "event": "create",
+      "timestamp": "2022-10-09T21:13:22.687000",
+      "username": "vrr-prep"
+    }
+  ],
+  "discussions": [
+    {
+      "post_id": "b2023fa7-b598-416a-9f42-862c826255ef",
+      "author_id": "janedoe-client-id",
+      "author_fullname": "Variant Review Report Preparer Person",
+      "publish_timestamp": "2023-10-13T21:13:22.687000",
+      "content": ["Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also."],
+      "attachments": [],
+      "thread": []
+    }
+  ],
+  "attachments": [
+    {
+        "name": "this is a silly link name",
+        "data": "http://local.rosalution.cgds/rosalution/api/docs",
+        "attachment_id": "a1ea5c7e-1c13-4d14-a3d7-297f39f11ba8",
+        "type": "link",
+        "comments": "hello link world"
+    }
+  ]
+}
+
+]

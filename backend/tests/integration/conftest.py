@@ -74,13 +74,14 @@ def mock_queue():
 async def async_db_client(anyio_backend):
     services=['rosalution-integration-db']
     with DockerCompose(fixture_path(), compose_file_name="docker-compose.mongodb.yml", services=services) as compose:
-        mongodb_connection_uri = f"mongodb://localhost:27017/rosalution_db?replicaSet=rs0&directConnection=true"
+        mongodb_connection_uri = f"mongodb://localhost:28017/rosalution_db?replicaSet=rs0&directConnection=true"
         async with AsyncMongoClient(mongodb_connection_uri) as mongodb_async_client:
             bucket = gridfs.asynchronous.AsyncGridFS(mongodb_async_client.rosalution_db)
             live_database = Database(mongodb_async_client, bucket)
             print("\nYIELDING LIVE DATABSE")
             yield live_database
             print("YIELDING COMPLETED - LIVE DATABASE")
+
 
 @pytest.fixture(name="mock_repositories")
 async def mock_database_collections(async_db_client):
@@ -100,7 +101,6 @@ async def mock_database_collections(async_db_client):
                 print("\tSTOPPING TRANSACTION - RESETING DATABASE STATE")
                 await session.abort_transaction()
         app.dependency_overrides.clear()
-
 
 
 @pytest.fixture(name="mock_settings_cas_disabled")

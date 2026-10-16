@@ -49,7 +49,7 @@ class IncommingUpdatedAttachment(BaseModel, frozen=True):
 @router.post(
     "/{analysis_name}/attachment", response_model=List, dependencies=[Security(get_write_project_authorization)]
 )
-def attach_file(
+async def attach_file(
     analysis_name: str,
     new_attachment: Annotated[IncomingNewAttachment, Form()],
     repositories: DatabaseDepends,
@@ -59,15 +59,15 @@ def attach_file(
     updated_analysis_json = None
 
     if new_attachment.link:
-        updated_analysis_json = repositories["analysis"].attach_link(
+        updated_analysis_json = await repositories["analysis"].attach_link(
             analysis_name, new_attachment.link_name, new_attachment.link, new_attachment.comments
         )
     else:
-        new_file_object_id = repositories['bucket'].save_file(
+        new_file_object_id = await repositories['bucket'].save_file(
             upload_file.file, upload_file.filename, upload_file.content_type
         )
 
-        updated_analysis_json = repositories["analysis"].attach_file(
+        updated_analysis_json = await repositories["analysis"].attach_file(
             analysis_name, new_file_object_id, upload_file.filename, new_attachment.comments
         )
 
@@ -102,9 +102,9 @@ def update_attachment(
     response_model=List,
     dependencies=[Security(get_write_project_authorization)]
 )
-def remove_attachment(analysis_name: str, attachment_id: str, repositories: DatabaseDepends):
+async def remove_attachment(analysis_name: str, attachment_id: str, repositories: DatabaseDepends):
     """ Removes attachment from the analysis """
-    if repositories["bucket"].id_exists(attachment_id):
-        repositories["bucket"].delete_file(attachment_id)
-    updated_analysis_json = repositories["analysis"].remove_attachment(analysis_name, attachment_id)
+    if await repositories["bucket"].id_exists(attachment_id):
+        await repositories["bucket"].delete_file(attachment_id)
+    updated_analysis_json = await repositories["analysis"].remove_attachment(analysis_name, attachment_id)
     return updated_analysis_json["attachments"]

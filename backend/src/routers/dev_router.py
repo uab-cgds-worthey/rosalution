@@ -45,3 +45,23 @@ async def login_local_developer(
     response.set_cookie(key="rosalution_TOKEN", value=access_token)
 
     return response
+
+@router.post("/dbTransaction")
+async def local_db_transaction_start():
+# async def mock_database_collections(async_db_client):
+    """A mocked database client which overrides the database depedency injected"""
+
+    # def mock_get_db() -> dict:
+    #     return async_db_client()
+
+    # app.dependency_overrides[get_db] = mock_get_db
+    async with async_db_client.database_client.start_session() as session:
+        async with session.bind():   
+            try:
+                await session.start_transaction()
+                print("\tSTARTING TRANSACTION")
+                yield async_db_client.collections
+            finally:
+                print("\tSTOPPING TRANSACTION - RESETING DATABASE STATE")
+                await session.abort_transaction()
+        app.dependency_overrides.clear()
