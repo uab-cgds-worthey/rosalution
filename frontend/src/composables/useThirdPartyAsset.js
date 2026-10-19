@@ -46,7 +46,7 @@ export function useThirdPartyAsset(incomingInputDialog = null) {
 
   async function promptAddLinkout(linkType, analysisStoreAttachLinkMethod) {
     if (null == inputDialog) {
-      throw new Error('Composable Third Party Add Prompt missing input dilaog configuration.');
+      throw new Error('Composable Third Party Add Prompt missing input dialog configuration.');
     }
 
     const includeComments = false;
