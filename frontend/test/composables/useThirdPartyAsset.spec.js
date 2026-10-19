@@ -6,7 +6,7 @@ import inputDialog from '@/inputDialog.js';
 import {useThirdPartyAsset} from '@/composables/useThirdPartyAsset.js';
 
 describe('useThirdPartyAsset', () => {
-  describe(('controlls the prompt add linkout input dialog'), () => {
+  describe(('Controls the prompt add link-out input dialog'), () => {
     it('throws exception when no input dialog provided for composable to prompt user with', async () => {
       const expectedType = 'wrike_com';
 
@@ -14,7 +14,7 @@ describe('useThirdPartyAsset', () => {
 
       const {promptAddLinkout} = useThirdPartyAsset();
       await expect(() => promptAddLinkout(expectedType, mockThirdPartySaveMethod))
-          .rejects.toThrow('Composable Third Party Add Prompt missing input dilaog configuration.');
+          .rejects.toThrow('Composable Third Party Add Prompt missing input dialog configuration.');
     });
 
     it('succesfully confirms and calls save method', async () => {
