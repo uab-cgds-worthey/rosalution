@@ -90,7 +90,7 @@ class AnalysisCollection:
 
         return genomic_units_return
 
-    def add_genomic_units(self, analysis_name: str, new_genomic_unit: dict):
+    async def add_genomic_units(self, analysis_name: str, new_genomic_unit: dict):
         """
         Adds a new omic unit to an analysis by Analysis Name
             new_genomic_unit = {
@@ -102,11 +102,11 @@ class AnalysisCollection:
             }
         """
 
-        analysis = self.collection.find_one({"name": analysis_name})
+        analysis = await self.collection.find_one({"name": analysis_name})
         if not analysis:
             raise ValueError(f"Analysis with name {analysis_name} does not exist")
 
-        self.collection.find_one_and_update({
+        await self.collection.find_one_and_update({
             "name": analysis_name, "genomic_units.gene": {"$ne": new_genomic_unit["gene"]}
         }, {
             '$addToSet': {
@@ -119,7 +119,7 @@ class AnalysisCollection:
             "name": analysis_name,
         }
 
-        updated_analysis = self.collection.find_one_and_update(
+        updated_analysis = await self.collection.find_one_and_update(
             find_filter, {
                 '$addToSet': {
                     "genomic_units.$[unit].transcripts": {"transcript": new_genomic_unit["transcript"]},
@@ -139,13 +139,13 @@ class AnalysisCollection:
 
         return updated_analysis
 
-    def edit_genomic_unit_reason_of_interest(
+    async def edit_genomic_unit_reason_of_interest(
         self, analysis_name: str, gene: str, hgvs_variant: str, reason_of_interest: list[str]
     ):
         """
         Edits the reason of interest for manually added genomic unit by analysis name, gene, and variant.
         """
-        updated_analysis = self.collection.find_one_and_update({"name": analysis_name, "genomic_units.gene": gene}, {
+        updated_analysis = await self.collection.find_one_and_update({"name": analysis_name, "genomic_units.gene": gene}, {
             '$set': {
                 "genomic_units.$[unit].variants.$[variant].case":
                     [{"field": "Reason of Interest", "value": reason_of_interest}]
@@ -157,13 +157,13 @@ class AnalysisCollection:
 
         return updated_analysis
 
-    def delete_manual_omic_unit(self, analysis_name: str, gene: str, hgvs_variant: str):
+    async def delete_manual_omic_unit(self, analysis_name: str, gene: str, hgvs_variant: str):
         """
         Deletes a manually added omic unit from an analysis. Raises ValueError if the genomic unit is not a
         manually added unit.
         """
 
-        is_manually_added_omic_unit = self.collection.count_documents({
+        is_manually_added_omic_unit = await self.collection.count_documents({
             "name": analysis_name, "genomic_units": {
                 "$elemMatch": {
                     "gene": gene,
@@ -175,7 +175,7 @@ class AnalysisCollection:
         if not is_manually_added_omic_unit:
             raise ValueError(f"{gene} {hgvs_variant} is not a manually added unit within analysis {analysis_name}")
 
-        self.collection.update_one({
+        await self.collection.update_one({
             "name": analysis_name, "genomic_units": {
                 "$elemMatch": {
                     "gene": gene,
@@ -185,12 +185,12 @@ class AnalysisCollection:
         }, {"$pull": {"genomic_units.$[unit].variants": {"hgvs_variant": hgvs_variant}}},
                                    array_filters=[{'unit.gene': gene}])
 
-        self.collection.update_one({
+        await self.collection.update_one({
             "name": analysis_name,
             "genomic_units": {"$elemMatch": {"gene": gene, "manual": True, "variants.0": {"$exists": False}}},
         }, {"$pull": {"genomic_units": {"gene": gene}}})
 
-        updated_analysis = self.collection.find_one({"name": analysis_name})
+        updated_analysis = await self.collection.find_one({"name": analysis_name})
 
         return updated_analysis
 

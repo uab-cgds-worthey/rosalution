@@ -495,6 +495,28 @@
           "case": []
         }
       ]
+    },
+    {
+      "gene": "JAK2",
+      "transcripts": [
+        {
+          "transcript": "NM_004972.3"
+        }
+      ],
+      "variants": [
+        {
+          "hgvs_variant": "NM_004972.3:c.1694G>C",
+          "c_dot": "c.1694G>C",
+          "p_dot": ".?",
+          "build": "hg19",
+          "case": [
+            {
+              "field": "Reason of Interest",
+              "value": ["Only one reason"]
+            }
+          ]
+        }
+      ]
     }
   ],
   "sections": [
@@ -691,5 +713,4 @@
     }
   ]
 }
-
 ]

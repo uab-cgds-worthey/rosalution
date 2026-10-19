@@ -4,7 +4,7 @@ services:
     volumes:
       - ./init-rs.js:/docker-entrypoint-initdb.d/01-init-rs.js
       - ./initial-db-seed.sh:/docker-entrypoint-initdb.d/02-initial-db-seed.sh
-      - ./integration-database-seed/:/tmp/fixtures/initial-seed
+      - ./initial-seed/:/tmp/fixtures/initial-seed
     command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
     networks:
       - integration-test-network

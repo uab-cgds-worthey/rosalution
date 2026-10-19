@@ -1,11 +1,13 @@
+
 """General test utilities for the application"""
 import json
 import os
 
-from unittest.mock import AsyncMock, Mock, MagicMock
+from unittest.mock import AsyncMock, MagicMock
 
 DATABSE_FIXTURE_PATH = "../../etc/fixtures/initial-seed/"
 UNIT_TEST_FIXTURE_PATH = "./fixtures/"
+ASSETS_FIXTURE_PATH = f"{UNIT_TEST_FIXTURE_PATH}assets/"
 
 def rosalution_filepath():
     path_to_current_file = os.path.realpath(__file__)
@@ -18,11 +20,23 @@ def fixture_path():
     current_directory = os.path.split(path_to_current_file)[0]
     return os.path.join(current_directory, UNIT_TEST_FIXTURE_PATH)
 
+def integration_database_fixture_filepath():
+    """Returns the fixture data binary"""
+    path_to_current_file = os.path.realpath(__file__)
+    current_directory = os.path.split(path_to_current_file)[0]
+    return os.path.join(current_directory, UNIT_TEST_FIXTURE_PATH + "integration-mongodb-database/")
+
+def assets_fixture_filepath(filename):
+    """Returns the fixture data binary"""
+    path_to_current_file = os.path.realpath(__file__)
+    current_directory = os.path.split(path_to_current_file)[0]
+    return os.path.join(current_directory, ASSETS_FIXTURE_PATH + filename)
+
 def fixture_filepath(filename):
     """Returns the fixture data binary"""
     path_to_current_file = os.path.realpath(__file__)
     current_directory = os.path.split(path_to_current_file)[0]
-    return os.path.join(current_directory, UNIT_TEST_FIXTURE_PATH + filename)
+    return os.path.join(current_directory, ASSETS_FIXTURE_PATH + filename)
 
 
 def read_database_fixture(fixture_filename):
@@ -52,9 +66,11 @@ def mock_mongo_collection():
     Returns the annotation collection for the configuration to verify
     annotation tasks are created according to the configuration
     """
+    fake_mongodb_cursor = AsyncMock()
+    fake_mongodb_cursor.to_list.return_value = []
     mock_collection = AsyncMock()
     mock_collection.aggregate = AsyncMock()
-    mock_collection.find = AsyncMock()
+    mock_collection.find = AsyncMock(return_value=fake_mongodb_cursor)
     mock_collection.find_one = AsyncMock()
     mock_collection.update_one = AsyncMock()
     mock_collection.insert_one = AsyncMock()
@@ -114,11 +130,28 @@ class SkipDependencies:  # pylint: disable=too-few-public-methods
         """ Dictating the list of  of dataset names to emulate that dataset annotation not existing."""
         self.skip_tracker = {}
         self.to_skip = dependencies_to_skip if dependencies_to_skip else ["HGNC_ID"]
+        self.mock_manifest_entry = {
+            "data_set": "mock-dataset",
+            "data_source": "mock-datasource",
+            "version": "fake-version"
+        }
 
-    def skip_hgncid_get_value_first_time_mock(self, *args):
+    def set_analysis_manifest_entry(self, dependency_manifest_entry: dict):
+        self.mock_manifest_entry = dependency_manifest_entry
+
+    async def skip_find_genomic_unit_annotation_value_mock(self, *args):
         """ Mock method that tracks if the provided dependencies are one of the ones indicated to skip"""
         annotation_unit = args[0]
         name = annotation_unit.get_dataset_name()
         genomic_unit = annotation_unit.get_genomic_unit()
         should_skip = (name in self.to_skip and name not in self.skip_tracker)
         return self.skip_tracker.setdefault(name, None) if should_skip else f"{genomic_unit}-{name}-value"
+
+    async def skip_get_manifest_entry_analysis(self, *args):
+        """ Mock method that tracks if the provided dependencies are one of the ones indicated to skip"""
+        analysis_name, genomic_unit, dataset_name = args
+        if dataset_name not in self.to_skip:
+            return None
+
+        should_skip = dataset_name not in self.skip_tracker
+        return self.skip_tracker.setdefault(dataset_name, None) if should_skip else self.mock_manifest_entry

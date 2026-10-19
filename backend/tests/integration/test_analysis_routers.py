@@ -1,12 +1,14 @@
 """Analysis Routes Integration test"""
 
+import json
+
 import pytest
 
 from ..test_utils import read_test_fixture
 
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")
-async def test_get_analyses(client, mock_access_token):
+async def test_get_analyses(client, mock_access_token, mock_repositories):
     """Testing that the correct number of analyses were returned and in the right order"""
 
     response = await client.get("/analysis", headers={"Authorization": "Bearer " + mock_access_token})
@@ -16,6 +18,7 @@ async def test_get_analyses(client, mock_access_token):
 
     actual_analyses = [ analysis["name"] for analysis in response.json() ]
     assert "CPAM0047" in actual_analyses
+
 
 
 @pytest.mark.anyio

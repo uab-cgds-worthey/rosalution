@@ -1,6 +1,7 @@
 """Fixture configuration used for all unit tests"""
+import json
 import queue
-from unittest.mock import Mock
+from unittest.mock import AsyncMock, MagicMock, Mock
 import pytest
 
 from src.core.annotation_unit import AnnotationUnit
@@ -20,19 +21,19 @@ from ..test_utils import read_test_fixture, mock_mongo_collection
 @pytest.fixture(name="cpam0002_analysis_json")
 def fixture_cpam0002_analysis_json():
     """JSON for the CPAM0002 Analysis"""
-    return read_test_fixture("analysis-CPAM0002.json")
+    return read_test_fixture("analysis-CPAM0002.unit.json")
 
 
 @pytest.fixture(name="cpam0046_analysis_json")
 def fixture_cpam0046_analysis_json():
     """JSON for the CPAM0046 Analysis"""
-    return read_test_fixture("analysis-CPAM0046.json")
+    return read_test_fixture("analysis-CPAM0046.unit.json")
 
 
 @pytest.fixture(name="cpam0112_analysis_json")
 def fixture_cpam0112_analysis_json():
     """JSON for the CPAM0112 Analysis"""
-    return read_test_fixture("analysis-CPAM0112.json")
+    return read_test_fixture("analysis-CPAM0112.unit.json")
 
 
 @pytest.fixture(name="cpam0002_analysis")
@@ -72,24 +73,24 @@ def fixture_gridfs_bucket_collection():
     """Returns the GridFS bucket collection to be mocked"""
     mock_bucket = Mock()
     mock_collection = GridFSBucketCollection(mock_bucket)
-    mock_collection.bucket.exists = Mock(return_value=True)
-    mock_collection.bucket.put = Mock(return_value="633afb87fb250a6ea1569555")
-    mock_collection.bucket.list = Mock(return_value=["test.txt"])
-    mock_collection.bucket.get = Mock(return_value="test.txt")
-    mock_collection.bucket.delete = Mock(return_value=None)
+    mock_collection.bucket.exists = AsyncMock(return_value=True)
+    mock_collection.bucket.put = AsyncMock(return_value="633afb87fb250a6ea1569555")
+    mock_collection.bucket.list = AsyncMock(return_value=["test.txt"])
+    mock_collection.bucket.get = AsyncMock(return_value="test.txt")
+    mock_collection.bucket.delete = AsyncMock(return_value=None)
     return mock_collection
 
 
 @pytest.fixture(name="gene_vma21_annotations_json")
 def fixture_gene_annotation_json():
     """JSON for the annotations of the Gene VMA21"""
-    return read_test_fixture("annotations-VMA21.json")
+    return read_test_fixture("annotations-VMA21.unit.json")
 
 
 @pytest.fixture(name="variant_nm001017980_3_c_164g_t_annotations_json")
 def fixture_hgvs_variant_json():
     """JSON for the annotations of the Gene VMA21"""
-    return read_test_fixture("annotations-NM001017980_3_c_164G_T.json")
+    return read_test_fixture("annotations-NM001017980_3_c_164G_T.unit.json")
 
 
 @pytest.fixture(name="genomic_unit_collection_json")
@@ -99,11 +100,13 @@ def fixture_genomic_unit_collection_json(gene_vma21_annotations_json, variant_nm
 
 
 @pytest.fixture(name="genomic_unit_collection")
-def fixture_genomic_unit_collection(genomic_unit_collection_json):
+def annotation_config_collectionfixture_genomic_unit_collection(genomic_unit_collection_json):
     """Returns a genomic unit collection"""
 
     mock_collection = mock_mongo_collection()
-    mock_collection.find = Mock(return_value=genomic_unit_collection_json)
+    mock_cursor = MagicMock()
+    mock_cursor.to_list = AsyncMock(return_value=genomic_unit_collection_json)
+    mock_collection.find = MagicMock(return_value=mock_cursor)
 
     return GenomicUnitCollection(mock_collection)
 
@@ -112,15 +115,17 @@ def fixture_genomic_unit_collection(genomic_unit_collection_json):
 def fixture_annotation_config_collection_json():
     """Returns the json for the annotation configuration"""
 
-    return read_test_fixture("annotations-config.json")
+    return read_test_fixture("annotations-config.unit.json")
 
 
 @pytest.fixture(name="annotation_config_collection")
 def fixture_annotation_config_collection(annotation_config_collection_json):
     """Returns the annotation collection for the datasets to be mocked"""
     mock_collection = mock_mongo_collection()
-    mock_collection.find = Mock(return_value=annotation_config_collection_json)
-    mock_collection.find_one = Mock(return_value=read_test_fixture("annotations-config.json"))
+    mock_cursor = MagicMock()
+    mock_cursor.to_list = AsyncMock(return_value=annotation_config_collection_json)
+    mock_collection.find = MagicMock(return_value=mock_cursor)
+    mock_collection.find_one = Mock(return_value=read_test_fixture("annotations-config.unit.json"))
     return AnnotationConfigCollection(mock_collection)
 
 
@@ -150,11 +155,12 @@ def get_dataset_manifest_config(analysis_collection_json):
         )
         dataset_manifest = next((item for item in omic_unit_manifest['manifest'] if dataset_name in item), None)
 
+        print(json.dumps(dataset_manifest, indent=2))
         dataset_config = {
             "data_set": dataset_name, "data_source": dataset_manifest[dataset_name]['data_source'],
             "version": dataset_manifest[dataset_name]['version']
         }
-
+        print(json.dumps(dataset_config, indent=2))
         return dataset_config
 
     return _create_dataset_manifest
@@ -215,22 +221,22 @@ def get_annotation_json(genomic_unit_collection_json):
 
 
 @pytest.fixture(name="cpam0046_annotation_queue")
-def fixture_cpam0046_annotation_queue(annotation_config_collection, cpam0046_analysis):
+async def fixture_cpam0046_annotation_queue(annotation_config_collection, cpam0046_analysis):
     """
     Returns an thread-safe annotation queue with tasks
     """
     annotation_service = AnnotationService(annotation_config_collection)
     test_queue = queue.Queue()
-    annotation_service.queue_annotation_tasks(cpam0046_analysis, test_queue)
+    await annotation_service.queue_annotation_tasks(cpam0046_analysis, test_queue)
     return test_queue
 
 
 @pytest.fixture(name="cpam0002_annotation_queue")
-def fixture_cpam0002_annotation_queue(annotation_config_collection, cpam0002_analysis):
+async def fixture_cpam0002_annotation_queue(annotation_config_collection, cpam0002_analysis):
     """ Annotation queue using the CPAM0002 analysis fixtures """
     annotation_service = AnnotationService(annotation_config_collection)
     test_queue = queue.Queue()
-    annotation_service.queue_annotation_tasks(cpam0002_analysis, test_queue)
+    await annotation_service.queue_annotation_tasks(cpam0002_analysis, test_queue)
     return test_queue
 
 
@@ -278,7 +284,7 @@ def fixture_annotation_response_for_transcript():
 @pytest.fixture(name="settings_json")
 def fixture_settings_json():
     """Returns the settings for a fake rosalution. Mostly used for security functionality/testing"""
-    return read_test_fixture("application_settings.json")
+    return read_test_fixture("application_settings.shared.json")
 
 
 @pytest.fixture(name="settings")
@@ -290,7 +296,7 @@ def fixture_rosalution_settings(settings_json):
 @pytest.fixture(name="users_json")
 def fixture_users_json():
     """Returns the JSON for the users collection used to seed the MongoDB database"""
-    return read_test_fixture("users-test-fixture.json")
+    return read_test_fixture("users-test-fixture.unit.json")
 
 
 @pytest.fixture(name="user_collection")

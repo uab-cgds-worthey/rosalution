@@ -2,6 +2,7 @@
 import asyncio
 import concurrent
 import functools
+import json
 import logging
 import time
 import queue
@@ -10,7 +11,7 @@ from requests.exceptions import JSONDecodeError, HTTPError
 from ..database import Database
 from pymongo import AsyncMongoClient
 from pymongo.errors import ConnectionFailure
-import gridfs
+from gridfs.asynchronous import AsyncGridFS
 
 from ..config import Settings
 
@@ -122,7 +123,6 @@ class AnnotationService:
         """
         Uses the list of genomic units and the list of types to queue annotation operations.
         """
-
         annotation_configuration = await self.annotation_config_collection.datasets_to_annotate_for_units(units_to_annotate)
 
         for genomic_unit in units_to_annotate:
@@ -142,7 +142,7 @@ class AnnotationService:
         async def run_process_tasks():
             mongodb_connection_uri = f"mongodb://{settings.mongodb_host}/{settings.mongodb_db}"
             async with AsyncMongoClient(mongodb_connection_uri) as mongodb_async_client:
-                bucket = gridfs.asynchronous.AsyncGridFS(mongodb_async_client.rosalution_db)
+                bucket = AsyncGridFS(mongodb_async_client.rosalution_db)
                 database = Database(mongodb_async_client, bucket)
                 repositories = database()
                 genomic_unit_collection = repositories['genomic_unit']
@@ -153,8 +153,11 @@ class AnnotationService:
                 processor.set_tasks_executor(loop)
 
                 while not processor.annotation_unit_queue_empty() or processor.are_tasks_processing():
-                    annotation_unit = processor.queue.get()
+                    if processor.annotation_unit_queue_empty():
+                        await asyncio.sleep(60)
+                        continue
 
+                    annotation_unit = processor.queue.get()
                     await processor.process_annotation_unit(annotation_unit)
 
 

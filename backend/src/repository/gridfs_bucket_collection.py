@@ -12,10 +12,6 @@ class GridFSBucketCollection:
         """Initializes with the 'PyMongo' Collection object for the Analyses collection"""
         self.bucket = bucket
 
-    def filename_exists(self, input_filename):
-        """Returns true if the file with filename exists in the database"""
-        return self.bucket.exists(filename=input_filename)
-
     async def id_exists(self, file_id):
         """Returns true if the file with file_id exists in the database"""
         for char in file_id:

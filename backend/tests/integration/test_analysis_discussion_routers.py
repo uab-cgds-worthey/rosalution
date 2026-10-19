@@ -225,9 +225,9 @@ async def test_update_discussion_reply_in_analysis(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
+# @pytest.mark.usefixtures("mock_repositories")
 @pytest.mark.usefixtures("mock_security_get_project_authorization")
-async def test_delete_discussion_reply_from_analysis(client, mock_access_token):
+async def test_delete_discussion_reply_from_analysis(client, mock_access_token, mock_repositories):
     """ Tests successfully deleting an existing reply in the discussions with the user being the author """
     cpam_analysis = "CPAM0002"
     discussion_post_id = "a677bb36-acf8-4ff9-a406-b113a7952f7e"
@@ -243,3 +243,9 @@ async def test_delete_discussion_reply_from_analysis(client, mock_access_token):
     )
 
     assert len(discussion_post['thread']) == 1
+
+    discussion_reply = next(
+        (reply for reply in discussion_post["thread"] if reply['reply_id'] == discussion_reply_id), None
+    )
+
+    assert discussion_reply is None

@@ -250,7 +250,7 @@ class GenomicUnitCollection:
                         annotation[data_set][0]['value'].append(annotation_value)
                         break
 
-        self.update_genomic_unit_by_mongo_id(genomic_unit_document)
+        await self.update_genomic_unit_by_mongo_id(genomic_unit_document)
 
     async def remove_genomic_unit_file_annotation(self, genomic_unit, data_set, file_id):
         """ Removes a file that has been added as an annotation to a genomic unit """
