@@ -161,3 +161,28 @@ class SkipDependencies:  # pylint: disable=too-few-public-methods
 
         should_skip = dataset_name not in self.skip_tracker
         return self.skip_tracker.setdefault(dataset_name, None) if should_skip else self.mock_manifest_entry
+
+class AnalysisManifestEntry:  # pylint: disable=too-few-public-methods
+    """ A skip annotation dependencies helper class that allows tester to dictate which datasets to skip once to
+    emulate a depedency not existing the first time when preparing an Annotation Task for annotation."""
+
+    def __init__(self, dependencies_to_skip=["HGNC_ID"]):
+        """ Dictating the list of  of dataset names to emulate that dataset annotation not existing."""
+        self.skip_tracker = {}
+        self.to_skip = dependencies_to_skip
+        self.mock_manifest_entry = {
+            "data_set": "mock-dataset", "data_source": "mock-datasource", "version": "fake-version"
+        }
+
+    def set_analysis_manifest_entry(self, dependency_manifest_entry: dict):
+        self.mock_manifest_entry = dependency_manifest_entry
+
+
+    async def return_no_manifest_entry_unless_depdency_tracked(self, *args):
+        """ Mock method that tracks if the provided dependencies are one of the ones indicated to skip"""
+        analysis_name, genomic_unit, dataset_name = args
+        if dataset_name not in self.to_skip:
+            return None
+
+        should_skip = dataset_name not in self.skip_tracker
+        return self.skip_tracker.setdefault(dataset_name, None) if should_skip else self.mock_manifest_entry
