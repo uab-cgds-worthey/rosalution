@@ -54,8 +54,15 @@
 <script>
 import {StatusType} from '@/config.js';
 
+import {useThirdPartyAsset} from '@/composables/useThirdPartyAsset.js';
+
 export default {
   name: 'analysis-card',
+  setup() {
+    const {thirdPartyLogoAsset} = useThirdPartyAsset();
+
+    return {thirdPartyLogoAsset};
+  },
   components: {},
   props: {
     status_icon: {
@@ -121,14 +128,7 @@ export default {
   },
   methods: {
     getLogoSrc(type) {
-      switch (type) {
-        case 'monday_com':
-          return new URL('/src/assets/monday-avatar-logo.svg', import.meta.url);
-        case 'phenotips_com':
-          return new URL('/src/assets/phenotips-favicon-96x96.png', import.meta.url);
-        default:
-          return '';
-      }
+      return this.thirdPartyLogoAsset(type);
     },
   },
 };

@@ -97,6 +97,7 @@ import notificationDialog from '@/notificationDialog.js';
 import {authStore} from '@/stores/authStore.js';
 import {analysisStore} from '@/stores/analysisStore.js';
 import {useRouter} from 'vue-router';
+import {useThirdPartyAsset} from '@/composables/useThirdPartyAsset.js';
 import {useActionMenu} from '@/components/AnalysisView/useActionMenu.js';
 
 const router = useRouter();
@@ -149,6 +150,8 @@ const hasWritePermissions = computed(() => {
   return authStore.hasWritePermissions();
 });
 
+const {promptAddLinkout} = useThirdPartyAsset(inputDialog);
+
 const {actionChoices, builder} = useActionMenu();
 
 watch([hasWritePermissions, latestStatus], () => {
@@ -157,15 +160,21 @@ watch([hasWritePermissions, latestStatus], () => {
     builder.addMenuAction('Attach', 'paperclip', addAnalysisAttachment);
     return;
   }
-
   builder.addMenuAction('Edit', 'pencil', enableEditing);
   builder.addWorkflowActions(latestStatus.value, pushAnalysisEvent);
   builder.addDivider();
 
   builder.addMenuAction('Attach', 'paperclip', addAnalysisAttachment);
   builder.addMenuAction('Add Unit', 'dna', addOmicUnit);
-  builder.addMenuAction('Attach Monday.com', null, addMondayLink);
-  builder.addMenuAction('Connect PhenoTips', null, addPhenotipsLink);
+  [
+    ['Attach Monday.com', 'monday_com'],
+    ['Attach Wrike Link', 'wrike_com'],
+    ['Connect PhenoTips', 'phenotips_com'],
+    ['Attach Microsoft OneDrive Folder', 'onedrive_com'],
+    ['Attach Varsome Case', 'varsome_com'],
+  ].forEach(([label, type]) => {
+    builder.addMenuAction(label, null, () => promptAddLinkout(type, saveThirdPartyLink));
+  });
 
   builder.addMenuAction('Account', null, null);
   builder.addDivider();
@@ -497,6 +506,10 @@ function onLogout() {
   router.push({name: 'logout'});
 }
 
+async function saveThirdPartyLink(thirdPartyType, linkData) {
+  await analysisStore.attachThirdPartyLink(thirdPartyType, linkData);
+}
+
 /**
  * Links an 'omic unit to the Analysis
  */
@@ -572,52 +585,6 @@ async function deleteOmicUnit(gene, variant) {
     await analysisStore.deleteOmicUnit(omicUnit);
   } catch (error) {
     await notificationDialog.title('Failure').confirmText('Ok').alert(error);
-  }
-}
-
-/**
- * Attaches Monday 3rd Party linkout for C-PAM Case management
- */
-async function addMondayLink() {
-  const includeComments = false;
-  const includeName = false;
-  const mondayLink = await inputDialog
-      .confirmText('Add')
-      .cancelText('Cancel')
-      .url(includeComments, includeName)
-      .prompt();
-
-  if (!mondayLink) {
-    return;
-  }
-
-  try {
-    await analysisStore.attachThirdPartyLink('monday_com', mondayLink.data);
-  } catch (error) {
-    console.error('Updating the analysis did not work', error);
-  }
-}
-
-/**
- * Attaches Phenotips linkout for C-PAM Case management
- */
-async function addPhenotipsLink() {
-  const includeComments = false;
-  const includeName = false;
-  const phenotipsLink = await inputDialog
-      .confirmText('Add')
-      .cancelText('Cancel')
-      .url(includeComments, includeName)
-      .prompt();
-
-  if (!phenotipsLink) {
-    return;
-  }
-
-  try {
-    await analysisStore.attachThirdPartyLink('phenotips_com', phenotipsLink.data);
-  } catch (error) {
-    console.error('Updating the analysis did not work', error);
   }
 }
 

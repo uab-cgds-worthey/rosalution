@@ -106,7 +106,6 @@ describe('AnalysisView', () => {
   let deleteDiscussionThreadByIdMock;
   let editDiscussionThreadByIdMock;
 
-  let mockedAttachThirdPartyLink;
   let updateAnalysisSectionsMock;
 
   beforeAll(() => {
@@ -133,8 +132,6 @@ describe('AnalysisView', () => {
 
     attachAttachmentMock = sandbox.stub(Analyses, 'attachAnalysisAttachment');
     removeAttachmentMock = sandbox.stub(Analyses, 'removeAnalysisAttachment');
-
-    mockedAttachThirdPartyLink = sandbox.stub(Analyses, 'attachThirdPartyLink');
 
     updateAnalysisSectionsMock = sandbox.stub(Analyses, 'updateAnalysisSections');
 
@@ -266,74 +263,61 @@ describe('AnalysisView', () => {
   });
 
   describe('third party links', () => {
-    it('should render the input dialog when the attach monday link menu action is clicked', () => {
+    let mockedAttachThirdPartyLink;
+
+    beforeAll(() => {
+      mockedAttachThirdPartyLink = sandbox.stub(analysisStore, 'attachThirdPartyLink');
+    });
+    it.each([
+      ['Attach Monday.com'],
+      ['Attach Wrike Link'],
+    ])('should include "%s" third party link in action menu', (expectedActiontext) => {
+      const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
+      const actionsProps = headerComponent.props('actions');
+      const addThirdPartyAction = actionsProps.find((action) => action.text == expectedActiontext);
+
+      expect(addThirdPartyAction).to.not.be.undefined;
+    });
+
+    it.each([
+      ['Attach Monday.com'],
+      ['Attach Wrike Link'],
+      ['Connect PhenoTips'],
+    ])('should render the input dialog when the attach monday link menu action is clicked', (expectedActiontext) => {
       const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
       const actionsProps = headerComponent.props('actions');
 
       for (const action of actionsProps) {
-        if (action.text === 'Attach Monday.com') {
+        if (action.text === expectedActiontext) {
           action.operation();
         }
       }
 
-      const mondayDialog = wrapper.findComponent(InputDialog);
-      expect(mondayDialog.exists()).to.be.true;
+      const promptInputDialog = wrapper.findComponent(InputDialog);
+      expect(promptInputDialog.exists()).to.be.true;
     });
 
-    it('should add a link to monday_com', async () => {
-      const newAttachmentData = {
-        data: 'https://monday.com',
+    it.each([
+      ['Attach Monday.com', 'monday_com', 'https://monday.com'],
+      ['Attach Wrike Link', 'wrike_com', 'https://wrike.com'],
+      ['Connect PhenoTips', 'phenotips_com', 'https://phenotips.com'],
+    ])('should add a link to 3rd party action "%s" ', async (actionText, type, url) => {
+      analysisStore.forceUpdate(fixtureData({[type]: url}));
+
+      const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
+      const actionsProps = headerComponent.props('actions');
+
+      for (const action of actionsProps) {
+        if (action.text === actionText) {
+          action.operation();
+        }
+      }
+
+      const mockInputPromptData = {
+        data: url,
         type: 'link',
       };
-
-      analysisStore.forceUpdate(fixtureData({['monday_com']: 'https://monday.com'}));
-
-      const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
-      const actionsProps = headerComponent.props('actions');
-
-      for (const action of actionsProps) {
-        if (action.text === 'Attach Monday.com') {
-          action.operation();
-        }
-      }
-
-      inputDialog.confirmation(newAttachmentData);
-
-      await wrapper.vm.$nextTick();
-
-      expect(mockedAttachThirdPartyLink.called).to.be.true;
-    });
-
-    it('should render the input dialog when the attach phenotips link menu action is clicked', () => {
-      const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
-      const actionsProps = headerComponent.props('actions');
-
-      for (const action of actionsProps) {
-        if (action.text === 'Connect PhenoTips') {
-          action.operation();
-        }
-      }
-
-      const phenotipsDialog = wrapper.findComponent(InputDialog);
-      expect(phenotipsDialog.exists()).to.be.true;
-    });
-
-    it('should add a link to phenotips_com', async () => {
-      analysisStore.forceUpdate(fixtureData({['phenotips_com']: 'https://phenotips.com'}));
-      const headerComponent = wrapper.getComponent('[data-test=analysis-view-header]');
-      const actionsProps = headerComponent.props('actions');
-
-      for (const action of actionsProps) {
-        if (action.text === 'Connect PhenoTips') {
-          action.operation();
-        }
-      }
-
-      const newAttachmentData = {
-        data: 'https://phenotips.com',
-        type: 'link',
-      };
-      inputDialog.confirmation(newAttachmentData);
+      inputDialog.confirmation(mockInputPromptData);
 
       await wrapper.vm.$nextTick();
 

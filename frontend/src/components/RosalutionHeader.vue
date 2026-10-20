@@ -20,7 +20,7 @@
         data-test="third-party-link"
         rel="noopener noreferrer"
       >
-        <img :src="getIconSrc(link.type)" :class="getIconClass(link.type)" />
+        <img :src="getIconSrc(link.type)" :style="getIconImageStyle(link.type)" />
       </a>
       <slot></slot>
       <ul class="actions-menu">
@@ -43,11 +43,17 @@
 <script>
 import DropDownMenu from '@/components/DropDownMenu.vue';
 import {StatusType} from '@/config.js';
+import {useThirdPartyAsset} from '@/composables/useThirdPartyAsset.js';
 
 export default {
   name: 'rosalution-header-component',
   components: {
     DropDownMenu,
+  },
+  setup() {
+    const {thirdPartyLogoAsset, thirdPartyLogoStyle} = useThirdPartyAsset();
+
+    return {thirdPartyLogoAsset, thirdPartyLogoStyle};
   },
   data: function() {
     return {
@@ -118,18 +124,10 @@ export default {
   },
   methods: {
     getIconSrc(linkType) {
-      if (linkType === 'monday_com') {
-        return new URL('/src/assets/monday-avatar-logo.svg', import.meta.url);
-      } else if (linkType === 'phenotips_com') {
-        return new URL('/src/assets/phenotips-favicon-96x96.png', import.meta.url);
-      }
+      return this.thirdPartyLogoAsset(linkType);
     },
-    getIconClass(linkType) {
-      if (linkType === 'monday_com') {
-        return 'monday-icon';
-      } else if (linkType === 'phenotips_com') {
-        return 'phenotips-icon';
-      }
+    getIconImageStyle(linkType) {
+      return this.thirdPartyLogoStyle(linkType);
     },
   },
 };
@@ -208,18 +206,6 @@ header .left-content {
   background-color: transparent;
   padding: 0;
   transform: translate(0, 4px);
-}
-
-.monday-icon {
-  width: 1.875rem; /* 30px */
-  height: 1.875rem; /* 30px */
-  transform: translate(-8px, 0);
-}
-
-.phenotips-icon {
-  width: 1.25rem; /* 20px */
-  height: 1.25rem; /* 20px */
-  transform: translate(-16px, 0);
 }
 
 .auth-menu {
