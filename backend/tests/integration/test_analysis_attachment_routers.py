@@ -3,6 +3,7 @@
 import json
 import pytest
 
+
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")
 @pytest.mark.usefixtures("mock_security_get_project_authorization")
@@ -24,6 +25,7 @@ async def test_attaching_link_to_analysis(client, mock_access_token):
     assert response.status_code == 200
     actual_attachments = json.loads(response.text)
     assert len(actual_attachments) == 2
+
 
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")

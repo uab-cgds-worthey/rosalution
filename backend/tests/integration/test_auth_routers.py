@@ -14,6 +14,7 @@ async def test_login_no_session(client):
         "%2F%2Ffake.cgds.uab.edu%2Frosalution%2Fapi%2Fauth%2Flogin%3Fnexturl%3D%252F"
     )
 
+
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")
 async def test_login_successful(client, cas_client: CASClient, monkeypatch):
@@ -22,7 +23,7 @@ async def test_login_successful(client, cas_client: CASClient, monkeypatch):
     # This unused parameter is required for the monkeypatch to successfully use the mock verify function,
     # if no empty paramter is provided then the tests will crash.
     def mock_verify_return(paramater):  #pylint: disable=unused-argument
-        return ('developer','unused_attributes','unused_pgtiou')
+        return ('developer', 'unused_attributes', 'unused_pgtiou')
 
     monkeypatch.setattr(cas_client, "verify_ticket", mock_verify_return)
 
@@ -56,6 +57,7 @@ async def test_cas_enabled_logout(client):  # pylint: disable=unused-argument
             'https://fake.uab.cas/cas/logout?' +
             'service=http%3A%2F%2Fdev.cgds.uab.edu%2Frosalution%2Fapi%2Fauth%2Flogout_callback'
     }
+
 
 @pytest.mark.anyio
 async def test_logout_callback(client):

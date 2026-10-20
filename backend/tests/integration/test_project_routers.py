@@ -12,6 +12,7 @@ from src.core.annotation import AnnotationService
 
 from ..test_utils import assets_fixture_filepath
 
+
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories", "mock_security_get_create_project_authorization")
 async def test_import_with_new_analysis_json(

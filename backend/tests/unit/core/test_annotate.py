@@ -32,7 +32,6 @@
 
 #     assert process_cpam0046_tasks['extract'].call_count == 8
 
-
 # @pytest.mark.anyio
 # async def test_processing_cpam0002_annotations_tasks(process_cpam0002_tasks):
 #     """
@@ -67,7 +66,6 @@
 
 #     assert process_cpam0002_tasks['extract'].call_count == 8
 
-
 # @pytest.mark.anyio
 # def test_processing_cpam0002_version_annotation_tasks(process_cpam0002_tasks):
 #     """
@@ -77,7 +75,6 @@
 #     needs to be calculated.
 #     """
 #     assert process_cpam0002_tasks['version'].call_count == 3
-
 
 # @pytest.fixture(name="cpam0046_hgvs_variant_json")
 # def fixture_cpam0046_hgvs_variant(cpam0046_analysis):
@@ -89,7 +86,6 @@
 #             unit = genomic_unit
 
 #     return unit
-
 
 # @pytest.fixture(name="process_cpam0002_tasks")
 # def fixture_extract_and_annotate_cpam0002(cpam0002_annotation_queue, get_dataset_manifest_config, settings, async_mongo_patch):
@@ -132,7 +128,6 @@
 #             'genomic_unit_collection': mock_genomic_unit_collection, 'extract_version': extract_task_version_annotate
 #         }
 
-
 # @pytest.fixture(name="process_cpam0046_tasks")
 # def fixture_extract_and_annotate_cpam0046(cpam0046_annotation_queue, get_dataset_manifest_config, settings, async_mongo_patch):
 #     """
@@ -144,7 +139,6 @@
 #         'version': '0.0',
 #         'value': '9000',
 #     }]
-
 
 #     with (
 #         patch("src.core.annotation_task.AnnotationTaskInterface.extract", return_value=mock_extract_result) as extract_task_annotate,
@@ -176,7 +170,6 @@
 #             'genomic_unit_collection': repositories["genomic_unit"], 'extract_version': extract_task_version_annotate
 #         }
 
-
 # @pytest.fixture(name="async_mongo_patch")
 # def fixture_mongo_client():
 #     """Patching the AsyncMongoClient and AsyncGridfs since encapsulated in event loop."""
@@ -186,14 +179,14 @@
 #         patch("src.core.annotation.Database") as mock_database_class,
 #         patch("src.database.Database") as mock_database_class_try_again
 #     ):
-        
+
 #         mock_client_instance = MagicMock()
 #         mock_client_class.return_value.__aenter__ = AsyncMock(return_value=mock_client_instance)
 #         mock_client_class.return_value.__aexit__ = AsyncMock(return_value=None)
-        
+
 #         mock_gridfs_instance = MagicMock()
 #         mock_gridfs_class.return_value = mock_gridfs_instance
-        
+
 #         mock_database_instance = MagicMock()
 #         mock_repositories = {
 #             "genomic_unit": AsyncMock(spec=GenomicUnitCollection),
@@ -203,10 +196,8 @@
 #         mock_database_instance.return_value = mock_repositories
 #         mock_database_class.return_value = mock_database_instance
 
-
 #         mock_database_class_try_again.return_value = mock_database_instance
 
-        
 #         # Yield a dictionary or a custom object so your test can access individual mocks if needed
 #         yield {
 #             "client_cls": mock_client_class,

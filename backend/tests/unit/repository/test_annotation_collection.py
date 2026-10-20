@@ -3,6 +3,7 @@ import pytest
 
 from src.enums import GenomicUnitType
 
+
 @pytest.mark.anyio
 async def test_get_datasets_configuration_by_type(annotation_config_collection):
     """Tests getting the datasets for the provided types of genomic units"""
@@ -10,10 +11,13 @@ async def test_get_datasets_configuration_by_type(annotation_config_collection):
     datasets = await annotation_config_collection.datasets_to_annotate_by_type(types)
     assert len(datasets) == 9
 
+
 @pytest.mark.anyio
 async def test_get_datasets_to_annotate_for_units(annotation_config_collection, genomic_units_for_annotation):
     """Tests if the configuration for datasets is return as expected"""
-    actual_configuration = await annotation_config_collection.datasets_to_annotate_for_units(genomic_units_for_annotation)
+    actual_configuration = await annotation_config_collection.datasets_to_annotate_for_units(
+        genomic_units_for_annotation
+    )
     assert len(actual_configuration["gene"]) == 6
     assert len(actual_configuration["hgvs_variant"]) == 3
 

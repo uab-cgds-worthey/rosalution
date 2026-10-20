@@ -1,7 +1,7 @@
 (Cypress.config('isInteractive') ? describe : describe.skip)('import_new_analysis_success.cy.js', () => {
   beforeEach(() => {
     cy.resetDatabase();
-    cy.intercept('/rosalution/api/analysis/summary').as('summaryLoad');
+    cy.intercept('/rosalution/api/analysis/summary*').as('summaryLoad');
     cy.visit('/');
     cy.wait('@summaryLoad');
   });

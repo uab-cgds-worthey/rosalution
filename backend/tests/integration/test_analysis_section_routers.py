@@ -10,6 +10,7 @@ from src.models.analysis import Section
 
 from ..test_utils import assets_fixture_filepath
 
+
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")
 @pytest.mark.usefixtures("mock_security_get_project_authorization")
@@ -59,6 +60,7 @@ async def test_update_individual_section_text_fields(client, mock_access_token):
     assert response.status_code == 201
     # mock_repositories["analysis"].collection.update_one.assert_called()
 
+
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")
 @pytest.mark.usefixtures("mock_security_get_project_authorization")
@@ -84,8 +86,10 @@ async def test_attach_image_to_pedigree_section(client, mock_access_token):
     pedigree_section = next((section for section in returned_sections if section.header == "Pedigree"), None)
     assert pedigree_section is not None
 
-    actual_updated_field_values = next((field["value"] for field in pedigree_section.content if field['field'] == "Pedigree"), None)
-    
+    actual_updated_field_values = next(
+        (field["value"] for field in pedigree_section.content if field['field'] == "Pedigree"), None
+    )
+
     for image_files in actual_updated_field_values:
         assert "file_id" in image_files
 
@@ -109,6 +113,7 @@ async def test_update_existing_pedigree_section_image(client, mock_access_token)
         image_file.close()
 
     assert response.status_code == 200
+
 
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")

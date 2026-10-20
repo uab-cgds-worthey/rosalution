@@ -1,4 +1,3 @@
-
 """General test utilities for the application"""
 import json
 import os
@@ -9,10 +8,12 @@ DATABSE_FIXTURE_PATH = "../../etc/fixtures/initial-seed/"
 UNIT_TEST_FIXTURE_PATH = "./fixtures/"
 ASSETS_FIXTURE_PATH = f"{UNIT_TEST_FIXTURE_PATH}assets/"
 
+
 def rosalution_filepath():
     path_to_current_file = os.path.realpath(__file__)
     current_directory = os.path.split(path_to_current_file)[0]
     return os.path.join(current_directory, '../../')
+
 
 def fixture_path():
     """Returns the fixture data binary"""
@@ -20,11 +21,13 @@ def fixture_path():
     current_directory = os.path.split(path_to_current_file)[0]
     return os.path.join(current_directory, UNIT_TEST_FIXTURE_PATH)
 
+
 def integration_database_fixture_filepath():
     """Returns the fixture data binary"""
     path_to_current_file = os.path.realpath(__file__)
     current_directory = os.path.split(path_to_current_file)[0]
     return os.path.join(current_directory, UNIT_TEST_FIXTURE_PATH + "integration-mongodb-database/")
+
 
 def assets_fixture_filepath(filename):
     """Returns the fixture data binary"""
@@ -32,11 +35,13 @@ def assets_fixture_filepath(filename):
     current_directory = os.path.split(path_to_current_file)[0]
     return os.path.join(current_directory, ASSETS_FIXTURE_PATH + filename)
 
+
 def fixture_filepath(filename):
     """Returns the fixture data binary"""
     path_to_current_file = os.path.realpath(__file__)
     current_directory = os.path.split(path_to_current_file)[0]
     return os.path.join(current_directory, ASSETS_FIXTURE_PATH + filename)
+
 
 def read_assset_fixture(fixture_name):
     return read_fixtures(ASSETS_FIXTURE_PATH, fixture_name)
@@ -134,9 +139,7 @@ class SkipDependencies:  # pylint: disable=too-few-public-methods
         self.skip_tracker = {}
         self.to_skip = dependencies_to_skip if dependencies_to_skip else ["HGNC_ID"]
         self.mock_manifest_entry = {
-            "data_set": "mock-dataset",
-            "data_source": "mock-datasource",
-            "version": "fake-version"
+            "data_set": "mock-dataset", "data_source": "mock-datasource", "version": "fake-version"
         }
 
     def set_analysis_manifest_entry(self, dependency_manifest_entry: dict):

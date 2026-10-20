@@ -79,10 +79,10 @@ settings = get_settings()
 
 ## OAuth Token ##
 
+
 @asynccontextmanager
 async def db_lifespan(application: FastAPI):
     """Application lifespan context manager that initializes resources during startup and cleans up on shutdown."""
-
     """
     Verifies required ROSALUTION_KEY environment variable set with descriptive error at start of service.
     """
@@ -104,6 +104,7 @@ async def db_lifespan(application: FastAPI):
         application.state.database = database
         logger.info("Connceted to database cluster")
         yield
+
 
 app = FastAPI(
     title="rosalution API",
@@ -131,7 +132,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-    )
+)
 
 register_profiler_middleware(app, settings.profiler_enabled, settings.profiler_renderer)
 

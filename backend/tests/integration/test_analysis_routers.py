@@ -6,6 +6,7 @@ import pytest
 
 from ..test_utils import read_test_fixture
 
+
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")
 async def test_get_analyses(client, mock_access_token, mock_repositories):
@@ -16,9 +17,8 @@ async def test_get_analyses(client, mock_access_token, mock_repositories):
     assert response.status_code == 200
     assert len(response.json()) == 2
 
-    actual_analyses = [ analysis["name"] for analysis in response.json() ]
+    actual_analyses = [analysis["name"] for analysis in response.json()]
     assert "CPAM0047" in actual_analyses
-
 
 
 @pytest.mark.anyio
@@ -46,7 +46,9 @@ async def test_get_summary_by_name(client, mock_access_token):
 async def test_get_genomic_units_success(client, mock_access_token):
     """ Testing the get genomic units endpoint """
 
-    response = await client.get("/analysis/CPAM0002/genomic_units", headers={"Authorization": "Bearer " + mock_access_token})
+    response = await client.get(
+        "/analysis/CPAM0002/genomic_units", headers={"Authorization": "Bearer " + mock_access_token}
+    )
 
     expected_genomic_unit_response = {
         "genes": {"VMA21": ["NM_001017980.3:c.164G>T(p.Gly55Val)"]},
@@ -63,7 +65,9 @@ async def test_get_genomic_units_success(client, mock_access_token):
 async def test_get_genomic_units_analysis_does_not_exist(client, mock_access_token):
     """ Testing the get genomic units endpoint """
 
-    response = await client.get("/analysis/CPAM12345/genomic_units", headers={"Authorization": "Bearer " + mock_access_token})
+    response = await client.get(
+        "/analysis/CPAM12345/genomic_units", headers={"Authorization": "Bearer " + mock_access_token}
+    )
 
     assert response.status_code == 404
 
@@ -74,7 +78,9 @@ async def test_get_genomic_units_analysis_does_not_exist(client, mock_access_tok
 async def test_get_genomic_units_does_not_exist(client, mock_access_token):
     """ Testing the get genomic units endpoint """
 
-    response = await client.get("/analysis/CPAM12345/genomic_units", headers={"Authorization": "Bearer " + mock_access_token})
+    response = await client.get(
+        "/analysis/CPAM12345/genomic_units", headers={"Authorization": "Bearer " + mock_access_token}
+    )
 
     assert response.status_code == 404
 
@@ -96,7 +102,7 @@ async def test_attach_third_party_link(client, mock_access_token):
     analysis = response.json()
     assert "third_party_links" in analysis
 
-    link_types = [ link["type"] for link in analysis["third_party_links"] ]
+    link_types = [link["type"] for link in analysis["third_party_links"]]
     assert "monday_com" in link_types
 
 
@@ -135,12 +141,14 @@ async def test_attach_third_party_link_invalid_enum(client, mock_access_token):
 async def test_mark_ready(client, mock_access_token):
     """ Testing the update analysis event endpoint """
 
-    response = await client.put("/analysis/CPAM0002/event/ready", headers={"Authorization": "Bearer " + mock_access_token})
+    response = await client.put(
+        "/analysis/CPAM0002/event/ready", headers={"Authorization": "Bearer " + mock_access_token}
+    )
 
     assert response.status_code == 200
 
     analysis = response.json()
-    events = [ event["event"] for event in analysis["timeline"] ]
+    events = [event["event"] for event in analysis["timeline"]]
     assert "ready" in events
 
 
@@ -150,7 +158,9 @@ async def test_mark_ready(client, mock_access_token):
 async def test_mark_ready_analysis_does_not_exist(client, mock_access_token):
     """ Testing the mark ready endpoint """
 
-    response = await client.put("/analysis/CPAM2222/event/ready", headers={"Authorization": "Bearer " + mock_access_token})
+    response = await client.put(
+        "/analysis/CPAM2222/event/ready", headers={"Authorization": "Bearer " + mock_access_token}
+    )
 
     assert response.status_code == 409
     assert response.json() == {'detail': 'Analysis with name CPAM2222 does not exist.'}

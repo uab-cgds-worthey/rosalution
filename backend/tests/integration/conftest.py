@@ -26,16 +26,16 @@ from fastapi.testclient import TestClient
 
 # import pytest
 
+
 @pytest.fixture(scope='session')
 def anyio_backend():
     return 'asyncio'
 
+
 @pytest.fixture(name="client", scope='session')
 async def test_application_client(anyio_backend):
     """A class scoped FastApi Test Client"""
-    async with AsyncClient(
-        transport=ASGITransport(app=app), base_url="http://test"
-    ) as async_client:
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as async_client:
         yield async_client
 
 
@@ -51,16 +51,20 @@ def mock_get_cas_client(mock_settings):
     yield mock_cas_client
     app.dependency_overrides.clear()
 
+
 @pytest.fixture(name="mock_annotation_queue", scope="class")
 def mock_queue():
     """A mocked Python queue used to verify if annotation tasks are created"""
     annotation_queue.annotation_queue = Mock()
     return annotation_queue.annotation_queue
 
+
 @pytest.fixture(name="async_db_client", scope="session")
 async def async_db_client(anyio_backend):
-    services=['rosalution-integration-db']
-    with DockerCompose(integration_database_fixture_filepath(), compose_file_name="docker-compose.mongodb.yml", services=services) as compose:
+    services = ['rosalution-integration-db']
+    with DockerCompose(
+        integration_database_fixture_filepath(), compose_file_name="docker-compose.mongodb.yml", services=services
+    ) as compose:
         mongodb_connection_uri = f"mongodb://localhost:28017/rosalution_db?replicaSet=rs0&directConnection=true"
         async with AsyncMongoClient(mongodb_connection_uri) as mongodb_async_client:
             bucket = gridfs.asynchronous.AsyncGridFS(mongodb_async_client.rosalution_db)
@@ -77,7 +81,7 @@ async def mock_database_collections(async_db_client):
 
     app.dependency_overrides[get_db] = mock_get_db
     async with async_db_client.database_client.start_session() as session:
-        async with session.bind():   
+        async with session.bind():
             try:
                 await session.start_transaction()
                 yield async_db_client.collections

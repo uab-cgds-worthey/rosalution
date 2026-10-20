@@ -9,11 +9,12 @@ from fastapi import BackgroundTasks
 
 from src.core.annotation import AnnotationService
 
+
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")
 @pytest.mark.usefixtures("mock_security_get_project_authorization")
 async def test_adding_and_annotating_new_omic_unit_to_analysis(
-      client, mock_access_token, mock_annotation_queue, mock_settings
+    client, mock_access_token, mock_annotation_queue, mock_settings
 ):
     """Test adding and annotating an added omic unit to the analysis"""
 
@@ -62,6 +63,7 @@ async def test_editing_manual_omic_unit_in_analysis(client, mock_access_token):
     assert response.status_code == 200
     actual_genomic_units = json.loads(response.text)
     assert len(actual_genomic_units) == 2
+
 
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")

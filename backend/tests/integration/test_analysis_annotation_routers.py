@@ -16,6 +16,7 @@ async def test_get_annotations_by_gene_in_analysis(client, mock_access_token):
     assert response.status_code == 200
     assert len(response.json()) == 6
 
+
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")
 @pytest.mark.usefixtures("mock_security_get_project_authorization")

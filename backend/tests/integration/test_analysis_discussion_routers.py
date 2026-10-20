@@ -3,6 +3,7 @@
 import json
 import pytest
 
+
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")
 @pytest.mark.usefixtures("mock_security_get_project_authorization")
@@ -34,6 +35,7 @@ async def test_add_new_discussion_to_analysis(client, mock_access_token_header):
     assert actual_most_recent_post['author_fullname'] == 'Developer'
     assert actual_most_recent_post['content'] == new_post_content
 
+
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")
 @pytest.mark.usefixtures("mock_security_get_project_authorization")
@@ -60,6 +62,7 @@ async def test_update_discussion_post_in_analysis(client, mock_access_token):
     assert len(response.json()) == 3
     assert actual_post['content'] == discussion_content
 
+
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")
 @pytest.mark.usefixtures("mock_security_get_project_authorization")
@@ -80,6 +83,7 @@ async def test_update_post_in_analysis_author_mismatch(client, mock_access_token
     assert response.status_code == 401
     assert response.json() == expected_failure_detail
 
+
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")
 @pytest.mark.usefixtures("mock_security_get_project_authorization")
@@ -88,13 +92,13 @@ async def test_delete_discussion_post_in_analysis(client, mock_access_token):
     cpam_analysis = "CPAM0002"
     discussion_post_id = "e6023fa7-b598-416a-9f42-862c826255ef"
 
-
     response = await client.delete(
         "/analysis/" + cpam_analysis + "/discussions/" + discussion_post_id,
         headers={"Authorization": "Bearer " + mock_access_token}
     )
 
     assert len(response.json()) == 2
+
 
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")
@@ -116,6 +120,7 @@ async def test_delete_discussion_post_with_thread(client, mock_access_token):
     assert discussion_post is not None
     assert len(discussion_post["content"]) == 0
     assert discussion_post["author_fullname"] == ""
+
 
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")
@@ -238,14 +243,11 @@ async def test_delete_discussion_reply_from_analysis(client, mock_access_token, 
         headers={"Authorization": "Bearer " + mock_access_token},
     )
 
-    discussion_post = next(
-        (item for item in response.json() if item['post_id'] == discussion_post_id), None
-    )
+    discussion_post = next((item for item in response.json() if item['post_id'] == discussion_post_id), None)
 
     assert len(discussion_post['thread']) == 1
 
-    discussion_reply = next(
-        (reply for reply in discussion_post["thread"] if reply['reply_id'] == discussion_reply_id), None
-    )
+    discussion_reply = next((reply for reply in discussion_post["thread"] if reply['reply_id'] == discussion_reply_id),
+                            None)
 
     assert discussion_reply is None

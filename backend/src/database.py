@@ -51,4 +51,3 @@ class Database:
     async def ping(self):
         """Wrapper method to confirm sucessful datbaase connection"""
         return await self.database.command("ping")
-

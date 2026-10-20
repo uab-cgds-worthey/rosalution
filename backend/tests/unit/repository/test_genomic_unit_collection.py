@@ -7,6 +7,7 @@ from bson import ObjectId
 
 from src.enums import GenomicUnitType
 
+
 @pytest.mark.anyio
 async def test_find_genomic_units(genomic_unit_collection):
     """ Gets all the genomic units from the genomic unit collection """
@@ -32,6 +33,7 @@ async def test_transcripts_annotations_exists(transcript_annotation_unit, genomi
     actual = await genomic_unit_collection.annotation_exist(annotation_unit)
     assert actual == expected_value
     assert genomic_unit_collection.collection.count_documents.call_count == expected_call_count
+
 
 @pytest.mark.anyio
 @pytest.mark.parametrize(
@@ -62,6 +64,7 @@ async def test_genomic_units_annotations_exists(
         limit=1,
     )
     assert actual is expected
+
 
 @pytest.mark.anyio
 @pytest.mark.parametrize(
@@ -99,6 +102,7 @@ async def test_find_genomic_unit_annotation_values(
 
     assert actual_value == expected
 
+
 @pytest.mark.anyio
 async def test_annotate_transcript_genomic_unit(genomic_unit_collection):
     """ Verifies that a transcript annotates a genomic unit properly """
@@ -124,6 +128,7 @@ async def test_annotate_transcript_genomic_unit(genomic_unit_collection):
 
     assert genomic_unit_collection.collection.update_one.call_count == 3
 
+
 @pytest.mark.anyio
 @pytest.mark.parametrize(
     "prepare_test_annotate", [('VMA21', 'Entrez Gene Id', "rosalution-manifest-01", 203547, False),
@@ -144,6 +149,7 @@ async def test_annotate_genomic_unit(prepare_test_annotate, genomic_unit_collect
     await genomic_unit_collection.annotate_genomic_unit(annotation_unit.genomic_unit, genomic_annotation)
 
     assert genomic_unit_collection.collection.update_one.call_count == 2
+
 
 @pytest.mark.anyio
 async def test_annotation_genomic_unit_with_file(genomic_unit_collection, get_annotation_json):
@@ -172,6 +178,7 @@ async def test_annotation_genomic_unit_with_file(genomic_unit_collection, get_an
     genomic_unit_collection.collection.find_one_and_update.assert_called_once()
     actual_updated_genomic_unit = genomic_unit_collection.collection.find_one_and_update.call_args_list[0][0][1]['$set']
     assert actual_updated_genomic_unit == expected_genomic_unit
+
 
 @pytest.mark.anyio
 async def test_update_existing_genomic_unit_file_annotation(genomic_unit_collection, get_annotation_json):
@@ -210,6 +217,7 @@ async def test_update_existing_genomic_unit_file_annotation(genomic_unit_collect
     actual_updated_genomic_unit = genomic_unit_collection.collection.find_one_and_update.call_args_list[0][0][1]['$set']
     assert actual_updated_genomic_unit == expected_genomic_unit
 
+
 @pytest.mark.anyio
 async def test_remove_existing_genomic_unit_file_annotation(genomic_unit_collection, get_annotation_json):
     """ Accepts a request to remove an existing file annotation """
@@ -240,6 +248,7 @@ async def test_remove_existing_genomic_unit_file_annotation(genomic_unit_collect
     genomic_unit_collection.collection.find_one_and_update.assert_called_once()
     actual_updated_genomic_unit = genomic_unit_collection.collection.find_one_and_update.call_args_list[0][0][1]['$set']
     assert actual_updated_genomic_unit == expected_genomic_unit
+
 
 @pytest.fixture(name="prepare_test_annotate", scope="function")
 def prepare_test_annotate_genomic_units(request, get_annotation_unit, get_annotation_json):

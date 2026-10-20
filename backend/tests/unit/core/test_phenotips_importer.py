@@ -99,6 +99,7 @@ def test_extracting_hpo_terms(new_analysis_import_json):
 
     assert actual_extraction_string == expected_extraction_string
 
+
 @pytest.mark.anyio
 async def test_import_phenotips_json(phenotips_importer, analysis_collection, new_analysis_import_json):
     """Tests the import_phenotips_json function"""
@@ -118,5 +119,5 @@ def fixture_phenotips_importer(analysis_collection, genomic_unit_collection):
 @pytest.fixture(name="new_analysis_import_json")
 def fixture_phenotips_import():
     """Returns a phenotips json fixture"""
-    
+
     return read_assset_fixture("new-analysis-import.json")
