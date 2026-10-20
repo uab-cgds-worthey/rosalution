@@ -1,6 +1,6 @@
 services:
   rosalution-integration-db:
-    image: mongo:8.3.7-noble
+    image: mongo:8.0.3
     volumes:
       - ./init-rs.js:/docker-entrypoint-initdb.d/01-init-rs.js
       - ./initial-db-seed.sh:/docker-entrypoint-initdb.d/02-initial-db-seed.sh

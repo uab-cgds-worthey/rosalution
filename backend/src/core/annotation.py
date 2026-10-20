@@ -154,6 +154,7 @@ class AnnotationService:
 
                 while not processor.annotation_unit_queue_empty() or processor.are_tasks_processing():
                     if processor.annotation_unit_queue_empty():
+                        logger.info("%s Waiting for processing '%s' annotation tasks to complete ...", annotation_log_label(), processor.number_of_tasks_processing())
                         await asyncio.sleep(60)
                         continue
 
@@ -208,6 +209,9 @@ class AnnotationProcess():
     def annotation_unit_queue_empty(self) -> bool:
         """Checks if the annotations queue is empty."""
         return self.queue.empty()
+
+    def number_of_tasks_processing(self) -> int:
+        return len(self.annotation_task_futures)
 
     def are_tasks_processing(self) -> bool:
         """"Returns True if there are annotation tasks processing, otherwise returns False."""
