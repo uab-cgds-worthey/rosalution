@@ -264,7 +264,7 @@ class GenomicUnitCollection:
                         annotation[data_set][0]['value'].pop(i)
                         break
 
-        return self.update_genomic_unit_by_mongo_id(genomic_unit_document)
+        return await self.update_genomic_unit_by_mongo_id(genomic_unit_document)
 
     async def create_genomic_unit(self, genomic_unit):
         """

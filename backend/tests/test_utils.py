@@ -38,6 +38,9 @@ def fixture_filepath(filename):
     current_directory = os.path.split(path_to_current_file)[0]
     return os.path.join(current_directory, ASSETS_FIXTURE_PATH + filename)
 
+def read_assset_fixture(fixture_name):
+    return read_fixtures(ASSETS_FIXTURE_PATH, fixture_name)
+
 
 def read_database_fixture(fixture_filename):
     """reads the JSON from the filepath relative to the database fixtures in etc"""

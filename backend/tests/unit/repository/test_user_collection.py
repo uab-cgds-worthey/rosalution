@@ -24,6 +24,10 @@ async def test_find_user_by_username_successful(user_collection):
 async def test_find_user_by_username_unsuccessful(user_collection):
     """ Handles failing to find a user by username """
     user_collection.collection.find_one.return_value = None
+    user_collection.collection.find_one_and_update.return_value = {
+        "_id": "fake-object-id",
+        "mock-success": True
+    }
     user = await user_collection.find_by_username("johnnybravo")
     assert user is None
 
@@ -34,7 +38,7 @@ async def test_find_user_by_client_by_id_successful(user_collection):
     client_id = "fake-client-id"
 
     await user_collection.find_by_client_id(client_id)
-    user_collection.collection.find_one_assert_called_with({"client_id": client_id})
+    await user_collection.collection.find_one_assert_called_with({"client_id": client_id})
 
 @pytest.mark.anyio
 async def test_find_user_by_client_by_id_unsuccessful(user_collection):
@@ -48,6 +52,11 @@ async def test_update_client_secret_successful(user_collection):
     """ Updates the existing client secret """
     client_id = "fake-client-id"
     client_secret = "fake-client-secret"
+
+    user_collection.collection.find_one_and_update.return_value = {
+        '_id': 'fake-useclient-id',
+        'success': True
+    }
 
     await user_collection.update_client_secret(client_id, client_secret)
 

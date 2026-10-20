@@ -3,7 +3,7 @@ This test module goes over the security.py file and tests what is
 required for a user to successfully authenticate with the system
 """
 
-from unittest.mock import Mock
+from unittest.mock import AsyncMock, Mock
 
 import pytest
 
@@ -142,16 +142,16 @@ def test_generate_client_secret():
     assert len(client_secret) == 32
 
 
-def test_project_authorization_successful(
+@pytest.mark.anyio
+async def test_project_authorization_successful(
     user_collection, analysis_collection, cpam0002_analysis_json, client_id_from_get_current_user
 ):
     """Shows a completely successful authentication process and what is required"""
-    analysis_collection.project_id_by_name = Mock(return_value=str(cpam0002_analysis_json["project_id"]))
-
+    analysis_collection.project_id_by_name = AsyncMock(return_value=str(cpam0002_analysis_json["project_id"]))
     database = {'user': user_collection, 'analysis': analysis_collection}
 
     analysis_name = "CPAM0002"
-    authorization = get_project_authorization(analysis_name, database, client_id_from_get_current_user)
+    authorization = await get_project_authorization(database, client_id_from_get_current_user, analysis_name)
 
     assert authorization is True
 

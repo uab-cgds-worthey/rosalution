@@ -1,9 +1,11 @@
 """Tests importing the phenotips data"""
+import json
+
 import pytest
 
 from src.core.phenotips_importer import PhenotipsImporter
 
-from ...test_utils import read_test_fixture
+from ...test_utils import read_test_fixture, assets_fixture_filepath, read_assset_fixture
 
 
 def test_import_genomic_unit_data_hgvs(phenotips_importer):
@@ -97,13 +99,13 @@ def test_extracting_hpo_terms(new_analysis_import_json):
 
     assert actual_extraction_string == expected_extraction_string
 
-
-def test_import_phenotips_json(phenotips_importer, analysis_collection, new_analysis_import_json):
+@pytest.mark.anyio
+async def test_import_phenotips_json(phenotips_importer, analysis_collection, new_analysis_import_json):
     """Tests the import_phenotips_json function"""
     analysis_collection.collection.find_one.return_value = None
     incoming_phenotips_json = new_analysis_import_json
     incoming_phenotips_json["external_id"] = "C-PAM12345"
-    actual = phenotips_importer.import_phenotips_json(incoming_phenotips_json)
+    actual = await phenotips_importer.import_phenotips_json(incoming_phenotips_json)
     assert actual["name"] == "CPAM12345"
 
 
@@ -116,4 +118,5 @@ def fixture_phenotips_importer(analysis_collection, genomic_unit_collection):
 @pytest.fixture(name="new_analysis_import_json")
 def fixture_phenotips_import():
     """Returns a phenotips json fixture"""
-    return read_test_fixture("new-analysis-import.json")
+    
+    return read_assset_fixture("new-analysis-import.json")

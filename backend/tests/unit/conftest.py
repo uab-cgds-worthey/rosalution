@@ -64,7 +64,9 @@ def fixture_analysis_collection_json(cpam0002_analysis_json, cpam0046_analysis_j
 def fixture_analysis_collection(analysis_collection_json):
     """Returns the analysis collection to be mocked"""
     mock_collection = mock_mongo_collection()
-    mock_collection.find = Mock(return_value=analysis_collection_json)
+    mock_cursor = MagicMock()
+    mock_cursor.to_list = AsyncMock(return_value=analysis_collection_json)
+    mock_collection.find = MagicMock(return_value=mock_cursor)
     return AnalysisCollection(mock_collection)
 
 
@@ -303,7 +305,7 @@ def fixture_users_json():
 def fixture_users_collection(users_json):
     """Returns the annotation collection for the datasets to be mocked"""
     mock_collection = mock_mongo_collection()
-    mock_collection.find_one = Mock(return_value=users_json[0])
+    mock_collection.find_one = AsyncMock(return_value=users_json[0])
     return UserCollection(mock_collection)
 
 
