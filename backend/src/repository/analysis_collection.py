@@ -623,9 +623,10 @@ class AnalysisCollection:
 
         return updated_document
 
-    def update_attachment(self, analysis_name: str, attachment_id: str, updated_content: dict):
+    async def update_attachment(self, analysis_name: str, attachment_id: str, updated_content: dict):
         """Updates attachment content for an analysis using the attachment id"""
-        analysis_attachments = self.collection.find_one({"name": analysis_name})["attachments"]
+        analysis = await self.collection.find_one({"name": analysis_name})
+        analysis_attachments = analysis["attachments"]
         index_to_update = analysis_attachments.index(
             next(filter(lambda x: x["attachment_id"] == attachment_id, analysis_attachments), None)
         )
@@ -638,7 +639,7 @@ class AnalysisCollection:
             analysis_attachments[index_to_update]['data'] = updated_content['data']
         analysis_attachments[index_to_update]['comments'] = updated_content['comments']
 
-        updated_document = self.collection.find_one_and_update(
+        updated_document = await self.collection.find_one_and_update(
             {"name": analysis_name},
             {"$set": {"attachments": analysis_attachments}},
             return_document=ReturnDocument.AFTER,

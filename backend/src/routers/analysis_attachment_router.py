@@ -79,7 +79,7 @@ async def attach_file(
     response_model=List,
     dependencies=[Security(get_write_project_authorization)]
 )
-def update_attachment(
+async def update_attachment(
     analysis_name: str, attachment_id: str, updated_attachment: Annotated[IncommingUpdatedAttachment,
                                                                           Form()], repositories: DatabaseDepends
 ):
@@ -91,7 +91,7 @@ def update_attachment(
     }
 
     try:
-        updated_analysis_json = repositories["analysis"].update_attachment(analysis_name, attachment_id, content)
+        updated_analysis_json = await repositories["analysis"].update_attachment(analysis_name, attachment_id, content)
         return updated_analysis_json["attachments"]
     except ValueError as exception:
         raise HTTPException(status_code=404, detail=str(exception)) from exception

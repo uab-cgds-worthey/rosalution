@@ -76,13 +76,8 @@ const workflowFilteredAnalysisList = computed(() => {
 });
 
 const searchedAnalysisListing = computed(() => {
-  // console.log("COMPUTED-searchedAnalysisListing ---")
-  // console.log('SearchString: ', searchText.value)
   const lowerCaseSearchText = searchText.value.toLowerCase();
-  // console.log('SearchString(lower): ',lowerCaseSearchText)
   const hasSearchText = searchText.value === '';
-  // console.log('Has search text: ', !hasSearchText);
-  // console.log('workflow filtered list: ', workflowFilteredAnalysisList.value)
 
   if ( hasSearchText ) {
     return workflowFilteredAnalysisList.value;
@@ -94,34 +89,22 @@ const searchedAnalysisListing = computed(() => {
       analysis.nominated_by,
       analysis.project_name,
     ];
-    // console.log('SEARCH ANALYSIT LISTING FILTERING')
-    // console.log(analysisContent);
+
     const wasFound = analysisContent.some((content) => {
-      const individFOund = content.toLowerCase().includes(lowerCaseSearchText);
-      // console.log('SEARCH ANALYSIT LISTING FILTERING: the count found? ', individFOund, lowerCaseSearchText, content);
-      return individFOund;
+      const individualFound = content.toLowerCase().includes(lowerCaseSearchText) ||
+        analysis.genomic_units.some((unit) => {
+          return (unit.gene && unit.gene.toLowerCase().includes(lowerCaseSearchText)) ||
+            (unit.transcripts &&
+              unit.transcripts.some((transcript) => transcript.toLowerCase().includes(lowerCaseSearchText))) ||
+            (unit.variants && unit.variants.some((variant) => variant.toLowerCase().includes(lowerCaseSearchText)));
+        });
+      return individualFound;
     });
-    // console.log('SEARCH ANALYSIT LISTING FILTERING: FOUND? ', wasFound)
     return wasFound;
   });
-  // console.log('Filtered list: ', workflowFilteredAnalysisList.value)
 
   return filteredList;
 });
-  // return !hasSearchText ? workflowFilteredAnalysisList.value : workflowFilteredAnalysisList.value.filter((analysis) => {
-  //   return [analysis.name,
-  //     analysis.created_date,
-  //     analysis.last_modified_date,
-  //     analysis.nominated_by,
-  //     analysis.project_name,
-  //   ].some((content) => content.toLowerCase().includes(lowerCaseSearchText)) ||
-  //     analysis.genomic_units.some((unit) => {
-  //       return (unit.gene && unit.gene.toLowerCase().includes(lowerCaseSearchText)) ||
-  //         (unit.transcripts &&
-  //           unit.transcripts.some((transcript) => transcript.toLowerCase().includes(lowerCaseSearchText))) ||
-  //         (unit.variants && unit.variants.some((variant) => variant.toLowerCase().includes(lowerCaseSearchText)));
-  //     });
-  // });
 
 const RENDER_LISTING_BATCH_SIZE = 5;
 const renderNextBatch = () => {
@@ -138,7 +121,7 @@ const renderNextBatch = () => {
 
 watch(searchedAnalysisListing, () => {
   renderedAnalysisList.value = [];
-})
+});
 
 watch([workflowFilteredAnalysisList, renderedAnalysisList, searchedAnalysisListing, searchText], () => {
   // console.log("WATCHER-Calling RenderNextBatch ---");

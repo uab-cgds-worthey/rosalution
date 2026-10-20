@@ -123,21 +123,21 @@ async def update_annotation_image(
     annotation_value = {"file_id": str(new_file_id), "created_date": str(datetime.now())}
 
     try:
-        repositories['genomic_unit'].update_genomic_unit_file_annotation(
+        await repositories['genomic_unit'].update_genomic_unit_file_annotation(
             genomic_unit_json, data_set_name, annotation_value, old_file_id
         )
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
     try:
-        updated_genomic_unit = repositories["genomic_unit"].remove_genomic_unit_file_annotation(
+        updated_genomic_unit = await repositories["genomic_unit"].remove_genomic_unit_file_annotation(
             genomic_unit_json, data_set_name, old_file_id
         )
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
     try:
-        repositories["bucket"].delete_file(old_file_id)
+        await repositories["bucket"].delete_file(old_file_id)
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
@@ -153,7 +153,7 @@ async def update_annotation_image(
     response_model=List,
     dependencies=[Security(get_authorization, scopes=["write"])]
 )
-def remove_annotation_image(
+async def remove_annotation_image(
     genomic_unit: str, data_set_name: str, file_id: str, genomic_unit_type: GenomicUnitType,
     repositories: DatabaseDepends
 ):
@@ -161,14 +161,14 @@ def remove_annotation_image(
     genomic_unit_json = {'unit': genomic_unit, 'type': genomic_unit_type}
 
     try:
-        updated_genomic_unit = repositories["genomic_unit"].remove_genomic_unit_file_annotation(
+        updated_genomic_unit = await repositories["genomic_unit"].remove_genomic_unit_file_annotation(
             genomic_unit_json, data_set_name, file_id
         )
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
     try:
-        repositories["bucket"].delete_file(file_id)
+        await repositories["bucket"].delete_file(file_id)
     except Exception as exception:
         raise HTTPException(status_code=500, detail=str(exception)) from exception
 
