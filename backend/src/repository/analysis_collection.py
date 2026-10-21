@@ -145,15 +145,18 @@ class AnalysisCollection:
         """
         Edits the reason of interest for manually added genomic unit by analysis name, gene, and variant.
         """
-        updated_analysis = await self.collection.find_one_and_update({"name": analysis_name, "genomic_units.gene": gene}, {
+        updated_analysis = await self.collection.find_one_and_update({
+            "name": analysis_name, "genomic_units.gene": gene
+        }, {
             '$set': {
                 "genomic_units.$[unit].variants.$[variant].case":
                     [{"field": "Reason of Interest", "value": reason_of_interest}]
             }
         },
-                                                               array_filters=[{"unit.gene": gene},
-                                                                              {"variant.hgvs_variant": hgvs_variant}],
-                                                               return_document=ReturnDocument.AFTER)
+                                                                     array_filters=[{"unit.gene": gene}, {
+                                                                         "variant.hgvs_variant": hgvs_variant
+                                                                     }],
+                                                                     return_document=ReturnDocument.AFTER)
 
         return updated_analysis
 
@@ -183,7 +186,7 @@ class AnalysisCollection:
                 }
             }
         }, {"$pull": {"genomic_units.$[unit].variants": {"hgvs_variant": hgvs_variant}}},
-                                   array_filters=[{'unit.gene': gene}])
+                                         array_filters=[{'unit.gene': gene}])
 
         await self.collection.update_one({
             "name": analysis_name,
@@ -209,10 +212,11 @@ class AnalysisCollection:
         updated_document = await self.collection.find_one_and_update({
             "name": analysis_name, "manifest.unit": annotation_unit.get_genomic_unit()
         }, {"$addToSet": {"manifest.$[entry].manifest": dataset}},
-                                                               array_filters=[{
-                                                                   'entry.unit': annotation_unit.get_genomic_unit()
-                                                               }],
-                                                               return_document=ReturnDocument.AFTER)
+                                                                     array_filters=[{
+                                                                         'entry.unit':
+                                                                             annotation_unit.get_genomic_unit()
+                                                                     }],
+                                                                     return_document=ReturnDocument.AFTER)
 
         return updated_document['manifest']
 
@@ -433,7 +437,7 @@ class AnalysisCollection:
                 content_row["value"].append({'file_id': str(file_id)})
 
         return await self.collection.find_one_and_update({"name": analysis_name}, {'$set': updated_document},
-                                                   return_document=ReturnDocument.AFTER)
+                                                         return_document=ReturnDocument.AFTER)
 
     async def update_section_image(
         self, analysis_name: str, section_name: str, field_name: str, file_id: str, file_id_old: str
@@ -463,12 +467,15 @@ class AnalysisCollection:
                         content_row["value"].append({'file_id': str(file_id)})
                         break
 
-        updated_analysis_json = await self.collection.find_one_and_update({'name': analysis_name}, {'$set': updated_document},
-                                                                    return_document=ReturnDocument.AFTER)
+        updated_analysis_json = await self.collection.find_one_and_update({'name': analysis_name},
+                                                                          {'$set': updated_document},
+                                                                          return_document=ReturnDocument.AFTER)
 
         return updated_analysis_json['sections']
 
-    async def remove_section_attachment(self, analysis_name: str, section_name: str, field_name: str, attachment_id: str):
+    async def remove_section_attachment(
+        self, analysis_name: str, section_name: str, field_name: str, attachment_id: str
+    ):
         """ Accepts a file id and removes the reference from corresponding analysis section, returns all of the sections
          with an analysis """
         updated_document = await self.collection.find_one({"name": analysis_name})
@@ -495,16 +502,17 @@ class AnalysisCollection:
                             content_row['value'].pop(i)
                             break
 
-        updated_analysis_json = await self.collection.find_one_and_update({'name': analysis_name}, {'$set': updated_document},
-                                                                    return_document=ReturnDocument.AFTER)
+        updated_analysis_json = await self.collection.find_one_and_update({'name': analysis_name},
+                                                                          {'$set': updated_document},
+                                                                          return_document=ReturnDocument.AFTER)
         return updated_analysis_json['sections']
 
     async def add_discussion_post(self, analysis_name: str, discussion_post: object):
         """ Appends a new discussion post to an analysis """
 
         updated_document = await self.collection.find_one_and_update({"name": analysis_name},
-                                                               {"$push": {"discussions": discussion_post}},
-                                                               return_document=ReturnDocument.AFTER)
+                                                                     {"$push": {"discussions": discussion_post}},
+                                                                     return_document=ReturnDocument.AFTER)
 
         updated_document.pop("_id", None)
 
@@ -516,8 +524,10 @@ class AnalysisCollection:
         updated_document = await self.collection.find_one_and_update({"name": analysis_name}, {
             "$set": {"discussions.$[item].content": discussion_content}
         },
-                                                               array_filters=[{"item.post_id": discussion_post_id}],
-                                                               return_document=ReturnDocument.AFTER)
+                                                                     array_filters=[{
+                                                                         "item.post_id": discussion_post_id
+                                                                     }],
+                                                                     return_document=ReturnDocument.AFTER)
 
         updated_document.pop("_id", None)
         return updated_document['discussions']
@@ -532,8 +542,10 @@ class AnalysisCollection:
                     True
             }
         },
-                                                               array_filters=[{"item.post_id": discussion_post_id}],
-                                                               return_document=ReturnDocument.AFTER)
+                                                                     array_filters=[{
+                                                                         "item.post_id": discussion_post_id
+                                                                     }],
+                                                                     return_document=ReturnDocument.AFTER)
 
         updated_document.pop("_id", None)
 
@@ -545,7 +557,7 @@ class AnalysisCollection:
         updated_document = await self.collection.find_one_and_update({"name": analysis_name}, {
             "$pull": {"discussions": {"post_id": discussion_post_id}}
         },
-                                                               return_document=ReturnDocument.AFTER)
+                                                                     return_document=ReturnDocument.AFTER)
 
         updated_document.pop("_id", None)
 
@@ -557,8 +569,10 @@ class AnalysisCollection:
         updated_document = await self.collection.find_one_and_update({"name": analysis_name}, {
             "$push": {"discussions.$[item].thread": discussion_reply}
         },
-                                                               array_filters=[{"item.post_id": discussion_post_id}],
-                                                               return_document=ReturnDocument.AFTER)
+                                                                     array_filters=[{
+                                                                         "item.post_id": discussion_post_id
+                                                                     }],
+                                                                     return_document=ReturnDocument.AFTER)
 
         updated_document.pop("_id", None)
 
@@ -572,9 +586,10 @@ class AnalysisCollection:
         updated_document = await self.collection.find_one_and_update({"name": analysis_name}, {
             "$set": {"discussions.$[post].thread.$[reply].content": discussion_reply_content}
         },
-                                                               array_filters=[{"post.post_id": discussion_post_id},
-                                                                              {"reply.reply_id": discussion_reply_id}],
-                                                               return_document=ReturnDocument.AFTER)
+                                                                     array_filters=[{
+                                                                         "post.post_id": discussion_post_id
+                                                                     }, {"reply.reply_id": discussion_reply_id}],
+                                                                     return_document=ReturnDocument.AFTER)
 
         updated_document.pop("_id", None)
 
@@ -586,8 +601,10 @@ class AnalysisCollection:
         updated_document = await self.collection.find_one_and_update({"name": analysis_name}, {
             "$pull": {"discussions.$[post].thread": {"reply_id": discussion_reply_id}}
         },
-                                                               array_filters=[{"post.post_id": discussion_post_id}],
-                                                               return_document=ReturnDocument.AFTER)
+                                                                     array_filters=[{
+                                                                         "post.post_id": discussion_post_id
+                                                                     }],
+                                                                     return_document=ReturnDocument.AFTER)
 
         updated_document.pop("_id", None)
 

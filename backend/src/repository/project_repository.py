@@ -43,7 +43,7 @@ class ProjectRepository:
 
     async def all_analyses(self, client_id: str) -> list:
         """Returns all analyses available to the user by client id"""
-        # print("CLIENT ID", client_id) 
+        # print("CLIENT ID", client_id)
         pipeline = [{"$match": {"client_id": client_id}}, {
             "$lookup": {
                 "from": "analyses", "let": {"projectIds": '$project_ids'},
@@ -51,7 +51,7 @@ class ProjectRepository:
             }
         }, {"$unwind": "$analyses"}, {"$replaceRoot": {"newRoot": "$analyses"}},
                     {"$project": ProjectRepository.complete_query_projection()}]
-        
+
         query_result = await self.user_collection.aggregate(pipeline)
         return await query_result.to_list()
 

@@ -178,8 +178,8 @@ class GenomicUnitCollection:
         genomic_unit_id = genomic_unit_document['_id']
 
         return await self.collection.find_one_and_update({'_id': ObjectId(str(genomic_unit_id))},
-                                                   {'$set': genomic_unit_document},
-                                                   return_document=ReturnDocument.AFTER)
+                                                         {'$set': genomic_unit_document},
+                                                         return_document=ReturnDocument.AFTER)
 
     async def annotate_genomic_unit(self, genomic_unit, genomic_annotation):
         """

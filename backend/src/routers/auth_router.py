@@ -17,9 +17,10 @@ from ..models.user import User, AccessUserAPI
 from ..security.oauth2 import OAuth2ClientCredentialsRequestForm, HTTPClientCredentials, HTTPBasicClientCredentials
 from ..security.security import (create_access_token, get_authorization, get_current_user, generate_client_secret)
 
-router = APIRouter( prefix="/auth", tags=["auth"] )
+router = APIRouter(prefix="/auth", tags=["auth"])
 
 logger = logging.getLogger(__name__)
+
 
 @lru_cache
 def get_cas_client(settings: Annotated[Settings, Depends(get_settings)]) -> CASClient:
@@ -30,7 +31,9 @@ def get_cas_client(settings: Annotated[Settings, Depends(get_settings)]) -> CASC
         server_url=settings.cas_server_url,
     )
 
+
 token_scheme = HTTPBasicClientCredentials(auto_error=False, scheme_name="oAuth2ClientCredentials")
+
 
 ## Test Route ##
 @router.get("/write_only_test")
@@ -89,6 +92,7 @@ async def login(
     response.set_cookie(key="rosalution_TOKEN", value=access_token)
 
     return response
+
 
 @router.post("/token")
 async def issue_oauth2_token(
@@ -185,9 +189,7 @@ async def fetch_user_api_creds(
 
 @router.get("/logout")
 def logout_oauth(
-    request: Request,
-    response: Response,
-    settings: Annotated[Settings, Depends(get_settings)],
+    request: Request, response: Response, settings: Annotated[Settings, Depends(get_settings)],
     cas_client: Annotated[CASClient, Depends(get_cas_client)]
 ):
     """ Destroys the session and determines if the request was local or production and returns the proper url """

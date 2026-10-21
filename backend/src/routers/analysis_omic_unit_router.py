@@ -7,7 +7,6 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Security, BackgroundTasks, HTTPException, status
 from pydantic import BaseModel
 
-
 from ..dependencies import DatabaseDepends, annotation_queue
 from ..security.security import get_write_project_authorization
 
@@ -72,8 +71,10 @@ async def add_genomic_units(
 
     # Calling AnnotationService to queue annotation tasks by given unit
     annotation_service = AnnotationService(repositories["annotation_config"])
-    await annotation_service.queue_annotation_tasks_by_unit(analysis, new_genomic_unit_to_annotate, annotation_task_queue)
-    
+    await annotation_service.queue_annotation_tasks_by_unit(
+        analysis, new_genomic_unit_to_annotate, annotation_task_queue
+    )
+
     background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, settings)
 
     return updated_analysis_json["genomic_units"]
@@ -104,7 +105,9 @@ async def delete_manual_genomic_unit(analysis_name: str, gene: str, hgvs_variant
     """
 
     try:
-        updated_analysis_json = await repositories["analysis"].delete_manual_omic_unit(analysis_name, gene, hgvs_variant)
+        updated_analysis_json = await repositories["analysis"].delete_manual_omic_unit(
+            analysis_name, gene, hgvs_variant
+        )
     except ValueError as exception:
         raise HTTPException(status_code=status.HTTP_405_METHOD_NOT_ALLOWED, detail=str(exception)) from exception
 

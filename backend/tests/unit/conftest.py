@@ -157,7 +157,6 @@ def get_dataset_manifest_config(analysis_collection_json):
         )
         dataset_manifest = next((item for item in omic_unit_manifest['manifest'] if dataset_name in item), None)
 
-        print(json.dumps(dataset_manifest, indent=2))
         dataset_config = {
             "data_set": dataset_name, "data_source": dataset_manifest[dataset_name]['data_source'],
             "version": dataset_manifest[dataset_name]['version']

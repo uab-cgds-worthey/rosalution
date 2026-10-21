@@ -54,7 +54,7 @@ class UserCollection:
                 }
             }
         }]
-        
+
         async with await self.collection.aggregate(pipeline) as found_user_cursor:
             user = await found_user_cursor.try_next()
             print(user)
@@ -68,8 +68,9 @@ class UserCollection:
 
     async def update_client_secret(self, client_id: str, client_secret: str):
         """ Takes a generated client secret and saves it the user with the associated client id """
-        user = await self.collection.find_one_and_update({'client_id': client_id}, {'$set': {'client_secret': client_secret}},
-                                                   return_document=ReturnDocument.AFTER)
+        user = await self.collection.find_one_and_update({'client_id': client_id},
+                                                         {'$set': {'client_secret': client_secret}},
+                                                         return_document=ReturnDocument.AFTER)
 
         if user is None:
             return None

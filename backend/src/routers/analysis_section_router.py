@@ -25,7 +25,9 @@ async def add_file_to_bucket_repository(file_to_save, bucket_repository):
     response_model=List[Section],
     dependencies=[Security(get_write_project_authorization)]
 )
-async def update_many_analysis_sections(analysis_name: str, updated_sections: List[Section], repositories: DatabaseDepends):
+async def update_many_analysis_sections(
+    analysis_name: str, updated_sections: List[Section], repositories: DatabaseDepends
+):
     """Updates the sections that have changes"""
 
     await repositories["analysis"].update_analysis_sections(analysis_name, updated_sections)
@@ -152,7 +154,9 @@ async def update_analysis_section_image(
     updated_analysis_sections = None
 
     if row_type is SectionRowType.IMAGE:
-        new_file_id = await repositories["bucket"].save_file(upload_file.file, upload_file.filename, upload_file.content_type)
+        new_file_id = await repositories["bucket"].save_file(
+            upload_file.file, upload_file.filename, upload_file.content_type
+        )
         updated_analysis_sections = await repositories['analysis'].update_section_image(
             analysis_name, section_name, field_name, new_file_id, attachment_id
         )

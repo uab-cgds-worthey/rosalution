@@ -134,16 +134,10 @@ class SkipDependencies:  # pylint: disable=too-few-public-methods
     """ A skip annotation dependencies helper class that allows tester to dictate which datasets to skip once to
     emulate a depedency not existing the first time when preparing an Annotation Task for annotation."""
 
-    def __init__(self, dependencies_to_skip=None):
+    def __init__(self, dependencies_to_skip=["HGNC_ID"]):
         """ Dictating the list of  of dataset names to emulate that dataset annotation not existing."""
         self.skip_tracker = {}
-        self.to_skip = dependencies_to_skip if dependencies_to_skip else ["HGNC_ID"]
-        self.mock_manifest_entry = {
-            "data_set": "mock-dataset", "data_source": "mock-datasource", "version": "fake-version"
-        }
-
-    def set_analysis_manifest_entry(self, dependency_manifest_entry: dict):
-        self.mock_manifest_entry = dependency_manifest_entry
+        self.to_skip = dependencies_to_skip
 
     async def skip_find_genomic_unit_annotation_value_mock(self, *args):
         """ Mock method that tracks if the provided dependencies are one of the ones indicated to skip"""
@@ -153,36 +147,107 @@ class SkipDependencies:  # pylint: disable=too-few-public-methods
         should_skip = (name in self.to_skip and name not in self.skip_tracker)
         return self.skip_tracker.setdefault(name, None) if should_skip else f"{genomic_unit}-{name}-value"
 
-    async def skip_get_manifest_entry_analysis(self, *args):
-        """ Mock method that tracks if the provided dependencies are one of the ones indicated to skip"""
-        analysis_name, genomic_unit, dataset_name = args
-        if dataset_name not in self.to_skip:
-            return None
 
-        should_skip = dataset_name not in self.skip_tracker
-        return self.skip_tracker.setdefault(dataset_name, None) if should_skip else self.mock_manifest_entry
-
-class AnalysisManifestEntry:  # pylint: disable=too-few-public-methods
+class SkipManifestEntriesExist:  # pylint: disable=too-few-public-methods
     """ A skip annotation dependencies helper class that allows tester to dictate which datasets to skip once to
     emulate a depedency not existing the first time when preparing an Annotation Task for annotation."""
 
-    def __init__(self, dependencies_to_skip=["HGNC_ID"]):
+    def __init__(self, dependencies_to_exist=["HPO_NCBI_GENE_ID"], dependencies_to_skip=["HGNC_ID"]):
         """ Dictating the list of  of dataset names to emulate that dataset annotation not existing."""
         self.skip_tracker = {}
-        self.to_skip = dependencies_to_skip
-        self.mock_manifest_entry = {
-            "data_set": "mock-dataset", "data_source": "mock-datasource", "version": "fake-version"
-        }
+        self.mock_manifest_entry = {}
+        self.dependencies_to_exist = dependencies_to_exist
+        self.dependencies_to_skip = dependencies_to_skip
 
-    def set_analysis_manifest_entry(self, dependency_manifest_entry: dict):
-        self.mock_manifest_entry = dependency_manifest_entry
+        for dataset in (*dependencies_to_skip, *dependencies_to_exist):
+            self.skip_tracker[dataset] = 0
+            self.mock_manifest_entry[dataset] = {
+                "data_set": "mock-dataset", "data_source": "mock-datasource", "version": "fake-version"
+            }
 
+    def set_analysis_manifest_entry(self, dataset_name: str, dependency_manifest_entry: dict):
+        self.mock_manifest_entry[dataset_name] = dependency_manifest_entry
 
-    async def return_no_manifest_entry_unless_depdency_tracked(self, *args):
+    async def fake_get_manifest_dataset_config(self, *args):
         """ Mock method that tracks if the provided dependencies are one of the ones indicated to skip"""
         analysis_name, genomic_unit, dataset_name = args
-        if dataset_name not in self.to_skip:
+
+        #the dependency will not get its manifest entry checked and need to exist to annotate
+        if dataset_name not in self.skip_tracker:
+            print("no manifest entry, not tracked dependency", dataset_name)
             return None
 
-        should_skip = dataset_name not in self.skip_tracker
-        return self.skip_tracker.setdefault(dataset_name, None) if should_skip else self.mock_manifest_entry
+        expected_skip_count_completed = 2 if dataset_name in self.dependencies_to_exist else 2
+        self.skip_tracker[dataset_name] += 1
+        print("tracked dependency increamented from call: ", dataset_name, self.skip_tracker[dataset_name])
+        if expected_skip_count_completed < self.skip_tracker[dataset_name]:
+            print("returning manifest entry: ", not self.skip_tracker[dataset_name] > expected_skip_count_completed)
+            return self.mock_manifest_entry[dataset_name]
+
+        print("returning none for fake manifest entry for dependency")
+
+        return None
+
+
+# class AnnotateTracker:
+#     def __init__(self, initial_queue):
+#         self.annotation_tracker = {}
+
+#         for unit in initial_queue.queue:
+#             self.annotation_tracker[unit] = {
+#                 'analysis_manifest_entry_exist': False,
+#                 'task_annotate_called': True
+#             }
+
+# For CPAM 46, LMNA HGNC_ID, depedency for CLingGen annotation
+# 1. HGNCID hasn't been annotated yet
+#.  process_annotation_unit()
+#       1. check if analysis has a manfiest entry for LMNA HGNCID, It should not
+#       2. does the annotation unit have a clauclated version, NO
+#       2.a handle getting teh version
+#       2.b Creating a Version Task to calculate the version, (pushed onto the same thread loop)
+#       3. EXIT process_annotation unit
+#.  process annotation unit - CLinGen for LMNA
+#       1. check if analysis has manifest entry for Clingen LMNA, NOne
+#       2. does the annotation unit have a clauclated version, NO
+#       2.a handle getting teh version
+#       2.b Creating a Version Task to calculate the version, (pushed onto the same thread loop)
+#       3. EXIT process_annotation unit
+#.  version task for LMNA HNCDID complete, update annotation unit, push back onto original queue
+#.  process_annotation_unit()
+#        1. check if analysis has manifest entry, NOPE
+#       2. version HAS been calculated
+#       # no dependencies, create annotation task, put onto event loop
+#.  version task for LMNA ClinGen complete, update annotation unit, push back onto original queue
+#.  process_annotation_unit()
+#       1. no manifest entry, but has calcualted verison
+#       2. has calcualte version
+#       3. HAS DEPENENCIES
+#       4. for each depedency (HGNCID)
+#       4.a #get all of the missing ones (hgnc_id is not an attribute on annotation unit)
+#       4b. for each missing depepdency
+#            Get Manifest Entry for HGNCID, does the entry eist
+#           NO Entry Exists, meaning can't get depepency,
+#       finsih depency gather
+#       process-annotation-unit, checks if annotation unit ClingGen is READY to annotate,
+#           # no it isn't, because its missing depepdencies (HGNC_ID)
+#           #put back onto the incoming annotation queue
+#
+#.  handle_on_annotation_task_complete thread, annotate task for LMNA HNCDID completed
+#       adds manifest entry to mongodb for analysis
+#       extract and save value to database
+#   Clingen LMNA process
+#.  process_annotation_unit()
+#       1. no manifest entry, but has calcualted verison
+#       2. has calcualte version
+#       3. HAS DEPENENCIES
+#       4. for each depedency (HGNCID)
+#       4.a #get all of the missing ones (hgnc_id is not an attribute on annotation unit)
+#       4b. for each missing depepdency
+#            Get Manifest Entry for HGNCID, does the entry eist
+#            YES, manifest entry exists
+#           Get the value from genomic unit collection, using the manifest entry information gathered
+#       5. finsih depency gather
+#       6. process-annotation-unit, checks if unit clingen is ready
+#       6.a IT IS READY, all conditions met, create task to annotate Clingen LMNA
+#

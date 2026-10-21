@@ -47,14 +47,15 @@ async def login_local_developer(
 
     return response
 
+
 # async def start_database_session(database_client):
 #     async with database_client.start_session() as session:
-#         async with session.bind():   
+#         async with session.bind():
 #             await session.start_transaction()
-#             try: 
+#             try:
 #                 for x in range(60):
 #                     yield f"event: heartbeat\ndata: {x}\n\n"
-            
+
 #                 await asyncio.sleep(1)
 #             except asyncio.CancelledError as e:
 #                 print("ITS CANCELD YO")
@@ -72,4 +73,3 @@ async def login_local_developer(
 
 #     # app.dependency_overrides[get_db] = mock_get_db
 #     return StreamingResponse(coordinates_generator(request.app.state.database.database_client), media_type="text/event-stream")
-

@@ -167,7 +167,9 @@ class GenomicUnitCollectionForTranscripts():
         genomic_unit = await self.collection.update_one(provision_transcript, provision_transcript_update)
 
         provision_dataset, update_operation, array_filters = transcript_query.provision_dataset_query_and_update()
-        genomic_unit = await self.collection.update_one(provision_dataset, update_operation, array_filters=array_filters)
+        genomic_unit = await self.collection.update_one(
+            provision_dataset, update_operation, array_filters=array_filters
+        )
 
         add_annotation_query, add_annotation_update_operation, add_annotation_array_filters = \
             transcript_query.annotate_dataset_query_and_update()
