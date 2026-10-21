@@ -3,10 +3,10 @@ from unittest.mock import patch
 import pytest
 
 
-@patch("src.security.security.verify_password")
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")
-async def test_dev_login(mock_verify_password, client, mock_repositories):
+@patch("src.security.security.verify_password")
+async def test_dev_login(mock_verify_password, client):
     """ Tests the dedicated developer login function """
     mock_verify_password.verify_password.return_value = True
 

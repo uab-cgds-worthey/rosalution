@@ -1,5 +1,4 @@
 """Fixture configuration used for all unit tests"""
-import json
 import queue
 from unittest.mock import AsyncMock, MagicMock, Mock
 import pytest
@@ -161,7 +160,6 @@ def get_dataset_manifest_config(analysis_collection_json):
             "data_set": dataset_name, "data_source": dataset_manifest[dataset_name]['data_source'],
             "version": dataset_manifest[dataset_name]['version']
         }
-        print(json.dumps(dataset_config, indent=2))
         return dataset_config
 
     return _create_dataset_manifest

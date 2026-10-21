@@ -2,16 +2,15 @@
 
 from typing import Annotated, List
 
-from fastapi import (APIRouter, HTTPException, Form, Security, status)
+from fastapi import (APIRouter, Depends, HTTPException, Form, Security, status)
 from fastapi.responses import StreamingResponse
 
-from ..dependencies import DatabaseDepends
+from ..dependencies import get_db
 from ..models.analysis import Analysis, AnalysisSummary
 from ..enums import ThirdPartyLinkType, EventType
 
 from ..models.user import ProjectUser
-from ..security.security import get_current_user, get_project_authorization, \
-    get_write_project_authorization
+from ..security.security import get_current_user, get_project_authorization, get_write_project_authorization
 
 from . import analysis_annotation_router
 from . import analysis_attachment_router
@@ -28,14 +27,16 @@ router.include_router(analysis_omic_unit_router.router)
 
 
 @router.get("", tags=["analysis"], response_model=List[Analysis])
-async def get_all_analyses(repositories: DatabaseDepends, client_id: Annotated[str, Security(get_current_user)]):
+async def get_all_analyses(
+    repositories: Annotated[dict, Depends(get_db)], client_id: Annotated[str, Security(get_current_user)]
+):
     """Returns every analysis available for a user"""
     return await repositories["project"].all_analyses(client_id)
 
 
 @router.get("/summary", tags=["analysis"], response_model=List[AnalysisSummary])
 async def get_all_analyses_summaries(
-    repositories: DatabaseDepends, client_id: Annotated[str, Security(get_current_user)]
+    repositories: Annotated[dict, Depends(get_db)], client_id: Annotated[str, Security(get_current_user)]
 ):
     """Returns a summary for each analysis available to the user"""
     return await repositories["project"].all_summaries(client_id)
@@ -43,7 +44,8 @@ async def get_all_analyses_summaries(
 
 @router.get("/{analysis_name}", tags=["analysis"], response_model=Analysis, response_model_exclude_none=True)
 async def get_analysis_by_name(
-    analysis_name: str, repositories: DatabaseDepends, client_id: Annotated[str, Security(get_current_user)]
+    analysis_name: str, repositories: Annotated[dict, Depends(get_db)], client_id: Annotated[str,
+                                                                                             Security(get_current_user)]
 ):
     """Returns analysis case data by calling method to find case by it's analysis_name"""
     current_user = await repositories["user"].find_by_client_id(client_id)
@@ -62,7 +64,7 @@ async def get_analysis_by_name(
 
 
 @router.get("/{analysis_name}/genomic_units", tags=["analysis"], dependencies=[Security(get_project_authorization)])
-async def get_genomic_units(analysis_name: str, repositories: DatabaseDepends):
+async def get_genomic_units(analysis_name: str, repositories: Annotated[dict, Depends(get_db)]):
     """ Returns a list of genomic units for a given analysis """
     try:
         return await repositories["analysis"].get_genomic_units(analysis_name)
@@ -76,7 +78,7 @@ async def get_genomic_units(analysis_name: str, repositories: DatabaseDepends):
     response_model=AnalysisSummary,
     dependencies=[Security(get_project_authorization)]
 )
-async def get_analysis_summary_by_name(analysis_name: str, repositories: DatabaseDepends):
+async def get_analysis_summary_by_name(analysis_name: str, repositories: Annotated[dict, Depends(get_db)]):
     """Returns a summary of the analysis"""
 
     return await repositories["analysis"].summary_by_name(analysis_name)
@@ -89,7 +91,7 @@ async def get_analysis_summary_by_name(analysis_name: str, repositories: Databas
     dependencies=[Security(get_write_project_authorization)]
 )
 async def update_event(
-    analysis_name: str, event_type: EventType, repositories: DatabaseDepends,
+    analysis_name: str, event_type: EventType, repositories: Annotated[dict, Depends(get_db)],
     client_id: Annotated[str, Security(get_current_user)]
 ):
     """ Updates analysis status """
@@ -101,7 +103,7 @@ async def update_event(
 
 
 @router.get("/download/{file_id}", tags=["analysis"])
-async def download_file_by_id(file_id: str, repositories: DatabaseDepends):
+async def download_file_by_id(file_id: str, repositories: Annotated[dict, Depends(get_db)]):
     """ Returns a file from GridFS using the file's id """
     grid_fs_file = await repositories['bucket'].stream_analysis_file_by_id(file_id)
     return StreamingResponse(grid_fs_file, media_type=grid_fs_file.content_type)
@@ -110,7 +112,7 @@ async def download_file_by_id(file_id: str, repositories: DatabaseDepends):
 @router.get(
     "/{analysis_name}/download/{file_name}", tags=["analysis"], dependencies=[Security(get_project_authorization)]
 )
-async def download(analysis_name: str, file_name: str, repositories: DatabaseDepends):
+async def download(analysis_name: str, file_name: str, repositories: Annotated[dict, Depends(get_db)]):
     """ Returns a file saved to an analysis from GridFS by file name """
     # Does file exist by name in the given analysis?
     file = await repositories['analysis'].find_file_by_name(analysis_name, file_name)
@@ -128,7 +130,10 @@ async def download(analysis_name: str, file_name: str, repositories: DatabaseDep
     dependencies=[Security(get_write_project_authorization)]
 )
 async def attach_third_party_link(
-    analysis_name: str, third_party_enum: ThirdPartyLinkType, repositories: DatabaseDepends, link: str = Form(...)
+    analysis_name: str,
+    third_party_enum: ThirdPartyLinkType,
+    repositories: Annotated[dict, Depends(get_db)],
+    link: str = Form(...)
 ):
     """ This endpoint attaches a third party link to an analysis. """
     try:

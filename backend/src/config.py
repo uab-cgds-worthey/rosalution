@@ -5,7 +5,6 @@ Specifically the SECRET_KEY parameter can be generated and changed with each run
 """
 # pylint: disable=too-few-public-methods
 from functools import lru_cache
-from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 

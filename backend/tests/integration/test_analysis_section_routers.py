@@ -12,8 +12,7 @@ from ..test_utils import assets_fixture_filepath
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_update_analysis_sections(client, mock_access_token):
     """Testing if the update analysis endpoint updates an existing analysis"""
 
@@ -39,8 +38,7 @@ async def test_update_analysis_sections(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_update_individual_section_text_fields(client, mock_access_token):
     """Testing if the update analysis endpoint updates an existing analysis"""
 
@@ -62,8 +60,7 @@ async def test_update_individual_section_text_fields(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_attach_image_to_pedigree_section(client, mock_access_token):
     """ Testing attaching an image to the Pedigree section of an analysis """
 
@@ -95,8 +92,7 @@ async def test_attach_image_to_pedigree_section(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_update_existing_pedigree_section_image(client, mock_access_token):
     """ Testing the update pedigree attachment endpoint """
     mock_section = {'header': 'Pedigree', 'content': [{'fieldName': 'Pedigree'}]}
@@ -116,16 +112,23 @@ async def test_update_existing_pedigree_section_image(client, mock_access_token)
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_remove_existing_pedigree_section_image(client, mock_access_token):
     """ Tests removing an existing image from the pedigree section of CPAM0002 """
     pedigree_image_id = "63505be22888347cf1c275db"
 
     response = await client.delete(
-        "/analysis/CPAM0002/sections/63505be22888347cf1c275db",
+        f"/analysis/CPAM0002/sections/{pedigree_image_id}",
         headers={"Authorization": "Bearer " + mock_access_token}
     )
 
     assert response.status_code == 200
-    # mock_repositories["bucket"].bucket.delete.assert_called_with(ObjectId(pedigree_image_id))
+    returned_sections = TypeAdapter(List[Section]).validate_json(response.content)
+    pedigree_section = next((section for section in returned_sections if section.header == "Pedigree"), None)
+    assert pedigree_section is not None
+
+    actual_updated_field_values = next(
+        (field["value"] for field in pedigree_section.content if field['field'] == "Pedigree"), None
+    )
+
+    assert len(actual_updated_field_values) == 0

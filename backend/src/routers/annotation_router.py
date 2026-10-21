@@ -10,7 +10,7 @@ from ..config import Settings, get_settings
 
 from ..enums import GenomicUnitType
 from ..core.annotation import AnnotationService
-from ..dependencies import DatabaseDepends, annotation_queue
+from ..dependencies import annotation_queue, get_db
 from ..models.analysis import Analysis
 
 from ..security.security import get_authorization, get_write_project_authorization
@@ -26,7 +26,7 @@ router = APIRouter(prefix="/annotation", tags=["annotation"])
 async def annotate_analysis(
     analysis_name: str,
     background_tasks: BackgroundTasks,
-    repositories: DatabaseDepends,
+    repositories: Annotated[dict, Depends(get_db)],
     settings: Annotated[Settings, Depends(get_settings)],
     annotation_task_queue=Depends(annotation_queue)
 ):
@@ -57,7 +57,7 @@ async def upload_annotation_section(
     genomic_unit: str,
     data_set_name: str,
     genomic_unit_type: GenomicUnitType,
-    repositories: DatabaseDepends,
+    repositories: Annotated[dict, Depends(get_db)],
     upload_file: UploadFile = File(...),
 ):
     """ This endpoint specifically handles annotation section image uploads """
@@ -110,7 +110,7 @@ async def update_annotation_image(
     data_set_name: str,
     old_file_id: str,
     genomic_unit_type: GenomicUnitType,
-    repositories: DatabaseDepends,
+    repositories: Annotated[dict, Depends(get_db)],
     upload_file: UploadFile = File(...),
 ):
     """ Updates and replaces an annotation image with a new image  """
@@ -157,7 +157,7 @@ async def update_annotation_image(
 )
 async def remove_annotation_image(
     genomic_unit: str, data_set_name: str, file_id: str, genomic_unit_type: GenomicUnitType,
-    repositories: DatabaseDepends
+    repositories: Annotated[dict, Depends(get_db)]
 ):
     """ This endpoint handles removing an annotation image for specified genomic unit """
     genomic_unit_json = {'unit': genomic_unit, 'type': genomic_unit_type}

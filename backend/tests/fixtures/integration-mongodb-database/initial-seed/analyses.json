@@ -339,11 +339,11 @@
       "content": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum."],
       "attachments": [{
         "name": "not-a-real-image.jpg",
-        "attachment_id": "68a761c9bd16bc0a0c98062e",
+        "attachment_id": "6ad91f0dc4aa4091ba63cd9b",
         "type": "file"
       },{
         "name": "test.txt",
-        "attachment_id": "633afb87fb250a6ea1569555",
+        "attachment_id": "6ad91ee4e106d8846fdfdf71",
         "type": "file"
       }],
       "thread": []

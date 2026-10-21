@@ -1,7 +1,5 @@
 """Analysis Routes Integration test"""
 
-import json
-
 import pytest
 
 from ..test_utils import read_test_fixture
@@ -9,7 +7,7 @@ from ..test_utils import read_test_fixture
 
 @pytest.mark.anyio
 @pytest.mark.usefixtures("mock_repositories")
-async def test_get_analyses(client, mock_access_token, mock_repositories):
+async def test_get_analyses(client, mock_access_token):
     """Testing that the correct number of analyses were returned and in the right order"""
 
     response = await client.get("/analysis", headers={"Authorization": "Bearer " + mock_access_token})
@@ -30,8 +28,7 @@ async def test_get_analysis_summary(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_get_summary_by_name(client, mock_access_token):
     """Tests the summary_by_name endpoint"""
     response = await client.get("/analysis/CPAM0002/summary", headers={"Authorization": "Bearer " + mock_access_token})
@@ -41,8 +38,7 @@ async def test_get_summary_by_name(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_get_genomic_units_success(client, mock_access_token):
     """ Testing the get genomic units endpoint """
 
@@ -60,8 +56,7 @@ async def test_get_genomic_units_success(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_get_genomic_units_analysis_does_not_exist(client, mock_access_token):
     """ Testing the get genomic units endpoint """
 
@@ -72,9 +67,8 @@ async def test_get_genomic_units_analysis_does_not_exist(client, mock_access_tok
     assert response.status_code == 404
 
 
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_get_genomic_units_does_not_exist(client, mock_access_token):
     """ Testing the get genomic units endpoint """
 
@@ -86,8 +80,7 @@ async def test_get_genomic_units_does_not_exist(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_attach_third_party_link(client, mock_access_token):
     """ Testing the attach third party link endpoint """
 
@@ -107,8 +100,7 @@ async def test_attach_third_party_link(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_attach_third_party_link_analysis_does_not_exist(client, mock_access_token):
     """ Testing the attach third party link endpoint """
 
@@ -122,8 +114,7 @@ async def test_attach_third_party_link_analysis_does_not_exist(client, mock_acce
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_attach_third_party_link_invalid_enum(client, mock_access_token):
     """ Testing the attach third party link endpoint """
     response = await client.put(
@@ -136,8 +127,7 @@ async def test_attach_third_party_link_invalid_enum(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_mark_ready(client, mock_access_token):
     """ Testing the update analysis event endpoint """
 
@@ -153,8 +143,7 @@ async def test_mark_ready(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_mark_ready_analysis_does_not_exist(client, mock_access_token):
     """ Testing the mark ready endpoint """
 

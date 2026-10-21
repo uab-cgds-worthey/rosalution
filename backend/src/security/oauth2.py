@@ -62,8 +62,8 @@ class OAuth2ClientCredentials(OAuth2):
                     detail="Not authenticated",
                     headers={"WWW-Authenticate": "Bearer"},
                 )
-            else:
-                return None
+
+            return None
 
         return param
 

@@ -135,9 +135,7 @@ class GenomicUnitCollection:
 
         annotation_query_adapter = AnnotationUnitQuery(annotation_unit)
         find_query = annotation_query_adapter.find_annotation_query()
-        # print(find_query)
         result = await self.collection.count_documents(find_query, limit=1)
-        # print(result)
         return bool(result)
 
     async def find_genomic_unit_annotation_value(self, annotation_unit: AnnotationUnit):

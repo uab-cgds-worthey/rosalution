@@ -15,6 +15,7 @@ class AnalysisCollectionSummary:
             "genomic_units": 1,
             "nominated_by": 1,
             "project_name": 1,
+            "project_id": 1,
             "timeline": 1,
             "third_party_links": 1,
         }

@@ -4,8 +4,7 @@ import pytest
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_get_annotations_by_gene_in_analysis(client, mock_access_token):
     """Testing that the annotations by gene endpoint returns the annotations correctly"""
 
@@ -18,8 +17,7 @@ async def test_get_annotations_by_gene_in_analysis(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_get_annotations_by_hgvs_varian_in_analysis(client, mock_access_token):
     """Testing that the annotations by HGVS variant endpoint returns the annotations correctly"""
 

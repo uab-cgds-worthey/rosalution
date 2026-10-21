@@ -2,10 +2,11 @@
 
 import logging
 
-from typing import List
-from fastapi import APIRouter, File, Form, HTTPException, Response, Security, status, UploadFile
+from typing import Annotated, List
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Response, Security, status, UploadFile
 
-from ..dependencies import DatabaseDepends
+from ..dependencies import get_db
+
 from ..enums import SectionRowType
 from ..models.analysis import Analysis, Section
 from ..security.security import get_write_project_authorization
@@ -26,7 +27,7 @@ async def add_file_to_bucket_repository(file_to_save, bucket_repository):
     dependencies=[Security(get_write_project_authorization)]
 )
 async def update_many_analysis_sections(
-    analysis_name: str, updated_sections: List[Section], repositories: DatabaseDepends
+    analysis_name: str, updated_sections: List[Section], repositories: Annotated[dict, Depends(get_db)]
 ):
     """Updates the sections that have changes"""
 
@@ -43,7 +44,7 @@ async def update_analysis_section(
     response: Response,
     analysis_name: str,
     row_type: SectionRowType,
-    repositories: DatabaseDepends,
+    repositories: Annotated[dict, Depends(get_db)],
     updated_section: Section = Form(...),
     upload_file: UploadFile = File(None),
 ):
@@ -98,7 +99,9 @@ async def update_analysis_section(
     status_code=status.HTTP_200_OK,
     dependencies=[Security(get_write_project_authorization)]
 )
-async def remove_section_attachment_from_field(analysis_name: str, attachment_id: str, repositories: DatabaseDepends):
+async def remove_section_attachment_from_field(
+    analysis_name: str, attachment_id: str, repositories: Annotated[dict, Depends(get_db)]
+):
     """ Removes the attachment from the analysis section """
     found_analysis = await repositories['analysis'].find_by_name(analysis_name)
 
@@ -135,7 +138,7 @@ async def update_analysis_section_image(
     analysis_name: str,
     attachment_id: str,
     row_type: SectionRowType,
-    repositories: DatabaseDepends,
+    repositories: Annotated[dict, Depends(get_db)],
     updated_section: Section = Form(...),
     upload_file: UploadFile = File(None),
 ):

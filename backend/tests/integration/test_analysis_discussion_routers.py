@@ -5,8 +5,7 @@ import pytest
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_add_new_discussion_to_analysis(client, mock_access_token_header):
     """ Testing that a discussion was added and returned properly """
     cpam_analysis = "CPAM0002"
@@ -37,8 +36,7 @@ async def test_add_new_discussion_to_analysis(client, mock_access_token_header):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_update_discussion_post_in_analysis(client, mock_access_token):
     """ Tests successfully updating an existing post in the discussions with the user being the author """
     cpam_analysis = "CPAM0002"
@@ -64,8 +62,7 @@ async def test_update_discussion_post_in_analysis(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_update_post_in_analysis_author_mismatch(client, mock_access_token):
     """ Tests updating a post that the author did not post and results in an unauthorized failure """
     cpam_analysis = "CPAM0047"
@@ -85,8 +82,7 @@ async def test_update_post_in_analysis_author_mismatch(client, mock_access_token
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_delete_discussion_post_in_analysis(client, mock_access_token):
     """ Tests successfully deleting an existing post in the discussions with the user being the author """
     cpam_analysis = "CPAM0002"
@@ -101,8 +97,7 @@ async def test_delete_discussion_post_in_analysis(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_delete_discussion_post_with_thread(client, mock_access_token):
     """ Tests successfully deleting an existing post in the discussions with the user being the author """
     cpam_analysis = "CPAM0002"
@@ -123,8 +118,7 @@ async def test_delete_discussion_post_with_thread(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_delete_discussion_with_attachments(client, mock_access_token):
     """ Tests successfully deleting an existing post in the discussions with the user being the author """
     cpam_analysis = "CPAM0002"
@@ -137,13 +131,9 @@ async def test_delete_discussion_with_attachments(client, mock_access_token):
 
     assert len(response.json()) == 2
 
-    # TODO: Return to implement way to query gridfs if files exists.  Files do not exist in fixtures currently.
-    # expected_objectid_string = ["68a761c9bd16bc0a0c98062e", "68a761c9bd16bc0a0c98062e"]
-
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_handle_delete_post_not_existing_in_analysis(client, mock_access_token):
     """ Tests failure of deleting a discussion post but does not exist in the analysis  """
     cpam_analysis = "CPAM0002"
@@ -161,8 +151,7 @@ async def test_handle_delete_post_not_existing_in_analysis(client, mock_access_t
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_add_new_discussion_reply_to_analysis(client, mock_access_token):
     """ Testing that a discussion reply was added and returned properly """
 
@@ -204,8 +193,7 @@ async def test_add_new_discussion_reply_to_analysis(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_update_discussion_reply_in_analysis(client, mock_access_token):
     """ Testing that a discussion reply was edited, updated and returned properly """
 
@@ -230,9 +218,8 @@ async def test_update_discussion_reply_in_analysis(client, mock_access_token):
 
 
 @pytest.mark.anyio
-# @pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
-async def test_delete_discussion_reply_from_analysis(client, mock_access_token, mock_repositories):
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
+async def test_delete_discussion_reply_from_analysis(client, mock_access_token):
     """ Tests successfully deleting an existing reply in the discussions with the user being the author """
     cpam_analysis = "CPAM0002"
     discussion_post_id = "a677bb36-acf8-4ff9-a406-b113a7952f7e"

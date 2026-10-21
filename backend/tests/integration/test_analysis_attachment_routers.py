@@ -5,8 +5,7 @@ import pytest
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_attaching_link_to_analysis(client, mock_access_token):
     """Test attaching a URL to the analysis"""
 
@@ -28,8 +27,7 @@ async def test_attaching_link_to_analysis(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_remove_file_attachment(client, mock_access_token):
     """ Testing the remove a file attachment endpoint """
 
@@ -45,8 +43,7 @@ async def test_remove_file_attachment(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_remove_link_attachment(client, mock_access_token):
     """ Testing the remove link attachment endpoint """
 

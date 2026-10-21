@@ -6,7 +6,6 @@ import string
 from datetime import datetime, timedelta, UTC
 from typing import Annotated, Optional
 
-from ..security.oauth2 import OAuth2ClientCredentials
 import jwt
 
 from pydantic import ValidationError
@@ -17,14 +16,14 @@ from fastapi.security import SecurityScopes
 
 import bcrypt
 
-from ..models.user import ProjectUser
-
-from ..dependencies import get_db
-
 from ..config import Settings, get_settings
+from ..dependencies import get_db
+from ..models.user import ProjectUser
+from ..security.oauth2 import OAuth2ClientCredentials
 
-settings = get_settings()
-oauth2_scheme = OAuth2ClientCredentials(tokenUrl=settings.openapi_api_token_route)
+
+settings_for_openapi_token_path = get_settings()
+oauth2_scheme = OAuth2ClientCredentials(tokenUrl=settings_for_openapi_token_path.openapi_api_token_route)
 
 SECURITY_SCOPES = {
     "pre-clinical-intake": "Pre-Clinical Intake",

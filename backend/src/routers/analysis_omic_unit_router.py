@@ -2,12 +2,11 @@
 
 # pylint: disable=duplicate-code
 
-import json
 from typing import Annotated
 from fastapi import APIRouter, Depends, Security, BackgroundTasks, HTTPException, status
 from pydantic import BaseModel
 
-from ..dependencies import DatabaseDepends, annotation_queue
+from ..dependencies import annotation_queue, get_db
 from ..security.security import get_write_project_authorization
 
 from ..models.analysis import Analysis
@@ -41,7 +40,7 @@ async def add_genomic_units(
     background_tasks: BackgroundTasks,
     analysis_name: str,
     new_genomic_unit: IncomingGenomicUnit,
-    repositories: DatabaseDepends,
+    repositories: Annotated[dict, Depends(get_db)],
     settings: Annotated[Settings, Depends(get_settings)],
     annotation_task_queue=Depends(annotation_queue)
 ):
@@ -84,7 +83,8 @@ async def add_genomic_units(
     "/{analysis_name}/genomic_unit/{gene}/{hgvs_variant}", dependencies=[Security(get_write_project_authorization)]
 )
 async def edit_genomic_unit_reason_of_interest(
-    analysis_name: str, gene: str, hgvs_variant: str, edit_unit: IncomingEditGenomicUnit, repositories: DatabaseDepends
+    analysis_name: str, gene: str, hgvs_variant: str, edit_unit: IncomingEditGenomicUnit,
+    repositories: Annotated[dict, Depends(get_db)]
 ):
     """Editing the reason of interest for a manually added genomic unit in an analysis"""
 
@@ -98,7 +98,9 @@ async def edit_genomic_unit_reason_of_interest(
 @router.delete(
     "/{analysis_name}/genomic_unit/{gene}/{hgvs_variant}", dependencies=[Security(get_write_project_authorization)]
 )
-async def delete_manual_genomic_unit(analysis_name: str, gene: str, hgvs_variant: str, repositories: DatabaseDepends):
+async def delete_manual_genomic_unit(
+    analysis_name: str, gene: str, hgvs_variant: str, repositories: Annotated[dict, Depends(get_db)]
+):
     """
     Deleting a manually added genomic unit from an analysis. Returns an HTTP 405 Method Not Allowed if the 
     genomic unit is an original from the analysis creation.

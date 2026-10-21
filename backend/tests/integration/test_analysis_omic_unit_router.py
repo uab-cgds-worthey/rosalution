@@ -11,8 +11,7 @@ from src.core.annotation import AnnotationService
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_adding_and_annotating_new_omic_unit_to_analysis(
     client, mock_access_token, mock_annotation_queue, mock_settings
 ):
@@ -45,8 +44,7 @@ async def test_adding_and_annotating_new_omic_unit_to_analysis(
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_editing_manual_omic_unit_in_analysis(client, mock_access_token):
     """Test editing a manually added omic unit in the analysis"""
 
@@ -66,8 +64,7 @@ async def test_editing_manual_omic_unit_in_analysis(client, mock_access_token):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_successfully_deleting_manual_omic_unit_in_analysis(client, mock_access_token):
     """Test deleting a manually added omic unit in the analysis"""
 
@@ -85,8 +82,7 @@ async def test_successfully_deleting_manual_omic_unit_in_analysis(client, mock_a
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
 async def test_deleting_non_manual_omic_unit_in_analysis(client, mock_access_token):
     """
     Test deleting an original unit in the analysis resulting in the response returning a

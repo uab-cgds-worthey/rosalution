@@ -1,16 +1,18 @@
 """ Analysis endpoint routes that provide an interface to interact with an Analysis' discussions """
-from fastapi import (APIRouter, HTTPException, Security)
+from typing import Annotated
+
+from fastapi import (APIRouter, Depends, HTTPException, Security)
 
 from ..security.security import get_project_authorization
 
-from ..dependencies import DatabaseDepends
+from ..dependencies import get_db
 from ..enums import GenomicUnitType
 
 router = APIRouter(tags=["analysis annotations"])
 
 
 @router.get("/{analysis_name}/gene/{gene}", dependencies=[Security(get_project_authorization)])
-async def get_annotations_by_gene(analysis_name, gene, repositories: DatabaseDepends):
+async def get_annotations_by_gene(analysis_name, gene, repositories: Annotated[dict, Depends(get_db)]):
     """Returns annotations data by calling method to find annotations by gene"""
 
     genomic_unit = {
@@ -31,7 +33,9 @@ async def get_annotations_by_gene(analysis_name, gene, repositories: DatabaseDep
 
 
 @router.get("/{analysis_name}/hgvsVariant/{variant}", dependencies=[Security(get_project_authorization)])
-async def get_annotations_by_hgvs_variant(analysis_name: str, variant: str, repositories: DatabaseDepends):
+async def get_annotations_by_hgvs_variant(
+    analysis_name: str, variant: str, repositories: Annotated[dict, Depends(get_db)]
+):
     """Returns annotations data by calling method to find annotations for variant and relevant transcripts
     by HGVS Variant"""
 

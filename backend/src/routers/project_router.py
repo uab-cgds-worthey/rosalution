@@ -9,7 +9,7 @@ from ..config import Settings, get_settings
 
 from ..core.annotation import AnnotationService
 from ..core.phenotips_importer import PhenotipsImporter
-from ..dependencies import DatabaseDepends, annotation_queue
+from ..dependencies import annotation_queue, get_db
 from ..models.analysis import Analysis, Project
 from ..models.event import Event
 from ..models.phenotips_json import BasePhenotips
@@ -20,17 +20,19 @@ router = APIRouter(prefix="/project", tags=["project"])
 
 
 @router.get("", tags=["project"], response_model=List[Project])
-async def get_projects(repositories: DatabaseDepends, client_id: Annotated[str, Security(get_current_user)]):
+async def get_projects(
+    repositories: Annotated[dict, Depends(get_db)], client_id: Annotated[str, Security(get_current_user)]
+):
     """List all projects available to the authenticated user."""
     return await repositories["project"].all_projects(client_id)
 
 
 @router.post("/{project_id}/analysis", response_model=Analysis)
-async def create_analysis(
+async def create_analysis( # pylint: disable=too-many-arguments, too-many-positional-arguments
     project_id: str,
     phenotips_file: Annotated[bytes, File()],
     background_tasks: BackgroundTasks,
-    repositories: DatabaseDepends,
+    repositories: Annotated[dict, Depends(get_db)],
     user_project: Annotated[str, Security(get_create_project_authorization)],
     settings: Annotated[Settings, Depends(get_settings)],
     annotation_task_queue=Depends(annotation_queue),

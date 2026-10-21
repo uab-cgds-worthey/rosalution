@@ -1,8 +1,6 @@
 """
 Manages the user collection of the users registered to rosalution
 """
-import json
-
 from bson import ObjectId
 from pymongo import ReturnDocument
 
@@ -57,7 +55,6 @@ class UserCollection:
 
         async with await self.collection.aggregate(pipeline) as found_user_cursor:
             user = await found_user_cursor.try_next()
-            print(user)
             if user is None:
                 return None
 

@@ -1,18 +1,13 @@
 """Supports the queueing and processing of genomic unit annotation"""
 import asyncio
-import concurrent
-import functools
-import json
 import logging
-import time
 import queue
 from typing import Iterable
 from requests.exceptions import JSONDecodeError, HTTPError
+from pymongo import AsyncMongoClient
+from gridfs.asynchronous import AsyncGridFS
 
 from ..database import Database
-from pymongo import AsyncMongoClient
-from pymongo.errors import ConnectionFailure
-from gridfs.asynchronous import AsyncGridFS
 
 from ..config import Settings
 
@@ -202,15 +197,6 @@ class AnnotationProcess():
 
         self.dataset_annotation_failures = {}
 
-        self.workers = []
-
-    # async def __anext__(self):
-    #     while not self.annotation_unit_queue_empty() or self.are_tasks_processing():
-    #         annotation_unit = await self.queue.get()
-    #         return annotation_unit
-
-    #     raise StopAsyncIteration
-
     def set_tasks_executor(self, task_executor):
         """Sets the task executor for handling the annotate tasks."""
         self.task_executor = task_executor
@@ -220,9 +206,11 @@ class AnnotationProcess():
         return self.queue.empty()
 
     def processsing_tasks(self) -> Iterable[asyncio.Task]:
+        """Returns an iterable list of annotation tasks queued to run on the event loop"""
         return [*self.annotation_task_futures]
 
     def number_of_tasks_processing(self) -> int:
+        """Returns the number of annotation tasks queued to run on the event loop that are still active"""
         return len(self.annotation_task_futures)
 
     def are_tasks_processing(self) -> bool:
@@ -230,16 +218,11 @@ class AnnotationProcess():
         return len(self.annotation_task_futures) > 0
 
     def done_callback(self, task):
+        """Wrapps the task complete method to queue a task process the on complete for an annotation task"""
         self.task_executor.create_task(self.on_task_complete(task))
 
     def queue_task_in_tasks_worker(self, annotation_task):
         """Submits an Annotation task to run within the task executor pool."""
-        # print(processor.annotation_task_futures.keys())
-        # tasks = processor.annotation_task_futures.keys()
-        # print(tasks)
-        # async for async_task_complete in asyncio.as_completed(tasks):
-        #     await processor.on_task_complete(async_task_complete)
-        print("Queueing task onto tasks worker in event loop: ", annotation_task)
         async_task = self.task_executor.create_task(asyncio.to_thread(annotation_task.annotate))
         async_task.add_done_callback(self.done_callback)
 
@@ -252,16 +235,8 @@ class AnnotationProcess():
         on the task execeutor thread pool.
         """
 
-        # possible_manifest_entry = await self.retrieve_manifest_entry_if_exist(annotation_unit)
-        print(
-            "checking if annotation unit has a manifest entry", annotation_unit.genomic_unit,
-            annotation_unit.get_dataset_name()
-        )
-        possible_manifest_entry = await self.analysis_collection.get_manifest_dataset_config(
-            annotation_unit.analysis_name, annotation_unit.get_genomic_unit(), annotation_unit.get_dataset_name()
-        )
+        possible_manifest_entry = await self.retrieve_possible_analysis_manifest_entry(annotation_unit)
         if possible_manifest_entry is not None and not annotation_unit.version_calculated():
-            print('returned valid manifest entry - possible manifest entry: ', possible_manifest_entry)
             manifest_annotation_unit = self._create_temporary_annotation_unit(
                 annotation_unit.genomic_unit, possible_manifest_entry, annotation_unit.analysis_name,
                 annotation_unit.is_transcript_dataset()
@@ -306,12 +281,19 @@ class AnnotationProcess():
 
         self.queue_task_in_tasks_worker(annotation_task)
 
+    async def retrieve_possible_analysis_manifest_entry(self, annotation_unit):
+        """ Queries the analysis collection for a manifest entry for the annotation unit. Returns None if there
+        is no entry for the annotation unit.
+        """
+        return await self.analysis_collection.get_manifest_dataset_config(
+            annotation_unit.analysis_name, annotation_unit.get_genomic_unit(), annotation_unit.get_dataset_name()
+        )
+
     async def on_task_complete(self, async_task_complete):
         """
         Runs on a completed future that contains the annotation unit that was executed. Will extract the
         annotation or version. Save it to the database or put the annotation unit back on the queue with its version.
         """
-        print('task on event loop complete', async_task_complete)
         task = self.annotation_task_futures[async_task_complete]
         annotation_unit = task.annotation_unit
         logger.info('%s Task Executed...', format_annotation_logging(annotation_unit))
@@ -388,12 +370,6 @@ class AnnotationProcess():
         """Sets the version to be cached in the version cache"""
         self.version_cache[version_cache_id] = version
 
-    async def retrieve_manifest_entry_if_exist(self, annotation_unit: AnnotationUnit):
-        """Queries the collection for an annotation unit's manifest entry. If none exists None is returned."""
-        return await self.analysis_collection.get_manifest_dataset_config(
-            annotation_unit.analysis_name, annotation_unit.get_genomic_unit(), annotation_unit.get_dataset_name()
-        )
-
     def handle_annotation_unit_version_calcuation(self, annotation_unit):
         """
         Processes the annotation unit to derive the annotation unit's calculated version according to the configuration.
@@ -439,7 +415,6 @@ class AnnotationProcess():
                 dependency_annotation_unit
             )
 
-            # if annotation_value:
             annotation_unit.set_annotation_for_dependency(missing_dataset_name, annotation_value)
 
         if annotation_unit.if_transcript_needs_provisioning():

@@ -2,25 +2,12 @@
 Collection with retrieves, creates, and modify projects.
 """
 
+
 from .analysis_collection_summary import AnalysisCollectionSummary
 
 
 class ProjectRepository:
     """Repository to access users and analyses for projects"""
-
-    @staticmethod
-    def complete_query_projection():
-        """The MongoDB projection argument to query the nessecary subset of fields for an analysis summary"""
-        return {
-            "name": 1,
-            "description": 1,
-            "genomic_units": 1,
-            "nominated_by": 1,
-            "project_name": 1,
-            "project_id": 1,
-            "timeline": 1,
-            "third_party_links": 1,
-        }
 
     def __init__(self, user_collection, analysis_collection):
         """Initializes with the 'PyMongo' Collection object for projects collection"""
@@ -29,7 +16,6 @@ class ProjectRepository:
 
     async def all_projects(self, client_id: str) -> list:
         """Returns all projects available to the user by client id"""
-        # print("CLIENT ID", client_id)
         pipeline = [{"$match": {"client_id": client_id}}, {
             "$lookup": {
                 "from": "projects", "let": {"projectIds": '$project_ids'},
@@ -43,14 +29,13 @@ class ProjectRepository:
 
     async def all_analyses(self, client_id: str) -> list:
         """Returns all analyses available to the user by client id"""
-        # print("CLIENT ID", client_id)
         pipeline = [{"$match": {"client_id": client_id}}, {
             "$lookup": {
                 "from": "analyses", "let": {"projectIds": '$project_ids'},
                 "pipeline": [{"$match": {"$expr": {"$in": ["$project_id", "$$projectIds"]}}}], "as": "analyses"
             }
         }, {"$unwind": "$analyses"}, {"$replaceRoot": {"newRoot": "$analyses"}},
-                    {"$project": ProjectRepository.complete_query_projection()}]
+                    {"$project": AnalysisCollectionSummary.query_projection()}]
 
         query_result = await self.user_collection.aggregate(pipeline)
         return await query_result.to_list()

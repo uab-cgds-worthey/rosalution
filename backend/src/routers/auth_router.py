@@ -9,9 +9,9 @@ from fastapi.responses import JSONResponse, RedirectResponse
 
 from starlette.requests import Request
 
-from src.dependencies import get_db
 from cas import CASClient
 
+from ..dependencies import get_db
 from ..config import Settings, get_settings
 from ..models.user import User, AccessUserAPI
 from ..security.oauth2 import OAuth2ClientCredentialsRequestForm, HTTPClientCredentials, HTTPBasicClientCredentials

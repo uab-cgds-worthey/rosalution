@@ -34,8 +34,7 @@ async def test_login_successful(client, cas_client: CASClient, monkeypatch):
 
 
 @pytest.mark.anyio
-@pytest.mark.usefixtures("mock_repositories")
-@pytest.mark.usefixtures("mock_settings_cas_disabled")
+@pytest.mark.usefixtures("mock_repositories", "mock_settings_cas_disabled")
 async def test_logout(client):
     """ This tests functionality of the local logout function """
     response = await client.get("/auth/logout",)

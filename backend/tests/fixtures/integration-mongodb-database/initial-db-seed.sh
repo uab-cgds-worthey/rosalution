@@ -48,4 +48,5 @@ mongoimport  --uri "mongodb://localhost:27017/$database?replicaSet=rs0" --db "$d
 echo "Importing Genomic Units..."
 mongoimport  --uri "mongodb://localhost:27017/$database?replicaSet=rs0" --db "$database" --collection genomic_units --file "$fixture_filepath/genomic-units.json" --jsonArray
 
+
 echo "Seeding Rosalution databse...Complete"

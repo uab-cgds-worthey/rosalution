@@ -82,11 +82,13 @@ settings = get_settings()
 
 @asynccontextmanager
 async def db_lifespan(application: FastAPI):
-    """Application lifespan context manager that initializes resources during startup and cleans up on shutdown."""
     """
-    Verifies required ROSALUTION_KEY environment variable set with descriptive error at start of service.
+    Application lifespan context manager that initializes resources during startup and cleans up on shutdown. Verifies
+    required ROSALUTION_KEY environment variable set with descriptive error at start of service.
     """
-    if None == settings.rosalution_key:
+
+    ## Verification Key ##
+    if None is settings.rosalution_key:
         raise ValueError('Environment variable "ROSALUTION_KEY" missing. App requires secret for secure encoding.')
 
     ## Database ##

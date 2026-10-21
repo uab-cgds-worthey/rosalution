@@ -1,17 +1,11 @@
 """Test Fixtures for integration tests"""
-import json
-import os
 from unittest.mock import Mock
 from httpx import ASGITransport, AsyncClient
 import pytest
-from fastapi.security import OAuth2PasswordBearer
-from fastapi.testclient import TestClient
 from cas import CASClient
 from testcontainers.compose import DockerCompose
 from pymongo import AsyncMongoClient
-from pymongo.errors import ConnectionFailure
 import gridfs
-import pytest_asyncio
 
 from src.routers.auth_router import get_cas_client
 from src.main import app
@@ -21,19 +15,17 @@ from src.dependencies import get_db, annotation_queue
 from src.security.security import create_access_token, get_current_user, get_project_authorization,\
     get_create_project_authorization
 
-from ..test_utils import integration_database_fixture_filepath, read_test_fixture, rosalution_filepath, fixture_path
-from fastapi.testclient import TestClient
-
-# import pytest
+from ..test_utils import integration_database_fixture_path, read_test_fixture
 
 
-@pytest.fixture(scope='session')
-def anyio_backend():
+@pytest.fixture(name='anyio_backend', scope='session')
+def fixture_anyio_backend():
+    """Sets the pytest.mark.anyio to use the asynchio backend to pair with the asynchio api used"""
     return 'asyncio'
 
 
 @pytest.fixture(name="client", scope='session')
-async def test_application_client(anyio_backend):
+async def test_application_client(anyio_backend): # pylint: disable=unused-argument
     """A class scoped FastApi Test Client"""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as async_client:
         yield async_client
@@ -60,12 +52,14 @@ def mock_queue():
 
 
 @pytest.fixture(name="async_db_client", scope="session")
-async def async_db_client(anyio_backend):
+async def fixture_async_db_client(anyio_backend): # pylint: disable=unused-argument
+    """Mocked asynchronus database client which creates a docker container with the asynchronus mongodb client"""
+
     services = ['rosalution-integration-db']
     with DockerCompose(
-        integration_database_fixture_filepath(), compose_file_name="docker-compose.mongodb.yml", services=services
-    ) as compose:
-        mongodb_connection_uri = f"mongodb://localhost:28017/rosalution_db?replicaSet=rs0&directConnection=true"
+        integration_database_fixture_path(), compose_file_name="docker-compose.mongodb.yml", services=services
+    ):
+        mongodb_connection_uri = "mongodb://localhost:28017/rosalution_db?replicaSet=rs0&directConnection=true"
         async with AsyncMongoClient(mongodb_connection_uri) as mongodb_async_client:
             bucket = gridfs.asynchronous.AsyncGridFS(mongodb_async_client.rosalution_db)
             live_database = Database(mongodb_async_client, bucket)
