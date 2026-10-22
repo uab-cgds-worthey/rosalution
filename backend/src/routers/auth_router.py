@@ -2,7 +2,7 @@
 from functools import lru_cache
 import logging
 
-from typing import Annotated, Optional
+from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Security, Response, status
 from fastapi.responses import JSONResponse, RedirectResponse
@@ -53,8 +53,8 @@ async def login(
     repositories: Annotated[dict, Depends(get_db)],
     cas_client: Annotated[CASClient, Depends(get_cas_client)],
     settings: Annotated[Settings, Depends(get_settings)],
-    nexturl: Optional[str] = None,  # CAS Nexturl
-    ticket: Optional[str] = None,
+    nexturl: str | None = None,  # CAS Nexturl
+    ticket: str | None = None,
 ):
     """Rosalution Login Method"""
     if not ticket:
@@ -97,7 +97,6 @@ async def login(
 @router.post("/token")
 async def issue_oauth2_token(
     form_data: Annotated[OAuth2ClientCredentialsRequestForm, Depends()],
-    basic_credentials: Annotated[HTTPClientCredentials | None, Depends(token_scheme)],
     repositories: Annotated[dict, Depends(get_db)],
     settings: Annotated[Settings, Depends(get_settings)],
 ) -> dict:
@@ -107,9 +106,6 @@ async def issue_oauth2_token(
     if form_data.client_id and form_data.client_secret:
         client_id = form_data.client_id
         client_secret = form_data.client_secret
-    elif basic_credentials:
-        client_id = basic_credentials.client_id
-        client_secret = basic_credentials.client_secret
     else:
         raise HTTPException(status_code=400, detail="Client credentials not provided")
 
