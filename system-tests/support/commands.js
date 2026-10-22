@@ -16,6 +16,26 @@
 Cypress.Commands.add('resetDatabase', () => {
   return cy.exec(`docker compose exec -T rosalution-db mongosh /tmp/fixtures/seed.js`);
 });
+
+Cypress.Commands.add('login', (username) => {
+  const sessionAlias = username;
+
+  cy.session(sessionAlias, () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/dev/loginDev',
+      form: true,
+      body: {
+        username: username,
+        password: 'secret',
+      },
+    });
+
+    cy.getCookie('rosalution_TOKEN').should('exist');
+  }, {
+    cacheAcrossSpecs: true,
+  });
+});
 //
 //
 // -- This is a dual command --
