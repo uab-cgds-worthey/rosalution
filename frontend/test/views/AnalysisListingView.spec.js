@@ -16,7 +16,7 @@ import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
-import { useAuth } from '../../src/composables/useAuth';
+import {useAuth} from '../../src/composables/useAuth';
 
 vi.mock('@/composables/useAuth.js', () => ({
   useAuth: vi.fn(() => {

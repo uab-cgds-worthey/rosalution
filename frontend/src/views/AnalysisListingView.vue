@@ -15,7 +15,7 @@
       data-test="create-card"
     />
     <AnalysisCard
-      v-for="analysis in renderedAnalysisList"
+      v-for="analysis in searchedAnalysisListing"
       :key="analysis.id"
       :name="analysis.name"
       :description="analysis.description"
@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import {onMounted, ref, computed, shallowRef, watch} from 'vue';
+import {ref, computed, shallowRef} from 'vue';
 
 import Analyses from '@/models/analyses.js';
 import AnalysisCard from '@/components/AnalysisListing/AnalysisCard.vue';
@@ -59,7 +59,6 @@ import {useAuth} from '@/composables/useAuth.js';
 const {username, hasWritePermissions, logout} = useAuth();
 
 const analysisList = shallowRef([]);
-const renderedAnalysisList = ref([]);
 
 const projects = ref([]);
 
@@ -68,66 +67,31 @@ const workflowStatusFilters = ref([]);
 
 const isLoaded = ref(false);
 
-const workflowFilteredAnalysisList = computed(() => {
-  // console.log("COMPUTED-workflowFilteredAnalysisList ---")
+const filteredAnalysisListing = computed(() => {
   return analysisList.value.filter((analysis) => {
+    console.log(analysis, workflowStatusFilters.value.length === 0 || workflowStatusFilters.value.includes(analysis.latest_status));
     return workflowStatusFilters.value.length === 0 || workflowStatusFilters.value.includes(analysis.latest_status);
   });
 });
 
 const searchedAnalysisListing = computed(() => {
   const lowerCaseSearchText = searchText.value.toLowerCase();
-  const hasSearchText = searchText.value === '';
 
-  if ( hasSearchText ) {
-    return workflowFilteredAnalysisList.value;
-  }
-  const filteredList = workflowFilteredAnalysisList.value.filter((analysis) => {
-    const analysisContent = [analysis.name,
+  return searchText.value === '' ? filteredAnalysisListing.value : filteredAnalysisListing.value.filter((analysis) => {
+    return [analysis.name,
       analysis.created_date,
       analysis.last_modified_date,
       analysis.nominated_by,
       analysis.project_name,
-    ];
-
-    const wasFound = analysisContent.some((content) => {
-      const individualFound = content.toLowerCase().includes(lowerCaseSearchText) ||
-        analysis.genomic_units.some((unit) => {
-          return (unit.gene && unit.gene.toLowerCase().includes(lowerCaseSearchText)) ||
-            (unit.transcripts &&
-              unit.transcripts.some((transcript) => transcript.toLowerCase().includes(lowerCaseSearchText))) ||
-            (unit.variants && unit.variants.some((variant) => variant.toLowerCase().includes(lowerCaseSearchText)));
-        });
-      return individualFound;
-    });
-    return wasFound;
+    ].some((content) => content.toLowerCase().includes(lowerCaseSearchText)) ||
+      analysis.genomic_units.some((unit) => {
+        return (unit.gene && unit.gene.toLowerCase().includes(lowerCaseSearchText)) ||
+          (unit.transcripts &&
+            unit.transcripts.some((transcript) => transcript.toLowerCase().includes(lowerCaseSearchText))) ||
+          (unit.variants && unit.variants.some((variant) => variant.toLowerCase().includes(lowerCaseSearchText)));
+      });
   });
-
-  return filteredList;
 });
-
-const RENDER_LISTING_BATCH_SIZE = 5;
-const renderNextBatch = () => {
-  const currentLength = renderedAnalysisList.value.length;
-  // console.log('RENDER NEXT BATCH--- next batch ', currentLength);
-  if (currentLength < searchedAnalysisListing.value.length) {
-    const nextBatch = searchedAnalysisListing.value.slice(currentLength, currentLength + RENDER_LISTING_BATCH_SIZE);
-    renderedAnalysisList.value.push(...nextBatch);
-    // console.log('RENDER NEXT BATCH--- next pushed done ', renderedAnalysisList.value.length);
-    renderNextBatch();
-  }
-  // console.log('searched analyses next complete ', searchedAnalysisListing.value.length);
-};
-
-watch(searchedAnalysisListing, () => {
-  renderedAnalysisList.value = [];
-});
-
-watch([workflowFilteredAnalysisList, renderedAnalysisList, searchedAnalysisListing, searchText], () => {
-  // console.log("WATCHER-Calling RenderNextBatch ---");
-  renderNextBatch();
-  // console.log("WATCHER-Calling RenderNextBatch --- DONE");
-}, {flush: 'post'});
 
 const projectsAvailable = computed(() => {
   return projects.value.map((project) => {
@@ -227,12 +191,6 @@ async function importNewAnalysis() {
 }
 
 document.title = 'rosalution';
-
-onMounted(async () => {
-  // console.log("FROM ON MOUNTED: ")
-  renderNextBatch();
-  // console.log("FROM ON MOUNTED: done")
-});
 
 </script>
 

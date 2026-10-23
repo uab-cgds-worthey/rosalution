@@ -153,10 +153,6 @@ class AnnotationService:
 
                 while not processor.annotation_unit_queue_empty() or processor.are_tasks_processing():
                     if processor.annotation_unit_queue_empty():
-                        logger.info(
-                            "%s Waiting for processing '%s' annotation tasks to complete ...", annotation_log_label(),
-                            processor.number_of_tasks_processing()
-                        )
                         await asyncio.gather(*processor.processsing_tasks(), return_exceptions=True)
                         continue
 
@@ -164,9 +160,8 @@ class AnnotationService:
                     annotation_unit = processor.queue.get()
                     await processor.process_annotation_unit(annotation_unit)
 
-                logger.info("%s Processing annotation unit queue complete", annotation_log_label())
+                logger.info("%s Processing annotation units queue complete", annotation_log_label())
 
-                logger.info("%s Processing annotation tasks queue complete", annotation_log_label())
                 processor.log_dataset_failures()
 
         try:
@@ -388,11 +383,6 @@ class AnnotationProcess():
             cached_version = self.version_cache[version_cache_id]
             annotation_unit.set_latest_version(cached_version)
             logger.info('%s Version From Cache %s...', format_annotation_logging(annotation_unit), cached_version)
-        else:
-            logger.info(
-                '%s Waiting for Version Task To Complete To Retrieve From Cache - %s...',
-                format_annotation_logging(annotation_unit), version_cache_id
-            )
         self.queue.put(annotation_unit)
 
     async def handle_annotation_unit_dependencies(self, annotation_unit: AnnotationUnit):
