@@ -52,6 +52,7 @@
 </template>
 
 <script setup>
+import {computed} from 'vue';
 import {StatusType} from '@/config.js';
 import {useThirdPartyAsset} from '@/composables/useThirdPartyAsset.js';
 
@@ -93,15 +94,22 @@ const props = defineProps({
 
 const {thirdPartyLogoAsset} = useThirdPartyAsset();
 
-const isLatestStatusValid = props.latest_status in StatusType;
+const isLatestStatusValid = computed(() => props.latest_status in StatusType );
 
-const workflowIcon = isLatestStatusValid ? StatusType[props.latest_status].icon : 'question';
-const workflowColor =  isLatestStatusValid ? StatusType[props.latest_status].color : '--rosalution-white';
-const workflowColorStyle = {color: `var(${workflowColor})`};
-const cardBorderColorStyle = {
-  'border-color': `var(${workflowColor})`,
-  'color': `var(${workflowColor})`,
-};
+const workflowIcon = computed(() => isLatestStatusValid.value ? StatusType[props.latest_status].icon : 'question');
+const workflowColor =  computed(() => {
+  return isLatestStatusValid.value ? StatusType[props.latest_status].color : '--rosalution-white';
+});
+const workflowColorStyle = computed(() => {
+  return {color: `var(${workflowColor.value})`};
+});
+const cardBorderColorStyle =  computed(() => {
+  return {
+    'border-color': `var(${workflowColor.value})`,
+    'color': `var(${workflowColor.value})`,
+  };
+});
+
 
 </script>
 

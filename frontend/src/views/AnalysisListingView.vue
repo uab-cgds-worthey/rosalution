@@ -69,7 +69,6 @@ const isLoaded = ref(false);
 
 const filteredAnalysisListing = computed(() => {
   return analysisList.value.filter((analysis) => {
-    console.log(analysis, workflowStatusFilters.value.length === 0 || workflowStatusFilters.value.includes(analysis.latest_status));
     return workflowStatusFilters.value.length === 0 || workflowStatusFilters.value.includes(analysis.latest_status);
   });
 });

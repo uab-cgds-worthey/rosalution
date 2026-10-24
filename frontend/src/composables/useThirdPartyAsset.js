@@ -7,15 +7,19 @@ export function useThirdPartyAsset(incomingInputDialog = null) {
 
   function thirdPartyLogoAsset(thirdPartyType) {
     if ( null == preloadedIconAssets ) {
+      console.log('preloading assets');
       preloadedIconAssets = Object.fromEntries(
           Object.entries(ThirdPartyIconUrl).map(([key, path]) => [
             key,
             new URL(path, import.meta.url).href,
           ]),
       );
+      console.log(preloadedIconAssets);
     }
-    
-    return  thirdPartyType in preloadedIconAssets ? preloadedIconAssets[preloadedIconAssets] : '';
+
+    console.log('getting icon for', thirdPartyType);
+
+    return  thirdPartyType in preloadedIconAssets ? preloadedIconAssets[thirdPartyType] : '';
   }
 
   function thirdPartyLogoStyle(thirdPartyType) {

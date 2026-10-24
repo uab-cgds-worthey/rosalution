@@ -60,7 +60,7 @@ const ThirdPartyIconUrl = {
   'phenotips_com': '/src/assets/phenotips-favicon-96x96.png',
   'wrike_com': '/src/assets/wrike_com.svg',
   'varsome_com': '/src/assets/varsome_logo.png',
-  'onedrive_com': '/src/assets/microsoft-onedrive-logo.svg'
+  'onedrive_com': '/src/assets/microsoft-onedrive-logo.svg',
 };
 
 export {StatusType, getWorkflowStatusIcon, ThirdPartyIconUrl};
