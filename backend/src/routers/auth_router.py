@@ -14,7 +14,7 @@ from cas import CASClient
 from ..dependencies import get_db
 from ..config import Settings, get_settings
 from ..models.user import User, AccessUserAPI
-from ..security.oauth2 import OAuth2ClientCredentialsRequestForm, HTTPClientCredentials, HTTPBasicClientCredentials
+from ..security.oauth2 import OAuth2ClientCredentialsRequestForm, HTTPBasicClientCredentials
 from ..security.security import (create_access_token, get_authorization, get_current_user, generate_client_secret)
 
 router = APIRouter(prefix="/auth", tags=["auth"])
