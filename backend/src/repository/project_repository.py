@@ -2,7 +2,6 @@
 Collection with retrieves, creates, and modify projects.
 """
 
-
 from .analysis_collection_summary import AnalysisCollectionSummary
 
 

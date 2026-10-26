@@ -21,7 +21,6 @@ from ..dependencies import get_db
 from ..models.user import ProjectUser
 from ..security.oauth2 import OAuth2ClientCredentials
 
-
 settings_for_openapi_token_path = get_settings()
 oauth2_scheme = OAuth2ClientCredentials(tokenUrl=settings_for_openapi_token_path.openapi_api_token_route)
 

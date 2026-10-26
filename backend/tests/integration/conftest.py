@@ -25,7 +25,7 @@ def fixture_anyio_backend():
 
 
 @pytest.fixture(name="client", scope='session')
-async def test_application_client(anyio_backend): # pylint: disable=unused-argument
+async def test_application_client(anyio_backend):  # pylint: disable=unused-argument
     """A class scoped FastApi Test Client"""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as async_client:
         yield async_client
@@ -52,7 +52,7 @@ def mock_queue():
 
 
 @pytest.fixture(name="async_db_client", scope="session")
-async def fixture_async_db_client(anyio_backend): # pylint: disable=unused-argument
+async def fixture_async_db_client(anyio_backend):  # pylint: disable=unused-argument
     """Mocked asynchronus database client which creates a docker container with the asynchronus mongodb client"""
 
     services = ['rosalution-integration-db']

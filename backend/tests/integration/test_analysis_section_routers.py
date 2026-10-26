@@ -118,8 +118,7 @@ async def test_remove_existing_pedigree_section_image(client, mock_access_token)
     pedigree_image_id = "63505be22888347cf1c275db"
 
     response = await client.delete(
-        f"/analysis/CPAM0002/sections/{pedigree_image_id}",
-        headers={"Authorization": "Bearer " + mock_access_token}
+        f"/analysis/CPAM0002/sections/{pedigree_image_id}", headers={"Authorization": "Bearer " + mock_access_token}
     )
 
     assert response.status_code == 200

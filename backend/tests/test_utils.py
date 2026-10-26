@@ -8,7 +8,6 @@ DATABSE_FIXTURE_PATH = "../../etc/fixtures/initial-seed/"
 FIXTURE_PATH = "./fixtures/"
 ASSETS_FIXTURE_PATH = f"{FIXTURE_PATH}assets/"
 
-
 # def fixture_path():
 #     """Returns the fixture data binary"""
 #     path_to_current_file = os.path.realpath(__file__)
