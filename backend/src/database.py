@@ -47,3 +47,7 @@ class Database:
         See FastAPI docs to learn more https://fastapi.tiangolo.com/advanced/advanced-dependencies/#a-callable-instance
         """
         return self.collections
+
+    async def ping(self):
+        """Wrapper method to confirm sucessful datbaase connection"""
+        return await self.database.command("ping")

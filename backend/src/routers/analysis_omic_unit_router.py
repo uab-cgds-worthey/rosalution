@@ -2,15 +2,17 @@
 
 # pylint: disable=duplicate-code
 
+from typing import Annotated
 from fastapi import APIRouter, Depends, Security, BackgroundTasks, HTTPException, status
 from pydantic import BaseModel
 
-from ..dependencies import database, annotation_queue
+from ..dependencies import annotation_queue, get_db
 from ..security.security import get_write_project_authorization
 
 from ..models.analysis import Analysis
 from ..core.phenotips_importer import PhenotipsImporter
 from ..core.annotation import AnnotationService
+from ..config import Settings, get_settings
 
 router = APIRouter(tags=["analysis genomic units"])
 
@@ -34,27 +36,28 @@ class IncomingEditGenomicUnit(BaseModel):
     tags=["analysis genomic units"],
     dependencies=[Security(get_write_project_authorization)]
 )
-def add_genomic_units(
+async def add_genomic_units(
     background_tasks: BackgroundTasks,
     analysis_name: str,
     new_genomic_unit: IncomingGenomicUnit,
-    repositories=Depends(database),
+    repositories: Annotated[dict, Depends(get_db)],
+    settings: Annotated[Settings, Depends(get_settings)],
     annotation_task_queue=Depends(annotation_queue)
 ):
     """Adding a new genomic unit to an analysis by Analysis Name"""
 
     new_genomic_unit_dict = new_genomic_unit.model_dump()
 
-    updated_analysis_json = repositories["analysis"].add_genomic_units(analysis_name, new_genomic_unit_dict)
+    updated_analysis_json = await repositories["analysis"].add_genomic_units(analysis_name, new_genomic_unit_dict)
 
     # Default setting the reference build to Build 38 due to Rosalution only supporting build 38 at this time
     new_genomic_unit_dict["reference_genome"] = "GRCh38"
 
     new_genomic_unit_data = PhenotipsImporter.import_genomic_unit_collection_data(new_genomic_unit_dict, "gene")
-    repositories["genomic_unit"].create_genomic_unit(new_genomic_unit_data)
+    await repositories["genomic_unit"].create_genomic_unit(new_genomic_unit_data)
 
     new_genomic_unit_data = PhenotipsImporter.import_genomic_unit_collection_data(new_genomic_unit_dict, "hgvs")
-    repositories["genomic_unit"].create_genomic_unit(new_genomic_unit_data)
+    await repositories["genomic_unit"].create_genomic_unit(new_genomic_unit_data)
 
     analysis = Analysis(**updated_analysis_json)
     new_genomic_units_list = []
@@ -67,10 +70,11 @@ def add_genomic_units(
 
     # Calling AnnotationService to queue annotation tasks by given unit
     annotation_service = AnnotationService(repositories["annotation_config"])
-    annotation_service.queue_annotation_tasks_by_unit(analysis, new_genomic_unit_to_annotate, annotation_task_queue)
-    background_tasks.add_task(
-        AnnotationService.process_tasks, annotation_task_queue, repositories['genomic_unit'], repositories["analysis"]
+    await annotation_service.queue_annotation_tasks_by_unit(
+        analysis, new_genomic_unit_to_annotate, annotation_task_queue
     )
+
+    background_tasks.add_task(AnnotationService.process_tasks, annotation_task_queue, settings)
 
     return updated_analysis_json["genomic_units"]
 
@@ -78,16 +82,13 @@ def add_genomic_units(
 @router.put(
     "/{analysis_name}/genomic_unit/{gene}/{hgvs_variant}", dependencies=[Security(get_write_project_authorization)]
 )
-def edit_genomic_unit_reason_of_interest(
-    analysis_name: str,
-    gene: str,
-    hgvs_variant: str,
-    edit_unit: IncomingEditGenomicUnit,
-    repositories=Depends(database)
+async def edit_genomic_unit_reason_of_interest(
+    analysis_name: str, gene: str, hgvs_variant: str, edit_unit: IncomingEditGenomicUnit,
+    repositories: Annotated[dict, Depends(get_db)]
 ):
     """Editing the reason of interest for a manually added genomic unit in an analysis"""
 
-    updated_analysis_json = repositories["analysis"].edit_genomic_unit_reason_of_interest(
+    updated_analysis_json = await repositories["analysis"].edit_genomic_unit_reason_of_interest(
         analysis_name, gene, hgvs_variant, edit_unit.reason_of_interest
     )
 
@@ -97,14 +98,18 @@ def edit_genomic_unit_reason_of_interest(
 @router.delete(
     "/{analysis_name}/genomic_unit/{gene}/{hgvs_variant}", dependencies=[Security(get_write_project_authorization)]
 )
-def delete_manual_genomic_unit(analysis_name: str, gene: str, hgvs_variant: str, repositories=Depends(database)):
+async def delete_manual_genomic_unit(
+    analysis_name: str, gene: str, hgvs_variant: str, repositories: Annotated[dict, Depends(get_db)]
+):
     """
     Deleting a manually added genomic unit from an analysis. Returns an HTTP 405 Method Not Allowed if the 
     genomic unit is an original from the analysis creation.
     """
 
     try:
-        updated_analysis_json = repositories["analysis"].delete_manual_omic_unit(analysis_name, gene, hgvs_variant)
+        updated_analysis_json = await repositories["analysis"].delete_manual_omic_unit(
+            analysis_name, gene, hgvs_variant
+        )
     except ValueError as exception:
         raise HTTPException(status_code=status.HTTP_405_METHOD_NOT_ALLOWED, detail=str(exception)) from exception
 

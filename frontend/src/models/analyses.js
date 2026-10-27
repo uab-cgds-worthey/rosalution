@@ -14,7 +14,7 @@ export default {
 
   async all() {
     const baseUrl = '/rosalution/api/';
-    const urlQuery = 'analysis/summary';
+    const urlQuery = 'analysis/summary?profile=1&profile_format=html';
     const analysesSummary = await Requests.get(baseUrl + urlQuery);
     return analysesSummary;
   },

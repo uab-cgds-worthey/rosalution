@@ -2,27 +2,35 @@
 import json
 import os
 
-from unittest.mock import Mock, MagicMock
+from unittest.mock import AsyncMock, MagicMock
 
 DATABSE_FIXTURE_PATH = "../../etc/fixtures/initial-seed/"
-UNIT_TEST_FIXTURE_PATH = "./fixtures/"
+FIXTURE_PATH = "./fixtures/"
+ASSETS_FIXTURE_PATH = f"{FIXTURE_PATH}assets/"
 
 
-def fixture_filepath(filename):
+def integration_database_fixture_path():
+    """Returns the path to the integration-mongodb-database directory"""
+    path_to_current_file = os.path.realpath(__file__)
+    current_directory = os.path.split(path_to_current_file)[0]
+    return os.path.join(current_directory, FIXTURE_PATH + "integration-mongodb-database/")
+
+
+def assets_fixture_filepath(filename):
     """Returns the fixture data binary"""
     path_to_current_file = os.path.realpath(__file__)
     current_directory = os.path.split(path_to_current_file)[0]
-    return os.path.join(current_directory, UNIT_TEST_FIXTURE_PATH + filename)
+    return os.path.join(current_directory, ASSETS_FIXTURE_PATH + filename)
 
 
-def read_database_fixture(fixture_filename):
-    """reads the JSON from the filepath relative to the database fixtures in etc"""
-    return read_fixtures(DATABSE_FIXTURE_PATH, fixture_filename)
+def read_assset_fixture(fixture_name):
+    """reads the text file from the assests fixture path"""
+    return read_fixtures(ASSETS_FIXTURE_PATH, fixture_name)
 
 
 def read_test_fixture(fixture_filename):
     """reads the JSON from the filepath relative to the tests"""
-    return read_fixtures(UNIT_TEST_FIXTURE_PATH, fixture_filename)
+    return read_fixtures(FIXTURE_PATH, fixture_filename)
 
 
 def read_fixtures(base_path, fixture_filename):
@@ -42,43 +50,29 @@ def mock_mongo_collection():
     Returns the annotation collection for the configuration to verify
     annotation tasks are created according to the configuration
     """
-    mock_collection = Mock()
-    mock_collection.aggregate = Mock()
-    mock_collection.find = Mock()
-    mock_collection.find_one = Mock()
-    mock_collection.update_one = Mock()
-    mock_collection.insert_one = Mock()
-    mock_collection.find_one_and_update = Mock()
-    mock_collection.count_documents = Mock()
-    return mock_collection
-
-
-def magic_mock_mongo_collection():
-    """
-    Returns the annotation collection for the configuration to verify
-    annotation tasks are created according to the configuration
-    """
-    mock_collection = MagicMock()
-    mock_collection.aggregate = MagicMock()
-    mock_collection.find = MagicMock()
-    mock_collection.find_one = MagicMock()
-    mock_collection.update_one = MagicMock()
-    mock_collection.insert_one = MagicMock()
-    mock_collection.find_one_and_update = MagicMock()
-    mock_collection.count_documents = MagicMock()
+    fake_mongodb_cursor = AsyncMock()
+    fake_mongodb_cursor.to_list.return_value = []
+    mock_collection = AsyncMock()
+    mock_collection.aggregate = AsyncMock()
+    mock_collection.find = AsyncMock(return_value=fake_mongodb_cursor)
+    mock_collection.find_one = AsyncMock()
+    mock_collection.update_one = AsyncMock()
+    mock_collection.insert_one = AsyncMock()
+    mock_collection.find_one_and_update = AsyncMock()
+    mock_collection.count_documents = AsyncMock()
     return mock_collection
 
 
 def mock_gridfs_bucket():
     """Returns a mocked GridFS bucket"""
-    mock_bucket = Mock()
-    mock_bucket.open_download_stream = Mock()
-    mock_bucket.open_upload_stream = Mock()
-    mock_bucket.put = Mock()
-    mock_bucket.get = Mock()
-    mock_bucket.list = Mock()
-    mock_bucket.exists = Mock()
-    mock_bucket.delete = Mock()
+    mock_bucket = AsyncMock()
+    mock_bucket.open_download_stream = AsyncMock()
+    mock_bucket.open_upload_stream = AsyncMock()
+    mock_bucket.put = AsyncMock()
+    mock_bucket.get = AsyncMock()
+    mock_bucket.list = AsyncMock()
+    mock_bucket.exists = AsyncMock()
+    mock_bucket.delete = AsyncMock()
     return mock_bucket
 
 
@@ -95,20 +89,39 @@ def magic_mock_gridfs_bucket():
     return mock_bucket
 
 
-# Disabling PyLint due to this being a simple Mock adapter as a simple test harness for emulating mising a dependency
-class SkipDependencies:  # pylint: disable=too-few-public-methods
+class SkipManifestEntriesExist:  # pylint: disable=too-few-public-methods
     """ A skip annotation dependencies helper class that allows tester to dictate which datasets to skip once to
     emulate a depedency not existing the first time when preparing an Annotation Task for annotation."""
 
-    def __init__(self, dependencies_to_skip=None):
-        """ Dictating the list of  of dataset names to emulate that dataset annotation not existing."""
+    def __init__(self, dependencies_to_exist=None, dependencies_to_skip=None):
+        """ Dictating the list of  of dataset names to emulate which depedencies will exist or not"""
         self.skip_tracker = {}
-        self.to_skip = dependencies_to_skip if dependencies_to_skip else ["HGNC_ID"]
+        self.mock_manifest_entry = {}
 
-    def skip_hgncid_get_value_first_time_mock(self, *args):
+        self.dependencies_to_exist = dependencies_to_exist if dependencies_to_exist else ["HPO_NCBI_GENE_ID"]
+        self.dependencies_to_skip = dependencies_to_skip if dependencies_to_skip else ["HGNC_ID"]
+
+        for dataset in (*dependencies_to_skip, *dependencies_to_exist):
+            self.skip_tracker[dataset] = 0
+            self.mock_manifest_entry[dataset] = {
+                "data_set": "mock-dataset", "data_source": "mock-datasource", "version": "fake-version"
+            }
+
+    def set_analysis_manifest_entry(self, dataset_name: str, dependency_manifest_entry: dict):
+        """ Set the analysis manifest entry for the dataset_name proivded """
+        self.mock_manifest_entry[dataset_name] = dependency_manifest_entry
+
+    async def fake_get_manifest_dataset_config(self, *args):
         """ Mock method that tracks if the provided dependencies are one of the ones indicated to skip"""
-        annotation_unit = args[0]
-        name = annotation_unit.get_dataset_name()
-        genomic_unit = annotation_unit.get_genomic_unit()
-        should_skip = (name in self.to_skip and name not in self.skip_tracker)
-        return self.skip_tracker.setdefault(name, None) if should_skip else f"{genomic_unit}-{name}-value"
+        _, _, dataset_name = args
+
+        # the dependency will not get its manifest entry checked and need to exist to annotate
+        if dataset_name not in self.skip_tracker:
+            return None
+
+        expected_skip_count_completed = 2 if dataset_name in self.dependencies_to_exist else 2
+        self.skip_tracker[dataset_name] += 1
+        if expected_skip_count_completed < self.skip_tracker[dataset_name]:
+            return self.mock_manifest_entry[dataset_name]
+
+        return None

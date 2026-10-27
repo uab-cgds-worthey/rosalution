@@ -10,85 +10,96 @@ from src.models.event import Event
 from ...test_utils import read_test_fixture
 
 
-def test_all(analysis_collection):
+@pytest.mark.anyio
+async def test_all(analysis_collection):
     """Tests the all function"""
-    actual = analysis_collection.all()
+    actual = await analysis_collection.all()
     assert len(actual) == 3
     assert actual[0]["name"] == "CPAM0002"
 
 
-def test_summary_by_name(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_summary_by_name(analysis_collection, cpam0002_analysis_json):
     """Tests the summary_by_name function"""
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
-    actual = analysis_collection.summary_by_name("CPAM0002")
+    actual = await analysis_collection.summary_by_name("CPAM0002")
     assert actual["name"] == "CPAM0002"
 
 
-def test_find_by_name(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_find_by_name(analysis_collection, cpam0002_analysis_json):
     """Tests the find_by_name function"""
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
-    actual = analysis_collection.find_by_name("CPAM0002")
+    actual = await analysis_collection.find_by_name("CPAM0002")
     assert actual["name"] == "CPAM0002"
 
 
-def test_find_file_by_name(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_find_file_by_name(analysis_collection, cpam0002_analysis_json):
     """Tests the find_file_by_name function"""
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
-    actual = analysis_collection.find_file_by_name("CPAM0002", "test.txt")
+    actual = await analysis_collection.find_file_by_name("CPAM0002", "test.txt")
     assert actual == {'attachment_id': '633afb87fb250a6ea1569555', 'comments': 'hello world', 'name': 'test.txt'}
 
 
-def test_find_file_by_name_analysis_none(analysis_collection):
+@pytest.mark.anyio
+async def test_find_file_by_name_analysis_none(analysis_collection):
     """Tests the find_file_by_name function"""
     analysis_collection.collection.find_one.return_value = None
-    actual = analysis_collection.find_file_by_name("CPAM1234", "notfound.txt")
+    actual = await analysis_collection.find_file_by_name("CPAM1234", "notfound.txt")
     assert actual is None
 
 
-def test_find_file_by_name_no_attachment(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_find_file_by_name_no_attachment(analysis_collection, cpam0002_analysis_json):
     """Tests the find_file_by_name function"""
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json.pop('attachments')
-    actual = analysis_collection.find_file_by_name("CPAM0002", "notfound.txt")
+    actual = await analysis_collection.find_file_by_name("CPAM0002", "notfound.txt")
     assert actual is None
 
 
-def test_get_genomic_units(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_get_genomic_units(analysis_collection, cpam0002_analysis_json):
     """Tests the get_genomic_units function"""
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
-    actual = analysis_collection.get_genomic_units("CPAM0002")
+    actual = await analysis_collection.get_genomic_units("CPAM0002")
     assert len(actual) == 2
 
 
-def test_get_genomic_units_analysis_does_not_exist(analysis_collection):
+@pytest.mark.anyio
+async def test_get_genomic_units_analysis_does_not_exist(analysis_collection):
     """Tests the get_genomic_units function"""
     analysis_collection.collection.find_one.return_value = None
     try:
-        analysis_collection.get_genomic_units("CPAM2222")
+        await analysis_collection.get_genomic_units("CPAM2222")
     except ValueError as error:
         assert isinstance(error, ValueError)
         assert str(error) == "Analysis with name CPAM2222 does not exist"
 
 
-def test_get_genomic_units_analysis_has_no_genomic_units(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_get_genomic_units_analysis_has_no_genomic_units(analysis_collection, cpam0002_analysis_json):
     """Tests the get_genomic_units function"""
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json.pop("genomic_units")
 
     try:
-        analysis_collection.get_genomic_units("CPAM0002")
+        await analysis_collection.get_genomic_units("CPAM0002")
     except ValueError as error:
         assert isinstance(error, ValueError)
         assert str(error) == "Analysis CPAM0002 does not have genomic units"
 
 
-def test_get_genomic_units_with_no_p_dot(analysis_collection, analysis_with_no_p_dot):
+@pytest.mark.anyio
+async def test_get_genomic_units_with_no_p_dot(analysis_collection, analysis_with_no_p_dot):
     """Tests the get_genomic_units function"""
     analysis_collection.collection.find_one.return_value = analysis_with_no_p_dot
-    actual = analysis_collection.get_genomic_units("CPAM1111")
+    actual = await analysis_collection.get_genomic_units("CPAM1111")
     assert len(actual) == 2
     assert actual == {'genes': {'VMA21': ['NM_001017980.3:c.164G>T']}, 'variants': ['NM_001017980.3:c.164G>T']}
 
 
-def test_create_analysis(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_create_analysis(analysis_collection, cpam0002_analysis_json):
     """Tests the create_analysis function"""
     analysis_collection.collection.find_one.return_value = None
 
@@ -97,62 +108,64 @@ def test_create_analysis(analysis_collection, cpam0002_analysis_json):
     new_analysis = cpam0002_analysis_json
     new_analysis["name"] = "CPAM1234"
     new_analysis["project_id"] = ObjectId(project_id)
-    analysis_collection.create_analysis(project_id, project_name, new_analysis)
+
+    await analysis_collection.create_analysis(project_id, project_name, new_analysis)
+
     analysis_collection.collection.insert_one.assert_called_once_with(new_analysis)
 
 
-def test_create_analysis_already_exists(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_create_analysis_already_exists(analysis_collection, cpam0002_analysis_json):
     """Tests the create_analysis function"""
     try:
         project_id = "695d5b157709ebcd1c7325c0"
         project_name = "CPAM"
-        analysis_collection.create_analysis(project_id, project_name, cpam0002_analysis_json)
+        await analysis_collection.create_analysis(project_id, project_name, cpam0002_analysis_json)
     except ValueError as error:
         assert isinstance(error, ValueError)
         assert str(error) == "Analysis 'CPAM0002' already exists within Project 'CPAM'"
 
 
-def test_attach_third_party_link_monday(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+@pytest.mark.parametrize(
+    "attachment_type,url", [('monday_com', 'https://monday.com'), ('phenotips_com', 'https://phenotips.com')]
+)
+async def test_attach_third_party_link_monday(attachment_type, url, analysis_collection, cpam0002_analysis_json):
     """Tests the attach_third_party_link function"""
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
-    analysis_collection.attach_third_party_link("CPAM0002", "monday_com", "https://monday.com")
+    analysis_collection.collection.find_one_and_update.return_value = {"_id": "fake-object-id", "mock-success": True}
+    await analysis_collection.attach_third_party_link("CPAM0002", attachment_type, url)
     analysis_collection.collection.find_one_and_update.assert_called_with({'name': 'CPAM0002'}, {
-        '$push': {'third_party_links': {'type': "monday_com", 'link': "https://monday.com"}}
+        '$push': {'third_party_links': {'type': attachment_type, 'link': url}}
     },
                                                                           return_document=True)
 
 
-def test_attach_third_party_link_phenotips(analysis_collection, cpam0002_analysis_json):
-    """Tests the attach_third_party_link function"""
-    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
-    analysis_collection.attach_third_party_link("CPAM0002", "phenotips_com", "https://phenotips.com")
-    analysis_collection.collection.find_one_and_update.assert_called_with({'name': 'CPAM0002'}, {
-        '$push': {'third_party_links': {'type': "phenotips_com", 'link': 'https://phenotips.com'}}
-    },
-                                                                          return_document=True)
-
-
-def test_attach_third_party_link_analysis_does_not_exist(analysis_collection):
+@pytest.mark.anyio
+async def test_attach_third_party_link_analysis_does_not_exist(analysis_collection):
     """Tests the attach_third_party_link function"""
     analysis_collection.collection.find_one.return_value = None
     try:
-        analysis_collection.attach_third_party_link("CPAM02222", "MONDAY_COM", "https://monday.com")
+        await analysis_collection.attach_third_party_link("CPAM02222", "MONDAY_COM", "https://monday.com")
     except ValueError as error:
         assert isinstance(error, ValueError)
         assert str(error) == "Analysis 'CPAM02222' does not exist"
 
 
-def test_attach_third_party_link_unsupported_enum(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_attach_third_party_link_unsupported_enum(analysis_collection, cpam0002_analysis_json):
     """Tests the attach_third_party_link function"""
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
+    analysis_collection.collection.find_one_and_update.return_value = {"_id": "fake-object-id", "mock-success": True}
     try:
-        analysis_collection.attach_third_party_link("CPAM02222", "BAD_ENUM", "https://monday.com")
+        await analysis_collection.attach_third_party_link("CPAM02222", "BAD_ENUM", "https://monday.com")
     except ValueError as error:
         assert isinstance(error, ValueError)
         assert str(error) == "Third party link type BAD_ENUM is not supported"
 
 
-def test_mark_ready(analysis_collection, cpam0002_analysis_json, create_timestamp, ready_timestamp):
+@pytest.mark.anyio
+async def test_mark_ready(analysis_collection, cpam0002_analysis_json, create_timestamp, ready_timestamp):
     """Tests the mark_ready function"""
     staging_analysis_timeline = cpam0002_analysis_json
     staging_analysis_timeline["timeline"] = [{
@@ -161,6 +174,7 @@ def test_mark_ready(analysis_collection, cpam0002_analysis_json, create_timestam
         'username': 'user01',
     }]
     analysis_collection.collection.find_one.return_value = staging_analysis_timeline
+    analysis_collection.collection.find_one_and_update.return_value = {'mock-success': True, '_id': 'fjdialjfdiajf'}
     with patch(
         "src.models.event.Event.timestamp_event",
         return_value=Event(
@@ -171,7 +185,7 @@ def test_mark_ready(analysis_collection, cpam0002_analysis_json, create_timestam
             }
         )
     ):
-        analysis_collection.update_event("CPAM0002", "user01", EventType.READY)
+        await analysis_collection.update_event("CPAM0002", "user01", EventType.READY)
         analysis_collection.collection.find_one_and_update.assert_called_with(
             {"name": "CPAM0002"},
             {
@@ -186,20 +200,22 @@ def test_mark_ready(analysis_collection, cpam0002_analysis_json, create_timestam
         )
 
 
-def test_mark_ready_analysis_does_not_exist(analysis_collection):
+@pytest.mark.anyio
+async def test_mark_ready_analysis_does_not_exist(analysis_collection):
     """Tests the mark_ready function returns an error if the analysis does not exist"""
     analysis_collection.collection.find_one.return_value = None
     try:
-        analysis_collection.update_event("CPAM2222", "user01", EventType.READY)
+        await analysis_collection.update_event("CPAM2222", "user01", EventType.READY)
     except ValueError as error:
         assert isinstance(error, ValueError)
         assert str(error) == "Analysis with name CPAM2222 does not exist."
 
 
-def test_update_analysis_section(analysis_collection, cpam0112_analysis_json):
+@pytest.mark.anyio
+async def test_update_analysis_section(analysis_collection, cpam0112_analysis_json):
     """Tests the update_analysis_section function"""
     analysis_collection.collection.find_one.return_value = cpam0112_analysis_json
-    analysis_collection.update_analysis_section(
+    await analysis_collection.update_analysis_section(
         "CPAM0112", "Brief", "Reason", {"value": ["the quick brown fox jumps over the lazy dog."]}
     )
 
@@ -215,11 +231,14 @@ def test_update_analysis_section(analysis_collection, cpam0112_analysis_json):
     assert actual_updated_field is not None
 
 
-def test_add_image_to_pedigree_section(analysis_collection, cpam0002_analysis_json_without_pedigree_section_image):
+@pytest.mark.anyio
+async def test_add_image_to_pedigree_section(
+    analysis_collection, cpam0002_analysis_json_without_pedigree_section_image
+):
     """Tests adding an image to the pedigree section of the CPAM0002 analysis"""
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json_without_pedigree_section_image
 
-    analysis_collection.add_section_image("CPAM0002", "Pedigree", "Pedigree", "63505be22888347cf1c275db")
+    await analysis_collection.add_section_image("CPAM0002", "Pedigree", "Pedigree", "63505be22888347cf1c275db")
 
     analysis_collection.collection.find_one_and_update.assert_called_once()
     updated_analysis = analysis_collection.collection.find_one_and_update.call_args_list[0][0][1]['$set']
@@ -230,12 +249,13 @@ def test_add_image_to_pedigree_section(analysis_collection, cpam0002_analysis_js
     assert len(actual_updated_pedigree_section['content'][0]['value']) == 1
 
 
-def test_add_an_additional_image_to_pedigree_section(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_add_an_additional_image_to_pedigree_section(analysis_collection, cpam0002_analysis_json):
     """ Tests adding another image to the pedigree section of the CPAM0002 analysis """
 
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
 
-    analysis_collection.add_section_image("CPAM0002", "Pedigree", "Pedigree", "second-fake-file-id")
+    await analysis_collection.add_section_image("CPAM0002", "Pedigree", "Pedigree", "second-fake-file-id")
 
     analysis_collection.collection.find_one_and_update.assert_called_once()
     updated_analysis = analysis_collection.collection.find_one_and_update.call_args_list[0][0][1]['$set']
@@ -246,13 +266,14 @@ def test_add_an_additional_image_to_pedigree_section(analysis_collection, cpam00
     assert len(actual_updated_pedigree_section['content'][0]['value']) == 2
 
 
-def test_update_existing_image_in_pedigree_section(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_update_existing_image_in_pedigree_section(analysis_collection, cpam0002_analysis_json):
     """ Tests updating an image in the pedigree section and receiving a new section with the updated image id """
 
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
     analysis_collection.collection.find_one_and_update.return_value = cpam0002_analysis_json
 
-    analysis_collection.update_section_image(
+    await analysis_collection.update_section_image(
         "CPAM0002", "Pedigree", "Pedigree", "new-fake-file-id", "63505be22888347cf1c275db"
     )
 
@@ -269,7 +290,8 @@ def test_update_existing_image_in_pedigree_section(analysis_collection, cpam0002
     assert actual_updated_field['value'] == [{'file_id': 'new-fake-file-id'}]
 
 
-def test_attach_section_attachment_file(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_attach_section_attachment_file(analysis_collection, cpam0002_analysis_json):
     """ Tests attaching a file within an analysis section """
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
 
@@ -278,7 +300,7 @@ def test_attach_section_attachment_file(analysis_collection, cpam0002_analysis_j
         "comments": "These are comments"
     }
 
-    analysis_collection.attach_section_attachment_file(
+    await analysis_collection.attach_section_attachment_file(
         "CPAM0002", "Mus musculus (Mouse) Model System", "Veterinary Histology Report", field_value_file
     )
 
@@ -296,7 +318,8 @@ def test_attach_section_attachment_file(analysis_collection, cpam0002_analysis_j
     }]
 
 
-def test_attach_section_attachment_link(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_attach_section_attachment_link(analysis_collection, cpam0002_analysis_json):
     """ Tests adding a link as an attachment to an analysis section """
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
 
@@ -304,7 +327,7 @@ def test_attach_section_attachment_link(analysis_collection, cpam0002_analysis_j
         "name": "Google Link", "data": "https://www.google.com", "type": "link", "comments": "nothing to do with google"
     }
 
-    actual = analysis_collection.attach_section_attachment_link(
+    actual = await analysis_collection.attach_section_attachment_link(
         "CPAM0002", "Mus musculus (Mouse) Model System", "Veterinary Pathology Imaging", field_value_link
     )
 
@@ -316,13 +339,14 @@ def test_attach_section_attachment_link(analysis_collection, cpam0002_analysis_j
     assert new_attachment['data'] == 'https://www.google.com'
 
 
-def test_remove_section_image_attachment_from_section(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_remove_section_image_attachment_from_section(analysis_collection, cpam0002_analysis_json):
     """Tests removing an image from the pedigree section of the CPAM0002 analysis"""
 
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
     analysis_collection.collection.find_one_and_update.return_value = cpam0002_analysis_json
 
-    analysis_collection.remove_section_attachment("CPAM0002", "Pedigree", "Pedigree", "63505be22888347cf1c275db")
+    await analysis_collection.remove_section_attachment("CPAM0002", "Pedigree", "Pedigree", "63505be22888347cf1c275db")
 
     save_call_args = analysis_collection.collection.find_one_and_update.call_args[0]
     (actual_analysis_name, actual_update_query) = save_call_args
@@ -335,12 +359,13 @@ def test_remove_section_image_attachment_from_section(analysis_collection, cpam0
     assert actual_field['value'] == []
 
 
-def test_remove_section_attachment_(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_remove_section_attachment_(analysis_collection, cpam0002_analysis_json):
     """ Tests removing attachment from an analysis section """
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
     save_call_args = analysis_collection.collection.find_one_and_update.return_value = cpam0002_analysis_json
 
-    analysis_collection.remove_section_attachment(
+    await analysis_collection.remove_section_attachment(
         "CPAM0002", "Mus musculus (Mouse) Model System", "Veterinary Histology Report",
         "603dc3c1-c816-48ba-9f69-8fb34f173ecd"
     )
@@ -368,7 +393,8 @@ def get_field_from_analysis_sections_json(analysis_sections_json: list, section_
     return next((field for field in section['content'] if field['field'] == field_name), None)
 
 
-def test_add_discussion_post_to_analysis(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_add_discussion_post_to_analysis(analysis_collection, cpam0002_analysis_json):
     """ Tests adding a user's discussion post to an analysis """
 
     def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
@@ -386,7 +412,7 @@ def test_add_discussion_post_to_analysis(analysis_collection, cpam0002_analysis_
         "content": "Mauris at mauris eu neque varius suscipit.", "attachments": [], "thread": []
     }
 
-    actual = analysis_collection.add_discussion_post("CPAM0002", new_post)
+    actual = await analysis_collection.add_discussion_post("CPAM0002", new_post)
 
     assert len(actual) == 4
 
@@ -395,7 +421,8 @@ def test_add_discussion_post_to_analysis(analysis_collection, cpam0002_analysis_
     assert actual_most_recent_post == new_post
 
 
-def test_update_discussion_post_in_analysis(analysis_collection):
+@pytest.mark.anyio
+async def test_update_discussion_post_in_analysis(analysis_collection):
     """ Tests updating the content of a user's post from an analysis by the post id"""
     analysis_collection.collection.find_one_and_update.return_value = {"discussions": []}
 
@@ -407,13 +434,14 @@ def test_update_discussion_post_in_analysis(analysis_collection):
     expected_update = {"$set": {"discussions.$[item].content": discussion_content}}
     expected_filter = [{"item.post_id": discussion_post_id}]
 
-    analysis_collection.updated_discussion_post(discussion_post_id, discussion_content, analysis_name)
+    await analysis_collection.updated_discussion_post(discussion_post_id, discussion_content, analysis_name)
     analysis_collection.collection.find_one_and_update.assert_called_once_with(
         expected_find, expected_update, array_filters=expected_filter, return_document=True
     )
 
 
-def test_delete_discussion_post_in_analysis(analysis_collection):
+@pytest.mark.anyio
+async def test_delete_discussion_post_in_analysis(analysis_collection):
     """ Tests deleting a user's discussion post from an analysis by the post id """
     analysis_collection.collection.find_one_and_update.return_value = {"discussions": []}
 
@@ -423,13 +451,14 @@ def test_delete_discussion_post_in_analysis(analysis_collection):
     expected_find = {"name": analysis_name}
     expected_update = {"$pull": {"discussions": {"post_id": discussion_post_id}}}
 
-    analysis_collection.delete_discussion_post(discussion_post_id, analysis_name)
+    await analysis_collection.delete_discussion_post(discussion_post_id, analysis_name)
     analysis_collection.collection.find_one_and_update.assert_called_with(
         expected_find, expected_update, return_document=True
     )
 
 
-def test_attach_link(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_attach_link(analysis_collection, cpam0002_analysis_json):
     """Tests adding attachment to an analysis and return an updated analysis"""
 
     def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
@@ -441,7 +470,7 @@ def test_attach_link(analysis_collection, cpam0002_analysis_json):
 
     analysis_collection.collection.find_one_and_update.side_effect = valid_query_side_effect
 
-    actual_analysis = analysis_collection.attach_link(
+    actual_analysis = await analysis_collection.attach_link(
         "CPAM0002", "Interesting Article", "http://sites.uab.edu/cgds/", "Serious Things in here"
     )
 
@@ -453,7 +482,8 @@ def test_attach_link(analysis_collection, cpam0002_analysis_json):
     assert new_attachment['data'] == 'http://sites.uab.edu/cgds/'
 
 
-def test_attach_file(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_attach_file(analysis_collection, cpam0002_analysis_json):
     """Tests adding link attachment to an analysis and returns updated analysis"""
 
     def valid_query_side_effect(*args, **kwargs):  # pylint: disable=unused-argument
@@ -465,7 +495,7 @@ def test_attach_file(analysis_collection, cpam0002_analysis_json):
 
     analysis_collection.collection.find_one_and_update.side_effect = valid_query_side_effect
 
-    actual_analysis = analysis_collection.attach_file(
+    actual_analysis = await analysis_collection.attach_file(
         "CPAM0002", "Fake-Mongo-Object-ID-2", "SeriousFileName.pdf", "Serious Things said in here"
     )
 
@@ -476,23 +506,25 @@ def test_attach_file(analysis_collection, cpam0002_analysis_json):
     assert new_attachment['type'] == 'file'
 
 
-def test_remove_attachment(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_remove_attachment(analysis_collection, cpam0002_analysis_json):
     """Tests removing an attachment from an analysis"""
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
-    expected = read_test_fixture("analysis-CPAM0002.json")
+    expected = read_test_fixture("analysis-CPAM0002.unit.json")
     expected["attachments"] = []
     analysis_collection.collection.find_one_and_update.return_value = expected
-    actual = analysis_collection.remove_attachment("CPAM0002", "633afb87fb250a6ea1569555")
+    actual = await analysis_collection.remove_attachment("CPAM0002", "633afb87fb250a6ea1569555")
     assert actual == expected
 
 
-def test_delete_omic_unit_fail_when_not_manual(analysis_collection, cpam0002_analysis_json):
+@pytest.mark.anyio
+async def test_delete_omic_unit_fail_when_not_manual(analysis_collection, cpam0002_analysis_json):
     """Tests that delete_manual_omic_unit raises an error when the omic unit is not manually added"""
     analysis_collection.collection.count_documents.return_value = 0
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
 
     try:
-        analysis_collection.delete_manual_omic_unit("CPAM0002", "VMA21", "NM_001017980.3:c.164G>T")
+        await analysis_collection.delete_manual_omic_unit("CPAM0002", "VMA21", "NM_001017980.3:c.164G>T")
     except ValueError as error:
         assert isinstance(error, ValueError)
         assert str(error) == "VMA21 NM_001017980.3:c.164G>T is not a manually added unit within analysis CPAM0002"
