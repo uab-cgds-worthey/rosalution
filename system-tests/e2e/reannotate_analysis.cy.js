@@ -1,7 +1,7 @@
 (Cypress.config('isInteractive') ? describe : describe.skip)('reannotate_analysis.cy.js', () => {
   beforeEach(() => {
-    // cy.resetDatabase();
-    // cy.visit('/');
+    cy.resetDatabase();
+    cy.visit('/');
   });
 
   it('annotations CPAM0046', () => {

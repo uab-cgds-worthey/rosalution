@@ -11,6 +11,18 @@
 
 ### Chores
 
+- Pymongo Async Client and ROSALUTION_KEY mangement migrated to FastAPI's lifepsan to manage the resources more
+  explicitely for the duration of the backend service's lifecycle.
+  for the entirety of the backend server's lifecycle.  
+- Lazy loading frontend views to dynamically import a frontend view only when the frontend client requests it.
+- Created a useAuth composable to simplify integrating the auth store into components and views.
+- Migrate backend Pymongo API client to Pymongo AsyncClient API client; subsequently, all database method calls are
+  within async methods and use await.
+- Backend integration now connects to a live mongodb container manged by the integration test harness; uses
+  live database connection to simplify the complexity of interacting with the async mongodb client.
+    - Integration tests' live mongodb instance is instantiated as a single node replicate set to support rolling back
+      transactions to more efficiently reset database state fixtures inbetween tests.
+- New re-annotate system test to streamline testting re-annotation for analyses.
 - Bump all backend python-package dependencies to their latest supported versions for framework improvements and
   security vulnerability resolutions.
     - FastApi updates include improvements for performance of speed and memory efficiency.

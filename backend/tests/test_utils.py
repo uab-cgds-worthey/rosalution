@@ -8,12 +8,6 @@ DATABSE_FIXTURE_PATH = "../../etc/fixtures/initial-seed/"
 FIXTURE_PATH = "./fixtures/"
 ASSETS_FIXTURE_PATH = f"{FIXTURE_PATH}assets/"
 
-# def fixture_path():
-#     """Returns the fixture data binary"""
-#     path_to_current_file = os.path.realpath(__file__)
-#     current_directory = os.path.split(path_to_current_file)[0]
-#     return os.path.join(current_directory, FIXTURE_PATH)
-
 
 def integration_database_fixture_path():
     """Returns the path to the integration-mongodb-database directory"""

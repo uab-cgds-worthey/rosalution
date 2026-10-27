@@ -1,321 +1,320 @@
 [
-{
-  "gene_symbol": "VMA21",
-  "gene": "VMA21",
-  "annotations": [
-    {
-      "Entrez Gene Id": [
-        {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00",
-          "value": 203547
-        }
-      ]
-    },
-    {
-      "HPO_NCBI_GENE_ID": [
-        {
-          "data_source": "HPO",
-          "version": "2024-09-06",
-          "value": "NCBIGene:203547"
-        }
-      ]
-    },
-    {
-      "Ensembl Gene Id": [
-        {
-          "data_source": "Ensembl",
-          "version": "112",
-          "value": "NCBIGene:203547"
-        }
-      ]
-    },
-    {
-      "HGNC_ID": [
-        {
-          "data_source": "Ensembl",
-          "version": "112",
-          "value": "NCBIGene:203547"
-        }
-      ]
-    },
-    {
-      "ClinGen_gene_url": [
-        {
-          "data_source": "Rosalution",
-          "version": "112",
-          "value": "URL_HERE"
-        }
-      ]
-    },
-    {
-      "OMIM": [
-        {
-          "data_source": "HPO",
-          "version": "2024-09-06",
-          "value": "URL_HERE"
-        }
-      ]
-    }
-  ]
-},
-{
-  "hgvs_variant": "NM_001017980.3:c.164G>T",
-  "transcripts": [
-    {
-      "transcript_id": "NM_001017980.4",
-      "annotations": [
-        {
-          "transcript_id": [
-            {
-              "data_source": "Ensembl",
-              "version": "112",
-              "value": "NM_001017980.4"
-            }
-          ]
-        },
-        {
-          "Polyphen Score": [
-            {
-              "data_source": "Ensembl",
-              "version": "112",
-              "value": 0.597
-            }
-          ]
-        },
-        {
-          "Polyphen Prediction": [
-            {
-              "data_source": "Ensembl",
-              "version": "112",
-              "value": "possibly_damaging"
-            }
-          ]
-        },
-        {
-          "SIFT Score": [
-            {
-              "data_source": "Ensembl",
-              "version": "112",
-              "value": 0.02
-            }
-          ]
-        },
-        {
-          "Consequences": [
-            {
-              "data_source": "Ensembl",
-              "version": "112",
-              "value": [
-                "missense_variant",
-                "splice_region_variant"
-              ]
-            }
-          ]
-        },
-        {
-          "SIFT Prediction": [
-            {
-              "data_source": "Ensembl",
-              "version": "112",
-              "value": "deleterious"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "transcript_id": "NM_001363810.1",
-      "annotations": [
-        {
-          "transcript_id": [
-            {
-              "data_source": "Ensembl",
-              "version": "112",
-              "value": "NM_001363810.1"
-            }
-          ]
-        },
-        {
-          "Polyphen Score": [
-            {
-              "data_source": "Ensembl",
-              "version": "112",
-              "value": 0.998
-            }
-          ]
-        },
-        {
-          "Polyphen Prediction": [
-            {
-              "data_source": "Ensembl",
-              "version": "112",
-              "value": "probably_damaging"
-            }
-          ]
-        },
-        {
-          "SIFT Score": [
-            {
-              "data_source": "Ensembl",
-              "version": "112",
-              "value": 0.01
-            }
-          ]
-        },
-        {
-          "Consequences": [
-            {
-              "data_source": "Ensembl",
-              "version": "112",
-              "value": [
-                "missense_variant",
-                "splice_region_variant"
-              ]
-            }
-          ]
-        },
-        {
-          "SIFT Prediction": [
-            {
-              "data_source": "Ensembl",
-              "version": "112",
-              "value": "deleterious"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "annotations": [
-    {
-      "ClinVar_Variation_Id": [
-        {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00",
-          "value": "581244"
-        }
-      ]
-    },
-    {
-      "ClinVar_variant_url": [
-        {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00",
-          "value": "https://www.ncbi.nlm.nih.gov/clinvar/variation/581244"
-        }
-      ]
-    },
-    {
-      "ENSEMBL_VARIANT_CALL_CACHE": [
-        {
-          "data_source": "Ensembl",
-          "version": 112,
-          "value": [
-            {
-              "input": "NM_001017980:c.164G>T",
-              "id": "NM_001017980:c.164G>T",
-              "vcf_string": "X-151404916-G-T",
-              "most_severe_consequence": "missense_variant",
-              "start": 151404916,
-              "assembly_name": "GRCh38",
-              "seq_region_name": "X",
-              "colocated_variants": [
-                {
-                  "clin_sig": [
-                    "uncertain_significance"
-                  ],
-                  "start": 151404916,
-                  "allele_string": "G/A/T",
-                  "id": "rs1306425454",
-                  "strand": 1,
-                  "seq_region_name": "X",
-                  "phenotype_or_disease": 1,
-                  "var_synonyms": {
-                    "ClinVar": [
-                      "RCV003741639",
-                      "VCV002805126",
-                      "RCV000705011",
-                      "VCV000581244"
-                    ]
+  {
+    "gene_symbol": "VMA21",
+    "gene": "VMA21",
+    "annotations": [
+      {
+        "Entrez Gene Id": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": 203547
+          }
+        ]
+      },
+      {
+        "HPO_NCBI_GENE_ID": [
+          {
+            "data_source": "HPO",
+            "version": "2024-09-06",
+            "value": "NCBIGene:203547"
+          }
+        ]
+      },
+      {
+        "Ensembl Gene Id": [
+          {
+            "data_source": "Ensembl",
+            "version": "112",
+            "value": "NCBIGene:203547"
+          }
+        ]
+      },
+      {
+        "HGNC_ID": [
+          {
+            "data_source": "Ensembl",
+            "version": "112",
+            "value": "NCBIGene:203547"
+          }
+        ]
+      },
+      {
+        "ClinGen_gene_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "112",
+            "value": "URL_HERE"
+          }
+        ]
+      },
+      {
+        "OMIM": [
+          {
+            "data_source": "HPO",
+            "version": "2024-09-06",
+            "value": "URL_HERE"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "hgvs_variant": "NM_001017980.3:c.164G>T",
+    "transcripts": [
+      {
+        "transcript_id": "NM_001017980.4",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": "112",
+                "value": "NM_001017980.4"
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": "112",
+                "value": 0.597
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": "112",
+                "value": "possibly_damaging"
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": "112",
+                "value": 0.02
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": "112",
+                "value": [
+                  "missense_variant",
+                  "splice_region_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": "112",
+                "value": "deleterious"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "transcript_id": "NM_001363810.1",
+        "annotations": [
+          {
+            "transcript_id": [
+              {
+                "data_source": "Ensembl",
+                "version": "112",
+                "value": "NM_001363810.1"
+              }
+            ]
+          },
+          {
+            "Polyphen Score": [
+              {
+                "data_source": "Ensembl",
+                "version": "112",
+                "value": 0.998
+              }
+            ]
+          },
+          {
+            "Polyphen Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": "112",
+                "value": "probably_damaging"
+              }
+            ]
+          },
+          {
+            "SIFT Score": [
+              {
+                "data_source": "Ensembl",
+                "version": "112",
+                "value": 0.01
+              }
+            ]
+          },
+          {
+            "Consequences": [
+              {
+                "data_source": "Ensembl",
+                "version": "112",
+                "value": [
+                  "missense_variant",
+                  "splice_region_variant"
+                ]
+              }
+            ]
+          },
+          {
+            "SIFT Prediction": [
+              {
+                "data_source": "Ensembl",
+                "version": "112",
+                "value": "deleterious"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "annotations": [
+      {
+        "ClinVar_Variation_Id": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "581244"
+          }
+        ]
+      },
+      {
+        "ClinVar_variant_url": [
+          {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00",
+            "value": "https://www.ncbi.nlm.nih.gov/clinvar/variation/581244"
+          }
+        ]
+      },
+      {
+        "ENSEMBL_VARIANT_CALL_CACHE": [
+          {
+            "data_source": "Ensembl",
+            "version": 112,
+            "value": [
+              {
+                "input": "NM_001017980:c.164G>T",
+                "id": "NM_001017980:c.164G>T",
+                "vcf_string": "X-151404916-G-T",
+                "most_severe_consequence": "missense_variant",
+                "start": 151404916,
+                "assembly_name": "GRCh38",
+                "seq_region_name": "X",
+                "colocated_variants": [
+                  {
+                    "clin_sig": [
+                      "uncertain_significance"
+                    ],
+                    "start": 151404916,
+                    "allele_string": "G/A/T",
+                    "id": "rs1306425454",
+                    "strand": 1,
+                    "seq_region_name": "X",
+                    "phenotype_or_disease": 1,
+                    "var_synonyms": {
+                      "ClinVar": [
+                        "RCV003741639",
+                        "VCV002805126",
+                        "RCV000705011",
+                        "VCV000581244"
+                      ]
+                    },
+                    "end": 151404916,
+                    "clin_sig_allele": "A:uncertain_significance;T:uncertain_significance"
+                  }
+                ],
+                "allele_string": "G/T",
+                "transcript_consequences": [
+                  {
+                    "codons": "gGc/gTc",
+                    "cadd_raw": 3.96743,
+                    "amino_acids": "G/V",
+                    "gene_id": "203547",
+                    "polyphen_score": 0.607,
+                    "cdna_end": 267,
+                    "gene_symbol": "VMA21",
+                    "sift_score": 0,
+                    "variant_allele": "T",
+                    "cds_start": 164,
+                    "transcript_id": "NM_001017980.4",
+                    "cds_end": 164,
+                    "protein_start": 55,
+                    "strand": 1,
+                    "protein_end": 55,
+                    "used_ref": "G",
+                    "polyphen_prediction": "possibly_damaging",
+                    "impact": "MODERATE",
+                    "cdna_start": 267,
+                    "cadd_phred": 24,
+                    "biotype": "protein_coding",
+                    "consequence_terms": [
+                      "missense_variant",
+                      "splice_region_variant"
+                    ],
+                    "given_ref": "G",
+                    "gene_symbol_source": "EntrezGene",
+                    "sift_prediction": "deleterious"
                   },
-                  "end": 151404916,
-                  "clin_sig_allele": "A:uncertain_significance;T:uncertain_significance"
-                }
-              ],
-              "allele_string": "G/T",
-              "transcript_consequences": [
-                {
-                  "codons": "gGc/gTc",
-                  "cadd_raw": 3.96743,
-                  "amino_acids": "G/V",
-                  "gene_id": "203547",
-                  "polyphen_score": 0.607,
-                  "cdna_end": 267,
-                  "gene_symbol": "VMA21",
-                  "sift_score": 0,
-                  "variant_allele": "T",
-                  "cds_start": 164,
-                  "transcript_id": "NM_001017980.4",
-                  "cds_end": 164,
-                  "protein_start": 55,
-                  "strand": 1,
-                  "protein_end": 55,
-                  "used_ref": "G",
-                  "polyphen_prediction": "possibly_damaging",
-                  "impact": "MODERATE",
-                  "cdna_start": 267,
-                  "cadd_phred": 24,
-                  "biotype": "protein_coding",
-                  "consequence_terms": [
-                    "missense_variant",
-                    "splice_region_variant"
-                  ],
-                  "given_ref": "G",
-                  "gene_symbol_source": "EntrezGene",
-                  "sift_prediction": "deleterious"
-                },
-                {
-                  "biotype": "protein_coding",
-                  "cadd_phred": 24,
-                  "given_ref": "G",
-                  "consequence_terms": [
-                    "missense_variant",
-                    "splice_region_variant"
-                  ],
-                  "impact": "MODERATE",
-                  "cdna_start": 574,
-                  "sift_prediction": "deleterious",
-                  "gene_symbol_source": "EntrezGene",
-                  "variant_allele": "T",
-                  "sift_score": 0.01,
-                  "gene_symbol": "VMA21",
-                  "cds_start": 329,
-                  "cadd_raw": 3.96743,
-                  "codons": "gGc/gTc",
-                  "gene_id": "203547",
-                  "amino_acids": "G/V",
-                  "polyphen_score": 0.998,
-                  "cdna_end": 574,
-                  "strand": 1,
-                  "protein_end": 110,
-                  "used_ref": "G",
-                  "polyphen_prediction": "probably_damaging",
-                  "transcript_id": "NM_001363810.1",
-                  "protein_start": 110,
-                  "cds_end": 329
-                }
-              ],
-              "strand": 1,
-              "end": 151404916
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-,
+                  {
+                    "biotype": "protein_coding",
+                    "cadd_phred": 24,
+                    "given_ref": "G",
+                    "consequence_terms": [
+                      "missense_variant",
+                      "splice_region_variant"
+                    ],
+                    "impact": "MODERATE",
+                    "cdna_start": 574,
+                    "sift_prediction": "deleterious",
+                    "gene_symbol_source": "EntrezGene",
+                    "variant_allele": "T",
+                    "sift_score": 0.01,
+                    "gene_symbol": "VMA21",
+                    "cds_start": 329,
+                    "cadd_raw": 3.96743,
+                    "codons": "gGc/gTc",
+                    "gene_id": "203547",
+                    "amino_acids": "G/V",
+                    "polyphen_score": 0.998,
+                    "cdna_end": 574,
+                    "strand": 1,
+                    "protein_end": 110,
+                    "used_ref": "G",
+                    "polyphen_prediction": "probably_damaging",
+                    "transcript_id": "NM_001363810.1",
+                    "protein_start": 110,
+                    "cds_end": 329
+                  }
+                ],
+                "strand": 1,
+                "end": 151404916
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   {
     "gene_symbol": "DMD",
     "gene": "DMD",
