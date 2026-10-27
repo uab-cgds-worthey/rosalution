@@ -94,3 +94,7 @@ k6-summary*
 #pnpm
 .pnp.cjs
 yarn.lock
+
+docs/interactive/plots*
+docs/interactive/*.html
+docs/interactive/*.png
