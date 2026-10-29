@@ -3,4 +3,5 @@ from .api.monarch import RosalutionMonarch, MonarchKnowledgeGraph
 from .api.rosalution import rosalution_authenticate, Rosalution
 from .api.diopt import Diopt
 
-from .visualization.phenotype import sankey_phenotype_system_modelsystem, sankey_homologous_phenotypes_and_modelsystem, sankey_homologous_phenotypes_and_modelsystem_close_only
+from .visualization.phenotype import sankey_d3_homologous_phenotypes_and_modelsystem_template, sankey_phenotype_system_modelsystem, sankey_homologous_phenotypes_and_modelsystem, sankey_homologous_phenotypes_and_modelsystem_close_only
+from .visualization.d3_bargraph import d3_bar_graph_example

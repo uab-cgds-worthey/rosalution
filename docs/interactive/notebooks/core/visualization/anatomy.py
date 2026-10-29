@@ -1,7 +1,7 @@
 import plotly.graph_objects as go
 from collections import defaultdict
 
-from .helper import hex_to_rgba
+from .utils import hex_to_rgba
 
 def sankey_gene_expressed_in_anatomy_plot(analysis_name: str):
     if not analysis_name:

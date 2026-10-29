@@ -85,3 +85,21 @@ There are two methods to interact and develop with the Jupyter notebooks; either
    ```
 
 3. Visit <http://localhost:8888/tree?> in the browser to interact with the Jupyter Notebook
+
+## Debugging D3 Javascript visualiztions inside Jupyter Notebook
+
+### Inside VSCode
+
+Run the following command ( CMD + p ), Type ">" to start a command in vscode, then type "Developer: Toggle Developer Tools".  this will only a developer tools console to the right and you can see the same sort of dev tools as would in a chrome web browser.
+
+### In Browser
+
+Inspect the page and view developer tools console as done when inspecting frontend code.
+
+## Running Unit Tests
+
+Some of the utilities/wrappers have unit tests to simplify running the code outside of the jupyter notebook. From the `<projct root>/docs/interactive` directory run the following
+
+```shell
+uv run pytest -s notebooks/tests
+```
