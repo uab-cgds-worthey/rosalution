@@ -57,7 +57,7 @@ print(`Converting ${ciliAnalysis}'s Analysis View from CPAM to Ciliopathies...`)
 const fieldsToIncludeBySection = {
     'Brief': ['Nominator', 'Participant', 'Decision', 'Patient phenotype', 'Family history'],
     'Rapid Screen Goals': ['Recommended screen', 'Confidence', 'Goals', 'Suspected mechanism'],
-    'Rapid Screen Fit': ['Xenopus (oocyte) overexpression fitness', 'Xenopus (oocyte) overexpression', 'Zebrafish crispant fitness', 'Zebrafish crispant fitness'],
+    'Rapid Screen Fit': ['Xenopus (oocyte) overexpression fitness', 'Xenopus (oocyte) overexpression', 'Zebrafish crispant fitness', 'Zebrafish crispant'],
     'Rapid Screen Impact': ['Positive', 'Negative']
 }
 
