@@ -160,7 +160,7 @@ build(){
 buildDatabaseFixture() {
   local build_target="production-stage"
   local image_name="ghcr.io/uab-cgds-worthey/rosalution/database-fixture:$build_tag"
-  local build_context="./etc/fixtures"
+  local build_context="./etc/database/provision"
   local docker_build_command="DOCKER_BUILDKIT=1 docker build --no-cache=true --target=$build_target --tag=$image_name -f $build_context/production.Dockerfile $build_context"
 
   echo "Building Database Fixture..."

@@ -6,7 +6,7 @@ services:
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--providers.file.filename=/etc/traefik/config.yml"
+      - "--providers.file.filename=/etc/network/traefik/config.yml"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
@@ -16,8 +16,8 @@ services:
       - 443:443
       - 8080:8080
     volumes:
-      - ./etc/traefik/config.yml:/etc/traefik/config.yml:ro
-      - ./etc/.certificates:/etc/certs:ro
+      - ./etc/network/traefik/config.yml:/etc/traefik/config.yml:ro
+      - ./etc/network/.certificates:/etc/certs:ro
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - rosalution-network
@@ -81,6 +81,8 @@ services:
     volumes:
       - ./etc/fixtures/initial-seed/initial-db-seed.sh:/docker-entrypoint-initdb.d/initial-db-seed.sh
       - ./etc/fixtures/:/tmp/fixtures
+      - ./etc/database/migrations/:/tmp/migrations
+      - ./etc/administration/:/tmp/administration
     ports:
       - 27017:27017
     networks:

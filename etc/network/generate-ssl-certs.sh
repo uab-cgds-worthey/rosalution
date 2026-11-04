@@ -5,10 +5,10 @@
 # with the Chrome browser trust to let the browser know the certificate is valid and secure when
 # accessing local.rosalutin.cgds/rosalution.
 
-# Also creates the certificate directory path, default is ./etc/.certificates
+# Also creates the certificate directory path, default is ./etc/network/.certificates
 
 # ./generate-ssl-certs.sh <hostname> <certificate path>
-# ./generate-ssl-certs.sh local.rosalution.cgds ./etc/.certificates
+# ./generate-ssl-certs.sh local.rosalution.cgds ./etc/network/.certificates
 
 
 HOSTNAME=$1
