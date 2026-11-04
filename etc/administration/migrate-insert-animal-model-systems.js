@@ -112,14 +112,23 @@ try {
     var index = 0;
 
     for(section in analysis.sections) {
-        if(analysis.sections[section].header == 'Pedigree') {
+        if(analysis.sections[section].header == modelSystem) {
+            print(`Model system '${modelSystem}' section already exists analysis...`)
+            print(`Success! Done.`)
+            quit(0)
+        }
+    }
+
+    for(section in analysis.sections) {
+        if(analysis.sections[section].header == 'Model Goals') {
             index = section
             break;
         }
     }
 
     print(`Inserting '${modelSystem}' section into the analysis...`)
-    analysis.sections.splice(index, 0, animalModelSystemSection)
+    indexAfterModelGoalsSection=index+1
+    analysis.sections.splice(indexAfterModelGoalsSection, 0, animalModelSystemSection)
 
     print(`Writing to mongodb...`)
     db.analyses.updateOne({'_id': analysis._id}, {'$set': analysis})
