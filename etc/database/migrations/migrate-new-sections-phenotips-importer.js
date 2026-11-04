@@ -1,5 +1,5 @@
 const usage = `
-mongosh /tmp/fixtures/migrations/migrate-new sections-phenotips-importer.js
+mongosh /tmp/database/migrations/migrate-new sections-phenotips-importer.js
     Script Options:
         help: if true print this help message
     
@@ -7,9 +7,9 @@ mongosh /tmp/fixtures/migrations/migrate-new sections-phenotips-importer.js
     
     Example: 
     
-    mongosh --host localhost --port 27017 --eval 'var help=true;' /tmp/fixtures/migrations/migrate-new-sections-phenotips-importer.js
+    mongosh --host localhost --port 27017 --eval 'var help=true;' /tmp/database/migrations/migrate-new-sections-phenotips-importer.js
     
-    docker exec -it <rosalution_db_container> mongosh /tmp/fixtures/migrations/migrate-new-sections-phenotips-importer.js
+    docker exec -it <rosalution_db_container> mongosh /tmp/fixtures/database/migrate-new-sections-phenotips-importer.js
 `
 
 if (help === true) {

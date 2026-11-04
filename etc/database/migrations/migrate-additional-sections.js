@@ -1,5 +1,5 @@
 const usage = `
-mongosh /tmp/fixtures/migrations/migrate-additional-sections.js
+mongosh /tmp/database/migrations/migrate-additional-sections.js
     Script Options:
         help: if true print this help message
     
@@ -7,9 +7,9 @@ mongosh /tmp/fixtures/migrations/migrate-additional-sections.js
     
     Example: 
     
-    mongosh --host localhost --port 27017 --eval "var help=true;" /tmp/fixtures/migrations/migrate-additional-sections.js
+    mongosh --host localhost --port 27017 --eval "var help=true;" /tmp/database/migrations/migrate-additional-sections.js
     
-    docker exec -it <rosalution_db_container> mongosh /tmp/fixtures/migrations/migrate-additional-sections.js
+    docker exec -it <rosalution_db_container> mongosh /tmp/database/migrations/migrate-additional-sections.js
 `
 
 if (help === true) {

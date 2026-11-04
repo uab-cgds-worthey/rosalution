@@ -1,7 +1,7 @@
-// docker exec -it rosalution-rosalution-db-1 mongosh --eval "var dittoScoreCSVPath='/tmp/fixtures/example.csv'" /tmp/add-ditto-score-annotations.js
+// docker exec -it rosalution-rosalution-db-1 mongosh --eval "var dittoScoreCSVPath='/tmp/administration/annotation/simplifiedDittoScores.csv'" /tmp/administration/annotation/add-ditto-score-annotations.js
 
 const usage = `
-mongosh /tmp/add-ditto-score-annotations.js
+mongosh /tmp/administration/annotation/add-ditto-score-annotations.js
 
     Script Options:
         help                Bool    If True prints this help message
@@ -11,8 +11,8 @@ mongosh /tmp/add-ditto-score-annotations.js
     Run mongosh help for mongosh connection and authentication usage.
 
     Examples:
-    mongosh --eval "var dittoScoreCSVPath='/tmp/fixtures/example.csv'" /tmp/add-ditto-score-annotations.js
-    mongosh --host localhost --port 27017 --eval "var dittoScoreCSVPath='/tmp/fixtures/example.csv'; databaseName='<database_name>'" /tmp/add-ditto-score-annotations.js
+    mongosh --eval "var dittoScoreCSVPath='/tmp/administration/annotation/simplifiedDittoScores.csv'" /tmp/administration/annotation/add-ditto-score-annotations.js
+    mongosh --host localhost --port 27017 --eval "var dittoScoreCSVPath='/tmp/administration/annotation/simplifiedDittoScores.csv.csv'; databaseName='<database_name>'" /tmp/administration/annotation/add-ditto-score-annotations.js
 `;
 
 const fs = require('fs');
@@ -24,7 +24,7 @@ if (help == true) {
 
 // Checking the ditto score csv path
 if (typeof dittoScoreCSVPath === 'undefined') {
-    dittoScoreCSVPath = "/tmp/fixtures/example-adding-users.json";
+    dittoScoreCSVPath = "/tmp/administration/annotation/simplifiedDittoScores.csv";
 } else if (typeof dittoScoreCSVPath !== 'string') {
     print("dittoScoreCSV must be a string containing file path");
     quit(1);

@@ -33,7 +33,7 @@ then
 fi
 
 # Parent file of this script. 
-# This is found so the Rosalution genomic_units.js fixture
+# This is found so the Rosalution genomic_units.json fixture
 # can be updated regardless of where this script is run.
 PARENT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" || exit; pwd -P)
 

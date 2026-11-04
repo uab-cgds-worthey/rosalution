@@ -1,5 +1,5 @@
 const usage = `
-mongosh /tmp/fixtures/migrations/migrate-insert-discussion-and-supporting-keys.js
+mongosh /tmp/database/migrations/migrate-insert-discussion-and-supporting-keys.js
 
     Script Options:
         help : Bool : Optional
@@ -11,9 +11,9 @@ mongosh /tmp/fixtures/migrations/migrate-insert-discussion-and-supporting-keys.j
 
     Example:
 
-    mongosh --host localhost --port 27017 --eval 'var help=True;' /tmp/fixtures/migrations/migrate-insert-discussion-and-supporting-keys.js
+    mongosh --host localhost --port 27017 --eval 'var help=True;' /tmp/database/migrations/migrate-insert-discussion-and-supporting-keys.js
 
-    docker exec -it <rosalution_db_container> mongosh /tmp/fixtures/migrations/migrate-insert-discussion-and-supporting-keys.js
+    docker exec -it <rosalution_db_container> mongosh /tmp/database/migrations/migrate-insert-discussion-and-supporting-keys.js
 `
 
 if (help === true) {

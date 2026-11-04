@@ -1,5 +1,5 @@
 const usage = `
-mongosh --eval 'var cpamAnalysis="";var modelSystem=""' /tmp/fixtures/migrations/migrate-insert-animal-model-systems.js
+mongosh --eval 'var cpamAnalysis="";var modelSystem=""' /tmp/administration/migrate-insert-animal-model-systems.js
 
     Script Options:
         help : Bool : Optional
@@ -16,9 +16,9 @@ mongosh --eval 'var cpamAnalysis="";var modelSystem=""' /tmp/fixtures/migrations
 
     Example:
 
-    mongosh --host localhost --port 27017 --eval 'var help=True;' /tmp/fixtures/migrations/migrate-insert-animal-model-systems.js
+    mongosh --host localhost --port 27017 --eval 'var help=True;' /tmp/administration/migrate-insert-animal-model-systems.js
 
-    docker exec -it <rosalution_db_container> mongosh --eval 'var cpamAnalysis="CPAM0002";var modelSystem="Mus musculus (Mouse) Model System"' /tmp/fixtures/migrations/migrate-insert-animal-model-systems.js
+    docker exec -it <rosalution_db_container> mongosh --eval 'var cpamAnalysis="CPAM0002";var modelSystem="Mus musculus (Mouse) Model System"' /tmp/administration/migrate-insert-animal-model-systems.js
 `
 
 if (help === true) {

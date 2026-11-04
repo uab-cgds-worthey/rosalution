@@ -1,5 +1,5 @@
 const usage = `
-mongosh /tmp/fixtures/migrations/migrate-users-and-timestamp.js
+mongosh /tmp/database/migrations/migrate-users-and-timestamp.js
     Script Options:
         help: if true print this help message
     
@@ -7,9 +7,9 @@ mongosh /tmp/fixtures/migrations/migrate-users-and-timestamp.js
     
     Example: 
     
-    mongosh --host localhost --port 27017 --eval "var help=true;" /tmp/fixtures/migrations/migrate-users-and-timestamp.js
+    mongosh --host localhost --port 27017 --eval "var help=true;" /tmp/database/migrations/migrate-users-and-timestamp.js
     
-    docker exec -it <rosalution_db_container> mongosh /tmp/fixtures/migrations/migrate-users-and-timestamp.js
+    docker exec -it <rosalution_db_container> mongosh /tmp/database/migrations/migrate-users-and-timestamp.js
 `
 
 if (help === true) {

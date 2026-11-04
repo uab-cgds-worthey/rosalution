@@ -1,5 +1,5 @@
 #! /bin/bash
-# ./set-new-annotations-configuration.sh -f <annotation-config-collection-json-file-path> -c <mongo_connection_string> -d <docker_container_name> -m <mongo_database> -b backup-directory
+# ./set-new-annotations-configuration.sh -f <annotation-config-collection-json-file-path> -c <mongo_connection_string> -d <docker_container_name> -m <mongo_database> -b <backup-directory>
 
 usage() {
   echo " "
@@ -14,7 +14,7 @@ usage() {
   echo " -m Mongo database name"
   echo "    (default) rosalution_db"
   echo " -b backup directory path to save the existing annotation configuration collection json"
-  echo "    (default) /home/centos/backups/rosalution-annotation-configuration-backup  "
+  echo "    (default) $HOME/backups/rosalution/annotations-configuration  "
   echo " "
   echo " -h Prints usage"
   echo " "
@@ -23,7 +23,7 @@ usage() {
   echo " "
 }
 
-target_backup_path=/home/angelina
+target_backup_path="$HOME/backups/rosalution/annotations-configuration"
 docker_container_name=""
 docker_exec_prefix=""
 connection_string="localhost:27017"
