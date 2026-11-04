@@ -1,7 +1,0 @@
-selenium==4.46.0
-requests==2.34.2
-python-dotenv==1.2.2
-
-# dev
-yapf==0.43.0
-pylint==4.0.6

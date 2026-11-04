@@ -94,3 +94,7 @@ k6-summary*
 #pnpm
 .pnp.cjs
 yarn.lock
+
+
+#uv python
+.python-version
