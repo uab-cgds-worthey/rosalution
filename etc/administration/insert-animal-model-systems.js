@@ -137,6 +137,8 @@ try {
 } catch(e) {
     console.log(e.stack);
     console.log(usage);
+    console.log(`To run again...`)
+    console.log(`docker exec -it <rosalution_db_container> mongosh --eval 'var cpamAnalysis="${cpamAnalysis}";var modelSystem="${modelSystem}"' /tmp/administration/insert-animal-model-systems.js`)
     quit(1);
 }
 

@@ -1,5 +1,5 @@
 """
-Script: genomic_unit_screenshot.py
+Script: screen_capture_annotate.py
 
 Description:
 This script automates the process of capturing screenshots of web-based genomic data
