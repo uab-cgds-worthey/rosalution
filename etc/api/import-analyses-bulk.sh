@@ -1,5 +1,5 @@
 #! /bin/bash
-# ./import-analyses.sh
+# ./import-analyses-bulk.sh
 
 usage() {
   echo " "
@@ -44,14 +44,7 @@ fi
 
 # to get remaining arguments not from getopts
 shift "$((OPTIND - 1))"
-echo "Verbose: ${verbose:-0}"
-echo "Output:  ${output:-none}"
-echo "Remaining positional arguments:"
 
-# Loop through all remaining arguments ($1, $2, etc.)
-# for arg in "$@"; do
-#   echo " - $arg"
-# done
 import_json="$1"
 
 echo "  _____                 _       _   _                   "
@@ -99,7 +92,7 @@ fi
 echo "Opening $import_json"
 jq -c '.[]' "$import_json" | while read -r item; do
     analysis_name=$(echo "$item" | jq -r '.external_id')
-    echo "Importing: $analysis_name"
+    echo "Importing Analysis: $analysis_name"
     cpam_project="69e64782bbc494d3fbf6d9b0"
     import_analysis_url="$BASE_URL/api/project/$cpam_project/analysis"
     echo "$item" | curl -s -k -X "POST" \
@@ -109,26 +102,6 @@ jq -c '.[]' "$import_json" | while read -r item; do
         -F phenotips_file=@- \
         -o /dev/null
         > /dev/null
-    echo "Waiting 1 second before importing the next Analysis..."
-    sleep 1s
+    echo "Waiting 2 second before importing the next Analysis..."
+    sleep 2s
 done
-
-# for ANALYSIS in "$@"; do
-#   # Hardcoding to encode the special characters that are commonly
-#   # known in cases being uploaded to Rosalution at this time
-#   echo "Queueing annotations for analysis '$ANALYSIS'..."
-#   ANALYSIS=${ANALYSIS/\ /\%20}
-#   ANALYSIS=${ANALYSIS/\(/\%28}
-#   ANALYSIS=${ANALYSIS/\)/\%29}
-#   echo "$BASE_URL/api/annotation/$ANALYSIS"
-#   curl -s -k -X "POST" \
-#     "$BASE_URL/api/annotation/$ANALYSIS" \
-#     -H "accept: application/json" \
-#     -H "Authorization: Bearer $AUTH_TOKEN" \
-#     > /dev/null
-  
-#   if [  "$number_of_analyses" -gt 1  ]; then
-#     echo "Waiting 1 second before queueing next Analysis..."
-#     sleep 1s
-#   fi
-# done

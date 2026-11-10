@@ -1,18 +1,18 @@
 const usage = `
-mongosh --eval 'var ciliAnalysis=""' /tmp/administration/transform-cpam-to-ciliopathies-analysis-page.js
+mongosh --eval 'var rapidScreenAnalysis=""' /tmp/administration/transform-to-cpam-rapid-review-analysis.js
 
 Script Options:
     help : Bool : Optional
         - If True print this help message
-    ciliAnalysis : String : Required
+    rapidScreenAnalysis : String : Required
 
 Run mongosh help for mongosh connection and authentication usage.
 
 Example:
 
-    mongosh --host localhost --port 27017 --eval 'var help=True;' /tmp/administration/transform-cpam-to-ciliopathies-analysis-page.js
+    mongosh --host localhost --port 27017 --eval 'var help=True;' /tmp/administration/transform-to-cpam-rapid-review-analysis.js
 
-    docker exec -it <rosalution_db_container> mongosh --eval 'var ciliAnalysis="CILI_2_5K ARMC9_L510V"' /tmp/administration/transform-cpam-to-ciliopathies-analysis-page.js
+    docker exec -it <rosalution_db_container> mongosh --eval 'var rapidScreenAnalysis="PCS2026027 (GRIN2D)"' /tmp/administration/transform-to-cpam-rapid-review-analysis.js
 `
 
 if (help === true) {
@@ -28,8 +28,8 @@ if (typeof databaseName === 'undefined') {
     quit(1);
 }
 
-if(typeof ciliAnalysis === 'undefined' || typeof ciliAnalysis !== 'string' || ciliAnalysis == '') {
-    print('ciliAnalysis needs to be defined and must be a string');
+if(typeof rapidScreenAnalysis === 'undefined' || typeof rapidScreenAnalysis !== 'string' || rapidScreenAnalysis == '') {
+    print('rapidScreenAnalysis needs to be defined and must be a string');
     print(usage);
     quit(1);
 }
@@ -52,7 +52,7 @@ function doesFieldExist(section, fieldName) {
     return false;
 }
 
-print(`Converting ${ciliAnalysis}'s Analysis View from CPAM to Ciliopathies...`)
+print(`Converting ${rapidScreen}'s Analysis from Standard to Rapid Screening Analysis...`)
 
 const fieldsToIncludeBySection = {
     'Brief': ['Nominator', 'Participant', 'Decision', 'Patient phenotype', 'Family history'],
@@ -109,8 +109,8 @@ db = db.getSiblingDB(databaseName)
 
 // Getting the analysis and inserting the new sections
 try {
-    var analysis = db.analyses.findOne({name: ciliAnalysis})
-    print(`Found ${ciliAnalysis} in mongodb...`)
+    var analysis = db.analyses.findOne({name: rapidScreenAnalysis})
+    print(`Found '${rapidScreenAnalysis}' in mongodb...`)
 
     var index = 0;
 
@@ -138,7 +138,7 @@ try {
             }
         }
     }
-    print(`sections to remove [${sectionsToRemove}]`)
+    print(`Sections to remove [${sectionsToRemove}]`)
     if( sectionsToRemove.length > 0 ) {
         analysis.sections = analysis.sections.filter((section) => {
             const sectionNameToCheck = section.header
