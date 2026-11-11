@@ -14,7 +14,7 @@ from cas import CASClient
 from ..dependencies import get_db
 from ..config import Settings, get_settings
 from ..models.user import User, AccessUserAPI
-from ..security.oauth2 import OAuth2ClientCredentialsRequestForm, HTTPBasicClientCredentials
+from ..security.oauth2 import HTTPClientCredentials, OAuth2ClientCredentialsRequestForm, HTTPBasicClientCredentials
 from ..security.security import (create_access_token, get_authorization, get_current_user, generate_client_secret)
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -97,6 +97,7 @@ async def login(
 @router.post("/token")
 async def issue_oauth2_token(
     form_data: Annotated[OAuth2ClientCredentialsRequestForm, Depends()],
+    basic_credentials: Annotated[HTTPClientCredentials | None, Depends(token_scheme)],
     repositories: Annotated[dict, Depends(get_db)],
     settings: Annotated[Settings, Depends(get_settings)],
 ) -> dict:
@@ -106,6 +107,10 @@ async def issue_oauth2_token(
     if form_data.client_id and form_data.client_secret:
         client_id = form_data.client_id
         client_secret = form_data.client_secret
+        client_secret = form_data.client_secret
+    elif basic_credentials:
+        client_id = basic_credentials.client_id
+        client_secret = basic_credentials.client_secret
     else:
         raise HTTPException(status_code=400, detail="Client credentials not provided")
 

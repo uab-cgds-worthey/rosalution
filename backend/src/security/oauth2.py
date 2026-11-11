@@ -43,7 +43,7 @@ class OAuth2ClientCredentials(OAuth2):
     def __init__(
         self,
         tokenUrl: str,
-        scheme_name: str = None,
+        scheme_name: str = "oAuth2ClientCredentials",
         scopes: dict = None,
         auto_error: bool = True,
     ):
