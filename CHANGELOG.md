@@ -11,9 +11,8 @@
 
 ### Chores
 
-- Pymongo Async Client and ROSALUTION_KEY mangement migrated to FastAPI's lifepsan to manage the resources more
+- Pymongo Async Client and ROSALUTION_KEY mangement migrated to FastAPI's lifepsan function to manage the resources
   explicitely for the duration of the backend service's lifecycle.
-  for the entirety of the backend server's lifecycle.  
 - Lazy loading frontend views to dynamically import a frontend view only when the frontend client requests it.
 - Created a useAuth composable to simplify integrating the auth store into components and views.
 - Migrate backend Pymongo API client to Pymongo AsyncClient API client; subsequently, all database method calls are
