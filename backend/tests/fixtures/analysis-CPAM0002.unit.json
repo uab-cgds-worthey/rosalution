@@ -1,7 +1,9 @@
 {
   "name": "CPAM0002",
   "description": "Vacuolar myopathy with autophagy, X-linked vacuolar myopathy with autophagy",
-  "project_id": { "$oid": "695d5b157709ebcd1c7325c1" },
+  "project_id": {
+    "$oid": "695d5b157709ebcd1c7325c1"
+  },
   "project_name": "CPAM",
   "nominated_by": "Dr. Person One",
   "manifest": [
@@ -61,42 +63,42 @@
     {
       "unit": "VMA21",
       "manifest": [
-      {
-        "Entrez Gene Id": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
+        {
+          "Entrez Gene Id": {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00"
+          }
+        },
+        {
+          "HPO_NCBI_GENE_ID": {
+            "data_source": "HPO",
+            "version": "2024-09-06"
+          }
+        },
+        {
+          "Ensembl Gene Id": {
+            "data_source": "Ensembl",
+            "version": "112"
+          }
+        },
+        {
+          "ClinGen_gene_url": {
+            "data_source": "Rosalution",
+            "version": "rosalution-manifest-00"
+          }
+        },
+        {
+          "OMIM": {
+            "data_source": "HPO",
+            "version": "2024-09-06"
+          }
+        },
+        {
+          "HGNC_ID": {
+            "data_source": "Ensembl",
+            "version": "112"
+          }
         }
-      },
-      {
-        "HPO_NCBI_GENE_ID": {
-          "data_source": "HPO",
-          "version": "2024-09-06"
-        }
-      },
-      {
-        "Ensembl Gene Id": {
-          "data_source": "Ensembl",
-          "version": "112"
-        }
-      },
-      {
-        "ClinGen_gene_url": {
-          "data_source": "Rosalution",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "OMIM": {
-          "data_source": "HPO",
-          "version": "2024-09-06"
-        }
-      },
-      {
-        "HGNC_ID": {
-          "data_source": "Ensembl",
-          "version": "112"
-        }
-      }
       ]
     }
   ],
@@ -335,16 +337,21 @@
       "author_id": "johndoe-client-id",
       "author_fullname": "Developer Person",
       "publish_timestamp": "2023-10-09T21:13:22.687000",
-      "content": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum."],
-      "attachments": [{
-        "name": "not-a-real-image.jpg",
-        "attachment_id": "68a761c9bd16bc0a0c98062e",
-        "type": "file"
-      },{
-        "name": "test.txt",
-        "attachment_id": "633afb87fb250a6ea1569555",
-        "type": "file"
-      }],
+      "content": [
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget metus nec erat accumsan rutrum."
+      ],
+      "attachments": [
+        {
+          "name": "not-a-real-image.jpg",
+          "attachment_id": "68a761c9bd16bc0a0c98062e",
+          "type": "file"
+        },
+        {
+          "name": "test.txt",
+          "attachment_id": "633afb87fb250a6ea1569555",
+          "type": "file"
+        }
+      ],
       "thread": []
     },
     {
@@ -352,7 +359,9 @@
       "author_id": "johndoe-client-id",
       "author_fullname": "Researcher Person",
       "publish_timestamp": "2023-10-10T21:13:22.687000",
-      "content": ["Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum."],
+      "content": [
+        "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin, condimentum vestibulum nisl vehicula. Vestibulum consectetur mi sit amet ante molestie fermentum."
+      ],
       "attachments": [],
       "thread": [
         {
@@ -360,14 +369,18 @@
           "author_id": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt",
           "author_fullname": "Developer Person",
           "publish_timestamp": "2024-10-09T21:13:22.687000",
-          "content": ["Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."]
+          "content": [
+            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+          ]
         },
         {
           "reply_id": "79057545a-554e-44f7-9553-8d622710e303",
           "author_id": "johndoe-client-id",
           "author_fullname": "Researcher Person",
           "publish_timestamp": "2024-10-09T21:15:22.687000",
-          "content": ["Yes."]
+          "content": [
+            "Yes."
+          ]
         }
       ]
     },
@@ -376,7 +389,9 @@
       "author_id": "johndoe-client-id",
       "author_fullname": "Variant Review Report Preparer Person",
       "publish_timestamp": "2023-10-13T21:13:22.687000",
-      "content": ["Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also."],
+      "content": [
+        "Mauris at mauris eu neque varius suscipit. Sed pretium sem at nunc sollicitudin also."
+      ],
       "attachments": [],
       "thread": []
     }

@@ -8,7 +8,7 @@ from typing import Optional
 
 from fastapi.exceptions import HTTPException
 from fastapi.param_functions import Form
-from fastapi.openapi.models import OAuthFlows as OAuthFlowsModel
+from fastapi.openapi.models import OAuthFlows, OAuthFlowClientCredentials
 from fastapi.security import HTTPBasic
 from fastapi.security.oauth2 import OAuth2
 from fastapi.security.utils import get_authorization_scheme_param
@@ -49,7 +49,7 @@ class OAuth2ClientCredentials(OAuth2):
     ):
         if not scopes:
             scopes = {}
-        flows = OAuthFlowsModel(clientCredentials={"tokenUrl": tokenUrl, "scopes": scopes})
+        flows = OAuthFlows(clientCredentials=OAuthFlowClientCredentials(tokenUrl=tokenUrl, scopes=scopes))
         super().__init__(flows=flows, scheme_name=scheme_name, auto_error=auto_error)
 
     async def __call__(self, request: Request) -> Optional[str]:
@@ -62,6 +62,8 @@ class OAuth2ClientCredentials(OAuth2):
                     detail="Not authenticated",
                     headers={"WWW-Authenticate": "Bearer"},
                 )
+
+            return None
 
         return param
 

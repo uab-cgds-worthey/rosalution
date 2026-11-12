@@ -1,23 +1,47 @@
 """Test Fixtures for integration tests"""
-import os
 from unittest.mock import Mock
+from httpx import ASGITransport, AsyncClient
 import pytest
-from fastapi.testclient import TestClient
+from cas import CASClient
+from testcontainers.compose import DockerCompose
+from pymongo import AsyncMongoClient
+import gridfs
 
+from src.routers.auth_router import get_cas_client
 from src.main import app
 from src.database import Database
 from src.config import get_settings, Settings
-from src.dependencies import database, annotation_queue
+from src.dependencies import get_db, annotation_queue
 from src.security.security import create_access_token, get_current_user, get_project_authorization,\
     get_create_project_authorization
 
-from ..test_utils import mock_mongo_collection, mock_gridfs_bucket, read_test_fixture
+from ..test_utils import integration_database_fixture_path, read_test_fixture
 
 
-@pytest.fixture(name="client", scope="class")
-def test_application_client():
+@pytest.fixture(name='anyio_backend', scope='session')
+def fixture_anyio_backend():
+    """Sets the pytest.mark.anyio to use the asynchio backend to pair with the asynchio api used"""
+    return 'asyncio'
+
+
+@pytest.fixture(name="client", scope='session')
+async def test_application_client(anyio_backend):  # pylint: disable=unused-argument
     """A class scoped FastApi Test Client"""
-    return TestClient(app)
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as async_client:
+        yield async_client
+
+
+@pytest.fixture(name="cas_client")
+def mock_get_cas_client(mock_settings):
+    """Mock settings for enabling teh CAS client mocking for authentication in testing"""
+    mock_cas_client = get_cas_client(mock_settings)
+
+    def mock_get() -> CASClient:
+        return mock_cas_client
+
+    app.dependency_overrides[get_cas_client] = mock_get
+    yield mock_cas_client
+    app.dependency_overrides.clear()
 
 
 @pytest.fixture(name="mock_annotation_queue", scope="class")
@@ -27,27 +51,54 @@ def mock_queue():
     return annotation_queue.annotation_queue
 
 
-@pytest.fixture(name="mock_repositories", scope="class")
-def mock_database_collections():
+@pytest.fixture(name="async_db_client", scope="session")
+async def fixture_async_db_client(anyio_backend):  # pylint: disable=unused-argument
+    """Mocked asynchronus database client which creates a docker container with the asynchronus mongodb client"""
+
+    services = ['rosalution-integration-db']
+    with DockerCompose(
+        integration_database_fixture_path(), compose_file_name="docker-compose.mongodb.yml", services=services
+    ):
+        mongodb_connection_uri = "mongodb://localhost:28017/rosalution_db?replicaSet=rs0&directConnection=true"
+        async with AsyncMongoClient(mongodb_connection_uri) as mongodb_async_client:
+            bucket = gridfs.asynchronous.AsyncGridFS(mongodb_async_client.rosalution_db)
+            live_database = Database(mongodb_async_client, bucket)
+            yield live_database
+
+
+@pytest.fixture(name="mock_repositories")
+async def mock_database_collections(async_db_client):
     """A mocked database client which overrides the database depedency injected"""
-    mock_database_client = Mock()
-    mock_gridfs_client = Mock()
 
-    mock_database_client.rosalution_db = {
-        "analyses": mock_mongo_collection(),
-        "annotations_config": mock_mongo_collection(),
-        "genomic_units": mock_mongo_collection(),
-        "users": mock_mongo_collection(),
-        "bucket": mock_gridfs_bucket(),
-    }
+    def mock_get_db() -> dict:
+        return async_db_client()
 
-    mock_database = Database(mock_database_client, mock_gridfs_client)
-    app.dependency_overrides[database] = mock_database
-    yield mock_database.collections
+    app.dependency_overrides[get_db] = mock_get_db
+    async with async_db_client.database_client.start_session() as session:
+        async with session.bind():
+            try:
+                await session.start_transaction()
+                yield async_db_client.collections
+            finally:
+                await session.abort_transaction()
+        app.dependency_overrides.clear()
+
+
+@pytest.fixture(name="mock_settings_cas_disabled")
+def mock_cas_disabled_application_settings(settings_json):
+    """The mocked settings which overrides the applications need for environment variables or .env file"""
+    settings_json["cas_login_enable"] = False
+    fake_settings = Settings(**settings_json)
+
+    def mock_get_settings():
+        return fake_settings
+
+    app.dependency_overrides[get_settings] = mock_get_settings
+    yield fake_settings
     app.dependency_overrides.clear()
 
 
-@pytest.fixture(name="mock_settings")
+@pytest.fixture(name="mock_settings", autouse=True)
 def mock_application_settings(settings_json):
     """The mocked settings which overrides the applications need for environment variables or .env file"""
     fake_settings = Settings(**settings_json)
@@ -99,11 +150,17 @@ def mock_get_create_project_authorization(mock_security_get_current_user):
 @pytest.fixture(name="mock_user")
 def test_auth_user():
     """A mocked user that can be used to generate an OAuth2 access token"""
-    return {"sub": "johndoe-client-id", "scopes": ["read", "write"]}
+    return {"sub": "3bghhsmnyqi6uxovazy07ryn9q1tqbnt", "scopes": ["read", "write"]}
+
+
+@pytest.fixture(name="mock_access_token_header")
+def mock_access_token_header(mock_access_token: str) -> dict[str, str]:
+    """Mocks a valid access token for the tests to properly execute"""
+    return {"Authorization": f"Bearer {mock_access_token}"}
 
 
 @pytest.fixture(name="mock_access_token")
-def mock_access_token(mock_user, mock_settings):
+def mock_access_token_str(mock_user, mock_settings):
     """Mocks a valid access token for the tests to properly execute"""
     user_data_to_encode = mock_user
     return create_access_token(
@@ -114,70 +171,7 @@ def mock_access_token(mock_user, mock_settings):
     )
 
 
-@pytest.fixture(name="mock_file_upload")
-def mock_file_upload():
-    """A mocked file upload"""
-    path_to_current_file = os.path.realpath(__file__)
-    current_directory = os.path.split(path_to_current_file)[0]
-    path_to_file = os.path.join(current_directory, '../fixtures/' + 'example_file_to_upload.txt')
-    return {"upload_file": ('example_file_to_upload.txt', open(path_to_file, 'rb'))}
-
-
-@pytest.fixture(name="cpam0002_analysis_json")
-def fixture_cpam0002_analysis_json():
-    """JSON for the CPAM0002 Analysis"""
-    return read_test_fixture("analysis-CPAM0002.json")
-
-
-@pytest.fixture(name="cpam0047_analysis_json")
-def fixture_cpam0047_analysis_json():
-    """The JSON for the CPAM 0047 Analysis"""
-    return read_test_fixture("analysis-CPAM0047.json")
-
-
-@pytest.fixture(name="cpam0112_analysis_json")
-def fixture_cpam0112_analysis_json():
-    """JSON for the CPAM0112 Analysis"""
-    return read_test_fixture("analysis-CPAM0112.json")
-
-
-@pytest.fixture(name="analysis_collection_json")
-def fixture_analysis_collection_json(cpam0002_analysis_json, cpam0047_analysis_json):
-    """Returns the multiple analyses being mocked as an array"""
-    return [cpam0002_analysis_json, cpam0047_analysis_json]
-
-
-@pytest.fixture(name="annotations_config_collection_json")
-def fixture_annotations_config_collection_json():
-    """JSON for the entire annotations configuration collection"""
-    return read_test_fixture("annotations-config.json")
-
-
-@pytest.fixture(name="gene_vma21_annotations_json")
-def fixture_gene_annotations_json():
-    """JSON for the annotations of the Gene VMA21"""
-    return read_test_fixture("annotations-VMA21.json")
-
-
-@pytest.fixture(name="variant_nm001017980_3_c_164g_t_annotations_json")
-def fixture_hgvs_variant_json():
-    """JSON for the annotations of the Gene VMA21"""
-    return read_test_fixture("annotations-NM001017980_3_c_164G_T.json")
-
-
-@pytest.fixture(name="genomic_units_collection_json")
-def fixture_genomic_unit_collection_json(gene_vma21_annotations_json, variant_nm001017980_3_c_164g_t_annotations_json):
-    """JSON for the genomic units collection"""
-    return [gene_vma21_annotations_json, variant_nm001017980_3_c_164g_t_annotations_json]
-
-
-@pytest.fixture(name="users_json")
-def fixture_users_json():
-    """Returns the JSON for the users collection used to seed the MongoDB database"""
-    return read_test_fixture("users-test-fixture.json")
-
-
 @pytest.fixture(name="settings_json")
 def fixture_settings_json():
     """Returns the settings for a fake rosalution. Mostly used for security functionality/testing"""
-    return read_test_fixture("application_settings.json")
+    return read_test_fixture("application_settings.shared.json")

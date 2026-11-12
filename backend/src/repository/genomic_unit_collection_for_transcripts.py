@@ -135,7 +135,7 @@ class GenomicUnitCollectionForTranscripts():
         """Initializes the this repository adapter with the GenomicUnitCollection it is adapting."""
         self.collection = genomic_unit_collection.collection
 
-    def annotation_exist(self, annotation_unit: AnnotationUnit):
+    async def annotation_exist(self, annotation_unit: AnnotationUnit):
         """
         Returns True if the annotation exists by transcript_id, dataset, data source, and version of an AnnotationUnit,
         otherwise returns False.
@@ -143,7 +143,7 @@ class GenomicUnitCollectionForTranscripts():
         annotation_query_adapter = AnnotationUnitTranscriptQuery(annotation_unit)
 
         find_query = annotation_query_adapter.find_genomic_unit_query()
-        hgvs_genomic_unit_json = self.collection.find_one(find_query)
+        hgvs_genomic_unit_json = await self.collection.find_one(find_query)
 
         if 'transcripts' not in hgvs_genomic_unit_json or len(hgvs_genomic_unit_json['transcripts']) == 0:
             return False
@@ -151,12 +151,12 @@ class GenomicUnitCollectionForTranscripts():
         for transcript in hgvs_genomic_unit_json['transcripts']:
             find_transcript_query = annotation_query_adapter.find_annotation_query(transcript['transcript_id'])
 
-            if not bool(self.collection.count_documents(find_transcript_query, limit=1)):
+            if not bool(await self.collection.count_documents(find_transcript_query, limit=1)):
                 return False
 
         return True
 
-    def annotate_transcript_dataset(self, genomic_unit, genomic_annotation):
+    async def annotate_transcript_dataset(self, genomic_unit, genomic_annotation):
         """
         Annotates a dataset in a transcript for a genomic unit. It will provision a transcript and dataset for a
         transcript if it does not exist.
@@ -164,15 +164,17 @@ class GenomicUnitCollectionForTranscripts():
         transcript_query = GenomicUnitTranscriptQuery(genomic_unit, genomic_annotation)
 
         provision_transcript, provision_transcript_update = transcript_query.provision_transcript_id()
-        genomic_unit = self.collection.update_one(provision_transcript, provision_transcript_update)
+        genomic_unit = await self.collection.update_one(provision_transcript, provision_transcript_update)
 
         provision_dataset, update_operation, array_filters = transcript_query.provision_dataset_query_and_update()
-        genomic_unit = self.collection.update_one(provision_dataset, update_operation, array_filters=array_filters)
+        genomic_unit = await self.collection.update_one(
+            provision_dataset, update_operation, array_filters=array_filters
+        )
 
         add_annotation_query, add_annotation_update_operation, add_annotation_array_filters = \
             transcript_query.annotate_dataset_query_and_update()
 
-        result = self.collection.update_one(
+        result = await self.collection.update_one(
             add_annotation_query, add_annotation_update_operation, array_filters=add_annotation_array_filters
         )
 

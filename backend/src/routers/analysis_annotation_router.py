@@ -1,16 +1,18 @@
 """ Analysis endpoint routes that provide an interface to interact with an Analysis' discussions """
+from typing import Annotated
+
 from fastapi import (APIRouter, Depends, HTTPException, Security)
 
 from ..security.security import get_project_authorization
 
-from ..dependencies import database
+from ..dependencies import get_db
 from ..enums import GenomicUnitType
 
 router = APIRouter(tags=["analysis annotations"])
 
 
 @router.get("/{analysis_name}/gene/{gene}", dependencies=[Security(get_project_authorization)])
-def get_annotations_by_gene(analysis_name, gene, repositories=Depends(database)):
+async def get_annotations_by_gene(analysis_name, gene, repositories: Annotated[dict, Depends(get_db)]):
     """Returns annotations data by calling method to find annotations by gene"""
 
     genomic_unit = {
@@ -18,8 +20,8 @@ def get_annotations_by_gene(analysis_name, gene, repositories=Depends(database))
         'unit': gene,
     }
 
-    dataset_manifest = repositories["analysis"].get_dataset_manifest(analysis_name)
-    genomic_unit_json = repositories["genomic_unit"].find_genomic_unit(genomic_unit)
+    dataset_manifest = await repositories["analysis"].get_dataset_manifest(analysis_name)
+    genomic_unit_json = await repositories["genomic_unit"].find_genomic_unit(genomic_unit)
 
     if genomic_unit_json is None:
         raise HTTPException(status_code=404, detail=f"Gene'{gene}' annotations not found.")
@@ -31,7 +33,9 @@ def get_annotations_by_gene(analysis_name, gene, repositories=Depends(database))
 
 
 @router.get("/{analysis_name}/hgvsVariant/{variant}", dependencies=[Security(get_project_authorization)])
-def get_annotations_by_hgvs_variant(analysis_name: str, variant: str, repositories=Depends(database)):
+async def get_annotations_by_hgvs_variant(
+    analysis_name: str, variant: str, repositories: Annotated[dict, Depends(get_db)]
+):
     """Returns annotations data by calling method to find annotations for variant and relevant transcripts
     by HGVS Variant"""
 
@@ -40,8 +44,8 @@ def get_annotations_by_hgvs_variant(analysis_name: str, variant: str, repositori
         'unit': variant,
     }
 
-    dataset_manifest = repositories["analysis"].get_dataset_manifest(analysis_name)
-    genomic_unit_json = repositories["genomic_unit"].find_genomic_unit(genomic_unit)
+    dataset_manifest = await repositories["analysis"].get_dataset_manifest(analysis_name)
+    genomic_unit_json = await repositories["genomic_unit"].find_genomic_unit(genomic_unit)
 
     if genomic_unit_json is None:
         raise HTTPException(status_code=404, detail=f"Variant'{variant}' annotations not found.")

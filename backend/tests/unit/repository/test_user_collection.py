@@ -7,62 +7,72 @@ from src.repository.user_collection import UserCollection
 from ...test_utils import mock_mongo_collection
 
 
-def test_find_all_users(user_collection):
+@pytest.mark.anyio
+async def test_find_all_users(user_collection):
     """Get all the users from the user collection"""
-    all_users = user_collection.all()
+    all_users = await user_collection.all()
     assert len(all_users) == 1
 
 
-def test_find_user_by_username_successful(user_collection):
+@pytest.mark.anyio
+async def test_find_user_by_username_successful(user_collection):
     """ Gets the user from the user collection using the username """
     username = "johndoe"
 
-    user_collection.find_by_username(username)
+    await user_collection.find_by_username(username)
     user_collection.collection.find_one.assert_called_with({"username": username})
 
 
-def test_find_user_by_username_unsuccessful(user_collection):
+@pytest.mark.anyio
+async def test_find_user_by_username_unsuccessful(user_collection):
     """ Handles failing to find a user by username """
     user_collection.collection.find_one.return_value = None
-    user = user_collection.find_by_username("johnnybravo")
+    user_collection.collection.find_one_and_update.return_value = {"_id": "fake-object-id", "mock-success": True}
+    user = await user_collection.find_by_username("johnnybravo")
     assert user is None
 
 
-def test_find_user_by_client_by_id_successful(user_collection):
+@pytest.mark.anyio
+async def test_find_user_by_client_by_id_successful(user_collection):
     """ Gets the user from the user collection using the client id """
     client_id = "fake-client-id"
 
-    user_collection.find_by_client_id(client_id)
-    user_collection.collection.find_one_assert_called_with({"client_id": client_id})
+    await user_collection.find_by_client_id(client_id)
+    await user_collection.collection.find_one_assert_called_with({"client_id": client_id})
 
 
-def test_find_user_by_client_by_id_unsuccessful(user_collection):
+@pytest.mark.anyio
+async def test_find_user_by_client_by_id_unsuccessful(user_collection):
     """ Handles failing to find a user with a client id """
     user_collection.collection.find_one.return_value = None
-    user = user_collection.find_by_client_id("fake-client-id")
+    user = await user_collection.find_by_client_id("fake-client-id")
     assert user is None
 
 
-def test_update_client_secret_successful(user_collection):
+@pytest.mark.anyio
+async def test_update_client_secret_successful(user_collection):
     """ Updates the existing client secret """
     client_id = "fake-client-id"
     client_secret = "fake-client-secret"
 
-    user_collection.update_client_secret(client_id, client_secret)
+    user_collection.collection.find_one_and_update.return_value = {'_id': 'fake-useclient-id', 'success': True}
+
+    await user_collection.update_client_secret(client_id, client_secret)
 
     user_collection.collection.find_one_and_update.assert_called_with({'client_id': client_id},
                                                                       {'$set': {'client_secret': client_secret}},
                                                                       return_document=ReturnDocument.AFTER)
 
 
-def test_update_client_secret_unsuccessful(user_collection):
+@pytest.mark.anyio
+async def test_update_client_secret_unsuccessful(user_collection):
     """ Updates the existing client secret """
     client_id = "fake-client-id-not-in-system"
     client_secret = "fake-client-secret-not-in-system"
 
     user_collection.collection.find_one_and_update.return_value = None
 
-    user = user_collection.update_client_secret(client_id, client_secret)
+    user = await user_collection.update_client_secret(client_id, client_secret)
 
     user_collection.collection.find_one_and_update.assert_called_with({'client_id': client_id},
                                                                       {'$set': {'client_secret': client_secret}},

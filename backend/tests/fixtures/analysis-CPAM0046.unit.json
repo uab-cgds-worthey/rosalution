@@ -1,66 +1,71 @@
 {
   "name": "CPAM0046",
   "description": ": LMNA-related congenital muscular dystropy",
-  "project_id": { "$oid": "695d5b157709ebcd1c7325c1" },
+  "project_id": {
+    "$oid": "695d5b157709ebcd1c7325c1"
+  },
   "project_name": "CPAM",
   "nominated_by": "Dr. Person Two",
   "manifest": [
     {
       "unit": "LMNA",
       "manifest": [
-      {
-        "Entrez Gene Id": {
-          "data_source": "Ensembl",
-          "version": "rosalution-manifest-00"
+        {
+          "Entrez Gene Id": {
+            "data_source": "Ensembl",
+            "version": "rosalution-manifest-00"
+          }
+        },
+        {
+          "HPO_NCBI_GENE_ID": {
+            "data_source": "Ensembl",
+            "version": "2024-09-06"
+          }
+        },
+        {
+          "Ensembl Gene Id": {
+            "data_source": "Ensembl",
+            "version": "112"
+          }
+        },
+        {
+          "ClinGen_gene_url": {
+            "data_source": "Ensembl",
+            "version": "rosalution-manifest-00"
+          }
+        },
+        {
+          "OMIM": {
+            "data_source": "Ensembl",
+            "version": "2024-09-06"
+          }
+        },
+        {
+          "HGNC_ID": {
+            "data_source": "Ensembl",
+            "version": "rosalution-manifest-00"
+          }
         }
-      },
-      {
-        "HPO_NCBI_GENE_ID": {
-          "data_source": "Ensembl",
-          "version": "2024-09-06"
+      ]
+    },
+    {
+      "unit": "NM_170707.3:c.745C>T",
+      "manifest": [
+        {
+          "Polyphen Prediction": {
+            "data_source": "Ensembl",
+            "version": "112"
+          }
+        },
+        {
+          "ClinVar_Variantion_Id": {
+            "data_source": "Ensembl",
+            "version": "rosalution-manifest-00"
+          }
         }
-      },
-      {
-        "Ensembl Gene Id": {
-          "data_source": "Ensembl",
-          "version": "112"
-        }
-      },
-      {
-        "ClinGen_gene_url": {
-          "data_source": "Ensembl",
-          "version": "rosalution-manifest-00"
-        }
-      },
-      {
-        "OMIM": {
-          "data_source": "Ensembl",
-          "version": "2024-09-06"
-        }
-      },
-      {
-        "HGNC_ID": {
-          "data_source": "Ensembl",
-          "version": "rosalution-manifest-00"
-        }
-      }
-    ]},
-    {"unit": "NM_170707.3:c.745C>T",
-    "manifest": [
-      {
-        "Polyphen Prediction": {
-          "data_source": "Ensembl",
-          "version": "112"
-        }
-      },
-      {
-        "ClinVar_Variantion_Id": {
-          "data_source": "Ensembl",
-          "version": "rosalution-manifest-00"
-        }
-      }
-    ]
-  }],
+      ]
+    }
+  ],
   "genomic_units": [
     {
       "gene": "LMNA",

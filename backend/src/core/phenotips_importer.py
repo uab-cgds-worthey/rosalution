@@ -12,7 +12,7 @@ class PhenotipsImporter:
         self.analysis_collection = analysis_collection
         self.genomic_unit_collection = genomic_unit_collection
 
-    def import_phenotips_json(self, phenotips_json_data):
+    async def import_phenotips_json(self, phenotips_json_data):
         """Imports the phenotips json data into the database"""
 
         phenotips_variants = []
@@ -34,11 +34,11 @@ class PhenotipsImporter:
 
         for gene in phenotips_json_data["genes"]:
             genomic_unit_data = self.import_genomic_unit_collection_data(gene, "gene")
-            self.genomic_unit_collection.create_genomic_unit(genomic_unit_data)
+            await self.genomic_unit_collection.create_genomic_unit(genomic_unit_data)
 
         for variant in phenotips_variants:
             genomic_unit_data = self.import_genomic_unit_collection_data(variant, "hgvs")
-            self.genomic_unit_collection.create_genomic_unit(genomic_unit_data)
+            await self.genomic_unit_collection.create_genomic_unit(genomic_unit_data)
 
         analysis_data = self.import_analysis_data(phenotips_json_data, phenotips_variants, phenotips_json_data["genes"])
 

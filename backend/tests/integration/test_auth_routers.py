@@ -1,81 +1,71 @@
 """Authentication Routes Intergration test"""
-import json
-from base64 import b64encode
-
-from itsdangerous import TimestampSigner
-
-from src.routers.auth_router import cas_client
-
-
-# Helper functions #
-def create_session_cookie(data) -> str:
-    """Function that creates a fake session token cookie to mimic Starlette session middleware"""
-    signer = TimestampSigner(str("!secret"))
-
-    return signer.sign(b64encode(json.dumps(data).encode("utf-8")),).decode("utf-8")
+from cas import CASClient
+import pytest
 
 
 # Authentication Tests #
-def test_login_no_session(client):
+@pytest.mark.anyio
+@pytest.mark.usefixtures("mock_repositories")
+async def test_login_no_session(client):
     """Testing the login endpoint when there is no login session already"""
-    response = client.get("/auth/login")
+    response = await client.get("/auth/login")
     assert (
-        response.json()["url"] == "https://padlockdev.idm.uab.edu/cas/login?service=http%3A" +
-        "%2F%2Fdev.cgds.uab.edu%2Frosalution%2Fapi%2Fauth%2Flogin%3Fnexturl%3D%252F"
+        response.json()["url"] == "https://fake.uab.cas/cas/login?service=http%3A" +
+        "%2F%2Ffake.cgds.uab.edu%2Frosalution%2Fapi%2Fauth%2Flogin%3Fnexturl%3D%252F"
     )
 
 
-def test_login_successful(client, mock_repositories, monkeypatch):
+@pytest.mark.anyio
+@pytest.mark.usefixtures("mock_repositories")
+async def test_login_successful(client, cas_client: CASClient, monkeypatch):
     """Testing the login endpoint when there's a successful login and redirect"""
 
     # This unused parameter is required for the monkeypatch to successfully use the mock verify function,
     # if no empty paramter is provided then the tests will crash.
     def mock_verify_return(paramater):  #pylint: disable=unused-argument
-        return (
-            '<cas:serviceresponse xmlns:cas="http://www.yale.edy/tp/cas">                    ',
-            " <cas:authenticationsuccess>                         <cas:user>UABProvider</cas:user>                    ",
-            ' </cas:authenticationsuccess>                 </cas:serviceresponse>"'
-        )
+        return ('developer', 'unused_attributes', 'unused_pgtiou')
 
     monkeypatch.setattr(cas_client, "verify_ticket", mock_verify_return)
 
-    mock_repositories['user'].collection.find_one.return_value = {
-        "username": "UABProvider", "scope": ['fakescope'], "client_id": "fake-uab-client-id"
-    }
+    response = await client.get("/auth/login?nexturl=%2F&ticket=FakeTicketString")
 
-    response = client.get("/auth/login?nexturl=%2F&ticket=FakeTicketString")
-
-    assert response.url == "http://dev.cgds.uab.edu/rosalution/"
+    assert response.status_code == 307
+    assert response.url == "http://test/auth/login?nexturl=%2F&ticket=FakeTicketString"
 
 
-def test_logout(client):
+@pytest.mark.anyio
+@pytest.mark.usefixtures("mock_repositories", "mock_settings_cas_disabled")
+async def test_logout(client):
     """ This tests functionality of the local logout function """
-    response = client.get("/auth/logout",)
+    response = await client.get("/auth/logout",)
 
     assert response.json() == {"access_token": ""}
 
 
-def test_cas_enabled_logout(client, mock_settings):  # pylint: disable=unused-argument
+@pytest.mark.anyio
+@pytest.mark.usefixtures("mock_settings")
+async def test_cas_enabled_logout(client):  # pylint: disable=unused-argument
     """ This tests functionality if the user logs out after logging in with their BlazerId """
-    response = client.get(
+    response = await client.get(
         '/auth/logout',
         headers={"host": 'dev.cgds.uab.edu'},
     )
 
     assert response.json() == {
         'url':
-            'https://padlockdev.idm.uab.edu/cas/logout?' +
+            'https://fake.uab.cas/cas/logout?' +
             'service=http%3A%2F%2Fdev.cgds.uab.edu%2Frosalution%2Fapi%2Fauth%2Flogout_callback'
     }
 
 
-def test_logout_callback(client):
+@pytest.mark.anyio
+async def test_logout_callback(client):
     """
     This gets called when the CAS logout calls back after destroying the BlazerId session
     and redirects the user to login
     """
 
-    response = client.get('/auth/logout_callback', follow_redirects=False)
+    response = await client.get('/auth/logout_callback', follow_redirects=False)
 
     assert response.status_code == 307
-    assert response.headers['location'] == 'http://dev.cgds.uab.edu/rosalution/login'
+    assert response.headers['location'] == 'http://api.fake.cgds.uab.edu/login'

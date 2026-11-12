@@ -1,0 +1,52 @@
+#! /bin/bash
+# ./initial-db-seed.sh -h <host> -f <datasource>
+usage() {
+  echo "usage: $0 -h <host> -f <datasource>"
+  echo " "
+  echo " -h MongoDB host URL"
+  echo "    (default) localhost:27017"
+  echo " -f Fixtures filepath"
+  echo "    (default) /tmp/fixtures/initial-seed"
+  echo " "
+  echo "Seeds the initial Rosalution database with base fixtures for local development and system testing"
+  exit
+}
+
+while getopts ":a:v:h" opt; do
+  case $opt in
+    a) mongodb_host=$OPTARG;;
+    v) fixture_filepath=${OPTARG};;
+    h) usage;;
+    \?) echo "Invalid option -$OPTARG" && exit 127;;
+  esac
+done
+
+if [[ ! -v mongodb_host ]] ; then
+  mongodb_host="localhost:27017"
+fi
+
+if [[ ! -v fixture_filepath ]] ; then
+  fixture_filepath="/tmp/fixtures/initial-seed"
+fi
+
+echo "Seeding Rosalution database..."
+
+database="rosalution_db"
+
+echo "Importing Projects..."
+mongoimport  --uri "mongodb://localhost:27017/$database?replicaSet=rs0" --db "$database" --collection projects --file "$fixture_filepath/projects.json" --jsonArray
+
+echo "Importing Analyses..."
+mongoimport  --uri "mongodb://localhost:27017/$database?replicaSet=rs0" --db "$database" --collection analyses --file "$fixture_filepath/analyses.json" --jsonArray
+
+echo "Importing Annotations Config..."
+mongoimport  --uri "mongodb://localhost:27017/$database?replicaSet=rs0" --db "$database" --collection annotations_config --file "$fixture_filepath/annotations-config.json" --jsonArray
+
+echo "Importing Users..."
+mongoimport  --uri "mongodb://localhost:27017/$database?replicaSet=rs0" --db "$database" --collection users --file "$fixture_filepath/users.json" --jsonArray
+
+echo "Importing Genomic Units..."
+mongoimport  --uri "mongodb://localhost:27017/$database?replicaSet=rs0" --db "$database" --collection genomic_units --file "$fixture_filepath/genomic-units.json" --jsonArray
+
+
+echo "Seeding Rosalution databse...Complete"

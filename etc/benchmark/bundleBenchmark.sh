@@ -72,10 +72,7 @@ if ! $using_ssh && ! $using_docker; then
 fi
 
 if [ ! -f "$k6_metrics_summary_json" ]; then
-  echo "K6 benchmark metrics summary '$k6_metrics_summary_json' does not exist.  Canceling bundling operation ..."
-  
-  usage
-  exit 1
+  echo "Warning: K6 benchmark metrics summary '$k6_metrics_summary_json' does not exist.  Continueing bundling operation ..."
 fi
 
 if [[ ! -d "$base_output_path" ]]

@@ -91,7 +91,7 @@ fi
 echo "Fetching existing analyses in Rosalution..."
 
 RESPONSE=$(curl -s -X "GET" \
-  "$BASE_URL/api/analysis" \
+  "$BASE_URL/api/analysis/summary" \
   -H "accept: application/json" \
   -H "Authorization: Bearer $AUTH_TOKEN")
 
@@ -113,7 +113,7 @@ echo "${ANALYSES[@]}" | jq -r '.[]' | while read -r ANALYSIS; do
       -H "Authorization: Bearer $AUTH_TOKEN" \
       > /dev/null
   
-  sleep 2
+  # sleep 2
 done
 
 echo "Done. Exiting."

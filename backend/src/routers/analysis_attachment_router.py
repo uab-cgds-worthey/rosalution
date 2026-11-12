@@ -5,7 +5,7 @@ from typing import Annotated, List
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Security, UploadFile
 from pydantic import BaseModel, model_validator
 
-from ..dependencies import database
+from ..dependencies import get_db
 from ..security.security import get_write_project_authorization
 
 router = APIRouter(tags=["analysis attachments"])
@@ -49,25 +49,25 @@ class IncommingUpdatedAttachment(BaseModel, frozen=True):
 @router.post(
     "/{analysis_name}/attachment", response_model=List, dependencies=[Security(get_write_project_authorization)]
 )
-def attach_file(
+async def attach_file(
     analysis_name: str,
     new_attachment: Annotated[IncomingNewAttachment, Form()],
+    repositories: Annotated[dict, Depends(get_db)],
     upload_file: UploadFile = File(None),
-    repositories=Depends(database)
 ):
     """Uploads a file to GridFS and adds it to the analysis"""
     updated_analysis_json = None
 
     if new_attachment.link:
-        updated_analysis_json = repositories["analysis"].attach_link(
+        updated_analysis_json = await repositories["analysis"].attach_link(
             analysis_name, new_attachment.link_name, new_attachment.link, new_attachment.comments
         )
     else:
-        new_file_object_id = repositories['bucket'].save_file(
+        new_file_object_id = await repositories['bucket'].save_file(
             upload_file.file, upload_file.filename, upload_file.content_type
         )
 
-        updated_analysis_json = repositories["analysis"].attach_file(
+        updated_analysis_json = await repositories["analysis"].attach_file(
             analysis_name, new_file_object_id, upload_file.filename, new_attachment.comments
         )
 
@@ -79,11 +79,10 @@ def attach_file(
     response_model=List,
     dependencies=[Security(get_write_project_authorization)]
 )
-def update_attachment(
-    analysis_name: str,
-    attachment_id: str,
-    updated_attachment: Annotated[IncommingUpdatedAttachment, Form()],
-    repositories=Depends(database),
+async def update_attachment(
+    analysis_name: str, attachment_id: str, updated_attachment: Annotated[IncommingUpdatedAttachment,
+                                                                          Form()],
+    repositories: Annotated[dict, Depends(get_db)]
 ):
     """ Updates the attachment in the analysis """
     content = {
@@ -93,7 +92,7 @@ def update_attachment(
     }
 
     try:
-        updated_analysis_json = repositories["analysis"].update_attachment(analysis_name, attachment_id, content)
+        updated_analysis_json = await repositories["analysis"].update_attachment(analysis_name, attachment_id, content)
         return updated_analysis_json["attachments"]
     except ValueError as exception:
         raise HTTPException(status_code=404, detail=str(exception)) from exception
@@ -104,9 +103,9 @@ def update_attachment(
     response_model=List,
     dependencies=[Security(get_write_project_authorization)]
 )
-def remove_attachment(analysis_name: str, attachment_id: str, repositories=Depends(database)):
+async def remove_attachment(analysis_name: str, attachment_id: str, repositories: Annotated[dict, Depends(get_db)]):
     """ Removes attachment from the analysis """
-    if repositories["bucket"].id_exists(attachment_id):
-        repositories["bucket"].delete_file(attachment_id)
-    updated_analysis_json = repositories["analysis"].remove_attachment(analysis_name, attachment_id)
+    if await repositories["bucket"].id_exists(attachment_id):
+        await repositories["bucket"].delete_file(attachment_id)
+    updated_analysis_json = await repositories["analysis"].remove_attachment(analysis_name, attachment_id)
     return updated_analysis_json["attachments"]

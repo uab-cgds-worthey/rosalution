@@ -16,11 +16,13 @@ from fastapi.security import SecurityScopes
 
 import bcrypt
 
-from ..models.user import ProjectUser
-
-from ..dependencies import database, oauth2_scheme
-
 from ..config import Settings, get_settings
+from ..dependencies import get_db
+from ..models.user import ProjectUser
+from ..security.oauth2 import OAuth2ClientCredentials
+
+settings_for_openapi_token_path = get_settings()
+oauth2_scheme = OAuth2ClientCredentials(tokenUrl=settings_for_openapi_token_path.openapi_api_token_route)
 
 SECURITY_SCOPES = {
     "pre-clinical-intake": "Pre-Clinical Intake",
@@ -85,11 +87,11 @@ def generate_client_secret():
 
 
 def get_current_user(
-    response: Response, token: str = Depends(oauth2_scheme), settings: Settings = Depends(get_settings)
+    response: Response, token: Annotated[str, Depends(oauth2_scheme)], settings: Annotated[Settings,
+                                                                                           Depends(get_settings)]
 ):
     """Extracts the client_id from the token, this is useful to ensure the user is who they say they are"""
     authenticate_value = "Bearer"
-
     try:
         payload = jwt.decode(token, settings.rosalution_key, algorithms=[settings.oauth2_algorithm])
         client_id: str = payload.get("sub")
@@ -112,7 +114,8 @@ def get_current_user(
 
 
 def get_authorization(
-    security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme), settings: Settings = Depends(get_settings)
+    security_scopes: SecurityScopes, token: Annotated[str, Depends(oauth2_scheme)],
+    settings: Annotated[Settings, Depends(get_settings)]
 ):
     """
     This function does a general authorization check to see if the user is authorized and within scope to use the
@@ -150,14 +153,16 @@ def get_authorization(
     return True
 
 
-def get_project_authorization(
-    analysis_name: str = Path(...), repositories=Depends(database), client_id=Depends(get_current_user)
+async def get_project_authorization(
+    repositories: Annotated[dict, Depends(get_db)],
+    client_id: Annotated[str, Security(get_current_user)],
+    analysis_name: str = Path(...)
 ):
     """
     Verify current user by client_id is a member of the project associated with then given analysis_name in the path.
     """
-    user_json = repositories["user"].find_by_client_id(client_id)
-    project_id = repositories["analysis"].project_id_by_name(analysis_name)
+    user_json = await repositories["user"].find_by_client_id(client_id)
+    project_id = await repositories["analysis"].project_id_by_name(analysis_name)
     user = ProjectUser(**user_json)
 
     if not user.is_authorized(project_id):
@@ -177,16 +182,16 @@ def get_write_project_authorization(
     return True
 
 
-def get_create_project_authorization(
+async def get_create_project_authorization(
     write_authorized: Annotated[bool, Security(get_authorization, scopes=["write"])],
     project_id: Annotated[str, Path()],
+    repositories: Annotated[dict, Depends(get_db)],
     client_id=Depends(get_current_user),
-    repositories=Depends(database)
 ):
     """
     Verify current user by client_id is a member of the project associated with then given analysis_name in the path.
     """
-    user_json = repositories["user"].find_by_client_id_with_project_name(client_id, project_id)
+    user_json = await repositories["user"].find_by_client_id_with_project_name(client_id, project_id)
     user = ProjectUser(**user_json)
 
     if not user.is_authorized(project_id):
