@@ -78,7 +78,7 @@
         {
           "hgvs_variant": "NM_170707.3:c.745C>T",
           "c_dot": "c.745C>T",
-          "p_dot": "p.R249W",
+          "p_dot": "p.Arg249Trp",
           "build": "hg19",
           "case": [
             {

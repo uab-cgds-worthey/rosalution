@@ -1,5 +1,6 @@
 """Test Fixtures for integration tests"""
-from unittest.mock import Mock
+import logging
+from unittest.mock import MagicMock
 from httpx import ASGITransport, AsyncClient
 import pytest
 from cas import CASClient
@@ -7,6 +8,7 @@ from testcontainers.compose import DockerCompose
 from pymongo import AsyncMongoClient
 import gridfs
 
+from src.core.annotation import AnnotationQueue
 from src.routers.auth_router import get_cas_client
 from src.main import app
 from src.database import Database
@@ -44,11 +46,22 @@ def mock_get_cas_client(mock_settings):
     app.dependency_overrides.clear()
 
 
-@pytest.fixture(name="mock_annotation_queue", scope="class")
+@pytest.fixture(name="mock_annotation_queue")
 def mock_queue():
     """A mocked Python queue used to verify if annotation tasks are created"""
-    annotation_queue.annotation_queue = Mock()
-    return annotation_queue.annotation_queue
+    annotation_queue.annotation_queue = MagicMock()
+    app.dependency_overrides[annotation_queue] = annotation_queue
+    yield annotation_queue
+    app.dependency_overrides.clear()
+
+
+@pytest.fixture(name="live_annotation_queue")
+def live_queue():
+    """A mocked Python queue used to verify if annotation tasks are created"""
+    queue_depedency = AnnotationQueue()
+    app.dependency_overrides[annotation_queue] = queue_depedency
+    yield queue_depedency
+    app.dependency_overrides.clear()
 
 
 @pytest.fixture(name="async_db_client", scope="session")
@@ -109,6 +122,12 @@ def mock_application_settings(settings_json):
     app.dependency_overrides[get_settings] = mock_get_settings
     yield fake_settings
     app.dependency_overrides.clear()
+
+@pytest.fixture(name="disable_info_logging")
+def disable_info_logging_for_test():
+    logging.disable(logging.INFO)
+    yield
+    logging.disable(logging.NOTSET)
 
 
 @pytest.fixture(name="mock_security_get_current_user")

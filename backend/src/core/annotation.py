@@ -129,6 +129,30 @@ class AnnotationService:
             for dataset in annotation_configuration[genomic_unit_type]:
                 annotation_unit_queued = AnnotationUnit(genomic_unit, dataset, analysis_name=analysis.name)
                 annotation_task_queue.put(annotation_unit_queued)
+    
+    
+    @staticmethod
+    async def _run_process_tasks(loop, annotation_queue: AnnotationQueue, database):
+        repositories = database
+        genomic_unit_collection = repositories['genomic_unit']
+        analysis_collection = repositories["analysis"]
+
+        processor = AnnotationProcess(annotation_queue, genomic_unit_collection, analysis_collection)
+
+        processor.set_tasks_executor(loop)
+
+        while not processor.annotation_unit_queue_empty() or processor.are_tasks_processing():
+            if processor.annotation_unit_queue_empty():
+                await asyncio.gather(*processor.processsing_tasks(), return_exceptions=True)
+                continue
+
+            await asyncio.sleep(0)  # allows event loop to process other tasks if needed
+            annotation_unit = processor.queue.get()
+            await processor.process_annotation_unit(annotation_unit)
+
+        logger.info("%s Processing annotation units queue complete", annotation_log_label())
+
+        processor.log_dataset_failures()
 
     @staticmethod
     def process_tasks(annotation_queue: AnnotationQueue, settings: Settings):
@@ -144,25 +168,7 @@ class AnnotationService:
                 bucket = AsyncGridFS(mongodb_async_client.rosalution_db)
                 database = Database(mongodb_async_client, bucket)
                 repositories = database()
-                genomic_unit_collection = repositories['genomic_unit']
-                analysis_collection = repositories["analysis"]
-
-                processor = AnnotationProcess(annotation_queue, genomic_unit_collection, analysis_collection)
-
-                processor.set_tasks_executor(loop)
-
-                while not processor.annotation_unit_queue_empty() or processor.are_tasks_processing():
-                    if processor.annotation_unit_queue_empty():
-                        await asyncio.gather(*processor.processsing_tasks(), return_exceptions=True)
-                        continue
-
-                    await asyncio.sleep(0)  # allows event loop to process other tasks if needed
-                    annotation_unit = processor.queue.get()
-                    await processor.process_annotation_unit(annotation_unit)
-
-                logger.info("%s Processing annotation units queue complete", annotation_log_label())
-
-                processor.log_dataset_failures()
+                AnnotationService._run_process_tasks(loop, annotation_queue, repositories)
 
         try:
             loop.run_until_complete(run_process_tasks())

@@ -1,0 +1,1487 @@
+{
+    "https://rest.genenames.org/fetch/symbol/LMNA": {
+        "responseHeader": {
+            "status": 0,
+            "QTime": 1
+        },
+        "response": {
+            "numFound": 1,
+            "start": 0,
+            "numFoundExact": true,
+            "docs": [
+                {
+                    "gencc": "HGNC:6636",
+                    "orphanet": 123090,
+                    "location": "1q22",
+                    "name": "lamin A/C",
+                    "status": "Approved",
+                    "vega_id": "OTTHUMG00000013961",
+                    "gene_group": [
+                        "Lamins"
+                    ],
+                    "locus_group": "protein-coding gene",
+                    "ccds_id": [
+                        "CCDS1129",
+                        "CCDS1131",
+                        "CCDS58038",
+                        "CCDS72941",
+                        "CCDS72942"
+                    ],
+                    "agr": "HGNC:6636",
+                    "cosmic": "LMNA",
+                    "alias_name": [
+                        "mandibuloacral dysplasia type A",
+                        "progerin"
+                    ],
+                    "rgd_id": [
+                        "RGD:620456"
+                    ],
+                    "date_approved_reserved": "1992-04-09T00:00:00Z",
+                    "prev_symbol": [
+                        "LMN1",
+                        "CMD1A",
+                        "LGMD1B",
+                        "PRO1",
+                        "LMNL1"
+                    ],
+                    "ena": [
+                        "BC014507"
+                    ],
+                    "gene_group_id": [
+                        612
+                    ],
+                    "ensembl_gene_id": "ENSG00000160789",
+                    "locus_type": "gene with protein product",
+                    "omim_id": [
+                        "150330"
+                    ],
+                    "lsdb": [
+                        "Inherited Peripheral Neuropathies Mutation Database|http://www.molgen.ua.ac.be/CMTMutations/",
+                        "Leiden Muscular Dystrophy Pages|http://www.LOVD.nl/LMNA",
+                        "UMD Locus Specific Databases|http://www.umd.be/",
+                        "Leiden Muscular Dystrophy pages|http://www.dmd.nl/nmdb2/home.php?select_db=LMNA",
+                        "LRG_254|http://ftp.ebi.ac.uk/pub/databases/lrgex/LRG_254.xml"
+                    ],
+                    "uniprot_ids": [
+                        "P02545"
+                    ],
+                    "prev_name": [
+                        "cardiomyopathy, dilated 1A (autosomal dominant)",
+                        "limb girdle muscular dystrophy 1B (autosomal dominant)",
+                        "progeria 1 (Hutchinson-Gilford type)",
+                        "lamin A/C-like 1"
+                    ],
+                    "mane_select": [
+                        "ENST00000368300.9",
+                        "NM_170707.4"
+                    ],
+                    "symbol": "LMNA",
+                    "mgd_id": [
+                        "MGI:96794"
+                    ],
+                    "entrez_id": "4000",
+                    "alias_symbol": [
+                        "HGPS",
+                        "MADA"
+                    ],
+                    "refseq_accession": [
+                        "NM_170707"
+                    ],
+                    "hgnc_id": "HGNC:6636",
+                    "uuid": "6b0885e3-6795-467b-af25-20aca1712608",
+                    "ucsc_id": "uc001fni.4",
+                    "pubmed_id": [
+                        8511676,
+                        8838815,
+                        12702809
+                    ],
+                    "date_modified": "2023-04-21T00:00:00Z"
+                }
+            ]
+        }
+    },
+    "https://rest.ensembl.org/vep/human/hgvs/NM_170707:c.745C>T?content-type=application/json;AlphaMissense=1;CADD=1;refseq=1;vcf_string=1;SpliceAI=2;": [
+        {
+            "allele_string": "C/T",
+            "input": "NM_170707:c.745C\u003ET",
+            "seq_region_name": "1",
+            "end": 156134910,
+            "start": 156134910,
+            "colocated_variants": [
+                {
+                    "end": 156134910,
+                    "seq_region_name": "1",
+                    "strand": 1,
+                    "allele_string": "HGMD_MUTATION",
+                    "start": 156134910,
+                    "phenotype_or_disease": 1,
+                    "id": "CM083718"
+                },
+                {
+                    "start": 156134910,
+                    "phenotype_or_disease": 1,
+                    "id": "CM1617006",
+                    "allele_string": "HGMD_MUTATION",
+                    "strand": 1,
+                    "end": 156134910,
+                    "seq_region_name": "1"
+                },
+                {
+                    "allele_string": "C/G/T",
+                    "id": "rs121912496",
+                    "clin_sig": [
+                        "likely_pathogenic",
+                        "pathogenic"
+                    ],
+                    "start": 156134910,
+                    "phenotype_or_disease": 1,
+                    "clin_sig_allele": "G:likely_pathogenic;T:pathogenic/likely_pathogenic;T:pathogenic",
+                    "seq_region_name": "1",
+                    "var_synonyms": {
+                        "ClinVar": [
+                            "RCV000814531",
+                            "RCV000015621",
+                            "VCV000014524",
+                            "RCV000057452",
+                            "RCV000201142",
+                            "RCV000041362",
+                            "VCV000048077",
+                            "RCV000818791",
+                            "RCV005229797"
+                        ],
+                        "UniProt": [
+                            "VAR_063589"
+                        ],
+                        "OMIM": [
+                            150330.0048
+                        ]
+                    },
+                    "end": 156134910,
+                    "pubmed": [
+                        24033266,
+                        10739764,
+                        26467025,
+                        20848652,
+                        10939567,
+                        14684700,
+                        18551513,
+                        11503164,
+                        12032588,
+                        18564364,
+                        21632249,
+                        20886652,
+                        37035729
+                    ],
+                    "strand": 1,
+                    "clin_sig_ref_allele": "C"
+                }
+            ],
+            "assembly_name": "GRCh38",
+            "most_severe_consequence": "missense_variant",
+            "strand": 1,
+            "transcript_consequences": [
+                {
+                    "polyphen_prediction": "probably_damaging",
+                    "codons": "Cgg/Tgg",
+                    "cadd_phred": 26.4,
+                    "biotype": "protein_coding",
+                    "alphamissense": {
+                        "am_pathogenicity": 0.9851,
+                        "am_class": "likely_pathogenic"
+                    },
+                    "variant_allele": "T",
+                    "cds_end": 409,
+                    "polyphen_score": 0.999,
+                    "transcript_id": "NM_001257374.3",
+                    "gene_symbol_source": "EntrezGene",
+                    "sift_score": 0,
+                    "given_ref": "C",
+                    "strand": 1,
+                    "impact": "MODERATE",
+                    "protein_start": 137,
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "sift_prediction": "deleterious",
+                    "gene_symbol": "LMNA",
+                    "cds_start": 409,
+                    "spliceai": {
+                        "DP_DG": -42,
+                        "DP_AG": -42,
+                        "SYMBOL": "LMNA",
+                        "DS_AL": 0,
+                        "DP_AL": -6,
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "DS_DL": 0.02,
+                        "DS_AG": 0
+                    },
+                    "protein_end": 137,
+                    "used_ref": "C",
+                    "gene_id": "4000",
+                    "cadd_raw": 4.721927,
+                    "cdna_end": 443,
+                    "cdna_start": 443,
+                    "amino_acids": "R/W"
+                },
+                {
+                    "protein_end": 168,
+                    "gene_symbol": "LMNA",
+                    "spliceai": {
+                        "DS_AL": 0,
+                        "DP_DG": -42,
+                        "DP_AG": -42,
+                        "SYMBOL": "LMNA",
+                        "DP_DL": 20,
+                        "DS_DG": 0.04,
+                        "DS_DL": 0.02,
+                        "DS_AG": 0,
+                        "DP_AL": -6
+                    },
+                    "cds_start": 502,
+                    "used_ref": "C",
+                    "cadd_raw": 4.721927,
+                    "gene_id": "4000",
+                    "cdna_end": 623,
+                    "cdna_start": 623,
+                    "amino_acids": "R/W",
+                    "sift_score": 0,
+                    "given_ref": "C",
+                    "impact": "MODERATE",
+                    "protein_start": 168,
+                    "strand": 1,
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "sift_prediction": "deleterious",
+                    "variant_allele": "T",
+                    "cds_end": 502,
+                    "polyphen_score": 1,
+                    "gene_symbol_source": "EntrezGene",
+                    "transcript_id": "NM_001282624.2",
+                    "polyphen_prediction": "probably_damaging",
+                    "codons": "Cgg/Tgg",
+                    "cadd_phred": 26.4,
+                    "biotype": "protein_coding",
+                    "alphamissense": {
+                        "am_pathogenicity": 0.9851,
+                        "am_class": "likely_pathogenic"
+                    }
+                },
+                {
+                    "cds_end": 745,
+                    "variant_allele": "T",
+                    "gene_symbol_source": "EntrezGene",
+                    "transcript_id": "NM_001282625.2",
+                    "polyphen_score": 1,
+                    "codons": "Cgg/Tgg",
+                    "polyphen_prediction": "probably_damaging",
+                    "alphamissense": {
+                        "am_pathogenicity": 0.9851,
+                        "am_class": "likely_pathogenic"
+                    },
+                    "biotype": "protein_coding",
+                    "cadd_phred": 26.4,
+                    "used_ref": "C",
+                    "cds_start": 745,
+                    "gene_symbol": "LMNA",
+                    "spliceai": {
+                        "DS_AL": 0,
+                        "DP_AG": -42,
+                        "SYMBOL": "LMNA",
+                        "DP_DG": -42,
+                        "DS_DL": 0.02,
+                        "DS_AG": 0,
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "DP_AL": -6
+                    },
+                    "protein_end": 249,
+                    "amino_acids": "R/W",
+                    "cdna_start": 1391,
+                    "cdna_end": 1391,
+                    "gene_id": "4000",
+                    "cadd_raw": 4.721927,
+                    "given_ref": "C",
+                    "sift_score": 0,
+                    "sift_prediction": "deleterious",
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "impact": "MODERATE",
+                    "protein_start": 249,
+                    "strand": 1
+                },
+                {
+                    "used_ref": "C",
+                    "spliceai": {
+                        "DP_AL": -6,
+                        "DS_AG": 0,
+                        "DS_DL": 0.02,
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "SYMBOL": "LMNA",
+                        "DP_AG": -42,
+                        "DP_DG": -42,
+                        "DS_AL": 0
+                    },
+                    "gene_symbol": "LMNA",
+                    "protein_end": 249,
+                    "cds_start": 745,
+                    "cdna_start": 953,
+                    "amino_acids": "R/W",
+                    "cdna_end": 953,
+                    "cadd_raw": 4.721927,
+                    "gene_id": "4000",
+                    "sift_score": 0,
+                    "given_ref": "C",
+                    "sift_prediction": "deleterious",
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "impact": "MODERATE",
+                    "protein_start": 249,
+                    "strand": 1,
+                    "cds_end": 745,
+                    "variant_allele": "T",
+                    "gene_symbol_source": "EntrezGene",
+                    "transcript_id": "NM_001282626.2",
+                    "polyphen_score": 1,
+                    "codons": "Cgg/Tgg",
+                    "polyphen_prediction": "probably_damaging",
+                    "alphamissense": {
+                        "am_pathogenicity": 0.9851,
+                        "am_class": "likely_pathogenic"
+                    },
+                    "biotype": "protein_coding",
+                    "cadd_phred": 26.4
+                },
+                {
+                    "sift_score": 0,
+                    "given_ref": "C",
+                    "sift_prediction": "deleterious",
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "protein_start": 249,
+                    "impact": "MODERATE",
+                    "strand": 1,
+                    "used_ref": "C",
+                    "gene_symbol": "LMNA",
+                    "cds_start": 745,
+                    "protein_end": 249,
+                    "spliceai": {
+                        "DP_AL": -6,
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "DS_DL": 0.02,
+                        "DS_AG": 0,
+                        "DP_DG": -42,
+                        "SYMBOL": "LMNA",
+                        "DP_AG": -42,
+                        "DS_AL": 0
+                    },
+                    "cdna_start": 1279,
+                    "amino_acids": "R/W",
+                    "cdna_end": 1279,
+                    "cadd_raw": 4.721927,
+                    "gene_id": "4000",
+                    "codons": "Cgg/Tgg",
+                    "polyphen_prediction": "probably_damaging",
+                    "alphamissense": {
+                        "am_class": "likely_pathogenic",
+                        "am_pathogenicity": 0.9851
+                    },
+                    "biotype": "protein_coding",
+                    "cadd_phred": 26.4,
+                    "cds_end": 745,
+                    "variant_allele": "T",
+                    "gene_symbol_source": "EntrezGene",
+                    "transcript_id": "NM_001406983.1",
+                    "polyphen_score": 1
+                },
+                {
+                    "gene_id": "4000",
+                    "cadd_raw": 4.721927,
+                    "cdna_end": 1279,
+                    "amino_acids": "R/W",
+                    "cdna_start": 1279,
+                    "gene_symbol": "LMNA",
+                    "protein_end": 249,
+                    "spliceai": {
+                        "DS_AG": 0,
+                        "DS_DL": 0.02,
+                        "DP_DL": 20,
+                        "DS_DG": 0.04,
+                        "DP_AL": -6,
+                        "DS_AL": 0,
+                        "SYMBOL": "LMNA",
+                        "DP_AG": -42,
+                        "DP_DG": -42
+                    },
+                    "cds_start": 745,
+                    "used_ref": "C",
+                    "impact": "MODERATE",
+                    "strand": 1,
+                    "protein_start": 249,
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "sift_prediction": "deleterious",
+                    "sift_score": 0,
+                    "given_ref": "C",
+                    "polyphen_score": 1,
+                    "gene_symbol_source": "EntrezGene",
+                    "transcript_id": "NM_001406984.1",
+                    "variant_allele": "T",
+                    "cds_end": 745,
+                    "cadd_phred": 26.4,
+                    "alphamissense": {
+                        "am_class": "likely_pathogenic",
+                        "am_pathogenicity": 0.9851
+                    },
+                    "biotype": "protein_coding",
+                    "polyphen_prediction": "probably_damaging",
+                    "codons": "Cgg/Tgg"
+                },
+                {
+                    "used_ref": "C",
+                    "protein_end": 249,
+                    "gene_symbol": "LMNA",
+                    "spliceai": {
+                        "DS_AL": 0,
+                        "SYMBOL": "LMNA",
+                        "DP_AG": -42,
+                        "DP_DG": -42,
+                        "DS_AG": 0,
+                        "DS_DL": 0.02,
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "DP_AL": -6
+                    },
+                    "cds_start": 745,
+                    "cdna_start": 953,
+                    "amino_acids": "R/W",
+                    "cdna_end": 953,
+                    "gene_id": "4000",
+                    "cadd_raw": 4.721927,
+                    "sift_score": 0,
+                    "given_ref": "C",
+                    "sift_prediction": "deleterious",
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "strand": 1,
+                    "impact": "MODERATE",
+                    "protein_start": 249,
+                    "cds_end": 745,
+                    "variant_allele": "T",
+                    "transcript_id": "NM_001406985.1",
+                    "gene_symbol_source": "EntrezGene",
+                    "polyphen_score": 1,
+                    "codons": "Cgg/Tgg",
+                    "polyphen_prediction": "probably_damaging",
+                    "biotype": "protein_coding",
+                    "alphamissense": {
+                        "am_class": "likely_pathogenic",
+                        "am_pathogenicity": 0.9851
+                    },
+                    "cadd_phred": 26.4
+                },
+                {
+                    "polyphen_score": 1,
+                    "transcript_id": "NM_001406986.1",
+                    "gene_symbol_source": "EntrezGene",
+                    "variant_allele": "T",
+                    "cds_end": 502,
+                    "cadd_phred": 26.4,
+                    "alphamissense": {
+                        "am_class": "likely_pathogenic",
+                        "am_pathogenicity": 0.9851
+                    },
+                    "biotype": "protein_coding",
+                    "codons": "Cgg/Tgg",
+                    "polyphen_prediction": "probably_damaging",
+                    "cadd_raw": 4.721927,
+                    "gene_id": "4000",
+                    "amino_acids": "R/W",
+                    "cdna_start": 1133,
+                    "cdna_end": 1133,
+                    "gene_symbol": "LMNA",
+                    "spliceai": {
+                        "DP_AL": -6,
+                        "DS_DL": 0.02,
+                        "DS_AG": 0,
+                        "DP_DL": 20,
+                        "DS_DG": 0.04,
+                        "DP_AG": -42,
+                        "SYMBOL": "LMNA",
+                        "DP_DG": -42,
+                        "DS_AL": 0
+                    },
+                    "protein_end": 168,
+                    "cds_start": 502,
+                    "used_ref": "C",
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "protein_start": 168,
+                    "impact": "MODERATE",
+                    "strand": 1,
+                    "sift_prediction": "deleterious",
+                    "sift_score": 0,
+                    "given_ref": "C"
+                },
+                {
+                    "cadd_phred": 26.4,
+                    "biotype": "protein_coding",
+                    "alphamissense": {
+                        "am_pathogenicity": 0.9851,
+                        "am_class": "likely_pathogenic"
+                    },
+                    "polyphen_prediction": "probably_damaging",
+                    "codons": "Cgg/Tgg",
+                    "polyphen_score": 1,
+                    "gene_symbol_source": "EntrezGene",
+                    "transcript_id": "NM_001406987.1",
+                    "variant_allele": "T",
+                    "cds_end": 502,
+                    "protein_start": 168,
+                    "strand": 1,
+                    "impact": "MODERATE",
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "sift_prediction": "deleterious",
+                    "sift_score": 0,
+                    "given_ref": "C",
+                    "cadd_raw": 4.721927,
+                    "gene_id": "4000",
+                    "cdna_end": 623,
+                    "cdna_start": 623,
+                    "amino_acids": "R/W",
+                    "cds_start": 502,
+                    "gene_symbol": "LMNA",
+                    "spliceai": {
+                        "SYMBOL": "LMNA",
+                        "DP_AG": -42,
+                        "DP_DG": -42,
+                        "DS_AL": 0,
+                        "DP_AL": -6,
+                        "DS_AG": 0,
+                        "DS_DL": 0.02,
+                        "DS_DG": 0.04,
+                        "DP_DL": 20
+                    },
+                    "protein_end": 168,
+                    "used_ref": "C"
+                },
+                {
+                    "variant_allele": "T",
+                    "cds_end": 448,
+                    "polyphen_score": 1,
+                    "gene_symbol_source": "EntrezGene",
+                    "transcript_id": "NM_001406988.1",
+                    "codons": "Cgg/Tgg",
+                    "polyphen_prediction": "probably_damaging",
+                    "cadd_phred": 26.4,
+                    "biotype": "protein_coding",
+                    "alphamissense": {
+                        "am_class": "likely_pathogenic",
+                        "am_pathogenicity": 0.9851
+                    },
+                    "protein_end": 150,
+                    "gene_symbol": "LMNA",
+                    "cds_start": 448,
+                    "spliceai": {
+                        "DP_DG": -42,
+                        "DP_AG": -42,
+                        "SYMBOL": "LMNA",
+                        "DS_AL": 0,
+                        "DP_AL": -6,
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "DS_AG": 0,
+                        "DS_DL": 0.02
+                    },
+                    "used_ref": "C",
+                    "gene_id": "4000",
+                    "cadd_raw": 4.721927,
+                    "cdna_start": 568,
+                    "amino_acids": "R/W",
+                    "cdna_end": 568,
+                    "given_ref": "C",
+                    "sift_score": 0,
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "strand": 1,
+                    "protein_start": 150,
+                    "impact": "MODERATE",
+                    "sift_prediction": "deleterious"
+                },
+                {
+                    "cdna_end": 443,
+                    "cdna_start": 443,
+                    "amino_acids": "R/W",
+                    "cadd_raw": 4.721927,
+                    "gene_id": "4000",
+                    "used_ref": "C",
+                    "spliceai": {
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "DS_AG": 0,
+                        "DS_DL": 0.02,
+                        "DP_AL": -6,
+                        "DS_AL": 0,
+                        "DP_DG": -42,
+                        "SYMBOL": "LMNA",
+                        "DP_AG": -42
+                    },
+                    "gene_symbol": "LMNA",
+                    "protein_end": 137,
+                    "cds_start": 409,
+                    "sift_prediction": "deleterious",
+                    "strand": 1,
+                    "impact": "MODERATE",
+                    "protein_start": 137,
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "sift_score": 0,
+                    "given_ref": "C",
+                    "gene_symbol_source": "EntrezGene",
+                    "transcript_id": "NM_001406989.1",
+                    "polyphen_score": 0.999,
+                    "cds_end": 409,
+                    "variant_allele": "T",
+                    "biotype": "protein_coding",
+                    "alphamissense": {
+                        "am_pathogenicity": 0.9851,
+                        "am_class": "likely_pathogenic"
+                    },
+                    "cadd_phred": 26.4,
+                    "polyphen_prediction": "probably_damaging",
+                    "codons": "Cgg/Tgg"
+                },
+                {
+                    "biotype": "protein_coding",
+                    "alphamissense": {
+                        "am_pathogenicity": 0.9851,
+                        "am_class": "likely_pathogenic"
+                    },
+                    "cadd_phred": 26.4,
+                    "polyphen_prediction": "probably_damaging",
+                    "codons": "Cgg/Tgg",
+                    "transcript_id": "NM_001406990.1",
+                    "gene_symbol_source": "EntrezGene",
+                    "polyphen_score": 0.999,
+                    "cds_end": 187,
+                    "variant_allele": "T",
+                    "sift_prediction": "deleterious",
+                    "strand": 1,
+                    "impact": "MODERATE",
+                    "protein_start": 63,
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "sift_score": 0,
+                    "given_ref": "C",
+                    "cdna_end": 796,
+                    "cdna_start": 796,
+                    "amino_acids": "R/W",
+                    "gene_id": "4000",
+                    "cadd_raw": 4.721927,
+                    "used_ref": "C",
+                    "spliceai": {
+                        "DS_AL": 0,
+                        "SYMBOL": "LMNA",
+                        "DP_AG": -42,
+                        "DP_DG": -42,
+                        "DS_DL": 0.02,
+                        "DS_AG": 0,
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "DP_AL": -6
+                    },
+                    "gene_symbol": "LMNA",
+                    "protein_end": 63,
+                    "cds_start": 187
+                },
+                {
+                    "gene_id": "4000",
+                    "cadd_raw": 4.721927,
+                    "cdna_start": 1059,
+                    "amino_acids": "R/W",
+                    "cdna_end": 1059,
+                    "gene_symbol": "LMNA",
+                    "cds_start": 745,
+                    "spliceai": {
+                        "DS_DL": 0.02,
+                        "DS_AG": 0,
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "DP_AL": -6,
+                        "DS_AL": 0,
+                        "DP_AG": -42,
+                        "SYMBOL": "LMNA",
+                        "DP_DG": -42
+                    },
+                    "protein_end": 249,
+                    "used_ref": "C",
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "protein_start": 249,
+                    "strand": 1,
+                    "impact": "MODERATE",
+                    "sift_prediction": "deleterious",
+                    "sift_score": 0,
+                    "given_ref": "C",
+                    "polyphen_score": 1,
+                    "transcript_id": "NM_001406991.1",
+                    "gene_symbol_source": "EntrezGene",
+                    "variant_allele": "T",
+                    "cds_end": 745,
+                    "cadd_phred": 26.4,
+                    "alphamissense": {
+                        "am_pathogenicity": 0.9851,
+                        "am_class": "likely_pathogenic"
+                    },
+                    "biotype": "protein_coding",
+                    "codons": "Cgg/Tgg",
+                    "polyphen_prediction": "probably_damaging"
+                },
+                {
+                    "cdna_end": 1059,
+                    "amino_acids": "R/W",
+                    "cdna_start": 1059,
+                    "gene_id": "4000",
+                    "cadd_raw": 4.721927,
+                    "used_ref": "C",
+                    "spliceai": {
+                        "DS_AL": 0,
+                        "DP_DG": -42,
+                        "SYMBOL": "LMNA",
+                        "DP_AG": -42,
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "DS_AG": 0,
+                        "DS_DL": 0.02,
+                        "DP_AL": -6
+                    },
+                    "gene_symbol": "LMNA",
+                    "cds_start": 745,
+                    "protein_end": 249,
+                    "sift_prediction": "deleterious",
+                    "strand": 1,
+                    "impact": "MODERATE",
+                    "protein_start": 249,
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "sift_score": 0,
+                    "given_ref": "C",
+                    "transcript_id": "NM_001406992.1",
+                    "gene_symbol_source": "EntrezGene",
+                    "polyphen_score": 1,
+                    "cds_end": 745,
+                    "variant_allele": "T",
+                    "alphamissense": {
+                        "am_pathogenicity": 0.9851,
+                        "am_class": "likely_pathogenic"
+                    },
+                    "biotype": "protein_coding",
+                    "cadd_phred": 26.4,
+                    "polyphen_prediction": "probably_damaging",
+                    "codons": "Cgg/Tgg"
+                },
+                {
+                    "protein_end": 63,
+                    "gene_symbol": "LMNA",
+                    "spliceai": {
+                        "DS_AL": 0,
+                        "DP_AG": -42,
+                        "SYMBOL": "LMNA",
+                        "DP_DG": -42,
+                        "DS_DL": 0.02,
+                        "DS_AG": 0,
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "DP_AL": -6
+                    },
+                    "cds_start": 187,
+                    "used_ref": "C",
+                    "gene_id": "4000",
+                    "cadd_raw": 4.721927,
+                    "amino_acids": "R/W",
+                    "cdna_start": 497,
+                    "cdna_end": 497,
+                    "given_ref": "C",
+                    "sift_score": 0,
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "impact": "MODERATE",
+                    "strand": 1,
+                    "protein_start": 63,
+                    "sift_prediction": "deleterious",
+                    "variant_allele": "T",
+                    "cds_end": 187,
+                    "polyphen_score": 1,
+                    "transcript_id": "NM_001406993.1",
+                    "gene_symbol_source": "EntrezGene",
+                    "codons": "Cgg/Tgg",
+                    "polyphen_prediction": "probably_damaging",
+                    "cadd_phred": 26.4,
+                    "alphamissense": {
+                        "am_class": "likely_pathogenic",
+                        "am_pathogenicity": 0.9851
+                    },
+                    "biotype": "protein_coding"
+                },
+                {
+                    "cadd_phred": 26.4,
+                    "biotype": "protein_coding",
+                    "codons": "tgC/tgT",
+                    "transcript_id": "NM_001406994.1",
+                    "gene_symbol_source": "EntrezGene",
+                    "variant_allele": "T",
+                    "cds_end": 81,
+                    "consequence_terms": [
+                        "synonymous_variant"
+                    ],
+                    "strand": 1,
+                    "impact": "LOW",
+                    "protein_start": 27,
+                    "given_ref": "C",
+                    "cadd_raw": 4.721927,
+                    "gene_id": "4000",
+                    "cdna_start": 953,
+                    "amino_acids": "C",
+                    "cdna_end": 953,
+                    "cds_start": 81,
+                    "gene_symbol": "LMNA",
+                    "spliceai": {
+                        "DP_DG": -42,
+                        "SYMBOL": "LMNA",
+                        "DP_AG": -42,
+                        "DS_AL": 0,
+                        "DP_AL": -6,
+                        "DP_DL": 20,
+                        "DS_DG": 0.04,
+                        "DS_DL": 0.02,
+                        "DS_AG": 0
+                    },
+                    "protein_end": 27,
+                    "used_ref": "C"
+                },
+                {
+                    "gene_symbol": "LMNA",
+                    "protein_end": 63,
+                    "cds_start": 187,
+                    "spliceai": {
+                        "DS_AL": 0,
+                        "DP_DG": -42,
+                        "DP_AG": -42,
+                        "SYMBOL": "LMNA",
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "DS_DL": 0.02,
+                        "DS_AG": 0,
+                        "DP_AL": -6
+                    },
+                    "used_ref": "C",
+                    "gene_id": "4000",
+                    "cadd_raw": 4.721927,
+                    "cdna_end": 796,
+                    "cdna_start": 796,
+                    "amino_acids": "R/W",
+                    "sift_score": 0,
+                    "given_ref": "C",
+                    "protein_start": 63,
+                    "strand": 1,
+                    "impact": "MODERATE",
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "sift_prediction": "deleterious",
+                    "variant_allele": "T",
+                    "cds_end": 187,
+                    "polyphen_score": 1,
+                    "gene_symbol_source": "EntrezGene",
+                    "transcript_id": "NM_001406995.1",
+                    "polyphen_prediction": "probably_damaging",
+                    "codons": "Cgg/Tgg",
+                    "cadd_phred": 26.4,
+                    "biotype": "protein_coding",
+                    "alphamissense": {
+                        "am_class": "likely_pathogenic",
+                        "am_pathogenicity": 0.9851
+                    }
+                },
+                {
+                    "polyphen_prediction": "probably_damaging",
+                    "codons": "Cgg/Tgg",
+                    "cadd_phred": 26.4,
+                    "biotype": "protein_coding",
+                    "alphamissense": {
+                        "am_pathogenicity": 0.9851,
+                        "am_class": "likely_pathogenic"
+                    },
+                    "variant_allele": "T",
+                    "cds_end": 187,
+                    "polyphen_score": 1,
+                    "transcript_id": "NM_001406996.1",
+                    "gene_symbol_source": "EntrezGene",
+                    "sift_score": 0,
+                    "given_ref": "C",
+                    "protein_start": 63,
+                    "impact": "MODERATE",
+                    "strand": 1,
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "sift_prediction": "deleterious",
+                    "spliceai": {
+                        "DS_AL": 0,
+                        "DP_DG": -42,
+                        "SYMBOL": "LMNA",
+                        "DP_AG": -42,
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "DS_AG": 0,
+                        "DS_DL": 0.02,
+                        "DP_AL": -6
+                    },
+                    "gene_symbol": "LMNA",
+                    "protein_end": 63,
+                    "cds_start": 187,
+                    "used_ref": "C",
+                    "gene_id": "4000",
+                    "cadd_raw": 4.721927,
+                    "cdna_end": 657,
+                    "amino_acids": "R/W",
+                    "cdna_start": 657
+                },
+                {
+                    "codons": "Cgg/Tgg",
+                    "polyphen_prediction": "probably_damaging",
+                    "cadd_phred": 26.4,
+                    "biotype": "protein_coding",
+                    "alphamissense": {
+                        "am_pathogenicity": 0.9851,
+                        "am_class": "likely_pathogenic"
+                    },
+                    "variant_allele": "T",
+                    "cds_end": 187,
+                    "polyphen_score": 1,
+                    "transcript_id": "NM_001406997.1",
+                    "gene_symbol_source": "EntrezGene",
+                    "given_ref": "C",
+                    "sift_score": 0,
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "protein_start": 63,
+                    "strand": 1,
+                    "impact": "MODERATE",
+                    "sift_prediction": "deleterious",
+                    "gene_symbol": "LMNA",
+                    "cds_start": 187,
+                    "protein_end": 63,
+                    "spliceai": {
+                        "DS_AL": 0,
+                        "DP_DG": -42,
+                        "DP_AG": -42,
+                        "SYMBOL": "LMNA",
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "DS_DL": 0.02,
+                        "DS_AG": 0,
+                        "DP_AL": -6
+                    },
+                    "used_ref": "C",
+                    "gene_id": "4000",
+                    "cadd_raw": 4.721927,
+                    "amino_acids": "R/W",
+                    "cdna_start": 486,
+                    "cdna_end": 486
+                },
+                {
+                    "polyphen_prediction": "probably_damaging",
+                    "codons": "Cgg/Tgg",
+                    "cadd_phred": 26.4,
+                    "biotype": "protein_coding",
+                    "alphamissense": {
+                        "am_class": "likely_pathogenic",
+                        "am_pathogenicity": 0.9851
+                    },
+                    "variant_allele": "T",
+                    "cds_end": 409,
+                    "polyphen_score": 1,
+                    "gene_symbol_source": "EntrezGene",
+                    "transcript_id": "NM_001406998.1",
+                    "sift_score": 0,
+                    "given_ref": "C",
+                    "strand": 1,
+                    "impact": "MODERATE",
+                    "protein_start": 137,
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "sift_prediction": "deleterious",
+                    "protein_end": 137,
+                    "gene_symbol": "LMNA",
+                    "cds_start": 409,
+                    "spliceai": {
+                        "SYMBOL": "LMNA",
+                        "DP_AG": -42,
+                        "DP_DG": -42,
+                        "DS_AL": 0,
+                        "DP_AL": -6,
+                        "DS_DL": 0.02,
+                        "DS_AG": 0,
+                        "DS_DG": 0.04,
+                        "DP_DL": 20
+                    },
+                    "used_ref": "C",
+                    "gene_id": "4000",
+                    "cadd_raw": 4.721927,
+                    "cdna_end": 443,
+                    "cdna_start": 443,
+                    "amino_acids": "R/W"
+                },
+                {
+                    "consequence_terms": [
+                        "synonymous_variant"
+                    ],
+                    "impact": "LOW",
+                    "protein_start": 27,
+                    "strand": 1,
+                    "given_ref": "C",
+                    "cadd_raw": 4.721927,
+                    "gene_id": "4000",
+                    "amino_acids": "C",
+                    "cdna_start": 1133,
+                    "cdna_end": 1133,
+                    "gene_symbol": "LMNA",
+                    "spliceai": {
+                        "DS_AG": 0,
+                        "DS_DL": 0.02,
+                        "DP_DL": 20,
+                        "DS_DG": 0.04,
+                        "DP_AL": -6,
+                        "DS_AL": 0,
+                        "SYMBOL": "LMNA",
+                        "DP_AG": -42,
+                        "DP_DG": -42
+                    },
+                    "protein_end": 27,
+                    "cds_start": 81,
+                    "used_ref": "C",
+                    "cadd_phred": 26.4,
+                    "biotype": "protein_coding",
+                    "codons": "tgC/tgT",
+                    "transcript_id": "NM_001406999.1",
+                    "gene_symbol_source": "EntrezGene",
+                    "variant_allele": "T",
+                    "cds_end": 81
+                },
+                {
+                    "used_ref": "C",
+                    "cds_start": 81,
+                    "gene_symbol": "LMNA",
+                    "spliceai": {
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "DS_DL": 0.02,
+                        "DS_AG": 0,
+                        "DP_AL": -6,
+                        "DS_AL": 0,
+                        "DP_DG": -42,
+                        "SYMBOL": "LMNA",
+                        "DP_AG": -42
+                    },
+                    "protein_end": 27,
+                    "cdna_start": 953,
+                    "amino_acids": "C",
+                    "cdna_end": 953,
+                    "cadd_raw": 4.721927,
+                    "gene_id": "4000",
+                    "given_ref": "C",
+                    "consequence_terms": [
+                        "synonymous_variant"
+                    ],
+                    "impact": "LOW",
+                    "strand": 1,
+                    "protein_start": 27,
+                    "cds_end": 81,
+                    "variant_allele": "T",
+                    "gene_symbol_source": "EntrezGene",
+                    "transcript_id": "NM_001407000.1",
+                    "codons": "tgC/tgT",
+                    "biotype": "protein_coding",
+                    "cadd_phred": 26.4
+                },
+                {
+                    "transcript_id": "NM_001407001.1",
+                    "gene_symbol_source": "EntrezGene",
+                    "variant_allele": "T",
+                    "cds_end": 81,
+                    "cadd_phred": 26.4,
+                    "biotype": "protein_coding",
+                    "codons": "tgC/tgT",
+                    "gene_id": "4000",
+                    "cadd_raw": 4.721927,
+                    "cdna_end": 796,
+                    "cdna_start": 796,
+                    "amino_acids": "C",
+                    "gene_symbol": "LMNA",
+                    "spliceai": {
+                        "DP_DG": -42,
+                        "DP_AG": -42,
+                        "SYMBOL": "LMNA",
+                        "DS_AL": 0,
+                        "DP_AL": -6,
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "DS_AG": 0,
+                        "DS_DL": 0.02
+                    },
+                    "cds_start": 81,
+                    "protein_end": 27,
+                    "used_ref": "C",
+                    "impact": "LOW",
+                    "strand": 1,
+                    "protein_start": 27,
+                    "consequence_terms": [
+                        "synonymous_variant"
+                    ],
+                    "given_ref": "C"
+                },
+                {
+                    "variant_allele": "T",
+                    "cds_end": 187,
+                    "polyphen_score": 1,
+                    "gene_symbol_source": "EntrezGene",
+                    "transcript_id": "NM_001407002.1",
+                    "polyphen_prediction": "probably_damaging",
+                    "codons": "Cgg/Tgg",
+                    "cadd_phred": 26.4,
+                    "alphamissense": {
+                        "am_pathogenicity": 0.9851,
+                        "am_class": "likely_pathogenic"
+                    },
+                    "biotype": "protein_coding",
+                    "gene_symbol": "LMNA",
+                    "spliceai": {
+                        "DP_DL": 20,
+                        "DS_DG": 0.04,
+                        "DS_DL": 0.02,
+                        "DS_AG": 0,
+                        "DP_AL": -6,
+                        "DS_AL": 0,
+                        "DP_DG": -42,
+                        "DP_AG": -42,
+                        "SYMBOL": "LMNA"
+                    },
+                    "protein_end": 63,
+                    "cds_start": 187,
+                    "used_ref": "C",
+                    "gene_id": "4000",
+                    "cadd_raw": 4.721927,
+                    "cdna_end": 1141,
+                    "cdna_start": 1141,
+                    "amino_acids": "R/W",
+                    "sift_score": 0,
+                    "given_ref": "C",
+                    "impact": "MODERATE",
+                    "protein_start": 63,
+                    "strand": 1,
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "sift_prediction": "deleterious"
+                },
+                {
+                    "sift_score": 0,
+                    "given_ref": "C",
+                    "sift_prediction": "deleterious",
+                    "strand": 1,
+                    "impact": "MODERATE",
+                    "protein_start": 63,
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "used_ref": "C",
+                    "gene_symbol": "LMNA",
+                    "spliceai": {
+                        "DS_AL": 0,
+                        "DP_DG": -42,
+                        "DP_AG": -42,
+                        "SYMBOL": "LMNA",
+                        "DP_DL": 20,
+                        "DS_DG": 0.04,
+                        "DS_AG": 0,
+                        "DS_DL": 0.02,
+                        "DP_AL": -6
+                    },
+                    "cds_start": 187,
+                    "protein_end": 63,
+                    "cdna_end": 497,
+                    "amino_acids": "R/W",
+                    "cdna_start": 497,
+                    "cadd_raw": 4.721927,
+                    "gene_id": "4000",
+                    "polyphen_prediction": "probably_damaging",
+                    "codons": "Cgg/Tgg",
+                    "alphamissense": {
+                        "am_pathogenicity": 0.9851,
+                        "am_class": "likely_pathogenic"
+                    },
+                    "biotype": "protein_coding",
+                    "cadd_phred": 26.4,
+                    "cds_end": 187,
+                    "variant_allele": "T",
+                    "gene_symbol_source": "EntrezGene",
+                    "transcript_id": "NM_001407003.1",
+                    "polyphen_score": 1
+                },
+                {
+                    "alphamissense": {
+                        "am_pathogenicity": 0.9851,
+                        "am_class": "likely_pathogenic"
+                    },
+                    "biotype": "protein_coding",
+                    "cadd_phred": 26.4,
+                    "codons": "Cgg/Tgg",
+                    "polyphen_prediction": "probably_damaging",
+                    "transcript_id": "NM_005572.4",
+                    "gene_symbol_source": "EntrezGene",
+                    "polyphen_score": 1,
+                    "cds_end": 745,
+                    "variant_allele": "T",
+                    "sift_prediction": "deleterious",
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "protein_start": 249,
+                    "strand": 1,
+                    "impact": "MODERATE",
+                    "sift_score": 0,
+                    "given_ref": "C",
+                    "amino_acids": "R/W",
+                    "cdna_start": 953,
+                    "cdna_end": 953,
+                    "gene_id": "4000",
+                    "cadd_raw": 4.721927,
+                    "used_ref": "C",
+                    "protein_end": 249,
+                    "gene_symbol": "LMNA",
+                    "spliceai": {
+                        "DP_AL": -6,
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "DS_DL": 0.02,
+                        "DS_AG": 0,
+                        "DP_DG": -42,
+                        "SYMBOL": "LMNA",
+                        "DP_AG": -42,
+                        "DS_AL": 0
+                    },
+                    "cds_start": 745
+                },
+                {
+                    "impact": "MODERATE",
+                    "strand": 1,
+                    "protein_start": 249,
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "sift_prediction": "deleterious",
+                    "given_ref": "C",
+                    "sift_score": 0,
+                    "cadd_raw": 4.721927,
+                    "gene_id": "4000",
+                    "cdna_end": 953,
+                    "amino_acids": "R/W",
+                    "cdna_start": 953,
+                    "gene_symbol": "LMNA",
+                    "cds_start": 745,
+                    "spliceai": {
+                        "DP_AL": -6,
+                        "DS_AG": 0,
+                        "DS_DL": 0.02,
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "SYMBOL": "LMNA",
+                        "DP_AG": -42,
+                        "DP_DG": -42,
+                        "DS_AL": 0
+                    },
+                    "protein_end": 249,
+                    "used_ref": "C",
+                    "cadd_phred": 26.4,
+                    "biotype": "protein_coding",
+                    "alphamissense": {
+                        "am_pathogenicity": 0.9851,
+                        "am_class": "likely_pathogenic"
+                    },
+                    "polyphen_prediction": "probably_damaging",
+                    "codons": "Cgg/Tgg",
+                    "polyphen_score": 1,
+                    "gene_symbol_source": "EntrezGene",
+                    "transcript_id": "NM_170707.4",
+                    "variant_allele": "T",
+                    "cds_end": 745
+                },
+                {
+                    "sift_score": 0,
+                    "given_ref": "C",
+                    "consequence_terms": [
+                        "missense_variant"
+                    ],
+                    "impact": "MODERATE",
+                    "strand": 1,
+                    "protein_start": 249,
+                    "sift_prediction": "deleterious",
+                    "protein_end": 249,
+                    "gene_symbol": "LMNA",
+                    "spliceai": {
+                        "DP_AL": -6,
+                        "DS_DL": 0.02,
+                        "DS_AG": 0,
+                        "DS_DG": 0.04,
+                        "DP_DL": 20,
+                        "SYMBOL": "LMNA",
+                        "DP_AG": -42,
+                        "DP_DG": -42,
+                        "DS_AL": 0
+                    },
+                    "cds_start": 745,
+                    "used_ref": "C",
+                    "gene_id": "4000",
+                    "cadd_raw": 4.721927,
+                    "amino_acids": "R/W",
+                    "cdna_start": 953,
+                    "cdna_end": 953,
+                    "codons": "Cgg/Tgg",
+                    "polyphen_prediction": "probably_damaging",
+                    "cadd_phred": 26.4,
+                    "biotype": "protein_coding",
+                    "alphamissense": {
+                        "am_class": "likely_pathogenic",
+                        "am_pathogenicity": 0.9851
+                    },
+                    "variant_allele": "T",
+                    "cds_end": 745,
+                    "polyphen_score": 0.999,
+                    "gene_symbol_source": "EntrezGene",
+                    "transcript_id": "NM_170708.4"
+                }
+            ],
+            "vcf_string": "1-156134910-C-T",
+            "id": "NM_170707:c.745C\u003ET"
+        }
+    ],
+    "https://rest.genenames.org/info": {
+        "lastModified": "2026-11-10T16:38:31.320Z",
+        "numDoc": 47188,
+        "responseHeader": {
+            "QTime": 1,
+            "status": 0
+        },
+        "searchableFields": [
+            "omim_id",
+            "hgnc_id",
+            "name",
+            "mane_select",
+            "vega_id",
+            "alias_symbol",
+            "rna_central_id",
+            "refseq_accession",
+            "ena",
+            "ccds_id",
+            "status",
+            "entrez_id",
+            "prev_name",
+            "rgd_id",
+            "alias_name",
+            "ucsc_id",
+            "prev_symbol",
+            "locus_group",
+            "ensembl_gene_id",
+            "locus_type",
+            "uniprot_ids",
+            "location",
+            "curator_notes",
+            "symbol",
+            "mgd_id"
+        ],
+        "storedFields": [
+            "cosmic",
+            "mamit-trnadb",
+            "agr",
+            "homeodb",
+            "location",
+            "locus_type",
+            "imgt",
+            "gtrnadb",
+            "orphanet",
+            "prev_name",
+            "alias_name",
+            "date_modified",
+            "merops",
+            "pubmed_id",
+            "prev_symbol",
+            "enzyme_id",
+            "ccds_id",
+            "gene_group_id",
+            "_version_",
+            "status",
+            "lncrnadb",
+            "date_approved_reserved",
+            "mgd_id",
+            "symbol",
+            "iuphar",
+            "gencc",
+            "curator_notes",
+            "uniprot_ids",
+            "bioparadigms_slc",
+            "prev_name",
+            "location",
+            "rgd_id",
+            "cd",
+            "ensembl_gene_id",
+            "alias_name",
+            "snornabase",
+            "locus_group",
+            "mirbase",
+            "ucsc_id",
+            "entrez_id",
+            "date_name_changed",
+            "lncipedia",
+            "lsdb",
+            "ena",
+            "refseq_accession",
+            "date_symbol_changed",
+            "uuid",
+            "name",
+            "pseudogene.org",
+            "mane_select",
+            "rna_central_id",
+            "gene_group",
+            "alias_symbol",
+            "horde_id",
+            "vega_id",
+            "hgnc_id",
+            "omim_id"
+        ]
+    },
+    "https://rest.ensembl.org/info/data/?content-type=application/json": {
+        "releases": [
+            116
+        ]
+    }
+}

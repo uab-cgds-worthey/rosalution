@@ -70,6 +70,8 @@ async def add_genomic_units(
 
     # Calling AnnotationService to queue annotation tasks by given unit
     annotation_service = AnnotationService(repositories["annotation_config"])
+    print(annotation_task_queue)
+    print('about to run annotation task queue')
     await annotation_service.queue_annotation_tasks_by_unit(
         analysis, new_genomic_unit_to_annotate, annotation_task_queue
     )
