@@ -129,7 +129,6 @@ class AnnotationService:
                 annotation_unit_queued = AnnotationUnit(genomic_unit, dataset, analysis_name=analysis.name)
                 annotation_task_queue.put(annotation_unit_queued)
 
-
     @staticmethod
     async def _run_process_tasks(loop, annotation_queue: AnnotationQueue, database):
         repositories = database
