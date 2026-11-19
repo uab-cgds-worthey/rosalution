@@ -1,17 +1,16 @@
 """ Analysis endpoint routes that serve up information regarding anaysis cases for rosalution """
 
-from typing import List
+from typing import Annotated, List
 
 from fastapi import (APIRouter, Depends, HTTPException, Form, Security, status)
 from fastapi.responses import StreamingResponse
 
-from ..dependencies import database
+from ..dependencies import get_db
 from ..models.analysis import Analysis, AnalysisSummary
 from ..enums import ThirdPartyLinkType, EventType
 
-from ..models.user import ProjectUser, VerifyUser
-from ..security.security import get_current_user, get_project_authorization, \
-    get_write_project_authorization
+from ..models.user import ProjectUser
+from ..security.security import get_current_user, get_project_authorization, get_write_project_authorization
 
 from . import analysis_annotation_router
 from . import analysis_attachment_router
@@ -28,26 +27,29 @@ router.include_router(analysis_omic_unit_router.router)
 
 
 @router.get("", tags=["analysis"], response_model=List[Analysis])
-def get_all_analyses(repositories=Depends(database), client_id: VerifyUser = Security(get_current_user)):
+async def get_all_analyses(
+    repositories: Annotated[dict, Depends(get_db)], client_id: Annotated[str, Security(get_current_user)]
+):
     """Returns every analysis available for a user"""
-    return repositories["project"].all_analyses(client_id)
+    return await repositories["project"].all_analyses(client_id)
 
 
 @router.get("/summary", tags=["analysis"], response_model=List[AnalysisSummary])
 async def get_all_analyses_summaries(
-    repositories=Depends(database), client_id: VerifyUser = Security(get_current_user)
+    repositories: Annotated[dict, Depends(get_db)], client_id: Annotated[str, Security(get_current_user)]
 ):
     """Returns a summary for each analysis available to the user"""
-    return repositories["project"].all_summaries(client_id)
+    return await repositories["project"].all_summaries(client_id)
 
 
 @router.get("/{analysis_name}", tags=["analysis"], response_model=Analysis, response_model_exclude_none=True)
-def get_analysis_by_name(
-    analysis_name: str, repositories=Depends(database), client_id: VerifyUser = Security(get_current_user)
+async def get_analysis_by_name(
+    analysis_name: str, repositories: Annotated[dict, Depends(get_db)], client_id: Annotated[str,
+                                                                                             Security(get_current_user)]
 ):
     """Returns analysis case data by calling method to find case by it's analysis_name"""
-    current_user = repositories["user"].find_by_client_id(client_id)
-    found_analysis = repositories["analysis"].find_by_name(analysis_name)
+    current_user = await repositories["user"].find_by_client_id(client_id)
+    found_analysis = await repositories["analysis"].find_by_name(analysis_name)
 
     if found_analysis is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"{analysis_name} does not exist.")
@@ -62,10 +64,10 @@ def get_analysis_by_name(
 
 
 @router.get("/{analysis_name}/genomic_units", tags=["analysis"], dependencies=[Security(get_project_authorization)])
-def get_genomic_units(analysis_name: str, repositories=Depends(database)):
+async def get_genomic_units(analysis_name: str, repositories: Annotated[dict, Depends(get_db)]):
     """ Returns a list of genomic units for a given analysis """
     try:
-        return repositories["analysis"].get_genomic_units(analysis_name)
+        return await repositories["analysis"].get_genomic_units(analysis_name)
     except ValueError as exception:
         raise HTTPException(status_code=404, detail=str(exception)) from exception
 
@@ -76,13 +78,10 @@ def get_genomic_units(analysis_name: str, repositories=Depends(database)):
     response_model=AnalysisSummary,
     dependencies=[Security(get_project_authorization)]
 )
-def get_analysis_summary_by_name(
-    analysis_name: str,
-    repositories=Depends(database),
-):
+async def get_analysis_summary_by_name(analysis_name: str, repositories: Annotated[dict, Depends(get_db)]):
     """Returns a summary of the analysis"""
 
-    return repositories["analysis"].summary_by_name(analysis_name)
+    return await repositories["analysis"].summary_by_name(analysis_name)
 
 
 @router.put(
@@ -91,34 +90,32 @@ def get_analysis_summary_by_name(
     response_model=Analysis,
     dependencies=[Security(get_write_project_authorization)]
 )
-def update_event(
-    analysis_name: str,
-    event_type: EventType,
-    repositories=Depends(database),
-    client_id: VerifyUser = Security(get_current_user)
+async def update_event(
+    analysis_name: str, event_type: EventType, repositories: Annotated[dict, Depends(get_db)],
+    client_id: Annotated[str, Security(get_current_user)]
 ):
     """ Updates analysis status """
 
     try:
-        return repositories["analysis"].update_event(analysis_name, client_id, event_type)
+        return await repositories["analysis"].update_event(analysis_name, client_id, event_type)
     except ValueError as exception:
         raise HTTPException(status_code=409, detail=str(exception)) from exception
 
 
 @router.get("/download/{file_id}", tags=["analysis"])
-def download_file_by_id(file_id: str, repositories=Depends(database)):
+async def download_file_by_id(file_id: str, repositories: Annotated[dict, Depends(get_db)]):
     """ Returns a file from GridFS using the file's id """
-    grid_fs_file = repositories['bucket'].stream_analysis_file_by_id(file_id)
+    grid_fs_file = await repositories['bucket'].stream_analysis_file_by_id(file_id)
     return StreamingResponse(grid_fs_file, media_type=grid_fs_file.content_type)
 
 
 @router.get(
     "/{analysis_name}/download/{file_name}", tags=["analysis"], dependencies=[Security(get_project_authorization)]
 )
-def download(analysis_name: str, file_name: str, repositories=Depends(database)):
+async def download(analysis_name: str, file_name: str, repositories: Annotated[dict, Depends(get_db)]):
     """ Returns a file saved to an analysis from GridFS by file name """
     # Does file exist by name in the given analysis?
-    file = repositories['analysis'].find_file_by_name(analysis_name, file_name)
+    file = await repositories['analysis'].find_file_by_name(analysis_name, file_name)
 
     if not file:
         raise HTTPException(status_code=404, detail="File not found.")
@@ -132,13 +129,16 @@ def download(analysis_name: str, file_name: str, repositories=Depends(database))
     response_model=Analysis,
     dependencies=[Security(get_write_project_authorization)]
 )
-def attach_third_party_link(
-    analysis_name: str, third_party_enum: ThirdPartyLinkType, link: str = Form(...), repositories=Depends(database)
+async def attach_third_party_link(
+    analysis_name: str,
+    third_party_enum: ThirdPartyLinkType,
+    repositories: Annotated[dict, Depends(get_db)],
+    link: str = Form(...)
 ):
     """ This endpoint attaches a third party link to an analysis. """
     try:
         if not isinstance(third_party_enum, ThirdPartyLinkType):
             raise ValueError(f"Third party link type {third_party_enum} is not supported")
-        return repositories["analysis"].attach_third_party_link(analysis_name, third_party_enum, link)
+        return await repositories["analysis"].attach_third_party_link(analysis_name, third_party_enum, link)
     except ValueError as exception:
         raise HTTPException(status_code=409, detail=f"Error attaching third party link: {exception}") from exception

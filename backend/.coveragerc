@@ -1,5 +1,6 @@
 # .coveragerc to control unit testing done by coverage.py with pytest-cov
 [run]
+source=src/
 omit = 
        src/main.py
        src/dependencies.py
@@ -10,3 +11,6 @@ omit =
        src/security/oauth2.py
        src/profiler_middleware.py
        *__init__.py
+concurrency = thread
+branch = True
+parallel = True

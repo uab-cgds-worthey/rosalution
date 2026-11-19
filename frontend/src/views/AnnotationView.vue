@@ -371,7 +371,7 @@ onMounted(async () => {
 
 app-content {
   display: flex;
-
+  flex-direction: column;
   grid-column: 1 / -2;
 }
 

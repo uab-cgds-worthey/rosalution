@@ -54,19 +54,3 @@ def test_version_extraction(genomic_unit, dataset_name, expected, version_to_ext
     task = get_version_task(genomic_unit, dataset_name)
     actual_version_extraction = task.extract_version(version_to_extract)
     assert actual_version_extraction == expected
-
-
-## Fixtures ##
-
-
-@pytest.fixture(name="get_version_task")
-def get_version_annotation_task(get_annotation_unit):
-    """creating version task"""
-
-    def _create_version_task(genomic_unit, dataset_name):
-
-        annotation_unit = get_annotation_unit(genomic_unit, dataset_name)
-
-        return VersionAnnotationTask(annotation_unit)
-
-    return _create_version_task

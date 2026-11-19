@@ -502,7 +502,7 @@
           {
             "OMIM": {
               "data_source": "HPO",
-              "version": "2024-09-25"
+              "version": "2024-09-24"
             }
           },
           {
@@ -514,7 +514,7 @@
           {
             "HPO": {
               "data_source": "HPO",
-              "version": "2024-09-25"
+              "version": "2024-09-24"
             }
           },
           {
@@ -1412,7 +1412,7 @@
           {
             "OMIM": {
               "data_source": "HPO",
-              "version": "2024-09-25"
+              "version": "2024-09-24"
             }
           },
           {
@@ -1424,7 +1424,7 @@
           {
             "HPO": {
               "data_source": "HPO",
-              "version": "2024-09-25"
+              "version": "2024-09-24"
             }
           },
           {
@@ -5907,8 +5907,6 @@
         ]
       }
     ],
-    "third_party_links": [
-
-    ]
+    "third_party_links": []
   }
 ]

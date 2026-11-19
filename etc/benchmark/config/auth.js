@@ -8,7 +8,7 @@ import http from 'k6/http';
  * @param {string} clientSecret 
  * @returns JWT Auth Token for the Rosalution API
  */
-export async function rosalutionAuth(baseUrl, clientId, clientSecret) {
+export function rosalutionAuth(baseUrl, clientId, clientSecret) {
   const authUrl = `${baseUrl}/auth/token`
   const authData = `client_id=${clientId}&client_secret=${clientSecret}`
   let responseBody;
@@ -22,9 +22,10 @@ export async function rosalutionAuth(baseUrl, clientId, clientSecret) {
     });
 
     responseBody = authResponse.json();
-    if ( Object.hasOwn(responseBody, 'access_token') )
+    if ( Object.hasOwn(responseBody, 'access_token') ) {
       return responseBody['access_token']
     }
+  }
   catch {
     throw `Failure to Authenticate with Rosalution API: ${authResponse}`
   }

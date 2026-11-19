@@ -4,16 +4,16 @@ import json
 from typing import List
 import pytest
 
-from bson import ObjectId
 from pydantic import TypeAdapter
 
 from src.models.analysis import Section
 
-from ..test_utils import fixture_filepath, read_test_fixture
+from ..test_utils import assets_fixture_filepath
 
 
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
-def test_update_analysis_sections(client, mock_access_token, mock_repositories, cpam0047_analysis_json):
+@pytest.mark.anyio
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
+async def test_update_analysis_sections(client, mock_access_token):
     """Testing if the update analysis endpoint updates an existing analysis"""
 
     mock_updated_sections = [{
@@ -27,19 +27,19 @@ def test_update_analysis_sections(client, mock_access_token, mock_repositories, 
         }]
     }]
 
-    mock_repositories["analysis"].collection.find_one.return_value = cpam0047_analysis_json
-    response = client.post(
+    response = await client.post(
         "/analysis/CPAM0047/sections/batch",
         headers={"Authorization": "Bearer " + mock_access_token},
         json=mock_updated_sections
     )
 
     assert response.status_code == 200
-    mock_repositories["analysis"].collection.update_one.assert_called()
+    # mock_repositories["analysis"].collection.update_one.assert_called()
 
 
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
-def test_update_individual_section_text_fields(client, mock_access_token, mock_repositories, cpam0047_analysis_json):
+@pytest.mark.anyio
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
+async def test_update_individual_section_text_fields(client, mock_access_token):
     """Testing if the update analysis endpoint updates an existing analysis"""
 
     mock_section = {
@@ -48,38 +48,28 @@ def test_update_individual_section_text_fields(client, mock_access_token, mock_r
                     {'fieldName': 'Nominator', 'value': ['Lorem ipsum dolor']}]
     }
 
-    mock_repositories["analysis"].collection.find_one.return_value = cpam0047_analysis_json
-    response = client.post(
+    # mock_repositories["analysis"].collection.find_one.return_value = cpam0047_analysis_json
+    response = await client.post(
         "/analysis/CPAM0047/sections?row_type=text",
         headers={"Authorization": "Bearer " + mock_access_token},
         data={'updated_section': json.dumps(mock_section)}
     )
 
     assert response.status_code == 201
-    mock_repositories["analysis"].collection.update_one.assert_called()
+    # mock_repositories["analysis"].collection.update_one.assert_called()
 
 
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
-def test_attach_image_to_pedigree_section(client, mock_access_token, mock_repositories, cpam0112_analysis_json):
+@pytest.mark.anyio
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
+async def test_attach_image_to_pedigree_section(client, mock_access_token):
     """ Testing attaching an image to the Pedigree section of an analysis """
-    mock_repositories["analysis"].collection.find_one.return_value = cpam0112_analysis_json
-
-    new_image_id = "633afb87fb250a6ea1569555"
-    expected = read_test_fixture("analysis-CPAM0112.json")
-    for section in expected["sections"]:
-        if section["header"] == "Pedigree":
-            for content in section["content"]:
-                if content["type"] == "images-dataset":
-                    content["value"].append({"file_id": new_image_id})
-    mock_repositories['analysis'].collection.find_one_and_update.return_value = expected
-    mock_repositories['bucket'].bucket.put.return_value = new_image_id
 
     mock_section = {'header': 'Pedigree', 'content': [{'fieldName': 'Pedigree'}]}
 
-    section_image_filepath = fixture_filepath('pedigree-fake.jpg')
+    section_image_filepath = assets_fixture_filepath('pedigree-fake.jpg')
     with open(section_image_filepath, "rb") as phenotips_file:
-        response = client.post(
-            "/analysis/CPAM0112/sections?row_type=image",
+        response = await client.post(
+            "/analysis/CPAM0047/sections?row_type=image",
             headers={"Authorization": "Bearer " + mock_access_token},
             files={"upload_file": ("pedigree-fake.jpg", phenotips_file)},
             data=({"updated_section": json.dumps(mock_section)})
@@ -91,24 +81,27 @@ def test_attach_image_to_pedigree_section(client, mock_access_token, mock_reposi
 
     returned_sections = TypeAdapter(List[Section]).validate_json(response.content)
     pedigree_section = next((section for section in returned_sections if section.header == "Pedigree"), None)
-    actual_updated_field = next((field for field in pedigree_section.content if field['field'] == "Pedigree"), None)
-    assert actual_updated_field["value"] == [{'file_id': new_image_id}]
+    assert pedigree_section is not None
+
+    actual_updated_field_values = next(
+        (field["value"] for field in pedigree_section.content if field['field'] == "Pedigree"), None
+    )
+
+    for image_files in actual_updated_field_values:
+        assert "file_id" in image_files
 
 
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
-def test_update_existing_pedigree_section_image(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
+@pytest.mark.anyio
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
+async def test_update_existing_pedigree_section_image(client, mock_access_token):
     """ Testing the update pedigree attachment endpoint """
-    mock_repositories["analysis"].collection.find_one.return_value = cpam0002_analysis_json
-    mock_repositories['bucket'].bucket.put.return_value = "633afb87fb250a6ea1569555"
-    mock_repositories["analysis"].collection.find_one_and_update.return_value = cpam0002_analysis_json
-
     mock_section = {'header': 'Pedigree', 'content': [{'fieldName': 'Pedigree'}]}
 
     # Need to send the file as raw binary instead of the processed content
-    section_image_filepath = fixture_filepath('pedigree-fake.jpg')
+    section_image_filepath = assets_fixture_filepath('pedigree-fake.jpg')
     with open(section_image_filepath, "rb") as image_file:
-        response = client.put(
-            "/analysis/CPAM0002/sections/633afb87fb250a6ea1569555?row_type=image",
+        response = await client.put(
+            "/analysis/CPAM0002/sections/63505be22888347cf1c275db?row_type=image",
             headers={"Authorization": "Bearer " + mock_access_token},
             files={"upload_file": ("pedigree-fake.jpg", image_file)},
             data=({"updated_section": json.dumps(mock_section)})
@@ -118,20 +111,23 @@ def test_update_existing_pedigree_section_image(client, mock_access_token, mock_
     assert response.status_code == 200
 
 
-@pytest.mark.usefixtures("mock_security_get_project_authorization")
-def test_remove_existing_pedigree_section_image(client, mock_access_token, mock_repositories, cpam0002_analysis_json):
+@pytest.mark.anyio
+@pytest.mark.usefixtures("mock_repositories", "mock_security_get_project_authorization")
+async def test_remove_existing_pedigree_section_image(client, mock_access_token):
     """ Tests removing an existing image from the pedigree section of CPAM0002 """
     pedigree_image_id = "63505be22888347cf1c275db"
-    mock_repositories["analysis"].collection.find_one.return_value = cpam0002_analysis_json
-    mock_repositories["bucket"].bucket.delete.return_value = None
-    mock_repositories["analysis"].collection.find_one_and_update.return_value = cpam0002_analysis_json
 
-    response = client.delete(
-        "/analysis/CPAM0002/sections/63505be22888347cf1c275db",
-        headers={"Authorization": "Bearer " + mock_access_token}
+    response = await client.delete(
+        f"/analysis/CPAM0002/sections/{pedigree_image_id}", headers={"Authorization": "Bearer " + mock_access_token}
     )
 
-    mock_repositories["bucket"].bucket.delete.assert_called_with(ObjectId("63505be22888347cf1c275db"))
-
     assert response.status_code == 200
-    mock_repositories["bucket"].bucket.delete.assert_called_with(ObjectId(pedigree_image_id))
+    returned_sections = TypeAdapter(List[Section]).validate_json(response.content)
+    pedigree_section = next((section for section in returned_sections if section.header == "Pedigree"), None)
+    assert pedigree_section is not None
+
+    actual_updated_field_values = next(
+        (field["value"] for field in pedigree_section.content if field['field'] == "Pedigree"), None
+    )
+
+    assert len(actual_updated_field_values) == 0

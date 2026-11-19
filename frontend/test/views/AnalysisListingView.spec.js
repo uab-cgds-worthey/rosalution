@@ -1,5 +1,5 @@
-import {describe, it, expect, beforeEach, afterEach} from 'vitest';
-
+import {describe, it, expect, beforeEach, afterEach, vi} from 'vitest';
+import {ref} from 'vue';
 import {shallowMount} from '@vue/test-utils';
 import sinon from 'sinon';
 
@@ -12,27 +12,38 @@ import AnalysisListingView from '@/views/AnalysisListingView.vue';
 
 import NotificationDialog from '@/components/Dialogs/NotificationDialog.vue';
 
-import {authStore} from '@/stores/authStore.js';
 import inputDialog from '@/inputDialog.js';
 import notificationDialog from '@/notificationDialog.js';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import {useAuth} from '../../src/composables/useAuth';
+
+vi.mock('@/composables/useAuth.js', () => ({
+  useAuth: vi.fn(() => {
+    return {
+      username: ref('shippo'),
+      hasWritePermissions: ref(true),
+      logout: sinon.fake(),
+    };
+  }),
+}));
 
 describe('AnalysisListingView', () => {
   let mockedData;
   let mockProjectsList;
   let mockedImport;
-  let mockAuthWritePermissions;
   let wrapper;
   let sandbox;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    mockedData = sandbox.stub(Analyses, 'all');
-    mockedData.returns(fixtureData());
 
-    mockProjectsList = sandbox.stub(Analyses, 'getProjects');
-    mockProjectsList.returns([
+    mockedData = sandbox.stub(Analyses, 'all');
+    mockedData.callsFake(() => {
+      return Promise.resolve(fixtureData());
+    });
+
+    const mockProjectData = [
       {
         '_id': '695d5b157709ebcd1c7325c0',
         'name': 'Ciliopathies',
@@ -45,24 +56,24 @@ describe('AnalysisListingView', () => {
         '_id': '695d5b157709ebcd1c7325c4',
         'name': 'LW',
       },
-    ]);
+    ];
+
+
+    mockProjectsList = sandbox.stub(Analyses, 'getProjects');
+    mockProjectsList.callsFake(() => {
+      return Promise.resolve(mockProjectData);
+    });
 
     mockedImport = sandbox.stub(Analyses, 'importNewAnalysis');
-    mockAuthWritePermissions = sandbox.stub(authStore, 'hasWritePermissions');
-    mockAuthWritePermissions.returns(true);
+
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      callback();
+    });
 
     wrapper = shallowMount(AnalysisListingView, {
       global: {
         components: {
           'font-awesome-icon': FontAwesomeIcon,
-        },
-        mocks: {
-          $route: {
-            push: sandbox.spy(),
-          },
-          $router: {
-            push: sandbox.spy(),
-          },
         },
       },
     });
@@ -183,20 +194,16 @@ describe('AnalysisListingView', () => {
 
   describe('when a user does not have permissions to import an Analysis', () => {
     beforeEach(() => {
-      mockAuthWritePermissions.returns(false);
+      vi.mocked(useAuth).mockReturnValue({
+        username: ref('shippo'),
+        hasWritePermissions: ref(false),
+        logout: sinon.fake(),
+      });
 
       wrapper = shallowMount(AnalysisListingView, {
         global: {
           components: {
             'font-awesome-icon': FontAwesomeIcon,
-          },
-          mocks: {
-            $route: {
-              push: sandbox.spy(),
-            },
-            $router: {
-              push: sandbox.spy(),
-            },
           },
         },
       });
@@ -225,11 +232,25 @@ describe('AnalysisListingView', () => {
 
 
   it('should logout when the analysis listing header emits the logout event', async () => {
+    const mockLogout = sinon.fake();
+    vi.mocked(useAuth).mockReturnValue({
+      username: ref('shippo'),
+      hasWritePermissions: ref(true),
+      logout: mockLogout,
+    });
+    wrapper = shallowMount(AnalysisListingView, {
+      global: {
+        components: {
+          'font-awesome-icon': FontAwesomeIcon,
+        },
+      },
+    });
+
     const header = wrapper.findComponent(AnalysisListingHeader);
     header.vm.$emit('logout');
     await header.vm.$nextTick();
 
-    expect(wrapper.vm.$router.push.called).to.be.true;
+    expect(mockLogout.called).to.be.true;
   });
 
   it('should update the filter when the analysis listing header emits the update event', async () => {
@@ -237,7 +258,8 @@ describe('AnalysisListingView', () => {
     legend.vm.$emit('filtered-changed', ['Approved']);
     await legend.vm.$nextTick();
 
-    expect(wrapper.vm.filteredChanged).to.contain('Approved');
+    const cards = wrapper.findAllComponents(AnalysisCard);
+    expect(cards).to.have.lengthOf(1);
   });
 });
 

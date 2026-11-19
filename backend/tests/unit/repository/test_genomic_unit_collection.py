@@ -8,12 +8,14 @@ from bson import ObjectId
 from src.enums import GenomicUnitType
 
 
-def test_find_genomic_units(genomic_unit_collection):
+@pytest.mark.anyio
+async def test_find_genomic_units(genomic_unit_collection):
     """ Gets all the genomic units from the genomic unit collection """
-    all_genomic_units = genomic_unit_collection.all()
+    all_genomic_units = await genomic_unit_collection.all()
     assert len(all_genomic_units) == 2
 
 
+@pytest.mark.anyio
 @pytest.mark.parametrize(
     "transcript_annotation_unit", [
         ('Polyphen Prediction', 'Ensembl', '112', '120', (True, 2)),
@@ -22,22 +24,23 @@ def test_find_genomic_units(genomic_unit_collection):
     indirect=True,
     ids=["polyphen_exists_different_version", "no_transcripts_yet"]
 )
-def test_transcripts_annotations_exists(transcript_annotation_unit, genomic_unit_collection):
+async def test_transcripts_annotations_exists(transcript_annotation_unit, genomic_unit_collection):
     """ Tests if a transcript annotation does not exist """
     annotation_unit, variant_in_database_json, expected = transcript_annotation_unit
     expected_value, expected_call_count = expected
     genomic_unit_collection.collection.find_one.return_value = variant_in_database_json
 
-    actual = genomic_unit_collection.annotation_exist(annotation_unit)
+    actual = await genomic_unit_collection.annotation_exist(annotation_unit)
     assert actual == expected_value
     assert genomic_unit_collection.collection.count_documents.call_count == expected_call_count
 
 
+@pytest.mark.anyio
 @pytest.mark.parametrize(
     "genomic_unit,dataset_name,expected", [('VMA21', 'Entrez Gene Id', True), ('VMA21', 'Entrez Gene Id', False),
                                            ('NM_001017980.3:c.164G>T', 'ClinVar_Variation_Id', True)]
 )
-def test_genomic_units_annotations_exists(
+async def test_genomic_units_annotations_exists(
     genomic_unit, dataset_name, expected, genomic_unit_collection, get_annotation_unit
 ):
     """ Tests if an annotation exists for a gene. This test does not utilize the JSON fixtures to verify if exists"""
@@ -45,7 +48,7 @@ def test_genomic_units_annotations_exists(
 
     genomic_unit_collection.collection.count_documents.return_value = int(expected)
 
-    actual = genomic_unit_collection.annotation_exist(annotation_unit)
+    actual = await genomic_unit_collection.annotation_exist(annotation_unit)
 
     dataset_attribute = f"annotations.{dataset_name}"
     datasource_attribute = f"{dataset_attribute}.data_source"
@@ -63,11 +66,12 @@ def test_genomic_units_annotations_exists(
     assert actual is expected
 
 
+@pytest.mark.anyio
 @pytest.mark.parametrize(
     "genomic_unit,dataset_name,expected", [('VMA21', 'Entrez Gene Id', 'wup'), ('VMA21', 'Entrez Gene Id', None),
                                            ('NM_001017980.3:c.164G>T', 'ClinVar_Variation_Id', 'wup2')]
 )
-def test_find_genomic_unit_annotation_values(
+async def test_find_genomic_unit_annotation_values(
     genomic_unit, dataset_name, expected, genomic_unit_collection, get_annotation_unit
 ):
     """
@@ -83,7 +87,7 @@ def test_find_genomic_unit_annotation_values(
         }]
     } if expected else None
 
-    actual_value = genomic_unit_collection.find_genomic_unit_annotation_value(annotation_unit)
+    actual_value = await genomic_unit_collection.find_genomic_unit_annotation_value(annotation_unit)
 
     expected_find_filter = {
         annotation_unit.get_genomic_unit_type_string(): annotation_unit.get_genomic_unit(),
@@ -99,7 +103,8 @@ def test_find_genomic_unit_annotation_values(
     assert actual_value == expected
 
 
-def test_annotate_transcript_genomic_unit(genomic_unit_collection):
+@pytest.mark.anyio
+async def test_annotate_transcript_genomic_unit(genomic_unit_collection):
     """ Verifies that a transcript annotates a genomic unit properly """
     genomic_unit = {'unit': 'NM_001017980.3:c.164G>T', 'type': GenomicUnitType.HGVS_VARIANT}
     transcript_annotation_unit = {
@@ -119,11 +124,12 @@ def test_annotate_transcript_genomic_unit(genomic_unit_collection):
         }
     )
 
-    genomic_unit_collection.annotate_genomic_unit(genomic_unit, transcript_annotation_unit)
+    await genomic_unit_collection.annotate_genomic_unit(genomic_unit, transcript_annotation_unit)
 
     assert genomic_unit_collection.collection.update_one.call_count == 3
 
 
+@pytest.mark.anyio
 @pytest.mark.parametrize(
     "prepare_test_annotate", [('VMA21', 'Entrez Gene Id', "rosalution-manifest-01", 203547, False),
                               ('VMA21', 'Entrez Gene Id', "rosalution-manifest-00", 203550, True),
@@ -131,7 +137,7 @@ def test_annotate_transcript_genomic_unit(genomic_unit_collection):
     indirect=True,
     ids=["new_VMA21_annotation_for_dataset", "new_VMA21_dataset", "new_variant_annotation"]
 )
-def test_annotate_genomic_unit(prepare_test_annotate, genomic_unit_collection):
+async def test_annotate_genomic_unit(prepare_test_annotate, genomic_unit_collection):
     """
     Tests if a genomic unit's new annotation either adds a new dataset or adds the annotation to an exists dataset.
     """
@@ -140,12 +146,13 @@ def test_annotate_genomic_unit(prepare_test_annotate, genomic_unit_collection):
 
     genomic_unit_collection.collection.find_one.return_value = genomic_unit_json
 
-    genomic_unit_collection.annotate_genomic_unit(annotation_unit.genomic_unit, genomic_annotation)
+    await genomic_unit_collection.annotate_genomic_unit(annotation_unit.genomic_unit, genomic_annotation)
 
     assert genomic_unit_collection.collection.update_one.call_count == 2
 
 
-def test_annotation_genomic_unit_with_file(genomic_unit_collection, get_annotation_json):
+@pytest.mark.anyio
+async def test_annotation_genomic_unit_with_file(genomic_unit_collection, get_annotation_json):
     """ Accepts a file and adds it as an annotation to the given genomic unit """
     genomic_unit = get_annotation_json('NM_001017980.3:c.164G>T', GenomicUnitType.HGVS_VARIANT)
     incoming_genomic_unit = {'unit': 'NM_001017980.3:c.164G>T', 'type': GenomicUnitType.HGVS_VARIANT}
@@ -166,14 +173,15 @@ def test_annotation_genomic_unit_with_file(genomic_unit_collection, get_annotati
 
     genomic_unit_collection.collection.find_one.return_value = genomic_unit
 
-    genomic_unit_collection.annotate_genomic_unit_with_file(incoming_genomic_unit, annotation_unit)
+    await genomic_unit_collection.annotate_genomic_unit_with_file(incoming_genomic_unit, annotation_unit)
 
     genomic_unit_collection.collection.find_one_and_update.assert_called_once()
     actual_updated_genomic_unit = genomic_unit_collection.collection.find_one_and_update.call_args_list[0][0][1]['$set']
     assert actual_updated_genomic_unit == expected_genomic_unit
 
 
-def test_update_existing_genomic_unit_file_annotation(genomic_unit_collection, get_annotation_json):
+@pytest.mark.anyio
+async def test_update_existing_genomic_unit_file_annotation(genomic_unit_collection, get_annotation_json):
     """ Updates an existing file annotation with a new file annotation in place"""
     genomic_unit = get_annotation_json('NM_001017980.3:c.164G>T', GenomicUnitType.HGVS_VARIANT)
     incoming_genomic_unit = {'unit': 'NM_001017980.3:c.164G>T', 'type': GenomicUnitType.HGVS_VARIANT}
@@ -201,7 +209,7 @@ def test_update_existing_genomic_unit_file_annotation(genomic_unit_collection, g
 
     expected_genomic_unit['annotations'].append(expected_annotation_update)
 
-    genomic_unit_collection.update_genomic_unit_file_annotation(
+    await genomic_unit_collection.update_genomic_unit_file_annotation(
         incoming_genomic_unit, data_set, annotation_unit_value, file_id_old
     )
 
@@ -210,7 +218,8 @@ def test_update_existing_genomic_unit_file_annotation(genomic_unit_collection, g
     assert actual_updated_genomic_unit == expected_genomic_unit
 
 
-def test_remove_existing_genomic_unit_file_annotation(genomic_unit_collection, get_annotation_json):
+@pytest.mark.anyio
+async def test_remove_existing_genomic_unit_file_annotation(genomic_unit_collection, get_annotation_json):
     """ Accepts a request to remove an existing file annotation """
     genomic_unit_json = get_annotation_json('NM_001017980.3:c.164G>T', GenomicUnitType.HGVS_VARIANT)
     incoming_genomic_unit = {'unit': 'NM_001017980.3:c.164G>T', 'type': GenomicUnitType.HGVS_VARIANT}
@@ -234,7 +243,7 @@ def test_remove_existing_genomic_unit_file_annotation(genomic_unit_collection, g
         }]
     })
 
-    genomic_unit_collection.remove_genomic_unit_file_annotation(incoming_genomic_unit, data_set, file_id)
+    await genomic_unit_collection.remove_genomic_unit_file_annotation(incoming_genomic_unit, data_set, file_id)
 
     genomic_unit_collection.collection.find_one_and_update.assert_called_once()
     actual_updated_genomic_unit = genomic_unit_collection.collection.find_one_and_update.call_args_list[0][0][1]['$set']
