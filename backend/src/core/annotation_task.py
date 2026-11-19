@@ -10,6 +10,7 @@ import logging
 import subprocess
 import jq
 import requests
+import urllib3
 
 from ..core.annotation_unit import AnnotationUnit
 
@@ -233,12 +234,13 @@ class HttpAnnotationTask(AnnotationTaskInterface):
             result = requests.get(url_to_query, verify=False, headers={"Accept": "application/json"}, timeout=30)
             result.raise_for_status()
             json_result = result.json()
-        except requests.exceptions.ReadTimeout as timeout_error:
+        except (requests.exceptions.ReadTimeout, urllib3.exceptions.ReadTimeoutError) as timeout_error:
             timeout_error.add_note(
                 f"Failed to annotate \"{self.annotation_unit.get_dataset_name()}\" from \
                     \"{self.annotation_unit.get_dataset_source()}\" at \"{url_to_query}\" \
                     with 'ReadTimeout' within annotate"
             )
+            raise timeout_error
         except (requests.exceptions.JSONDecodeError, TypeError, requests.exceptions.HTTPError) as error:
             error.add_note(
                 f"Failed to annotate \"{self.annotation_unit.get_dataset_name()}\" from \

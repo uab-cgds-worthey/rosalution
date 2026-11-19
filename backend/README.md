@@ -215,13 +215,13 @@ From the root `./` directory of the project:
 Unit Tests:
 
 ```bash
-ROSALUTION_KEY="fake-rosalution-key-used-in-pytest" pytest -s tests/unit
+pytest -s tests/unit
 ```
 
 Integration Tests:
 
 ```bash
-ROSALUTION_KEY="fake-rosalution-key-used-in-pytest" pytest -s tests/integration
+pytest -s tests/integration
 ```
 
 ### Code Coverage
@@ -238,5 +238,5 @@ Read <https://pytest-cov.readthedocs.io/en/latest/config.html> to learn more abo
 tool configuration.
 
 ```bash
-ROSALUTION_KEY="fake-rosalution-key-used-in-pytest" pytest --cov=src --cov-fail-under=80 --cov-branch --cov-report=term tests/unit/
+pytest --cov=src --cov-fail-under=80 --cov-branch --cov-report=term tests/unit/
 ```

@@ -103,7 +103,6 @@ class AnnotationService:
         Uses the list of genomic units and the list of types to queue annotation operations.
         """
         units_to_annotate = analysis.get_all_units_to_annotate()
-
         annotation_configuration = await self.annotation_config_collection.datasets_to_annotate_for_units(
             units_to_annotate
         )
@@ -129,8 +128,8 @@ class AnnotationService:
             for dataset in annotation_configuration[genomic_unit_type]:
                 annotation_unit_queued = AnnotationUnit(genomic_unit, dataset, analysis_name=analysis.name)
                 annotation_task_queue.put(annotation_unit_queued)
-    
-    
+
+
     @staticmethod
     async def _run_process_tasks(loop, annotation_queue: AnnotationQueue, database):
         repositories = database
@@ -156,7 +155,7 @@ class AnnotationService:
 
     @staticmethod
     def process_tasks(annotation_queue: AnnotationQueue, settings: Settings):
-        """Processes items that have been added to the queue"""
+        """Processes annotation units on the annotation queue in a new asyncio event loop"""
         logger.info("%s Processing annotation tasks queue...", annotation_log_label())
 
         loop = asyncio.new_event_loop()
@@ -168,7 +167,7 @@ class AnnotationService:
                 bucket = AsyncGridFS(mongodb_async_client.rosalution_db)
                 database = Database(mongodb_async_client, bucket)
                 repositories = database()
-                AnnotationService._run_process_tasks(loop, annotation_queue, repositories)
+                await AnnotationService._run_process_tasks(loop, annotation_queue, repositories)
 
         try:
             loop.run_until_complete(run_process_tasks())
@@ -209,10 +208,6 @@ class AnnotationProcess():
     def processsing_tasks(self) -> Iterable[asyncio.Task]:
         """Returns an iterable list of annotation tasks queued to run on the event loop"""
         return [*self.annotation_task_futures]
-
-    def number_of_tasks_processing(self) -> int:
-        """Returns the number of annotation tasks queued to run on the event loop that are still active"""
-        return len(self.annotation_task_futures)
 
     def are_tasks_processing(self) -> bool:
         """"Returns True if there are annotation tasks processing, otherwise returns False."""

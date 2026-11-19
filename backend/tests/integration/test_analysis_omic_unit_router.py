@@ -35,7 +35,7 @@ async def test_adding_and_annotating_new_omic_unit_to_analysis(
         assert mock_annotation_queue.annotation_queue.put.call_count == 10
 
         mock_background_add_task.assert_called_once_with(
-            AnnotationService.process_tasks, mock_annotation_queue, mock_settings
+            AnnotationService.process_tasks, mock_annotation_queue.annotation_queue, mock_settings
         )
 
         assert response.status_code == 200

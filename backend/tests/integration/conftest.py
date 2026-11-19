@@ -123,8 +123,10 @@ def mock_application_settings(settings_json):
     yield fake_settings
     app.dependency_overrides.clear()
 
+
 @pytest.fixture(name="disable_info_logging")
 def disable_info_logging_for_test():
+    """Temporarily disables logging for a test"""
     logging.disable(logging.INFO)
     yield
     logging.disable(logging.NOTSET)

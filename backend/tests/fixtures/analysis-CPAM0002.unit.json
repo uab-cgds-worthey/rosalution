@@ -48,7 +48,7 @@
         },
         {
           "SIFT Prediction": {
-            "data_source": "Ensembl",
+          "data_source": "Ensembl",
             "version": "112"
           }
         },

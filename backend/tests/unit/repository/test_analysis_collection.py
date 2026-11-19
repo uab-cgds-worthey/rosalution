@@ -27,11 +27,49 @@ async def test_summary_by_name(analysis_collection, cpam0002_analysis_json):
 
 
 @pytest.mark.anyio
+async def test_get_project_id_by_name(analysis_collection, cpam0002_analysis_json):
+    """Tests the summary_by_name function"""
+    analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
+    actual = await analysis_collection.project_id_by_name("CPAM0002")
+    assert actual == "{'$oid': '695d5b157709ebcd1c7325c1'}"
+
+
+@pytest.mark.anyio
 async def test_find_by_name(analysis_collection, cpam0002_analysis_json):
     """Tests the find_by_name function"""
     analysis_collection.collection.find_one.return_value = cpam0002_analysis_json
     actual = await analysis_collection.find_by_name("CPAM0002")
     assert actual["name"] == "CPAM0002"
+
+
+@pytest.mark.anyio
+@pytest.mark.parametrize(
+    "analysis_name,omic_unit,dataset,expected",
+    [('CPAM0002-not-exist', 'VMA21', "Entrez Gene Id", None), ('CPAM0002', 'VMA21A', "Entrez Gene Id", None),
+     (
+         'CPAM0002', 'VMA21', "Entrez Gene Id",
+         {'data_set': 'Entrez Gene Id', 'data_source': 'Rosalution', 'version': 'rosalution-manifest-00'}
+     )]
+)
+async def test_get_manifest_dataset_config_analysis_not_exist(
+    analysis_name, omic_unit, dataset, expected, analysis_collection, cpam0002_analysis_json
+):
+    """Tests the find_by_name function"""
+    find_one_return_value = cpam0002_analysis_json if analysis_name == 'CPAM0002' else None
+    analysis_collection.collection.find_one.return_value = find_one_return_value
+    actual = await analysis_collection.get_manifest_dataset_config(analysis_name, omic_unit, dataset)
+    assert actual == expected
+
+
+@pytest.mark.anyio
+@pytest.mark.parametrize("analysis_name", [('CPAM0002-not-exist'), ('CPAM0002')])
+async def test_get_manifest(analysis_name, analysis_collection, cpam0002_analysis_json):
+    """Tests the find_by_name function"""
+    find_one_return_value = cpam0002_analysis_json if analysis_name == 'CPAM0002' else None
+    analysis_collection.collection.find_one.return_value = find_one_return_value
+    actual = await analysis_collection.get_dataset_manifest(analysis_name)
+    expected = cpam0002_analysis_json['manifest'] if analysis_name == 'CPAM0002' else None
+    assert actual == expected
 
 
 @pytest.mark.anyio
